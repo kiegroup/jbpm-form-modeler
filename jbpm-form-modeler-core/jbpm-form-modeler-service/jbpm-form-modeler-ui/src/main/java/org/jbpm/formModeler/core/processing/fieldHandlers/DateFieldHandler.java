@@ -52,13 +52,11 @@ public class DateFieldHandler extends DefaultFieldHandler {
         String[] dateFromValue = (String[]) parametersMap.get(inputName + DATE_FROM_SUFFIX);
         String[] dateToValue = (String[]) parametersMap.get(inputName + DATE_TO_SUFFIX);
         String[] hasChangedParam = (String[]) parametersMap.get(inputName + HAS_CHANGED_PARAM);
-        String[] patternValues = (String[]) parametersMap.get(inputName + DATE_PATTERN_SUFFIX);
         
         try {
             boolean hasChanged = (!ArrayUtils.isEmpty(hasChangedParam) && Boolean.TRUE.equals(Boolean.parseBoolean(hasChangedParam[0])));
-            String pattern = (patternValues != null && patternValues.length == 1) ? patternValues[0] : getDefaultPattern();
             
-            SimpleDateFormat sdf = getSimpleDateFormat(field, hasChanged, pattern);
+            SimpleDateFormat sdf = getSimpleDateFormat(field, hasChanged, field.getFieldPattern());
 
             if (!ArrayUtils.isEmpty(dateFromValue) ||!ArrayUtils.isEmpty(dateToValue)) {
                 Object from = getTheDate(dateFromValue, sdf);

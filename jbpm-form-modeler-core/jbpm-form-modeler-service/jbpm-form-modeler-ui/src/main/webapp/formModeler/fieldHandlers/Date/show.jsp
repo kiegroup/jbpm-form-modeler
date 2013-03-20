@@ -15,25 +15,20 @@
     limitations under the License.
 
 --%>
-<%@ page import="java.text.SimpleDateFormat"%>
-<%@ page import="java.util.Date"%>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%try{%>
-<mvc:formatter name="org.jbpm.formModeler.core.processing.fieldHandlers.SimpleFieldHandlerFormatter">
+<mvc:formatter name="org.jbpm.formModeler.core.processing.fieldHandlers.DateFieldHandlerFormatter">
     <mvc:fragment name="output">
         <mvc:fragmentValue name="value" id="value">
         <mvc:fragmentValue name="title" id="title">
             <mvc:fragmentValue name="styleclass" id="styleclass">
                 <mvc:fragmentValue name="cssStyle" id="cssStyle">
-                    <mvc:fragmentValue name="pattern" id="pattern">
                     <span
                             <%=styleclass!=null && ((String)styleclass).trim().length()>0 ? " class=\""+styleclass+"\"":""%>
                             <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
                             <%=title!=null?("title=\""+title+"\""):""%>
-                            ><%=value!=null?new SimpleDateFormat(String.valueOf(pattern), LocaleManager.currentLocale()).format((Date)value):""%></span>
-                    </mvc:fragmentValue>
+                            ><%=value%></span>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragmentValue>

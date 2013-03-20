@@ -79,7 +79,6 @@
         </td>
         <td style="padding-left:5px;">
             <input type="hidden" name="<%=name + DateFieldHandler.HAS_CHANGED_PARAM%>" id="<%=uid + DateFieldHandler.HAS_CHANGED_PARAM%>" value="false"/>
-            <input type="hidden" name="<%=name + DateFieldHandler.DATE_PATTERN_SUFFIX%>" id="<%=uid + DateFieldHandler.DATE_PATTERN_SUFFIX%>" value="<%=inputPattern%>"/>
             <a href="#"
 <%
     if( (disabled==null || !((Boolean)disabled).booleanValue()) && (readonly==null || !((Boolean)readonly).booleanValue() )) {

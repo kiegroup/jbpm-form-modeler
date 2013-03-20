@@ -68,12 +68,12 @@ public class FormChangeHandler extends HandlerFactoryElement {
         FormChangeResponse changeResponse = new FormChangeResponse();
 
         while (formNamespaceData != null) {
-            if (getChangeProcessor() != null) {
+            //if (getChangeProcessor() != null) {
                 defaultFormProcessor.setValues(formNamespaceData.getForm(), formNamespaceData.getNamespace(), request.getRequestObject().getParameterMap(), request.getFilesByParamName(), false);
-                getChangeProcessor().process(formNamespaceData.getForm(), formNamespaceData.getNamespace(), changeResponse);
+            //    getChangeProcessor().process(formNamespaceData.getForm(), formNamespaceData.getNamespace(), changeResponse);
                 // Clear errors that might be stored in formStatuses
                 defaultFormProcessor.clearFieldErrors(formNamespaceData.getForm(), formNamespaceData.getNamespace());
-            }
+            //}
             // Evaluate parent's formulas
             formNamespaceData = getNamespaceManager().getNamespace(formNamespaceData.getNamespace());
         }

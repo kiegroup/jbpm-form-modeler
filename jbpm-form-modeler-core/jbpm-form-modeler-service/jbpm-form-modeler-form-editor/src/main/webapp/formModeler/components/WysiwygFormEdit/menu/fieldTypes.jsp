@@ -22,15 +22,8 @@
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages" locale="<%=LocaleManager.currentLocale()%>"/>
-<%
-    String namespace = request.getParameter("namespace");
-    String formId = request.getParameter("formId");
-%>
-
     <table cellspacing="0" cellpadding="0" style="height:100%; padding-left:4px;padding-top:4px;" width="92%" border="0">
         <mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygFieldsFormatter">
-        <mvc:formatterParam name="formId" value="<%=formId%>"/>
-
         <mvc:fragment name="separator">
             <tr><td><hr></td></tr>
         </mvc:fragment>

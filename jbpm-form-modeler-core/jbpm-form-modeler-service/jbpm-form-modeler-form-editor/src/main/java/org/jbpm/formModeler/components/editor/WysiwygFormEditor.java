@@ -56,7 +56,6 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public static final String ACTION_SAVE_FIELD_PROPERTIES = "saveFieldProperties";
     public static final String ACTION_CANCEL_FIELD_EDITION = "cancelFieldEdition";
 
-    private String namespace;
     private Form currentForm;
     private int currentEditFieldPosition = -1;
     private FormProcessor defaultFormProcessor;
@@ -562,13 +561,6 @@ public class WysiwygFormEditor extends BaseUIComponent {
           log.error("Could not add " + name + " field to form. Not found type for manager " + managerClass);
   }
     */
-    public void setNamespace(String paramNamespace) {
-        this.namespace = paramNamespace;
-    }
-
-    public String getNamespace() {
-        return namespace;
-    }
 
     public synchronized void actionSaveCurrentForm(CommandRequest request) throws Exception {
         saveCurrentForm(request.getRequestObject().getParameterMap());

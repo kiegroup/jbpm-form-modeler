@@ -22,19 +22,10 @@
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 
-<i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages"
-             locale="<%=LocaleManager.currentLocale()%>"/>
-<%
-    String namespace = request.getParameter("namespace");
-    String formId = request.getParameter("formId");
-    String editorBgColor = "#eaeaea";
-%>
-<mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygFormFormatter">
-<mvc:formatterParam name="formId" value="<%=formId%>"/>
-<mvc:formatterParam name="namespace" value="<%=namespace%>"/>
-<%-- Form preview --%>
-<mvc:fragment name="outputForm">
+<i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 
+<mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygFormFormatter">
+<mvc:fragment name="outputForm">
 <script defer>
     var changeEnabled = true;
     var selectedDiv = "";
@@ -153,7 +144,6 @@
     }
 
     setTimeout('highlightLastMovedElement()',1);
-
 </script>
 <style type="text/css">
     .horizontal_drop_area {
@@ -176,11 +166,9 @@
         margin:2px;
         display:none;
     }
-
 </style>
-
-<div style='overflow: hidden; height:100%; border:solid 1px #CCCCCC; background-color: <%=editorBgColor%>;'>
-    <form id="<factory:encode name="changeFieldPositionForm"/>" action="<factory:formUrl/>" method="post">
+<div style='overflow: hidden;"'>
+    <form id="<factory:encode name="changeFieldPositionForm"/>" action="<factory:formUrl/>" method="post" style="margin: 0px;">
         <factory:handler action="moveField"/>
         <input type="hidden" id="<factory:encode name="selectedField"/>" name="selectedField" value="">
         <input type="hidden" id="<factory:encode name="newPosition"/>" name="newPosition" value="">
@@ -190,12 +178,12 @@
     <script type="text/javascript" defer="defer">
         setAjax("<factory:encode name="changeFieldPositionForm"/>");
     </script>
-    <div style="width:100%; height:450px; overflow:scroll; position: relative;">
+    <div style="width:100%; overflow:auto;">
         <mvc:fragmentValue name="form" id="form">
             <mvc:fragmentValue name="namespace" id="formNamespace">
                 <mvc:fragmentValue name="displayMode" id="displayMode">
                     <mvc:fragmentValue name="renderMode" id="renderMode">
-                        <div style='width:90%; height:100%; margin: 5px;' id="<factory:encode name="wysiwygFormTable"/>">
+                        <div style='width:100%; height:100%;' id="<factory:encode name="wysiwygFormTable"/>">
                             <form action="#" onsubmit="return false;" style="margin:0px;" >
                                 <mvc:formatter name="org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter">
                                     <mvc:formatterParam name="form" value="<%=form%>"/>
@@ -367,16 +355,16 @@
     setAjax("refreshForm");
 
     var formMustBeRefreshed = false;
-    refreshDDMForm = function(){
+    refreshEditorForm = function(){
         if(FX){
-            setTimeout('refreshDDMFormTimer()',100);
+            setTimeout('refreshFormTimer()',100);
             formMustBeRefreshed = true;
         }
         else {
             submitAjaxForm(document.getElementById('refreshForm'));
         }
     }
-    function refreshDDMFormTimer() {
+    function refreshFormTimer() {
         if(formMustBeRefreshed) {
             submitAjaxForm(document.getElementById('refreshForm'));
             formMustBeRefreshed = false;

@@ -22,18 +22,8 @@
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages" locale="<%=LocaleManager.currentLocale()%>"/>
-<%
-    String namespace = request.getParameter("namespace");
-    String formId = request.getParameter("formId");
-%>
-
 <mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygFieldsToAddFormatter">
-<mvc:formatterParam name="formId" value="<%=formId%>"/>
-<mvc:formatterParam name="namespace" value="<%=namespace%>"/>
-
-<%-- Fields to add to the form --%>
 <mvc:fragment name="fieldsToAddStart">
-
     <table width="90%">
 </mvc:fragment>
 <mvc:fragment name="empty">
