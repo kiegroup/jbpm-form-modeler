@@ -1,0 +1,42 @@
+#
+# Copyright (C) 2012 JBoss Inc
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+#Injected by i18nTool
+#Mon Nov 19 10:53:26 CET 2012
+$class=org.jbpm.formModeler.core.FieldTemplate
+$description=Field template
+$scope=global
+accesskey=
+cssStyle=
+disabled=
+fieldName=pattern
+fieldRequired=
+formula=
+groupWithPrevious=
+height=
+label.ca=Patr\u00F3
+label.en=Pattern
+label.es=Patr\u00F3n
+maxlength=512
+pattern=
+rangeFormula=
+readonly=
+size=43
+styleclass=
+title.ca=Permet especificar una Expressi\u00F3 Regular o una funci\u00F3 per controlar el format per a la inserci\u00F3 del valor. Quan s'utilitza una Expressi\u00F3 Regular, fins que el valor introdu\u00EFt no la compleix no es dona per v\u00E0lid. Quand s'utilitza una funci\u00F3 (exemple\: \=\!Functions.String.isNumeric({$this})), \u00E9s aquesta la que decideix si el valor introdu\u00EFt \u00E9s correcte.
+title.en=Allows to specify a Regular Expression or a function to check the value insertion format. Using a Regular Expression, while the value doesn't accomplish it won't be stored. Using a function (example \=\!Functions.String.isNumeric({$this})) it checks that the introduced value is correct.
+title.es=Permite especificar una Expresi\u00F3n Regular o una funci\u00F3n para controlar el formato para la inserci\u00F3n del valor. Cuando se usa una Expresi\u00F3n Regular, hasta que el valor introducido no la cumple no se da por v\u00E1lido. Cuando se usa una funci\u00F3n (ejemplo\: \=\!Functions.String.isNumeric({$this})), es esta la que decide si el valor introducido es correcto.
+type=InputText

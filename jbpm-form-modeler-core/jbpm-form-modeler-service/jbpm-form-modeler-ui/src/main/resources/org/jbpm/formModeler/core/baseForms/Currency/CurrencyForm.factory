@@ -1,0 +1,45 @@
+#
+# Copyright (C) 2012 JBoss Inc
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+$class=org.jbpm.formModeler.core.FormTemplate
+$scope=global
+$description=Field form
+
+name=Currency
+subject=org.jbpm.formModeler.api.model.Field
+displayMode=default
+labelMode=undefined
+showMode=
+formProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
+status=0
+
+fields=.fields.NameField,\
+org.jbpm.formModeler.core.baseForms.Currency.fields.LabelField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.ErrorMessageField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.LabelCssClassField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.LabelCssStyleField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.TitleField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.CssClassField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.CssStyleField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.SizeField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.MaxlengthField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.RequiredField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.DisabledField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.ReadonlyField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.FormulaField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.RangeFormulaField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.PatternField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.GroupWithPreviousField
