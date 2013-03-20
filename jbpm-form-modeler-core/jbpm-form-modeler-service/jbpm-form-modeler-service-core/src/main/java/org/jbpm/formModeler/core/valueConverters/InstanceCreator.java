@@ -18,7 +18,5 @@ package org.jbpm.formModeler.core.valueConverters;
 import java.util.Map;
 
 public interface InstanceCreator {
-
     Object createNew(Map properties) throws Exception;
-    
 }

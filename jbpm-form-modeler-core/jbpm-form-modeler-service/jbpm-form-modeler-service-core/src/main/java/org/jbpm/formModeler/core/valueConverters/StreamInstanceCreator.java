@@ -21,5 +21,4 @@ package org.jbpm.formModeler.core.valueConverters;
  * the expected file type.
  */
 public interface StreamInstanceCreator extends InstanceCreator {
-
 }
