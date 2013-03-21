@@ -91,15 +91,31 @@ public class FormModelerPanelPresenter {
     @OnFocus
     public void onFocus() {
         //makeMenuBar();
-        Window.alert("onFocus "+ path.toURI());
+//        Window.alert("onFocus "+ path.toURI());
+
+        makeMenuBar();
+
         modelerService.call(new RemoteCallback<Long>() {
             @Override
-            public void callback(Long formId) {
+            public void callback(Long formModel) {
+                setFormId(formModel);
+        //        notification.fire(new NotificationEvent("Model was loaded from server: " + formModel + " at time: " + new java.util.Date()));
             }
+
         }).setFormFocus(path);
 
     }
 
+    @OnClose
+    public void onClose() {
+        modelerService.call(new RemoteCallback<Long>() {
+            @Override
+            public void callback(Long formId) {
+            }
+
+        }).removeEditingForm(path);
+
+    }
     public void setFormId(Long formId) {
         modelerService.call(new RemoteCallback<Long>() {
             @Override

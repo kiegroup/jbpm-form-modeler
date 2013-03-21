@@ -22,5 +22,7 @@ public interface FormModelerService extends Serializable {
 
     Long setFormFocus(Path context);
 
+    void removeEditingForm(Path context);
+
     Path createForm(Path context, String formName);
 }

@@ -12,21 +12,11 @@ import java.util.HashMap;
 public class EditorHelper implements Serializable {
 
     private Long originalForm;
-    private Form formToEdit;
     private HashMap loadedForms;
 
     @PostConstruct
     protected void init() {
         System.out.println("Hey I'm beeing constructed: " + this);
-    }
-
-    public Form getFormToEdit() {
-
-        return formToEdit;
-    }
-
-    public void setFormToEdit(Form formToEdit) {
-        this.formToEdit = formToEdit;
     }
 
     public Long getOriginalForm() {
@@ -41,17 +31,22 @@ public class EditorHelper implements Serializable {
     public void setFormToEdit(String path, Form formToEdit) {
         if(loadedForms==null) loadedForms=new HashMap();
         this.loadedForms.put(path,formToEdit);
-        this.formToEdit = formToEdit;
     }
 
     public Form getFormToEdit(String path) {
         return (Form)loadedForms.get(path);
     }
 
+    public Form removeEditingForm(String path) {
+        return (Form)loadedForms.remove(path);
+    }
+
 
     public static EditorHelper lookup() {
         return (EditorHelper) CDIHelper.getBeanByType(EditorHelper.class);
     }
+
+
 
 
 }

@@ -65,10 +65,20 @@ public class FormModelerServiceImpl implements FormModelerService {
     public Long setFormFocus(Path context) {
 
         EditorHelper helper = getHelper(context.toURI());
-
-        return helper.getFormToEdit(context.toURI()).getId();
+        if  (helper!=null && helper.getFormToEdit(context.toURI())!=null)
+            return helper.getFormToEdit(context.toURI()).getId();
+        else
+            return null;
     }
 
+    @Override
+    public void removeEditingForm(Path context) {
+
+        EditorHelper helper = getHelper(context.toURI());
+        helper.removeEditingForm(context.toURI());
+        getHelper(context.toURI());
+
+    }
     @Override
     public Long loadForm(Path context) {
         org.kie.commons.java.nio.file.Path kiePath = paths.convert( context );
