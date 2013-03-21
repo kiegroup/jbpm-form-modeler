@@ -22,15 +22,8 @@
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages" locale="<%=LocaleManager.currentLocale()%>"/>
-<%
-    String namespace = request.getParameter("namespace");
-    String formId = request.getParameter("formId");
-%>
-
-    <table cellspacing="0" cellpadding="0" style="height:100%; padding-left:4px;padding-top:4px;" width="92%" border="0">
+    <table cellspacing="0" cellpadding="0" style="height:100%; padding-left:4px;padding-top:4px;" width="100%" border="0">
         <mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygFieldsFormatter">
-        <mvc:formatterParam name="formId" value="<%=formId%>"/>
-
         <mvc:fragment name="separator">
             <tr><td><hr></td></tr>
         </mvc:fragment>
@@ -38,7 +31,7 @@
             <%------------------ Primitive types -----------------%>
         <mvc:fragment name="outputDisabledType">
             <tr class="skn-odd_row">
-                <td nowrap="nowrap" style="vertical-align:middle;" class="skn-disabled">
+                <td nowrap="nowrap" style="vertical-align:middle;" class="skn-disabled" width="10px">
                 <mvc:fragmentValue name="iconUri" id="iconUri">
                     <img src="<static:image relativePath="<%=(String)iconUri%>"/>"   align="absmiddle" >
                 </mvc:fragmentValue>
@@ -56,7 +49,7 @@
                             <factory:handler  action="addFieldToFormulary"/>
                             <table cellspacing="0" cellpadding="0" width="100%">
                                 <tr onmouseover="className='skn-even_row_alt'" onmouseout="className='skn-odd_row'"  class="skn-odd_row">
-                                    <td>
+                                    <td width="10px">
                                         <img src="<static:image relativePath="<%=(String)iconUri%>"/>"  align="absmiddle">
                                     </td>
                                     <td>
@@ -125,7 +118,7 @@
             <%------------------ Complex types -----------------%>
         <mvc:fragment name="disabledComplexTypeStart">
             <tr class="skn-odd_row">
-                <td nowrap="nowrap">
+                <td nowrap="nowrap" width="10px">
                 <mvc:fragmentValue name="iconUri" id="iconUri">
                     <img src="<static:image relativePath="<%=(String)iconUri%>"/>"  align="absmiddle">
                 </mvc:fragmentValue>
@@ -134,7 +127,7 @@
         </mvc:fragment>
         <mvc:fragment name="complexTypeStart">
             <tr onclick="className='skn-even_row_alt'" onmouseout="className='skn-odd_row'" class="skn-odd_row">
-            <td nowrap="nowrap">
+            <td nowrap="nowrap" width="10px">
             <mvc:fragmentValue name="position" id="position">
             <mvc:fragmentValue name="type" id="type">
             <mvc:fragmentValue name="iconUri" id="iconUri">
@@ -194,8 +187,8 @@
         <mvc:fragment name="outputDecorator">
             <mvc:fragmentValue name="decoratorId" id="decoratorId">
             <mvc:fragmentValue name="position" id="position">
-            <tr><td nowrap="nowrap">
-
+            <tr>
+                <td nowrap="nowrap" width="10px">
                 <form method="POST" style="margin:0px;" action="<factory:formUrl/>" id="<%="addDecForm"+position%>">
                     <factory:handler  action="addDecoratorToFormulary"/>
 
@@ -206,6 +199,8 @@
                                 <mvc:fragmentValue name="iconUri" id="iconUri">
                                     <img src="<static:image relativePath="<%=(String)iconUri%>"/>"  align="absmiddle">
                                 </mvc:fragmentValue>
+                            </td>
+                            <td>
                                 <i18n:message key="<%="fieldType." + decoratorId%>"/>
                             </td>
                             <td style="text-align:right; padding-right:5px; padding-bottom:1px;">

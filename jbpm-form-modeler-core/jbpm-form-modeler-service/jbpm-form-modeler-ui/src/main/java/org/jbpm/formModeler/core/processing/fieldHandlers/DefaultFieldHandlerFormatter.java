@@ -15,6 +15,9 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
+import org.jbpm.formModeler.api.model.FieldType;
+import org.jbpm.formModeler.api.processing.BindingManager;
+import org.jbpm.formModeler.core.processing.BindingManagerImpl;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormaterTagDynamicAttributesInterpreter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 
@@ -53,6 +56,7 @@ public abstract class DefaultFieldHandlerFormatter extends Formatter {
 
     protected void setDefaultAttributes(final Field field, final Form form, final String namespace) {
         setAttributeInterpreter(new FormaterTagDynamicAttributesInterpreter() {
+            private BindingManager bindingManager = BindingManagerImpl.lookup();
             public Object getValueForParameter(String parameter) {
                 Object value = null;
                 if ("form".equals(parameter)) value = form;
@@ -62,6 +66,25 @@ public abstract class DefaultFieldHandlerFormatter extends Formatter {
                 }
                 if (field != null && ("name".equals(parameter))) {
                     value = field.getFieldName();
+                }
+
+                if (field != null && form != null) try {
+                    FieldType fieldType = field.getFieldType();
+                    if (bindingManager.hasProperty(fieldType, parameter)) {
+                        Object val = bindingManager.getPropertyValue(fieldType, parameter);
+                        val = getCustomValueIfApplicable(field, parameter, val, form, namespace);
+                        if (val != null)
+                            value = val;
+                    }
+
+                    if (bindingManager.hasProperty(field, parameter)) {
+                        Object val = bindingManager.getPropertyValue(field, parameter);
+                        val = getCustomValueIfApplicable(field, parameter, val, form, namespace);
+                        if (val != null && !"".equals(val))
+                            value = val;
+                    }
+                } catch (Exception e) {
+                    log.error("Error calculating attribute " + parameter + " for field " + field.getFieldName());
                 }
                 return value;
             }

@@ -38,13 +38,8 @@ public class WysiwygFormFormatter extends Formatter {
     }
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
-        String paramNamespace = (String) getParameter("namespace");
-        if (paramNamespace != null && !"".equals(paramNamespace)) {
-            editor.setNamespace(paramNamespace);
-        }
-
         Form form = editor.getCurrentForm();
-        String namespace = editor.getNamespace();
+        String namespace = "wysiwyg_form_preview";
 
         try {
             if (form != null) {

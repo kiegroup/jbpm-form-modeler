@@ -34,7 +34,7 @@
         <td width="1px">
             <a title="<i18n:message key="delete">!!!Borrar</i18n:message>"
                href="<factory:url  action="delete"><factory:param name="position" value="<%=position%>"/></factory:url>"
-               id="<factory:encode name='<%="deleteBtn"+position%>'/>" style="background-color:<%=editorBgColor%>"
+               id="<factory:encode name='<%="deleteBtn"+position%>'/>"
                onclick="return confirm('<i18n:message key="delete.field.confirm">Sure?</i18n:message>');">
                 <img src="<%=(String)icon%>" border="0" alt="<i18n:message key="delete">!!!Borrar</i18n:message>" align="absmiddle">
             </a>
@@ -53,8 +53,7 @@
             <%--Edit button--%>
             <a title="<i18n:message key="edit">!!!Editar</i18n:message>"
                id="<factory:encode name='<%=(String)buttonId%>'/>"
-               href="<factory:url action="startEdit"><factory:param name="position" value="<%=position%>"/></factory:url>"
-               style="background-color:<%=editorBgColor%>" >
+               href="<factory:url action="startEdit"><factory:param name="position" value="<%=position%>"/></factory:url>">
                 <img src="<%=(String)icon%>" border="0" alt="<i18n:message key="edit">!!!Editar</i18n:message>" align="absmiddle">
             </a>
                 <script defer="true">
@@ -74,7 +73,7 @@
         <td width="1px">
             <a title="<i18n:message key="<%=(String)msgId%>">!!!<%=(String)msgId%></i18n:message>"
                href="<%=actionUrl%>"  onclick="this.onclick=function(){return false;};"
-               id="<factory:encode name='<%=(String)buttonId%>'/>" style="background-color:<%=editorBgColor%>">
+               id="<factory:encode name='<%=(String)buttonId%>'/>">
                 <img src="<%=(String)icon%>" border="0" alt="<i18n:message key="<%=(String)msgId%>">!!!<%=(String)msgId%></i18n:message>" align="absmiddle">
             </a>
             <script defer="true">
@@ -92,7 +91,7 @@
         <mvc:fragmentValue name="grouped" id="grouped">
         <mvc:fragmentValue name="icon" id="icon">
         <td width="1px">
-            <a href="#" id="<factory:encode name='selectField'/>" style="background-color:<%=editorBgColor%>"
+            <a href="#" id="<factory:encode name='selectField'/>"
                onclick="selectField(<%=position%>, '<factory:encode name="formMenuDiv"/>', <%=grouped%>);return false;"
                title="<i18n:message key="move">!!!Mover Campo</i18n:message>">
                 <img src="<%=(String)icon%>" border="0" alt="<i18n:message key="move">!!!Mover Campo</i18n:message>" align="absmiddle">

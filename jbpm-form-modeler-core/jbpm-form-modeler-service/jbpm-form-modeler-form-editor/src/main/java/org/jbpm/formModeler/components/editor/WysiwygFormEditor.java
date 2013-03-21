@@ -15,6 +15,10 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import org.jbpm.formModeler.api.config.FieldTypeManager;
+import org.jbpm.formModeler.api.config.FormManager;
+import org.jbpm.formModeler.api.processing.BindingManager;
+import org.jbpm.formModeler.core.processing.BindingManagerImpl;
 import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
@@ -32,7 +36,6 @@ import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 import org.jbpm.formModeler.api.processing.FormStatusData;
 
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class WysiwygFormEditor extends BaseUIComponent {
@@ -56,12 +59,12 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public static final String ACTION_SAVE_FIELD_PROPERTIES = "saveFieldProperties";
     public static final String ACTION_CANCEL_FIELD_EDITION = "cancelFieldEdition";
 
-    private String namespace;
     private Form currentForm;
     private int currentEditFieldPosition = -1;
     private FormProcessor defaultFormProcessor;
-    private FormManagerImpl formManagerImpl;
-    private FieldTypeManagerImpl fieldTypeManagerImpl;
+    private FormManager formManager;
+    private FieldTypeManager fieldTypeManager;
+    private BindingManager bindingManager;
     private LocaleManager localeManager;
     private boolean swapFields = true;
     private String fieldTypeToView = null;
@@ -75,8 +78,9 @@ public class WysiwygFormEditor extends BaseUIComponent {
     @Override
     public void start() throws Exception {
         super.start();
-        formManagerImpl = FormManagerImpl.lookup();
-        fieldTypeManagerImpl = FieldTypeManagerImpl.lookup();
+        formManager = FormManagerImpl.lookup();
+        fieldTypeManager = FieldTypeManagerImpl.lookup();
+        bindingManager = BindingManagerImpl.lookup();
     }
 
     public boolean isShowReturnButton() {
@@ -132,12 +136,12 @@ public class WysiwygFormEditor extends BaseUIComponent {
         this.componentIncludeJSP = componentIncludeJSP;
     }
 
-    public FieldTypeManagerImpl getFieldTypesManager() {
-        return fieldTypeManagerImpl;
+    public FieldTypeManager getFieldTypesManager() {
+        return fieldTypeManager;
     }
 
     public void setFieldTypesManager(FieldTypeManagerImpl FieldTypeManagerImpl) {
-        this.fieldTypeManagerImpl = FieldTypeManagerImpl;
+        this.fieldTypeManager = FieldTypeManagerImpl;
     }
 
     public LocaleManager getLocaleManager() {
@@ -211,7 +215,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if (helper != null && contextURI!=null) setCurrentForm(helper.getFormToEdit(contextURI));
         else {
             String formId = commandRequest.getRequestObject().getParameter("formId");
-            setCurrentForm(formManagerImpl.getFormById(Long.decode(formId)));
+            setCurrentForm(formManager.getFormById(Long.decode(formId)));
         }
 
     }
@@ -229,7 +233,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
                     fieldNextToDeleted.setGroupWithPrevious(fieldToDelete.getGroupWithPrevious());
                 }
             }
-            formManagerImpl.deleteField(form, pos.intValue());
+            formManager.deleteField(form, pos.intValue());
         }
     }
 
@@ -257,7 +261,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
                     Boolean b = previousField.getGroupWithPrevious();
                     previousField.setGroupWithPrevious(fieldToMove.getGroupWithPrevious());
                     fieldToMove.setGroupWithPrevious(b);
-                    formManagerImpl.moveUp(form, lastMovedFieldPosition);
+                    formManager.moveUp(form, lastMovedFieldPosition);
                 } else {
                     fieldToMove.setGroupWithPrevious(Boolean.FALSE);
                 }
@@ -283,7 +287,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
                     Boolean b = nextField.getGroupWithPrevious();
                     nextField.setGroupWithPrevious(fieldToMove.getGroupWithPrevious());
                     fieldToMove.setGroupWithPrevious(b);
-                    formManagerImpl.moveDown(form, lastMovedFieldPosition);
+                    formManager.moveDown(form, lastMovedFieldPosition);
                 }
                 lastMovedFieldPosition++;
             } else {
@@ -305,7 +309,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
                     Field previousField = getFieldInPosition(lastMovedFieldPosition - 1);
                     fieldToMove.setGroupWithPrevious(previousField.getGroupWithPrevious());
                     previousField.setGroupWithPrevious(Boolean.TRUE);
-                    formManagerImpl.moveUp(form, lastMovedFieldPosition);
+                    formManager.moveUp(form, lastMovedFieldPosition);
                 } else {
                     Field nextField = getFieldInPosition(lastMovedFieldPosition + 1);
                     if (nextField != null) {
@@ -334,7 +338,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
                 } else if (Boolean.TRUE.equals(nextField.getGroupWithPrevious())) {
                     nextField.setGroupWithPrevious(fieldToMove.getGroupWithPrevious());
                     fieldToMove.setGroupWithPrevious(Boolean.TRUE);
-                    formManagerImpl.moveDown(form, lastMovedFieldPosition);
+                    formManager.moveDown(form, lastMovedFieldPosition);
                 } else {
                     nextField.setGroupWithPrevious(Boolean.TRUE);
                     fieldToMove.setGroupWithPrevious(Boolean.FALSE);
@@ -352,7 +356,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if (form == null) {
             log.error("Cannot modify unexistant form.");
         } else {
-            formManagerImpl.groupWithPrevious(form, pos.intValue(), false);
+            formManager.groupWithPrevious(form, pos.intValue(), false);
         }
     }
 
@@ -362,7 +366,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if (form == null) {
             log.error("Cannot modify unexistant form.");
         } else {
-            formManagerImpl.groupWithPrevious(form, pos.intValue(), true);
+            formManager.groupWithPrevious(form, pos.intValue(), true);
         }
     }
 
@@ -379,8 +383,8 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if (form == null) {
             log.error("Cannot modify unexistant form.");
         } else {
-            FieldType fType = fieldTypeManagerImpl.getTypeByCode(typeId);
-            Field field = formManagerImpl.addFieldToForm(form, fType);
+            FieldType fType = fieldTypeManager.getTypeByCode(typeId);
+            Field field = formManager.addFieldToForm(form, fType);
             setCurrentEditFieldPosition(field.getPosition());
             originalFieldType = fType;
         }
@@ -401,8 +405,8 @@ public class WysiwygFormEditor extends BaseUIComponent {
             final String name = generateDecoratorName(form);
             I18nSet label = new I18nSet();
             String lang = getLocaleManager().getDefaultLang();
-            FieldType fType = fieldTypeManagerImpl.getTypeByCode(fieldType);
-            Field formField = formManagerImpl.addFieldToForm(form, name, fType, label);
+            FieldType fType = fieldTypeManager.getTypeByCode(fieldType);
+            Field formField = formManager.addFieldToForm(form, name, fType, label);
 
             /*
 
@@ -429,9 +433,9 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
     public Form getFormularyForFieldEdition(Field field) throws Exception {
         if (getFieldTypeToView() != null) {
-            return formManagerImpl.getFormForFieldEdition(fieldTypeManagerImpl.getTypeByCode(getFieldTypeToView()));
+            return formManager.getFormForFieldEdition(fieldTypeManager.getTypeByCode(getFieldTypeToView()));
         }
-        return formManagerImpl.getFormForFieldEdition(field.getFieldType());
+        return formManager.getFormForFieldEdition(field.getFieldType());
     }
 
     public void actionSaveFieldProperties(final CommandRequest request) throws Exception {
@@ -448,7 +452,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             Form editForm = getFormularyForFieldEdition(pField);
 
             if (ACTION_CHANGE_FIELD_TYPE.equals(action)) {
-                pField.setFieldType(fieldTypeManagerImpl.getTypeByCode(getFieldTypeToView()));
+                pField.setFieldType(fieldTypeManager.getTypeByCode(getFieldTypeToView()));
             } else if (ACTION_CANCEL_FIELD_EDITION.equals(action)) {
                 pField.setFieldType(originalFieldType);
                 defaultFormProcessor.clear(editForm.getId(), "edit_" + pField.getId());
@@ -468,21 +472,17 @@ public class WysiwygFormEditor extends BaseUIComponent {
                     for (Iterator it = data.getCurrentValues().keySet().iterator(); it.hasNext(); ) {
                         String propertyName = (String) it.next();
                         if (names.contains(propertyName)) {
-
                             Object value = data.getCurrentValue(propertyName);
-
-                            Method setterMethod = pField.getClass().getMethod("set" + StringUtils.capitalize(propertyName), new Class[]{Class.forName(editForm.getField(propertyName).getFieldType().getFieldClass())});
                             try {
-                                setterMethod.invoke(pField, new Object[]{value});
-                            } catch (IllegalArgumentException iae) {
-                                log.error("Error calling " + setterMethod, iae);
-
+                                bindingManager.setPropertyValue(pField, propertyName, value);
+                            } catch (Exception e) {
+                                log.error("Error setting property '" + propertyName + "' on field " + pField.getFieldName(), e);
                             }
 
                         }
                     }
 
-                    pField.setFieldType(fieldTypeManagerImpl.getTypeByCode(getFieldTypeToView()));
+                    pField.setFieldType(fieldTypeManager.getTypeByCode(getFieldTypeToView()));
                     currentEditFieldPosition = -1;
                 }
             }
@@ -513,8 +513,8 @@ public class WysiwygFormEditor extends BaseUIComponent {
             lastMovedFieldPosition = destPosition;
 
             if (Boolean.parseBoolean(promote))
-                formManagerImpl.promoteField(form, origPosition, destPosition, groupWithPrevious, nextGrouped);
-            else formManagerImpl.degradeField(form, origPosition, destPosition, groupWithPrevious, nextGrouped);
+                formManager.promoteField(form, origPosition, destPosition, groupWithPrevious, nextGrouped);
+            else formManager.degradeField(form, origPosition, destPosition, groupWithPrevious, nextGrouped);
         }
     }
 
@@ -524,7 +524,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if (form == null) {
             log.error("Cannot modify unexistant form.");
         } else {
-            formManagerImpl.moveTop(form, lastMovedFieldPosition);
+            formManager.moveTop(form, lastMovedFieldPosition);
             lastMovedFieldPosition = 0;
         }
     }
@@ -535,7 +535,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if (form == null) {
             log.error("Cannot modify unexistant form.");
         } else {
-            formManagerImpl.moveBottom(form, lastMovedFieldPosition);
+            formManager.moveBottom(form, lastMovedFieldPosition);
             lastMovedFieldPosition = form.getFormFields().size() - 1;
         }
 
@@ -563,13 +563,6 @@ public class WysiwygFormEditor extends BaseUIComponent {
           log.error("Could not add " + name + " field to form. Not found type for manager " + managerClass);
   }
     */
-    public void setNamespace(String paramNamespace) {
-        this.namespace = paramNamespace;
-    }
-
-    public String getNamespace() {
-        return namespace;
-    }
 
     public synchronized void actionSaveCurrentForm(CommandRequest request) throws Exception {
         saveCurrentForm(request.getRequestObject().getParameterMap());
@@ -662,9 +655,9 @@ public class WysiwygFormEditor extends BaseUIComponent {
         try {
             Form form = null;
             if (copyingFrom == null) {
-                form = formManagerImpl.createForm("", name, displayMode, status);
+                form = formManager.createForm("", name, displayMode, status);
             } else {
-                form = formManagerImpl.duplicateForm(copyingFrom, name, displayMode, status);
+                form = formManager.duplicateForm(copyingFrom, name, displayMode, status);
             }
             setCurrentForm(form);
         } catch (Exception e) {
@@ -714,8 +707,8 @@ public class WysiwygFormEditor extends BaseUIComponent {
         this.renderMode = renderMode;
     }
 
-    public FormManagerImpl getFormManager() {
-        return formManagerImpl;
+    public FormManager getFormManager() {
+        return formManager;
     }
 
     public FormProcessor getDefaultFormProcessor() {

@@ -54,8 +54,6 @@ public class WysiwygMenuFormatter extends Formatter {
 
             setAttribute("editionPage", "menu/" + editor.getCurrentEditionOption() + ".jsp");
             renderFragment("outputEditionPage");
-
-            renderFragment("afterOptions");
             renderFragment("outputEnd");
         } catch (Exception e) {
             log.error("Error: ", e);

@@ -104,11 +104,6 @@ public class WysiwygFieldsToAddFormatter extends Formatter {
     }
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
-        String paramNamespace = (String) getParameter("namespace");
-        if (paramNamespace != null && !"".equals(paramNamespace)) {
-            editor.setNamespace(paramNamespace);
-        }
-
         try {
             Form form = editor.getCurrentForm();
             if (form != null) {
