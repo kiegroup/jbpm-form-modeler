@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing;
 
+import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.processing.BindingManager;
 import org.jbpm.formModeler.api.processing.PropertyDefinition;
@@ -26,6 +27,8 @@ import java.lang.Exception;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 @ApplicationScoped
 public class BindingManagerImpl implements BindingManager {
@@ -56,6 +59,39 @@ public class BindingManagerImpl implements BindingManager {
         }
 
         return null;
+    }
+
+    @Override
+    public boolean hasProperty(Object obj, String propName) {
+        try {
+            Field field = obj.getClass().getDeclaredField(propName);
+            return field != null;
+        } catch (Exception e) {
+
+        }
+        return false;
+    }
+
+    @Override
+    public Object getPropertyValue(Object obj, String propName) {
+        Object value = null;
+
+        try {
+            Method getter = obj.getClass().getMethod("get" + StringUtils.capitalize(propName));
+            value = getter.invoke(obj);
+            return value;
+        } catch (Exception e) {
+
+        }
+        return value;
+    }
+
+    @Override
+    public void setPropertyValue(Object destination, String propName, Object value) throws NoSuchFieldException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Field field = destination.getClass().getDeclaredField(propName);
+
+        Method setterMethod = destination.getClass().getMethod("set" + StringUtils.capitalize(propName), new Class[]{field.getType()});
+        setterMethod.invoke(destination, new Object[]{value});
     }
 
     public static final BindingManagerImpl lookup() {

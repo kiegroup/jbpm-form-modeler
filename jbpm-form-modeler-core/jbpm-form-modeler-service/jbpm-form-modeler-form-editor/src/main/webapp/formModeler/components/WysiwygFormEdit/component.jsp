@@ -84,7 +84,7 @@
                 </mvc:fragment>
             </mvc:formatter>
         </div>
-        <div style="display: table-cell; border:solid 1px #CCCCCC; background-color: <%=editorBgColor%>">
+        <div style="display: table-cell; border:solid 1px #CCCCCC; background-color: <%=editorBgColor%>; overflow: auto;">
             <jsp:include page="formPreview.jsp"/>
         </div>
     </div>

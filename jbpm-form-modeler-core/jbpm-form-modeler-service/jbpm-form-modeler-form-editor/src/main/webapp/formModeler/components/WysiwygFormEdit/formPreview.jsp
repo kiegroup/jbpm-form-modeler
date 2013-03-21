@@ -167,7 +167,7 @@
         display:none;
     }
 </style>
-<div style='overflow: hidden;"'>
+<div style="overflow: hidden;">
     <form id="<factory:encode name="changeFieldPositionForm"/>" action="<factory:formUrl/>" method="post" style="margin: 0px;">
         <factory:handler action="moveField"/>
         <input type="hidden" id="<factory:encode name="selectedField"/>" name="selectedField" value="">
@@ -178,12 +178,13 @@
     <script type="text/javascript" defer="defer">
         setAjax("<factory:encode name="changeFieldPositionForm"/>");
     </script>
-    <div style="width:100%; overflow:auto;">
+    <div>
         <mvc:fragmentValue name="form" id="form">
             <mvc:fragmentValue name="namespace" id="formNamespace">
                 <mvc:fragmentValue name="displayMode" id="displayMode">
                     <mvc:fragmentValue name="renderMode" id="renderMode">
                         <div style='width:100%; height:100%;' id="<factory:encode name="wysiwygFormTable"/>">
+                            <%=((Form)form).getId()%>
                             <form action="#" onsubmit="return false;" style="margin:0px;" >
                                 <mvc:formatter name="org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter">
                                     <mvc:formatterParam name="form" value="<%=form%>"/>
