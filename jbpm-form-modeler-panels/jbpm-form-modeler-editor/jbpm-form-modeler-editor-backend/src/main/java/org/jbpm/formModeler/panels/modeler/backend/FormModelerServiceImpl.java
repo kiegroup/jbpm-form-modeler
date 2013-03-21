@@ -49,16 +49,24 @@ public class FormModelerServiceImpl implements FormModelerService {
     }
 
     @Override
-    public Long setFormId(Long formId) {
-        EditorHelper helper = getHelper();
+    public Long setFormId(Long formId,String contextUri) {
+        EditorHelper helper = getHelper(contextUri);
 
         if (helper != null) {
             helper.setOriginalForm(formId);
-            helper.setFormToEdit(formManager.cloneForm(formId));
+            helper.setFormToEdit(contextUri, formManager.getFormById(formId));
             return formId;
         }
 
         return null;
+    }
+
+    @Override
+    public Long setFormFocus(Path context) {
+
+        EditorHelper helper = getHelper(context.toURI());
+
+        return helper.getFormToEdit(context.toURI()).getId();
     }
 
     @Override
@@ -68,42 +76,44 @@ public class FormModelerServiceImpl implements FormModelerService {
         String xml = ioService.readAllString(kiePath).trim();
         Form form = formSerializationManager.loadFormFromXML(xml);
 
-        EditorHelper helper = getHelper();
-        helper.setFormToEdit(form);
+        EditorHelper helper = getHelper(context.toURI());
+        helper.setFormToEdit(context.toURI(),form);
 
         return form.getId();
     }
 
     @Override
-    public FormTO getCurrentForm() {
-        EditorHelper helper = getHelper();
-        formManager.replaceForm(helper.getOriginalForm(), helper.getFormToEdit());
+    public FormTO getCurrentForm(String contextUri) {
+        EditorHelper helper = getHelper(contextUri);
+        formManager.replaceForm(helper.getOriginalForm(), helper.getFormToEdit(contextUri));
         clearHelper();
-        return new FormTO(helper.getFormToEdit().getId(), helper.getFormToEdit().getName());
+        return new FormTO(helper.getFormToEdit(contextUri).getId(), helper.getFormToEdit(contextUri).getName());
     }
 
     private void clearHelper() {
         RpcContext.getHttpSession().removeAttribute("EditorHelper");
+        RpcContext.getHttpSession().removeAttribute("contextURI");
     }
 
-    protected EditorHelper getHelper() {
+    protected EditorHelper getHelper(String contextUri) {
         EditorHelper helper = (EditorHelper) RpcContext.getHttpSession().getAttribute("EditorHelper");
 
         if (helper == null) helper = new EditorHelper();
 
         RpcContext.getHttpSession().setAttribute("EditorHelper", helper);
+        RpcContext.getHttpSession().setAttribute("contextURI", contextUri);
 
         return helper;
     }
 
     @Override
     public void saveForm(Path context) {
-        EditorHelper helper = getHelper();
+        EditorHelper helper = getHelper(context.toURI());
 
-        formManager.replaceForm(helper.getOriginalForm(), helper.getFormToEdit());
+        formManager.replaceForm(helper.getOriginalForm(), helper.getFormToEdit(context.toURI()));
 
         org.kie.commons.java.nio.file.Path kiePath = paths.convert(context);
-        ioService.write(kiePath, formSerializationManager.generateFormXML(helper.getFormToEdit()));
+        ioService.write(kiePath, formSerializationManager.generateFormXML(helper.getFormToEdit(context.toURI())));
     }
 
     @Override
@@ -115,10 +125,12 @@ public class FormModelerServiceImpl implements FormModelerService {
         Form form = formManager.createForm(formName);
 
         ioService.write(kiePath, formSerializationManager.generateFormXML(form));
+        EditorHelper helper =getHelper(context.toURI());
 
-        if(getHelper()!=null){
-            getHelper().setFormToEdit(form);
-            getHelper().setOriginalForm(form.getId());
+        if( helper!=null){
+            helper.setFormToEdit(context.toURI(), form);
+            helper.setOriginalForm(form.getId());
+            getHelper(context.toURI());
         }
 
         //setFormId(form.getId());

@@ -79,12 +79,24 @@ public class FormModelerPanelPresenter {
     @OnSave
     public void onSave() {
         //makeMenuBar();
-        Window.alert("onSave");
+        Window.alert("onSave "+ path.toURI());
         modelerService.call(new RemoteCallback<Long>() {
             @Override
             public void callback(Long formId) {
             }
         }).saveForm(path);
+
+    }
+
+    @OnFocus
+    public void onFocus() {
+        //makeMenuBar();
+        Window.alert("onFocus "+ path.toURI());
+        modelerService.call(new RemoteCallback<Long>() {
+            @Override
+            public void callback(Long formId) {
+            }
+        }).setFormFocus(path);
 
     }
 
@@ -98,7 +110,7 @@ public class FormModelerPanelPresenter {
                     view.hideForm();
                 }
             }
-        }).setFormId(formId);
+        }).setFormId(formId, path.toURI());
     }
 
     public void getFormId() {
@@ -108,7 +120,7 @@ public class FormModelerPanelPresenter {
                 if (currentForm == null) notification.fire(new NotificationEvent("Null form received"));
                 else notification.fire(new NotificationEvent("Received form: " + currentForm.getFormName()));
             }
-        }).getCurrentForm();
+        }).getCurrentForm(path.toURI());
         view.hideForm();
     }
 

@@ -40,7 +40,9 @@ public class FormManagerImpl implements FormManager {
     @Inject
     private EditorHelper editorHelper;
 
-    private Set<Form> forms = new TreeSet<Form>();
+    private Set<Form> oldforms = new TreeSet<Form>();
+
+    private HashSet<Form> forms = new HashSet<Form>();
 
     public FormManagerImpl() {
     }

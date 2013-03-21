@@ -206,8 +206,9 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public void actionEditForm(CommandRequest commandRequest) throws Exception {
 
         EditorHelper helper = (EditorHelper) commandRequest.getSessionObject().getAttribute("EditorHelper");
+        String contextURI = (String) commandRequest.getSessionObject().getAttribute("contextURI");
 
-        if (helper != null) setCurrentForm(helper.getFormToEdit());
+        if (helper != null && contextURI!=null) setCurrentForm(helper.getFormToEdit(contextURI));
         else {
             String formId = commandRequest.getRequestObject().getParameter("formId");
             setCurrentForm(formManagerImpl.getFormById(Long.decode(formId)));

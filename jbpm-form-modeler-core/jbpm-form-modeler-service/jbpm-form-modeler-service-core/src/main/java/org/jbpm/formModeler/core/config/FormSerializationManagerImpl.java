@@ -43,6 +43,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     @Inject
     FieldTypeManager fieldTypeManager;
 
+
     @Override
     public String generateFormXML(Form form) {
         XMLNode rootNode = new XMLNode(NODE_FORM, null);
@@ -115,6 +116,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         }
                     } else if (node.getNodeName().equals(NODE_FIELD)) {
                         Field field = deserializeField(node);
+                        field.setForm(form);
                         campos.add(field);
                     }
                 }

@@ -7,11 +7,13 @@ import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class EditorHelper implements Serializable {
 
     private Long originalForm;
     private Form formToEdit;
+    private HashMap loadedForms;
 
     @PostConstruct
     protected void init() {
@@ -19,6 +21,7 @@ public class EditorHelper implements Serializable {
     }
 
     public Form getFormToEdit() {
+
         return formToEdit;
     }
 
@@ -34,7 +37,21 @@ public class EditorHelper implements Serializable {
         this.originalForm = originalForm;
     }
 
+
+    public void setFormToEdit(String path, Form formToEdit) {
+        if(loadedForms==null) loadedForms=new HashMap();
+        this.loadedForms.put(path,formToEdit);
+        this.formToEdit = formToEdit;
+    }
+
+    public Form getFormToEdit(String path) {
+        return (Form)loadedForms.get(path);
+    }
+
+
     public static EditorHelper lookup() {
         return (EditorHelper) CDIHelper.getBeanByType(EditorHelper.class);
     }
+
+
 }

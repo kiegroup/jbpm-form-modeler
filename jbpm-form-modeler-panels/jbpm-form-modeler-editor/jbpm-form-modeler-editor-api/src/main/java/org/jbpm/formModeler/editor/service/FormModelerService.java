@@ -12,13 +12,15 @@ public interface FormModelerService extends Serializable {
 
     List<FormTO> getAllForms();
 
-    FormTO getCurrentForm();
+    FormTO getCurrentForm(String contextUri);
 
-    Long setFormId(Long formId);
+    Long setFormId(Long formId, String contextURI);
 
     void saveForm(Path path);
 
     Long loadForm(Path context);
+
+    Long setFormFocus(Path context);
 
     Path createForm(Path context, String formName);
 }
