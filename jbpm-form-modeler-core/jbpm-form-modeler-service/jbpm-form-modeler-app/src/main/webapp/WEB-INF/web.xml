@@ -47,32 +47,6 @@
         <servlet-name>Controller</servlet-name>
         <url-pattern>/workspace/*</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/formModeler/fckeditor/editor/Controller</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/formModeler/fckeditor/editor/dialog/Controller</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/formModeler/fckeditor/editor/dialog/fck_image/Controller</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/formModeler/fckeditor/editor/workspace/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/formModeler/fckeditor/editor/dialog/fck_image/workspace/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/formModeler/fckeditor/editor/dialog/workspace/*</url-pattern>
-    </servlet-mapping>
-
 
     <session-config>
         <session-timeout>30</session-timeout>

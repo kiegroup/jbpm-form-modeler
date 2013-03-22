@@ -26,12 +26,6 @@ showMode=
 formProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
 status=0
 
-default=true
-defaultView=true
-shortView=true
-creationView=true
-searchView=true
-
 fields=.fields.NameField,\
 .fields.LabelField,\
        .fields.ErrorMessageField,\

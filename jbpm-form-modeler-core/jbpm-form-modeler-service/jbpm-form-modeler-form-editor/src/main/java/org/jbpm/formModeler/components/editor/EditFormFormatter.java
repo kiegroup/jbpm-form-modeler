@@ -57,24 +57,6 @@ public class EditFormFormatter extends Formatter {
             setFormularyAttributes(formulary);
             renderFragment("outputProcessorInput");
 
-            setFormularyAttributes(formulary);
-            renderFragment("outputDefaultFormInput");
-
-            setAttribute("defaultView", formulary.getDefaultView() != null && formulary.getDefaultView().booleanValue());
-            renderFragment("outputDefaultViewFormInput");
-
-            setAttribute("shortView", formulary.getShortView() != null && formulary.getShortView().booleanValue());
-            renderFragment("outputShortViewFormInput");
-
-            setAttribute("creationView", formulary.getCreationView() != null && formulary.getCreationView().booleanValue());
-            renderFragment("outputCreationViewFormInput");
-
-            setAttribute("searchView", formulary.getSearchView() != null && formulary.getSearchView().booleanValue());
-            renderFragment("outputSearchViewFormInput");
-
-            setAttribute("resultView", formulary.isResultView());
-            renderFragment("outputResultViewFormInput");
-
             if (formulary.getDisplayMode() == null || "".equals(formulary.getDisplayMode())) {
                 formulary.setDisplayMode("default");
             }
@@ -85,11 +67,8 @@ public class EditFormFormatter extends Formatter {
             renderFragment("outputAlignedDisplayMode");
             setAttribute("checked", formulary.getDisplayMode().equals(Form.DISPLAY_MODE_NONE) ? "checked" : "");
             renderFragment("outputNoneDisplayMode");
-            setAttribute("checked", formulary.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE) ? "checked" : "");
-            renderFragment("outputTemplateDisplayMode");
-            setAttribute("checked", formulary.getDisplayMode().equals(Form.DISPLAY_MODE_CUSTOM) ? "checked" : "");
-            setAttribute("pageValue", formulary.getCustomRenderPage());
-            renderFragment("outputCustomDisplayMode");
+            //setAttribute("checked", formulary.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE) ? "checked" : "");
+            //renderFragment("outputTemplateDisplayMode");
 
             renderFragment("outputLabelModeStart");
             String[] possibleLabelModes = {
@@ -124,7 +103,6 @@ public class EditFormFormatter extends Formatter {
         setAttribute("formDisplayMode", formulary.getDisplayMode());
         setAttribute("formStatus", formulary.getStatus());
         setAttribute("formName", formulary.getName());
-        setAttribute("default", formulary.getDefault() != null && formulary.getDefault().booleanValue());
     }
 
     public WysiwygFormEditor getWysiwygFormEditor() {

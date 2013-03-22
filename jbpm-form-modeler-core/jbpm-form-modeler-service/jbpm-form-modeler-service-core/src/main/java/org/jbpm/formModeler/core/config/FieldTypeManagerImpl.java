@@ -180,23 +180,15 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
 
     @Override
     public FieldType getTypeByCode(String typeCode, boolean tryToCreateTypes) throws Exception {
-        final List types = new ArrayList();
 
         for (FieldType fieldType : fieldTypes) {
-            if (fieldType.getCode().equals(typeCode)) types.add(fieldType);
+            if (fieldType.getCode().equals(typeCode)) return fieldType;
         }
 
-        if (types.size() == 1) {
-            return (FieldType) types.get(0);
-        } else if (types.size() == 0) {
-            if (tryToCreateTypes) {
-                //Attempt to check type existence for related entity or remote object source and try again.
-                return getTypeByCode(typeCode, false);
-            }
-        } else {
-            Logger.getLogger(FormManagerImpl.class.getName()).log(Level.SEVERE, "There are " + types.size() + " field types with code " + typeCode + ". This error may be caused by manual database edition.");
-            return (FieldType) types.get(0);
+        for (FieldType decorator : decoratorTypes) {
+            if (decorator.getCode().equals(typeCode)) return decorator;
         }
+
         return null;
     }
 

@@ -90,42 +90,10 @@ profile in pom.xml to use that. -->
     </servlet>
 
 
-    <!-- SERVLET-MAPPINGS(S) required by product mvc -->
+    <!-- SERVLET-MAPPINGS(S) required by formModeler -->
    <servlet-mapping>
         <servlet-name>Controller</servlet-name>
         <url-pattern>/org.uberfire.UberfireShowcase/Controller</url-pattern>
-    </servlet-mapping>
-
-    <!-- SERVLET-MAPPINGS(S) required by product formModeler -->
-
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/org.uberfire.UberfireShowcase/workspace/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/org.uberfire.UberfireShowcase/formModeler/fckeditor/editor/Controller</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/org.uberfire.UberfireShowcase/formModeler/fckeditor/editor/dialog/Controller</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/org.uberfire.UberfireShowcase/formModeler/fckeditor/editor/dialog/fck_image/Controller</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/org.uberfire.UberfireShowcase/formModeler/fckeditor/editor/workspace/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/org.uberfire.UberfireShowcase/formModeler/fckeditor/editor/dialog/fck_image/workspace/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/org.uberfire.UberfireShowcase/formModeler/fckeditor/editor/dialog/workspace/*</url-pattern>
     </servlet-mapping>
 
     <!-- TAGLIB(S) required by product externalLibs -->

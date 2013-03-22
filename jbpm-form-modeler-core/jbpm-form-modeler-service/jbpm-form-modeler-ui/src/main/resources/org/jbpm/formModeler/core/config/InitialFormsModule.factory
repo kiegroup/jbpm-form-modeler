@@ -14,19 +14,16 @@
 # limitations under the License.
 #
 
-formTemplates+=org.jbpm.formModeler.core.baseForms.ddmField.FieldDefaultForm,\
+formTemplates+=org.jbpm.formModeler.core.baseForms.default.FieldDefaultForm,\
 org.jbpm.formModeler.core.baseForms.InputText.InputTextForm,\
 org.jbpm.formModeler.core.baseForms.InputTextDouble.InputTextDoubleForm,\
 org.jbpm.formModeler.core.baseForms.InputTextInteger.InputTextIntegerForm,\
 org.jbpm.formModeler.core.baseForms.InputTextLong.InputTextLongForm,\
-org.jbpm.formModeler.core.baseForms.Currency.CurrencyForm,\
 org.jbpm.formModeler.core.baseForms.InputTextArea.InputTextAreaForm,\
 org.jbpm.formModeler.core.baseForms.I18nTextArea.I18nTextAreaForm,\
 org.jbpm.formModeler.core.baseForms.InputDate.InputDateForm,\
 org.jbpm.formModeler.core.baseForms.InputTextIBAN.InputTextIBANForm,\
 org.jbpm.formModeler.core.baseForms.InputTextCCC.InputTextCCCForm,\
-org.jbpm.formModeler.core.baseForms.InputTextCIF.InputTextCIFForm,\
-org.jbpm.formModeler.core.baseForms.InputTextNIF.InputTextNIFForm,\
 org.jbpm.formModeler.core.baseForms.InputTextCP.InputTextCPForm,\
 org.jbpm.formModeler.core.baseForms.InputTextPhone.InputTextPhoneForm,\
 org.jbpm.formModeler.core.baseForms.InputTextEmail.InputTextEmailForm,\
@@ -37,5 +34,4 @@ org.jbpm.formModeler.core.baseForms.I18nHTMLText.I18nHTMLTextForm,\
 org.jbpm.formModeler.core.baseForms.Link.LinkForm,\
 org.jbpm.formModeler.core.baseForms.HTMLLabel.HTMLLabelForm,\
 org.jbpm.formModeler.core.baseForms.Separator.SeparatorForm,\
-org.jbpm.formModeler.core.baseForms.FreeText.Form,\
-org.jbpm.formModeler.core.baseForms.customJsp.Form
+org.jbpm.formModeler.core.baseForms.FreeText.Form

@@ -75,9 +75,6 @@ public class HTMLTextAreaFieldHandler extends DefaultFieldHandler {
     }
 
     public boolean isEmpty(Object value) {
-        // Mozilla the fckeditor by default contains "<br type="_moz" />"
-        // (checking if reader.read()==-1 is insufficient, and moreover "&nbsp;" is somehow translated by the
-        // HTMLParser, that's why the String is constructed and trimmed)
         String textContent = null;
         HTMLString html = (HTMLString) value;
         try {

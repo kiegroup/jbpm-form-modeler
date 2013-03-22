@@ -162,16 +162,6 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         result.add(ft);
 
         ft = new FieldType();
-        ft.setCode("InputTextCIF");
-        ft.setFieldClass("java.lang.String");
-        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.InputTextFieldHandler");
-        ft.setFormula("=Functions.String.upperCase({$this}.trim())");
-        ft.setPattern("=Functions.checkCIF({$this})");
-        ft.setMaxlength(new Long(9));
-        ft.setSize("13");
-        result.add(ft);
-
-        ft = new FieldType();
         ft.setCode("InputTextIBAN");
         ft.setFieldClass("java.lang.String");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.InputTextFieldHandler");
@@ -182,31 +172,12 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         result.add(ft);
 
         ft = new FieldType();
-        ft.setCode("InputTextNIF");
-        ft.setFieldClass("java.lang.String");
-        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.InputTextFieldHandler");
-        ft.setFormula("=Functions.String.upperCase({$this}.trim())");
-        ft.setPattern("=Functions.checkNIF({$this})");
-        ft.setMaxlength(new Long(10));
-        ft.setSize("15");
-        result.add(ft);
-
-        ft = new FieldType();
         ft.setCode("InputTextPhone");
         ft.setFieldClass("java.lang.String");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.InputTextFieldHandler");
         ft.setPattern("[0-9]{9}");
         ft.setMaxlength(new Long(9));
         ft.setSize("13");
-        result.add(ft);
-
-        ft = new FieldType();
-        ft.setCode("Currency");
-        ft.setFieldClass("java.lang.Double");
-        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.CurrencyFieldHandler");
-        ft.setCssStyle("text-align: right");
-        ft.setPattern("#0.00");
-        ft.setSize("15");
         result.add(ft);
 
         return result;

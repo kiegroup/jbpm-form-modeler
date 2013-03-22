@@ -19,6 +19,7 @@ import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
 import org.jbpm.formModeler.core.wrappers.HTMLi18n;
 import org.jbpm.formModeler.api.model.i18n.I18nEntry;
 import org.jbpm.formModeler.api.model.Field;
+import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,8 +31,6 @@ public class HTMLi18nFieldHandler extends DefaultFieldHandler {
     private String pageToIncludeForRendering = "/formModeler/fieldHandlers/HTMLi18n/input.jsp";
     private String pageToIncludeForDisplaying = "/formModeler/fieldHandlers/HTMLi18n/show.jsp";
     private String pageToIncludeForSearching = "/formModeler/fieldHandlers/HTMLi18n/search.jsp";
-    public static final String FCKEDITOR_TEXTAREA_NAME_PREFFIX = "HTMLi18n_";
-    public static final String LANGUAGE_INPUT_NAME = "languageSelected";
     public static final String DIV_INPUT_NAME_PREFFIX = "Div__";
 
     public String getPageToIncludeForSearching() {
@@ -75,22 +74,18 @@ public class HTMLi18nFieldHandler extends DefaultFieldHandler {
      */
     public Object getValue(Field field, String inputName, Map parametersMap, Map filesMap, String desiredClassName, Object previousValue) throws Exception {
         HTMLi18n set = new HTMLi18n();
-        String languageInputName = inputName + "_" + HTMLi18nFieldHandler.LANGUAGE_INPUT_NAME;
-        String languageUsedParam[] = (String[]) parametersMap.get(languageInputName);
-        if (languageUsedParam != null && languageUsedParam.length > 0) {
-            String languageUsed = languageUsedParam[0];
-            for (Iterator it = parametersMap.keySet().iterator(); it.hasNext();) {
-                String key = (String) it.next();
-                if (key.equals(inputName)) {
-                    String value = (((String[]) parametersMap.get(key))[0] == null) ? "" : ((String[]) parametersMap.get(key))[0];
-                    set.setValue(languageUsed, value);
-                } else if (key.startsWith(inputName) && !key.equals(languageInputName)) {
-                    String lang = key.substring(inputName.length() + 1);
-                    String value = ((String[]) parametersMap.get(key))[0];
-                    if (!languageUsed.equals(lang)) set.setValue(lang, value);
-                }
+
+        String[] locales = LocaleManager.lookup().getInstalledLocaleIds();
+
+        for (String locale : locales) {
+            String[] value = (String[]) parametersMap.get(inputName + "_" + locale);
+            if (value != null && value.length > 0) {
+                set.setValue(locale, value[0]);
+            } else {
+                set.setValue(locale, "");
             }
         }
+
         return set.isEmpty() ? null : set;
     }
 

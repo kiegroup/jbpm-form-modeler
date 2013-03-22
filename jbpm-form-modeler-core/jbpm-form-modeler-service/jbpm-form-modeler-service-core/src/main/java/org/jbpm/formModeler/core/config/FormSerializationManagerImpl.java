@@ -97,20 +97,6 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                             form.setShowMode(value);
                         } else if ("status".equals(propName)) {
                             form.setStatus(Long.valueOf(value));
-                        } else if ("default".equals(propName)) {
-                            form.setDefault(Boolean.valueOf(value));
-                        } else if ("defaultView".equals(propName)) {
-                            form.setDefaultView(Boolean.valueOf(value));
-                        } else if ("shortView".equals(propName)) {
-                            form.setShortView(Boolean.valueOf(value));
-                        } else if ("creationView".equals(propName)) {
-                            form.setCreationView(Boolean.valueOf(value));
-                        } else if ("searchView".equals(propName)) {
-                            form.setSearchView(Boolean.valueOf(value));
-                        } else if ("resultView".equals(propName)) {
-                            form.setResultView(Boolean.valueOf(value));
-                        } else if ("customRenderPage".equals(propName)) {
-                            form.setCustomRenderPage(value);
                         } else if ("formTemplate".equals(propName)) {
                             form.setFormTemplate(value);
                         }
@@ -156,13 +142,6 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
             addXMLNode("labelMode", form.getLabelMode(), rootNode);
             addXMLNode("showMode", form.getShowMode(), rootNode);
             addXMLNode("status", (form.getStatus() != null ? String.valueOf(form.getStatus()) : null), rootNode);
-            addXMLNode("default", (form.getDefault() != null ? String.valueOf(form.getDefault()) : null), rootNode);
-            addXMLNode("defaultView", (form.getDefaultView() != null ? String.valueOf(form.getDefaultView()) : null), rootNode);
-            addXMLNode("shortView", (form.getShortView() != null ? String.valueOf(form.getShortView()) : null), rootNode);
-            addXMLNode("creationView", (form.getCreationView() != null ? String.valueOf(form.getCreationView()) : null), rootNode);
-            addXMLNode("searchView", (form.getSearchView() != null ? String.valueOf(form.getSearchView()) : null), rootNode);
-            addXMLNode("resultView", (form.getResultView() != null ? String.valueOf(form.getResultView()) : null), rootNode);
-            addXMLNode("customRenderPage", form.getCustomRenderPage(), rootNode);
             addXMLNode("formTemplate", form.getFormTemplate(), rootNode);
 
             Set fields = form.getFormFields();

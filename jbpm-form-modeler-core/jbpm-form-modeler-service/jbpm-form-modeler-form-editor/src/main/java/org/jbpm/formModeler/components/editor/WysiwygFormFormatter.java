@@ -52,9 +52,6 @@ public class WysiwygFormFormatter extends Formatter {
                 if (Form.DISPLAY_MODE_TEMPLATE.equals(displayMode)) {
                     setAttribute("showDisplayWarningMessage", true);
                     setAttribute("message", "templateDisplayWarning");
-                } else if (Form.DISPLAY_MODE_CUSTOM.equals(displayMode)) {
-                    setAttribute("showDisplayWarningMessage", true);
-                    setAttribute("message", "customJSPDisplayWarning");
                 }
                 setAttribute("displayMode", displayMode);
                 renderFragment("outputForm");

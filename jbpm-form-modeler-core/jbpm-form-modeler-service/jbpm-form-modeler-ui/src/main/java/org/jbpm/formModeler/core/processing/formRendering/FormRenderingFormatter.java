@@ -290,8 +290,6 @@ public class FormRenderingFormatter extends Formatter {
                 defaultDisplay(form, namespace, renderMode, labelMode, Form.DISPLAY_MODE_NONE);
             } else if (Form.DISPLAY_MODE_TEMPLATE.equals(displayMode)) {
                 templateDisplay(form, namespace, renderMode);
-            } else if (Form.DISPLAY_MODE_CUSTOM.equals(displayMode)) {
-                customDisplay(form, namespace);
             } else {
                 log.error("Unsupported display mode.");
             }
@@ -311,16 +309,6 @@ public class FormRenderingFormatter extends Formatter {
         renderInfo.setDisplayMode(displayMode);
         renderInfo.setLabelMode(labelMode);
         renderInfo.setRenderMode(renderMode);
-    }
-
-    protected void customDisplay(Form form, String namespace) {
-        // If disabled and/or readonly parameters were received from a subformformatter, pass them on to the included
-        // fields (only relevant when they're set to true)
-        if (isDisabled) setAttribute(ATTR_FIELD_IS_DISABLED, isDisabled);
-        if (isReadonly) setAttribute(ATTR_FIELD_IS_READONLY, isReadonly);
-        setAttribute(ATTR_DYNAMIC_OBJECT_ID, objectIdToLoad);
-        includePage(Form.DISPLAY_MODE_CUSTOM_PATH_PREFIX + form.getCustomRenderPage());
-        displayFooter(getRenderInfo().getForm());
     }
 
     public void afterRendering(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
@@ -640,7 +628,7 @@ public class FormRenderingFormatter extends Formatter {
             String formRefresherFieldName = namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + ":initialFormRefresher";
             setAttribute("name", formRefresherFieldName);
             setAttribute("uid", getUidGenerator().getUniqueIdentifiersPreffix() + FormProcessor.NAMESPACE_SEPARATOR + formRefresherFieldName);
-            if (Form.DISPLAY_MODE_TEMPLATE.equals(displayMode) || Form.DISPLAY_MODE_CUSTOM.equals(displayMode)) {
+            if (Form.DISPLAY_MODE_TEMPLATE.equals(displayMode)) {
                 includePage("/formModeler/defaultFormFooter.jsp");
             } else {
                 renderFragment("formFooter");
@@ -658,7 +646,7 @@ public class FormRenderingFormatter extends Formatter {
      * @return Deduced width for a form.
      */
     protected String deduceWidthForForm(Form form, String renderMode, String labelMode, String mode) {
-        if (Form.DISPLAY_MODE_CUSTOM.equals(mode) || Form.DISPLAY_MODE_TEMPLATE.equals(mode))
+        if (Form.DISPLAY_MODE_TEMPLATE.equals(mode))
             return null;  //In these modes, it doesn't matter
         if (Form.RENDER_MODE_DISPLAY.equals(renderMode)) { //Showing data
             if (Form.DISPLAY_MODE_NONE.equals(mode)) {

@@ -136,7 +136,7 @@
             if ( movedDiv ){
                 movedDiv.style.background = '#FEE48B';
                 enableMenuForItem(movedDiv, true);
-                setTimeout("disableMenuForItem($('"+movedId+"'))",500);
+                setTimeout("disableMenuForItem($('"+movedId+"').get(0))",500);
             } else {
                 //alert("I cant find div with id "+movedId);
             }
@@ -184,7 +184,6 @@
                 <mvc:fragmentValue name="displayMode" id="displayMode">
                     <mvc:fragmentValue name="renderMode" id="renderMode">
                         <div style='width:100%; height:100%;' id="<factory:encode name="wysiwygFormTable"/>">
-                            <%=((Form)form).getId()%>
                             <form action="#" onsubmit="return false;" style="margin:0px;" >
                                 <mvc:formatter name="org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter">
                                     <mvc:formatterParam name="form" value="<%=form%>"/>
