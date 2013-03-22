@@ -120,11 +120,12 @@ public class FormModelerPanelPresenter {
         modelerService.call(new RemoteCallback<Long>() {
             @Override
             public void callback(Long formId) {
-                if (formId != null) {
+                view.showForm();
+    /*            if (formId != null) {
                     view.showForm();
                 } else {
                     view.hideForm();
-                }
+                }*/
             }
         }).setFormId(formId, path.toURI());
     }
@@ -164,11 +165,11 @@ public class FormModelerPanelPresenter {
             }
         };
 
-        if ( saveCommand != null ) {
+//        if ( saveCommand != null ) {
             menuItems.add(newSimpleItem("Save")
                     .respondsWith(saveCommand)
                     .endMenu().build().getItems().get(0));
-        }
+//        }
 
         return menuItems;
     }
