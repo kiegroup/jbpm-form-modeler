@@ -16,7 +16,7 @@
 
 $class=org.jbpm.formModeler.core.processing.fieldHandlers.HTMLTextAreaFieldHandler
 $scope=global
-$description=Handler for text area with FCKEditor
+$description=Handler for HTML text area
 
 pageToIncludeForRendering=/formModeler/fieldHandlers/HTMLTextArea/input.jsp
 pageToIncludeForDisplaying=/formModeler/fieldHandlers/HTMLTextArea/show.jsp

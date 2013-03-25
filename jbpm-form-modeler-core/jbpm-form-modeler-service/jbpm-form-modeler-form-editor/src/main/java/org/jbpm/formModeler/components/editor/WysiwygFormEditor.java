@@ -19,6 +19,7 @@ import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.config.FormManager;
 import org.jbpm.formModeler.api.processing.BindingManager;
 import org.jbpm.formModeler.core.processing.BindingManagerImpl;
+import org.jbpm.formModeler.core.wrappers.HTMLi18n;
 import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
@@ -384,9 +385,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             log.error("Cannot modify unexistant form.");
         } else {
             FieldType fType = fieldTypeManager.getTypeByCode(typeId);
-            Field field = formManager.addFieldToForm(form, fType);
-            setCurrentEditFieldPosition(field.getPosition());
-            originalFieldType = fType;
+            formManager.addFieldToForm(form, fType);
         }
     }
 
@@ -408,14 +407,11 @@ public class WysiwygFormEditor extends BaseUIComponent {
             FieldType fType = fieldTypeManager.getTypeByCode(fieldType);
             Field formField = formManager.addFieldToForm(form, name, fType, label);
 
-            /*
-
-            TODO: fix that
-                    if ("HTMLLabel".equals(fType.getCode()) && field.hasProperty("htmlContent")) {
-                        HTMLi18n val = new HTMLi18n();
-                        val.setValue(lang, "HTML");
-                        field.setPropertyValue("htmlContent", val);
-                    }                                              */
+            if ("HTMLLabel".equals(fType.getCode())) {
+                HTMLi18n val = new HTMLi18n();
+                val.setValue(lang, "HTML");
+                formField.setHtmlContent(val);
+            }
         }
     }
 
@@ -580,29 +576,12 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String displayMode = (String) map.get("displayMode");
         String labelMode = (String) map.get("labelMode");
         Long status = (Long) map.get("status");
-        Boolean isDefault = (Boolean) map.get("default");
-        Boolean isDefaultView = (Boolean) map.get("defaultView");
-        Boolean isShortView = (Boolean) map.get("shortView");
-        Boolean isCreationView = (Boolean) map.get("creationView");
-        Boolean isSearchView = (Boolean) map.get("searchView");
-        Boolean isResultView = (Boolean) map.get("resultView");
-        String customJsp = (String) map.get("customJsp");
-        while (customJsp.indexOf("..") != -1) {
-            customJsp = customJsp.substring(0, customJsp.indexOf("..")) + customJsp.substring(customJsp.indexOf("..") + 2, customJsp.length());
-        }
 
         Form form = getCurrentEditForm();
         form.setName(name);
         form.setDisplayMode(displayMode);
         form.setLabelMode(labelMode);
         form.setStatus(status);
-        form.setCustomRenderPage(customJsp);
-        form.setDefault(isDefault);
-        form.setDefaultView(isDefaultView);
-        form.setCreationView(isCreationView);
-        form.setShortView(isShortView);
-        form.setSearchView(isSearchView);
-        form.setResultView(isResultView);
 
         String[] editTemplateParams = (String[]) parameterMap.get("editTemplate");
         if (editTemplateParams != null && editTemplateParams.length > 0 && "true".equals(editTemplateParams[0])) {
@@ -618,14 +597,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String[] displayMode = (String[]) parameterMap.get("displayMode");
         String[] labelMode = (String[]) parameterMap.get("labelMode");
         String[] status = (String[]) parameterMap.get("status");
-        String[] isDefault = (String[]) parameterMap.get("default");
-        String[] isDefaultView = (String[]) parameterMap.get("defaultView");
-        String[] isShortView = (String[]) parameterMap.get("shortView");
-        String[] isCreationView = (String[]) parameterMap.get("creationView");
-        String[] isSearchView = (String[]) parameterMap.get("searchView");
-        String[] isResultView = (String[]) parameterMap.get("resultView");
         String[] copyingFrom = (String[]) parameterMap.get("copyingFrom");
-        String[] customJsp = (String[]) parameterMap.get("customJsp");
 
         if (status == null || status.length == 0) {
             status = new String[]{String.valueOf(FormManagerImpl.FORMSTATUS_NORMAL)};
@@ -635,14 +607,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         m.put("displayMode", (displayMode != null && displayMode.length > 0) ? displayMode[0] : "default");
         m.put("labelMode", (labelMode != null && labelMode.length > 0) ? labelMode[0] : "undefined");
         m.put("status", Long.decode(status[0]));
-        m.put("default", isDefault != null ? (Boolean.valueOf(isDefault[0])) : (Boolean.FALSE));
-        m.put("defaultView", isDefaultView != null ? (Boolean.valueOf(isDefaultView[0])) : (Boolean.FALSE));
-        m.put("shortView", isShortView != null ? (Boolean.valueOf(isShortView[0])) : (Boolean.FALSE));
-        m.put("creationView", isCreationView != null ? (Boolean.valueOf(isCreationView[0])) : (Boolean.FALSE));
-        m.put("searchView", isSearchView != null ? (Boolean.valueOf(isSearchView[0])) : (Boolean.FALSE));
-        m.put("resultView", isResultView != null ? (Boolean.valueOf(isResultView[0])) : (Boolean.FALSE));
         m.put("copyingFrom", (copyingFrom != null && !"".equals(copyingFrom[0].trim())) ? (Long.decode(copyingFrom[0])) : null);
-        m.put("customJsp", customJsp != null && customJsp.length == 1 ? customJsp[0] : null);
         return m;
     }
 

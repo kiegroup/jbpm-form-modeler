@@ -40,14 +40,8 @@ public class FormTemplate extends BasicFactoryElement {
     private String showMode;
     private String formProcessor;
     private long status;
-    private boolean isDefault;
-    private boolean isDefaultView;
-    private boolean isShortView;
-    private boolean isCreationView;
-    private boolean isSearchView;
     private FieldTemplate[] fields;
     private String template;
-    private String customPage;
 
     public FieldTemplate[] getFields() {
         return fields;
@@ -71,46 +65,6 @@ public class FormTemplate extends BasicFactoryElement {
 
     public void setFormProcessor(String formProcessor) {
         this.formProcessor = formProcessor;
-    }
-
-    public boolean isCreationView() {
-        return isCreationView;
-    }
-
-    public void setCreationView(boolean creationView) {
-        isCreationView = creationView;
-    }
-
-    public boolean isDefault() {
-        return isDefault;
-    }
-
-    public void setDefault(boolean aDefault) {
-        isDefault = aDefault;
-    }
-
-    public boolean isDefaultView() {
-        return isDefaultView;
-    }
-
-    public void setDefaultView(boolean defaultView) {
-        isDefaultView = defaultView;
-    }
-
-    public boolean isSearchView() {
-        return isSearchView;
-    }
-
-    public void setSearchView(boolean searchView) {
-        isSearchView = searchView;
-    }
-
-    public boolean isShortView() {
-        return isShortView;
-    }
-
-    public void setShortView(boolean shortView) {
-        isShortView = shortView;
     }
 
     public String getLabelMode() {
@@ -161,14 +115,6 @@ public class FormTemplate extends BasicFactoryElement {
         this.template = template;
     }
 
-    public String getCustomPage() {
-        return customPage;
-    }
-
-    public void setCustomPage(String customPage) {
-        this.customPage = customPage;
-    }
-
     public boolean deploy(FormManagerImpl formsManager) throws Exception {
         List existing = formsManager.getFormsBySubjectAndName(getSubject(), getName());
         if (existing.size() > 0) {
@@ -184,11 +130,6 @@ public class FormTemplate extends BasicFactoryElement {
     }
 
     protected void fillTypeValues(Form form, FormManagerImpl formsManager) throws Exception {
-        form.setCreationView(Boolean.valueOf(isCreationView()));
-        form.setDefault(Boolean.valueOf(isDefault()));
-        form.setDefaultView(Boolean.valueOf(isDefaultView()));
-        form.setSearchView(Boolean.valueOf(isSearchView()));
-        form.setShortView(Boolean.valueOf(isShortView()));
         form.setDisplayMode(getDisplayMode());
         form.setLabelMode(getLabelMode());
         form.setName(getName());
@@ -196,7 +137,6 @@ public class FormTemplate extends BasicFactoryElement {
         form.setStatus(new Long(getStatus()));
         form.setSubject(getSubject());
         if (getTemplate() != null) form.setFormTemplate(getTemplate());
-        if (getCustomPage() != null) form.setCustomRenderPage(getCustomPage());
     }
 
     protected void createFields(Form newForm, FieldTemplate[] fields, FormManagerImpl formsManager) throws Exception {

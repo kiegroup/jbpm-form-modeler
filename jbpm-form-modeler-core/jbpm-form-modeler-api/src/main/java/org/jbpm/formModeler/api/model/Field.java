@@ -69,6 +69,8 @@ public class Field implements Comparable<Field> {
     private Boolean hideContent;
     private String defaultValueFormula;
 
+    private I18nSet htmlContent;
+
     private FieldType fieldType;
 
     private int position;
@@ -355,6 +357,14 @@ public class Field implements Comparable<Field> {
         this.labelCSSClass = labelCSSClass;
     }
 
+    public I18nSet getHtmlContent() {
+        return htmlContent;
+    }
+
+    public void setHtmlContent(I18nSet htmlContent) {
+        this.htmlContent = htmlContent;
+    }
+
     public int getPosition() {
         return position;
     }
@@ -398,6 +408,7 @@ public class Field implements Comparable<Field> {
         names.add("isHTML");
         names.add("hideContent");
         names.add("defaultValueFormula");
+        names.add("htmlContent");
 
         return names;
     }
@@ -429,6 +440,7 @@ public class Field implements Comparable<Field> {
         value.put("isHTML", getIsHTML());
         value.put("hideContent", getHideContent());
         value.put("defaultValueFormula", getDefaultValueFormula());
+        value.put("htmlContent", getHtmlContent());
         return value;
     }
 

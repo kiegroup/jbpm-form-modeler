@@ -27,23 +27,22 @@ public class DecoratorFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         List<FieldType> result = new ArrayList<FieldType>();
 
         FieldType ft = new FieldType();
-        ft.setCode("CustomJsp");
-        ft.setManagerClass("org.jbpm.formModeler.core.processing.formDecorators.CustomJsp");
-        result.add(ft);
-
         ft = new FieldType();
         ft.setCode("FreeText");
+        ft.setFieldClass("void");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.formDecorators.FreeText");
         ft.setReadonly(Boolean.TRUE);
         result.add(ft);
 
         ft = new FieldType();
         ft.setCode("HTMLLabel");
+        ft.setFieldClass("void");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.formDecorators.HTMLlabel");
         result.add(ft);
 
         ft = new FieldType();
         ft.setCode("Separator");
+        ft.setFieldClass("void");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.formDecorators.Separator");
         result.add(ft);
 

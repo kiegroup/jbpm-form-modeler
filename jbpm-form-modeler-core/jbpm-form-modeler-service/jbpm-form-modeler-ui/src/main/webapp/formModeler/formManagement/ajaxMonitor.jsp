@@ -22,7 +22,6 @@
 <%@ page import="org.jbpm.formModeler.service.bb.mvc.components.FactoryURL"%>
 <%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager"%>
 <%@ page import="org.jbpm.formModeler.api.processing.FormProcessor"%>
-<%@ page import="org.jbpm.formModeler.service.bb.mvc.components.RedirectionHandler"%>
 <%@ page import="org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
@@ -283,16 +282,6 @@ propagateStyleToChildElements(elm, style);
 }
 }
 
-function replaceDDMTextArea(idToReplace, size, height, lang){
-var sBasePath = '<%=request.getContextPath()%>/formModeler/fckeditor/';
-var oFCKeditor = new FCKeditor(idToReplace, size,height) ;
-oFCKeditor.BasePath = sBasePath;
-oFCKeditor.Config['CustomConfigurationsPath'] = '<factory:url action="redirectToSection" bean="org.jbpm.formModeler.service.mvc.components.RedirectionHandler" friendly="false"><factory:param name="<%=RedirectionHandler.PARAM_PAGE_TO_REDIRECT%>" value="/formModeler/fckeditor/config/fckConfig.jsp"/></factory:url>';
-oFCKeditor.Config["AutoDetectLanguage"] = false;
-oFCKeditor.Config["DefaultLanguage"] = lang;
-oFCKeditor.ReplaceTextarea();
-return oFCKeditor;
-}
 
 function getDefinedCssClasses(){
 var result = new Array();

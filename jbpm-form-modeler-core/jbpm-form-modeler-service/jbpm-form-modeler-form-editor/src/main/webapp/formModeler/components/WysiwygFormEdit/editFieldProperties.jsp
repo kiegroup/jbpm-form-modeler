@@ -49,7 +49,7 @@
         }
 
     </script>
-    <div style="overflow: scroll; height: 600px;" id="<factory:encode name="fieldProperties"/>">
+    <div style="overflow: scroll; height: 600px; " id="<factory:encode name="fieldProperties"/>">
     <form action="<factory:formUrl/>" id="<factory:encode name="updateFormField"/>" method="POST" enctype="multipart/form-data">
     <factory:handler bean="org.jbpm.formModeler.components.editor.WysiwygFormEditor" action="saveFieldProperties"/>
     <input type="hidden" name="<%=WysiwygFormEditor.ACTION_TO_DO%>" id="<factory:encode name="actionToDo"/>" value="<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>"/>
@@ -231,12 +231,12 @@
     <script type="text/javascript">
         $(function() {
             $( '#<factory:encode name="fieldProperties"/>' ).dialog({
-                modal: true,
+                modal: false,
                 draggable: false,
                 closeOnEscape: false,
-                position: "right top",
+                position: "center top",
                 maxHeight: 600,
-                width: 500 ,
+                width: 600,
                 open: function() { $(".ui-dialog-titlebar").hide();}
             });
         });

@@ -80,13 +80,6 @@
                                                             </table>
                                                                     <% } %>
 
-                                                                <%if ((readonly!=null && !((Boolean)readonly).booleanValue()) && ((disabled!=null)&& !(((Boolean)disabled).booleanValue()))) { %>
-                                                                <script defer>
-                                                                    setTimeout('replaceDDMTextArea("_<%=uid%>", "<%=size!=null?size:"250"%>","<%=height!=null?height:"170"%>", "<mvc:fragmentValue name="lang"/>" )',10);
-                                                                </script>
-                                                                <% } %>
-                                                                <input type="file" style="display:none" disabled="true" name="<%=name%>_fakeFile">
-                                                                <%--FCKEditor doesn't work with ajax forms--%>
                                                             </mvc:fragmentValue>
                                                         </mvc:fragmentValue>
                                                     </mvc:fragmentValue>

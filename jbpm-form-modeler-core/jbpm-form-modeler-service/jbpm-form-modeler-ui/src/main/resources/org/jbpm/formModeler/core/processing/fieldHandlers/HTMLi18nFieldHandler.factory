@@ -16,7 +16,7 @@
 
 $class=org.jbpm.formModeler.core.processing.fieldHandlers.HTMLi18nFieldHandler
 $scope=global
-$description=Handler for text area with FCKEditor i18n
+$description=Handler for text area with HTML i18n
 
 functionsProvider=org.jbpm.formModeler.core.processing.formProcessing.FunctionsProvider
 
