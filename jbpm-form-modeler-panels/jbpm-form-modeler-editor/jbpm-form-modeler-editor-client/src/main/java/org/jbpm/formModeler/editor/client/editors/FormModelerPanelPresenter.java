@@ -17,6 +17,7 @@ import org.uberfire.client.workbench.widgets.menu.MenuFactory;
 import org.uberfire.client.workbench.widgets.menu.MenuItem;
 import org.uberfire.client.workbench.widgets.menu.Menus;
 import org.uberfire.shared.mvp.PlaceRequest;
+import org.uberfire.shared.mvp.impl.PathPlaceRequest;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
@@ -71,7 +72,6 @@ public class FormModelerPanelPresenter {
                 setFormId(formModel);
                 notification.fire(new NotificationEvent("Model was loaded from server: " + formModel + " at time: " + new java.util.Date()));
             }
-
         }).loadForm(path);
 
     }
@@ -181,8 +181,10 @@ public class FormModelerPanelPresenter {
 
     private void makeMenuBar() {
         menus = MenuFactory
-                .newTopLevelMenu("File")
+                .newContributedMenu("Form")
                 .withItems( getMenuItems() )
                 .endMenu().build();
     }
+
+
 }
