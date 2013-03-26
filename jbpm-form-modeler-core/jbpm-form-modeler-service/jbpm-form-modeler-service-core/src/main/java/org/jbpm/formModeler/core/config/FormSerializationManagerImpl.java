@@ -3,7 +3,7 @@ package org.jbpm.formModeler.core.config;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.xerces.parsers.DOMParser;
-import org.jbpm.datamodeler.xml.XMLNode;
+import org.jbpm.datamodeler.xml.util.XMLNode;
 import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.config.FormManager;
 import org.jbpm.formModeler.api.config.FormSerializationManager;
