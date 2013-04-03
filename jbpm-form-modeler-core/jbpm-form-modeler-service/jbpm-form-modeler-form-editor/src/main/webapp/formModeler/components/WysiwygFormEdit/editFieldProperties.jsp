@@ -234,10 +234,10 @@
                 modal: false,
                 draggable: false,
                 closeOnEscape: false,
-                position: "center top",
-                maxHeight: 600,
+                position: "right top",
+                maxHeight: 700,
                 width: 600,
-                open: function() { $(".ui-dialog-titlebar").hide();}
+                open: function() { $(".ui-dialog-titlebar").show();}
             });
         });
     </script>
