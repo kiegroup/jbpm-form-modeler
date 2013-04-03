@@ -23,225 +23,245 @@
 
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages"
              locale="<%=LocaleManager.currentLocale()%>"/>
-<table cellspacing="0" cellpadding="0" style="height:100%; padding-left:4px;padding-top:4px;" width="100%" border="0">
-    <mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygFieldsFormatter">
-        <mvc:fragment name="separator">
-            <tr>
-                <td>
-                    <hr>
-                </td>
-            </tr>
-        </mvc:fragment>
 
-        <%------------------ Primitive types -----------------%>
-        <mvc:fragment name="outputDisabledType">
-            <tr class="skn-odd_row">
-                <td nowrap="nowrap" style="vertical-align:middle;" class="skn-disabled" width="10px">
-                    <mvc:fragmentValue name="iconUri" id="iconUri">
-                        <img src="<static:image relativePath="<%=(String)iconUri%>"/>" align="absmiddle">
-                    </mvc:fragmentValue>
-                    <mvc:fragmentValue name="typeName"/>
-                </td>
-            </tr>
-        </mvc:fragment>
-        <mvc:fragment name="outputType">
-            <mvc:fragmentValue name="uid" id="uid">
-                <mvc:fragmentValue name="iconUri" id="iconUri">
-                    <mvc:fragmentValue name="typeName" id="typeName">
-                        <tr onclick="className='skn-even_row_alt'" onmouseout="className='skn-odd_row'"
-                            class="skn-odd_row">
-                            <td nowrap="nowrap">
-                                <form method="POST" style="margin:0px;" action="<factory:formUrl/>"
-                                      id="<%="addPrimitiveFieldForm"+uid%>">
-                                    <factory:handler action="addFieldToFormulary"/>
-                                    <table cellspacing="0" cellpadding="0" width="100%">
-                                        <tr onmouseover="className='skn-even_row_alt'"
-                                            onmouseout="className='skn-odd_row'" class="skn-odd_row">
-                                            <td style="width:10px; padding-right: 5px;">
-                                                <img src="<static:image relativePath="<%=(String)iconUri%>"/>"
-                                                     align="absmiddle">
-                                            </td>
-                                            <td>
-                                                <i18n:message key="<%="fieldType." + typeName%>"/>
+<style>
 
-                                            </td>
-                                            <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
-                                                <input type="image" onclick="this.onclick=function(){return false;}"
-                                                       title="<mvc:fragmentValue name="prop"/>"
-                                                       name="<mvc:fragmentValue name="typeName"/>"
-                                                       style="cursor:hand"
-                                                       src="<static:image relativePath="actions/triang_right.gif"/>">
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <input type="hidden" name="fieldType" value="<mvc:fragmentValue name="typeId"/>">
-                                </form>
-                                <script defer>
-                                    setAjax("<%="addPrimitiveFieldForm"+uid%>");
-                                </script>
-                            </td>
-                        </tr>
-                    </mvc:fragmentValue>
-                </mvc:fragmentValue>
+    .oldfieldTypes {
+        background-color: #B4B4B4 !Important;
+        -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.4);
+        -moz-box-shadow: 0 2px 4px rgba(0,0,0,.4);
+        box-shadow: 0 2px 4px rgba(0,0,0,.4);
+        width: 95%;
+    }
+    .fieldTypes {
+        background-color: #C1C1C1;
+    }
+
+    .oldfieldTypes td:first-child {
+        border-bottom: dotted 1px black;
+        height: 20px;
+    }
+    .oldfieldTypes table td {
+        border: none !IMPORTANT;
+    }
+
+
+
+</style>
+
+
+<table cellspacing="1" cellpadding="3" width="100%" border="0" class="oldfieldTypes">
+<mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygFieldsFormatter">
+<mvc:fragment name="separator">
+
+</mvc:fragment>
+
+<%------------------ Primitive types -----------------%>
+<mvc:fragment name="outputDisabledType">
+    <tr>
+        <td nowrap="nowrap" style="vertical-align:middle;" width="10px">
+            <mvc:fragmentValue name="iconUri" id="iconUri">
+                <img src="<static:image relativePath="<%=(String)iconUri%>"/>" align="absmiddle">
             </mvc:fragmentValue>
-        </mvc:fragment>
-        <mvc:fragment name="outputFieldNameToAddStart">
-            <tr><td nowrap="nowrap">
-            <mvc:fragmentValue name="uid" id="uid">
-                <div style="display:none; margin-left: 6px;" id="<%="" + uid%>">
-            </mvc:fragmentValue>
-        </mvc:fragment>
-        <mvc:fragment name="outputFieldNameToAdd">
-            <mvc:fragmentValue name="uid" id="uid">
-                <form method="POST" style="margin:0px;" action="<factory:formUrl/>"
-                      id="<%="addPrimitiveFieldForm"+uid%>">
-                    <factory:handler action="addFieldToFormulary"/>
-                    <table cellspacing="0" cellpadding="0" width="100%">
-                        <tr onmouseover="className='skn-even_row_alt'" onmouseout="className='skn-odd_row'"
-                            class="skn-odd_row">
-                            <td>
-                                <b style="cursor:text;"
-                                   onclick="this.innerHTML='<input name=\'label\' style=\'width:150px\'  maxlength=\'200\' class=\'skn-input\' value=\'
-                                       <mvc:fragmentValue name="prop"/>\'>'; this.onclick=''; ">
-                                    <mvc:fragmentValue name="prop"/>
-                                </b>
-                            </td>
-                            <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
-                                <input type="image" onclick="this.onclick=function(){return false;}"
-                                       title="<mvc:fragmentValue name="prop"/>"
-                                       name="<mvc:fragmentValue name="typeName"/>"
-                                       style="cursor:hand"
-                                       src="<static:image relativePath="actions/triang_right.gif"/>">
-                            </td>
-                        </tr>
-                    </table>
+            <mvc:fragmentValue name="typeName"/>
+        </td>
+    </tr>
+</mvc:fragment>
+<mvc:fragment name="outputType">
+    <mvc:fragmentValue name="uid" id="uid">
+        <mvc:fragmentValue name="iconUri" id="iconUri">
+            <mvc:fragmentValue name="typeName" id="typeName">
+                <tr onclick="className='skn-even_row_alt'" onmouseout="className=''">
+                    <td nowrap="nowrap"  class="fieldTypes">
+                        <form method="POST" style="margin:0px;" action="<factory:formUrl/>"
+                              id="<%="addPrimitiveFieldForm"+uid%>">
+                            <factory:handler action="addFieldToFormulary"/>
+                            <table cellspacing="0" cellpadding="0" width="100%">
+                                <tr onmouseover="className='skn-even_row_alt'"
+                                    onmouseout="className=''">
+                                    <td style="width:10px; padding-right: 5px;">
+                                        <img src="<static:image relativePath="<%=(String)iconUri%>"/>"
+                                             align="absmiddle">
+                                    </td>
+                                    <td>
+                                        <i18n:message key="<%="fieldType." + typeName%>"/>
 
-                    <input type="hidden" name="name" value="<mvc:fragmentValue name="prop"/>">
-                    <input type="hidden" name="fieldType" value="<mvc:fragmentValue name="typeId"/>">
-                </form>
-                <script defer>
-                    setAjax("<%="addPrimitiveFieldForm"+uid%>");
-                </script>
-            </mvc:fragmentValue>
-        </mvc:fragment>
-        <mvc:fragment name="outputFieldNameToAddEnd">
-            </div>
-            </td></tr>
-        </mvc:fragment>
-
-
-        <%------------------ Complex types -----------------%>
-        <mvc:fragment name="disabledComplexTypeStart">
-            <tr class="skn-odd_row">
-                <td nowrap="nowrap" width="10px">
-                    <mvc:fragmentValue name="iconUri" id="iconUri">
-                        <img src="<static:image relativePath="<%=(String)iconUri%>"/>" align="absmiddle">
-                    </mvc:fragmentValue>
-                    <span class="skn-disabled"><mvc:fragmentValue name="managerName"/></span>
-                </td>
-            </tr>
-        </mvc:fragment>
-        <mvc:fragment name="complexTypeStart">
-            <tr onclick="className='skn-even_row_alt'" onmouseout="className='skn-odd_row'" class="skn-odd_row">
-            <td nowrap="nowrap" width="10px">
-            <mvc:fragmentValue name="position" id="position">
-                <mvc:fragmentValue name="type" id="type">
-                    <mvc:fragmentValue name="iconUri" id="iconUri">
-                        <img src="<static:image relativePath="<%=(String)iconUri%>"/>" align="absmiddle">
-                    </mvc:fragmentValue>
-                    <a href="fieldTypes.jsp#"
-                       onclick="var divElement = document.getElementById('<%="type_"+type+position%>');
-                               divElement.style.display = divElement.style.display == 'block' ? 'none' : 'block';
-                               return false;">
-                        <mvc:fragmentValue name="managerName"/>
-                    </a>
+                                    </td>
+                                    <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
+                                        <input type="image" onclick="this.onclick=function(){return false;}"
+                                               title="<mvc:fragmentValue name="prop"/>"
+                                               name="<mvc:fragmentValue name="typeName"/>"
+                                               style="cursor:hand"
+                                               src="<static:image relativePath="actions/triang_right.gif"/>">
+                                    </td>
+                                </tr>
+                            </table>
+                            <input type="hidden" name="fieldType" value="<mvc:fragmentValue name="typeId"/>">
+                        </form>
+                        <script defer>
+                            setAjax("<%="addPrimitiveFieldForm"+uid%>");
+                        </script>
                     </td>
-                    </tr>
-                </mvc:fragmentValue>
+                </tr>
             </mvc:fragmentValue>
-        </mvc:fragment>
-        <mvc:fragment name="outputComplexFieldNameToAddStart">
-            <mvc:fragmentValue name="position" id="position">
-                <mvc:fragmentValue name="type" id="type">
-                    <tr><td>
-                    <div id="<%="type_" + type + position%>" style="display:none; margin-left: 6px;">
-                </mvc:fragmentValue>
-            </mvc:fragmentValue>
-        </mvc:fragment>
-        <mvc:fragment name="outputComplexFieldNameToAdd">
-            <mvc:fragmentValue name="uid" id="uid">
-                <script defer="true">
-                    setAjax("<%="addComplexForm"+uid%>");
-                </script>
-                <form method="POST" style="margin:0px;" action="<factory:formUrl/>" id="<%="addComplexForm"+uid%>">
-                    <factory:handler action="addComplexFieldToFormulary"/>
-                    <table cellspacing="0" cellpadding="0" width="100%">
-                        <tr onmouseover="className='skn-even_row_alt'" onmouseout="className='skn-odd_row'"
-                            class="skn-odd_row">
-                            <td>
-                                <b style="cursor:text;"
-                                   onclick="this.innerHTML='<input name=\'label\' style=\'width:150px\'  maxlength=\'200\' class=\'skn-input\' value=\'
-                                       <mvc:fragmentValue name="typeName"/>\'>'; this.onclick=''; "><mvc:fragmentValue
-                                        name="typeName"/></b>
-                            </td>
-                            <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
-                                <input type="image" onclick="this.onclick=function(){return false;}"
-                                       title="<mvc:fragmentValue name="typeName"/>"
-                                       name="<mvc:fragmentValue name="managerClass"/>"
-                                       style="cursor:hand"
-                                       src="<static:image relativePath="actions/triang_right.gif"/>">
-                            </td>
-                        </tr>
-                    </table>
-                    <input name="fieldClass" type="hidden" value="<mvc:fragmentValue name="managerClass"/>">
-                    <input type="hidden" name="name" value="<mvc:fragmentValue name="typeName"/>">
-                </form>
-            </mvc:fragmentValue>
-        </mvc:fragment>
-        <mvc:fragment name="outputComplexFieldNameToAddEnd">
-            </div>
-            </td></tr>
-        </mvc:fragment>
+        </mvc:fragmentValue>
+    </mvc:fragmentValue>
+</mvc:fragment>
+<mvc:fragment name="outputFieldNameToAddStart">
+    <tr><td nowrap="nowrap">
+    <mvc:fragmentValue name="uid" id="uid">
+        <div style="display:none; margin-left: 6px;" id="<%="" + uid%>">
+    </mvc:fragmentValue>
+</mvc:fragment>
+<mvc:fragment name="outputFieldNameToAdd">
+    <mvc:fragmentValue name="uid" id="uid">
+        <form method="POST" style="margin:0px;" action="<factory:formUrl/>"
+              id="<%="addPrimitiveFieldForm"+uid%>">
+            <factory:handler action="addFieldToFormulary"/>
+            <table cellspacing="0" cellpadding="0" width="100%">
+                <tr onmouseover="className='skn-even_row_alt'" onmouseout="className=''">
+                    <td>
+                        <b style="cursor:text;"
+                           onclick="this.innerHTML='<input name=\'label\' style=\'width:150px\'  maxlength=\'200\' class=\'skn-input\' value=\'
+                               <mvc:fragmentValue name="prop"/>\'>'; this.onclick=''; ">
+                            <mvc:fragmentValue name="prop"/>
+                        </b>
+                    </td>
+                    <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
+                        <input type="image" onclick="this.onclick=function(){return false;}"
+                               title="<mvc:fragmentValue name="prop"/>"
+                               name="<mvc:fragmentValue name="typeName"/>"
+                               style="cursor:hand"
+                               src="<static:image relativePath="actions/triang_right.gif"/>">
+                    </td>
+                </tr>
+            </table>
 
-        <%------------------ Decorators -----------------%>
-        <mvc:fragment name="decoratorsStart"></mvc:fragment>
-        <mvc:fragment name="outputDecorator">
-            <mvc:fragmentValue name="decoratorId" id="decoratorId">
-                <mvc:fragmentValue name="position" id="position">
-                    <tr>
-                        <td nowrap="nowrap" width="10px">
-                            <form method="POST" style="margin:0px;" action="<factory:formUrl/>"
-                                  id="<%="addDecForm"+position%>">
-                                <factory:handler action="addDecoratorToFormulary"/>
+            <input type="hidden" name="name" value="<mvc:fragmentValue name="prop"/>">
+            <input type="hidden" name="fieldType" value="<mvc:fragmentValue name="typeId"/>">
+        </form>
+        <script defer>
+            setAjax("<%="addPrimitiveFieldForm"+uid%>");
+        </script>
+    </mvc:fragmentValue>
+</mvc:fragment>
+<mvc:fragment name="outputFieldNameToAddEnd">
+    </div>
+    </td></tr>
+</mvc:fragment>
 
-                                <input type="hidden" name="fieldType" value="<%=decoratorId%>">
-                                <table cellspacing="0" cellpadding="0" width="100%">
-                                    <tr>
-                                        <td style="width:10px; padding-right: 5px;">
-                                            <mvc:fragmentValue name="iconUri" id="iconUri">
-                                                <img src="<static:image relativePath="<%=(String)iconUri%>"/>"
-                                                     align="absmiddle">
-                                            </mvc:fragmentValue>
-                                        </td>
-                                        <td>
-                                            <i18n:message key="<%="fieldType." + decoratorId%>"/>
-                                        </td>
-                                        <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
-                                            <input type="image" style="cursor:hand"
-                                                   title="<mvc:fragmentValue name="decoratorName"/>"
-                                                   src="<static:image relativePath="actions/triang_right.gif"/>">
-                                        </td>
-                                    </tr>
-                                </table>
-                            </form>
-                            <script defer>
-                                setAjax("<%="addDecForm"+position%>");
-                            </script>
-                        </td>
-                    </tr>
-                </mvc:fragmentValue>
+
+<%------------------ Complex types -----------------%>
+<mvc:fragment name="disabledComplexTypeStart">
+    <tr class="fieldTypes">
+        <td nowrap="nowrap" width="10px">
+            <mvc:fragmentValue name="iconUri" id="iconUri">
+                <img src="<static:image relativePath="<%=(String)iconUri%>"/>" align="absmiddle">
             </mvc:fragmentValue>
-        </mvc:fragment>
-        <mvc:fragment name="decoratorsEnd"></mvc:fragment>
-    </mvc:formatter>
+            <span class="skn-disabled"><mvc:fragmentValue name="managerName"/></span>
+        </td>
+    </tr>
+</mvc:fragment>
+<mvc:fragment name="complexTypeStart">
+    <tr onclick="className='skn-even_row_alt'" onmouseout="className=''">
+    <td nowrap="nowrap" width="10px">
+    <mvc:fragmentValue name="position" id="position">
+        <mvc:fragmentValue name="type" id="type">
+            <mvc:fragmentValue name="iconUri" id="iconUri">
+                <img src="<static:image relativePath="<%=(String)iconUri%>"/>" align="absmiddle">
+            </mvc:fragmentValue>
+            <a href="fieldTypes.jsp#"
+               onclick="var divElement = document.getElementById('<%="type_"+type+position%>');
+                       divElement.style.display = divElement.style.display == 'block' ? 'none' : 'block';
+                       return false;">
+                <mvc:fragmentValue name="managerName"/>
+            </a>
+            </td>
+            </tr>
+        </mvc:fragmentValue>
+    </mvc:fragmentValue>
+</mvc:fragment>
+<mvc:fragment name="outputComplexFieldNameToAddStart">
+    <mvc:fragmentValue name="position" id="position">
+        <mvc:fragmentValue name="type" id="type">
+            <tr><td>
+            <div id="<%="type_" + type + position%>" style="display:none; margin-left: 6px;">
+        </mvc:fragmentValue>
+    </mvc:fragmentValue>
+</mvc:fragment>
+<mvc:fragment name="outputComplexFieldNameToAdd">
+    <mvc:fragmentValue name="uid" id="uid">
+        <script defer="true">
+            setAjax("<%="addComplexForm"+uid%>");
+        </script>
+        <form method="POST" style="margin:0px;" action="<factory:formUrl/>" id="<%="addComplexForm"+uid%>">
+            <factory:handler action="addComplexFieldToFormulary"/>
+            <table cellspacing="0" cellpadding="0" width="100%">
+                <tr onmouseover="className='skn-even_row_alt'" onmouseout="className=''">
+                    <td>
+                        <b style="cursor:text;"
+                           onclick="this.innerHTML='<input name=\'label\' style=\'width:150px\'  maxlength=\'200\' class=\'skn-input\' value=\'
+                               <mvc:fragmentValue name="typeName"/>\'>'; this.onclick=''; "><mvc:fragmentValue
+                                name="typeName"/></b>
+                    </td>
+                    <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
+                        <input type="image" onclick="this.onclick=function(){return false;}"
+                               title="<mvc:fragmentValue name="typeName"/>"
+                               name="<mvc:fragmentValue name="managerClass"/>"
+                               style="cursor:hand"
+                               src="<static:image relativePath="actions/triang_right.gif"/>">
+                    </td>
+                </tr>
+            </table>
+            <input name="fieldClass" type="hidden" value="<mvc:fragmentValue name="managerClass"/>">
+            <input type="hidden" name="name" value="<mvc:fragmentValue name="typeName"/>">
+        </form>
+    </mvc:fragmentValue>
+</mvc:fragment>
+<mvc:fragment name="outputComplexFieldNameToAddEnd">
+    </div>
+    </td></tr>
+</mvc:fragment>
+
+<%------------------ Decorators -----------------%>
+<mvc:fragment name="decoratorsStart"></mvc:fragment>
+<mvc:fragment name="outputDecorator">
+    <mvc:fragmentValue name="decoratorId" id="decoratorId">
+        <mvc:fragmentValue name="position" id="position">
+            <tr>
+                <td nowrap="nowrap" width="10px">
+                    <form method="POST" style="margin:0px;" action="<factory:formUrl/>"
+                          id="<%="addDecForm"+position%>">
+                        <factory:handler action="addDecoratorToFormulary"/>
+
+                        <input type="hidden" name="fieldType" value="<%=decoratorId%>">
+                        <table cellspacing="0" cellpadding="0" width="100%">
+                            <tr>
+                                <td style="width:10px; padding-right: 5px;">
+                                    <mvc:fragmentValue name="iconUri" id="iconUri">
+                                        <img src="<static:image relativePath="<%=(String)iconUri%>"/>"
+                                             align="absmiddle">
+                                    </mvc:fragmentValue>
+                                </td>
+                                <td>
+                                    <i18n:message key="<%="fieldType." + decoratorId%>"/>
+                                </td>
+                                <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
+                                    <input type="image" style="cursor:hand"
+                                           title="<mvc:fragmentValue name="decoratorName"/>"
+                                           src="<static:image relativePath="actions/triang_right.gif"/>">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <script defer>
+                        setAjax("<%="addDecForm"+position%>");
+                    </script>
+                </td>
+            </tr>
+        </mvc:fragmentValue>
+    </mvc:fragmentValue>
+</mvc:fragment>
+<mvc:fragment name="decoratorsEnd"></mvc:fragment>
+</mvc:formatter>
 </table>

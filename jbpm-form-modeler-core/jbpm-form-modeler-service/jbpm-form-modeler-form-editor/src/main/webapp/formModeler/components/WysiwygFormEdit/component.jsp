@@ -24,7 +24,7 @@
 <%
     String editorBgColor = "#eaeaea";
 %>
-<div style="width:100%; height: 600px; display:table;" class="skn-background_alt">
+<div style="width:100%; height: 100%; display:table;">
     <div style="display: table-row">
         <div style="display: table-cell; width: 250px;">
             <mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygMenuFormatter">
@@ -72,7 +72,7 @@
                     <mvc:fragmentValue name="editionPage" id="editionPage">
                         <tr>
                             <td>
-                                <div style="width:100%; height: 100%; overflow:scroll; background-color:white; ">
+                                <div style="height: 100%;">
                                     <jsp:include page="<%=(String)editionPage%>" flush="true"/>
                                 </div>
                             </td>
@@ -84,7 +84,7 @@
                 </mvc:fragment>
             </mvc:formatter>
         </div>
-        <div style="display: table-cell; border:solid 1px #CCCCCC; background-color: <%=editorBgColor%>; overflow: auto;">
+        <div style="display: table-cell; overflow: auto;">
             <jsp:include page="formPreview.jsp"/>
         </div>
     </div>
