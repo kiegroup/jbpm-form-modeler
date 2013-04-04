@@ -116,20 +116,20 @@ A:hover {
     cursor: pointer;
     text-align: center;
     text-decoration: none;
-    padding: .1em 2em;
+    padding: .2em 4em;
     text-shadow: 0 1px 1px rgba(0,0,0,.3);
-    -webkit-border-radius: .2em;
-    -moz-border-radius: .2em;
-    border-radius: .2em;
+    -webkit-border-radius: .4em;
+    -moz-border-radius: .4em;
+    border-radius: .4em;
     -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
     box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    color: #FFFFFF;
-    border: solid 1px #e7362e;
+    color: #333333;
+    border: solid 1px #B3B3B3;
     background: #ffffff;
-    background: -webkit-gradient(linear, left top, left bottom, from(#e7362e), to(#88201B));
-    background: -moz-linear-gradient(top,  #e7362e,  #88201B);
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#e7362e', endColorstr='#88201B');
+    background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#E6E6E6));
+    background: -moz-linear-gradient(top,  #FFFFFF,  #E6E6E6);
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#E6E6E6');
     font-size: 100%;
 }
 
@@ -139,11 +139,11 @@ A:hover {
     cursor: pointer;
     text-align: center;
     text-decoration: none;
-    padding: .1em 2em;
+    padding: .2em 4em;
     text-shadow: 0 1px 1px rgba(0,0,0,.3);
-    -webkit-border-radius: .2em;
-    -moz-border-radius: .2em;
-    border-radius: .2em;
+    -webkit-border-radius: .4em;
+    -moz-border-radius: .4em;
+    border-radius: .4em;
     -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
     box-shadow: 0 1px 2px rgba(0,0,0,.2);
@@ -157,8 +157,8 @@ A:hover {
 }
 
 .skn-button:hover {
-    background: none repeat scroll 0 0 #88201B;
-    color: #FFFFFF;
+    background: none repeat scroll 0 0 #E6E6E6;
+    color: #333333;
 }
 
 .skn-button_alt:hover {
@@ -168,17 +168,18 @@ A:hover {
 
 /* Styles for text inputs*/
 .skn-input {
-    padding: .1em 2 .1em .1em;
-    text-shadow: 0 1px 1px rgba(0,0,0,.3);
-    -webkit-border-radius: .2em;
-    -moz-border-radius: .2em;
-    border-radius: .2em;
+    padding: .2em 2 .1em .2em;
+    /*text-shadow: 0 1px 1px rgba(0,0,0,.3); */
+    -webkit-border-radius: .4em;
+    -moz-border-radius: .4em;
+    border-radius: .4em;
     -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
     box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    border: solid 1px #DEDCC1;
+    border: solid 1px #CCCCCC;
     background: #ffffff;
     font-size: 100%;
+    color: #333333;
 }
 
 /* Square border for things (normally, tables) that must be surrounded by a border.*/
@@ -209,34 +210,31 @@ tr.skn-table_header th, .skn-table_header td, .skn-table_header a:link  {
 /*Style for odd rows in a table. 1st row in table is odd*/
 .skn-odd_row {
     background-color: #FFFFFF;
-    height: 20px;
     text-align: left;
 }
 
 .skn-odd_row_alt {
-    background-color : #C3C3FF;
-    color : #FFFFFF;
-    height: 20px;
+    background-color : #B4B4B4;
+    color : #333333;
     text-align: left;
 }
 
 /*Style for even rows in a table. 2nd row in table is even*/
 .skn-even_row {
-    background-color: #D2D2FF;
-    height: 20px;
+    background-color: #FFFFFF;
     text-align: left;
 }
 
 .skn-even_row_alt {
-    background-color : #C3C3FF;
-    color : #FFFFFF;
+    background-color : #B4B4B4;
+    color : #333333;
     height: 20px;
     text-align: left;
 }
 
 .skn-row_on {
-    background-color : #C3C3FF;
-    color : #FFFFFF;
+    background-color : #B4B4B4;
+    color : #333333;
     height: 20px;
     text-align: left;
 }
@@ -334,7 +332,7 @@ div.GlobalBreadCrump {
     height: 8px;
 }
 
-.MenuBottom {
+.MenuBottom{
     background:url(images/Menu_Bottom.png) no-repeat;
     width:	260px;
     height: 8px;
