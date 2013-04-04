@@ -79,7 +79,7 @@ public class FormModelerPanelPresenter {
     @OnSave
     public void onSave() {
         //makeMenuBar();
-        Window.alert("onSave "+ path.toURI());
+        Window.alert("onSave "+ path.getFileName());
         modelerService.call(new RemoteCallback<Long>() {
             @Override
             public void callback(Long formId) {
@@ -143,7 +143,7 @@ public class FormModelerPanelPresenter {
 
     @WorkbenchPartTitle
     public String getTitle() {
-        return "Form Modeler Panel";
+        return "Form Modeler Panel ["+path.getFileName()+"]";
     }
 
     @WorkbenchPartView
