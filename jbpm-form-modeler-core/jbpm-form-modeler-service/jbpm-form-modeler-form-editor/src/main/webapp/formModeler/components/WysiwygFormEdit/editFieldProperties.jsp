@@ -204,42 +204,45 @@
 </mvc:fragment>
 <%------------------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="outputEnd">
-    <tr>
-        <td align="center" colspan="3">
-            <table>
-                <tr>
-                    <td><input type="submit" value="<i18n:message key="save"> !!!Save </i18n:message>" class="skn-button"
-                               onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>');"></td>
-                    <td><input type="submit" value="<i18n:message key="cancel"> !!!Cancel </i18n:message>" class="skn-button"
-                               onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CANCEL_FIELD_EDITION%>');"></td>
-                </tr>
-            </table>
+    <mvc:fragmentValue name="fieldName" id="fieldName">
+        <tr>
+            <td align="center" colspan="3">
+                <table>
+                    <tr>
+                        <td><input type="submit" value="<i18n:message key="save"> !!!Save </i18n:message>" class="skn-button"
+                                   onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>');"></td>
+                        <td><input type="submit" value="<i18n:message key="cancel"> !!!Cancel </i18n:message>" class="skn-button"
+                                   onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CANCEL_FIELD_EDITION%>');"></td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+        </table>
 
         </td>
-    </tr>
-    </table>
+        </tr>
+        </table>
+        </form>
+        </div>
+        <script type="text/javascript" defer="defer">
+            setAjax("<factory:encode name="updateFormField"/>");
 
-    </td>
-    </tr>
-    </table>
-    </form>
-    </div>
-    <script type="text/javascript" defer="defer">
-        setAjax("<factory:encode name="updateFormField"/>");
-
-    </script>
-    <script type="text/javascript">
-        $(function() {
-            $( '#<factory:encode name="fieldProperties"/>' ).dialog({
-                modal: false,
-                draggable: false,
-                closeOnEscape: false,
-                position: "right top",
-                maxHeight: 700,
-                width: 600,
-                open: function() { $(".ui-dialog-titlebar").show();}
+        </script>
+        <script type="text/javascript">
+            $(function() {
+                $( '#<factory:encode name="fieldProperties"/>' ).dialog({
+                    modal: false,
+                    draggable: false,
+                    closeOnEscape: false,
+                    position: "right top",
+                    maxHeight: 700,
+                    width: 600,
+                    title:"<%=fieldName%>",
+                    open: function() { $(".ui-dialog-titlebar").show();}
+                });
             });
-        });
-    </script>
+        </script>
+    </mvc:fragmentValue>
 </mvc:fragment>
 </mvc:formatter>

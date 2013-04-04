@@ -96,6 +96,7 @@ public class FormFieldEditionFormatter extends FormRenderingFormatter {
         setAttribute("formValues", field.asMap());
         setAttribute("fieldType", type);
         renderFragment("fieldCustomFormulary");
+        setAttribute("fieldName", fieldName);
         renderFragment("outputEnd");
     }
 

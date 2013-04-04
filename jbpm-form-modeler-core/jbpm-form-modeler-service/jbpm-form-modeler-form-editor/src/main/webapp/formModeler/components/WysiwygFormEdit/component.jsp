@@ -24,69 +24,69 @@
 <%
     String editorBgColor = "#eaeaea";
 %>
-<div style="width:100%; height: 100%; display:table;">
-    <div style="display: table-row">
-        <div style="display: table-cell; width: 250px;">
-            <mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygMenuFormatter">
-                <mvc:fragment name="outputStart">
-                    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-                </mvc:fragment>
-                <mvc:fragment name="outputHeader">
-                    <tr>
-                        <td class="skn-table_header">
-                            <mvc:fragmentValue name="formName"/>
-                        </td>
-                    </tr>
-                </mvc:fragment>
-                <mvc:fragment name="beforeOptions">
-                    <tr>
-                    <td valign="top" style="padding:10px;">
-                </mvc:fragment>
+<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+    <mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygMenuFormatter">
+    <mvc:fragment name="outputStart">
+    </mvc:fragment>
+    <mvc:fragment name="outputHeader">
+    <tr>
+        <td class="skn-table_header" width="100%" >
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    </mvc:fragment>
+                    <mvc:fragment name="beforeOptions">
+                    <td valign="top" style="padding:10px; text-align: left !important;">
+                        </mvc:fragment>
 
-                <mvc:fragment name="optionsOutputStart">
-                    <form action="<factory:formUrl/>" style="margin:0px;" id="optionsForm">
-                    <factory:handler action="void"/>
-                    <select class="skn-input" name="<factory:bean property="currentEditionOption"/>" onchange="submitAjaxForm(this.form)">
-                </mvc:fragment>
-                <mvc:fragment name="outputOption">
-                    <mvc:fragmentValue name="optionName" id="optionName">
-                        <option value="<%=optionName%>"><i18n:message key="<%=(String)optionName%>">!!!<%=optionName%></i18n:message></option>
-                    </mvc:fragmentValue>
-                </mvc:fragment>
-                <mvc:fragment name="outputSelectedOption">
-                    <mvc:fragmentValue name="optionName" id="optionName">
-                        <option class="skn-important" selected value="<%=optionName%>"><i18n:message key="<%=(String)optionName%>">!!!<%=optionName%></i18n:message></option>
-                    </mvc:fragmentValue>
-                </mvc:fragment>
-                <mvc:fragment name="optionsOutputEnd">
-                    </select>
-                    </form>
-                    <script defer>
-                        setAjax("optionsForm");
-                    </script>
+                        <mvc:fragment name="optionsOutputStart">
+                        <form action="<factory:formUrl/>" style="margin:0px;" id="optionsForm">
+                            <factory:handler action="void"/>
+                            <select class="skn-input" name="<factory:bean property="currentEditionOption"/>" onchange="submitAjaxForm(this.form)">
+                                </mvc:fragment>
+                                <mvc:fragment name="outputOption">
+                                    <mvc:fragmentValue name="optionName" id="optionName">
+                                        <option value="<%=optionName%>"><i18n:message key="<%=(String)optionName%>">!!!<%=optionName%></i18n:message></option>
+                                    </mvc:fragmentValue>
+                                </mvc:fragment>
+                                <mvc:fragment name="outputSelectedOption">
+                                    <mvc:fragmentValue name="optionName" id="optionName">
+                                        <option class="skn-important" selected value="<%=optionName%>"><i18n:message key="<%=(String)optionName%>">!!!<%=optionName%></i18n:message></option>
+                                    </mvc:fragmentValue>
+                                </mvc:fragment>
+                                <mvc:fragment name="optionsOutputEnd">
+                            </select>
+                        </form>
+                        <script defer>
+                            setAjax("optionsForm");
+                        </script>
                     </td>
-                    </tr>
-                </mvc:fragment>
+                </tr>
+            </table>
+    </tr>
+    </mvc:fragment>
 
-                <mvc:fragment name="outputEditionPage">
-                    <mvc:fragmentValue name="editionPage" id="editionPage">
-                        <tr>
-                            <td>
-                                <div style="height: 100%;">
-                                    <jsp:include page="<%=(String)editionPage%>" flush="true"/>
-                                </div>
-                            </td>
-                        </tr>
+    <mvc:fragment name="outputEditionPage">
+    <mvc:fragmentValue name="editionPage" id="editionPage">
+    <tr>
+        <td>
+            <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                <tr>
+                    <td width="250px">
+                        <jsp:include page="<%=(String)editionPage%>" flush="true"/>
+                    </td>
                     </mvc:fragmentValue>
-                </mvc:fragment>
-                <mvc:fragment name="outputEnd">
-                    </table>
-                </mvc:fragment>
-            </mvc:formatter>
-        </div>
-        <div style="display: table-cell; overflow: auto;">
-            <jsp:include page="formPreview.jsp"/>
-        </div>
-    </div>
-</div>
-<jsp:include page="editFieldProperties.jsp"/>
+                    </mvc:fragment>
+                    <mvc:fragment name="outputEnd">
+                    </mvc:fragment>
+                    </mvc:formatter>
+                    <td>
+                        <jsp:include page="formPreview.jsp"/>
+                    </td>
+                    <td>
+                        <jsp:include page="editFieldProperties.jsp"/>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
