@@ -71,7 +71,7 @@
         <td>
             <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
                 <tr>
-                    <td width="250px">
+                    <td style="vertical-align: top;" width="250px">
                         <jsp:include page="<%=(String)editionPage%>" flush="true"/>
                     </td>
                     </mvc:fragmentValue>
@@ -79,7 +79,7 @@
                     <mvc:fragment name="outputEnd">
                     </mvc:fragment>
                     </mvc:formatter>
-                    <td>
+                    <td style="vertical-align: top;">
                         <jsp:include page="formPreview.jsp"/>
                     </td>
                     <td>

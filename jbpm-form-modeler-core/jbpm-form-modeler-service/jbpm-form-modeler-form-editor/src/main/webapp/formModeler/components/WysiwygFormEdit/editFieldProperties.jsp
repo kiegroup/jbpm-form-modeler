@@ -49,7 +49,7 @@
         }
 
     </script>
-    <div style="overflow: scroll; height: 600px; " id="<factory:encode name="fieldProperties"/>">
+    <div id="<factory:encode name="fieldProperties"/>">
     <form action="<factory:formUrl/>" id="<factory:encode name="updateFormField"/>" method="POST" enctype="multipart/form-data">
     <factory:handler bean="org.jbpm.formModeler.components.editor.WysiwygFormEditor" action="saveFieldProperties"/>
     <input type="hidden" name="<%=WysiwygFormEditor.ACTION_TO_DO%>" id="<factory:encode name="actionToDo"/>" value="<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>"/>
@@ -211,7 +211,7 @@
                     <tr>
                         <td><input type="submit" value="<i18n:message key="save"> !!!Save </i18n:message>" class="skn-button"
                                    onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>');"></td>
-                        <td><input type="submit" value="<i18n:message key="cancel"> !!!Cancel </i18n:message>" class="skn-button"
+                        <td><input type="submit" value="<i18n:message key="cancel"> !!!Cancel </i18n:message>" class="skn-button_alt"
                                    onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CANCEL_FIELD_EDITION%>');"></td>
                     </tr>
                 </table>
@@ -236,7 +236,7 @@
                     draggable: false,
                     closeOnEscape: false,
                     position: "right top",
-                    maxHeight: 700,
+                    <%-- maxHeight: 700, --%>
                     width: 600,
                     title:"<%=fieldName%>",
                     open: function() { $(".ui-dialog-titlebar").show();}
