@@ -79,7 +79,7 @@ public class FormModelerPanelPresenter {
     @OnSave
     public void onSave() {
         //makeMenuBar();
-        Window.alert("onSave "+ path.getFileName());
+        Window.alert("Saving.. "+ path.getFileName());
         modelerService.call(new RemoteCallback<Long>() {
             @Override
             public void callback(Long formId) {
