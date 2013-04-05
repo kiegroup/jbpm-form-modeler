@@ -54,18 +54,18 @@
     <factory:handler bean="org.jbpm.formModeler.components.editor.WysiwygFormEditor" action="saveFieldProperties"/>
     <input type="hidden" name="<%=WysiwygFormEditor.ACTION_TO_DO%>" id="<factory:encode name="actionToDo"/>" value="<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>"/>
 
-    <table cellspacing="1" cellpadding="1"  width="600" bgcolor="#FFFFFF" border="1">
+    <table width="600" border="0" class="EditFieldProperties">
     <tr>
-        <td align="center" colspan="3">
+        <td align="left" colspan="3">
             <table>
-                <tr>
+                <tr class="headerEditFP">
                     <td>cerrar</td>
                     <td>Nombre Campo</td>
                 </tr>
             </table>
         </td>
     </tr>
-    <tr class="skn-odd_row">
+    <tr>
         <td><i18n:message key="fieldType">!!!Tipo de campo</i18n:message></td>
         <td></td>
         <td>
