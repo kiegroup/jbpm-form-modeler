@@ -53,10 +53,18 @@
     <form action="<factory:formUrl/>" id="<factory:encode name="updateFormField"/>" method="POST" enctype="multipart/form-data">
     <factory:handler bean="org.jbpm.formModeler.components.editor.WysiwygFormEditor" action="saveFieldProperties"/>
     <input type="hidden" name="<%=WysiwygFormEditor.ACTION_TO_DO%>" id="<factory:encode name="actionToDo"/>" value="<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>"/>
-    <table class="skn-table_border" width="100%" bgcolor="#FFFFFF">
+
+    <table cellspacing="1" cellpadding="1"  width="600" bgcolor="#FFFFFF" border="1">
     <tr>
-    <td>
-    <table cellspacing="1" cellpadding="1"  width="100%">
+        <td align="center" colspan="3">
+            <table>
+                <tr>
+                    <td>cerrar</td>
+                    <td>Nombre Campo</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
     <tr class="skn-odd_row">
         <td><i18n:message key="fieldType">!!!Tipo de campo</i18n:message></td>
         <td></td>
@@ -220,29 +228,27 @@
         </tr>
         </table>
 
-        </td>
-        </tr>
-        </table>
+
         </form>
         </div>
         <script type="text/javascript" defer="defer">
             setAjax("<factory:encode name="updateFormField"/>");
 
         </script>
-        <script type="text/javascript">
-            $(function() {
-                $( '#<factory:encode name="fieldProperties"/>' ).dialog({
-                    modal: false,
-                    draggable: false,
-                    closeOnEscape: false,
-                    position: "right top",
-                    <%-- maxHeight: 700, --%>
-                    width: 600,
-                    title:"<%=fieldName%>",
-                    open: function() { $(".ui-dialog-titlebar").show();}
-                });
-            });
-        </script>
+        <!-- script type="text/javascript">
+        $(function() {
+        $( '#<factory:encode name="fieldProperties"/>' ).dialog({
+        modal: false,
+        draggable: false,
+        closeOnEscape: false,
+        position: "right top",
+        <%-- maxHeight: 700, --%>
+        width: 600,
+        title:"<%=fieldName%>",
+        open: function() { $(".ui-dialog-titlebar").show();}
+        });
+        });
+        </script-->
     </mvc:fragmentValue>
 </mvc:fragment>
 </mvc:formatter>
