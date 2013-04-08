@@ -30,7 +30,7 @@
     </mvc:fragment>
     <mvc:fragment name="outputHeader">
     <tr>
-        <td class="skn-table_header" width="100%" >
+        <td class="headerComponent" width="100%" >
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     </mvc:fragment>
@@ -82,7 +82,7 @@
                     <td style="vertical-align: top;">
                         <jsp:include page="formPreview.jsp"/>
                     </td>
-                    <td>
+                    <td style="vertical-align: top;">
                         <jsp:include page="editFieldProperties.jsp"/>
                     </td>
                 </tr>

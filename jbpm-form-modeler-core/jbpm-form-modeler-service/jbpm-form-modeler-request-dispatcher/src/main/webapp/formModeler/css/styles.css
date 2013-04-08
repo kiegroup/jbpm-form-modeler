@@ -337,3 +337,42 @@ div.GlobalBreadCrump {
     width:	260px;
     height: 8px;
 }
+
+.headerComponent{
+    background-color: #333333;
+    border-bottom: 1px solid white;
+    color: #FFFFFF;
+    font-weight: bold;
+    height: 0px;
+    margin: -1px;
+    padding: 0 14px 0 5px;
+    width: 100%;
+}
+
+
+.EditFieldProperties  {
+    width: 600px;
+    background-color: #ffffff;
+    -webkit-box-shadow: -3px 0 2px 0 rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: -3px 0 2px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: -3px 0 2px 0 rgba(0, 0, 0, 0.2);
+    background-color: #FFFFFF;
+    display: block;
+    float: right;
+    margin-top: -55px;
+    position: relative;
+    width: 600px;
+    z-index: 999;
+    border-collapse: collapse;
+}
+
+.headerEditFP{
+    background-color: #999999;
+    border: 1px solid white;
+    color: #333333;
+    font-weight: bold;
+    height: 14px;
+    margin: -1px;
+    padding: 14px 14px 14px 5px;
+    width: 100%;
+}
