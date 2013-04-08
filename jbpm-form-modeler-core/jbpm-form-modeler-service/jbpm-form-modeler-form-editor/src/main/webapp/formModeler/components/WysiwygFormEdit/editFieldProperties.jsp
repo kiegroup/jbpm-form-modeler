@@ -30,6 +30,7 @@
 <mvc:formatter name="org.jbpm.formModeler.components.editor.FieldEditionFormatter">
 <%------------------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="outputStart">
+    <mvc:fragmentValue name="fieldName" id="fieldName">
     <script type="text/javascript" xml:space="preserve">
         function modifyAllSelects(visibilityStyle){
             var selects = document.getElementsByTagName('select');
@@ -58,7 +59,7 @@
     <tr>
         <td align="left" colspan="3">
             <div class="headerEditFP">
-                <input type="image" onclick="this.onclick=function(){return false;}" style="cursor:hand; float: left; margin-right: 15px;" src="<static:image relativePath="actions/close.png"/>"> Nombre Campo
+                <input type="image" onclick="this.onclick=function(){return false;}" style="cursor:hand; float: left; margin-right: 15px;" src="<static:image relativePath="actions/close.png"/>"><i18n:message key="properties">Properties</i18n:message> (<%=fieldName%>)
             </div>
         </td>
     </tr>
@@ -90,6 +91,7 @@
         </td>
         <td></td>
     </tr>
+    </mvc:fragmentValue>
 </mvc:fragment>
 <%------------------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="fieldCustomFormulary">
