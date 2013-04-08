@@ -34,7 +34,7 @@ maxlength=512
 pattern=
 rangeFormula=\=Functions.getValidHTMLContainers()
 readonly=
-size=43
+size=25
 styleclass=
 title.ca=
 title.en=

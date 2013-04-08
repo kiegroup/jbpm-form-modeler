@@ -34,7 +34,7 @@ maxlength=512
 pattern=
 rangeFormula=
 readonly=
-size=42
+size=60
 styleclass=
 title.ca=Permet autocalcular el valor d'un camp a partir del valor d'altres camps. Les operacions permeses s\u00F3n +, -, * i /. Per exemple \=({nom_camp} + 5)/7
 title.en=Allows to calculate the field value from other field values. The operation allowed are +, -, * and /. For example \=({field_name} + 5)/7

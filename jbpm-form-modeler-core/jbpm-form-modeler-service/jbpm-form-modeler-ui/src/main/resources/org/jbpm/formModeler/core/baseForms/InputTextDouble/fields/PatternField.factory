@@ -34,7 +34,7 @@ maxlength=512
 pattern=
 rangeFormula=
 readonly=
-size=43
+size=25
 styleclass=
 title.ca=Permet especificar un format per a la visualitzaci\u00F3 del valor del camp. Per a m\u00E9s informaci\u00F3 sobre els patrons mirar l'API java de <a href\='http\://java.sun.com/j2se/1.4.2/docs/api/java/text/DecimalFormat.html' target\='_blank'>DecimalFormat</a>
 title.en=Allows to specify a visualization pattern for the field value. To know more about patterns look at the <a href\='http\://java.sun.com/j2se/1.4.2/docs/api/java/text/DecimalFormat.html' target\='_blank'>DecimalFormat</a> java API
