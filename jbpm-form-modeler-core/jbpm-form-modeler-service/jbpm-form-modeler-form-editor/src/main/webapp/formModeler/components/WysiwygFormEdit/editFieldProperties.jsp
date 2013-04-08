@@ -106,26 +106,30 @@
                                 <mvc:formatterParam name="editId" value="<%=editId%>"/>
                                 <mvc:formatterParam name="editClass" value="<%=editClass%>"/>
                                 <mvc:formatterParam name="formValues" value="<%=formValues%>"/>
+                                <mvc:fragment name="outputStart">
+                                </mvc:fragment>
+                                <mvc:fragment name="groupStart">
+                                    <tr>
+                                    <td colspan="3">
+                                    <table border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                </mvc:fragment>
+                                <mvc:fragment name="groupEnd">
+                                    </tr>
+                                    </table >
+                                    </td>
+                                    </tr>
+                                </mvc:fragment>
                                 <mvc:fragment name="beforeInputElement">
-                                    <mvc:fragmentValue name="field/position" id="position">
-                                        <tr>
-                                    </mvc:fragmentValue>
+                                    <td>
+                                    <table border="0" cellpadding="0" cellspacing="0" >
                                 </mvc:fragment>
 
-                                <mvc:fragment name="beforeLabel"><td valign="top"></mvc:fragment>
-                                <mvc:fragment name="afterLabel"></td></mvc:fragment>
+                                <mvc:fragment name="beforeLabel"><tr><td valign="top" colspan="2"></mvc:fragment>
+                                <mvc:fragment name="afterLabel"></td></tr></mvc:fragment>
                                 <mvc:fragment name="beforeField">
                                     <mvc:fragmentValue name="field" id="field">
-                                        <td>
-                                            <div style="width:140px; overflow:hidden;"  nowrap="nowrap">
-                                    <span onmouseover="return escape(this.innerHTML)" style="padding:0px;">
-                                    <mvc:formatter name="org.jbpm.formModeler.components.editor.FieldTypePropertyFormatter">
-                                        <mvc:formatterParam name="field" value="<%=field%>"/>
-                                        <mvc:formatterParam name="type" value="<%=fieldType%>"/>
-                                    </mvc:formatter>
-                                    </span>
-                                            </div>
-                                        </td>
+                                        <tr>
                                         <td>
                                     </mvc:fragmentValue>
                                 </mvc:fragment>
@@ -155,11 +159,19 @@
                                                     </mvc:fragment>
                                                 </mvc:formatter>
                                             </td>
+                                            </tr>
                                         </mvc:fragmentValue>
                                     </mvc:fragmentValue>
                                 </mvc:fragment>
-                                <mvc:fragment name="afterInputElement"></tr></mvc:fragment>
+                                <mvc:fragment name="afterInputElement">
+                                    </table></td>
+                                </mvc:fragment>
+                                <mvc:fragment name="outputEnd">
+
+                                </mvc:fragment>
                             </mvc:formatter>
+
+
 
                         </mvc:fragmentValue>
                     </mvc:fragmentValue>
