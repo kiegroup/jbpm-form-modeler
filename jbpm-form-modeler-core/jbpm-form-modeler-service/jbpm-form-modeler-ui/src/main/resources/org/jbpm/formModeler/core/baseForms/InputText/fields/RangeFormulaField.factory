@@ -34,7 +34,7 @@ maxlength=512
 pattern=
 rangeFormula=
 readonly=
-size=42
+size=25
 styleclass=
 title.ca=Permet especificar una funci\u00F3 que torni els valors entre els que poder escollir per aquest camp. Per exemple\: \=Functions.getDatasourceNames()
 title.en=Allows to specify a function that returns the values that we can select for this field. For example\: \=Functions.getDatasourceNames()

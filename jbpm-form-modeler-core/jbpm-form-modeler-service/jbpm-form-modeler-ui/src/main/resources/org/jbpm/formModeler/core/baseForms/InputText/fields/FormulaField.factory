@@ -34,7 +34,7 @@ maxlength=512
 pattern=
 rangeFormula=
 readonly=
-size=42
+size=25
 styleclass=
 title.ca=Permet calcular autom\u00E0ticament el valor del camp. Per exemple \=Functions.String.upperCase({$this}) posaria el valor del camp a maj\u00FAscules.
 title.en=Allows to calculate automatically the field value. For example \=Functions.String.upperCase({$this}) sets the field value in capital letters.

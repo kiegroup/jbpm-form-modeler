@@ -34,7 +34,7 @@ maxlength=512
 pattern=
 rangeFormula=
 readonly=
-size=43
+size=25
 styleclass=
 title.ca=Permet especificar una Expressi\u00F3 Regular o una funci\u00F3 per controlar el format per a la inserci\u00F3 del valor. Quan s'utilitza una Expressi\u00F3 Regular, fins que el valor introdu\u00EFt no la compleix no es dona per v\u00E0lid. Quand s'utilitza una funci\u00F3 (exemple\: \=\!Functions.String.isNumeric({$this})), \u00E9s aquesta la que decideix si el valor introdu\u00EFt \u00E9s correcte.
 title.en=Allows to specify a Regular Expression or a function to check the value insertion format. Using a Regular Expression, while the value doesn't accomplish it won't be stored. Using a function (example \=\!Functions.String.isNumeric({$this})) it checks that the introduced value is correct.
