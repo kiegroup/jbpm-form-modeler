@@ -62,36 +62,36 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
             decoratorTypes.addAll(builder.buildList());
         }
 
-        iconsMappings.put("InputTextInteger", "fieldTypes/box_number.gif");
-        iconsMappings.put("InputTextIBAN", "fieldTypes/box_number.gif");
+        iconsMappings.put("InputTextInteger", "fieldTypes/box_number.png");
+        iconsMappings.put("InputTextIBAN", "fieldTypes/box_number.png");
         iconsMappings.put("Currency", "fieldTypes/currency.gif");
-        iconsMappings.put("Separator", "fieldTypes/splitter_box.gif");
-        iconsMappings.put("InputTextLong", "fieldTypes/box_number.gif");
-        iconsMappings.put("File", "fieldTypes/attachments.gif");
-        iconsMappings.put("multipleFiles", "fieldTypes/attachments.gif");
-        iconsMappings.put("I18nFile", "fieldTypes/attachments.gif");
-        iconsMappings.put("InputDate", "fieldTypes/date_selector.gif");
-        iconsMappings.put("I18nHTMLText", "fieldTypes/rich_text_box.gif");
-        iconsMappings.put("Link", "fieldTypes/hyperlink.gif");
+        iconsMappings.put("Separator", "fieldTypes/splitter_box.png");
+        iconsMappings.put("InputTextLong", "fieldTypes/box_number.png");
+        iconsMappings.put("File", "fieldTypes/attachments.png");
+        iconsMappings.put("multipleFiles", "fieldTypes/attachments.png");
+        iconsMappings.put("I18nFile", "fieldTypes/attachments.png");
+        iconsMappings.put("InputDate", "fieldTypes/date_selector.png");
+        iconsMappings.put("I18nHTMLText", "fieldTypes/rich_text_box.png");
+        iconsMappings.put("Link", "fieldTypes/hyperlink.png");
         iconsMappings.put("Image", "fieldTypes/image.gif");
         iconsMappings.put("multipleImages", "fieldTypes/image.gif");
         iconsMappings.put("I18nImage", "fieldTypes/image.gif");
-        iconsMappings.put("HTMLEditor", "fieldTypes/rich_text_box.gif");
-        iconsMappings.put("InputTextCIF", "fieldTypes/box_number.gif");
-        iconsMappings.put("InputTextPhone", "fieldTypes/phone_box.gif");
-        iconsMappings.put("InputTextArea", "fieldTypes/scroll_zone.gif");
-        iconsMappings.put("I18nTextArea", "fieldTypes/scroll_zone.gif");
-        iconsMappings.put("CheckBox", "fieldTypes/checkbox.gif");
-        iconsMappings.put("InputShortDate", "fieldTypes/date_selector.gif");
-        iconsMappings.put("InputTextNIF", "fieldTypes/box_number.gif");
-        iconsMappings.put("InputTextCCC", "fieldTypes/box_number.gif");
-        iconsMappings.put("I18nText", "fieldTypes/textbox.gif");
-        iconsMappings.put("InputTextDouble", "fieldTypes/box_number.gif");
-        iconsMappings.put("HTMLLabel", "fieldTypes/rich_text_box.gif");
-        iconsMappings.put("InputText", "fieldTypes/textbox.gif");
-        iconsMappings.put("InputTextCP", "fieldTypes/box_number.gif");
-        iconsMappings.put("InputTextEmail", "fieldTypes/mailbox.gif");
-        iconsMappings.put("checkboxMultiple", "fieldTypes/listbox.gif");
+        iconsMappings.put("HTMLEditor", "fieldTypes/rich_text_box.png");
+        iconsMappings.put("InputTextCIF", "fieldTypes/box_number.png");
+        iconsMappings.put("InputTextPhone", "fieldTypes/phone_box.png");
+        iconsMappings.put("InputTextArea", "fieldTypes/scroll_zone.png");
+        iconsMappings.put("I18nTextArea", "fieldTypes/scroll_zone.png");
+        iconsMappings.put("CheckBox", "fieldTypes/checkbox.png");
+        iconsMappings.put("InputShortDate", "fieldTypes/date_selector.png");
+        iconsMappings.put("InputTextNIF", "fieldTypes/box_number.png");
+        iconsMappings.put("InputTextCCC", "fieldTypes/box_number.png");
+        iconsMappings.put("I18nText", "fieldTypes/textbox.png");
+        iconsMappings.put("InputTextDouble", "fieldTypes/box_number.png");
+        iconsMappings.put("HTMLLabel", "fieldTypes/rich_text_box.png");
+        iconsMappings.put("InputText", "fieldTypes/textbox.png");
+        iconsMappings.put("InputTextCP", "fieldTypes/box_number.png");
+        iconsMappings.put("InputTextEmail", "fieldTypes/mailbox.png");
+        iconsMappings.put("checkboxMultiple", "fieldTypes/listbox.png");
         iconsMappings.put("radio", "fieldTypes/radiobutton.gif");
         iconsMappings.put("subform", "fieldTypes/master_details.gif");
         iconsMappings.put("select", "fieldTypes/dropdown_listbox.gif");
@@ -99,7 +99,7 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         iconsMappings.put("versionSubform", "fieldTypes/master_details.gif");
         iconsMappings.put("editorVersionSubform", "fieldTypes/master_details.gif");
         iconsMappings.put("subformMultiple", "fieldTypes/master_details.gif");
-        iconsMappings.put("FreeText", "fieldTypes/textbox.gif");
+        iconsMappings.put("FreeText", "fieldTypes/textbox.png");
     }
     
     @Override

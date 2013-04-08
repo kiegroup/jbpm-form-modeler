@@ -92,7 +92,7 @@
                                                title="<mvc:fragmentValue name="prop"/>"
                                                name="<mvc:fragmentValue name="typeName"/>"
                                                style="cursor:hand"
-                                               src="<static:image relativePath="actions/triang_right.gif"/>">
+                                               src="<static:image relativePath="actions/triang_right.png"/>">
                                     </td>
                                 </tr>
                             </table>
@@ -132,7 +132,7 @@
                                title="<mvc:fragmentValue name="prop"/>"
                                name="<mvc:fragmentValue name="typeName"/>"
                                style="cursor:hand"
-                               src="<static:image relativePath="actions/triang_right.gif"/>">
+                               src="<static:image relativePath="actions/triang_right.png"/>">
                     </td>
                 </tr>
             </table>
@@ -209,7 +209,7 @@
                                title="<mvc:fragmentValue name="typeName"/>"
                                name="<mvc:fragmentValue name="managerClass"/>"
                                style="cursor:hand"
-                               src="<static:image relativePath="actions/triang_right.gif"/>">
+                               src="<static:image relativePath="actions/triang_right.png"/>">
                     </td>
                 </tr>
             </table>
@@ -249,7 +249,7 @@
                                 <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
                                     <input type="image" style="cursor:hand"
                                            title="<mvc:fragmentValue name="decoratorName"/>"
-                                           src="<static:image relativePath="actions/triang_right.gif"/>">
+                                           src="<static:image relativePath="actions/triang_right.png"/>">
                                 </td>
                             </tr>
                         </table>

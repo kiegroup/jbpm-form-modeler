@@ -58,7 +58,7 @@
                     <mvc:fragmentValue name="name"/></b>
                 <input type="hidden" name="name" value="<mvc:fragmentValue name="name"/>">
             </td><td rowspan="2" align="right">
-            <input type="image" onclick="this.onclick=function(){return false;}" style="cursor:hand" src="<static:image relativePath="actions/triang_right.gif"/>">
+            <input type="image" onclick="this.onclick=function(){return false;}" style="cursor:hand" src="<static:image relativePath="actions/triang_right.png"/>">
         </td></tr>
     </mvc:fragment>
 

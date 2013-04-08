@@ -54,15 +54,12 @@
     <factory:handler bean="org.jbpm.formModeler.components.editor.WysiwygFormEditor" action="saveFieldProperties"/>
     <input type="hidden" name="<%=WysiwygFormEditor.ACTION_TO_DO%>" id="<factory:encode name="actionToDo"/>" value="<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>"/>
 
-    <table width="600" border="0" class="EditFieldProperties">
+    <table border="0" class="EditFieldProperties">
     <tr>
         <td align="left" colspan="3">
-            <table>
-                <tr class="headerEditFP">
-                    <td>cerrar</td>
-                    <td>Nombre Campo</td>
-                </tr>
-            </table>
+            <div class="headerEditFP">
+                <input type="image" onclick="this.onclick=function(){return false;}" style="cursor:hand; float: left; margin-right: 15px;" src="<static:image relativePath="actions/close.png"/>"> Nombre Campo
+            </div>
         </td>
     </tr>
     <tr>
@@ -111,7 +108,7 @@
                                 <mvc:formatterParam name="formValues" value="<%=formValues%>"/>
                                 <mvc:fragment name="beforeInputElement">
                                     <mvc:fragmentValue name="field/position" id="position">
-                                        <tr class="<%=((Integer)position).intValue()%2==0?"skn-even_row":"skn-odd_row"%>" >
+                                        <tr>
                                     </mvc:fragmentValue>
                                 </mvc:fragment>
 
