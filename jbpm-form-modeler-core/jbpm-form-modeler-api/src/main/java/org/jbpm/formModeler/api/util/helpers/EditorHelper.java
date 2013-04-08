@@ -34,13 +34,18 @@ public class EditorHelper implements Serializable {
     }
 
     public Form getFormToEdit(String path) {
-        return (Form)loadedForms.get(path);
+        if(loadedForms!=null)
+            return (Form)loadedForms.get(path);
+        else
+            return null;
     }
 
     public Form removeEditingForm(String path) {
-        return (Form)loadedForms.remove(path);
+        if(loadedForms != null)
+            return (Form) loadedForms.remove(path);
+        else
+            return null;
     }
-
 
     public static EditorHelper lookup() {
         return (EditorHelper) CDIHelper.getBeanByType(EditorHelper.class);
