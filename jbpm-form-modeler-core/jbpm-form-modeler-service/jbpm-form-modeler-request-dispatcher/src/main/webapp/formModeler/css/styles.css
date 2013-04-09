@@ -116,14 +116,10 @@ A:hover {
     cursor: pointer;
     text-align: center;
     text-decoration: none;
-    padding: .2em 4em;
-    text-shadow: 0 1px 1px rgba(0,0,0,.3);
-    -webkit-border-radius: .4em;
-    -moz-border-radius: .4em;
-    border-radius: .4em;
-    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    padding: 4px 20px;
+    -webkit-border-radius: .5em;
+    -moz-border-radius: .5em;
+    border-radius: .5em;
     color: #333333;
     border: solid 1px #B3B3B3;
     background: #ffffff;
@@ -131,6 +127,10 @@ A:hover {
     background: -moz-linear-gradient(top,  #FFFFFF,  #E6E6E6);
     filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#E6E6E6');
     font-size: 100%;
+    height: 27px;
+    margin: 0 2px;
+    vertical-align: middle;
+    line-height: 20px;
 }
 
 .skn-button_alt {
@@ -139,14 +139,10 @@ A:hover {
     cursor: pointer;
     text-align: center;
     text-decoration: none;
-    padding: .2em 4em;
-    text-shadow: 0 1px 1px rgba(0,0,0,.3);
-    -webkit-border-radius: .4em;
-    -moz-border-radius: .4em;
-    border-radius: .4em;
-    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    padding: 4px 20px;
+    -webkit-border-radius: .5em;
+    -moz-border-radius: .5em;
+    border-radius: .5em;
     color: #FFFFFF;
     border: solid 1px #ff4b42;
     background: #ffffff;
@@ -154,6 +150,10 @@ A:hover {
     background: -moz-linear-gradient(top,  #ff4b42,  #e7362e);
     filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff4b42', endColorstr='#e7362e');
     font-size: 100%;
+    height: 27px;
+    margin: 0 2px;
+    vertical-align: middle;
+    line-height: 20px;
 }
 
 .skn-button:hover {
@@ -168,18 +168,20 @@ A:hover {
 
 /* Styles for text inputs*/
 .skn-input {
-    padding: .2em 2 .1em .2em;
-    /*text-shadow: 0 1px 1px rgba(0,0,0,.3); */
-    -webkit-border-radius: .4em;
-    -moz-border-radius: .4em;
-    border-radius: .4em;
-    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    border: solid 1px #CCCCCC;
-    background: #ffffff;
+    -webkit-border-radius: .5em;
+    -moz-border-radius: .5em;
+    border-radius: .5em;
+    border: solid 1px #AFAFAF;
+    background: #F4F4F4;
     font-size: 100%;
     color: #333333;
+    font-size: 100%;
+    height: 27px;
+    line-height: 20px;
+    margin: 0 2px;
+    padding: 4px 6px;
+    vertical-align: middle;
+
 }
 
 /* Square border for things (normally, tables) that must be surrounded by a border.*/
@@ -349,23 +351,46 @@ div.GlobalBreadCrump {
     width: 100%;
 }
 
+.oldfieldTypes {
+    background-color: #B4B4B4 !Important;
+    -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 1px 1px 1px 1px rgba(0,0,0,.1);
+    box-shadow: 1px 1px 1px 1px rgba(0,0,0,.1);
+    width: 95%;
+    border: solid 1px #B4B4B4;
+}
+.fieldTypes {
+    background-color: #C1C1C1;
+}
+
+.oldfieldTypes td:first-child {
+    border-bottom: dotted 1px black;
+    height: 20px;
+}
+.oldfieldTypes table td {
+    border: none !IMPORTANT;
+}
 
 .EditFieldProperties  {
-    width: 600px;
-    background-color: #ffffff;
-    -webkit-box-shadow: -3px 0 2px 0 rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: -3px 0 2px 0 rgba(0, 0, 0, 0.2);
-    box-shadow: -3px 0 2px 0 rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: -1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: -1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: -1px 1px 1px 1px rgba(0, 0, 0, 0.1);
     background-color: #FFFFFF;
     display: block;
     float: right;
-    margin-top: -55px;
+    margin-top: -59px;
     position: relative;
-    width: 600px;
     z-index: 999;
     border-collapse: collapse;
+    border: 1px solid #999999;
 }
-
+.FormFieldProperties  {
+    margin: 10px;
+    width: 450px;
+    z-index: 999;
+    border-collapse: collapse;
+    border: none !Important;
+}
 .headerEditFP{
     background-color: #999999;
     border: 1px solid white;

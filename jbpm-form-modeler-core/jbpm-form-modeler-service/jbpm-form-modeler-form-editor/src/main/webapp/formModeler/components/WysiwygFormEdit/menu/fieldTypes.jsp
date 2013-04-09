@@ -24,31 +24,6 @@
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages"
              locale="<%=LocaleManager.currentLocale()%>"/>
 
-<style>
-
-    .oldfieldTypes {
-        background-color: #B4B4B4 !Important;
-        -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.4);
-        -moz-box-shadow: 0 2px 4px rgba(0,0,0,.4);
-        box-shadow: 0 2px 4px rgba(0,0,0,.4);
-        width: 95%;
-    }
-    .fieldTypes {
-        background-color: #C1C1C1;
-    }
-
-    .oldfieldTypes td:first-child {
-        border-bottom: dotted 1px black;
-        height: 20px;
-    }
-    .oldfieldTypes table td {
-        border: none !IMPORTANT;
-    }
-
-
-
-</style>
-
 
 <table cellspacing="1" cellpadding="3" width="100%" border="0" class="oldfieldTypes">
 <mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygFieldsFormatter">
