@@ -64,9 +64,10 @@
         </td>
     </tr>
     <tr>
-        <td><i18n:message key="fieldType">!!!Tipo de campo</i18n:message></td>
-        <td></td>
-        <td>
+        <td colspan="3"><i18n:message key="fieldType">!!!Tipo de campo</i18n:message></td>
+    </tr>
+    <tr>
+        <td colspan="3">
             <mvc:formatter name="org.jbpm.formModeler.components.editor.FieldAvailableTypesFormatter">
                 <mvc:fragment name="outputStart">
                     <select name="fieldType" class="skn-input" style="width:200px" onchange="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CHANGE_FIELD_TYPE%>'); submitAjaxForm(this.form);">
