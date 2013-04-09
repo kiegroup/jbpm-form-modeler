@@ -39,5 +39,5 @@ fields=.fields.NameField,\
        org.jbpm.formModeler.core.baseForms.InputTextPhone.fields.RequiredField,\
        org.jbpm.formModeler.core.baseForms.InputTextPhone.fields.DisabledField,\
        org.jbpm.formModeler.core.baseForms.InputTextPhone.fields.ReadonlyField,\
-       org.jbpm.formModeler.core.baseForms.InputTextPhone.fields.GroupWithPreviousField,\
-       .fields.DefaultValueFormulaField
+       org.jbpm.formModeler.core.baseForms.InputTextPhone.fields.DefaultValueFormulaField,\
+       .fields.GroupWithPreviousField

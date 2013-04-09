@@ -39,5 +39,5 @@ org.jbpm.formModeler.core.baseForms.InputTextCCC.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.InputTextCCC.fields.RequiredField,\
        org.jbpm.formModeler.core.baseForms.InputTextCCC.fields.DisabledField,\
        org.jbpm.formModeler.core.baseForms.InputTextCCC.fields.ReadonlyField,\
-       org.jbpm.formModeler.core.baseForms.InputTextCCC.fields.GroupWithPreviousField,\
-       .fields.DefaultValueFormulaField
+       org.jbpm.formModeler.core.baseForms.InputTextCCC.fields.DefaultValueFormulaField,\
+       .fields.GroupWithPreviousField

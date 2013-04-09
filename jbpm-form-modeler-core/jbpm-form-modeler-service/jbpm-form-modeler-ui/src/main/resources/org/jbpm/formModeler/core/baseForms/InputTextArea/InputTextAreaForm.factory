@@ -44,5 +44,5 @@ org.jbpm.formModeler.core.baseForms.InputTextArea.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.InputTextArea.fields.FormulaField,\
        org.jbpm.formModeler.core.baseForms.InputTextArea.fields.RangeFormulaField,\
        org.jbpm.formModeler.core.baseForms.InputTextArea.fields.PatternField,\
-       org.jbpm.formModeler.core.baseForms.InputTextArea.fields.GroupWithPreviousField,\
-       .fields.DefaultValueFormulaField
+       org.jbpm.formModeler.core.baseForms.InputTextArea.fields.DefaultValueFormulaField,\
+       .fields.GroupWithPreviousField
