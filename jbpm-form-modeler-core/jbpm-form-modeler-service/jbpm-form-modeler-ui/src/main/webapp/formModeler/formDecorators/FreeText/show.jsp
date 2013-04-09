@@ -15,4 +15,4 @@
     limitations under the License.
 
 --%>
-<jsp:include page="../../fieldHandlers/InputText/show.jsp"  flush="true"/>
+<jsp:include page="/formModeler/fieldHandlers/InputText/show.jsp"  flush="true"/>
