@@ -29,8 +29,10 @@
 <mvc:fragment name="outputStart">
     <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="saveForm"/>">
     <factory:handler action="saveCurrentForm" />
-    <table width="100%" border="0" cellpadding="2" cellspacing="0">
+    <div class="FormProperties">
+    <table>
     <tr>
+
 </mvc:fragment>
 <%------------------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="outputNameInput">
@@ -145,8 +147,8 @@
             </table>
         </td>
     </tr>
-
     </table>
+    </div>
     </form>
 
 </mvc:fragment>
