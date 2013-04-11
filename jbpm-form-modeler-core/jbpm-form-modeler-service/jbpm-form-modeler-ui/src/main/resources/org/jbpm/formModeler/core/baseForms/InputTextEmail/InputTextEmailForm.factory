@@ -39,5 +39,5 @@ org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.RequiredField,\
        org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.DisabledField,\
        org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.ReadonlyField,\
-       org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.GroupWithPreviousField,\
-       .fields.DefaultValueFormulaField
+       org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.DefaultValueFormulaField,\
+       .fields.GroupWithPreviousField

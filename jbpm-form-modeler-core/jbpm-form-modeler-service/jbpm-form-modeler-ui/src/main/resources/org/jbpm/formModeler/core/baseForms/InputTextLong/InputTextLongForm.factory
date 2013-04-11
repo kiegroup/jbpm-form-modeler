@@ -41,5 +41,5 @@ org.jbpm.formModeler.core.baseForms.InputTextLong.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.InputTextLong.fields.ReadonlyField,\
        org.jbpm.formModeler.core.baseForms.InputTextLong.fields.FormulaField,\
        org.jbpm.formModeler.core.baseForms.InputTextLong.fields.RangeFormulaField,\
-       org.jbpm.formModeler.core.baseForms.InputTextLong.fields.GroupWithPreviousField,\
-       .fields.DefaultValueFormulaField
+       org.jbpm.formModeler.core.baseForms.InputTextLong.fields.DefaultValueFormulaField,\
+       .fields.GroupWithPreviousField

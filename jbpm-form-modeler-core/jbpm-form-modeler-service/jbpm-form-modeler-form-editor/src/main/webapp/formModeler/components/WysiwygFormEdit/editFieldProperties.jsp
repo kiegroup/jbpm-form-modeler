@@ -31,7 +31,7 @@
 <%------------------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="outputStart">
     <mvc:fragmentValue name="fieldName" id="fieldName">
-    <script type="text/javascript" xml:space="preserve">
+        <script type="text/javascript" xml:space="preserve">
         function modifyAllSelects(visibilityStyle){
             var selects = document.getElementsByTagName('select');
             for(i=0; i<selects.length; i++){
@@ -50,48 +50,51 @@
         }
 
     </script>
-    <div id="<factory:encode name="fieldProperties"/>">
-    <form action="<factory:formUrl/>" id="<factory:encode name="updateFormField"/>" method="POST" enctype="multipart/form-data">
-    <factory:handler bean="org.jbpm.formModeler.components.editor.WysiwygFormEditor" action="saveFieldProperties"/>
-    <input type="hidden" name="<%=WysiwygFormEditor.ACTION_TO_DO%>" id="<factory:encode name="actionToDo"/>" value="<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>"/>
+        <div id="<factory:encode name="fieldProperties"/>">
+        <form action="<factory:formUrl/>" id="<factory:encode name="updateFormField"/>" method="POST" enctype="multipart/form-data">
+        <factory:handler bean="org.jbpm.formModeler.components.editor.WysiwygFormEditor" action="saveFieldProperties"/>
+        <input type="hidden" name="<%=WysiwygFormEditor.ACTION_TO_DO%>" id="<factory:encode name="actionToDo"/>" value="<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>"/>
 
-    <table border="0" class="EditFieldProperties">
-    <tr>
-        <td align="left" colspan="3">
-            <div class="headerEditFP">
-                <input type="image" onclick="this.onclick=function(){return false;}" style="cursor:hand; float: left; margin-right: 15px;" src="<static:image relativePath="actions/close.png"/>"><i18n:message key="properties">Properties</i18n:message> (<%=fieldName%>)
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3"><i18n:message key="fieldType">!!!Tipo de campo</i18n:message></td>
-    </tr>
-    <tr>
+        <table border="0" class="EditFieldProperties">
+        <tr>
+            <td align="left" colspan="3">
+                <div class="headerEditFP">
+                    <input type="image" onclick="this.onclick=function(){return false;}" style="cursor:hand; float: left; margin-right: 15px;" src="<static:image relativePath="actions/close.png"/>"><i18n:message key="properties">Properties</i18n:message> (<%=fieldName%>)
+                </div>
+            </td>
+        </tr>
+        <tr>
         <td colspan="3">
-            <mvc:formatter name="org.jbpm.formModeler.components.editor.FieldAvailableTypesFormatter">
-                <mvc:fragment name="outputStart">
-                    <select name="fieldType" class="skn-input" style="width:200px" onchange="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CHANGE_FIELD_TYPE%>'); submitAjaxForm(this.form);">
-                </mvc:fragment>
-                <mvc:fragment name="output">
-                    <mvc:fragmentValue name="id" id="id">
-                        <option value="<%=id%>"><i18n:message key="<%="fieldType." + id%>"/></option>
-                    </mvc:fragmentValue>
-                </mvc:fragment>
-                <mvc:fragment name="outputSelected">
-                    <mvc:fragmentValue name="id" id="id">
-                        <option value="<%=id%>" selected><i18n:message key="<%="fieldType." + id%>"/></option>
-                    </mvc:fragmentValue>
-                </mvc:fragment>
-                <mvc:fragment name="outputEnd">
-                    </select>
-                </mvc:fragment>
-                <mvc:fragment name="empty">
-                    <input type="hidden" name="fieldType" value="<mvc:fragmentValue name="id"/>">
-                </mvc:fragment>
-            </mvc:formatter>
-        </td>
-        <td></td>
-    </tr>
+        <table class="FormFieldProperties">
+        <tr>
+            <td><i18n:message key="fieldType">!!!Tipo de campo</i18n:message></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <mvc:formatter name="org.jbpm.formModeler.components.editor.FieldAvailableTypesFormatter">
+                    <mvc:fragment name="outputStart">
+                        <select name="fieldType" class="skn-input" style="width:200px" onchange="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CHANGE_FIELD_TYPE%>'); submitAjaxForm(this.form);">
+                    </mvc:fragment>
+                    <mvc:fragment name="output">
+                        <mvc:fragmentValue name="id" id="id">
+                            <option value="<%=id%>"><i18n:message key="<%="fieldType." + id%>"/></option>
+                        </mvc:fragmentValue>
+                    </mvc:fragment>
+                    <mvc:fragment name="outputSelected">
+                        <mvc:fragmentValue name="id" id="id">
+                            <option value="<%=id%>" selected><i18n:message key="<%="fieldType." + id%>"/></option>
+                        </mvc:fragmentValue>
+                    </mvc:fragment>
+                    <mvc:fragment name="outputEnd">
+                        </select>
+                    </mvc:fragment>
+                    <mvc:fragment name="empty">
+                        <input type="hidden" name="fieldType" value="<mvc:fragmentValue name="id"/>">
+                    </mvc:fragment>
+                </mvc:formatter>
+            </td>
+            <td></td>
+        </tr>
     </mvc:fragmentValue>
 </mvc:fragment>
 <%------------------------------------------------------------------------------------------------------------%>
@@ -236,10 +239,13 @@
                     </tr>
                 </table>
 
+
             </td>
         </tr>
         </table>
-
+        </td>
+        </tr>
+        </table>
 
         </form>
         </div>

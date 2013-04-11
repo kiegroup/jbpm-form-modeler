@@ -40,5 +40,5 @@ org.jbpm.formModeler.core.baseForms.InputDate.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.InputDate.fields.DisabledField,\
        org.jbpm.formModeler.core.baseForms.InputDate.fields.ReadonlyField,\
        .fields.FormulaField,\
-       org.jbpm.formModeler.core.baseForms.InputDate.fields.GroupWithPreviousField,\
-       .fields.DefaultValueFormulaField
+       org.jbpm.formModeler.core.baseForms.InputDate.fields.DefaultValueFormulaField,\
+       .fields.GroupWithPreviousField

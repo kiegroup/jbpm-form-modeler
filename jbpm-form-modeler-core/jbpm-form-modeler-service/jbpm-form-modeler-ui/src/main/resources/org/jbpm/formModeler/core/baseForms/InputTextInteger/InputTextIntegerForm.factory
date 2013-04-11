@@ -41,5 +41,5 @@ org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.ReadonlyField,\
        org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.FormulaField,\
        org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.RangeFormulaField,\
-       org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.GroupWithPreviousField,\
-       .fields.DefaultValueFormulaField
+       org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.DefaultValueFormulaField,\
+       .fields.GroupWithPreviousField

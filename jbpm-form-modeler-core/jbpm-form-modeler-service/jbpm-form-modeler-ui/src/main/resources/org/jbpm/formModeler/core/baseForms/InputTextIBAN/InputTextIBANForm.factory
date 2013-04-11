@@ -39,5 +39,5 @@ org.jbpm.formModeler.core.baseForms.InputTextIBAN.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.InputTextIBAN.fields.RequiredField,\
        org.jbpm.formModeler.core.baseForms.InputTextIBAN.fields.DisabledField,\
        org.jbpm.formModeler.core.baseForms.InputTextIBAN.fields.ReadonlyField,\
-       org.jbpm.formModeler.core.baseForms.InputTextIBAN.fields.GroupWithPreviousField,\
-       .fields.DefaultValueFormulaField
+       org.jbpm.formModeler.core.baseForms.InputTextIBAN.fields.DefaultValueFormulaField,\
+       .fields.GroupWithPreviousField
