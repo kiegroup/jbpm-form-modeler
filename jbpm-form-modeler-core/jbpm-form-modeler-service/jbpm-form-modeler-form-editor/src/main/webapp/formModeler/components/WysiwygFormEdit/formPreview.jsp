@@ -50,6 +50,29 @@
         });
     }
 
+    function selectEditionField(position, divNames) {
+        var divId = divNames+position;
+
+        hideAreas();
+
+        if (selectedDiv) {
+            var oldSelectedDiv = selectedDiv;
+            selectedDiv = '';
+//            disableMenuForItem(document.getElementById(oldSelectedDiv));
+//            var divPrev = $(selectedDiv);
+
+//            divPrev.css("border","none");
+
+        }
+
+        selectedDiv = divId;
+        selectedField = position;
+        return false;
+        //var divSelec = $(selectedDiv);
+        //divSelec.backgroundColor = '#FEE48B';
+
+    }
+
     function selectField(position, divName, grouped) {
         var divId = divName+position;
 
