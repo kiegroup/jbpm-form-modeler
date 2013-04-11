@@ -20,7 +20,9 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -28,21 +30,61 @@ import org.kie.commons.io.IOService;
 import org.kie.commons.io.impl.IOServiceDotFileImpl;
 import org.kie.commons.java.nio.file.FileSystem;
 import org.kie.commons.java.nio.file.FileSystemAlreadyExistsException;
+import org.uberfire.backend.repositories.Repository;
+import org.uberfire.backend.repositories.RepositoryService;
+import org.uberfire.backend.server.config.ConfigurationService;
+import org.uberfire.backend.server.repositories.DefaultSystemRepository;
 import org.uberfire.backend.vfs.ActiveFileSystems;
 import org.uberfire.backend.vfs.FileSystemFactory;
 import org.uberfire.backend.vfs.impl.ActiveFileSystemsImpl;
 
 import static org.kie.commons.io.FileSystemType.Bootstrap.*;
 
-@Singleton
+@ApplicationScoped
 public class AppSetup {
+    //private static final String REPO_PLAYGROUND = "jbpm-playground";
+    //private static final String ORIGIN_URL      = "https://github.com/guvnorngtestuser1/jbpm-console-ng-playground.git";
+    private static final String REPO_PLAYGROUND = "uf-playground";
+    private static final String ORIGIN_URL      = "https://github.com/guvnorngtestuser1/guvnorng-playground.git";
 
-    private final IOService         ioService         = new IOServiceDotFileImpl();
-    private final ActiveFileSystems activeFileSystems = new ActiveFileSystemsImpl();
+
+    //@Inject
+    //private IOService ioService;
+    private final IOService ioService         = new IOServiceDotFileImpl();
+
+    @Inject
+    private RepositoryService repositoryService;
+
+
+
+    private FileSystem fs = null;
 
     @PostConstruct
     public void onStartup() {
-        final String gitURL = "https://github.com/guvnorngtestuser1/guvnorng-playground.git";
+
+        //configurationService.addConfiguration()
+
+        Repository repository =null;
+                try{
+                    repository = repositoryService.getRepository(REPO_PLAYGROUND);
+                }catch (Exception e){
+                 System.out.println("error recuperando repo "+ e);
+                }
+        if(repository == null) {
+            final String userName = "guvnorngtestuser1";
+            final String password = "test1234";
+            repositoryService.cloneRepository("git", REPO_PLAYGROUND, ORIGIN_URL, userName, password);
+            repository = repositoryService.getRepository(REPO_PLAYGROUND);
+        }
+        try {
+            fs = ioService.newFileSystem(URI.create(repository.getUri()), repository.getEnvironment());
+        } catch (FileSystemAlreadyExistsException e) {
+            fs = ioService.getFileSystem(URI.create(repository.getUri()));
+
+        }
+
+
+/*        final String gitURL = "https://github.com/guvnorngtestuser1/guvnorng-playground.git";
         final String userName = "guvnorngtestuser1";
         final String password = "test1234";
         final URI fsURI = URI.create( "git://uf-playground" );
@@ -60,22 +102,22 @@ public class AppSetup {
         } catch ( FileSystemAlreadyExistsException ex ) {
             fs = ioService.getFileSystem( fsURI );
         }
+ */
+  //      activeFileSystems.addBootstrapFileSystem( FileSystemFactory.newFS( new HashMap<String, String>() {{
+  //          put( "default://uf-playground", "uf-playground" );
+  //      }}, fs.supportedFileAttributeViews() ) );
+    }
 
-        activeFileSystems.addBootstrapFileSystem( FileSystemFactory.newFS( new HashMap<String, String>() {{
-            put( "default://uf-playground", "uf-playground" );
-        }}, fs.supportedFileAttributeViews() ) );
+    @Produces
+    @Named("fileSystem")
+    public FileSystem fileSystem() {
+        return fs;
     }
 
     @Produces
     @Named("ioStrategy")
     public IOService ioService() {
         return ioService;
-    }
-
-    @Produces
-    @Named("fs")
-    public ActiveFileSystems fileSystems() {
-        return activeFileSystems;
     }
 
 }

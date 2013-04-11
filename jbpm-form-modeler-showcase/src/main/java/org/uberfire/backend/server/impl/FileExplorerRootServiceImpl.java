@@ -32,7 +32,7 @@ import org.uberfire.backend.vfs.Path;
 import org.uberfire.shared.mvp.impl.PathPlaceRequest;
 
 import static java.util.Collections.*;
-
+/*
 @Service
 @ApplicationScoped
 public class FileExplorerRootServiceImpl
@@ -78,3 +78,4 @@ public class FileExplorerRootServiceImpl
     }
 
 }
+*/

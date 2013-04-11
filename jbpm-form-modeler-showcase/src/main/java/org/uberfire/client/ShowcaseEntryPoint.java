@@ -59,8 +59,8 @@ public class ShowcaseEntryPoint {
     private WorkbenchMenuBarPresenter menubar;
     */
 
-    @Inject
-    private Caller<FileExplorerRootService> rootService;
+//    @Inject
+//    private Caller<FileExplorerRootService> rootService;
 
     @Inject
     private PlaceManager placeManager;
