@@ -17,6 +17,7 @@
 --%>
 <%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
+<%@ page import="org.jbpm.formModeler.components.editor.WysiwygFormEditor" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
@@ -40,27 +41,30 @@
                         </mvc:fragment>
 
                         <mvc:fragment name="optionsOutputStart">
+
                         <form action="<factory:formUrl/>" style="margin:0px;" id="optionsForm">
                             <factory:handler action="void"/>
-                            <input type="image" style="cursor:hand; margin-right: 15px;" title="Add Fields By Type" src="<static:image relativePath="general/AddFieldsByType.png"/>">
-                            <input type="image" style="cursor:hand; margin-right: 15px;" title="Form Properties" src="<static:image relativePath="general/FormProperties.png"/>">
-                            <input type="image" style="cursor:hand; margin-right: 15px;" title="Bindings" src="<static:image relativePath="general/Bindings.png"/>">
+                            <input type="hidden" name="<factory:bean property="currentEditionOption"/>" >
+                            <input type="image" onclick="setFormInputValue(this.form,'<factory:bean property="currentEditionOption"/>','<%=WysiwygFormEditor.EDITION_OPTION_FIELDTYPES%>');"
+                                   style="cursor:hand; margin-right: 15px;" title="Add Fields By Type" src="<static:image relativePath="general/AddFieldsByType.png"/>">
+                            <input type="image" onclick="setFormInputValue(this.form,'<factory:bean property="currentEditionOption"/>','<%=WysiwygFormEditor.EDITION_OPTION_FORM_PROPERTIES%>');"
+                                   style="cursor:hand; margin-right: 15px;" title="Form Properties" src="<static:image relativePath="general/FormProperties.png"/>">
+                            <input type="image" onclick="setFormInputValue(this.form,'<factory:bean property="currentEditionOption"/>','<%=WysiwygFormEditor.EDITION_OPTION_FORM_EDITION_PROPERTIES%>');"
+                                   style="cursor:hand; margin-right: 15px;" title="Bindings" src="<static:image relativePath="general/Bindings.png"/>">
                             <input type="image" style="cursor:hand; margin-right: 15px;" title="Insert Data Mode" src="<static:image relativePath="general/InsertDataMode.png"/>">
                             <input type="image" style="cursor:hand; margin-right: 15px;" title="Show Data Mode" src="<static:image relativePath="general/ShowDataMode.png"/>">
-                            <select class="skn-input" name="<factory:bean property="currentEditionOption"/>" onchange="submitAjaxForm(this.form)">
-                                </mvc:fragment>
-                                <mvc:fragment name="outputOption">
-                                    <mvc:fragmentValue name="optionName" id="optionName">
-                                        <option value="<%=optionName%>"><i18n:message key="<%=(String)optionName%>">!!!<%=optionName%></i18n:message></option>
-                                    </mvc:fragmentValue>
-                                </mvc:fragment>
-                                <mvc:fragment name="outputSelectedOption">
-                                    <mvc:fragmentValue name="optionName" id="optionName">
-                                        <option class="skn-important" selected value="<%=optionName%>"><i18n:message key="<%=(String)optionName%>">!!!<%=optionName%></i18n:message></option>
-                                    </mvc:fragmentValue>
-                                </mvc:fragment>
-                                <mvc:fragment name="optionsOutputEnd">
-                            </select>
+
+                            </mvc:fragment>
+                            <mvc:fragment name="outputOption">
+                                <mvc:fragmentValue name="optionName" id="optionName">
+                                </mvc:fragmentValue>
+                            </mvc:fragment>
+                            <mvc:fragment name="outputSelectedOption">
+                                <mvc:fragmentValue name="optionName" id="optionName">
+                                </mvc:fragmentValue>
+                            </mvc:fragment>
+                            <mvc:fragment name="optionsOutputEnd">
+
                         </form>
                         <script defer>
                             setAjax("optionsForm");
