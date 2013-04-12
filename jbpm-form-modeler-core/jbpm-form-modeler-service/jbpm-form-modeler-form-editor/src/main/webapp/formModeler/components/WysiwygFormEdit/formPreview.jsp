@@ -58,9 +58,8 @@
         if (selectedDiv) {
             var oldSelectedDiv = selectedDiv;
             selectedDiv = '';
-//            disableMenuForItem(document.getElementById(oldSelectedDiv));
+            disableMenuForItem(document.getElementById(oldSelectedDiv));
 //            var divPrev = $(selectedDiv);
-
 //            divPrev.css("border","none");
 
         }
