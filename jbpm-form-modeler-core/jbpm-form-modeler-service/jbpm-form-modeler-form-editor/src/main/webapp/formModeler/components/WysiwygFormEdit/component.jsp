@@ -19,6 +19,7 @@
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
+<%@ taglib prefix="static" uri="static-resources.tld" %>
 
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%
@@ -41,6 +42,11 @@
                         <mvc:fragment name="optionsOutputStart">
                         <form action="<factory:formUrl/>" style="margin:0px;" id="optionsForm">
                             <factory:handler action="void"/>
+                            <input type="image" style="cursor:hand; margin-right: 15px;" title="Add Fields By Type" src="<static:image relativePath="general/AddFieldsByType.png"/>">
+                            <input type="image" style="cursor:hand; margin-right: 15px;" title="Form Properties" src="<static:image relativePath="general/FormProperties.png"/>">
+                            <input type="image" style="cursor:hand; margin-right: 15px;" title="Bindings" src="<static:image relativePath="general/Bindings.png"/>">
+                            <input type="image" style="cursor:hand; margin-right: 15px;" title="Insert Data Mode" src="<static:image relativePath="general/InsertDataMode.png"/>">
+                            <input type="image" style="cursor:hand; margin-right: 15px;" title="Show Data Mode" src="<static:image relativePath="general/ShowDataMode.png"/>">
                             <select class="skn-input" name="<factory:bean property="currentEditionOption"/>" onchange="submitAjaxForm(this.form)">
                                 </mvc:fragment>
                                 <mvc:fragment name="outputOption">
