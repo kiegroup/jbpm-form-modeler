@@ -108,11 +108,7 @@ public class AppSetup {
   //      }}, fs.supportedFileAttributeViews() ) );
     }
 
-    @Produces
-    @Named("fileSystem")
-    public FileSystem fileSystem() {
-        return fs;
-    }
+
 
     @Produces
     @Named("ioStrategy")
