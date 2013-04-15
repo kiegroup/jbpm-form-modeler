@@ -40,7 +40,7 @@
         <tr>
     </mvc:fragment>
     <mvc:fragment name="beforeOptions">
-        <td valign="top" style="padding:10px; text-align: left !important;">
+        <td valign="top" style="padding:6px; white-space: nowrap;">
     </mvc:fragment>
 
     <mvc:fragment name="optionsOutputStart">
@@ -54,7 +54,7 @@
             <mvc:fragmentValue name="optionImage" id="optionImage">
                 <input type="image"
                        onclick="setFormInputValue(this.form,'<factory:bean property="currentEditionOption"/>','<%=optionName%>');"
-                       style="cursor:hand; margin-right: 15px;" title="Bindings"
+                       style="cursor:hand;" title="Bindings"
                        src="<static:image relativePath="<%=(String)optionImage%>"/>">
             </mvc:fragmentValue>
         </mvc:fragmentValue>
@@ -64,7 +64,7 @@
             <mvc:fragmentValue name="optionImage" id="optionImage">
                 <input type="image"
                        onclick="setFormInputValue(this.form,'<factory:bean property="currentEditionOption"/>','<%=optionName%>');"
-                       style="cursor:hand; margin-right: 15px;opacity:.5;" title="Bindings"
+                       style="cursor:hand;opacity:.5;" title="Bindings"
                        src="<static:image relativePath="<%=(String)optionImage%>"/>">
             </mvc:fragmentValue>
         </mvc:fragmentValue>
@@ -77,12 +77,12 @@
             </script>
 
             </td>
-            <td width="85%">
+            <td valign="top" style="padding:6px 0px; white-space: nowrap;" width="99%;">
                 <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="switchRenderMode"/>">
                     <factory:handler action="switchRenderMode" />
                     <input type="image"
                            onclick="setFormInputValue(this.form,'renderMode','<%=((renderMode!=null && renderMode.equals(Form.RENDER_MODE_WYSIWYG_FORM)) ? Form.RENDER_MODE_WYSIWYG_DISPLAY : Form.RENDER_MODE_WYSIWYG_FORM )%>');"
-                           style="cursor:hand; margin-right: 15px;" title="Bindings"
+                           style="cursor:hand;" title="Bindings"
                            src="<static:image relativePath="<%=((renderMode!=null && renderMode.equals(Form.RENDER_MODE_WYSIWYG_FORM)) ? WysiwygFormEditor.EDITION_OPTION_IMG_FORM_SHOWTMODE : WysiwygFormEditor.EDITION_OPTION_IMG_FORM_INSERTMODE )%>"/>">
 
                 </form>

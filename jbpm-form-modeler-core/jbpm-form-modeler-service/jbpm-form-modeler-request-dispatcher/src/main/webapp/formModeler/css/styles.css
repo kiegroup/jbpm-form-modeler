@@ -367,7 +367,7 @@ div.GlobalBreadCrump {
     -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 1px 1px 1px 1px rgba(0,0,0,.1);
     box-shadow: 1px 1px 1px 1px rgba(0,0,0,.1);
-    width: 95%;
+    width: 220px;
     border: solid 1px #D9D9D9;
 }
 .fieldTypes {
@@ -418,7 +418,7 @@ div.GlobalBreadCrump {
     -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 1px 1px 1px 1px rgba(0,0,0,.1);
     box-shadow: 1px 1px 1px 1px rgba(0,0,0,.1);
-    width: 90%;
+    width: 200px;
     border: solid 1px #B4B4B4;
     border-collapse: collapse;
     padding: 10px;

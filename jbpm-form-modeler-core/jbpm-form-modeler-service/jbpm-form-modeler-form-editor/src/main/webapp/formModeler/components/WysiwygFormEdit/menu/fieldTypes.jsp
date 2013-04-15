@@ -25,7 +25,7 @@
              locale="<%=LocaleManager.currentLocale()%>"/>
 
 
-<table cellspacing="1" cellpadding="3" width="100%" border="0" class="oldfieldTypes">
+<table cellspacing="1" cellpadding="3" border="0" class="oldfieldTypes">
 <mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygFieldsFormatter">
 <mvc:fragment name="separator">
 
