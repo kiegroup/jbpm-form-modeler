@@ -54,7 +54,11 @@
             <mvc:fragmentValue name="optionImage" id="optionImage">
                 <input type="image"
                        onclick="setFormInputValue(this.form,'<factory:bean property="currentEditionOption"/>','<%=optionName%>');"
+<<<<<<< HEAD
                        style="cursor:hand;" title="Bindings"
+=======
+                       style="cursor:hand; margin-right: 15px;" title="<i18n:message key="<%="op_"+optionName%>"><%=optionName%></i18n:message>"
+>>>>>>> origin/master
                        src="<static:image relativePath="<%=(String)optionImage%>"/>">
             </mvc:fragmentValue>
         </mvc:fragmentValue>
@@ -64,7 +68,11 @@
             <mvc:fragmentValue name="optionImage" id="optionImage">
                 <input type="image"
                        onclick="setFormInputValue(this.form,'<factory:bean property="currentEditionOption"/>','<%=optionName%>');"
+<<<<<<< HEAD
                        style="cursor:hand;opacity:.5;" title="Bindings"
+=======
+                       style="cursor:hand; margin-right: 15px;opacity:.5;" title="<i18n:message key="<%="op_"+optionName%>"><%=optionName%></i18n:message>"
+>>>>>>> origin/master
                        src="<static:image relativePath="<%=(String)optionImage%>"/>">
             </mvc:fragmentValue>
         </mvc:fragmentValue>
