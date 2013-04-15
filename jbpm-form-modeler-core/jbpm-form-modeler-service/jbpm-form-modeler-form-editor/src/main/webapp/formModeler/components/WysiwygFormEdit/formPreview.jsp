@@ -53,7 +53,6 @@
     function selectEditionField(position, divNames) {
         var divId = divNames+position;
 
-        hideAreas();
 
         if (selectedDiv) {
             var oldSelectedDiv = selectedDiv;

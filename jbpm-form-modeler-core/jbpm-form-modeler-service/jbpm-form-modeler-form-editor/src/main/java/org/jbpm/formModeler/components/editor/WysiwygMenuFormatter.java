@@ -44,12 +44,27 @@ public class WysiwygMenuFormatter extends Formatter {
             renderFragment("beforeOptions");
 
             renderFragment("optionsOutputStart");
-            String[] options = {WysiwygFormEditor.EDITION_OPTION_FIELDTYPES, WysiwygFormEditor.EDITION_OPTION_ENTITYFIELDS, WysiwygFormEditor.EDITION_OPTION_FORM_PROPERTIES, WysiwygFormEditor.EDITION_OPTION_FORM_EDITION_PROPERTIES};
+
+            //<input type="image" onclick="setFormInputValue(this.form,'<factory:bean property="currentEditionOption"/>','<%=WysiwygFormEditor.EDITION_OPTION_FIELDTYPES%>');"
+            //style="cursor:hand; margin-right: 15px;" title="Add Fields By Type" src="<static:image relativePath="general/AddFieldsByType.png"/>">
+
+            String[] options = {WysiwygFormEditor.EDITION_OPTION_FIELDTYPES,
+                    WysiwygFormEditor.EDITION_OPTION_FORM_PROPERTIES,
+                    WysiwygFormEditor.EDITION_OPTION_BINDINGS};
+
+            String[] optionsImg = {WysiwygFormEditor.EDITION_OPTION_IMG_FIELDTYPES,
+                    WysiwygFormEditor.EDITION_OPTION_IMG_FORM_PROPERTIES,
+                    WysiwygFormEditor.EDITION_OPTION_IMG_BINDINGS};
+
             for (int i = 0; i < options.length; i++) {
                 String option = options[i];
+                String optionImg = optionsImg[i];
+                setAttribute("optionImage", optionImg);
                 setAttribute("optionName", option);
                 renderFragment(option.equals(editor.getCurrentEditionOption()) ? "outputSelectedOption" : "outputOption");
             }
+
+            setAttribute("renderMode", editor.getRenderMode());
             renderFragment("optionsOutputEnd");
 
             setAttribute("editionPage", "menu/" + editor.getCurrentEditionOption() + ".jsp");
