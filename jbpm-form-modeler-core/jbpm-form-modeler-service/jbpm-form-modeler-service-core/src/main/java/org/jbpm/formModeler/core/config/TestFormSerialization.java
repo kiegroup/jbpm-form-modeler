@@ -35,7 +35,7 @@ public class TestFormSerialization {
             formSerializationManager.generateFormXML(form, rootNode);
 
             String fileName = "default";
-            if (form != null) fileName = "form_" + form.getId() + ".form";
+            if (form != null) fileName = form.getName() + ".form";
 
             OutputStreamWriter wos = new OutputStreamWriter(new FileOutputStream(fileName));
             wos.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
