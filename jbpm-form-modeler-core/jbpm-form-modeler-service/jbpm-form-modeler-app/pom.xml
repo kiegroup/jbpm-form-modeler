@@ -6,12 +6,12 @@
     <parent>
         <groupId>org.jbpm</groupId>
         <artifactId>jbpm-form-modeler-service</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>jbpm-form-modeler-app</artifactId>
     <packaging>war</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>6.0.0-SNAPSHOT</version>
     <name>jbpm-form-modeler-app</name>
 
     <dependencies>
@@ -19,42 +19,42 @@
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>6.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-request-dispatcher</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>6.0.0-SNAPSHOT</version>
             <type>war</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-service-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>6.0.0-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-ui</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>6.0.0-SNAPSHOT</version>
             <type>war</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-form-editor</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>6.0.0-SNAPSHOT</version>
             <type>war</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-static-resources</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>6.0.0-SNAPSHOT</version>
             <scope>compile</scope>
             <type>war</type>
         </dependency>
