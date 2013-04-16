@@ -65,7 +65,7 @@
 
         selectedDiv = divId;
         selectedField = position;
-        return false;
+
         //var divSelec = $(selectedDiv);
         //divSelec.backgroundColor = '#FEE48B';
 

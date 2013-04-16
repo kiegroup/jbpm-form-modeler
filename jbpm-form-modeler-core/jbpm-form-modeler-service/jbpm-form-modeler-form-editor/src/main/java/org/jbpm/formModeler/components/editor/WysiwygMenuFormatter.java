@@ -49,12 +49,12 @@ public class WysiwygMenuFormatter extends Formatter {
             //style="cursor:hand; margin-right: 15px;" title="Add Fields By Type" src="<static:image relativePath="general/AddFieldsByType.png"/>">
 
             String[] options = {WysiwygFormEditor.EDITION_OPTION_FIELDTYPES,
-                    WysiwygFormEditor.EDITION_OPTION_FORM_PROPERTIES,
-                    WysiwygFormEditor.EDITION_OPTION_BINDINGS};
+                    WysiwygFormEditor.EDITION_OPTION_FORM_PROPERTIES} ;
+                    //WysiwygFormEditor.EDITION_OPTION_BINDINGS};
 
             String[] optionsImg = {WysiwygFormEditor.EDITION_OPTION_IMG_FIELDTYPES,
-                    WysiwygFormEditor.EDITION_OPTION_IMG_FORM_PROPERTIES,
-                    WysiwygFormEditor.EDITION_OPTION_IMG_BINDINGS};
+                    WysiwygFormEditor.EDITION_OPTION_IMG_FORM_PROPERTIES };
+                    //WysiwygFormEditor.EDITION_OPTION_IMG_BINDINGS};
 
             for (int i = 0; i < options.length; i++) {
                 String option = options[i];
