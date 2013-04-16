@@ -25,128 +25,129 @@
 <i18n:bundle baseName="org.jbpm.formModeler.core.processing.fieldHandlers.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%try {%>
 <mvc:formatter name="org.jbpm.formModeler.core.processing.fieldHandlers.SimpleFieldHandlerFormatter">
-<mvc:fragment name="output">
-<mvc:fragmentValue name="name" id="name">
-<mvc:fragmentValue name="title" id="title">
-<mvc:fragmentValue name="uid" id="uid">
-<mvc:fragmentValue name="styleclass" id="styleclass">
-<mvc:fragmentValue name="size" id="size">
-<mvc:fragmentValue name="maxlength" id="maxlength">
-<mvc:fragmentValue name="tabindex" id="tabindex">
-<mvc:fragmentValue name="value" id="thevalue">
-<mvc:fragmentValue name="accesskey" id="accesskey">
-<mvc:fragmentValue name="alt" id="altvalue">
-<mvc:fragmentValue name="localeManager" id="localeManager">
-<mvc:fragmentValue name="wrong" id="wrong">
-    <mvc:fragmentValue name="cssStyle" id="cssStyle">
-        <mvc:fragmentValue name="disabled" id="disabled">
-            <mvc:fragmentValue name="height" id="height">
-                <mvc:fragmentValue name="readonly" id="readonly">
-                    <mvc:fragmentValue name="value" id="value">
-                    <table border="0" cellpadding="0" cellspacing="0" >
-                        <tr valign="top">
-                            <td>
-                        <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
-                            <mvc:formatterParam name="factoryElement" value="org.jbpm.formModeler.service.LocaleManager"/>
-                            <mvc:formatterParam name="property" value="platformAvailableLocales"/>
-                            <mvc:fragment name="outputStart">
-                                <select id="<%=uid%>_langSelect"
-                                <%=title != null ? ("title=\"" + title + "\"") : ""%>
-                                class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
-                                <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
-                                onchange="
-                                <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
-                                <mvc:formatterParam name="factoryElement" value="org.jbpm.formModeler.service.LocaleManager"/>
-                            <mvc:formatterParam name="property" value="platformAvailableLocales"/>
-                            <mvc:fragment name="output">
-                                <mvc:fragmentValue name="index" id="index">
-                                    <mvc:fragmentValue name="element" id="locale">
-                                            var elements = this.parentNode.parentNode.getElementsByTagName('DIV');
-                                            var selectedOption = this.options[this.selectedIndex];
-                                            for(i =0 ; i<elements.length; i++) {
-                                                var element = elements[i];
-                                                    if( element.id == '<%=uid+((Locale) locale).toString()%>')
-                                                        if(element.id == '<%=uid%>'+selectedOption.value ) {
-                                                            element.style.display= 'inline';
-                                                        }
-                                                    else{
-                                                        element.style.display= 'none';
-                                                    }
-                                            }
-                                        </mvc:fragmentValue>
-                                    </mvc:fragmentValue>
-                                </mvc:fragment>
-                                </mvc:formatter>
-                                ">
-                            </mvc:fragment>
-                            <mvc:fragment name="output">
-                                <mvc:fragmentValue name="index" id="index">
-                                    <mvc:fragmentValue name="element" id="locale">
-                                        <%--<option <%=((Integer) index).intValue() == 0 ? "selected" : ""%>--%>
-                                        <option <%=((Locale) locale).getLanguage().equals(LocaleManager.currentLang()) ? "selected" : ""%>
-                                                value="<%=((Locale)locale).toString()%>">
-                                            <%=StringUtils.capitalize(((Locale) locale).getDisplayName((Locale) locale))%>
-                                        </option>
-                                    </mvc:fragmentValue>
-                                </mvc:fragmentValue>
-                            </mvc:fragment>
-                            <mvc:fragment name="outputEnd">
-                                </select>
-                            </mvc:fragment>
-                        </mvc:formatter>
-                            </td>
-                            <td>
-                        <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
-                                    <mvc:formatterParam name="factoryElement" value="org.jbpm.formModeler.service.LocaleManager"/>
-                                    <mvc:formatterParam name="property" value="platformAvailableLocales"/>
-                                    <mvc:fragment name="output">
-                                        <mvc:fragmentValue name="index" id="index">
-                                            <mvc:fragmentValue name="element" id="locale">
-                                                <div id="<%=uid%><%=((Locale) locale).toString()%>"
-                                                     style="<%=(((Locale) locale).getLanguage().equals(LocaleManager.currentLang()) ? "display:block;" : "display:none;")%>"
-                                                        >
-                                                <input id="<%=uid%><%=((Locale) locale).toString()%>" name="<%=name%>_<%=((Locale) locale).toString()%>"
-                                                       onchange="processFormInputChange(this)"
-                                            <%=title != null ? ("title=\"" + title + "\"") : ""%>
-                                           class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
-                                           style="<%=StringUtils.defaultString((String) cssStyle)%>"
-                                            <%=size != null ? " size=\"" + size + "\"" : ""%>
-                                            <%=maxlength != null ? " maxlength=\"" + maxlength + "\"" : ""%>
-                                            <%=tabindex != null ? " tabindex=\"" + tabindex + "\"" : ""%>
-                                            <%=accesskey != null ? " accesskey=\"" + accesskey + "\"" : ""%>
-                                            <%=altvalue != null ? " alt=\"" + altvalue + "\"" : ""%>
-                                            <%=height != null ? " height=\"" + height + "\"" : ""%>
-                                            <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly " : ""%>
-                                            <%=disabled != null && ((Boolean) disabled).booleanValue() ? " disabled " : ""%>
-                                                       value="<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(
+    <mvc:fragment name="output">
+        <mvc:fragmentValue name="name" id="name">
+            <mvc:fragmentValue name="title" id="title">
+                <mvc:fragmentValue name="uid" id="uid">
+                    <mvc:fragmentValue name="styleclass" id="styleclass">
+                        <mvc:fragmentValue name="size" id="size">
+                            <mvc:fragmentValue name="maxlength" id="maxlength">
+                                <mvc:fragmentValue name="tabindex" id="tabindex">
+                                    <mvc:fragmentValue name="value" id="thevalue">
+                                        <mvc:fragmentValue name="accesskey" id="accesskey">
+                                            <mvc:fragmentValue name="alt" id="altvalue">
+                                                <mvc:fragmentValue name="localeManager" id="localeManager">
+                                                    <mvc:fragmentValue name="wrong" id="wrong">
+                                                        <mvc:fragmentValue name="cssStyle" id="cssStyle">
+                                                            <mvc:fragmentValue name="disabled" id="disabled">
+                                                                <mvc:fragmentValue name="height" id="height">
+                                                                    <mvc:fragmentValue name="readonly" id="readonly">
+                                                                        <mvc:fragmentValue name="value" id="value">
+                                                                            <table border="0" cellpadding="0" cellspacing="0" >
+                                                                                <tr valign="top">
+
+                                                                                    <td>
+                                                                                        <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
+                                                                                            <mvc:formatterParam name="factoryElement" value="org.jbpm.formModeler.service.LocaleManager"/>
+                                                                                            <mvc:formatterParam name="property" value="platformAvailableLocales"/>
+                                                                                            <mvc:fragment name="output">
+                                                                                                <mvc:fragmentValue name="index" id="index">
+                                                                                                    <mvc:fragmentValue name="element" id="locale">
+                                                                                                        <div id="<%=uid%><%=((Locale) locale).toString()%>"
+                                                                                                             style="<%=(((Locale) locale).getLanguage().equals(LocaleManager.currentLang()) ? "display:block;" : "display:none;")%>"
+                                                                                                                >
+                                                                                                            <input id="<%=uid%><%=((Locale) locale).toString()%>" name="<%=name%>_<%=((Locale) locale).toString()%>"
+                                                                                                                   onchange="processFormInputChange(this)"
+                                                                                                                    <%=title != null ? ("title=\"" + title + "\"") : ""%>
+                                                                                                                   class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
+                                                                                                                   style="<%=StringUtils.defaultString((String) cssStyle)%>"
+                                                                                                                    <%=size != null ? " size=\"" + size + "\"" : ""%>
+                                                                                                                    <%=maxlength != null ? " maxlength=\"" + maxlength + "\"" : ""%>
+                                                                                                                    <%=tabindex != null ? " tabindex=\"" + tabindex + "\"" : ""%>
+                                                                                                                    <%=accesskey != null ? " accesskey=\"" + accesskey + "\"" : ""%>
+                                                                                                                    <%=altvalue != null ? " alt=\"" + altvalue + "\"" : ""%>
+                                                                                                                    <%=height != null ? " height=\"" + height + "\"" : ""%>
+                                                                                                                    <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly " : ""%>
+                                                                                                                    <%=disabled != null && ((Boolean) disabled).booleanValue() ? " disabled " : ""%>
+                                                                                                                   value="<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(
                                             (value == null || "".equals(value)) ? "" :
                                                     ((I18nSet) value).getValue( ((Locale) locale).toString()))
                                     )%>"></div>
+                                                                                                    </mvc:fragmentValue>
+                                                                                                </mvc:fragmentValue>
+                                                                                            </mvc:fragment>
+                                                                                        </mvc:formatter>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
+                                                                                            <mvc:formatterParam name="factoryElement" value="org.jbpm.formModeler.service.LocaleManager"/>
+                                                                                            <mvc:formatterParam name="property" value="platformAvailableLocales"/>
+                                                                                            <mvc:fragment name="outputStart">
+                                                                                                <select id="<%=uid%>_langSelect"
+                                                                                                <%=title != null ? ("title=\"" + title + "\"") : ""%>
+                                                                                                class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
+                                                                                                <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
+                                                                                                onchange="
+                                                                                                <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
+                                                                                                    <mvc:formatterParam name="factoryElement" value="org.jbpm.formModeler.service.LocaleManager"/>
+                                                                                                    <mvc:formatterParam name="property" value="platformAvailableLocales"/>
+                                                                                                    <mvc:fragment name="output">
+                                                                                                        <mvc:fragmentValue name="index" id="index">
+                                                                                                            <mvc:fragmentValue name="element" id="locale">
+                                                                                                                var elements = this.parentNode.parentNode.getElementsByTagName('DIV');
+                                                                                                                var selectedOption = this.options[this.selectedIndex];
+                                                                                                                for(i =0 ; i<elements.length; i++) {
+                                                                                                                var element = elements[i];
+                                                                                                                if( element.id == '<%=uid+((Locale) locale).toString()%>')
+                                                                                                                if(element.id == '<%=uid%>'+selectedOption.value ) {
+                                                                                                                element.style.display= 'inline';
+                                                                                                                }
+                                                                                                                else{
+                                                                                                                element.style.display= 'none';
+                                                                                                                }
+                                                                                                                }
+                                                                                                            </mvc:fragmentValue>
+                                                                                                        </mvc:fragmentValue>
+                                                                                                    </mvc:fragment>
+                                                                                                </mvc:formatter>
+                                                                                                ">
+                                                                                            </mvc:fragment>
+                                                                                            <mvc:fragment name="output">
+                                                                                                <mvc:fragmentValue name="index" id="index">
+                                                                                                    <mvc:fragmentValue name="element" id="locale">
+                                                                                                        <%--<option <%=((Integer) index).intValue() == 0 ? "selected" : ""%>--%>
+                                                                                                        <option <%=((Locale) locale).getLanguage().equals(LocaleManager.currentLang()) ? "selected" : ""%>
+                                                                                                                value="<%=((Locale)locale).toString()%>">
+                                                                                                            <%=StringUtils.capitalize(((Locale) locale).getDisplayName((Locale) locale))%>
+                                                                                                        </option>
+                                                                                                    </mvc:fragmentValue>
+                                                                                                </mvc:fragmentValue>
+                                                                                            </mvc:fragment>
+                                                                                            <mvc:fragment name="outputEnd">
+                                                                                                </select>
+                                                                                            </mvc:fragment>
+                                                                                        </mvc:formatter>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </mvc:fragmentValue>
+                                                                    </mvc:fragmentValue>
+                                                                </mvc:fragmentValue>
+                                                            </mvc:fragmentValue>
+                                                        </mvc:fragmentValue>
+                                                    </mvc:fragmentValue>
+                                                </mvc:fragmentValue>
                                             </mvc:fragmentValue>
                                         </mvc:fragmentValue>
-                                    </mvc:fragment>
-                                </mvc:formatter>
-                            </td>
-                        </tr>
-                    </table>
+                                    </mvc:fragmentValue>
+                                </mvc:fragmentValue>
+                            </mvc:fragmentValue>
+                        </mvc:fragmentValue>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragmentValue>
-    </mvc:fragmentValue>
-</mvc:fragmentValue>
-</mvc:fragmentValue>
-</mvc:fragmentValue>
-</mvc:fragmentValue>
-</mvc:fragmentValue>
-</mvc:fragmentValue>
-</mvc:fragmentValue>
-</mvc:fragmentValue>
-</mvc:fragmentValue>
-</mvc:fragmentValue>
-</mvc:fragmentValue>
-</mvc:fragmentValue>
-</mvc:fragment>
+    </mvc:fragment>
 </mvc:formatter>
 <%} catch (Throwable t) {
     System.out.println("Error showing I18nSet input " + t);
