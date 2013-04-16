@@ -27,7 +27,7 @@
         <mvc:fragmentValue name="title" id="title">
             <mvc:fragmentValue name="styleclass" id="styleclass">
                 <mvc:fragmentValue name="cssStyle" id="cssStyle">
-                    <hr <%=styleclass!=null && ((String)styleclass).trim().length()>0 ? " class=\""+styleclass+"\"":"class=\"skn-input\""%>
+                    <hr <%=styleclass!=null && ((String)styleclass).trim().length()>0 ? " class=\""+styleclass+"\"" : ""%>
                         <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%> >
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
