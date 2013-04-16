@@ -25,6 +25,8 @@ import org.jbpm.formModeler.api.model.FormDisplayInfo;
 import org.jbpm.formModeler.api.util.helpers.EditorHelper;
 import org.jbpm.formModeler.api.model.i18n.I18nSet;
 import org.jbpm.formModeler.api.util.helpers.CDIHelper;
+import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
+import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.*;
@@ -356,7 +358,10 @@ public class FormManagerImpl implements FormManager {
 
 
             if (label != null){
-                label.setValue("en", fieldType.getCode()+field.getPosition());
+                String currentLang = ((LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager")).getDefaultLang();
+                if(label.getValue(currentLang)==null) {
+                    label.setValue(currentLang, fieldType.getCode()+field.getPosition());
+                }
                 field.setLabel(label);
             }
 
