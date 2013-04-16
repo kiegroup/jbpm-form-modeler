@@ -47,6 +47,10 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     @Override
     public String generateFormXML(Form form) {
         XMLNode rootNode = new XMLNode(NODE_FORM, null);
+
+        TestFormSerialization test = new TestFormSerialization();
+        test.saveFormToLocalDrive(form);
+
         return generateFormXML(form, rootNode);
     }
 
@@ -153,6 +157,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
             }
             StringWriter sw = new StringWriter();
             rootNode.writeXML(sw, true);
+
             return sw.toString();
         } catch (Exception e) {
 
