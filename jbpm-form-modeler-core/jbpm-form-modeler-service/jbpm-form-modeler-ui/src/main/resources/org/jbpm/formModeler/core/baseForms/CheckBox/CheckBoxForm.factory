@@ -26,9 +26,9 @@ showMode=
 formProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
 status=0
 
-fields=.fields.NameField,\
-org.jbpm.formModeler.core.baseForms.CheckBox.fields.LabelField,\
-       .fields.ErrorMessageField,\
+fields=org.jbpm.formModeler.core.baseForms.CheckBox.fields.NameField,\
+       org.jbpm.formModeler.core.baseForms.CheckBox.fields.LabelField,\
+       org.jbpm.formModeler.core.baseForms.CheckBox.fields.ErrorMessageField,\
        org.jbpm.formModeler.core.baseForms.CheckBox.fields.LabelCssClassField,\
        org.jbpm.formModeler.core.baseForms.CheckBox.fields.LabelCssStyleField,\
        org.jbpm.formModeler.core.baseForms.CheckBox.fields.TitleField,\
@@ -38,4 +38,5 @@ org.jbpm.formModeler.core.baseForms.CheckBox.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.CheckBox.fields.DisabledField,\
        org.jbpm.formModeler.core.baseForms.CheckBox.fields.ReadonlyField,\
        org.jbpm.formModeler.core.baseForms.CheckBox.fields.GroupWithPreviousField,\
-       .fields.DefaultValueFormulaField
+       org.jbpm.formModeler.core.baseForms.CheckBox.fields.DefaultValueFormulaField,\
+       org.jbpm.formModeler.core.baseForms.CheckBox.fields.BindingField

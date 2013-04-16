@@ -26,9 +26,9 @@ showMode=
 formProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
 status=0
 
-fields=.fields.NameField,\
-org.jbpm.formModeler.core.baseForms.InputDate.fields.LabelField,\
-       .fields.ErrorMessageField,\
+fields=org.jbpm.formModeler.core.baseForms.InputDate.fields.NameField,\
+       org.jbpm.formModeler.core.baseForms.InputDate.fields.LabelField,\
+       org.jbpm.formModeler.core.baseForms.InputDate.fields.ErrorMessageField,\
        org.jbpm.formModeler.core.baseForms.InputDate.fields.LabelCssClassField,\
        org.jbpm.formModeler.core.baseForms.InputDate.fields.LabelCssStyleField,\
        org.jbpm.formModeler.core.baseForms.InputDate.fields.TitleField,\
@@ -39,6 +39,7 @@ org.jbpm.formModeler.core.baseForms.InputDate.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.InputDate.fields.RequiredField,\
        org.jbpm.formModeler.core.baseForms.InputDate.fields.DisabledField,\
        org.jbpm.formModeler.core.baseForms.InputDate.fields.ReadonlyField,\
-       .fields.FormulaField,\
+       org.jbpm.formModeler.core.baseForms.InputDate.fields.FormulaField,\
        org.jbpm.formModeler.core.baseForms.InputDate.fields.DefaultValueFormulaField,\
-       .fields.GroupWithPreviousField
+       org.jbpm.formModeler.core.baseForms.InputDate.fields.GroupWithPreviousField,\
+       org.jbpm.formModeler.core.baseForms.InputDate.fields.BindingField

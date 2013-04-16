@@ -44,4 +44,5 @@ fields=org.jbpm.formModeler.core.baseForms.FreeText.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.FreeText.fields.RangeFormulaField,\
        org.jbpm.formModeler.core.baseForms.FreeText.fields.PatternField,\
        org.jbpm.formModeler.core.baseForms.FreeText.fields.ForceShowModeField,\
-       org.jbpm.formModeler.core.baseForms.FreeText.fields.GroupWithPreviousField
+       org.jbpm.formModeler.core.baseForms.FreeText.fields.GroupWithPreviousField,\
+       org.jbpm.formModeler.core.baseForms.FreeText.fields.BindingField

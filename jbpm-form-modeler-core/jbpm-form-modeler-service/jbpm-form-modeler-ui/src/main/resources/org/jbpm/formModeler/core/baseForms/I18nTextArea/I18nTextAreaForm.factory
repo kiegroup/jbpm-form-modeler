@@ -27,7 +27,7 @@ formProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
 status=0
 
 fields=.fields.NameField,\
-.fields.LabelField,\
+       .fields.LabelField,\
        .fields.ErrorMessageField,\
        .fields.LabelCssClassField,\
        .fields.LabelCssStyleField,\
@@ -42,4 +42,5 @@ fields=.fields.NameField,\
        .fields.DisabledField,\
        .fields.ReadonlyField,\
        .fields.DefaultValueFormulaField,\
-       .fields.GroupWithPreviousField
+       .fields.GroupWithPreviousField,\
+       .fields.BindingField

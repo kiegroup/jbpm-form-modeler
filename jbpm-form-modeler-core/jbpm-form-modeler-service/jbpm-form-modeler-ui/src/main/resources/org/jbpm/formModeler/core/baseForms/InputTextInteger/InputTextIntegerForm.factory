@@ -26,9 +26,9 @@ showMode=
 formProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
 status=0
 
-fields=.fields.NameField,\
-org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.LabelField,\
-       .fields.ErrorMessageField,\
+fields=org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.NameField,\
+       org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.LabelField,\
+       org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.ErrorMessageField,\
        org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.LabelCssClassField,\
        org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.LabelCssStyleField,\
        org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.TitleField,\
@@ -42,4 +42,5 @@ org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.FormulaField,\
        org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.RangeFormulaField,\
        org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.DefaultValueFormulaField,\
-       .fields.GroupWithPreviousField
+       org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.GroupWithPreviousField,\
+       org.jbpm.formModeler.core.baseForms.InputTextInteger.fields.BindingField

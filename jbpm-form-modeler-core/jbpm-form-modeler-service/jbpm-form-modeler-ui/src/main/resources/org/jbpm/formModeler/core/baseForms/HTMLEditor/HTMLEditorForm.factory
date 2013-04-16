@@ -26,8 +26,8 @@ showMode=
 formProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
 status=0
 
-fields=.fields.NameField,\
-org.jbpm.formModeler.core.baseForms.HTMLEditor.fields.LabelField,\
+fields=org.jbpm.formModeler.core.baseForms.HTMLEditor.fields.NameField,\
+       org.jbpm.formModeler.core.baseForms.HTMLEditor.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.HTMLEditor.fields.ErrorMessageField,\
        org.jbpm.formModeler.core.baseForms.HTMLEditor.fields.LabelCssClassField,\
        org.jbpm.formModeler.core.baseForms.HTMLEditor.fields.LabelCssStyleField,\
@@ -41,4 +41,5 @@ org.jbpm.formModeler.core.baseForms.HTMLEditor.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.HTMLEditor.fields.DisabledField,\
        org.jbpm.formModeler.core.baseForms.HTMLEditor.fields.ReadonlyField,\
        org.jbpm.formModeler.core.baseForms.HTMLEditor.fields.GroupWithPreviousField,\
-       org.jbpm.formModeler.core.baseForms.HTMLEditor.fields.DefaultValueFormulaField
+       org.jbpm.formModeler.core.baseForms.HTMLEditor.fields.DefaultValueFormulaField,\
+       org.jbpm.formModeler.core.baseForms.HTMLEditor.fields.BindingField

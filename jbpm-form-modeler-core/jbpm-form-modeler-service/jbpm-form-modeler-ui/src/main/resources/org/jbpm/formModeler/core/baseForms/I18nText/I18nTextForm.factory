@@ -26,20 +26,21 @@ showMode=
 formProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
 status=0
 
-fields=.fields.NameField,\
-org.jbpm.formModeler.core.baseForms.I18nText.fields.LabelField,\
-       .fields.ErrorMessageField,\
+fields=org.jbpm.formModeler.core.baseForms.I18nText.fields.NameField,\
+       org.jbpm.formModeler.core.baseForms.I18nText.fields.LabelField,\
+       org.jbpm.formModeler.core.baseForms.I18nText.fields.ErrorMessageField,\
        org.jbpm.formModeler.core.baseForms.I18nText.fields.LabelCssClassField,\
        org.jbpm.formModeler.core.baseForms.I18nText.fields.LabelCssStyleField,\
        org.jbpm.formModeler.core.baseForms.I18nText.fields.TitleField,\
        org.jbpm.formModeler.core.baseForms.I18nText.fields.CssClassField,\
        org.jbpm.formModeler.core.baseForms.I18nText.fields.CssStyleField,\
-       .fields.HTMLContainerField,\
+       org.jbpm.formModeler.core.baseForms.I18nText.fields.HTMLContainerField,\
        org.jbpm.formModeler.core.baseForms.I18nText.fields.SizeField,\
        org.jbpm.formModeler.core.baseForms.I18nText.fields.MaxlengthField,\
        org.jbpm.formModeler.core.baseForms.I18nText.fields.RequiredField,\
        org.jbpm.formModeler.core.baseForms.I18nText.fields.DisabledField,\
        org.jbpm.formModeler.core.baseForms.I18nText.fields.ReadonlyField,\
-       .fields.IsHTMLField,\
-       .fields.DefaultValueFormulaField,\
-       org.jbpm.formModeler.core.baseForms.I18nText.fields.GroupWithPreviousField
+       org.jbpm.formModeler.core.baseForms.I18nText.fields.IsHTMLField,\
+       org.jbpm.formModeler.core.baseForms.I18nText.fields.DefaultValueFormulaField,\
+       org.jbpm.formModeler.core.baseForms.I18nText.fields.GroupWithPreviousField,\
+       org.jbpm.formModeler.core.baseForms.I18nText.fields.BindingField

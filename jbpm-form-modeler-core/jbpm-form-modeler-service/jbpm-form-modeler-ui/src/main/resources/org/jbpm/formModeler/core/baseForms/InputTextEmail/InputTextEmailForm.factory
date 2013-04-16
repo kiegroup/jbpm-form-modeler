@@ -26,18 +26,19 @@ showMode=
 formProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
 status=0
 
-fields=.fields.NameField,\
-org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.LabelField,\
-       .fields.ErrorMessageField,\
+fields=org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.NameField,\
+       org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.LabelField,\
+       org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.ErrorMessageField,\
        org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.LabelCssClassField,\
        org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.LabelCssStyleField,\
        org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.TitleField,\
        org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.CssClassField,\
        org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.CssStyleField,\
-       .fields.HTMLContainerField,\
+       org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.HTMLContainerField,\
        org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.SizeField,\
        org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.RequiredField,\
        org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.DisabledField,\
        org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.ReadonlyField,\
        org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.DefaultValueFormulaField,\
-       .fields.GroupWithPreviousField
+       org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.GroupWithPreviousField,\
+       org.jbpm.formModeler.core.baseForms.InputTextEmail.fields.BindingField

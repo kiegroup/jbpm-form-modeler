@@ -14,18 +14,29 @@
 # limitations under the License.
 #
 
-$class=org.jbpm.formModeler.core.FormTemplate
+#Injected by i18nTool
+#Mon Nov 19 10:53:26 CET 2012
+$class=org.jbpm.formModeler.core.FieldTemplate
+$description=Field template
 $scope=global
-$description=Field form for HTML label
-
-name=HTMLLabel
-subject=org.jbpm.formModeler.api.model.Field
-displayMode=default
-labelMode=undefined
-showMode=
-formProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
-status=0
-
-fields=org.jbpm.formModeler.core.baseForms.HTMLLabel.fields.HtmlContentField,\
-       org.jbpm.formModeler.core.baseForms.HTMLLabel.fields.GroupWithPreviousField,\
-       org.jbpm.formModeler.core.baseForms.HTMLLabel.fields.BindingField
+accesskey=
+cssStyle=
+disabled=
+fieldName=binding
+fieldRequired=
+formula=
+groupWithPrevious=
+height=
+label.ca=Exp. Enlla\u00E7
+label.en=Binding expression
+label.es=Exp.enlace
+maxlength=512
+pattern=
+rangeFormula=
+readonly=
+size=54
+styleclass=
+title.ca=Exp. Enlla\u00E7
+title.en=Binding expression
+title.es=Exp.enlace
+type=InputText

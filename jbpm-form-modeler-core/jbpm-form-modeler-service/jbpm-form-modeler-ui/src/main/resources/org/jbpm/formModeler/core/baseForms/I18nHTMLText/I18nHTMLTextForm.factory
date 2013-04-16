@@ -26,9 +26,9 @@ showMode=
 formProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
 status=0
 
-fields=.fields.NameField,\
-org.jbpm.formModeler.core.baseForms.I18nHTMLText.fields.LabelField,\
-       .fields.ErrorMessageField,\
+fields=org.jbpm.formModeler.core.baseForms.I18nHTMLText.fields.NameField,\
+       org.jbpm.formModeler.core.baseForms.I18nHTMLText.fields.LabelField,\
+       org.jbpm.formModeler.core.baseForms.I18nHTMLText.fields.ErrorMessageField,\
        org.jbpm.formModeler.core.baseForms.I18nHTMLText.fields.LabelCssClassField,\
        org.jbpm.formModeler.core.baseForms.I18nHTMLText.fields.LabelCssStyleField,\
        org.jbpm.formModeler.core.baseForms.I18nHTMLText.fields.TitleField,\
@@ -40,4 +40,5 @@ org.jbpm.formModeler.core.baseForms.I18nHTMLText.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.I18nHTMLText.fields.RequiredField,\
        org.jbpm.formModeler.core.baseForms.I18nHTMLText.fields.DisabledField,\
        org.jbpm.formModeler.core.baseForms.I18nHTMLText.fields.ReadonlyField,\
-       org.jbpm.formModeler.core.baseForms.I18nHTMLText.fields.GroupWithPreviousField
+       org.jbpm.formModeler.core.baseForms.I18nHTMLText.fields.GroupWithPreviousField,\
+       org.jbpm.formModeler.core.baseForms.I18nHTMLText.fields.BindingField

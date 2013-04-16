@@ -26,8 +26,8 @@ showMode=
 formProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
 status=0
 
-fields=.fields.NameField,\
-org.jbpm.formModeler.core.baseForms.Currency.fields.LabelField,\
+fields=org.jbpm.formModeler.core.baseForms.Currency.fields.NameField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.Currency.fields.ErrorMessageField,\
        org.jbpm.formModeler.core.baseForms.Currency.fields.LabelCssClassField,\
        org.jbpm.formModeler.core.baseForms.Currency.fields.LabelCssStyleField,\
@@ -42,4 +42,5 @@ org.jbpm.formModeler.core.baseForms.Currency.fields.LabelField,\
        org.jbpm.formModeler.core.baseForms.Currency.fields.FormulaField,\
        org.jbpm.formModeler.core.baseForms.Currency.fields.RangeFormulaField,\
        org.jbpm.formModeler.core.baseForms.Currency.fields.PatternField,\
-       org.jbpm.formModeler.core.baseForms.Currency.fields.GroupWithPreviousField
+       org.jbpm.formModeler.core.baseForms.Currency.fields.GroupWithPreviousField,\
+       org.jbpm.formModeler.core.baseForms.Currency.fields.BindingField
