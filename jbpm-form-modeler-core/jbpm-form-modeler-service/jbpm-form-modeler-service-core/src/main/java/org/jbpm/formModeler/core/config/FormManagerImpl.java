@@ -354,7 +354,11 @@ public class FormManagerImpl implements FormManager {
             field.setForm(pForm);
             field.setPosition(pForm.getFormFields().size());
 
-            if (label != null) field.setLabel(label);
+
+            if (label != null){
+                label.setValue("en", fieldType.getCode()+field.getPosition());
+                field.setLabel(label);
+            }
 
             pForm.getFormFields().add(field);
 
