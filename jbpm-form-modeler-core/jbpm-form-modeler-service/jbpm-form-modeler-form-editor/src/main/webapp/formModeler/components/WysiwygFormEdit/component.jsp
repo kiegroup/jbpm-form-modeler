@@ -54,7 +54,7 @@
             <mvc:fragmentValue name="optionImage" id="optionImage">
                 <input type="image"
                        onclick="setFormInputValue(this.form,'<factory:bean property="currentEditionOption"/>','<%=optionName%>');"
-                       style="cursor:hand;  title="<i18n:message key="<%="op_"+optionName%>"><%=optionName%></i18n:message>"
+                       style="cursor:hand;"  title="<%=optionName %>"
                        src="<static:image relativePath="<%=(String)optionImage%>"/>">
             </mvc:fragmentValue>
         </mvc:fragmentValue>
@@ -64,7 +64,7 @@
             <mvc:fragmentValue name="optionImage" id="optionImage">
                 <input type="image"
                        onclick="setFormInputValue(this.form,'<factory:bean property="currentEditionOption"/>','<%=optionName%>');"
-                       style="cursor:hand;  opacity:.5;" title="<i18n:message key="<%="op_"+optionName%>"><%=optionName%></i18n:message>"
+                       style="cursor:hand;  opacity:.5;" title="<%=optionName%>"
                        src="<static:image relativePath="<%=(String)optionImage%>"/>">
             </mvc:fragmentValue>
         </mvc:fragmentValue>

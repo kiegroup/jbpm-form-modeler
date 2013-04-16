@@ -45,7 +45,7 @@ public class AppSetup {
     //private static final String REPO_PLAYGROUND = "jbpm-playground";
     //private static final String ORIGIN_URL      = "https://github.com/guvnorngtestuser1/jbpm-console-ng-playground.git";
     private static final String REPO_PLAYGROUND = "uf-playground";
-    private static final String ORIGIN_URL      = "https://github.com/guvnorngtestuser1/guvnorng-playground.git";
+    private static final String ORIGIN_URL      = "https://github.com/nmiraschTest/guvnorng-playground.git";
 
 
     //@Inject
@@ -71,7 +71,7 @@ public class AppSetup {
                  System.out.println("error recuperando repo "+ e);
                 }
         if(repository == null) {
-            final String userName = "guvnorngtestuser1";
+            final String userName = "nmiraschTest";
             final String password = "test1234";
             repositoryService.cloneRepository("git", REPO_PLAYGROUND, ORIGIN_URL, userName, password);
             repository = repositoryService.getRepository(REPO_PLAYGROUND);
