@@ -39,7 +39,7 @@
     function showAreas(divName, position, grouped) {
         $.each(dropableAreas, function(index, item) {
             var previous = position - 1;
-            if (!item.startsWith(divName + position) && !(grouped && item == divName + (previous) + "_right") ) $(item).show();
+            if ((item.indexOf(divName + position)==-1) && !(grouped && item == divName + (previous) + "_right") ) $(item).show();
             else if (grouped && item == divName + position + "_bottom") $(item).show();
         });
     }
@@ -134,6 +134,7 @@
     function enableMenuForItem(divElement, force) {
         if(!force && !changeEnabled) return true;
         buttonsForField(divElement, true);
+
         divElement.style.border='dotted #FCC917 2px';
         divElement.style.margin='0px';
         divElement.style.zIndex='5000';
