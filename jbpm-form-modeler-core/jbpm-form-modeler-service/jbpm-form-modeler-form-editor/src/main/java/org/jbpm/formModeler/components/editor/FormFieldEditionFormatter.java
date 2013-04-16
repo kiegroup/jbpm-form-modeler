@@ -16,6 +16,7 @@
 package org.jbpm.formModeler.components.editor;
 
 import org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter;
+import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
 import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.core.config.FieldTypeManagerImpl;
@@ -81,6 +82,9 @@ public class FormFieldEditionFormatter extends FormRenderingFormatter {
         String fieldName = field.getFieldName();
         boolean isDecorator = field.getFieldName().startsWith(":");
         if (isDecorator) fieldName = "{" + fieldName + "}";
+        if(field.getLabel()!=null && (field.getLabel().getValue(((LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager")).getDefaultLang())!=null)){
+           fieldName =field.getLabel().getValue(((LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager")).getDefaultLang());
+        }
         setAttribute("fieldName", fieldName);
         setAttribute("isDecorator", isDecorator);
         renderFragment("outputStart");
