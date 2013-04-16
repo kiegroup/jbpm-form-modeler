@@ -52,7 +52,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
     public static final String EDITION_OPTION_FIELDTYPES = "fieldTypes";
     public static final String EDITION_OPTION_FORM_PROPERTIES = "formProperties";
-    public static final String EDITION_OPTION_BINDINGS = "fieldBindigs";
+    public static final String EDITION_OPTION_BINDINGS = "fieldBindings";
 
     public static final String EDITION_OPTION_IMG_FIELDTYPES = "general/AddFieldsByType.png";
     public static final String EDITION_OPTION_IMG_FORM_PROPERTIES = "general/FormProperties.png";
