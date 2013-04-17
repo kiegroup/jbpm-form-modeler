@@ -53,8 +53,7 @@
                                     <%--Edit button--%>
                                 <a title="<i18n:message key="edit">!!!Editar</i18n:message>"
                                    id="<factory:encode name='<%=(String)buttonId%>'/>"
-                                   href="<factory:url action="startEdit"><factory:param name="position" value="<%=position%>"/></factory:url>"
-                                   onclick="selectEditionField(<%=position%>, '<factory:encode name="formMenuDiv"/>');"    >
+                                   href="<factory:url action="startEdit"><factory:param name="position" value="<%=position%>"/></factory:url>">
                                     <img src="<%=(String)icon%>" border="0" alt="<i18n:message key="edit">!!!Editar</i18n:message>" align="absmiddle">
                                 </a>
                                 <script defer="true">

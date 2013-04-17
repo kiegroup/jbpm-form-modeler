@@ -29,6 +29,7 @@
 <script defer>
     var changeEnabled = true;
     var selectedDiv = "";
+    var editedDiv = "";
     var selectedField = -1;
     var dropableAreas = [];
 
@@ -48,27 +49,6 @@
         $.each(dropableAreas, function(index, item) {
             $(item).hide();
         });
-    }
-
-    function selectEditionField(position, divNames) {
-        var divId = divNames+position;
-
-
-        if (selectedDiv) {
-            var oldSelectedDiv = selectedDiv;
-            selectedDiv = '';
-            disableMenuForItem(document.getElementById(oldSelectedDiv));
-//            var divPrev = $(selectedDiv);
-//            divPrev.css("border","none");
-
-        }
-
-        selectedDiv = divId;
-        selectedField = position;
-
-        //var divSelec = $(selectedDiv);
-        //divSelec.backgroundColor = '#FEE48B';
-
     }
 
     function selectField(position, divName, grouped) {
@@ -132,63 +112,59 @@
     }
 
     function enableMenuForItem(divElement, force) {
-        if(!force && !changeEnabled) return true;
+        if(editedDiv == divElement.id || (!force && !changeEnabled)) return true;
         buttonsForField(divElement, true);
 
-        divElement.style.border='dotted #FCC917 2px';
+        divElement.style.border='dotted #333333 2px';
         divElement.style.margin='0px';
         divElement.style.zIndex='5000';
     }
 
     function disableMenuForItem(divElement) {
+        if(editedDiv == divElement.id) return true;
         changeEnabled = true;
         buttonsForField(divElement, false);
         if (divElement.id == selectedDiv) return;
         divElement.style.border='none';
         divElement.style.margin='2px';
         divElement.style.zIndex='0'
-        divElement.style.background = '';
     }
 
-    function highlightLastMovedElement() {
-        var movedPosition = <factory:property property="lastMovedFieldPosition" />;
-        if( movedPosition >= 0 ){
-            var movedId = "<factory:encode name="formMenuDiv"/>"+movedPosition;
-            var movedDiv = $(movedId);
-            if ( movedDiv ){
-                movedDiv.style.background = '#FEE48B';
-                enableMenuForItem(movedDiv, true);
-                setTimeout("disableMenuForItem($('"+movedId+"').get(0))",500);
+    function highlightFields() {
+        highlightMovedField();
+        highlightEditedField();
+    }
+
+    function highlightMovedField() {
+        highlightField(<factory:property property="lastMovedFieldPosition" />, true);
+    }
+
+    function highlightEditedField() {
+        highlightField(<factory:property property="currentEditFieldPosition" />, false);
+    }
+
+    function highlightField(position, timeout) {
+        if( position >= 0 ){
+            var divId = "<factory:encode name="formMenuDiv"/>" + position;
+            var div = $("#" + divId);
+            if (div){
+                if (timeout) {
+                    enableMenuForItem(div.get(0), true);
+                    setTimeout("disableMenuForItem($('#"+divId+"').get(0))",500);
+                } else {
+                    editedDiv = divId;
+                    div.css("border", "dotted #CCCCCC 2px");
+                    div.css("margin", "0px");
+                    div.css("background-color", "fcfcfc");
+                }
             } else {
                 //alert("I cant find div with id "+movedId);
             }
         }
     }
 
-    setTimeout('highlightLastMovedElement()',1);
+    setTimeout('highlightFields()',1);
 </script>
-<style type="text/css">
-    .horizontal_drop_area {
-        cursor: pointer;
-        height:10px;
-        width:50px;
-        border: dotted #BD3826 1px;
-        margin:2px;
-        display:none;
-    }
-
-    .vertical_drop_area {
-        cursor: pointer;
-        height:40px;
-        max-height:50px;
-        min-width:10px;
-        width:10px;
-        z-index:2000;
-        border: dotted #BD3826 1px;
-        margin:2px;
-        display:none;
-    }
-</style>
 <div style="overflow: hidden;">
     <form id="<factory:encode name="changeFieldPositionForm"/>" action="<factory:formUrl/>" method="post" style="margin: 0px;">
         <factory:handler action="moveField"/>
@@ -368,28 +344,3 @@
 
 </mvc:fragment>
 </mvc:formatter>
-
-
-<form action="<factory:formUrl/>" id="refreshForm" method="POST">
-    <factory:handler  action="void"/>
-</form>
-<script defer="true">
-    setAjax("refreshForm");
-
-    var formMustBeRefreshed = false;
-    refreshEditorForm = function(){
-        if(FX){
-            setTimeout('refreshFormTimer()',100);
-            formMustBeRefreshed = true;
-        }
-        else {
-            submitAjaxForm(document.getElementById('refreshForm'));
-        }
-    }
-    function refreshFormTimer() {
-        if(formMustBeRefreshed) {
-            submitAjaxForm(document.getElementById('refreshForm'));
-            formMustBeRefreshed = false;
-        }
-    }
-</script>
