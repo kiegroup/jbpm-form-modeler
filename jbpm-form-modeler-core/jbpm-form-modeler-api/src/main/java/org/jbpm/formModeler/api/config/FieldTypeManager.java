@@ -28,6 +28,8 @@ public interface FieldTypeManager extends Serializable {
 
     FieldType getTypeByCode(String typeCode) throws Exception;
 
+    FieldType getTypeByClass(String classType) throws Exception;
+
     FieldType getTypeByCode(String typeCode, boolean tryToCreateTypes) throws Exception;
 
     String getIconPathForCode(String code);

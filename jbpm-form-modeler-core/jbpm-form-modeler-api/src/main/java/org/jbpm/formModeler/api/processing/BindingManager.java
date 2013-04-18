@@ -19,6 +19,7 @@ package org.jbpm.formModeler.api.processing;
 import org.jbpm.formModeler.api.model.FieldType;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 public interface BindingManager {
     PropertyDefinition getPropertyDefinition(FieldType type) throws Exception;
@@ -27,4 +28,6 @@ public interface BindingManager {
     boolean hasProperty(Object obj, String propName);
     Object getPropertyValue(Object obj, String propName);
     void setPropertyValue(Object destination, String propName, Object value) throws NoSuchFieldException, NoSuchMethodException, InvocationTargetException, IllegalAccessException;
+
+    public Map calculatePropertyNames(String className);
 }

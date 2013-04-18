@@ -23,3 +23,47 @@
 
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 
+<mvc:formatter name="org.jbpm.formModeler.components.editor.BindingFormFormatter">
+    <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="outputStart">
+        <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="generateForm"/>">
+        <factory:handler action="generateForm" />
+        <div class="bindingProperties">
+        <table>
+
+    </mvc:fragment>
+    <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="outputNameInput">
+        <tr>
+        <td>
+            <b>Class name</b><br>
+            <input name="className" type="text" class="skn-input"
+                   value=""
+                   size="20" maxlength="64">
+        </td>
+        </tr>
+    </mvc:fragment>
+    <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="outputEnd">
+        <tr>
+            <td>
+                <table cellpadding="1" cellspacing="0" border="0" width="100%">
+                    <tr>
+                        <td align="center" style="height:30px" nowrap>
+                            <input id="<factory:encode name="generateFormSubmit"/>" type="submit"
+                                   class="skn-button" value="Generate Form"/>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        </table>
+        </div>
+        </form>
+        <script defer>
+            setAjax("<factory:encode name="generateForm"/>");
+        </script>
+
+    </mvc:fragment>
+    <%------------------------------------------------------------------------------------------------------------%>
+</mvc:formatter>

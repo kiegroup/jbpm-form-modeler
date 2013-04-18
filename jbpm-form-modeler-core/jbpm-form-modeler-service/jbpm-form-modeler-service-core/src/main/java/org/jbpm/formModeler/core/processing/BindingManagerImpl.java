@@ -20,6 +20,7 @@ import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.processing.BindingManager;
 import org.jbpm.formModeler.api.processing.PropertyDefinition;
 import org.jbpm.formModeler.api.util.helpers.CDIHelper;
+import org.jbpm.formModeler.core.config.FieldTypeManagerImpl;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.lang.Class;
@@ -29,9 +30,15 @@ import java.lang.String;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 @ApplicationScoped
 public class BindingManagerImpl implements BindingManager {
+
+
     @Override
     public PropertyDefinition getPropertyDefinition(FieldType type) throws Exception {
         PropertyDefinitionImpl def = new PropertyDefinitionImpl();
@@ -97,4 +104,81 @@ public class BindingManagerImpl implements BindingManager {
     public static final BindingManagerImpl lookup() {
         return (BindingManagerImpl) CDIHelper.getBeanByType(BindingManagerImpl.class);
     }
+
+    public Map calculatePropertyNames(String className) {
+        Class clase = null;
+        try {
+            clase = Class.forName(className);
+        } catch (ClassNotFoundException e) {
+        }
+
+        if (clase == null) {
+            return null;
+        }
+
+        Map staticProperties = new HashMap();
+        Map propertiesDescriptors = new HashMap();
+        Method[] methods = clase.getMethods();
+        for (int i = 0; i < methods.length; i++) {
+            Method method = methods[i];
+            String methodName = method.getName();
+            Class[] parameterTypes = method.getParameterTypes();
+            Class returnType = method.getReturnType();
+            if (isValidReturnType(returnType.getName())) {
+                String propertyName = getPropertyName(methodName, returnType, parameterTypes);
+                if (propertyName != null && Modifier.isPublic(method.getModifiers())) {
+                    Map values = (Map) propertiesDescriptors.get(propertyName);
+                    if (values == null)
+                        propertiesDescriptors.put(propertyName, values = new HashMap());
+                    Class clazz = parameterTypes.length == 0 ? returnType : parameterTypes[0]; // Relevant
+                    // class
+                    Boolean[] clazzValues = (Boolean[]) values.get(clazz);
+                    if (clazzValues == null)
+                        values.put(clazz, clazzValues = new Boolean[]{Boolean.FALSE, Boolean.FALSE});
+                    clazzValues[parameterTypes.length] = Boolean.TRUE;// 0 ->
+                    // getter,
+                    // 1->
+                    // setter
+                }
+            }
+        }
+        for (Iterator it = propertiesDescriptors.keySet().iterator(); it.hasNext(); ) {
+            String propertyName = (String) it.next();
+            Map propertyValue = (Map) propertiesDescriptors.get(propertyName);
+            for (Iterator itMethods = propertyValue.keySet().iterator(); itMethods.hasNext(); ) {
+                Class clazz = (Class) itMethods.next();
+                Boolean[] clazzValues = (Boolean[]) propertyValue.get(clazz);
+                if (clazzValues[0].booleanValue() && clazzValues[1].booleanValue()) {
+                    staticProperties.put(propertyName, clazz);
+                    break;
+                }
+            }
+        }
+        return staticProperties;
+    }
+
+    public boolean isValidReturnType(String returnType){
+        if(returnType== null) return false;
+        if ("void".equals(returnType)) return true;
+        if (FieldTypeManagerImpl.lookup().getTypeByClass(returnType) != null) return true;
+        //else if ("boolean".equals(returnType)) return true;
+        else return false;
+
+    }
+
+    protected String getPropertyName(String methodName, Class returnType, Class[] parameterTypes) {
+        String propName = null;
+        if (((methodName.startsWith("get") && (parameterTypes.length == 0)) || (methodName.startsWith("set") && parameterTypes.length == 1)) && methodName.length() > 3) {
+            propName = String.valueOf(Character.toLowerCase(methodName.charAt(3)));
+            if (methodName.length() > 4)
+                propName += methodName.substring(4);
+        } else if (methodName.startsWith("is") && methodName.length() > 2 && returnType.equals(Boolean.class) && parameterTypes.length == 0) {
+            propName = String.valueOf(Character.toLowerCase(methodName.charAt(2)));
+            if (methodName.length() > 3)
+                propName += methodName.substring(3);
+        }
+        return propName;
+    }
+
+
 }

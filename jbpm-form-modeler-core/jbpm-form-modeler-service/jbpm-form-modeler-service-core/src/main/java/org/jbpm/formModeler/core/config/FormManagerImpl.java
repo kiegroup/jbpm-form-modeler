@@ -333,6 +333,20 @@ public class FormManagerImpl implements FormManager {
      * @throws Exception in case of error
      */
     public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label) {
+        return addFieldToForm(pForm, fieldName, fieldType,label,"");
+    }
+
+
+    /**
+     * Adds a field to a form.
+     *
+     * @param pForm     Form to be modified
+     * @param fieldName Field name to create
+     * @param fieldType Field type
+     * @throws Exception in case of error
+     */
+    @Override
+    public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label,String bindingExpresion) {
         synchronized (pForm.getSynchronizationObject()) {
             Set<Field> fields = pForm.getFormFields();
 
@@ -353,6 +367,7 @@ public class FormManagerImpl implements FormManager {
             field.setFieldName(fieldName);
             field.setFieldRequired(Boolean.FALSE);
             field.setFieldType(fieldType);
+            field.setBindingStr(bindingExpresion);
             field.setForm(pForm);
             field.setPosition(pForm.getFormFields().size());
 

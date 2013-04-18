@@ -193,6 +193,14 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
     }
 
     @Override
+    public FieldType getTypeByClass(String className){
+        for (FieldType fieldType : fieldTypes) {
+            if (fieldType.getFieldClass().equals(className)) return fieldType;
+        }
+        return null;
+    }
+
+    @Override
     public String getIconPathForCode(String code) {
         if (code == null) {
             Logger.getLogger(FormManagerImpl.class.getName()).log(Level.SEVERE, "Retrieving icon for field type with code null. All types must have a code.");
@@ -208,4 +216,5 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
     public static FieldTypeManagerImpl lookup() {
         return (FieldTypeManagerImpl) CDIHelper.getBeanByType(FieldTypeManagerImpl.class);
     }
+
 }

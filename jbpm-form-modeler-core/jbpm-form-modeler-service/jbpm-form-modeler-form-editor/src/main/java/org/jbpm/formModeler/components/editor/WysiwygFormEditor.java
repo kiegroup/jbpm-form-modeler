@@ -21,6 +21,7 @@ import org.jbpm.formModeler.api.processing.BindingManager;
 import org.jbpm.formModeler.core.processing.BindingManagerImpl;
 import org.jbpm.formModeler.core.wrappers.HTMLi18n;
 import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
+import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
@@ -655,6 +656,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         groupField(request, true);
     }
 
+
     protected void groupField(CommandRequest request, final boolean groupIt) throws Exception {
         lastMovedFieldPosition = Integer.decode(request.getParameter("position")).intValue();
         Form form = getCurrentEditForm();
@@ -667,6 +669,32 @@ public class WysiwygFormEditor extends BaseUIComponent {
             } else {
                 log.error("Cannot modify unexistant field");
             }
+        }
+    }
+
+    public synchronized void actionGenerateForm(CommandRequest request) throws Exception {
+        generateFormFields(request.getRequestObject().getParameterMap());
+    }
+
+    public void generateFormFields(Map parameterMap) throws Exception {
+        String[] name = (String[]) parameterMap.get("className");
+        String className = null;
+        if (name != null && name.length > 0) className= name[0];
+        if(className!=null){
+        Map propertyNames = bindingManager.calculatePropertyNames(className);
+
+        Form form = getCurrentEditForm();
+        HashSet campos = new HashSet();
+        String fieldName="";
+
+        form.setFormFields( campos);
+        for (Iterator it= propertyNames.keySet().iterator();it.hasNext();) {
+            fieldName =(String)it.next();
+            I18nSet label = new I18nSet();
+            String defaultLang = ((LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager")).getDefaultLang();
+            label.setValue(defaultLang,fieldName);
+            formManager.addFieldToForm(form,fieldName, fieldTypeManager.getTypeByClass(((Class)propertyNames.get(fieldName)).getName()),label,"#class:"+className+"#prop:"+fieldName);
+        }
         }
     }
 
@@ -705,4 +733,5 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public static void setLog(Log log) {
         WysiwygFormEditor.log = log;
     }
+
 }
