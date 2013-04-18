@@ -27,14 +27,14 @@ fieldRequired=
 formula=
 groupWithPrevious=
 height=2
-label.ca=F\u00F2rmula
-label.en=Formula
-label.es=F\u00F3rmula
+label.ca=F\u00F2rmula:
+label.en=Formula:
+label.es=F\u00F3rmula:
 maxlength=512
 pattern=
 rangeFormula=
 readonly=
-size=60
+size=55
 styleclass=
 title.ca=Permet autocalcular el valor d'un camp a partir del valor d'altres camps. Les operacions permeses s\u00F3n +, -, * i /. Per exemple \=({nom_camp} + 5)/7
 title.en=Allows to calculate the field value from other field values. The operation allowed are +, -, * and /. For example \=({field_name} + 5)/7
