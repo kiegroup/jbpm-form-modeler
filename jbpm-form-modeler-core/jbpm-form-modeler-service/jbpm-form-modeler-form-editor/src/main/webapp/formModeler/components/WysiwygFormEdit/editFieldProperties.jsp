@@ -31,25 +31,6 @@
 <%------------------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="outputStart">
     <mvc:fragmentValue name="fieldName" id="fieldName">
-        <script type="text/javascript" xml:space="preserve">
-        function modifyAllSelects(visibilityStyle){
-            var selects = document.getElementsByTagName('select');
-            for(i=0; i<selects.length; i++){
-                selects[i].style.visibility=visibilityStyle;
-            }
-        }
-        function showTooltip(divId){
-            modifyAllSelects('hidden');
-            document.getElementById("hidderDiv").style.display='block';
-            document.getElementById(divId).style.display='block';
-        }
-        function hideTooltip(divId){
-            document.getElementById(divId).style.display='none';
-            document.getElementById("hidderDiv").style.display='none';
-            modifyAllSelects('visible');
-        }
-
-    </script>
         <div id="<factory:encode name="fieldProperties"/>">
         <form action="<factory:formUrl/>" id="<factory:encode name="updateFormField"/>" method="POST" enctype="multipart/form-data">
         <factory:handler bean="org.jbpm.formModeler.components.editor.WysiwygFormEditor" action="saveFieldProperties"/>
@@ -148,19 +129,13 @@
                                                     <mvc:formatterParam name="field" value="<%=field%>"/>
                                                     <mvc:fragment name="output">
                                                         <mvc:fragmentValue name="help" id="help">
-                                                            <a href="#" onclick="showTooltip('<%="tooltipDiv_"+fieldPosition%>');return false;">
-                                                                <img src="<static:image relativePath="general/16x16/ico-info.png"/>" border="0" />
-                                                            </a>
-                                                            <div style="position:absolute; display:none; width:100%; height:100; padding:20px; z-index:100;" id='<%="tooltipDiv_"+fieldPosition%>'>
-                                                                <div style=" background-color: rgb(255, 255, 175); padding:10px; position:relative; left:-330px; top:-40px; width:300px; z-index:100">
-                                                                    <div align="right">
-                                                                        <a href="#" onclick="hideTooltip('<%="tooltipDiv_"+fieldPosition%>');return false;">
-                                                                            <img src="<static:image relativePath="general/16x16/ico-process-stop.png"/>" border="0" />
-                                                                        </a>
-                                                                    </div>
-                                                                    <%=StringEscapeUtils.unescapeHtml((String)help)%>
-                                                                </div>
-                                                            </div>
+                                                            <img src="<static:image relativePath="general/16x16/ico-info.png"/>"
+                                                                 id="<%="tooltip_" + fieldPosition%>" border="0" title="<%=StringEscapeUtils.unescapeHtml((String)help)%>"/>
+                                                            <script type="text/javascript" defer="defer">
+                                                                $(function() {
+                                                                    $('#<%="tooltip_" + fieldPosition%>').tooltip();
+                                                                });
+                                                            </script>
                                                         </mvc:fragmentValue>
                                                     </mvc:fragment>
                                                 </mvc:formatter>
@@ -173,12 +148,8 @@
                                     </table></td>
                                 </mvc:fragment>
                                 <mvc:fragment name="outputEnd">
-
                                 </mvc:fragment>
                             </mvc:formatter>
-
-
-
                         </mvc:fragmentValue>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>
@@ -238,8 +209,6 @@
                                    onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CANCEL_FIELD_EDITION%>');"></td>
                     </tr>
                 </table>
-
-
             </td>
         </tr>
         </table>
@@ -251,22 +220,7 @@
         </div>
         <script type="text/javascript" defer="defer">
             setAjax("<factory:encode name="updateFormField"/>");
-
         </script>
-        <!-- script type="text/javascript">
-        $(function() {
-        $( '#<factory:encode name="fieldProperties"/>' ).dialog({
-        modal: false,
-        draggable: false,
-        closeOnEscape: false,
-        position: "right top",
-        <%-- maxHeight: 700, --%>
-        width: 600,
-        title:"<%=fieldName%>",
-        open: function() { $(".ui-dialog-titlebar").show();}
-        });
-        });
-        </script-->
     </mvc:fragmentValue>
 </mvc:fragment>
 </mvc:formatter>

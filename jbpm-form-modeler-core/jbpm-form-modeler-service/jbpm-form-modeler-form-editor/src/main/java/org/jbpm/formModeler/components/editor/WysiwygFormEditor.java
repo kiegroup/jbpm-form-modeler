@@ -242,6 +242,8 @@ public class WysiwygFormEditor extends BaseUIComponent {
                 }
             }
             formManager.deleteField(form, pos.intValue());
+            if (currentEditFieldPosition == pos.intValue()) currentEditFieldPosition = -1;
+            else if (currentEditFieldPosition > pos.intValue()) currentEditFieldPosition --;
         }
     }
 
@@ -515,31 +517,41 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
             lastMovedFieldPosition = destPosition;
 
-            if (Boolean.parseBoolean(promote))
+            if (currentEditFieldPosition == origPosition) currentEditFieldPosition = lastMovedFieldPosition;
+
+            if (Boolean.parseBoolean(promote)) {
                 formManager.promoteField(form, origPosition, destPosition, groupWithPrevious, nextGrouped);
-            else formManager.degradeField(form, origPosition, destPosition, groupWithPrevious, nextGrouped);
+                if (currentEditFieldPosition < origPosition && destPosition <= currentEditFieldPosition) currentEditFieldPosition ++;
+            } else {
+                formManager.degradeField(form, origPosition, destPosition, groupWithPrevious, nextGrouped);
+                if (currentEditFieldPosition > origPosition && destPosition >= currentEditFieldPosition) currentEditFieldPosition --;
+            }
         }
     }
 
     public synchronized void actionMoveFirst(CommandRequest request) throws Exception {
-        lastMovedFieldPosition = Integer.decode(request.getParameter("position")).intValue();
+        int fieldPosition = Integer.decode(request.getParameter("position")).intValue();
         Form form = getCurrentEditForm();
         if (form == null) {
             log.error("Cannot modify unexistant form.");
         } else {
-            formManager.moveTop(form, lastMovedFieldPosition);
+            formManager.moveTop(form, fieldPosition);
             lastMovedFieldPosition = 0;
+            if (currentEditFieldPosition == fieldPosition) currentEditFieldPosition = lastMovedFieldPosition;
+            else if (fieldPosition > currentEditFieldPosition) currentEditFieldPosition ++;
         }
     }
 
     public synchronized void actionMoveLast(CommandRequest request) throws Exception {
-        lastMovedFieldPosition = Integer.decode(request.getParameter("position")).intValue();
+        int fieldPosition = Integer.decode(request.getParameter("position")).intValue();
         Form form = getCurrentEditForm();
         if (form == null) {
             log.error("Cannot modify unexistant form.");
         } else {
-            formManager.moveBottom(form, lastMovedFieldPosition);
+            formManager.moveBottom(form, fieldPosition);
             lastMovedFieldPosition = form.getFormFields().size() - 1;
+            if (currentEditFieldPosition == fieldPosition) currentEditFieldPosition = lastMovedFieldPosition;
+            else if (fieldPosition < currentEditFieldPosition) currentEditFieldPosition --;
         }
 
     }

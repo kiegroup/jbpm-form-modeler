@@ -423,3 +423,24 @@ div.GlobalBreadCrump {
     border-collapse: collapse;
     padding: 10px;
 }
+
+.horizontal_drop_area {
+    cursor: pointer;
+    height:10px;
+    width:50px;
+    border: dotted #BD3826 1px;
+    margin:2px;
+    display:none;
+}
+
+.vertical_drop_area {
+    cursor: pointer;
+    height:40px;
+    max-height:50px;
+    min-width:10px;
+    width:10px;
+    z-index:2000;
+    border: dotted #BD3826 1px;
+    margin:2px;
+    display:none;
+}
