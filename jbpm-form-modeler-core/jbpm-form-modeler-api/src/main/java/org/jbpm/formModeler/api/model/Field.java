@@ -73,6 +73,8 @@ public class Field implements Comparable<Field> {
 
     private FieldType fieldType;
 
+    private String bindingStr;
+
     private int position;
 
     private Form form;
@@ -373,6 +375,14 @@ public class Field implements Comparable<Field> {
         this.position = position;
     }
 
+    public String getBindingStr() {
+        return bindingStr;
+    }
+
+    public void setBindingStr(String bindingStr) {
+        this.bindingStr = bindingStr;
+    }
+
     public Form getForm() {
         return form;
     }
@@ -409,6 +419,7 @@ public class Field implements Comparable<Field> {
         names.add("hideContent");
         names.add("defaultValueFormula");
         names.add("htmlContent");
+        names.add("bindingStr");
 
         return names;
     }
@@ -441,6 +452,7 @@ public class Field implements Comparable<Field> {
         value.put("hideContent", getHideContent());
         value.put("defaultValueFormula", getDefaultValueFormula());
         value.put("htmlContent", getHtmlContent());
+        value.put("bindingStr", getBindingStr());
         return value;
     }
 
