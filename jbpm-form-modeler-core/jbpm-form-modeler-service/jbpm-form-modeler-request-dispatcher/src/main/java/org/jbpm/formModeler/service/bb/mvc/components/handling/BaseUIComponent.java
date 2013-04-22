@@ -19,8 +19,10 @@ public abstract class BaseUIComponent extends UIComponentHandlerFactoryElement {
         setEnabledForActionHandling(true);
 
         CommandResponse response = super.handle(request, action);
+        String ajaxParam = request.getRequestObject().getParameter("ajaxAction");
+        boolean isAjax = ajaxParam != null && Boolean.valueOf(ajaxParam).booleanValue();
 
-        if (!this.equals(componentRenderer.getCurrentComponent()) || firstTime) {
+        if (!this.equals(componentRenderer.getCurrentComponent()) || firstTime || !isAjax) {
             response = null;
             firstTime = false;
         }
