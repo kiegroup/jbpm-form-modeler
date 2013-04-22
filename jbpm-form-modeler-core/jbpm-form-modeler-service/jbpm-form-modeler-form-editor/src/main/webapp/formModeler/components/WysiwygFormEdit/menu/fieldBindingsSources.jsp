@@ -30,8 +30,7 @@
     <mvc:fragment name="outputStart">
         <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="formBindings"/>">
         <factory:handler action="formBindings" />
-        <input type="hidden" name="<%=WysiwygFormEditor.ACTION_TO_DO%>" id="<factory:encode name="actionToDo"/>" value="<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>"/>
-        <input type="hidden" name="idToRemove" id="<factory:encode name="bindingId"/>" value=""/>
+        <input type="hidden" name="<%=WysiwygFormEditor.ACTION_TO_DO%>" id="<factory:encode name="actionToDo"/>" value="<%=WysiwygFormEditor.ACTION_ADD_BINDING_VAR%>"/>
 
         <div class="bindingProperties">
         <table >
@@ -41,7 +40,7 @@
     <mvc:fragment name="outputNameInput">
         <tr>
             <td>
-                <b>Id</b><br>
+                <b><i18n:message key="binding_id">!!!Binding Id</i18n:message></b><br>
                 <input name="bindingId" type="text" class="skn-input"
                        value=""
                        size="20" maxlength="64">
@@ -49,28 +48,26 @@
         </tr>
         <tr>
             <td>
-                <b>Class name</b><br>
+                <b><i18n:message key="binding_str">!!!Binding String</i18n:message></b><br>
                 <input name="className" type="text" class="skn-input"
                        value=""
                        size="20" maxlength="64">
             </td>
         </tr>
         <tr>
-            <td><input type="submit" value="<i18n:message key="addBinding"> Add </i18n:message>" class="skn-button"
-                       onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_ADD_BINDING_VAR%>');"></td>
+            <td><input type="submit" value="<i18n:message key="binding_addBinding">!!! Add binding </i18n:message>" class="skn-button" ></td>
         </tr>
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputStartBindings">
-        <factory:handler action="generateForm" />
         <tr>
         <td>
         <table cellpadding="1" cellspacing="0" border="0" width="100%">
         <tr>
-            <td>Id</td>
-            <td>Type</td>
-            <td>Value</td>
-            <td>Action</td>
+            <td><i18n:message key="binding_id">!!!Binding Id</i18n:message></td>
+            <td><i18n:message key="binding_type">!!!Binding Type</i18n:message></td>
+            <td><i18n:message key="binding_str">!!!!!!Binding String</i18n:message></td>
+            <td>&nbsp;</td>
         </tr>
     </mvc:fragment>
 
@@ -83,10 +80,12 @@
                         <td><%=type%></td>
                         <td><%=value%></td>
                         <td><a title="<i18n:message key="delete">!!!Borrar</i18n:message>"
-                               href="<factory:url  action="delete"><factory:param name="bindingId" value="<%=id%>"/></factory:url>"
-                               id="<factory:encode name='<%="deleteBtn_"+id%>'/>"
-                               onclick="return confirm('<i18n:message key="delete.field.confirm">Sure?</i18n:message>');$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_REMOVE_BINDING_VAR%>');$('#<factory:encode name="idToRemove"/>').val('<%=id%>');">
-                            <i18n:message key="delete">!!!Borrar</i18n:message>
+                               href="<factory:url  action="formBindings">
+                                         <factory:param name="bindingId" value="<%=id%>"/>
+                                         <factory:param name="<%=WysiwygFormEditor.ACTION_TO_DO%>" value="<%=WysiwygFormEditor.ACTION_REMOVE_BINDING_VAR%>"/>
+                                      </factory:url>"
+                               onclick="return confirm('<i18n:message key="binding_delete.confirm">Sure?</i18n:message>');">
+                            <i18n:message key="delete">!!!Clear</i18n:message>
                         </a></td>
                     </tr>
                 </mvc:fragmentValue>
@@ -101,18 +100,6 @@
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputEnd">
-        <tr>
-            <td>
-                <table cellpadding="1" cellspacing="0" border="0" width="100%">
-                    <tr>
-                        <td align="center" style="height:30px" nowrap>
-                            <input id="<factory:encode name="generateFormSubmit"/>" type="submit"
-                                   class="skn-button" value="Generate Form"/>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
         </table>
         </div>
         </form>

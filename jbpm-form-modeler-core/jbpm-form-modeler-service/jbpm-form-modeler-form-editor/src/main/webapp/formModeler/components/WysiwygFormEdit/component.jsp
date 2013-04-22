@@ -100,7 +100,7 @@
         </mvc:fragmentValue>
     </mvc:fragment>
 
-    <mvc:fragment name="outputEditionPage">
+    <mvc:fragment name="outputWithFormEditionPage">
         <mvc:fragmentValue name="editionPage" id="editionPage">
             <tr>
                 <td>
@@ -121,6 +121,16 @@
             </tr>
         </mvc:fragmentValue>
     </mvc:fragment>
+    <mvc:fragment name="outputWithoutFormEditionPage">
+        <mvc:fragmentValue name="editionPage" id="editionPage">
+            <tr>
+                <td>
+                    <jsp:include page="<%=(String)editionPage%>" flush="true"/>
+                </td>
+            </tr>
+        </mvc:fragmentValue>
+    </mvc:fragment>
+
     <mvc:fragment name="outputEnd">
         </table>
     </mvc:fragment>

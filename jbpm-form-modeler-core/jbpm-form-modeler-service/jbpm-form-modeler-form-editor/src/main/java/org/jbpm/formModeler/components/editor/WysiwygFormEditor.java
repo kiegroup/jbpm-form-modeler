@@ -17,6 +17,7 @@ package org.jbpm.formModeler.components.editor;
 
 import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.config.FormManager;
+import org.jbpm.formModeler.api.model.BindingSource;
 import org.jbpm.formModeler.api.processing.BindingManager;
 import org.jbpm.formModeler.core.processing.BindingManagerImpl;
 import org.jbpm.formModeler.core.wrappers.HTMLi18n;
@@ -53,11 +54,18 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
     public static final String EDITION_OPTION_FIELDTYPES = "fieldTypes";
     public static final String EDITION_OPTION_FORM_PROPERTIES = "formProperties";
-    public static final String EDITION_OPTION_BINDINGS = "fieldBindings";
+    public static final String EDITION_OPTION_BINDINGS_FIELDS = "fieldBindingsFields";
+    public static final String EDITION_OPTION_BINDINGS_SOURCES = "fieldBindingsSources";
 
     public static final String EDITION_OPTION_IMG_FIELDTYPES = "general/AddFieldsByType.png";
     public static final String EDITION_OPTION_IMG_FORM_PROPERTIES = "general/FormProperties.png";
-    public static final String EDITION_OPTION_IMG_BINDINGS = "general/Bindings.png";
+    public static final String EDITION_OPTION_IMG_BINDINGS_FIELDS = "general/Bindings.png";
+    public static final String EDITION_OPTION_IMG_BINDINGS_SOURCES = "general/Bindings.png";
+
+    public static final String EDITION_OPTION_VIS_MODE_FIELDTYPES = "shared";
+    public static final String EDITION_OPTION_VIS_MODE_FORM_PROPERTIES = "shared";
+    public static final String EDITION_OPTION_VIS_MODE_BINDINGS_FIELDS = "shared";
+    public static final String EDITION_OPTION_VIS_MODE_BINDINGS_SOURCE = "full";
 
     public static final String EDITION_OPTION_IMG_FORM_INSERTMODE = "general/InsertDataMode.png";
     public static final String EDITION_OPTION_IMG_FORM_SHOWTMODE = "general/ShowDataMode.png";
@@ -66,6 +74,10 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public static final String ACTION_CHANGE_FIELD_TYPE = "changeFieldType";
     public static final String ACTION_SAVE_FIELD_PROPERTIES = "saveFieldProperties";
     public static final String ACTION_CANCEL_FIELD_EDITION = "cancelFieldEdition";
+
+    public static final String ACTION_REMOVE_BINDING_VAR= "removeBindingVar";
+    public static final String ACTION_ADD_BINDING_VAR= "addBindingVar";
+    public static final String ACTION_ADD_BINDING_FIELDS= "addBindingFields";
 
     private Form currentForm;
     private int currentEditFieldPosition = -1;
@@ -130,7 +142,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         return currentEditFieldPosition;
     }
 
-    public void setCurrentEditFieldPosition(int currentEditFieldPosition)  {
+    public void setCurrentEditFieldPosition(int currentEditFieldPosition) {
         this.currentEditFieldPosition = currentEditFieldPosition;
         Field field = getCurrentEditField();
         if (field != null) setFieldTypeToView(field.getFieldType().getCode());
@@ -201,7 +213,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         return getFieldInPosition(getCurrentEditFieldPosition());
     }
 
-    protected Field getFieldInPosition(int position)  {
+    protected Field getFieldInPosition(int position) {
         if (position != -1) {
             Form form = getCurrentEditForm();
             if (form != null) {
@@ -220,7 +232,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         EditorHelper helper = (EditorHelper) commandRequest.getSessionObject().getAttribute("EditorHelper");
         String contextURI = (String) commandRequest.getSessionObject().getAttribute("contextURI");
 
-        if (helper != null && contextURI!=null) setCurrentForm(helper.getFormToEdit(contextURI));
+        if (helper != null && contextURI != null) setCurrentForm(helper.getFormToEdit(contextURI));
         else {
             String formId = commandRequest.getRequestObject().getParameter("formId");
             setCurrentForm(formManager.getFormById(Long.decode(formId)));
@@ -243,7 +255,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             }
             formManager.deleteField(form, pos.intValue());
             if (currentEditFieldPosition == pos.intValue()) currentEditFieldPosition = -1;
-            else if (currentEditFieldPosition > pos.intValue()) currentEditFieldPosition --;
+            else if (currentEditFieldPosition > pos.intValue()) currentEditFieldPosition--;
         }
     }
 
@@ -521,10 +533,12 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
             if (Boolean.parseBoolean(promote)) {
                 formManager.promoteField(form, origPosition, destPosition, groupWithPrevious, nextGrouped);
-                if (currentEditFieldPosition < origPosition && destPosition <= currentEditFieldPosition) currentEditFieldPosition ++;
+                if (currentEditFieldPosition < origPosition && destPosition <= currentEditFieldPosition)
+                    currentEditFieldPosition++;
             } else {
                 formManager.degradeField(form, origPosition, destPosition, groupWithPrevious, nextGrouped);
-                if (currentEditFieldPosition > origPosition && destPosition >= currentEditFieldPosition) currentEditFieldPosition --;
+                if (currentEditFieldPosition > origPosition && destPosition >= currentEditFieldPosition)
+                    currentEditFieldPosition--;
             }
         }
     }
@@ -538,7 +552,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             formManager.moveTop(form, fieldPosition);
             lastMovedFieldPosition = 0;
             if (currentEditFieldPosition == fieldPosition) currentEditFieldPosition = lastMovedFieldPosition;
-            else if (fieldPosition > currentEditFieldPosition) currentEditFieldPosition ++;
+            else if (fieldPosition > currentEditFieldPosition) currentEditFieldPosition++;
         }
     }
 
@@ -551,7 +565,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             formManager.moveBottom(form, fieldPosition);
             lastMovedFieldPosition = form.getFormFields().size() - 1;
             if (currentEditFieldPosition == fieldPosition) currentEditFieldPosition = lastMovedFieldPosition;
-            else if (fieldPosition < currentEditFieldPosition) currentEditFieldPosition --;
+            else if (fieldPosition < currentEditFieldPosition) currentEditFieldPosition--;
         }
 
     }
@@ -684,29 +698,69 @@ public class WysiwygFormEditor extends BaseUIComponent {
         }
     }
 
-    public synchronized void actionGenerateForm(CommandRequest request) throws Exception {
-        generateFormFields(request.getRequestObject().getParameterMap());
+    public synchronized void actionFormBindings(CommandRequest request) throws Exception {
+        String action = request.getRequestObject().getParameter(ACTION_TO_DO);
+        if(ACTION_ADD_BINDING_VAR.equals(action)){
+            addBindingVar(request.getRequestObject().getParameterMap());
+        } else if(ACTION_REMOVE_BINDING_VAR.equals(action)){
+            removeBindingVar(request.getRequestObject().getParameterMap());
+        } else if(ACTION_ADD_BINDING_FIELDS.equals(action)){
+            addBindingsFieldsToForm(request.getRequestObject().getParameterMap());
+        }
+
     }
 
-    public void generateFormFields(Map parameterMap) throws Exception {
+    public void addBindingVar(Map parameterMap) throws Exception {
         String[] name = (String[]) parameterMap.get("className");
+        String[] binding = (String[]) parameterMap.get("bindingId");
+
         String className = null;
-        if (name != null && name.length > 0) className= name[0];
-        if(className!=null){
-        Map propertyNames = bindingManager.calculatePropertyNames(className);
+        if (name != null && name.length > 0) className = name[0];
 
-        Form form = getCurrentEditForm();
-        HashSet campos = new HashSet();
-        String fieldName="";
+        String bindingId = null;
+        if (binding != null && binding.length > 0) bindingId = binding[0];
 
-        form.setFormFields( campos);
-        for (Iterator it= propertyNames.keySet().iterator();it.hasNext();) {
-            fieldName =(String)it.next();
-            I18nSet label = new I18nSet();
-            String defaultLang = ((LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager")).getDefaultLang();
-            label.setValue(defaultLang,fieldName);
-            formManager.addFieldToForm(form,fieldName, fieldTypeManager.getTypeByClass(((Class)propertyNames.get(fieldName)).getName()),label,"#class:"+className+"#prop:"+fieldName);
+        if ((className != null) && ( bindingId!= null)){
+            Form form = getCurrentEditForm();
+            form.setBindingSource(bindingId, BindingSource.BINDING_CODE_TYPE_CLASSNAME, className);
         }
+    }
+
+
+    public void removeBindingVar(Map parameterMap) throws Exception {
+        String[] binding = (String[]) parameterMap.get("bindingId");
+
+        String bindingId = null;
+        if (binding != null && binding.length > 0) bindingId = binding[0];
+
+        if ( ( bindingId!= null)){
+            Form form = getCurrentEditForm();
+            form.removeBindingSource(bindingId);
+        }
+    }
+    public void addBindingsFieldsToForm(Map parameterMap) throws Exception {
+
+        String[] binding = (String[]) parameterMap.get("bindingId");
+
+        String className = null;
+
+        String bindingId = null;
+        if (binding != null && binding.length > 0) bindingId = binding[0];
+
+        if ( bindingId!= null){
+            Form form = getCurrentEditForm();
+            BindingSource source = form.getBindingSource(bindingId);
+
+            Map propertyNames = bindingManager.getBindingFields(source);
+
+            String fieldName = "";
+            for (Iterator it = propertyNames.keySet().iterator(); it.hasNext(); ) {
+                fieldName = (String) it.next();
+                I18nSet label = new I18nSet();
+                String defaultLang = ((LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager")).getDefaultLang();
+                label.setValue(defaultLang, fieldName);
+                formManager.addFieldToForm(form, fieldName, fieldTypeManager.getTypeByClass(((Class) propertyNames.get(fieldName)).getName()), label, "{" + source.getId() + "/" + fieldName+"}");
+            }
         }
     }
 

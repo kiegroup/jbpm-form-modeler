@@ -58,8 +58,11 @@ public class Form implements Serializable, Comparable{
 
     private Set<Field> formFields = new TreeSet<Field>();
 
+    private Set<BindingSource> bindingSources;
+
     public Form() {
         formDisplayInfos = new TreeSet<FormDisplayInfo>();
+        bindingSources = new TreeSet<BindingSource>();
     }
 
     public Long getId() {
@@ -142,6 +145,33 @@ public class Form implements Serializable, Comparable{
         this.formFields = formFields;
     }
 
+    public Set<BindingSource> getBindingSources() {
+        return bindingSources;
+    }
+
+    public void setBindingSources(Set<BindingSource> bindingSources) {
+        this.bindingSources = bindingSources;
+    }
+
+    public void setBindingSource(String id, String type,String bindingStr) {
+        if (id == null || id.trim().length() == 0) return;
+        BindingSource bsource =new BindingSource(bindingStr,id,type);
+        if(getBindingSource(id)!=null){
+            bindingSources.remove(bsource);
+        }
+        bindingSources.add(bsource);
+
+    }
+
+    public void removeBindingSource(String id) {
+        if (id == null || id.trim().length() == 0) return;
+        BindingSource bsource =new BindingSource("",id,"");
+        if(getBindingSource(id)!=null){
+            bindingSources.remove(bsource);
+        }
+
+
+    }
     public String toString() {
         return "Form: " + getId().toString();
     }
@@ -173,6 +203,7 @@ public class Form implements Serializable, Comparable{
         }
         return null;
     }
+
 
     protected String getDisplayModeText(String selector) {
         String text = null;
@@ -206,6 +237,18 @@ public class Form implements Serializable, Comparable{
         theTemplateInfo.setDisplayData(data);
 
     }
+
+    public BindingSource getBindingSource(String srcId ) {
+        if (srcId == null || srcId.trim().length() == 0) return null;
+        if (getBindingSources() != null) {
+            for (BindingSource bindingSource : bindingSources) {
+                if (srcId.equals(bindingSource.getId()))
+                    return bindingSource;
+            }
+        }
+        return null;
+    }
+
 
     public String getFormTemplate() {
         return getDisplayModeText(DISPLAY_MODE_TEMPLATE);
