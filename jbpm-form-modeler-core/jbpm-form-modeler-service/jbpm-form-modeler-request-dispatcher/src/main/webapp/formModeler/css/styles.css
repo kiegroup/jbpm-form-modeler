@@ -368,7 +368,7 @@ div.GlobalBreadCrump {
     -moz-box-shadow: 1px 1px 1px 1px rgba(0,0,0,.1);
     box-shadow: 1px 1px 1px 1px rgba(0,0,0,.1);
     width: 220px;
-    border: solid 1px #E6E6E6;
+    border: solid 1px #B4B4B4;
 }
 .fieldTypes {
     background-color: #E6E6E6;
@@ -419,7 +419,7 @@ div.GlobalBreadCrump {
     -moz-box-shadow: 1px 1px 1px 1px rgba(0,0,0,.1);
     box-shadow: 1px 1px 1px 1px rgba(0,0,0,.1);
     width: 200px;
-    border: solid 1px #E6E6E6;
+    border: solid 1px #B4B4B4;
     border-collapse: collapse;
     padding: 10px;
 }
