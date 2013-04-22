@@ -56,7 +56,7 @@
                 <input type="image"
                        onclick="setFormInputValue(this.form,'<factory:bean
                                property="currentEditionOption"/>','<%=optionName%>');"
-                       style="cursor:hand;" title="<%=optionName %>"
+                       style="cursor:hand;" title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
                        src="<static:image relativePath="<%=(String)optionImage%>"/>">
             </mvc:fragmentValue>
         </mvc:fragmentValue>
@@ -67,7 +67,7 @@
                 <input type="image"
                        onclick="setFormInputValue(this.form,'<factory:bean
                                property="currentEditionOption"/>','<%=optionName%>');"
-                       style="cursor:hand;  opacity:.5;" title="<%=optionName%>"
+                       style="cursor:hand;  opacity:.5;" title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
                        src="<static:image relativePath="<%=(String)optionImage%>"/>">
             </mvc:fragmentValue>
         </mvc:fragmentValue>

@@ -49,9 +49,38 @@
         <tr>
             <td>
                 <b><i18n:message key="binding_str">!!!Binding String</i18n:message></b><br>
+                <input type="radio" name="group1" value="val1"> <i18n:message key="binding_source_process">!!!Process source</i18n:message><br>
+                <select>
+                    <option value="bindStr11">Proceso1- Tarea1 - inputForm</option>
+                    <option value="bindStr12">Proceso1- Tarea2 - inputForm</option>
+                    <option value="bindStr13">Proceso1- Tarea3 - inputForm</option>
+                    <option value="bindStr14">Proceso1- Tarea4 - inputForm</option>
+                    <option value="bindStr21">Proceso2- Tarea1 - inputForm</option>
+                    <option value="bindStr22">Proceso2- Tarea2 - inputForm</option>
+                </select>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b><i18n:message key="binding_str">!!!Binding String</i18n:message></b><br>
+                <input type="radio" name="group1" value="val2"> <i18n:message key="binding_source_model">!!!Data Model source</i18n:message><br>
+                <select>
+                    <option value="bindStr11">Modelo1 </option>
+                    <option value="bindStr12">Modelo2 </option>
+                    <option value="bindStr13">Modelo3 </option>
+
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b><i18n:message key="binding_str">!!!Binding String</i18n:message></b><br>
+                <input type="radio" name="group1" value="val2"> <i18n:message key="binding_source_javaClass">!!!Java class source</i18n:message><br>
                 <input name="className" type="text" class="skn-input"
                        value=""
                        size="20" maxlength="64">
+
             </td>
         </tr>
         <tr>

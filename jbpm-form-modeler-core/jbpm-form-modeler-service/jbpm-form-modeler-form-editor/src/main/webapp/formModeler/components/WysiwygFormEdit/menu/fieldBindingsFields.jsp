@@ -37,6 +37,7 @@
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputStartBindings">
         <factory:handler action="generateForm" />
+        <div class="FormProperties">
         <table cellpadding="1" cellspacing="0" border="0" width="100%">
         <tr>
             <td><i18n:message key="binding_id">!!!Binding Id</i18n:message></td>
@@ -67,6 +68,7 @@
 
     <mvc:fragment name="outputEndBindings">
         </table>
+        </div>
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputEnd">
