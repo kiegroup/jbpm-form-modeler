@@ -71,7 +71,7 @@ public class FormModelerPanelViewImpl extends Composite
 
     @Override
     public void showForm() {
-        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=wysiwygfe&_fp=EditForm").asString());
+        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=wysiwygfe&_fp=Start").asString());
     }
 }
 

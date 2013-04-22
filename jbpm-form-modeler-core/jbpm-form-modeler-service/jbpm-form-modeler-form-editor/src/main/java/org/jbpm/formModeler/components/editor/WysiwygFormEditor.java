@@ -215,7 +215,8 @@ public class WysiwygFormEditor extends BaseUIComponent {
         return null;
     }
 
-    public void actionEditForm(CommandRequest commandRequest) throws Exception {
+    @Override
+    public void doStart(CommandRequest commandRequest) {
 
         EditorHelper helper = (EditorHelper) commandRequest.getSessionObject().getAttribute("EditorHelper");
         String contextURI = (String) commandRequest.getSessionObject().getAttribute("contextURI");
@@ -538,7 +539,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             formManager.moveTop(form, fieldPosition);
             lastMovedFieldPosition = 0;
             if (currentEditFieldPosition == fieldPosition) currentEditFieldPosition = lastMovedFieldPosition;
-            else if (fieldPosition > currentEditFieldPosition) currentEditFieldPosition ++;
+            else if (currentEditFieldPosition > -1 && fieldPosition > currentEditFieldPosition) currentEditFieldPosition ++;
         }
     }
 
