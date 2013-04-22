@@ -16,6 +16,7 @@
 package org.jbpm.formModeler.core.processing;
 
 import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.api.model.BindingSource;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.processing.BindingManager;
 import org.jbpm.formModeler.api.processing.PropertyDefinition;
@@ -105,7 +106,15 @@ public class BindingManagerImpl implements BindingManager {
         return (BindingManagerImpl) CDIHelper.getBeanByType(BindingManagerImpl.class);
     }
 
-    public Map calculatePropertyNames(String className) {
+    @Override
+    public Map getBindingFields(BindingSource source) {
+        if(BindingSource.BINDING_CODE_TYPE_CLASSNAME.equals(source.getBindingType())){
+            return calculatePropertyNames(source.getBindingStr());
+        }
+        return null;
+    }
+
+    private Map calculatePropertyNames(String className) {
         Class clase = null;
         try {
             clase = Class.forName(className);
@@ -157,7 +166,7 @@ public class BindingManagerImpl implements BindingManager {
         return staticProperties;
     }
 
-    public boolean isValidReturnType(String returnType){
+    protected boolean isValidReturnType(String returnType){
         if(returnType== null) return false;
         if ("void".equals(returnType)) return true;
         if (FieldTypeManagerImpl.lookup().getTypeByClass(returnType) != null) return true;

@@ -16,12 +16,14 @@
 package org.jbpm.formModeler.components.editor;
 
 import org.jbpm.formModeler.api.config.FormManager;
+import org.jbpm.formModeler.api.model.BindingSource;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Set;
 
 /**
  *
@@ -31,11 +33,32 @@ public class BindingFormFormatter extends Formatter {
 
     private WysiwygFormEditor wysiwygFormEditor;
 
+    public WysiwygFormEditor getWysiwygFormEditor() {
+        return wysiwygFormEditor;
+    }
+
+    public void setWysiwygFormEditor(WysiwygFormEditor editor) {
+        this.wysiwygFormEditor = editor;
+    }
+
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
             renderFragment("outputStart");
 
             renderFragment("outputNameInput");
+
+            renderFragment("outputStartBindings");
+
+            Form form = wysiwygFormEditor.getCurrentForm();
+
+            Set<BindingSource> bindings =form.getBindingSources();
+            for (BindingSource bindingSource : bindings) {
+                setAttribute("id",bindingSource.getId() );
+                setAttribute("type",bindingSource.getBindingType() );
+                setAttribute("value",bindingSource.getBindingStr() );
+                renderFragment("outputBindings");
+            }
+            renderFragment("outputEndBindings");
 
             renderFragment("outputEnd");
         } catch (Exception e) {
