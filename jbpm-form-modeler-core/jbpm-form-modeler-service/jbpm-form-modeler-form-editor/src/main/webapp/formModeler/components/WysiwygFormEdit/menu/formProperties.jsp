@@ -139,7 +139,7 @@
             <td>
                 <table cellpadding="1" cellspacing="0" border="0" width="100%">
                     <tr>
-                        <td align="center" style="height:30px" nowrap>
+                        <td align="center" style="height:30px" nowrap><br>
                             <input id="<factory:encode name="saveFormSubmit"/>" type="submit"
                                    class="skn-button" value="<i18n:message key="save">!!!Aceptar</i18n:message>"/>
                         </td>

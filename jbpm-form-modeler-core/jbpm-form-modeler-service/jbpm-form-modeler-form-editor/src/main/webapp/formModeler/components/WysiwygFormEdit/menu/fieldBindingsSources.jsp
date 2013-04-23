@@ -67,7 +67,9 @@
             <input name="className" type="text" class="skn-input" value="" size="20" maxlength="64">
             <br>
             <br>
+            <div style="text-align: center;">
             <input type="submit" value="<i18n:message key="binding_addBinding">!!! Add binding </i18n:message>" class="skn-button">
+            </div>
 
         </td>
 
