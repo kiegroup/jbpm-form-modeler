@@ -101,4 +101,8 @@ public class ErrorReportHandler extends BaseUIComponent {
     public String getBaseComponentJSP() {
         return baseComponentJSP;
     }
+
+    @Override
+    public void doStart(CommandRequest commandRequest) {
+    }
 }

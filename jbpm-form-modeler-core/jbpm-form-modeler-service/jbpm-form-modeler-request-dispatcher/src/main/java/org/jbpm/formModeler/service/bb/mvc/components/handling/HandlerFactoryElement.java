@@ -17,11 +17,13 @@ package org.jbpm.formModeler.service.bb.mvc.components.handling;
 
 import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
 import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Component;
+import org.jbpm.formModeler.service.bb.mvc.components.CurrentComponentRenderer;
 import org.jbpm.formModeler.service.bb.mvc.components.FactoryURL;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.SendStreamResponse;
 import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.service.bb.mvc.controller.responses.ShowScreenResponse;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -137,9 +139,14 @@ public abstract class HandlerFactoryElement extends BasicFactoryElement {
             response = (CommandResponse) handlerMethod.invoke(this, new Object[]{request});
             afterInvokeAction(request, action);
 
-            if (response == null || !(response instanceof SendStreamResponse)) {
+            if (response == null) {
+                response = new ShowScreenResponse(CurrentComponentRenderer.lookup().getCurrentComponent().getBaseComponentJSP());
+            }
+
+            if (!(response instanceof SendStreamResponse)) {
                 setEnabledForActionHandling(false);
             }
+
             if (log.isDebugEnabled()) log.debug("Leaving handle " + getComponentName() + " - " + action);
             return response;
         }  catch (Exception ex) {

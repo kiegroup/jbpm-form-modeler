@@ -7,7 +7,6 @@ import org.jbpm.datamodeler.xml.util.XMLNode;
 import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.config.FormManager;
 import org.jbpm.formModeler.api.config.FormSerializationManager;
-import org.jbpm.formModeler.api.model.BindingSource;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.i18n.I18nEntry;
@@ -31,7 +30,6 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
 
     public static final String NODE_FIELD = "field";
     public static final String NODE_PROPERTY = "property";
-    public static final String NODE_BINDING = "binding";
 
     public static final String ATTR_ID = "id";
     public static final String ATTR_POSITION = "position";
@@ -110,9 +108,6 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         Field field = deserializeField(node);
                         field.setForm(form);
                         campos.add(field);
-                    } else if (node.getNodeName().equals(NODE_BINDING)) {
-                        BindingSource bindingSource = deserializeBinding(node);
-                        form.setBindingSource(bindingSource.getId(),bindingSource.getBindingType(),bindingSource.getBindingStr());
                     }
                 }
                 if (campos != null)
@@ -160,15 +155,6 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                     generateFieldXML(field, rootNode);
                 }
             }
-
-            Set bindingSources = form.getBindingSources();
-            if (bindingSources .size() > 0) {
-                for (Iterator it = bindingSources.iterator(); it.hasNext(); ) {
-                    BindingSource bindingSource = (BindingSource) it.next();
-                    generateBindingXML(bindingSource, rootNode);
-                }
-            }
-
             StringWriter sw = new StringWriter();
             rootNode.writeXML(sw, true);
 
@@ -300,39 +286,6 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
             return sw.toString();
         } catch (Exception e) {
 
-        }
-        return null;
-    }
-
-    public String generateBindingXML(BindingSource bindingSource, XMLNode parent) {
-        try {
-            XMLNode rootNode = new XMLNode(NODE_BINDING, parent);
-            rootNode.addAttribute(ATTR_ID, bindingSource.getId());
-            rootNode.addAttribute(ATTR_VALUE, bindingSource.getBindingStr());
-            rootNode.addAttribute(ATTR_TYPE, bindingSource.getBindingType());
-
-            parent.addChild(rootNode);
-
-            StringWriter sw = new StringWriter();
-            rootNode.writeXML(sw, true);
-            return sw.toString();
-        } catch (Exception e) {
-
-        }
-        return null;
-    }
-    public BindingSource deserializeBinding(Node nodeField) {
-
-        try {
-            if (nodeField.getNodeName().equals(NODE_BINDING)) {
-
-                return new BindingSource(nodeField.getAttributes().getNamedItem(ATTR_VALUE).getNodeValue(),
-                                                          nodeField.getAttributes().getNamedItem(ATTR_ID).getNodeValue(),
-                                                          nodeField.getAttributes().getNamedItem(ATTR_TYPE).getNodeValue());
-
-            }
-        } catch (Exception e) {
-            System.out.println("excepcion"+ e);
         }
         return null;
     }
