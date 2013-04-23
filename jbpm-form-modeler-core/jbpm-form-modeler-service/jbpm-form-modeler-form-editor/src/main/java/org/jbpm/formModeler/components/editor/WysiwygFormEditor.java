@@ -164,6 +164,14 @@ public class WysiwygFormEditor extends BaseUIComponent {
         this.fieldTypeManager = FieldTypeManagerImpl;
     }
 
+    public BindingManager getBindingManager() {
+        return bindingManager;
+    }
+
+    public void setBindingManager(BindingManager bindingManager) {
+        this.bindingManager = bindingManager;
+    }
+
     public LocaleManager getLocaleManager() {
         return localeManager;
     }
@@ -699,6 +707,10 @@ public class WysiwygFormEditor extends BaseUIComponent {
         }
     }
 
+    public synchronized void actionAddFieldFromBinding(CommandRequest request) throws Exception {
+        addBindingsFieldToForm(request.getRequestObject().getParameterMap());
+    }
+
     public synchronized void actionFormBindings(CommandRequest request) throws Exception {
         String action = request.getRequestObject().getParameter(ACTION_TO_DO);
         if(ACTION_ADD_BINDING_VAR.equals(action)){
@@ -739,11 +751,10 @@ public class WysiwygFormEditor extends BaseUIComponent {
             form.removeBindingSource(bindingId);
         }
     }
+
     public void addBindingsFieldsToForm(Map parameterMap) throws Exception {
 
         String[] binding = (String[]) parameterMap.get("bindingId");
-
-        String className = null;
 
         String bindingId = null;
         if (binding != null && binding.length > 0) bindingId = binding[0];
@@ -760,8 +771,36 @@ public class WysiwygFormEditor extends BaseUIComponent {
                 I18nSet label = new I18nSet();
                 String defaultLang = ((LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager")).getDefaultLang();
                 label.setValue(defaultLang, fieldName);
-                formManager.addFieldToForm(form, fieldName, fieldTypeManager.getTypeByClass(((Class) propertyNames.get(fieldName)).getName()), label, "{" + source.getId() + "/" + fieldName+"}");
+                formManager.addFieldToForm(form, source.getId()+"_"+fieldName, fieldTypeManager.getTypeByClass(((Class) propertyNames.get(fieldName)).getName()), label, "{" + source.getId() + "/" + fieldName+"}");
             }
+        }
+    }
+
+    public void addBindingsFieldToForm(Map parameterMap) throws Exception {
+
+        String[] bindings = (String[]) parameterMap.get("bindingId");
+        String[] fieldNames = (String[]) parameterMap.get("fieldName");
+        String[] fieldTypeCodes = (String[]) parameterMap.get("fieldTypeCode");
+
+        String bindingId = null;
+        if (bindings != null && bindings.length > 0) bindingId = bindings[0];
+
+        String fieldName = null;
+        if (fieldNames != null && fieldNames.length > 0) fieldName = fieldNames[0];
+
+        String fieldTypeCode = null;
+        if (fieldTypeCodes != null && fieldTypeCodes.length > 0) fieldTypeCode = fieldTypeCodes[0];
+
+
+        if ( bindingId!= null){
+            Form form = getCurrentEditForm();
+            BindingSource source = form.getBindingSource(bindingId);
+
+            I18nSet label = new I18nSet();
+            String defaultLang = ((LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager")).getDefaultLang();
+            label.setValue(defaultLang, fieldName);
+            formManager.addFieldToForm(form, fieldName, fieldTypeManager.getTypeByCode(fieldTypeCode), label, "{" + source.getId() + "/" + fieldName+"}");
+
         }
     }
 
