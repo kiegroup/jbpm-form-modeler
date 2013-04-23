@@ -29,7 +29,19 @@
 <mvc:formatter name="org.jbpm.formModeler.components.editor.BindingFormFormatter">
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputStart">
-        <table cellpadding="1" cellspacing="0" border="0" width="250px">
+        <script language="javascript">
+            $(document).ready(function(){
+                $("#red").treeview({
+                    animated: "fast",
+                    collapsed: true,
+                    control: "#treecontrol"
+                });
+            });
+        </script>
+        <div class="FormProperties">
+        <table cellpadding="0" cellspacing="0" border="0"  width="100%"><tr><td>
+        <ul id="red" class="treeview-red">
+
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputNameInput">
@@ -42,15 +54,13 @@
         <mvc:fragmentValue name="id" id="id">
             <mvc:fragmentValue name="type" id="type">
                 <mvc:fragmentValue name="value" id="value">
-                    <tr>
-                        <td><%=id%></td>
-                        <td><%=type%></td>
-                        <td><a title="<i18n:message key="addAllBindingFields">!!!addAllBindingFields</i18n:message>"
-                               href="<factory:url  action="formBindings"><factory:param name="bindingId" value="<%=id%>"/><factory:param name="<%=WysiwygFormEditor.ACTION_TO_DO%>" value="<%=WysiwygFormEditor.ACTION_ADD_BINDING_FIELDS%>"/></factory:url>"
-                               onclick="return confirm('<i18n:message key="binding_allRemainFields">binding_allRemainFields!!</i18n:message>');" >
-                            <i18n:message key="bindings_addFields">!!!addBindingFields</i18n:message>
-                        </a></td>
-                    </tr>
+
+                    <li><span><b><%=id%></b><a title="<i18n:message key="addAllBindingFields">!!!addAllBindingFields</i18n:message>"
+                    href="<factory:url  action="formBindings"><factory:param name="bindingId" value="<%=id%>"/><factory:param name="<%=WysiwygFormEditor.ACTION_TO_DO%>" value="<%=WysiwygFormEditor.ACTION_ADD_BINDING_FIELDS%>"/></factory:url>"
+                    onclick="return confirm('<i18n:message key="binding_allRemainFields">binding_allRemainFields!!</i18n:message>');" >
+                    <img style="float: right;" src="<static:image relativePath="actions/triang_right.png"/>">
+                    </a></span>
+                    <ul>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragmentValue>
@@ -62,26 +72,15 @@
             <mvc:fragmentValue name="iconUri" id="iconUri">
                 <mvc:fragmentValue name="typeName" id="typeName">
                     <mvc:fragmentValue name="fieldName" id="fieldName">
-                        <tr>
-                            <td colspan=3>
-                                <table cellspacing="0" cellpadding="0" width="100%" border="1">
-                                    <tr>
-                                        <td style="width:10px; padding-right: 5px;">
-                                            <img src="<static:image relativePath="<%=(String)iconUri%>"/>"
-                                                 align="absmiddle">
-                                        </td>
-                                        <td><%=fieldName%></td>
-                                        <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
+                        <li><span><img src="<static:image relativePath="<%=(String)iconUri%>"/>"
+                                       align="absmiddle">
+                                        <%=fieldName%>
                                             <a href="<factory:url  action="addFieldFromBinding">
                                                          <factory:param name="bindingId" value="<%=bindingId%>"/>
                                                          <factory:param name="fieldName" value="<%=fieldName%>"/>
                                                          <factory:param name="fieldTypeCode" value="<%=typeName%>"/>
-                                                         </factory:url>"><img src="<static:image relativePath="actions/triang_right.png"/>"> </a>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
+                                                         </factory:url>"><img style="float: right;" src="<static:image relativePath="actions/triang_right.png"/>"> </a>
+                            </span></li>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
@@ -91,10 +90,14 @@
     </mvc:fragment>
 
     <mvc:fragment name="outputEndBindings">
+        </ul> </li>
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputEnd">
+        </ul>
+        </td></tr>
         </table>
+        </div>
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
 </mvc:formatter>

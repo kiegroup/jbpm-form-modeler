@@ -121,7 +121,7 @@ public class BindingFormFormatter extends Formatter {
             if(i!=0){//last field of list
                 renderFragment("lastField");
             }
-
+            renderFragment("outputEndBindings");
         }
         renderFragment("outputEndBindings");
         renderFragment("outputEnd");
