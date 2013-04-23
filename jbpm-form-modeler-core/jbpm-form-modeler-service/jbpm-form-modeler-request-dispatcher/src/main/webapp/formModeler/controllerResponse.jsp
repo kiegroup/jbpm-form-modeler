@@ -19,24 +19,27 @@
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 
 <html>
-    <head>
-        <title></title>
-        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/formModeler/css/styles.css">
-        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/formModeler/css/ui-lightness/jquery-ui-1.10.2.custom.min.css">
-        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/formModeler/css/jquery-ui-timepicker-addon.css">
-    </head>
-    <script type="text/javascript">
-        <%@ include file="/formModeler/js/ajax.jsp" %>
-        <%@ include file="/formModeler/js/ajaxMonitor.jsp" %>
-    </script>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery-1.9.1.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery-ui-1.10.2.custom.min.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery-ui-sliderAccess.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery-ui-timepicker-addon.js"></script>
-    <body>
-        <%@ include file="index.jsp" %>
-        <div id="ajaxLoadingDiv" style="position:absolute;position: absolute; left: 50%; top: 50%; z-index: 6000; opacity: 0.6; display: none;">
-            <img  src="<static:image relativePath="general/loading.gif"/>">
-        </div>
-    </body>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/formModeler/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/formModeler/css/ui-lightness/jquery-ui-1.10.2.custom.min.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/formModeler/css/jquery-ui-timepicker-addon.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/formModeler/css/jquery.treeview.css">
+</head>
+<script type="text/javascript">
+    <%@ include file="/formModeler/js/ajax.jsp" %>
+    <%@ include file="/formModeler/js/ajaxMonitor.jsp" %>
+</script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery-ui-1.10.2.custom.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery-ui-sliderAccess.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery.treeview.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery.treeview.min.js"></script>
+<body>
+<%@ include file="index.jsp" %>
+<div id="ajaxLoadingDiv" style="position:absolute;position: absolute; left: 50%; top: 50%; z-index: 6000; opacity: 0.6; display: none;">
+    <img  src="<static:image relativePath="general/loading.gif"/>">
+</div>
+</body>
 </html>
