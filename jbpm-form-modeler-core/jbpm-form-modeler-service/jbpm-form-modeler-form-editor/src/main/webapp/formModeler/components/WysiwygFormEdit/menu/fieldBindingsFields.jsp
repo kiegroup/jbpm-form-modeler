@@ -45,9 +45,6 @@
 
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
-    <mvc:fragment name="outputNameInput">
-    </mvc:fragment>
-    <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputStartBindings">
     </mvc:fragment>
 
@@ -95,7 +92,7 @@
     <mvc:fragment name="lastField">
     </mvc:fragment>
 
-    <mvc:fragment name="outputEndBindings">
+    <mvc:fragment name="outputEndBinding">
         </ul> </li>
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
