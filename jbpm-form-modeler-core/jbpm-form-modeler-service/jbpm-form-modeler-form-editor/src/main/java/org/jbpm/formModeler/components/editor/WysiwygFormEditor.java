@@ -95,12 +95,15 @@ public class WysiwygFormEditor extends BaseUIComponent {
     private String renderMode = Form.RENDER_MODE_WYSIWYG_FORM;
     private FieldType originalFieldType;
 
+    private String lastBindingUsedId = "";
+
     @Override
     public void start() throws Exception {
         super.start();
         formManager = FormManagerImpl.lookup();
         fieldTypeManager = FieldTypeManagerImpl.lookup();
         bindingManager = BindingManagerImpl.lookup();
+        localeManager = (LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager");
     }
 
     public boolean isShowReturnButton() {
@@ -768,10 +771,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             String fieldName = "";
             for (Iterator it = propertyNames.keySet().iterator(); it.hasNext(); ) {
                 fieldName = (String) it.next();
-                I18nSet label = new I18nSet();
-                String defaultLang = ((LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager")).getDefaultLang();
-                label.setValue(defaultLang, fieldName);
-                formManager.addFieldToForm(form, source.getId()+"_"+fieldName, fieldTypeManager.getTypeByClass(((Class) propertyNames.get(fieldName)).getName()), label, "{" + source.getId() + "/" + fieldName+"}");
+                addBindingField(form,source,fieldName,fieldTypeManager.getTypeByClass(((Class) propertyNames.get(fieldName)).getName()));
             }
         }
     }
@@ -795,13 +795,16 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if ( bindingId!= null){
             Form form = getCurrentEditForm();
             BindingSource source = form.getBindingSource(bindingId);
-
-            I18nSet label = new I18nSet();
-            String defaultLang = ((LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager")).getDefaultLang();
-            label.setValue(defaultLang, fieldName);
-            formManager.addFieldToForm(form, fieldName, fieldTypeManager.getTypeByCode(fieldTypeCode), label, "{" + source.getId() + "/" + fieldName+"}");
-
+            addBindingField(form,source,fieldName,fieldTypeManager.getTypeByCode(fieldTypeCode));
         }
+    }
+
+    private void addBindingField(Form form,BindingSource source,String fieldName, FieldType fieldType) throws Exception{
+        I18nSet label = new I18nSet();
+        String defaultLang = localeManager.getDefaultLang();
+        label.setValue(defaultLang, fieldName+" ("+source.getId()+")");
+        formManager.addFieldToForm(form, source.getId()+"_"+fieldName, fieldType, label, "{" + source.getId() + "/" + fieldName+"}");
+        setLastBindingUsedId(source.getId());
     }
 
     public String getRenderMode() {
@@ -840,4 +843,11 @@ public class WysiwygFormEditor extends BaseUIComponent {
         WysiwygFormEditor.log = log;
     }
 
+    public String getLastBindingUsedId() {
+        return lastBindingUsedId;
+    }
+
+    public void setLastBindingUsedId(String lastBindingUsedId) {
+        this.lastBindingUsedId = lastBindingUsedId;
+    }
 }

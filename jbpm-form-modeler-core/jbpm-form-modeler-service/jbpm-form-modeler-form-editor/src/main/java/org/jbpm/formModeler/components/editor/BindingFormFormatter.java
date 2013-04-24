@@ -104,6 +104,12 @@ public class BindingFormFormatter extends Formatter {
             setAttribute("id",bindingSource.getId() );
             setAttribute("type",bindingSource.getBindingType() );
             setAttribute("value",bindingSource.getBindingStr() );
+            if (bindingSource.getId()!=null && bindingSource.getId().equals(wysiwygFormEditor.getLastBindingUsedId())){
+                setAttribute("open",Boolean.TRUE);
+            } else {
+                setAttribute("open",Boolean.FALSE);
+            }
+
             renderFragment("outputBinding");
             Map allBindingSrcPropNames = bindingManager.getBindingFields(bindingSource);
 
@@ -115,7 +121,7 @@ public class BindingFormFormatter extends Formatter {
                     if(i==0){//first field
                         renderFragment("firstField");
                     }
-                    renderAddField(bindingSource.getId() + "_" + fieldName, fieldTypeManager.getTypeByClass(((Class) allBindingSrcPropNames.get(fieldName)).getName()), bindingSource.getId());
+                    renderAddField( fieldName, fieldTypeManager.getTypeByClass(((Class) allBindingSrcPropNames.get(fieldName)).getName()), bindingSource.getId());
                 }
             }
             if(i!=0){//last field of list
@@ -129,6 +135,8 @@ public class BindingFormFormatter extends Formatter {
     public void renderAddField(String fieldName, FieldType type,String bindingId){
             setAttribute("typeName", type.getCode());
             setAttribute("bindingId", bindingId);
+            setAttribute("showFieldName", ((fieldName!=null && fieldName.length()<17) ? fieldName: fieldName.substring(0,13) +"..."));
+
             setAttribute("iconUri", wysiwygFormEditor.getFieldTypesManager().getIconPathForCode(type.getCode()));
             setAttribute("fieldName", fieldName);
             renderFragment("outputField");

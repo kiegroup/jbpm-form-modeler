@@ -21,6 +21,7 @@ public class Invoice {
     private String phone;
 
     private Double accountBalance;
+    private Double accountBalance_counting;
     private Double availableCredit;
     private Double totalBalance;
 
@@ -137,5 +138,13 @@ public class Invoice {
 
     public void setNotes(I18nSet notes) {
         this.notes = notes;
+    }
+
+    public Double getAccountBalance_counting() {
+        return accountBalance_counting;
+    }
+
+    public void setAccountBalance_counting(Double accountBalance_counting) {
+        this.accountBalance_counting = accountBalance_counting;
     }
 }

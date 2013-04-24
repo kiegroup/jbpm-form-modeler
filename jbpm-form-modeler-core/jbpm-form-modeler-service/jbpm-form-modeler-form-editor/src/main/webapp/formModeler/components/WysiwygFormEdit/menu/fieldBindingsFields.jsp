@@ -34,7 +34,8 @@
                 $("#red").treeview({
                     animated: "fast",
                     collapsed: true,
-                    control: "#treecontrol"
+                    control: "#treecontrol",
+                    unique: true
                 });
             });
         </script>
@@ -54,12 +55,14 @@
         <mvc:fragmentValue name="id" id="id">
             <mvc:fragmentValue name="type" id="type">
                 <mvc:fragmentValue name="value" id="value">
-                    <li><span><b><%=id%></b><a title="<i18n:message key="addAllBindingFields">!!!addAllBindingFields</i18n:message>"
+                    <mvc:fragmentValue name="open" id="open">
+                    <li <%= (open!=null && (Boolean.TRUE.equals((Boolean)open)) ? "class=\"open\"":"" )%> ><span><b><%=id%></b><a title="<i18n:message key="addAllBindingFields">!!!addAllBindingFields</i18n:message>"
                     href="<factory:url  action="formBindings"><factory:param name="bindingId" value="<%=id%>"/><factory:param name="<%=WysiwygFormEditor.ACTION_TO_DO%>" value="<%=WysiwygFormEditor.ACTION_ADD_BINDING_FIELDS%>"/></factory:url>"
                     onclick="return confirm('<i18n:message key="binding_allRemainFields">binding_allRemainFields!!</i18n:message>');" >
                     <img style="float: right; position: relative; top: 0px;" src="<static:image relativePath="actions/triang_right.png"/>">
                     </a></span>
                     <ul>
+                    </mvc:fragmentValue>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragmentValue>
@@ -71,15 +74,17 @@
             <mvc:fragmentValue name="iconUri" id="iconUri">
                 <mvc:fragmentValue name="typeName" id="typeName">
                     <mvc:fragmentValue name="fieldName" id="fieldName">
-                        <li><span><img src="<static:image relativePath="<%=(String)iconUri%>"/>"
+                        <mvc:fragmentValue name="showFieldName" id="showFieldName">
+                        <li><span title="<%=fieldName%>"><img src="<static:image relativePath="<%=(String)iconUri%>"/>"
                                        align="absmiddle">
-                                        <%=fieldName%>
+                                        <%=showFieldName%>
                                             <a href="<factory:url  action="addFieldFromBinding">
                                                          <factory:param name="bindingId" value="<%=bindingId%>"/>
                                                          <factory:param name="fieldName" value="<%=fieldName%>"/>
                                                          <factory:param name="fieldTypeCode" value="<%=typeName%>"/>
                                                          </factory:url>"><img style="float: right; right; position: relative; top: 0px;" src="<static:image relativePath="actions/triang_right.png"/>"> </a>
                             </span></li>
+                        </mvc:fragmentValue>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
