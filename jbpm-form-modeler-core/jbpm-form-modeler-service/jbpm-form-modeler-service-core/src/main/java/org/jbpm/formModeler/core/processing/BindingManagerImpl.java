@@ -119,6 +119,7 @@ public class BindingManagerImpl implements BindingManager {
         try {
             clase = Class.forName(className);
         } catch (ClassNotFoundException e) {
+            return null;
         }
 
         if (clase == null) {

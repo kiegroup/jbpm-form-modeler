@@ -98,20 +98,8 @@ public class BindingFormFormatter extends Formatter {
 
         renderFragment("outputStart");
 
-        renderFragment("outputStartBindings");
-
         for (BindingSource bindingSource : bindings) {
-            setAttribute("id",bindingSource.getId() );
-            setAttribute("type",bindingSource.getBindingType() );
-            setAttribute("value",bindingSource.getBindingStr() );
-            if (bindingSource.getId()!=null && bindingSource.getId().equals(wysiwygFormEditor.getLastBindingUsedId())){
-                setAttribute("open",Boolean.TRUE);
-            } else {
-                setAttribute("open",Boolean.FALSE);
-            }
-            setAttribute("showBindingName", ((bindingSource.getId()!=null && bindingSource.getId().length()<17) ? bindingSource.getId(): bindingSource.getId().substring(0,13) +"..."));
 
-            renderFragment("outputBinding");
             Map allBindingSrcPropNames = bindingManager.getBindingFields(bindingSource);
 
             String fieldName = "";
@@ -120,17 +108,29 @@ public class BindingFormFormatter extends Formatter {
                 fieldName = (String) it.next();
                 if(fieldName!=null && form.getField(bindingSource.getId()+"_"+fieldName)==null){
                     if(i==0){//first field
-                        renderFragment("firstField");
+                        setAttribute("id",bindingSource.getId() );
+                        setAttribute("type",bindingSource.getBindingType() );
+                        setAttribute("value",bindingSource.getBindingStr() );
+                        if (bindingSource.getId()!=null && bindingSource.getId().equals(wysiwygFormEditor.getLastBindingUsedId())){
+                            setAttribute("open",Boolean.TRUE);
+                        } else {
+                            setAttribute("open",Boolean.FALSE);
+                        }
+                        setAttribute("showBindingName", ((bindingSource.getId()!=null && bindingSource.getId().length()<20)? bindingSource.getId(): bindingSource.getId().substring(0,13) +"..."));
+
+                        renderFragment("outputBinding");
+
                     }
+                    i++;
                     renderAddField( fieldName, fieldTypeManager.getTypeByClass(((Class) allBindingSrcPropNames.get(fieldName)).getName()), bindingSource.getId());
                 }
             }
             if(i!=0){//last field of list
-                renderFragment("lastField");
+                renderFragment("outputEndBinding");
             }
-            renderFragment("outputEndBindings");
+
         }
-        renderFragment("outputEndBindings");
+
         renderFragment("outputEnd");
     }
     public void renderAddField(String fieldName, FieldType type,String bindingId){
