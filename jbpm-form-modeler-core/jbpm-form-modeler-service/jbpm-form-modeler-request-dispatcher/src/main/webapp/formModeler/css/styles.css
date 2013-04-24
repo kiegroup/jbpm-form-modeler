@@ -444,3 +444,8 @@ div.GlobalBreadCrump {
     margin:2px;
     display:none;
 }
+
+.treeview ul {
+    background-color: transparent !IMPORTANT;
+    white-space: nowrap;
+}
