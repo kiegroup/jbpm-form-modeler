@@ -447,5 +447,9 @@ div.GlobalBreadCrump {
 
 .treeview ul {
     background-color: transparent !IMPORTANT;
-    white-space: nowrap;
+    white-space: nowrap !IMPORTANT;
+}
+
+.treeview img {
+    margin: -2px 0 0 1px;
 }
