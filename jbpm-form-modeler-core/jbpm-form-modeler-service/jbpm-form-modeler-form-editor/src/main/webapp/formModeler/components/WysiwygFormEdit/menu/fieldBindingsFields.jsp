@@ -56,7 +56,8 @@
             <mvc:fragmentValue name="type" id="type">
                 <mvc:fragmentValue name="value" id="value">
                     <mvc:fragmentValue name="open" id="open">
-                    <li <%= (open!=null && (Boolean.TRUE.equals((Boolean)open)) ? "class=\"open\"":"" )%> ><span><b><%=id%></b><a title="<i18n:message key="addAllBindingFields">!!!addAllBindingFields</i18n:message>"
+                        <mvc:fragmentValue name="showBindingName" id="showBindingName">
+                    <li <%= (open!=null && (Boolean.TRUE.equals((Boolean)open)) ? "class=\"open\"":"" )%> ><span title="<%=id%>"><b><%=showBindingName%></b><a title="<i18n:message key="addAllBindingFields">!!!addAllBindingFields</i18n:message>"
                     href="<factory:url  action="formBindings"><factory:param name="bindingId" value="<%=id%>"/><factory:param name="<%=WysiwygFormEditor.ACTION_TO_DO%>" value="<%=WysiwygFormEditor.ACTION_ADD_BINDING_FIELDS%>"/></factory:url>"
                     onclick="return confirm('<i18n:message key="binding_allRemainFields">binding_allRemainFields!!</i18n:message>');" >
                     <img style="float: right; position: relative; top: 0px;" src="<static:image relativePath="actions/triang_right.png"/>">
@@ -64,7 +65,8 @@
                     <ul>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>
-            </mvc:fragmentValue>
+                </mvc:fragmentValue>
+               </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
     <mvc:fragment name="firstField">

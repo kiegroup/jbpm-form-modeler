@@ -109,6 +109,7 @@ public class BindingFormFormatter extends Formatter {
             } else {
                 setAttribute("open",Boolean.FALSE);
             }
+            setAttribute("showBindingName", ((bindingSource.getId()!=null && bindingSource.getId().length()<17) ? bindingSource.getId(): bindingSource.getId().substring(0,13) +"..."));
 
             renderFragment("outputBinding");
             Map allBindingSrcPropNames = bindingManager.getBindingFields(bindingSource);
