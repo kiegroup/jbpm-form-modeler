@@ -70,20 +70,13 @@ public class PojoDataHolder implements DataHolder,Comparable {
         return "className";
     }
 
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
 
     public int compareTo(Object o) {
         return id.compareTo(((PojoDataHolder) o).getId());
     }
 
     @Override
-    public String getShowHolderStr() {
+    public String getInfo() {
         return className;
     }
 

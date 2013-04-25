@@ -69,7 +69,7 @@ public class DataHoldersFormFormatter extends Formatter {
             for (DataHolder holder : holders) {
                 setAttribute("id",holder.getId() );
                 setAttribute("type", holder.getTypeCode());
-                setAttribute("value",holder.getShowHolderStr());
+                setAttribute("value",holder.getInfo());
                 renderFragment("outputBindings");
             }
             renderFragment("outputEndBindings");

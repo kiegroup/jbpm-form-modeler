@@ -7,6 +7,7 @@ import org.jbpm.datamodeler.xml.util.XMLNode;
 import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.config.FormManager;
 import org.jbpm.formModeler.api.config.FormSerializationManager;
+import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.i18n.I18nEntry;
@@ -30,6 +31,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
 
     public static final String NODE_FIELD = "field";
     public static final String NODE_PROPERTY = "property";
+    public static final String NODE_DATA_HOLDER = "dataHolder";
 
     public static final String ATTR_ID = "id";
     public static final String ATTR_POSITION = "position";
@@ -48,8 +50,8 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     public String generateFormXML(Form form) {
         XMLNode rootNode = new XMLNode(NODE_FORM, null);
 
-        TestFormSerialization test = new TestFormSerialization();
-        test.saveFormToLocalDrive(form);
+       // TestFormSerialization test = new TestFormSerialization();
+       // test.saveFormToLocalDrive(form);
 
         return generateFormXML(form, rootNode);
     }
@@ -83,7 +85,8 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
 
                 form.setId(Long.valueOf(StringEscapeUtils.unescapeXml(nodeForm.getAttributes().getNamedItem(ATTR_ID).getNodeValue())));
 
-                HashSet campos = new HashSet();
+                Set<Field> fields = new TreeSet<Field>();
+
                 for (int i = 0; i < childNodes.getLength(); i++) {
                     Node node = childNodes.item(i);
                     if (node.getNodeName().equals(NODE_PROPERTY)) {
@@ -107,11 +110,20 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                     } else if (node.getNodeName().equals(NODE_FIELD)) {
                         Field field = deserializeField(node);
                         field.setForm(form);
-                        campos.add(field);
+                        fields.add(field);
+                    } else if (node.getNodeName().equals(NODE_DATA_HOLDER)) {
+
+                        String holderId =node.getAttributes().getNamedItem(ATTR_ID).getNodeValue();
+                        String holderType =node.getAttributes().getNamedItem(ATTR_TYPE).getNodeValue();
+                        String holderValue =node.getAttributes().getNamedItem(ATTR_VALUE).getNodeValue();
+                        if(holderId!=null && holderType!=null && holderValue!=null){
+                            form.setDataHolder(holderId,holderType,holderValue);
+                        }
+
                     }
                 }
-                if (campos != null)
-                    form.setFormFields(campos);
+                if (fields != null)
+                    form.setFormFields(fields);
                 return form;
             }
         } catch (Exception e) {
@@ -148,13 +160,14 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
             addXMLNode("status", (form.getStatus() != null ? String.valueOf(form.getStatus()) : null), rootNode);
             addXMLNode("formTemplate", form.getFormTemplate(), rootNode);
 
-            Set fields = form.getFormFields();
-            if (fields.size() > 0) {
-                for (Iterator it = fields.iterator(); it.hasNext(); ) {
-                    Field field = (Field) it.next();
-                    generateFieldXML(field, rootNode);
-                }
+            for (Field field: form.getFormFields()) {
+                generateFieldXML(field, rootNode);
             }
+
+            for (DataHolder dataHolder: form.getHolders()) {
+                generateDataHolderXML(dataHolder, rootNode);
+            }
+
             StringWriter sw = new StringWriter();
             rootNode.writeXML(sw, true);
 
@@ -165,7 +178,6 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
 
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
-
     public Field deserializeField(Node nodeField) {
 
         try {
@@ -239,13 +251,15 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                 return field;
             }
         } catch (Exception e) {
-                System.out.println("excepcion"+ e);
+            System.out.println("excepcion"+ e);
         }
         return null;
     }
 
 
-    public String generateFieldXML(Field field, XMLNode parent) {
+
+
+    public void generateFieldXML(Field field, XMLNode parent) {
         try {
             XMLNode rootNode = new XMLNode(NODE_FIELD, parent);
             rootNode.addAttribute(ATTR_ID, String.valueOf(field.getId()));
@@ -281,13 +295,26 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
 
             parent.addChild(rootNode);
 
-            StringWriter sw = new StringWriter();
-            rootNode.writeXML(sw, true);
-            return sw.toString();
         } catch (Exception e) {
 
         }
-        return null;
+
+    }
+
+    public void generateDataHolderXML(DataHolder dataHolder, XMLNode parent) {
+        try {
+            XMLNode rootNode = new XMLNode(NODE_DATA_HOLDER, parent);
+            rootNode.addAttribute(ATTR_ID, String.valueOf(dataHolder.getId()));
+            rootNode.addAttribute(ATTR_TYPE, String.valueOf(dataHolder.getTypeCode()));
+            rootNode.addAttribute(ATTR_VALUE, String.valueOf(dataHolder.getInfo()));
+
+            parent.addChild(rootNode);
+
+
+        } catch (Exception e) {
+
+        }
+
     }
 
     protected String[] decodeStringArray(String textValue) {
