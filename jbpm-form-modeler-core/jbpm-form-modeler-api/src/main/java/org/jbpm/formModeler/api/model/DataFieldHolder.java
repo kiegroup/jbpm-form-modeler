@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.api.model;
 
-public class DataFieldHolder {
+public class DataFieldHolder implements Comparable {
     DataHolder holder;
     String id;
     String type;
@@ -48,5 +48,10 @@ public class DataFieldHolder {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return id.compareTo(((DataFieldHolder) o).getId());
     }
 }

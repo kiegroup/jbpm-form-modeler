@@ -127,6 +127,7 @@ public class PojoDataHolder implements DataHolder,Comparable {
                 }
             }
         }
+        DataFieldHolder fieldHolder=null;
         for (Iterator it = propertiesDescriptors.keySet().iterator(); it.hasNext(); ) {
             String propertyName = (String) it.next();
             Map propertyValue = (Map) propertiesDescriptors.get(propertyName);
@@ -135,7 +136,8 @@ public class PojoDataHolder implements DataHolder,Comparable {
                 Boolean[] clazzValues = (Boolean[]) propertyValue.get(clazz);
                 if (clazzValues[0].booleanValue() && clazzValues[1].booleanValue()) {
                     try{
-                        dataFieldHolders.add(new DataFieldHolder(this,propertyName, fieldTypeManager.getTypeByClass(clazz.getName()).getCode()));
+                        fieldHolder =  new DataFieldHolder(this,propertyName, fieldTypeManager.getTypeByClass(clazz.getName()).getCode());
+                        dataFieldHolders.add(fieldHolder);
                     } catch (Exception e){
                         //The
                     }
