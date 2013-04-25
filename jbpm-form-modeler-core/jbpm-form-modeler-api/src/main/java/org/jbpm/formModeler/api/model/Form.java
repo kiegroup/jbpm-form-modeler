@@ -40,6 +40,11 @@ public class Form implements Serializable, Comparable{
     public static final String TEMPLATE_FIELD = "$field";
     public static final String TEMPLATE_LABEL = "$label";
 
+    public static final String BINDING_CODE_TYPE_CLASSNAME = "className";
+    public static final String BINDING_CODE_TYPE_DATA_MODEL = "dataModelerEntry";
+    public static final String BINDING_CODE_TYPE_BPM_PROCESS = "bpm_process";
+
+
     private Long id;
 
     private String subject;
@@ -58,11 +63,13 @@ public class Form implements Serializable, Comparable{
 
     private Set<Field> formFields = new TreeSet<Field>();
 
-    private Set<BindingSource> bindingSources;
+    private Set<BindingSource> bindingSo3urces;
+    private Set<DataHolder> holders;
 
     public Form() {
         formDisplayInfos = new TreeSet<FormDisplayInfo>();
-        bindingSources = new TreeSet<BindingSource>();
+        //bindingSources = new TreeSet<BindingSource>();
+        holders = new TreeSet<DataHolder>();
     }
 
     public Long getId() {
@@ -145,33 +152,38 @@ public class Form implements Serializable, Comparable{
         this.formFields = formFields;
     }
 
-    public Set<BindingSource> getBindingSources() {
-        return bindingSources;
-    }
-
-    public void setBindingSources(Set<BindingSource> bindingSources) {
-        this.bindingSources = bindingSources;
-    }
-
-    public void setBindingSource(String id, String type,String bindingStr) {
+    public void setDataHolder(String id, String type,String bindingStr) {
         if (id == null || id.trim().length() == 0) return;
-        BindingSource bsource =new BindingSource(bindingStr,id,type);
-        if(getBindingSource(id)!=null){
-            bindingSources.remove(bsource);
+        if(BINDING_CODE_TYPE_CLASSNAME.equals(type)){
+            DataHolder holder= new PojoDataHolder(id,bindingStr);
+            if(getDataHolderById(id)!=null){
+                holders.remove(holder);
+            }
+            holders.add(holder);
         }
-        bindingSources.add(bsource);
-
     }
 
-    public void removeBindingSource(String id) {
+    public void removeDataHolder(String id) {
         if (id == null || id.trim().length() == 0) return;
-        BindingSource bsource =new BindingSource("",id,"");
-        if(getBindingSource(id)!=null){
-            bindingSources.remove(bsource);
+        DataHolder holder = new PojoDataHolder(id,"");
+        if(getDataHolderById(id)!=null){
+            holders.remove(holder);
         }
 
-
     }
+
+    public DataHolder getDataHolderById(String srcId ) {
+        if (srcId == null || srcId.trim().length() == 0) return null;
+        if (getHolders() != null) {
+            for (DataHolder dataHolder : holders) {
+                if (srcId.equals(dataHolder.getId()))
+                    return dataHolder;
+            }
+        }
+        return null;
+    }
+
+
     public String toString() {
         return "Form: " + getId().toString();
     }
@@ -238,17 +250,14 @@ public class Form implements Serializable, Comparable{
 
     }
 
-    public BindingSource getBindingSource(String srcId ) {
-        if (srcId == null || srcId.trim().length() == 0) return null;
-        if (getBindingSources() != null) {
-            for (BindingSource bindingSource : bindingSources) {
-                if (srcId.equals(bindingSource.getId()))
-                    return bindingSource;
-            }
-        }
-        return null;
+
+    public Set<DataHolder> getHolders() {
+        return holders;
     }
 
+    public void setHolders(Set<DataHolder> holders) {
+        this.holders = holders;
+    }
 
     public String getFormTemplate() {
         return getDisplayModeText(DISPLAY_MODE_TEMPLATE);

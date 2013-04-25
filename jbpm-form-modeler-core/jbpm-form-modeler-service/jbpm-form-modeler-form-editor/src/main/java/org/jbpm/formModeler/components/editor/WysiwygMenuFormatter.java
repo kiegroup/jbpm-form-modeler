@@ -48,20 +48,24 @@ public class WysiwygMenuFormatter extends Formatter {
             //<input type="image" onclick="setFormInputValue(this.form,'<factory:bean property="currentEditionOption"/>','<%=WysiwygFormEditor.EDITION_OPTION_FIELDTYPES%>');"
             //style="cursor:hand; margin-right: 15px;" title="Add Fields By Type" src="<static:image relativePath="general/AddFieldsByType.png"/>">
 
-            String[] options = {WysiwygFormEditor.EDITION_OPTION_FIELDTYPES,
+            String[] options = {
+                    WysiwygFormEditor.EDITION_OPTION_BINDINGS_SOURCES,
+                    WysiwygFormEditor.EDITION_OPTION_FIELDTYPES,
                     WysiwygFormEditor.EDITION_OPTION_FORM_PROPERTIES,
-                    WysiwygFormEditor.EDITION_OPTION_BINDINGS_FIELDS,
-                    WysiwygFormEditor.EDITION_OPTION_BINDINGS_SOURCES};
+                    WysiwygFormEditor.EDITION_OPTION_BINDINGS_FIELDS};
 
-            String[] optionsImg = {WysiwygFormEditor.EDITION_OPTION_IMG_FIELDTYPES,
+            String[] optionsImg = {
+                    WysiwygFormEditor.EDITION_OPTION_IMG_BINDINGS_SOURCES,
+                    WysiwygFormEditor.EDITION_OPTION_IMG_FIELDTYPES,
                     WysiwygFormEditor.EDITION_OPTION_IMG_FORM_PROPERTIES,
-                    WysiwygFormEditor.EDITION_OPTION_IMG_BINDINGS_FIELDS,
-                    WysiwygFormEditor.EDITION_OPTION_IMG_BINDINGS_SOURCES};
+                    WysiwygFormEditor.EDITION_OPTION_IMG_BINDINGS_FIELDS};
 
-            String [] optionVis = {WysiwygFormEditor.EDITION_OPTION_VIS_MODE_FIELDTYPES,
+            String [] optionVis = {
+                    WysiwygFormEditor.EDITION_OPTION_VIS_MODE_BINDINGS_SOURCE,
+                    WysiwygFormEditor.EDITION_OPTION_VIS_MODE_FIELDTYPES,
                     WysiwygFormEditor.EDITION_OPTION_VIS_MODE_FORM_PROPERTIES,
-                    WysiwygFormEditor.EDITION_OPTION_VIS_MODE_BINDINGS_FIELDS,
-                    WysiwygFormEditor.EDITION_OPTION_VIS_MODE_BINDINGS_SOURCE};
+                    WysiwygFormEditor.EDITION_OPTION_VIS_MODE_BINDINGS_FIELDS
+                    };
 
             String render = "shared";
             for (int i = 0; i < options.length; i++) {

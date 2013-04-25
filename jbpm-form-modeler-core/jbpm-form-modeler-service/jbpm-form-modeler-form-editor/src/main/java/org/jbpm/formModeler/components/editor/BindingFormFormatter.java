@@ -17,9 +17,7 @@ package org.jbpm.formModeler.components.editor;
 
 import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.config.FormManager;
-import org.jbpm.formModeler.api.model.BindingSource;
-import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.api.model.*;
 import org.jbpm.formModeler.api.processing.BindingManager;
 import org.jbpm.formModeler.api.processing.FieldHandler;
 import org.jbpm.formModeler.core.config.FieldTypeManagerImpl;
@@ -74,11 +72,11 @@ public class BindingFormFormatter extends Formatter {
 
             Form form = wysiwygFormEditor.getCurrentForm();
 
-            Set<BindingSource> bindings =form.getBindingSources();
-            for (BindingSource bindingSource : bindings) {
-                setAttribute("id",bindingSource.getId() );
-                setAttribute("type",bindingSource.getBindingType() );
-                setAttribute("value",bindingSource.getBindingStr() );
+            Set<DataHolder> holders =form.getHolders();
+            for (DataHolder holder : holders) {
+                setAttribute("id",holder.getId() );
+                setAttribute("type", holder.getTypeCode());
+                setAttribute("value",holder.getShowBindingStr());
                 renderFragment("outputBindings");
             }
             renderFragment("outputEndBindings");
@@ -92,37 +90,37 @@ public class BindingFormFormatter extends Formatter {
 
     public void renderPendingFields() throws Exception {
         Form form = wysiwygFormEditor.getCurrentForm();
-        Set<BindingSource> bindings =form.getBindingSources();
+        Set<DataHolder> holders=form.getHolders();
         BindingManager bindingManager = wysiwygFormEditor.getBindingManager();
         FieldTypeManager fieldTypeManager = wysiwygFormEditor.getFieldTypesManager();
 
         renderFragment("outputStart");
 
-        for (BindingSource bindingSource : bindings) {
+        for (DataHolder dataHolder : holders) {
 
-            Map allBindingSrcPropNames = bindingManager.getBindingFields(bindingSource);
+            Set <DataFieldHolder> dataFieldHolders = dataHolder.getFieldHolders();
 
             String fieldName = "";
             int i=0;
-            for (Iterator it = allBindingSrcPropNames.keySet().iterator(); it.hasNext(); ) {
-                fieldName = (String) it.next();
-                if(fieldName!=null && form.getField(bindingSource.getId()+"_"+fieldName)==null){
+            for (DataFieldHolder dataFieldHolder : dataFieldHolders) {
+                fieldName =dataFieldHolder.getId();
+                if(fieldName!=null && form.getField(dataHolder.getId()+"_"+fieldName)==null){
                     if(i==0){//first field
-                        setAttribute("id",bindingSource.getId() );
-                        setAttribute("type",bindingSource.getBindingType() );
-                        setAttribute("value",bindingSource.getBindingStr() );
-                        if (bindingSource.getId()!=null && bindingSource.getId().equals(wysiwygFormEditor.getLastBindingUsedId())){
+                        setAttribute("id",dataFieldHolder.getId() );
+                        setAttribute("type",dataFieldHolder.getType() );
+
+                        if (dataHolder.getId()!=null && dataHolder.getId().equals(wysiwygFormEditor.getLastBindingUsedId())){
                             setAttribute("open",Boolean.TRUE);
                         } else {
                             setAttribute("open",Boolean.FALSE);
                         }
-                        setAttribute("showBindingName", ((bindingSource.getId()!=null && bindingSource.getId().length()<20)? bindingSource.getId(): bindingSource.getId().substring(0,13) +"..."));
+                        setAttribute("showBindingName", ((dataHolder.getId()!=null && dataHolder.getId().length()<20)? dataHolder.getId(): dataHolder.getId().substring(0,19) +"..."));
 
                         renderFragment("outputBinding");
 
                     }
                     i++;
-                    renderAddField( fieldName, fieldTypeManager.getTypeByClass(((Class) allBindingSrcPropNames.get(fieldName)).getName()), bindingSource.getId());
+                    renderAddField( fieldName, fieldTypeManager.getTypeByCode(dataFieldHolder.getType()), dataHolder.getId());
                 }
             }
             if(i!=0){//last field of list

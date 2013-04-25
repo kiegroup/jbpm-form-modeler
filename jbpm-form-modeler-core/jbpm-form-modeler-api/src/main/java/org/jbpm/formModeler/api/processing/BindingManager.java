@@ -30,5 +30,4 @@ public interface BindingManager {
     Object getPropertyValue(Object obj, String propName);
     void setPropertyValue(Object destination, String propName, Object value) throws NoSuchFieldException, NoSuchMethodException, InvocationTargetException, IllegalAccessException;
 
-    public Map getBindingFields(BindingSource source);
 }

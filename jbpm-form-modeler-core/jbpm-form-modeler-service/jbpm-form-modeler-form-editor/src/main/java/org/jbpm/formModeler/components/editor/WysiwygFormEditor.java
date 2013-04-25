@@ -17,7 +17,7 @@ package org.jbpm.formModeler.components.editor;
 
 import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.config.FormManager;
-import org.jbpm.formModeler.api.model.BindingSource;
+import org.jbpm.formModeler.api.model.*;
 import org.jbpm.formModeler.api.processing.BindingManager;
 import org.jbpm.formModeler.core.processing.BindingManagerImpl;
 import org.jbpm.formModeler.core.wrappers.HTMLi18n;
@@ -31,11 +31,8 @@ import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.core.config.FieldTypeManagerImpl;
 import org.jbpm.formModeler.core.config.FormManagerImpl;
 import org.jbpm.formModeler.api.util.helpers.EditorHelper;
-import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.i18n.I18nSet;
 import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 import org.jbpm.formModeler.api.processing.FormStatusData;
 
@@ -738,7 +735,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
         if ((className != null) && ( bindingId!= null)){
             Form form = getCurrentEditForm();
-            form.setBindingSource(bindingId, BindingSource.BINDING_CODE_TYPE_CLASSNAME, className);
+            form.setDataHolder(bindingId, Form.BINDING_CODE_TYPE_CLASSNAME, className);
         }
     }
 
@@ -751,7 +748,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
         if ( ( bindingId!= null)){
             Form form = getCurrentEditForm();
-            form.removeBindingSource(bindingId);
+            form.removeDataHolder(bindingId);
         }
     }
 
@@ -764,15 +761,13 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
         if ( bindingId!= null){
             Form form = getCurrentEditForm();
-            BindingSource source = form.getBindingSource(bindingId);
+            DataHolder holder = form.getDataHolderById(bindingId);
 
-            Map propertyNames = bindingManager.getBindingFields(source);
-
-            String fieldName = "";
-            for (Iterator it = propertyNames.keySet().iterator(); it.hasNext(); ) {
-                fieldName = (String) it.next();
-                addBindingField(form,source,fieldName,fieldTypeManager.getTypeByClass(((Class) propertyNames.get(fieldName)).getName()));
+            Set<DataFieldHolder> holderFields = holder.getFieldHolders();
+            for (DataFieldHolder dataFieldHolder : holderFields) {
+                addBindingField(form,holder.getId(),dataFieldHolder.getId(),fieldTypeManager.getTypeByCode(dataFieldHolder.getType()));
             }
+
         }
     }
 
@@ -794,17 +789,17 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
         if ( bindingId!= null){
             Form form = getCurrentEditForm();
-            BindingSource source = form.getBindingSource(bindingId);
-            addBindingField(form,source,fieldName,fieldTypeManager.getTypeByCode(fieldTypeCode));
+            DataHolder holder = form.getDataHolderById(bindingId);
+            addBindingField(form,holder.getId(),fieldName,fieldTypeManager.getTypeByCode(fieldTypeCode));
         }
     }
 
-    private void addBindingField(Form form,BindingSource source,String fieldName, FieldType fieldType) throws Exception{
+    private void addBindingField(Form form,String dataHolderId,String fieldName, FieldType fieldType) throws Exception{
         I18nSet label = new I18nSet();
         String defaultLang = localeManager.getDefaultLang();
-        label.setValue(defaultLang, fieldName+" ("+source.getId()+")");
-        formManager.addFieldToForm(form, source.getId()+"_"+fieldName, fieldType, label, "{" + source.getId() + "/" + fieldName+"}");
-        setLastBindingUsedId(source.getId());
+        label.setValue(defaultLang, fieldName+" ("+dataHolderId+")");
+        formManager.addFieldToForm(form, dataHolderId+"_"+fieldName, fieldType, label, "{" + dataHolderId + "/" + fieldName+"}");
+        setLastBindingUsedId(dataHolderId);
     }
 
     public String getRenderMode() {

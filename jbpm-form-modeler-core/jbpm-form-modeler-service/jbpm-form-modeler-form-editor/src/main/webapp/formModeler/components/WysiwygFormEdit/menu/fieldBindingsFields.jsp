@@ -51,7 +51,7 @@
     <mvc:fragment name="outputBinding">
         <mvc:fragmentValue name="id" id="id">
             <mvc:fragmentValue name="type" id="type">
-                <mvc:fragmentValue name="value" id="value">
+
                     <mvc:fragmentValue name="open" id="open">
                         <mvc:fragmentValue name="showBindingName" id="showBindingName">
                     <li <%= (open!=null && (Boolean.TRUE.equals((Boolean)open)) ? "class=\"open\"":"" )%> ><span title="<%=id%>"><b><%=showBindingName%></b><a title="<i18n:message key="addAllBindingFields">!!!addAllBindingFields</i18n:message>"
@@ -62,7 +62,7 @@
                     <ul>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>
-                </mvc:fragmentValue>
+
                </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
