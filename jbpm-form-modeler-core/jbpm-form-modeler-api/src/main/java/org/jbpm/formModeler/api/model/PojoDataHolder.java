@@ -83,7 +83,7 @@ public class PojoDataHolder implements DataHolder,Comparable {
     }
 
     @Override
-    public String getShowBindingStr() {
+    public String getShowHolderStr() {
         return className;
     }
 

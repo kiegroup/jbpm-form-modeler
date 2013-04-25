@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-$class=org.jbpm.formModeler.components.editor.BindingFormFormatter
+$class=org.jbpm.formModeler.components.editor.DataHoldersFormFormatter
 $scope=volatile
 $desc=Formats the edit form page
 

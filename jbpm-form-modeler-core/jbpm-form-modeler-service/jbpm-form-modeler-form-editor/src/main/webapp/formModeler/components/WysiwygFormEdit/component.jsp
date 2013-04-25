@@ -85,7 +85,7 @@
                     <factory:handler action="switchRenderMode"/>
                     <input type="image"
                            onclick="setFormInputValue(this.form,'renderMode','<%=((renderMode!=null && renderMode.equals(Form.RENDER_MODE_WYSIWYG_FORM)) ? Form.RENDER_MODE_WYSIWYG_DISPLAY : Form.RENDER_MODE_WYSIWYG_FORM )%>');"
-                           style="cursor:hand;" title="Bindings"
+                           style="cursor:hand;" title=""
                            src="<static:image relativePath="<%=((renderMode!=null && renderMode.equals(Form.RENDER_MODE_WYSIWYG_FORM)) ? WysiwygFormEditor.EDITION_OPTION_IMG_FORM_SHOWTMODE : WysiwygFormEditor.EDITION_OPTION_IMG_FORM_INSERTMODE )%>"/>">
 
                 </form>

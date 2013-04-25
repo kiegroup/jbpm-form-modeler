@@ -51,8 +51,8 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
     public static final String EDITION_OPTION_FIELDTYPES = "fieldTypes";
     public static final String EDITION_OPTION_FORM_PROPERTIES = "formProperties";
-    public static final String EDITION_OPTION_BINDINGS_FIELDS = "fieldBindingsFields";
-    public static final String EDITION_OPTION_BINDINGS_SOURCES = "fieldBindingsSources";
+    public static final String EDITION_OPTION_BINDINGS_FIELDS = "dataHoldersFields";
+    public static final String EDITION_OPTION_BINDINGS_SOURCES = "dataHoldersSources";
 
     public static final String EDITION_OPTION_IMG_FIELDTYPES = "general/AddFieldsByType.png";
     public static final String EDITION_OPTION_IMG_FORM_PROPERTIES = "general/FormProperties.png";
@@ -72,9 +72,14 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public static final String ACTION_SAVE_FIELD_PROPERTIES = "saveFieldProperties";
     public static final String ACTION_CANCEL_FIELD_EDITION = "cancelFieldEdition";
 
-    public static final String ACTION_REMOVE_BINDING_VAR= "removeBindingVar";
-    public static final String ACTION_ADD_BINDING_VAR= "addBindingVar";
-    public static final String ACTION_ADD_BINDING_FIELDS= "addBindingFields";
+    public static final String ACTION_REMOVE_DATA_HOLDER = "removeDataHolder";
+    public static final String ACTION_ADD_DATA_HOLDER = "addDataHolder";
+    public static final String ACTION_ADD_DATA_HOLDER_FIELDS = "addDataHolderFields";
+
+    public static final String PARAMETER_HOLDER_ID = "holderId";
+    public static final String PARAMETER_HOLDER_INFO = "holderInfo";
+    public static final String PARAMETER_FIELD_NAME = "fieldName";
+    public static final String PARAMETER_FIELD_TYPECODE = "typeCode";
 
     private Form currentForm;
     private int currentEditFieldPosition = -1;
@@ -85,14 +90,14 @@ public class WysiwygFormEditor extends BaseUIComponent {
     private LocaleManager localeManager;
     private boolean swapFields = true;
     private String fieldTypeToView = null;
-    private String currentEditionOption = EDITION_OPTION_FIELDTYPES;
+    private String currentEditionOption = EDITION_OPTION_IMG_BINDINGS_SOURCES;
     private FormTemplateEditor formTemplateEditor;
     private int lastMovedFieldPosition = -1;
     private boolean showReturnButton = false;
     private String renderMode = Form.RENDER_MODE_WYSIWYG_FORM;
     private FieldType originalFieldType;
 
-    private String lastBindingUsedId = "";
+    private String lastDataHolderUsedId = "";
 
     @Override
     public void start() throws Exception {
@@ -707,99 +712,99 @@ public class WysiwygFormEditor extends BaseUIComponent {
         }
     }
 
-    public synchronized void actionAddFieldFromBinding(CommandRequest request) throws Exception {
-        addBindingsFieldToForm(request.getRequestObject().getParameterMap());
+    public synchronized void actionAddFieldFromDataHolder(CommandRequest request) throws Exception {
+        addDataHolderFieldToForm(request.getRequestObject().getParameterMap());
     }
 
-    public synchronized void actionFormBindings(CommandRequest request) throws Exception {
+    public synchronized void actionFormDataHolders(CommandRequest request) throws Exception {
         String action = request.getRequestObject().getParameter(ACTION_TO_DO);
-        if(ACTION_ADD_BINDING_VAR.equals(action)){
-            addBindingVar(request.getRequestObject().getParameterMap());
-        } else if(ACTION_REMOVE_BINDING_VAR.equals(action)){
-            removeBindingVar(request.getRequestObject().getParameterMap());
-        } else if(ACTION_ADD_BINDING_FIELDS.equals(action)){
-            addBindingsFieldsToForm(request.getRequestObject().getParameterMap());
+        if(ACTION_ADD_DATA_HOLDER.equals(action)){
+            addDataHolder(request.getRequestObject().getParameterMap());
+        } else if(ACTION_REMOVE_DATA_HOLDER.equals(action)){
+            removeDataHolder(request.getRequestObject().getParameterMap());
+        } else if(ACTION_ADD_DATA_HOLDER_FIELDS.equals(action)){
+            addAllDataHolderFieldsToForm(request.getRequestObject().getParameterMap());
         }
 
     }
 
-    public void addBindingVar(Map parameterMap) throws Exception {
-        String[] name = (String[]) parameterMap.get("className");
-        String[] binding = (String[]) parameterMap.get("bindingId");
+    public void addDataHolder(Map parameterMap) throws Exception {
+        String[] holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_INFO);
+        String[] holderIdArray = (String[]) parameterMap.get(PARAMETER_HOLDER_ID);
 
-        String className = null;
-        if (name != null && name.length > 0) className = name[0];
+        String holderInfo = null;
+        if (holderInfoArray != null && holderInfoArray.length > 0) holderInfo = holderInfoArray[0];
 
-        String bindingId = null;
-        if (binding != null && binding.length > 0) bindingId = binding[0];
+        String holderId = null;
+        if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
 
-        if ((className != null) && ( bindingId!= null)){
+        if ((holderInfo != null) && ( holderId!= null)){
             Form form = getCurrentEditForm();
-            form.setDataHolder(bindingId, Form.BINDING_CODE_TYPE_CLASSNAME, className);
+            form.setDataHolder(holderId, Form.HOLDER_TYPE_CODE_POJO_CLASSNAME, holderInfo);
         }
     }
 
 
-    public void removeBindingVar(Map parameterMap) throws Exception {
-        String[] binding = (String[]) parameterMap.get("bindingId");
+    public void removeDataHolder(Map parameterMap) throws Exception {
+        String[] holderIdArray = (String[]) parameterMap.get(PARAMETER_HOLDER_ID);
 
-        String bindingId = null;
-        if (binding != null && binding.length > 0) bindingId = binding[0];
+        String holderId = null;
+        if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
 
-        if ( ( bindingId!= null)){
+        if ( ( holderId!= null)){
             Form form = getCurrentEditForm();
-            form.removeDataHolder(bindingId);
+            form.removeDataHolder(holderId);
         }
     }
 
-    public void addBindingsFieldsToForm(Map parameterMap) throws Exception {
+    public void addAllDataHolderFieldsToForm(Map parameterMap) throws Exception {
 
-        String[] binding = (String[]) parameterMap.get("bindingId");
+        String[] holderIdArray = (String[]) parameterMap.get(PARAMETER_HOLDER_ID);
 
-        String bindingId = null;
-        if (binding != null && binding.length > 0) bindingId = binding[0];
+        String holderId = null;
+        if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
 
-        if ( bindingId!= null){
+        if ( holderId!= null){
             Form form = getCurrentEditForm();
-            DataHolder holder = form.getDataHolderById(bindingId);
+            DataHolder holder = form.getDataHolderById(holderId);
 
             Set<DataFieldHolder> holderFields = holder.getFieldHolders();
             for (DataFieldHolder dataFieldHolder : holderFields) {
-                addBindingField(form,holder.getId(),dataFieldHolder.getId(),fieldTypeManager.getTypeByCode(dataFieldHolder.getType()));
+                addDataFieldHolder(form, holder.getId(), dataFieldHolder.getId(), fieldTypeManager.getTypeByCode(dataFieldHolder.getType()));
             }
 
         }
     }
 
-    public void addBindingsFieldToForm(Map parameterMap) throws Exception {
+    public void addDataHolderFieldToForm(Map parameterMap) throws Exception {
 
-        String[] bindings = (String[]) parameterMap.get("bindingId");
-        String[] fieldNames = (String[]) parameterMap.get("fieldName");
-        String[] fieldTypeCodes = (String[]) parameterMap.get("fieldTypeCode");
+        String[] holderIdArray = (String[]) parameterMap.get(PARAMETER_HOLDER_ID);
+        String[] fieldNameArray = (String[]) parameterMap.get(PARAMETER_FIELD_NAME);
+        String[] fieldTypeCodeArray = (String[]) parameterMap.get(PARAMETER_FIELD_TYPECODE);
 
         String bindingId = null;
-        if (bindings != null && bindings.length > 0) bindingId = bindings[0];
+        if (holderIdArray != null && holderIdArray.length > 0) bindingId = holderIdArray[0];
 
         String fieldName = null;
-        if (fieldNames != null && fieldNames.length > 0) fieldName = fieldNames[0];
+        if (fieldNameArray != null && fieldNameArray.length > 0) fieldName = fieldNameArray[0];
 
         String fieldTypeCode = null;
-        if (fieldTypeCodes != null && fieldTypeCodes.length > 0) fieldTypeCode = fieldTypeCodes[0];
+        if (fieldTypeCodeArray != null && fieldTypeCodeArray.length > 0) fieldTypeCode = fieldTypeCodeArray[0];
 
 
         if ( bindingId!= null){
             Form form = getCurrentEditForm();
             DataHolder holder = form.getDataHolderById(bindingId);
-            addBindingField(form,holder.getId(),fieldName,fieldTypeManager.getTypeByCode(fieldTypeCode));
+            addDataFieldHolder(form, holder.getId(), fieldName, fieldTypeManager.getTypeByCode(fieldTypeCode));
         }
     }
 
-    private void addBindingField(Form form,String dataHolderId,String fieldName, FieldType fieldType) throws Exception{
+    private void addDataFieldHolder(Form form, String dataHolderId, String fieldName, FieldType fieldType) throws Exception{
         I18nSet label = new I18nSet();
         String defaultLang = localeManager.getDefaultLang();
         label.setValue(defaultLang, fieldName+" ("+dataHolderId+")");
         formManager.addFieldToForm(form, dataHolderId+"_"+fieldName, fieldType, label, "{" + dataHolderId + "/" + fieldName+"}");
-        setLastBindingUsedId(dataHolderId);
+        setLastDataHolderUsedId(dataHolderId);
     }
 
     public String getRenderMode() {
@@ -838,11 +843,11 @@ public class WysiwygFormEditor extends BaseUIComponent {
         WysiwygFormEditor.log = log;
     }
 
-    public String getLastBindingUsedId() {
-        return lastBindingUsedId;
+    public String getLastDataHolderUsedId() {
+        return lastDataHolderUsedId;
     }
 
-    public void setLastBindingUsedId(String lastBindingUsedId) {
-        this.lastBindingUsedId = lastBindingUsedId;
+    public void setLastDataHolderUsedId(String lastDataHolderUsedId) {
+        this.lastDataHolderUsedId = lastDataHolderUsedId;
     }
 }

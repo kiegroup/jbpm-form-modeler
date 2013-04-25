@@ -40,9 +40,9 @@ public class Form implements Serializable, Comparable{
     public static final String TEMPLATE_FIELD = "$field";
     public static final String TEMPLATE_LABEL = "$label";
 
-    public static final String BINDING_CODE_TYPE_CLASSNAME = "className";
-    public static final String BINDING_CODE_TYPE_DATA_MODEL = "dataModelerEntry";
-    public static final String BINDING_CODE_TYPE_BPM_PROCESS = "bpm_process";
+    public static final String HOLDER_TYPE_CODE_POJO_CLASSNAME = "className";
+    public static final String HOLDER_TYPE_CODE_POJO_DATA_MODEL = "dataModelerEntry";
+    public static final String HOLDER_TYPE_CODE_BPM_PROCESS = "bpm_process";
 
 
     private Long id;
@@ -63,12 +63,10 @@ public class Form implements Serializable, Comparable{
 
     private Set<Field> formFields = new TreeSet<Field>();
 
-    private Set<BindingSource> bindingSo3urces;
     private Set<DataHolder> holders;
 
     public Form() {
         formDisplayInfos = new TreeSet<FormDisplayInfo>();
-        //bindingSources = new TreeSet<BindingSource>();
         holders = new TreeSet<DataHolder>();
     }
 
@@ -152,10 +150,10 @@ public class Form implements Serializable, Comparable{
         this.formFields = formFields;
     }
 
-    public void setDataHolder(String id, String type,String bindingStr) {
+    public void setDataHolder(String id, String type,String dataHolderInfo) {
         if (id == null || id.trim().length() == 0) return;
-        if(BINDING_CODE_TYPE_CLASSNAME.equals(type)){
-            DataHolder holder= new PojoDataHolder(id,bindingStr);
+        if(HOLDER_TYPE_CODE_POJO_CLASSNAME.equals(type)){
+            DataHolder holder= new PojoDataHolder(id,dataHolderInfo);
             if(getDataHolderById(id)!=null){
                 holders.remove(holder);
             }

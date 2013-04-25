@@ -16,11 +16,9 @@
 package org.jbpm.formModeler.api.processing;
 
 
-import org.jbpm.formModeler.api.model.BindingSource;
 import org.jbpm.formModeler.api.model.FieldType;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
 
 public interface BindingManager {
     PropertyDefinition getPropertyDefinition(FieldType type) throws Exception;

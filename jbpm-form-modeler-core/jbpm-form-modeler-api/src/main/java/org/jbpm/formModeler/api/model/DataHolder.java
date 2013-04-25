@@ -26,5 +26,5 @@ public interface DataHolder extends Comparable{
     Object readValue(String id);
     Set<DataFieldHolder> getFieldHolders();
     String getTypeCode();
-    String getShowBindingStr();
+    String getShowHolderStr();
 }

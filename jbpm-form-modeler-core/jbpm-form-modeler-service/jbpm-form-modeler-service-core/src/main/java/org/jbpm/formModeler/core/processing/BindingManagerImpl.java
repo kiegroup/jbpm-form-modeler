@@ -16,12 +16,11 @@
 package org.jbpm.formModeler.core.processing;
 
 import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.api.model.BindingSource;
+
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.processing.BindingManager;
 import org.jbpm.formModeler.api.processing.PropertyDefinition;
 import org.jbpm.formModeler.api.util.helpers.CDIHelper;
-import org.jbpm.formModeler.core.config.FieldTypeManagerImpl;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.lang.Class;
@@ -31,10 +30,6 @@ import java.lang.String;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 @ApplicationScoped
 public class BindingManagerImpl implements BindingManager {

@@ -26,7 +26,7 @@
 
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 
-<mvc:formatter name="org.jbpm.formModeler.components.editor.BindingFormFormatter">
+<mvc:formatter name="org.jbpm.formModeler.components.editor.DataHoldersFormFormatter">
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputStart">
         <script language="javascript">
@@ -53,10 +53,10 @@
             <mvc:fragmentValue name="type" id="type">
 
                     <mvc:fragmentValue name="open" id="open">
-                        <mvc:fragmentValue name="showBindingName" id="showBindingName">
-                    <li <%= (open!=null && (Boolean.TRUE.equals((Boolean)open)) ? "class=\"open\"":"" )%> ><span title="<%=id%>"><b><%=showBindingName%></b><a title="<i18n:message key="addAllBindingFields">!!!addAllBindingFields</i18n:message>"
-                    href="<factory:url  action="formBindings"><factory:param name="bindingId" value="<%=id%>"/><factory:param name="<%=WysiwygFormEditor.ACTION_TO_DO%>" value="<%=WysiwygFormEditor.ACTION_ADD_BINDING_FIELDS%>"/></factory:url>"
-                    onclick="return confirm('<i18n:message key="binding_allRemainFields">binding_allRemainFields!!</i18n:message>');" >
+                        <mvc:fragmentValue name="showHolderName" id="showHolderName">
+                    <li <%= (open!=null && (Boolean.TRUE.equals((Boolean)open)) ? "class=\"open\"":"" )%> ><span title="<%=id%>"><b><%=showHolderName%></b><a title="<i18n:message key="dataHolder_addAllFields">!!!dataHolder_addAllFields</i18n:message>"
+                    href="<factory:url  action="formDataHolders"><factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=id%>"/><factory:param name="<%=WysiwygFormEditor.ACTION_TO_DO%>" value="<%=WysiwygFormEditor.ACTION_ADD_DATA_HOLDER_FIELDS%>"/></factory:url>"
+                    onclick="return confirm('<i18n:message key="dataHolder_addAll_comfirm">!!!dataHolder_addAll_comfirm</i18n:message>');" >
                     <img style="float: right; position: relative; top: 0px;" src="<static:image relativePath="actions/triang_right.png"/>">
                     </a></span>
                     <ul>
@@ -77,11 +77,11 @@
                         <li><span title="<%=fieldName%>" style="vertical-align: top"><img src="<static:image relativePath="<%=(String)iconUri%>"/>"
                                        align="absmiddle">
                                         <%=showFieldName%>
-                                            <a href="<factory:url  action="addFieldFromBinding">
-                                                         <factory:param name="bindingId" value="<%=bindingId%>"/>
-                                                         <factory:param name="fieldName" value="<%=fieldName%>"/>
-                                                         <factory:param name="fieldTypeCode" value="<%=typeName%>"/>
-                                                         </factory:url>"><img style="float: right; right; position: relative; top: 0px;" src="<static:image relativePath="actions/triang_right.png"/>"></a>
+                                            <a href="<factory:url  action="addFieldFromDataHolder">
+                                                         <factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=bindingId%>"/>
+                                                         <factory:param name="<%=WysiwygFormEditor.PARAMETER_FIELD_NAME%>" value="<%=fieldName%>"/>
+                                                         <factory:param name="<%=WysiwygFormEditor.PARAMETER_FIELD_TYPECODE%>" value="<%=typeName%>"/>
+                                                         </factory:url>"><img style="float: right; position: relative; top: 0px;" src="<static:image relativePath="actions/triang_right.png"/>"></a>
                             </span></li>
                         </mvc:fragmentValue>
                     </mvc:fragmentValue>

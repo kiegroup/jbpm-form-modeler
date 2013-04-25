@@ -16,27 +16,20 @@
 package org.jbpm.formModeler.components.editor;
 
 import org.jbpm.formModeler.api.config.FieldTypeManager;
-import org.jbpm.formModeler.api.config.FormManager;
 import org.jbpm.formModeler.api.model.*;
 import org.jbpm.formModeler.api.processing.BindingManager;
-import org.jbpm.formModeler.api.processing.FieldHandler;
-import org.jbpm.formModeler.core.config.FieldTypeManagerImpl;
-import org.jbpm.formModeler.core.processing.BindingManagerImpl;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
  *
  */
-public class BindingFormFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(BindingFormFormatter.class.getName());
+public class DataHoldersFormFormatter extends Formatter {
+    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DataHoldersFormFormatter.class.getName());
 
     private WysiwygFormEditor wysiwygFormEditor;
 
@@ -57,7 +50,7 @@ public class BindingFormFormatter extends Formatter {
             renderBindingSources();
         }
         }catch (Exception e){
-            log.error(" BindingFormFormatter rendering error");
+            log.error(" DataHoldersFormFormatter rendering error");
         }
     }
 
@@ -76,7 +69,7 @@ public class BindingFormFormatter extends Formatter {
             for (DataHolder holder : holders) {
                 setAttribute("id",holder.getId() );
                 setAttribute("type", holder.getTypeCode());
-                setAttribute("value",holder.getShowBindingStr());
+                setAttribute("value",holder.getShowHolderStr());
                 renderFragment("outputBindings");
             }
             renderFragment("outputEndBindings");
@@ -106,15 +99,15 @@ public class BindingFormFormatter extends Formatter {
                 fieldName =dataFieldHolder.getId();
                 if(fieldName!=null && form.getField(dataHolder.getId()+"_"+fieldName)==null){
                     if(i==0){//first field
-                        setAttribute("id",dataFieldHolder.getId() );
-                        setAttribute("type",dataFieldHolder.getType() );
+                        setAttribute("id",dataHolder.getId() );
+                        setAttribute("type",dataHolder.getTypeCode() );
 
-                        if (dataHolder.getId()!=null && dataHolder.getId().equals(wysiwygFormEditor.getLastBindingUsedId())){
+                        if (dataHolder.getId()!=null && dataHolder.getId().equals(wysiwygFormEditor.getLastDataHolderUsedId())){
                             setAttribute("open",Boolean.TRUE);
                         } else {
                             setAttribute("open",Boolean.FALSE);
                         }
-                        setAttribute("showBindingName", ((dataHolder.getId()!=null && dataHolder.getId().length()<20)? dataHolder.getId(): dataHolder.getId().substring(0,19) +"..."));
+                        setAttribute("showHolderName", ((dataHolder.getId()!=null && dataHolder.getId().length()<20)? dataHolder.getId(): dataHolder.getId().substring(0,19) +"..."));
 
                         renderFragment("outputBinding");
 
