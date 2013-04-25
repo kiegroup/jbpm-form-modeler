@@ -4,8 +4,6 @@
 <module>
     <inherits name="org.jboss.errai.enterprise.CDI"/>
 
-    <inherits name='com.googlecode.gchart.GChart'/>
-
     <inherits name="org.uberfire.security.UberfireSecurityClient"/>
 
     <inherits name="org.uberfire.UberfireWorkbench"/>
@@ -26,6 +24,9 @@
     <inherits name="org.kie.guvnor.commons.ui.GuvnorCommonsUI"/>
     <inherits name="org.kie.guvnor.commons.security.GuvnorCommonsSecurity"/>
 
+    <inherits name="org.drools.guvnor.models.testscenarios.DroolsGuvnorModelsTestScenarios"/>
+    <inherits name='org.kie.guvnor.testscenario.TestScenarioEditorAPI'/>
+
     <!-- projects -->
 
     <inherits name="org.kie.guvnor.metadata.GuvnorMetadataWidget"/>
@@ -38,8 +39,7 @@
 
     <inherits name="org.jbpm.formModeler.FormModelerApi"/>
     <inherits name="org.jbpm.formModeler.editor.FormModelerClient"/>
-
-    <inherits name="org.jboss.modeler.form.panels.FormRendererClient"/>
+    <inherits name="org.jbpm.formModeler.renderer.FormRendererClient"/>
 
     <!-- Specify the application specific style sheet. -->
     <stylesheet src='css/uberfire-showcase.css'/>

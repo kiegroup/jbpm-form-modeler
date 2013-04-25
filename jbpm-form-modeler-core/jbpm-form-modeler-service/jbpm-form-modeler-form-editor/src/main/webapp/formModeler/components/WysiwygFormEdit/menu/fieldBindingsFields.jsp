@@ -74,14 +74,14 @@
                 <mvc:fragmentValue name="typeName" id="typeName">
                     <mvc:fragmentValue name="fieldName" id="fieldName">
                         <mvc:fragmentValue name="showFieldName" id="showFieldName">
-                        <li><span title="<%=fieldName%>"><img src="<static:image relativePath="<%=(String)iconUri%>"/>"
+                        <li><span title="<%=fieldName%>" style="vertical-align: top"><img src="<static:image relativePath="<%=(String)iconUri%>"/>"
                                        align="absmiddle">
                                         <%=showFieldName%>
                                             <a href="<factory:url  action="addFieldFromBinding">
                                                          <factory:param name="bindingId" value="<%=bindingId%>"/>
                                                          <factory:param name="fieldName" value="<%=fieldName%>"/>
                                                          <factory:param name="fieldTypeCode" value="<%=typeName%>"/>
-                                                         </factory:url>"><img style="float: right; right; position: relative; top: 0px;" src="<static:image relativePath="actions/triang_right.png"/>"> </a>
+                                                         </factory:url>"><img style="float: right; right; position: relative; top: 0px;" src="<static:image relativePath="actions/triang_right.png"/>"></a>
                             </span></li>
                         </mvc:fragmentValue>
                     </mvc:fragmentValue>
