@@ -90,7 +90,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
     private LocaleManager localeManager;
     private boolean swapFields = true;
     private String fieldTypeToView = null;
-    private String currentEditionOption = EDITION_OPTION_IMG_BINDINGS_SOURCES;
+    private String currentEditionOption = EDITION_OPTION_BINDINGS_SOURCES;
     private FormTemplateEditor formTemplateEditor;
     private int lastMovedFieldPosition = -1;
     private boolean showReturnButton = false;
