@@ -26,14 +26,18 @@ import java.util.*;
 public class PojoDataHolder implements DataHolder,Comparable {
     private String id;
     private String className;
+    private String renderColor;
 
     FieldTypeManager fieldTypeManager;
 
+    Set<DataFieldHolder> dataFieldHolders;
 
-    public PojoDataHolder(String id, String className) {
+
+    public PojoDataHolder(String id, String className,String renderColor) {
         this.id = id;
         this.className = className;
         fieldTypeManager = (FieldTypeManager)CDIHelper.getBeanByType(FieldTypeManager.class);
+        this.renderColor =renderColor;
     }
 
     @Override
@@ -59,7 +63,9 @@ public class PojoDataHolder implements DataHolder,Comparable {
     @Override
     public Set<DataFieldHolder> getFieldHolders() {
         try{
-            return calculatePropertyNames();
+            if(dataFieldHolders == null || dataFieldHolders.size()==0)
+                dataFieldHolders = calculatePropertyNames();
+            return dataFieldHolders;
         }catch (Exception e){
         }
         return null;
@@ -78,6 +84,15 @@ public class PojoDataHolder implements DataHolder,Comparable {
     @Override
     public String getInfo() {
         return className;
+    }
+
+    @Override
+    public DataFieldHolder getDataFieldHolderById(String fieldHolderId) {
+        for(DataFieldHolder dataFieldHolder: dataFieldHolders ){
+            if(dataFieldHolder.getId().equals(fieldHolderId))
+                return dataFieldHolder;
+        }
+        return null;
     }
 
     private Set<DataFieldHolder> calculatePropertyNames() throws Exception{
@@ -163,4 +178,10 @@ public class PojoDataHolder implements DataHolder,Comparable {
         }
         return propName;
     }
+
+    @Override
+    public String getRenderColor() {
+        return renderColor;
+    }
+
 }

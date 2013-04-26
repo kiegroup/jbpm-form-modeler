@@ -47,14 +47,14 @@ public class DataHoldersFormFormatter extends Formatter {
         if(WysiwygFormEditor.EDITION_OPTION_BINDINGS_FIELDS.equals(wysiwygFormEditor.getCurrentEditionOption())){
             renderPendingFields();
         }else {
-            renderBindingSources();
+            renderDataHolders();
         }
         }catch (Exception e){
             log.error(" DataHoldersFormFormatter rendering error");
         }
     }
 
-    public void renderBindingSources(){
+    public void renderDataHolders(){
 
         try {
             renderFragment("outputStart");
@@ -69,6 +69,7 @@ public class DataHoldersFormFormatter extends Formatter {
             for (DataHolder holder : holders) {
                 setAttribute("id",holder.getId() );
                 setAttribute("type", holder.getTypeCode());
+                setAttribute("renderColor", holder.getRenderColor());
                 setAttribute("value",holder.getInfo());
                 renderFragment("outputBindings");
             }
@@ -97,10 +98,11 @@ public class DataHoldersFormFormatter extends Formatter {
             int i=0;
             for (DataFieldHolder dataFieldHolder : dataFieldHolders) {
                 fieldName =dataFieldHolder.getId();
-                if(fieldName!=null && form.getField(dataHolder.getId()+"_"+fieldName)==null){
+                if(fieldName!=null && !form.existBinding(dataHolder,fieldName)){
                     if(i==0){//first field
                         setAttribute("id",dataHolder.getId() );
                         setAttribute("type",dataHolder.getTypeCode() );
+                        setAttribute("renderColor", dataHolder.getRenderColor());
 
                         if (dataHolder.getId()!=null && dataHolder.getId().equals(wysiwygFormEditor.getLastDataHolderUsedId())){
                             setAttribute("open",Boolean.TRUE);

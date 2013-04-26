@@ -53,7 +53,7 @@
             </select>
             <br>
             <br>
-            <b><i18n:message key="dataHolder_info">!!!dataHolder_info</i18n:message>:</b><br>
+            <b><i18n:message key="dataHolder_info">!!!dataHolbindingder_info</i18n:message>:</b><br>
             <input type="radio" name="group1" value="val2"><i18n:message key="dataHolder_datamodel">!!!Data Model source</i18n:message><br>
             <select class="skn-input">
                 <option value="bindStr11">Model1 </option>
@@ -67,6 +67,16 @@
             <input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_INFO%>" type="text" class="skn-input" value="" size="20" maxlength="64">
             <br>
             <br>
+
+            <b><i18n:message key="dataHolder_renderColor">!!!dataHolder_renderColor</i18n:message>:</b><br>
+            <select class="skn-input" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_RENDERCOLOR%>">
+                <option value="#FF8881">ROJO </option>
+                <option value="#FBB767">NARANJA</option>
+                <option value="#A7E690">VERDE</option>
+            </select>
+            <br>
+            <br>
+
             <div style="text-align: center;">
             <input type="submit" value="<i18n:message key="dataHolder_addDataHolder">!!! dataHolder_addDataHolder</i18n:message>" class="skn-button">
             </div>
@@ -84,6 +94,7 @@
             <td><i18n:message key="dataHolder_id">!!!dataHolder_id</i18n:message></td>
             <td><i18n:message key="dataHolder_type">!!!dataHolder_type</i18n:message></td>
             <td><i18n:message key="dataHolder_info">!!!!!!dataHolder_info</i18n:message></td>
+            <td><i18n:message key="dataHolder_renderColor">!!!!!!dataHolder_renderColor</i18n:message></td>
             <td>&nbsp;</td>
         </tr>
     </mvc:fragment>
@@ -92,10 +103,12 @@
         <mvc:fragmentValue name="id" id="id">
             <mvc:fragmentValue name="type" id="type">
                 <mvc:fragmentValue name="value" id="value">
+                    <mvc:fragmentValue name="renderColor" id="renderColor">
                     <tr>
                         <td><%=id%></td>
                         <td><%=type%></td>
                         <td><%=value%></td>
+                        <td><div style="background-color: <%=renderColor%>">&nbsp;</div></td>
                         <td align="center"><a title="<i18n:message key="delete">!!!Borrar</i18n:message>"
                                               href="<factory:url  action="formDataHolders">
                                          <factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=id%>"/>
@@ -104,7 +117,9 @@
                                               onclick="return confirm('<i18n:message key="dataHolder_delete.confirm">Sure?</i18n:message>');">
                             <img src="<static:image relativePath="actions/delete.png"/>" border="0" title="<i18n:message key="delete">!!!Clear</i18n:message>"/>
                         </a></td>
+
                     </tr>
+                    </mvc:fragmentValue>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragmentValue>
