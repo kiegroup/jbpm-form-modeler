@@ -698,6 +698,7 @@ public class FormRenderingFormatter extends Formatter {
             setAttribute("width", fieldWidth);
             renderFragment("beforeLabel");
             renderLabel(field, namespace, renderMode);
+            setAttribute("renderHolderColor", formToPaint.getBindingColor(field));
             renderFragment("afterLabel");
             if (!labelInSameLine)
                 renderFragment("lineBetweenLabelAndField");
@@ -717,6 +718,7 @@ public class FormRenderingFormatter extends Formatter {
             setAttribute("width", fieldWidth);
             renderFragment("beforeLabel");
             renderLabel(field, namespace, renderMode);
+            setAttribute("renderHolderColor", formToPaint.getBindingColor(field));
             renderFragment("afterLabel");
         }
         setAttribute("field", field);

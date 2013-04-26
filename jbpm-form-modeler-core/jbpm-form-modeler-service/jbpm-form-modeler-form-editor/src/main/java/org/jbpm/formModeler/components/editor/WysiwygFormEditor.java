@@ -80,6 +80,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public static final String PARAMETER_HOLDER_INFO = "holderInfo";
     public static final String PARAMETER_FIELD_NAME = "fieldName";
     public static final String PARAMETER_FIELD_TYPECODE = "typeCode";
+    public static final String PARAMETER_HOLDER_RENDERCOLOR = "holderRenderColor";
 
     private Form currentForm;
     private int currentEditFieldPosition = -1;
@@ -731,6 +732,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public void addDataHolder(Map parameterMap) throws Exception {
         String[] holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_INFO);
         String[] holderIdArray = (String[]) parameterMap.get(PARAMETER_HOLDER_ID);
+        String[] holderRenderColorArray = (String[]) parameterMap.get(PARAMETER_HOLDER_RENDERCOLOR);
 
         String holderInfo = null;
         if (holderInfoArray != null && holderInfoArray.length > 0) holderInfo = holderInfoArray[0];
@@ -738,9 +740,12 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String holderId = null;
         if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
 
+        String holderRenderColor = null;
+        if (holderRenderColorArray != null && holderRenderColorArray.length > 0) holderRenderColor = holderRenderColorArray[0];
+
         if ((holderInfo != null) && ( holderId!= null)){
             Form form = getCurrentEditForm();
-            form.setDataHolder(holderId, Form.HOLDER_TYPE_CODE_POJO_CLASSNAME, holderInfo);
+            form.setDataHolder(holderId, Form.HOLDER_TYPE_CODE_POJO_CLASSNAME, holderInfo,holderRenderColor);
         }
     }
 
@@ -803,7 +808,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         I18nSet label = new I18nSet();
         String defaultLang = localeManager.getDefaultLang();
         label.setValue(defaultLang, fieldName+" ("+dataHolderId+")");
-        formManager.addFieldToForm(form, dataHolderId+"_"+fieldName, fieldType, label, "{" + dataHolderId + "/" + fieldName+"}");
+        formManager.addFieldToForm(form, dataHolderId+"_"+fieldName, fieldType, label, form.generateBindingStr( dataHolderId , fieldName));
         setLastDataHolderUsedId(dataHolderId);
     }
 

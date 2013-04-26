@@ -51,10 +51,10 @@
     <mvc:fragment name="outputBinding">
         <mvc:fragmentValue name="id" id="id">
             <mvc:fragmentValue name="type" id="type">
-
+                <mvc:fragmentValue name="renderColor" id="rColor">
                     <mvc:fragmentValue name="open" id="open">
                         <mvc:fragmentValue name="showHolderName" id="showHolderName">
-                    <li <%= (open!=null && (Boolean.TRUE.equals((Boolean)open)) ? "class=\"open\"":"" )%> ><span title="<%=id%>"><b><%=showHolderName%></b><a title="<i18n:message key="dataHolder_addAllFields">!!!dataHolder_addAllFields</i18n:message>"
+                    <li <%= (open!=null && (Boolean.TRUE.equals((Boolean)open)) ? "class=\"open\"":"" )%> ><span title="<%=id%>"><b><%=showHolderName%></b><div style="background-color: <%=rColor%>">&nbsp;</div> <a title="<i18n:message key="dataHolder_addAllFields">!!!dataHolder_addAllFields</i18n:message>"
                     href="<factory:url  action="formDataHolders"><factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=id%>"/><factory:param name="<%=WysiwygFormEditor.ACTION_TO_DO%>" value="<%=WysiwygFormEditor.ACTION_ADD_DATA_HOLDER_FIELDS%>"/></factory:url>"
                     onclick="return confirm('<i18n:message key="dataHolder_addAll_comfirm">!!!dataHolder_addAll_comfirm</i18n:message>');" >
                     <img style="float: right; position: relative; top: 0px;" src="<static:image relativePath="actions/triang_right.png"/>">
@@ -62,8 +62,8 @@
                     <ul>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>
-
-               </mvc:fragmentValue>
+                </mvc:fragmentValue>
+            </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
     <mvc:fragment name="firstField">

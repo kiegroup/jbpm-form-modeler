@@ -44,7 +44,6 @@ public class Form implements Serializable, Comparable{
     public static final String HOLDER_TYPE_CODE_POJO_DATA_MODEL = "dataModelerEntry";
     public static final String HOLDER_TYPE_CODE_BPM_PROCESS = "bpm_process";
 
-
     private Long id;
 
     private String subject;
@@ -64,6 +63,8 @@ public class Form implements Serializable, Comparable{
     private Set<Field> formFields = new TreeSet<Field>();
 
     private Set<DataHolder> holders;
+
+    private HashMap dataHolderRenderInfo = new HashMap();
 
     public Form() {
         formDisplayInfos = new TreeSet<FormDisplayInfo>();
@@ -150,20 +151,21 @@ public class Form implements Serializable, Comparable{
         this.formFields = formFields;
     }
 
-    public void setDataHolder(String id, String type,String dataHolderInfo) {
+    public void setDataHolder(String id, String type,String dataHolderInfo, String renderColor) {
         if (id == null || id.trim().length() == 0) return;
         if(HOLDER_TYPE_CODE_POJO_CLASSNAME.equals(type)){
-            DataHolder holder= new PojoDataHolder(id,dataHolderInfo);
+            DataHolder holder= new PojoDataHolder(id,dataHolderInfo, renderColor);
             if(getDataHolderById(id)!=null){
                 holders.remove(holder);
             }
             holders.add(holder);
+
         }
     }
 
     public void removeDataHolder(String id) {
         if (id == null || id.trim().length() == 0) return;
-        DataHolder holder = new PojoDataHolder(id,"");
+        DataHolder holder = new PojoDataHolder(id,"","");
         if(getDataHolderById(id)!=null){
             holders.remove(holder);
         }
@@ -294,4 +296,56 @@ public class Form implements Serializable, Comparable{
     public int compareTo(Object o) {
         return id.compareTo(((Form)o).getId());
     }
+
+    public boolean existBinding(DataHolder dataHolder,String fieldName){
+        if (dataHolder==null || fieldName==null) return false;
+
+        String bindingStrToAdd = generateBindingStr( dataHolder, fieldName) ;
+
+        for (Field field : formFields) {
+            if (bindingStrToAdd.equals(field.getBindingStr()))
+                return true;
+        }
+
+        return false;
+    }
+
+    public String getBindingColor(Field field){
+
+        if (field!=null && field.getBindingStr()!=null && field.getBindingStr().trim().length()>0  ){
+            String bindingStr = field.getBindingStr();
+            String bindedFieldName = getFieldNameFromBindingStr(bindingStr);
+            if(bindingStr!=null && bindingStr.length()>0){
+                for (DataHolder holder : holders) {
+                    if (bindingStr.equals(generateBindingStr(holder, bindedFieldName)))
+                        return holder.getRenderColor();
+                }
+            }
+        }
+        return "";
+    }
+
+    public String generateBindingStr(String dataHolderId,String fieldName ){
+        try{
+            return generateBindingStr(getDataHolderById(dataHolderId),fieldName);
+        }catch (Exception e){
+
+        }
+        return "";
+    }
+
+    public String generateBindingStr(DataHolder dataHolder,String fieldName ){
+        if (dataHolder==null || fieldName==null) return "";
+        if(dataHolder.getDataFieldHolderById(fieldName)!=null) { //return a valid binding
+            return "{" + dataHolder.getId() + "/" + fieldName+"}" ;
+        }
+        return "";
+    }
+
+    public String getFieldNameFromBindingStr(String bindingStr){
+        if(bindingStr!=null && bindingStr.indexOf('/')!=-1 && bindingStr.length()>1)
+            return bindingStr.substring(bindingStr.indexOf('/')+1,bindingStr.length()-1);
+        return "";
+    }
+
 }
