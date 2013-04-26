@@ -1,0 +1,4 @@
+$class=org.jbpm.formModeler.components.renderer.FormRenderingComponent
+$scope=session
+$description=Rendering form component
+$alias=frc

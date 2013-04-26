@@ -24,6 +24,8 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.processing.FieldHandler;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
@@ -31,11 +33,14 @@ import java.util.Map;
 /**
  * Manager class for FormStatuses, it has the creation/access methods to the FormStatuses.
  */
+@ApplicationScoped
 public class FormStatusManager {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormStatusManager.class.getName());
 
     private Map formStatuses = new Hashtable();
-    public NamespaceManager namespaceManager;
+
+    @Inject
+    private NamespaceManager namespaceManager;
 
     /**
      * Get form status associated with given form id and namespace
@@ -123,5 +128,9 @@ public class FormStatusManager {
         if (fsd == null)
             return null;
         return getFormStatus(fsd.getForm().getId(), fsd.getNamespace());
+    }
+
+    public NamespaceManager getNamespaceManager() {
+        return namespaceManager;
     }
 }

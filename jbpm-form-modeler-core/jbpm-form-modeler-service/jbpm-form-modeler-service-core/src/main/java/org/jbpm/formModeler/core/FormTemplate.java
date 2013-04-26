@@ -38,7 +38,6 @@ public class FormTemplate extends BasicFactoryElement {
     private String displayMode;
     private String labelMode;
     private String showMode;
-    private String formProcessor;
     private long status;
     private FieldTemplate[] fields;
     private String template;
@@ -57,14 +56,6 @@ public class FormTemplate extends BasicFactoryElement {
 
     public void setDisplayMode(String displayMode) {
         this.displayMode = displayMode;
-    }
-
-    public String getFormProcessor() {
-        return formProcessor;
-    }
-
-    public void setFormProcessor(String formProcessor) {
-        this.formProcessor = formProcessor;
     }
 
     public String getLabelMode() {

@@ -23,7 +23,6 @@ subject=org.jbpm.formModeler.api.model.Field
 displayMode=default
 labelMode=undefined
 showMode=
-formProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
 status=0
 
 fields=org.jbpm.formModeler.core.baseForms.InputTextDouble.fields.NameField,\

@@ -18,7 +18,6 @@ $class=org.jbpm.formModeler.core.processing.formRendering.FieldRenderingFormatte
 $scope=volatile
 $description=Renders a dynamic field
 
-defaultFormProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
 formChangeProcessor=org.jbpm.formModeler.core.processing.formProcessing.FormulasCalculatorChangeProcessor
 renderInfo=org.jbpm.formModeler.core.processing.formRendering.CustomRenderingInfo
 formTemplateHelper=org.jbpm.formModeler.core.processing.formRendering.FormTemplateHelper

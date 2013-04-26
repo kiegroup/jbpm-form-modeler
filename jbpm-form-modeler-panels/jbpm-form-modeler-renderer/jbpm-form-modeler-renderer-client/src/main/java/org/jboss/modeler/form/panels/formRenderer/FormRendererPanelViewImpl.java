@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.*;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
-import org.jboss.modeler.form.client.validation.FormValidationResult;
+import org.jbpm.formModeler.renderer.validation.FormValidationResult;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
@@ -18,7 +18,7 @@ import java.util.List;
 
 
 @Dependent
-@Templated(value = "FormRendererPanelViewImpl.html")
+@Templated(value = "FormRenderer.html")
 public class FormRendererPanelViewImpl extends Composite
         implements
         FormRendererPanelPresenter.FormRendererPanelView {

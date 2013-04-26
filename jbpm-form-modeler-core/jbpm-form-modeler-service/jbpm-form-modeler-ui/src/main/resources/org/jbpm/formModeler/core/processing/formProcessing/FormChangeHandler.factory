@@ -22,4 +22,3 @@ enableDoubleClickControl=false
 
 changeProcessor=org.jbpm.formModeler.core.processing.formProcessing.FormulasCalculatorChangeProcessor
 namespaceManager=org.jbpm.formModeler.core.processing.formProcessing.NamespaceManager
-defaultFormProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor

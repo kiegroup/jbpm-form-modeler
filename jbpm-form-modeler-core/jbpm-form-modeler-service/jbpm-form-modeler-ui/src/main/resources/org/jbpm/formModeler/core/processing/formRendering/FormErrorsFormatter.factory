@@ -20,4 +20,3 @@ $description=Renders a dynamic form errors
 
 localeManager=org.jbpm.formModeler.service.LocaleManager
 maxVisibleErrors=5
-defaultFormProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor

@@ -6,7 +6,7 @@ import org.jbpm.formModeler.api.config.FormManager;
 import org.jbpm.formModeler.api.config.FormSerializationManager;
 import org.jbpm.formModeler.api.util.helpers.EditorHelper;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.editor.model.FormTO;
+import org.jbpm.formModeler.api.model.FormTO;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
 import org.uberfire.backend.server.util.Paths;

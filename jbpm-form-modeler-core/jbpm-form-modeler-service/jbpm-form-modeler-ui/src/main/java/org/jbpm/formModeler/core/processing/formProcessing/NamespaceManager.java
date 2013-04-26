@@ -21,7 +21,10 @@ import org.jbpm.formModeler.core.config.FormManagerImpl;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 
-public class NamespaceManager extends BasicFactoryElement {
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+public class NamespaceManager {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(NamespaceManager.class.getName());
 
     public FormManagerImpl getFormsManager() {

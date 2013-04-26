@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.formRendering;
 
+import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
 import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
 import org.apache.commons.collections.CollectionUtils;
@@ -34,7 +35,7 @@ public class FormErrorMessageBuilder extends BasicFactoryElement {
     
     private ResourceBundle bundle = ResourceBundle.getBundle("org.jbpm.formModeler.core.processing.formRendering.messages", LocaleManager.currentLocale());
     private String requiredMessage = bundle.getString("errorMessages.required");
-    private FormProcessor defaultFormProcessor;
+    private FormProcessor defaultFormProcessor = (FormProcessor) CDIHelper.getBeanByType(FormProcessor.class);
     private LocaleManager localeManager;
     
     public List getWrongFormErrors(String namespace, Form formulary) {

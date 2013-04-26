@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Form;
@@ -27,7 +28,7 @@ public class WysiwygFormFormatter extends Formatter {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(WysiwygFormFormatter.class.getName());
 
     private WysiwygFormEditor editor;
-    private FormProcessor defaultFormProcessor;
+    private FormProcessor defaultFormProcessor = (FormProcessor) CDIHelper.getBeanByType(FormProcessor.class);
 
     public WysiwygFormEditor getEditor() {
         return editor;

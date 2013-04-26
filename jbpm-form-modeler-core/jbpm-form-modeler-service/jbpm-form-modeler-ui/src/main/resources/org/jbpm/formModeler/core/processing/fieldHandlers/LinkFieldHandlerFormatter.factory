@@ -18,6 +18,4 @@ $class=org.jbpm.formModeler.core.processing.fieldHandlers.LinkFieldHandlerFormat
 $scope=volatile
 $description=Formatter for simple fields
 
-defaultFormProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
-
 

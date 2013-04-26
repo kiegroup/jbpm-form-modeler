@@ -32,17 +32,20 @@ import org.jbpm.formModeler.api.processing.FieldHandler;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 import org.jbpm.formModeler.api.processing.FormStatusData;
 import org.jbpm.formModeler.api.util.helpers.CDIHelper;
+import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.FactoryWork;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.*;
 
-/**
- *
- */
-public class FormProcessorImpl extends BasicFactoryElement implements FormProcessor {
+@ApplicationScoped
+public class FormProcessorImpl implements FormProcessor {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormProcessorImpl.class.getName());
 
     private FormChangeProcessor formChangeProcessor;
+
+    @Inject
     private FormStatusManager formStatusManager;
 
     public FormStatusManager getFormStatusManager() {
@@ -59,10 +62,6 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
 
     public void setFormChangeProcessor(FormChangeProcessor formChangeProcessor) {
         this.formChangeProcessor = formChangeProcessor;
-    }
-
-    public String getFactoryName() {
-        return getComponentName();
     }
 
     protected FormStatus getFormStatus(Long formId, String namespace) {
@@ -100,14 +99,15 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
         if (pf != null) {
             Set formFields = pf.getFormFields();
             Map params = new HashMap(5);
-            for (Iterator iterator = formFields.iterator(); iterator.hasNext();) {
+            for (Iterator iterator = formFields.iterator(); iterator.hasNext(); ) {
                 Field pField = (Field) iterator.next();
                 Object value = currentValues.get(pField.getFieldName());
                 String inputName = getPrefix(pf, namespace) + pField.getFieldName();
 
                 try {
                     FieldHandler handler = (FieldHandler) Factory.lookup(pField.getFieldType().getManagerClass());
-                    if ((value instanceof Map && !((Map)value).containsKey(FORM_MODE)) && !(value instanceof I18nSet)) ((Map)value).put(FORM_MODE, currentValues.get(FORM_MODE));
+                    if ((value instanceof Map && !((Map) value).containsKey(FORM_MODE)) && !(value instanceof I18nSet))
+                        ((Map) value).put(FORM_MODE, currentValues.get(FORM_MODE));
                     Map paramValue = handler.getParamValue(inputName, value, pField.getPattern());
                     if (paramValue != null && !paramValue.isEmpty()) params.putAll(paramValue);
 
@@ -151,6 +151,7 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
 
     public void setValues(Form form, String namespace, Map parameterMap, Map filesMap, boolean incremental) {
         if (form != null) {
+
             namespace = StringUtils.defaultIfEmpty(namespace, DEFAULT_NAMESPACE);
             FormStatus formStatus = getFormStatus(form.getId(), namespace);
             //  if (!incremental) formStatus.getWrongFields().clear();
@@ -165,7 +166,7 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
                 formStatus.setLastParameterMap(parameterMap);
             }
             String inputsPrefix = getPrefix(form, namespace);
-            
+
             for (Field field : form.getFormFields()) {
                 setFieldValue(field, formStatus, inputsPrefix, parameterMap, filesMap, incremental);
             }
@@ -186,7 +187,7 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
     }
 
     public Object getAttribute(Form form, String namespace, String attributeName) {
-        if (form != null){
+        if (form != null) {
             FormStatus formStatus = getFormStatus(form.getId(), namespace);
             return formStatus.getAttributes().get(attributeName);
         }
@@ -200,8 +201,9 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
         try {
             Object previousValue = formStatus.getInputValues().get(fieldName);
             boolean isRequired = field.getFieldRequired().booleanValue();
-            
-            if (!handler.isEvaluable(inputName, parameterMap, filesMap) && !(handler.isEmpty(previousValue) && isRequired)) return;
+
+            if (!handler.isEvaluable(inputName, parameterMap, filesMap) && !(handler.isEmpty(previousValue) && isRequired))
+                return;
 
             Object value = null;
             boolean emptyNumber = false;
@@ -243,7 +245,7 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
     protected void propagateChangesToParentFormStatuses(FormStatus formStatus, String fieldName, Object value) {
         FormStatus parent = getFormStatusManager().getParent(formStatus);
         if (parent != null) {
-            String fieldNameInParent = getFormStatusManager().namespaceManager.getNamespace(formStatus.getNamespace()).getFieldNameInParent();
+            String fieldNameInParent = getFormStatusManager().getNamespaceManager().getNamespace(formStatus.getNamespace()).getFieldNameInParent();
             Object valueInParent = parent.getInputValues().get(fieldNameInParent);
             if (valueInParent != null) {
                 Map parentMapObjectRepresentation = null;
@@ -268,17 +270,29 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
         }
     }
 
-    public FormStatusData read(Long formId, String namespace, Map currentValues) {
-        boolean exists = existsFormStatus(formId, namespace);
-        if (currentValues == null) currentValues = new HashMap();
-        FormStatus formStatus = getFormStatus(formId, namespace, currentValues);
-        FormStatusDataImpl data = null;
-        try {
-            data = new FormStatusDataImpl(formStatus, !exists);
-        } catch (Exception e) {
-            log.error("Error: ", e);
-        }
-        return data;
+    public FormStatusData read(final Long formId, final String namespace, final Map currentValues) {
+        final FormStatusDataImpl[] data = new FormStatusDataImpl[1];
+
+        /*
+            This Factory.doWork is needed to read the form data outside Factory context.
+            This must be on CDI migration
+         */
+        Factory.doWork(new FactoryWork() {
+            public void doWork() {
+                boolean exists = existsFormStatus(formId, namespace);
+                Map values = currentValues;
+                if (values == null) values = new HashMap();
+                FormStatus formStatus = getFormStatus(formId, namespace, values);
+
+                try {
+                    data[0] = new FormStatusDataImpl(formStatus, !exists);
+                } catch (Exception e) {
+                    log.error("Error: ", e);
+                }
+
+            }
+        });
+        return data[0];
     }
 
     public FormStatusData read(Long formId, String namespace) {
@@ -286,7 +300,8 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
     }
 
     public void flushPendingCalculations(Form form, String namespace) {
-        if (getFormChangeProcessor() != null) getFormChangeProcessor().process(form, namespace, new FormChangeResponse());//Response is ignored, we just need the session values.
+        if (getFormChangeProcessor() != null)
+            getFormChangeProcessor().process(form, namespace, new FormChangeResponse());//Response is ignored, we just need the session values.
     }
 
     public Map getMapRepresentationToPersist(Form form, String namespace) throws Exception {
@@ -317,7 +332,7 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
     public Map filterMapRepresentationToPersist(Map inputValues) throws Exception {
         Map filteredMap = new HashMap();
         Set keys = inputValues.keySet();
-        for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
+        for (Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
             String key = (String) iterator.next();
             filteredMap.put(key, inputValues.get(key));
         }
@@ -333,7 +348,7 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
      */
     protected void fillObjectValues(final Map obj, Map values, Form form) throws Exception {
         Map valuesToSet = new HashMap();
-        for (Iterator it = values.keySet().iterator(); it.hasNext();) {
+        for (Iterator it = values.keySet().iterator(); it.hasNext(); ) {
             String propertyName = (String) it.next();
             Object propertyValue = values.get(propertyName);
             valuesToSet.put(propertyName, propertyValue);
@@ -398,7 +413,7 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
         if (formStatus != null) {
             final Serializable objIdentifier = formStatus.getLoadedItemId();
             final String itemClassName = formStatus.getLoadedItemClass();
-                    //TODO load data from object here!
+            //TODO load data from object here!
         }
         return loadedObject;
     }

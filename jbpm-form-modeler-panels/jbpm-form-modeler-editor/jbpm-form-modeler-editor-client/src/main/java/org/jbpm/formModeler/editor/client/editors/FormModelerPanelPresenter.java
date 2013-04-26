@@ -1,12 +1,11 @@
 package org.jbpm.formModeler.editor.client.editors;
 
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.ListBox;
 import org.jboss.errai.bus.client.api.RemoteCallback;
 import org.jboss.errai.ioc.client.api.Caller;
 import org.jboss.errai.ioc.client.container.IOCBeanManager;
+import org.jbpm.formModeler.api.model.FormTO;
 import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
-import org.jbpm.formModeler.editor.model.FormTO;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.annotations.*;
@@ -17,9 +16,7 @@ import org.uberfire.client.workbench.widgets.menu.MenuFactory;
 import org.uberfire.client.workbench.widgets.menu.MenuItem;
 import org.uberfire.client.workbench.widgets.menu.Menus;
 import org.uberfire.shared.mvp.PlaceRequest;
-import org.uberfire.shared.mvp.impl.PathPlaceRequest;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;

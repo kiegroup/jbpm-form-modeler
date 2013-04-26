@@ -101,6 +101,14 @@ public class ShowcaseEntryPoint {
 
                             }
                         } )
+                        .endMenu().newTopLevelMenu( "Form Rendering" )
+                        .respondsWith( new Command() {
+                            @Override
+                            public void execute() {
+                                placeManager.goTo( new DefaultPlaceRequest( "FormRendererPerspective" ) );
+
+                            }
+                        } )
                         .endMenu()
                         .build();
 

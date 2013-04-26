@@ -11,7 +11,7 @@ import org.uberfire.client.annotations.WorkbenchScreen;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.mvp.UberView;
 import org.uberfire.client.workbench.widgets.events.NotificationEvent;
-import org.jboss.modeler.form.client.validation.FormValidationResult;
+import org.jbpm.formModeler.renderer.validation.FormValidationResult;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;

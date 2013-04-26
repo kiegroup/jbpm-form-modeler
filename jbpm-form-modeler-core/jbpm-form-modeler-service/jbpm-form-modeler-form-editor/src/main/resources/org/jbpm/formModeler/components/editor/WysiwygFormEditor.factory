@@ -21,6 +21,5 @@ $alias=wysiwygfe
 
 localeManager=org.jbpm.formModeler.service.LocaleManager
 formTemplateEditor=org.jbpm.formModeler.components.editor.FormTemplateEditor
-defaultFormProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
 componentIncludeJSP=/formModeler/components/WysiwygFormEdit/component.jsp
 baseComponentJSP=/formModeler/components/WysiwygFormEdit/show.jsp

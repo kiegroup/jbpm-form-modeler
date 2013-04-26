@@ -1,7 +1,7 @@
 package org.jbpm.formModeler.editor.service;
 
 import org.jboss.errai.bus.server.annotations.Remote;
-import org.jbpm.formModeler.editor.model.FormTO;
+import org.jbpm.formModeler.api.model.FormTO;
 import org.uberfire.backend.vfs.Path;
 
 import java.io.Serializable;

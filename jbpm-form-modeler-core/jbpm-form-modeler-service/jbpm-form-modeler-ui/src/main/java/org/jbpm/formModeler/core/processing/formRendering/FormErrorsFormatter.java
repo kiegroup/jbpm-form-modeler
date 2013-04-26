@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.formRendering;
 
+import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
@@ -35,7 +36,7 @@ public class FormErrorsFormatter extends Formatter {
 
     private LocaleManager localeManager;
     private FormManagerImpl formManagerImpl;
-    private FormProcessor defaultFormProcessor;
+    private FormProcessor defaultFormProcessor = (FormProcessor) CDIHelper.getBeanByType(FormProcessor.class);
 
     private int maxVisibleErrors = 5;
 

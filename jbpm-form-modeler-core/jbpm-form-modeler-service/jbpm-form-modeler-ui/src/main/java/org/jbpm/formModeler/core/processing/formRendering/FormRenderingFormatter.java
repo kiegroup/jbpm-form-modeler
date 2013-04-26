@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.formRendering;
 
+import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 import org.jbpm.formModeler.core.UIDGenerator;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
@@ -65,7 +66,7 @@ public class FormRenderingFormatter extends Formatter {
 
     private String errorsPage;
     private FormManagerImpl formManagerImpl;
-    private FormProcessor defaultFormProcessor;
+    private FormProcessor defaultFormProcessor = (FormProcessor) CDIHelper.getBeanByType(FormProcessor.class);
     private FormErrorMessageBuilder formErrorMessageBuilder;
     private CustomRenderingInfo renderInfo;
     private UIDGenerator uidGenerator;

@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing;
 
+import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 import org.jbpm.formModeler.core.processing.FormNamespaceData;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.HandlerFactoryElement;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
@@ -29,7 +30,7 @@ public class FormChangeHandler extends HandlerFactoryElement {
     private FormManagerImpl formsManager;
     private FormChangeProcessor changeProcessor;
     private NamespaceManager namespaceManager;
-    private FormProcessor defaultFormProcessor;
+    private FormProcessor defaultFormProcessor = (FormProcessor) CDIHelper.getBeanByType(FormProcessor.class);
 
     @Override
     public void start() throws Exception {

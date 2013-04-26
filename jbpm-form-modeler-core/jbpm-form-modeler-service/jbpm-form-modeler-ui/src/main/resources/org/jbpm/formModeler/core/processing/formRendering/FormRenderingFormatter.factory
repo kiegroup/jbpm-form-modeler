@@ -18,7 +18,6 @@ $class=org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter
 $scope=volatile
 $description=Renders a dynamic form
 
-defaultFormProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor
 renderInfo=org.jbpm.formModeler.core.processing.formRendering.CustomRenderingInfo
 uidGenerator=org.jbpm.formModeler.core.UIDGenerator
 formErrorMessageBuilder=org.jbpm.formModeler.core.processing.formRendering.FormErrorMessageBuilder

@@ -19,4 +19,3 @@ $scope=volatile
 $description=Builds Form Error Messages
 
 localeManager=org.jbpm.formModeler.service.LocaleManager
-defaultFormProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor

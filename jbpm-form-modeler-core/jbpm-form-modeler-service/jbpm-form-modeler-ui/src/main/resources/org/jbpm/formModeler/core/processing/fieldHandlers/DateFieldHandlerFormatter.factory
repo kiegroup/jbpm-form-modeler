@@ -20,4 +20,3 @@ $description=Handler for short dates
 
 dateFieldHandler=org.jbpm.formModeler.core.processing.fieldHandlers.DateFieldHandler
 localeManager=org.jbpm.formModeler.service.LocaleManager
-defaultFormProcessor=org.jbpm.formModeler.core.processing.DefaultFormProcessor

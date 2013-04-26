@@ -1,0 +1,5 @@
+$class=org.jbpm.formModeler.components.renderer.FormRenderingComponentFormatter
+$scope=volatile
+$description=Rendering form component formatter
+
+formRenderingComponent=org.jbpm.formModeler.components.renderer.FormRenderingComponent

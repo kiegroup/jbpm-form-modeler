@@ -17,6 +17,7 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.processing.BindingManager;
+import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 import org.jbpm.formModeler.core.processing.BindingManagerImpl;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormaterTagDynamicAttributesInterpreter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
@@ -44,6 +45,7 @@ public abstract class DefaultFieldHandlerFormatter extends Formatter {
     public void start() throws Exception {
         super.start();
         formManagerImpl = FormManagerImpl.lookup();
+        defaultFormProcessor = (FormProcessor) CDIHelper.getBeanByType(FormProcessor.class);
     }
 
     public final FormManagerImpl getFormManager() {

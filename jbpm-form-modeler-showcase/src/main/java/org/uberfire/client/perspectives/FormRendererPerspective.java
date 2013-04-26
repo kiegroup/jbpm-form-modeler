@@ -39,14 +39,8 @@ public class FormRendererPerspective {
         p.setName("Form Renderer");
 
         final PanelDefinition north = new PanelDefinitionImpl();
-        north.addPart(new PartDefinitionImpl(new DefaultPlaceRequest("FormRendererScreen")));
-        north.setWidth(250);
-        north.setMinWidth(200);
+        north.addPart(new PartDefinitionImpl(new DefaultPlaceRequest("FormRendererIncluderPanel")));
         p.getRoot().insertChild(Position.NORTH, north);
-
-        final PanelDefinition south = new PanelDefinitionImpl();
-        south.addPart(new PartDefinitionImpl(new DefaultPlaceRequest("FormRendererPanel")));
-        p.getRoot().insertChild(Position.SOUTH, south);
 
         return p;
     }

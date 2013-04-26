@@ -19,6 +19,7 @@ import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.config.FormManager;
 import org.jbpm.formModeler.api.model.*;
 import org.jbpm.formModeler.api.processing.BindingManager;
+import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 import org.jbpm.formModeler.core.processing.BindingManagerImpl;
 import org.jbpm.formModeler.core.wrappers.HTMLi18n;
 import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
@@ -105,6 +106,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         formManager = FormManagerImpl.lookup();
         fieldTypeManager = FieldTypeManagerImpl.lookup();
         bindingManager = BindingManagerImpl.lookup();
+        defaultFormProcessor = (FormProcessor) CDIHelper.getBeanByType(FormProcessor.class);
         localeManager = (LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager");
     }
 
