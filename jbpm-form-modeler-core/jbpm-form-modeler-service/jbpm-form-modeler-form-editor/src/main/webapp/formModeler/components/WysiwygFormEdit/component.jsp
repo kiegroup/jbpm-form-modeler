@@ -106,10 +106,10 @@
                 <td>
                     <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
                         <tr>
-                            <td style="vertical-align: top;" width="250px">
+                            <td style="vertical-align: top;height: 600px;" width="220px">
                                 <jsp:include page="<%=(String)editionPage%>" flush="true"/>
                             </td>
-                            <td style="vertical-align: top;">
+                            <td style="vertical-align: top;" class="bgGuides">
                                 <jsp:include page="formPreview.jsp"/>
                             </td>
                             <td style="vertical-align: top;">

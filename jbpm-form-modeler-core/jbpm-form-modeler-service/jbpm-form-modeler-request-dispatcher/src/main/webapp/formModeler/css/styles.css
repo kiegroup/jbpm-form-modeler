@@ -454,14 +454,18 @@ div.GlobalBreadCrump {
 }
 
 .bulletBinding {
-    border: solid 1px #333333;
     display: block;
     float: left;
-    height: 9px;
-    width: 9px;
+    height: 8px;
+    width: 8px;
     position: relative;
-    margin: 5px 2px 0 5px;
-    -webkit-border-radius: .5em .5em .5em .5em;
-    -moz-border-radius: .5em .5em .5em .5em;
-    border-radius: .5em .5em .5em .5em;
+    margin: 8px 2px 0 1px;
+    -webkit-border-radius: .4em .4em .4em .4em;
+    -moz-border-radius: .4em .4em .4em .4em;
+    border-radius: .4em .4em .4em .4em;
+}
+
+.bgGuides {
+    background:url(images/bgGuides.png) no-repeat;
+    padding: 20px;
 }
