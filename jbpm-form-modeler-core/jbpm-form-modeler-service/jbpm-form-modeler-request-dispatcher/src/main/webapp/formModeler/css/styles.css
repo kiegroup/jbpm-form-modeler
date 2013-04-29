@@ -452,3 +452,16 @@ div.GlobalBreadCrump {
 .treeview img {
     margin: -2px 0 0 1px;
 }
+
+.bulletBinding {
+    border: solid 1px #333333;
+    display: block;
+    float: left;
+    height: 9px;
+    width: 9px;
+    position: relative;
+    margin: 5px 2px 0 5px;
+    -webkit-border-radius: .5em .5em .5em .5em;
+    -moz-border-radius: .5em .5em .5em .5em;
+    border-radius: .5em .5em .5em .5em;
+}

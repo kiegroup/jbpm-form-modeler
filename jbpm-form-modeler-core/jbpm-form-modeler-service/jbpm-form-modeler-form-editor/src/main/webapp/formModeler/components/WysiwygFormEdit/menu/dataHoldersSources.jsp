@@ -72,13 +72,17 @@
             <select class="skn-input" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_RENDERCOLOR%>">
                 <option value="#FF8881">ROJO </option>
                 <option value="#FBB767">NARANJA</option>
+                <option value="#E9E371">AMARILLO</option>
                 <option value="#A7E690">VERDE</option>
+                <option value="#9BCAFA">AZUL</option>
+                <option value="#B29FE4">VIOLETA</option>
+                <option value="#BBBBBB">GRIS</option>
             </select>
             <br>
             <br>
 
             <div style="text-align: center;">
-            <input type="submit" value="<i18n:message key="dataHolder_addDataHolder">!!! dataHolder_addDataHolder</i18n:message>" class="skn-button">
+                <input type="submit" value="<i18n:message key="dataHolder_addDataHolder">!!! dataHolder_addDataHolder</i18n:message>" class="skn-button">
             </div>
 
         </td>
@@ -104,21 +108,21 @@
             <mvc:fragmentValue name="type" id="type">
                 <mvc:fragmentValue name="value" id="value">
                     <mvc:fragmentValue name="renderColor" id="renderColor">
-                    <tr>
-                        <td><%=id%></td>
-                        <td><%=type%></td>
-                        <td><%=value%></td>
-                        <td><div style="background-color: <%=renderColor%>">&nbsp;</div></td>
-                        <td align="center"><a title="<i18n:message key="delete">!!!Borrar</i18n:message>"
-                                              href="<factory:url  action="formDataHolders">
+                        <tr>
+                            <td><%=id%></td>
+                            <td><%=type%></td>
+                            <td><%=value%></td>
+                            <td><div style="background-color: <%=renderColor%> ">&nbsp;</div></td>
+                            <td align="center"><a title="<i18n:message key="delete">!!!Borrar</i18n:message>"
+                                                  href="<factory:url  action="formDataHolders">
                                          <factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=id%>"/>
                                          <factory:param name="<%=WysiwygFormEditor.ACTION_TO_DO%>" value="<%=WysiwygFormEditor.ACTION_REMOVE_DATA_HOLDER%>"/>
                                       </factory:url>"
-                                              onclick="return confirm('<i18n:message key="dataHolder_delete.confirm">Sure?</i18n:message>');">
-                            <img src="<static:image relativePath="actions/delete.png"/>" border="0" title="<i18n:message key="delete">!!!Clear</i18n:message>"/>
-                        </a></td>
+                                                  onclick="return confirm('<i18n:message key="dataHolder_delete.confirm">Sure?</i18n:message>');">
+                                <img src="<static:image relativePath="actions/delete.png"/>" border="0" title="<i18n:message key="delete">!!!Clear</i18n:message>"/>
+                            </a></td>
 
-                    </tr>
+                        </tr>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
