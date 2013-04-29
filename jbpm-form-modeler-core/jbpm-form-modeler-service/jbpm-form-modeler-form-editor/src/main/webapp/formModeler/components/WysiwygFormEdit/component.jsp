@@ -83,7 +83,6 @@
                     <select name="renderMode" onchange="submitAjaxForm(this.form);" class="skn-input">
                         <option value="<%=Form.RENDER_MODE_WYSIWYG_FORM%>" <%=Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode) ? "selected" : ""%>><i18n:message key="wysiwyg.renderModeForm"/></option>
                         <option value="<%=Form.RENDER_MODE_WYSIWYG_DISPLAY%>" <%=Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode) ? "selected" : ""%>><i18n:message key="wysiwyg.renderModeDisplay"/></option>
-                        <option value="<%=Form.RENDER_MODE_WYSIWYG_BINDINGS%>" <%=Form.RENDER_MODE_WYSIWYG_BINDINGS.equals(renderMode) ? "selected" : ""%>><i18n:message key="wysiwyg.renderModeBindings"/></option>
                     </select>
                 </form>
                 <script type="text/javascript" defer="defer">
@@ -93,6 +92,12 @@
 
 
 
+            </td>
+            <td style="white-space: nowrap;">
+                <input type="checkbox" value="rule" onclick="
+                        if ($('#preview').hasClass('bgGuides'))
+                            $('#preview').removeClass('bgGuides');
+                        else $('#preview').addClass('bgGuides');"> Show Rules
             </td>
             </tr>
             </table>
@@ -110,7 +115,7 @@
                             <td style="vertical-align: top;height: 600px;" width="220px">
                                 <jsp:include page="<%=(String)editionPage%>" flush="true"/>
                             </td>
-                            <td style="vertical-align: top;" class="bgGuides">
+                            <td style="vertical-align: top;" id="preview">
                                 <jsp:include page="formPreview.jsp"/>
                             </td>
                             <td style="vertical-align: top;">
