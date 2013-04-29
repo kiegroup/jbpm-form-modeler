@@ -73,7 +73,7 @@ public class FormRenderingFormatter extends Formatter {
 
     private FormTemplateHelper formTemplateHelper;
 
-    private String[] formModes = new String[]{Form.RENDER_MODE_FORM, Form.RENDER_MODE_WYSIWYG_FORM};
+    private String[] formModes = new String[]{Form.RENDER_MODE_FORM, Form.RENDER_MODE_WYSIWYG_FORM,Form.RENDER_MODE_WYSIWYG_BINDINGS};
     private String[] displayModes = new String[]{Form.RENDER_MODE_DISPLAY, Form.RENDER_MODE_WYSIWYG_DISPLAY};
 
     protected Form formToPaint;
@@ -697,6 +697,7 @@ public class FormRenderingFormatter extends Formatter {
             setAttribute("colspan", fieldColspan);
             setAttribute("width", fieldWidth);
             setAttribute("renderHolderColor", formToPaint.getBindingColor(field));
+            setAttribute("renderMode",renderMode);
             renderFragment("beforeLabel");
 
             renderLabel(field, namespace, renderMode);
@@ -718,6 +719,7 @@ public class FormRenderingFormatter extends Formatter {
             setAttribute("colspan", fieldColspan);
             setAttribute("width", fieldWidth);
             setAttribute("renderHolderColor", formToPaint.getBindingColor(field));
+            setAttribute("renderMode",renderMode);
             renderFragment("beforeLabel");
             renderLabel(field, namespace, renderMode);
             renderFragment("afterLabel");
