@@ -45,17 +45,15 @@
     </mvc:fragment>
 
     <mvc:fragment name="optionsOutputStart">
-
-        <form action="<factory:formUrl/>" style="margin:0px;" id="optionsForm">
-        <factory:handler action="void"/>
-        <input type="hidden" name="<factory:bean property="currentEditionOption"/>">
+        <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="changeMainOption"/>">
+        <factory:handler action="changeMainOption"/>
+        <input type="hidden" name="newMainOption">
     </mvc:fragment>
     <mvc:fragment name="outputOption">
         <mvc:fragmentValue name="optionName" id="optionName">
             <mvc:fragmentValue name="optionImage" id="optionImage">
                 <input type="image"
-                       onclick="setFormInputValue(this.form,'<factory:bean
-                               property="currentEditionOption"/>','<%=optionName%>');"
+                       onclick="setFormInputValue(this.form,'newMainOption','<%=optionName%>');"
                        style="cursor:hand;" title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
                        src="<static:image relativePath="<%=(String)optionImage%>"/>">
             </mvc:fragmentValue>
@@ -65,8 +63,7 @@
         <mvc:fragmentValue name="optionName" id="optionName">
             <mvc:fragmentValue name="optionImage" id="optionImage">
                 <input type="image"
-                       onclick="setFormInputValue(this.form,'<factory:bean
-                               property="currentEditionOption"/>','<%=optionName%>');"
+                       onclick="setFormInputValue(this.form,'newMainOption','<%=optionName%>');"
                        style="cursor:hand;  opacity:.5;" title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
                        src="<static:image relativePath="<%=(String)optionImage%>"/>">
             </mvc:fragmentValue>
@@ -83,15 +80,19 @@
             <td valign="top" style="padding:6px 0px; white-space: nowrap;" width="99%;">
                 <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="switchRenderMode"/>">
                     <factory:handler action="switchRenderMode"/>
-                    <input type="image"
-                           onclick="setFormInputValue(this.form,'renderMode','<%=((renderMode!=null && renderMode.equals(Form.RENDER_MODE_WYSIWYG_FORM)) ? Form.RENDER_MODE_WYSIWYG_DISPLAY : Form.RENDER_MODE_WYSIWYG_FORM )%>');"
-                           style="cursor:hand;" title=""
-                           src="<static:image relativePath="<%=((renderMode!=null && renderMode.equals(Form.RENDER_MODE_WYSIWYG_FORM)) ? WysiwygFormEditor.EDITION_OPTION_IMG_FORM_SHOWTMODE : WysiwygFormEditor.EDITION_OPTION_IMG_FORM_INSERTMODE )%>"/>">
-
+                    <select name="renderMode" onchange="submitAjaxForm(this.form);" class="skn-input">
+                        <option value="<%=Form.RENDER_MODE_WYSIWYG_FORM%>" <%=Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode) ? "selected" : ""%>><i18n:message key="wysiwyg.renderModeForm"/></option>
+                        <option value="<%=Form.RENDER_MODE_WYSIWYG_DISPLAY%>" <%=Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode) ? "selected" : ""%>><i18n:message key="wysiwyg.renderModeDisplay"/></option>
+                        <option value="<%=Form.RENDER_MODE_WYSIWYG_BINDINGS%>" <%=Form.RENDER_MODE_WYSIWYG_BINDINGS.equals(renderMode) ? "selected" : ""%>><i18n:message key="wysiwyg.renderModeBindings"/></option>
+                    </select>
                 </form>
                 <script type="text/javascript" defer="defer">
                     setAjax("<factory:encode name="switchRenderMode"/>");
                 </script>
+
+
+
+
             </td>
             </tr>
             </table>

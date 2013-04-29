@@ -614,8 +614,12 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
     public synchronized void actionSwitchRenderMode(CommandRequest request) throws Exception {
         String renderMode = request.getRequestObject().getParameter("renderMode");
-        if (Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode) || Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode))
+        if (Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode) || Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode) || Form.RENDER_MODE_WYSIWYG_BINDINGS.equals(renderMode))
             setRenderMode(renderMode);
+    }
+
+    public synchronized void actionChangeMainOption(CommandRequest request) throws Exception {
+        setCurrentEditionOption(request.getRequestObject().getParameter("newMainOption"));
     }
 
     public void saveCurrentForm(Map parameterMap) throws Exception {
