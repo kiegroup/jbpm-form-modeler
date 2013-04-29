@@ -28,58 +28,31 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-@Portable
 public class FormRenderContext {
     private String UID;
-    private Long formId;
+    private Form form;
     private Map<String, Object> bindingData;
     private FormRenderListener formRenderListener;
 
     public FormRenderContext() {
     }
 
-    public FormRenderContext(String uid, Long formId, Map<String, Object> bindingData, FormRenderListener formRenderListener) {
+    public FormRenderContext(String uid, Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener) {
         this.UID = uid;
-        this.formId = formId;
+        this.form = form;
         this.bindingData = bindingData;
         this.formRenderListener = formRenderListener;
         FormProcessor formProcessor = (FormProcessor) CDIHelper.getBeanByType(FormProcessor.class);
 
-        formProcessor.read(formId, uid, getParameterMap());
-    }
-
-    private Map getParameterMap() {
-        Map values = new HashMap();
-
-        if (bindingData != null) {
-            Form form = getForm();
-
-            Set<DataHolder> holders = form.getHolders();
-
-            for (DataHolder holder : holders) {
-                Object value = bindingData.get(holder.getId());
-                if (value != null) {
-                    Set<DataFieldHolder> fieldHodlers = holder.getFieldHolders();
-                    for (DataFieldHolder fieldHolder : fieldHodlers) {
-                        values.put(fieldHolder.getId(), holder.readValue(fieldHolder.getId()));
-                    }
-                }
-            }
-        }
-
-        return values;
+        formProcessor.read(form.getId(), uid, bindingData);
     }
 
     public String getUID() {
         return UID;
     }
 
-    public Form getForm() {
-        return ((FormManager)CDIHelper.getBeanByType(FormManager.class)).getFormById(formId);
-    }
-
-    public Long getFormId() {
-        return formId;
+    public Form getform() {
+        return form;
     }
 
     public Map<String, Object> getBindingData() {

@@ -23,10 +23,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-public class PojoDataHolder implements DataHolder,Comparable {
+public class PojoDataHolder extends  DefaultDataHolder implements Comparable {
     private String id;
     private String className;
-    private String renderColor;
 
     FieldTypeManager fieldTypeManager;
 
@@ -37,17 +36,12 @@ public class PojoDataHolder implements DataHolder,Comparable {
         this.id = id;
         this.className = className;
         fieldTypeManager = (FieldTypeManager)CDIHelper.getBeanByType(FieldTypeManager.class);
-        this.renderColor =renderColor;
+        setRenderColor(renderColor);
     }
 
     @Override
     public String getId() {
         return id;
-    }
-
-    @Override
-    public void load(Map<String, Object> values) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -178,10 +172,4 @@ public class PojoDataHolder implements DataHolder,Comparable {
         }
         return propName;
     }
-
-    @Override
-    public String getRenderColor() {
-        return renderColor;
-    }
-
 }

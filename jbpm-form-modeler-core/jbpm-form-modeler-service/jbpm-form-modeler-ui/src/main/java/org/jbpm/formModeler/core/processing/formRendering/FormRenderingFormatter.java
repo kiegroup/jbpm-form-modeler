@@ -213,7 +213,7 @@ public class FormRenderingFormatter extends Formatter {
 
             ((Map) formValues).put(FormProcessor.FORM_MODE, formMode);
 
-            FormStatusData formStatusData = defaultFormProcessor.read(formToPaint.getId(), namespace, (Map) formValues);
+            FormStatusData formStatusData = defaultFormProcessor.read(formToPaint, namespace, (Map) formValues);
             if (!reuseStatus) {
                 defaultFormProcessor.clear(formToPaint.getId(), namespace);
             }
@@ -252,7 +252,7 @@ public class FormRenderingFormatter extends Formatter {
             }
 
             if (log.isDebugEnabled())
-                log.debug("About to display form " + formToPaint.getId() + " in namespace " + namespace + " with status " + defaultFormProcessor.read(formToPaint.getId(), namespace));
+                log.debug("About to display form " + formToPaint.getId() + " in namespace " + namespace + " with status " + defaultFormProcessor.read(formToPaint, namespace));
             display(formToPaint, namespace, displayMode, displayInfo, renderMode, labelMode, isSubForm, isMultiple);
 
         } catch (Exception e) {
@@ -391,7 +391,7 @@ public class FormRenderingFormatter extends Formatter {
         }
 
         Form form = (Form) field.getForm();
-        FormStatusData fsd = defaultFormProcessor.read(form.getId(), namespace);
+        FormStatusData fsd = defaultFormProcessor.read(form, namespace);
         boolean fieldHasErrors = fsd.getWrongFields().contains(field.getFieldName());
         String renderPage = "";
         FieldHandler fieldHandler = (FieldHandler) Factory.lookup(field.getFieldType().getManagerClass());
@@ -504,7 +504,7 @@ public class FormRenderingFormatter extends Formatter {
             writeToOut(Form.TEMPLATE_LABEL + "{" + field.getFieldName() + "}");
         } else {
             Form form = field.getForm();
-            FormStatusData fsd = defaultFormProcessor.read(form.getId(), namespace);
+            FormStatusData fsd = defaultFormProcessor.read(form, namespace);
             boolean fieldHasErrors = fsd.getWrongFields().contains(field.getFieldName());
             String label = (String) getLocaleManager().localize(field.getLabel());
             Boolean fieldIsRequired = field.getFieldRequired();
@@ -569,7 +569,7 @@ public class FormRenderingFormatter extends Formatter {
         Set<Field> fields = form.getFormFields();
         List<Field> sortedFields = new ArrayList(fields);
         Collections.sort(sortedFields, new Field.Comparator());
-        FormStatusData formStatusData = defaultFormProcessor.read(form.getId(), namespace);
+        FormStatusData formStatusData = defaultFormProcessor.read(form, namespace);
 
         setAttribute("width", deduceWidthForForm(form, renderMode, labelMode, mode));
         renderFragment("outputStart");

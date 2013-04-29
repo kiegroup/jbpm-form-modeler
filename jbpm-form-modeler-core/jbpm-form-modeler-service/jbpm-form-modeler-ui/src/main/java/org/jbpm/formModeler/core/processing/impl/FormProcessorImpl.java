@@ -15,6 +15,8 @@
  */
 package org.jbpm.formModeler.core.processing.impl;
 
+import org.jbpm.formModeler.api.config.FormManager;
+import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.core.processing.ProcessingMessagedException;
 import org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler;
 import org.jbpm.formModeler.core.processing.formProcessing.FormChangeProcessor;
@@ -44,6 +46,9 @@ public class FormProcessorImpl implements FormProcessor {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormProcessorImpl.class.getName());
 
     private FormChangeProcessor formChangeProcessor;
+
+    @Inject
+    private FormManager formManager;
 
     @Inject
     private FormStatusManager formStatusManager;
@@ -270,7 +275,7 @@ public class FormProcessorImpl implements FormProcessor {
         }
     }
 
-    public FormStatusData read(final Long formId, final String namespace, final Map currentValues) {
+    public FormStatusData read(final Form form, final String namespace, final Map<String, Object> bindingData) {
         final FormStatusDataImpl[] data = new FormStatusDataImpl[1];
 
         /*
@@ -279,10 +284,21 @@ public class FormProcessorImpl implements FormProcessor {
          */
         Factory.doWork(new FactoryWork() {
             public void doWork() {
-                boolean exists = existsFormStatus(formId, namespace);
-                Map values = currentValues;
-                if (values == null) values = new HashMap();
-                FormStatus formStatus = getFormStatus(formId, namespace, values);
+                boolean exists = existsFormStatus(form.getId(), namespace);
+                Map values = new HashMap();
+
+                if (bindingData != null && !bindingData.isEmpty()) {
+                    Set<DataHolder> holders = form.getHolders();
+
+                    for (DataHolder holder : holders) {
+                        Object value = bindingData.get(holder.getId());
+                        if (value != null) {
+                            values.putAll(holder.load(bindingData));
+                        }
+                    }
+                }
+
+                FormStatus formStatus = getFormStatus(form.getId(), namespace, values);
 
                 try {
                     data[0] = new FormStatusDataImpl(formStatus, !exists);
@@ -295,8 +311,8 @@ public class FormProcessorImpl implements FormProcessor {
         return data[0];
     }
 
-    public FormStatusData read(Long formId, String namespace) {
-        return read(formId, namespace, new HashMap());
+    public FormStatusData read(Form form, String namespace) {
+        return read(form, namespace, new HashMap());
     }
 
     public void flushPendingCalculations(Form form, String namespace) {
@@ -453,10 +469,6 @@ public class FormProcessorImpl implements FormProcessor {
 
     public void load(Long formId, Long objIdentifier, String itemClassName) throws Exception {
         load(formId, "", objIdentifier, itemClassName);
-    }
-
-    public FormStatusData read(Long formId) {
-        return read(formId, "");
     }
 
     public void setValues(Form form, Map parameterMap, Map filesMap) {

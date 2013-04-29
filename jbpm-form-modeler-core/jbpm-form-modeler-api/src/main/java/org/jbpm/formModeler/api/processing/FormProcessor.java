@@ -88,21 +88,21 @@ public interface FormProcessor {
     /**
      * Read status for given form id.
      *
-     * @param formId    Formulary id to read
+     * @param form    Form id to read
      * @param namespace Form namespace
      * @return a FormStatusData object representing the form status
      */
-    public FormStatusData read(Long formId, String namespace);
+    public FormStatusData read(Form form, String namespace);
 
     /**
      * Read status for given form id.
      *
-     * @param formId    Formulary id to read
+     * @param form    Form to read
      * @param namespace Form namespace
-     * @param currentValues Values to load into the status 
+     * @param bindingData Values to load into the status
      * @return a FormStatusData object representing the form status
      */
-    public FormStatusData read(Long formId, String namespace, Map currentValues);
+    public FormStatusData read(Form form, String namespace, Map<String, Object> bindingData);
 
     /**
      * Calculates all formulas for given form. Should be called before reading status, otherwise, some

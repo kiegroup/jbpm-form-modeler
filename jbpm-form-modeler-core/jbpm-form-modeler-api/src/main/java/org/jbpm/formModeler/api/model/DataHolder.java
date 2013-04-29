@@ -21,12 +21,13 @@ import java.util.Set;
 public interface DataHolder extends Comparable{
 
     String getId();
-    void load(Map<String, Object> values);
+    Map load(Map<String, Object> values);
     void writeValue(String id, Object value);
     Object readValue(String id);
     Set<DataFieldHolder> getFieldHolders();
     DataFieldHolder getDataFieldHolderById(String id);
     String getTypeCode();
     String getInfo();
+    void setRenderColor(String renderColor);
     String getRenderColor();
 }
