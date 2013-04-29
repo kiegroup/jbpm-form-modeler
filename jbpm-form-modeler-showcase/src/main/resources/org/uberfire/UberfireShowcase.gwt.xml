@@ -39,7 +39,6 @@
 
     <inherits name="org.jbpm.formModeler.FormModelerApi"/>
     <inherits name="org.jbpm.formModeler.editor.FormModelerClient"/>
-
     <inherits name="org.jboss.modeler.form.panels.FormRendererClient"/>
 
     <!-- Specify the application specific style sheet. -->
