@@ -108,7 +108,7 @@
                         <td><%=id%></td>
                         <td><%=type%></td>
                         <td><%=value%></td>
-                        <td><div style="background-color: <%=renderColor%>">&nbsp;</div></td>
+                        <td><div style="background-color: <%=renderColor%> ">&nbsp;</div></td>
                         <td align="center"><a title="<i18n:message key="delete">!!!Borrar</i18n:message>"
                                               href="<factory:url  action="formDataHolders">
                                          <factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=id%>"/>

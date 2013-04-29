@@ -277,12 +277,11 @@
                                             </mvc:fragmentValue>
                                         </div>
                                     </mvc:fragment>
-
                                     <mvc:fragment name="afterFieldInTemplateMode"><div style="height:2px;"></div></div></mvc:fragment>
-                                    <mvc:fragment name="beforeLabel"><td valign="top" nowrap width="1%"></mvc:fragment>
+                                    <mvc:fragment name="beforeLabel"><td valign="top" nowrap width="1%"><div style="background-color: red;border: solid 1px #333333; display: block; float: left; height: 9px; width: 9px; position: relative; margin: 5px 2px 0 5px; -webkit-border-radius: .5em .5em .5em .5em;
+                                        -moz-border-radius: .5em .5em .5em .5em; border-radius: .5em .5em .5em .5em;"></div></mvc:fragment>
                                     <mvc:fragment name="afterLabel">
-                                        <mvc:fragmentValue name="renderHolderColor" id="renderHolderColor">
-                                            <div style="background-color: <%=renderHolderColor%>">&nbsp;</div></td></mvc:fragmentValue></mvc:fragment>
+                                        <mvc:fragmentValue name="renderHolderColor" id="renderHolderColor"></td></mvc:fragmentValue></mvc:fragment>
                                     <mvc:fragment name="lineBetweenLabelAndField"></tr><tr></mvc:fragment>
                                     <mvc:fragment name="beforeField"><td valign="top" style="height: 2px; overflow:visible;"></mvc:fragment>
                                     <mvc:fragment name="afterField"></td></mvc:fragment>
