@@ -251,7 +251,7 @@
                                             onmouseout="disableMenuForItem(this)">
                                             <%-- Div with field buttons --%>
                                             <div id="<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_child"
-                                                 style="position:absolute; top:-10px; left:0px; z-index:5000; text-align:left; padding:5px; display:none" align="left">
+                                                 style="position:absolute; top:-14px; left:0px; z-index:5000; text-align:left; padding:5px; display:none" align="left">
                                                 <mvc:fragmentValue name="field" id="field">
                                                     <% Boolean hideMotionButtons = Boolean.FALSE; %>
                                                     <%@ include file="buttonActions.jsp" %>
@@ -270,7 +270,7 @@
                                         onmouseout="disableMenuForItem(this)">
                                         <%-- Div with field buttons --%>
                                         <div id="<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_child"
-                                             style="position:absolute; top:-10px; left:0px; z-index:5000; text-align:left; padding:5px; display:none" align="left">
+                                             style="position:absolute; top:-14px; left:0px; z-index:5000; text-align:left; padding:5px; display:none" align="left">
                                             <mvc:fragmentValue name="field" id="field">
                                                 <% Boolean hideMotionButtons = Boolean.TRUE; %>
                                                 <%@ include file="buttonActions.jsp" %>
@@ -278,7 +278,7 @@
                                         </div>
                                     </mvc:fragment>
                                     <mvc:fragment name="afterFieldInTemplateMode"><div style="height:2px;"></div></div></mvc:fragment>
-                                    <mvc:fragment name="beforeLabel"><mvc:fragmentValue name="renderHolderColor" id="renderHolderColor"><td valign="top" nowrap width="1%"><div class="bulletBinding" style="background-color: <%=renderHolderColor%>;"></div></mvc:fragmentValue></mvc:fragment>
+                                    <mvc:fragment name="beforeLabel"><mvc:fragmentValue name="renderHolderColor" id="renderHolderColor"><mvc:fragmentValue name="renderMode" id="renderMode"><td valign="top" nowrap width="1%"><%= (Form.RENDER_MODE_WYSIWYG_BINDINGS.equals(renderMode) ? "<div class='bulletBinding' style='background-color: "+ renderHolderColor+";'></div>" :"") %></mvc:fragmentValue></mvc:fragmentValue></mvc:fragment>
                                     <mvc:fragment name="afterLabel"></td></mvc:fragment>
                                     <mvc:fragment name="lineBetweenLabelAndField"></tr><tr></mvc:fragment>
                                     <mvc:fragment name="beforeField"><td valign="top" style="height: 2px; overflow:visible;"></mvc:fragment>
