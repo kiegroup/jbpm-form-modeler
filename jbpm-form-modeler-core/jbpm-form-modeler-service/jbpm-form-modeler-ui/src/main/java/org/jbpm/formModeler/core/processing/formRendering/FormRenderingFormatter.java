@@ -701,12 +701,11 @@ public class FormRenderingFormatter extends Formatter {
         if (Form.LABEL_MODE_BEFORE.equals(labelMode) || Form.LABEL_MODE_LEFT.equals(labelMode)) {
             setAttribute("colspan", fieldColspan);
             setAttribute("width", fieldWidth);
-            setAttribute("renderHolderColor", formToPaint.getBindingColor(field));
-            setAttribute("bindingStr", field.getBindingStr());
-            setAttribute("renderMode",renderMode);
             renderFragment("beforeLabel");
 
             renderLabel(field, namespace, renderMode);
+            setAttribute("renderHolderColor", formToPaint.getBindingColor(field));
+            setAttribute("bindingStr", field.getBindingStr());
             renderFragment("afterLabel");
             if (!labelInSameLine)
                 renderFragment("lineBetweenLabelAndField");
@@ -724,11 +723,11 @@ public class FormRenderingFormatter extends Formatter {
                 renderFragment("lineBetweenLabelAndField");
             setAttribute("colspan", fieldColspan);
             setAttribute("width", fieldWidth);
-            setAttribute("renderHolderColor", formToPaint.getBindingColor(field));
-            setAttribute("bindingStr", field.getBindingStr());
-            setAttribute("renderMode",renderMode);
+
             renderFragment("beforeLabel");
             renderLabel(field, namespace, renderMode);
+            setAttribute("renderHolderColor", formToPaint.getBindingColor(field));
+            setAttribute("bindingStr", field.getBindingStr());
             renderFragment("afterLabel");
         }
         setAttribute("field", field);
