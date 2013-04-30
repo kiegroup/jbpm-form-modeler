@@ -697,6 +697,7 @@ public class FormRenderingFormatter extends Formatter {
             setAttribute("colspan", fieldColspan);
             setAttribute("width", fieldWidth);
             setAttribute("renderHolderColor", formToPaint.getBindingColor(field));
+            setAttribute("bindingStr", field.getBindingStr());
             setAttribute("renderMode",renderMode);
             renderFragment("beforeLabel");
 
@@ -719,6 +720,7 @@ public class FormRenderingFormatter extends Formatter {
             setAttribute("colspan", fieldColspan);
             setAttribute("width", fieldWidth);
             setAttribute("renderHolderColor", formToPaint.getBindingColor(field));
+            setAttribute("bindingStr", field.getBindingStr());
             setAttribute("renderMode",renderMode);
             renderFragment("beforeLabel");
             renderLabel(field, namespace, renderMode);

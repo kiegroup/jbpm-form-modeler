@@ -83,6 +83,7 @@
                     <select name="renderMode" onchange="submitAjaxForm(this.form);" class="skn-input">
                         <option value="<%=Form.RENDER_MODE_WYSIWYG_FORM%>" <%=Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode) ? "selected" : ""%>><i18n:message key="wysiwyg.renderModeForm"/></option>
                         <option value="<%=Form.RENDER_MODE_WYSIWYG_DISPLAY%>" <%=Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode) ? "selected" : ""%>><i18n:message key="wysiwyg.renderModeDisplay"/></option>
+                        <option value="<%=Form.RENDER_MODE_WYSIWYG_BINDINGS%>" <%=Form.RENDER_MODE_WYSIWYG_BINDINGS.equals(renderMode) ? "selected" : ""%>><i18n:message key="wysiwyg.renderModeBindings"/></option>
                     </select>
                 </form>
                 <script type="text/javascript" defer="defer">
