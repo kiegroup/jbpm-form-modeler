@@ -181,6 +181,7 @@
             <mvc:fragmentValue name="namespace" id="formNamespace">
                 <mvc:fragmentValue name="displayMode" id="displayMode">
                     <mvc:fragmentValue name="renderMode" id="renderMode">
+                        <mvc:fragmentValue name="displayBindings" id="displayBindings">
                         <div style='width:100%; height:100%;' id="<factory:encode name="wysiwygFormTable"/>">
                             <form action="#" onsubmit="return false;" style="margin:0px;" >
                                 <mvc:formatter name="org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter">
@@ -281,10 +282,9 @@
                                     <mvc:fragment name="beforeLabel">
                                         <mvc:fragmentValue name="renderHolderColor" id="renderHolderColor">
                                         <mvc:fragmentValue name="bindingStr" id="bindingStr">
-                                            <mvc:fragmentValue name="renderMode" id="renderMode"><td valign="top" nowrap width="1%"><%=
-                                            (Form.RENDER_MODE_WYSIWYG_BINDINGS.equals(renderMode) ? "<div class='bulletBinding' style='background-color: "+ renderHolderColor+";' title='"+bindingStr+"'></div>" :"")
+                                           <td valign="top" nowrap width="1%"><%=
+                                            ((displayBindings!=null && !((Boolean)displayBindings).booleanValue()) ? "": "<div class='bulletBinding' style='background-color: "+ renderHolderColor+";' title='"+bindingStr+"'></div>")
                                             %></mvc:fragmentValue>
-                                        </mvc:fragmentValue>
                                         </mvc:fragmentValue>
                                     </mvc:fragment>
                                     <mvc:fragment name="afterLabel"></td></mvc:fragment>
@@ -333,6 +333,7 @@
                                 </mvc:formatter>
                             </form>
                         </div>
+                    </mvc:fragmentValue>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>

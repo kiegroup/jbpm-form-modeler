@@ -73,7 +73,7 @@ public class FormRenderingFormatter extends Formatter {
 
     private FormTemplateHelper formTemplateHelper;
 
-    private String[] formModes = new String[]{Form.RENDER_MODE_FORM, Form.RENDER_MODE_WYSIWYG_FORM,Form.RENDER_MODE_WYSIWYG_BINDINGS};
+    private String[] formModes = new String[]{Form.RENDER_MODE_FORM, Form.RENDER_MODE_WYSIWYG_FORM};
     private String[] displayModes = new String[]{Form.RENDER_MODE_DISPLAY, Form.RENDER_MODE_WYSIWYG_DISPLAY};
 
     protected Form formToPaint;

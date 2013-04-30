@@ -48,6 +48,7 @@ public class WysiwygFormFormatter extends Formatter {
                 setAttribute("form", form);
                 setAttribute("namespace", namespace);
                 setAttribute("renderMode", editor.getRenderMode());
+                setAttribute("displayBindings", editor.getDisplayBindings());
                 String displayMode = form.getDisplayMode();
                 if (Form.DISPLAY_MODE_TEMPLATE.equals(displayMode)) {
                     setAttribute("showDisplayWarningMessage", true);

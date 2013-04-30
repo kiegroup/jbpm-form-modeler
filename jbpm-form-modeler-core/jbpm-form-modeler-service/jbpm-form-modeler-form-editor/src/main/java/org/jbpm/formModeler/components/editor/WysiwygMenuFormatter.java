@@ -83,7 +83,15 @@ public class WysiwygMenuFormatter extends Formatter {
             }
 
             setAttribute("renderMode", editor.getRenderMode());
+            setAttribute("displayBindings", editor.getDisplayBindings());
+            if("shared".equals(render) ){
+                setAttribute("displayCheckbox", Boolean.TRUE);
+            } else {
+                setAttribute("displayCheckbox", Boolean.FALSE);
+
+            }
             renderFragment("optionsOutputEnd");
+
 
             setAttribute("editionPage", "menu/" + editor.getCurrentEditionOption() + ".jsp");
 

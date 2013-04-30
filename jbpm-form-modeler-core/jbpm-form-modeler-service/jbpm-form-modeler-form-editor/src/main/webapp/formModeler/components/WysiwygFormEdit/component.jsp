@@ -71,39 +71,45 @@
     </mvc:fragment>
     <mvc:fragment name="optionsOutputEnd">
         <mvc:fragmentValue name="renderMode" id="renderMode">
-            </form>
-            <script defer>
-                setAjax("optionsForm");
-            </script>
-
-            </td>
-            <td valign="top" style="padding:6px 0px; white-space: nowrap;" width="99%;">
-                <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="switchRenderMode"/>">
-                    <factory:handler action="switchRenderMode"/>
-                    <select name="renderMode" onchange="submitAjaxForm(this.form);" class="skn-input">
-                        <option value="<%=Form.RENDER_MODE_WYSIWYG_FORM%>" <%=Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode) ? "selected" : ""%>><i18n:message key="wysiwyg.renderModeForm"/></option>
-                        <option value="<%=Form.RENDER_MODE_WYSIWYG_DISPLAY%>" <%=Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode) ? "selected" : ""%>><i18n:message key="wysiwyg.renderModeDisplay"/></option>
-                        <option value="<%=Form.RENDER_MODE_WYSIWYG_BINDINGS%>" <%=Form.RENDER_MODE_WYSIWYG_BINDINGS.equals(renderMode) ? "selected" : ""%>><i18n:message key="wysiwyg.renderModeBindings"/></option>
-                    </select>
+            <mvc:fragmentValue name="displayBindings" id="displayBindings">
+                <mvc:fragmentValue name="displayCheckbox" id="displayCheckbox">
                 </form>
-                <script type="text/javascript" defer="defer">
-                    setAjax("<factory:encode name="switchRenderMode"/>");
+                <script defer>
+                    setAjax("optionsForm");
                 </script>
 
+                </td>
+                <td valign="top" style="padding:6px 0px; white-space: nowrap;" width="99%;">
 
+                </td>
+                <td style="white-space: nowrap;">
+                    <% if(displayCheckbox!=null && ((Boolean)displayCheckbox).booleanValue()) { %>
+                    <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="switchRenderMode"/>">
+                        <factory:handler action="switchRenderMode"/>
 
-
-            </td>
-            <td style="white-space: nowrap;">
-                <input type="checkbox" value="rule" onclick="
+                        <input type="hidden" name="renderMode" value="<%=renderMode%>">
+                        <input type="hidden" name="displayBindings" value=<%=displayBindings%>>
+                        <input type="checkbox"  <%if (Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode)){ %>checked <% }%>
+                               onclick="setFormInputValue(this.form,'renderMode','<%=(Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode) ? Form.RENDER_MODE_WYSIWYG_DISPLAY : Form.RENDER_MODE_WYSIWYG_FORM)%>');submitAjaxForm(form);"> Show mode
+                        <input type="checkbox"  <%= ((displayBindings!=null && !((Boolean) displayBindings).booleanValue()) ? "": "checked")%>
+                               onclick="setFormInputValue(this.form,'displayBindings','<%=(displayBindings!=null ? Boolean.toString(!((Boolean)displayBindings).booleanValue()): Boolean.TRUE.toString()) %>');submitAjaxForm(form);"> Bindings
+                        <input type="checkbox" value="rule" onclick="
                         if ($('#preview').hasClass('bgGuides'))
                             $('#preview').removeClass('bgGuides');
-                        else $('#preview').addClass('bgGuides');"> Show Rules
-            </td>
-            </tr>
-            </table>
-            </td>
-            </tr>
+                        else $('#preview').addClass('bgGuides');"> Grid & rulers
+                    </form>
+                    <script type="text/javascript" defer="defer">
+                        setAjax("<factory:encode name="switchRenderMode"/>");
+                    </script>
+                    <% } %>
+
+                </td>
+                </tr>
+                </table>
+                </td>
+                </tr>
+            </mvc:fragmentValue>
+            </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
 

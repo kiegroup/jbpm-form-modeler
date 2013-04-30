@@ -64,9 +64,6 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public static final String EDITION_OPTION_VIS_MODE_BINDINGS_FIELDS = "shared";
     public static final String EDITION_OPTION_VIS_MODE_BINDINGS_SOURCE = "full";
 
-    public static final String EDITION_OPTION_IMG_FORM_INSERTMODE = "general/InsertDataMode.png";
-    public static final String EDITION_OPTION_IMG_FORM_SHOWTMODE = "general/ShowDataMode.png";
-
     public static final String ACTION_TO_DO = "actionToDo";
     public static final String ACTION_CHANGE_FIELD_TYPE = "changeFieldType";
     public static final String ACTION_SAVE_FIELD_PROPERTIES = "saveFieldProperties";
@@ -96,6 +93,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
     private int lastMovedFieldPosition = -1;
     private boolean showReturnButton = false;
     private String renderMode = Form.RENDER_MODE_WYSIWYG_FORM;
+    private Boolean displayBindings = Boolean.TRUE;
     private FieldType originalFieldType;
 
     private String lastDataHolderUsedId = "";
@@ -614,7 +612,14 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
     public synchronized void actionSwitchRenderMode(CommandRequest request) throws Exception {
         String renderMode = request.getRequestObject().getParameter("renderMode");
-        if (Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode) || Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode) || Form.RENDER_MODE_WYSIWYG_BINDINGS.equals(renderMode))
+        String displayBindings= request.getRequestObject().getParameter("displayBindings");
+        if((displayBindings!=null) && !Boolean.parseBoolean(displayBindings)){
+            setDisplayBindings(Boolean.FALSE);
+        }
+        else {
+            setDisplayBindings(Boolean.TRUE);
+        }
+        if (Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode) || Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode) )
             setRenderMode(renderMode);
     }
 
@@ -822,6 +827,14 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
     public void setRenderMode(String renderMode) {
         this.renderMode = renderMode;
+    }
+
+    public Boolean getDisplayBindings() {
+        return displayBindings;
+    }
+
+    public void setDisplayBindings(Boolean displayBindings) {
+        this.displayBindings = displayBindings;
     }
 
     public FormManager getFormManager() {
