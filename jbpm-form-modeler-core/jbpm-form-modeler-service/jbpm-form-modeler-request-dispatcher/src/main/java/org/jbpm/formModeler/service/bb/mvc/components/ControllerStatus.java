@@ -76,6 +76,9 @@ public class ControllerStatus {
     }
 
     public void setResponse(CommandResponse response) {
+        if (response == null) {
+            response =  new ShowScreenResponse(showPage);
+        }
         this.response = response;
     }
 

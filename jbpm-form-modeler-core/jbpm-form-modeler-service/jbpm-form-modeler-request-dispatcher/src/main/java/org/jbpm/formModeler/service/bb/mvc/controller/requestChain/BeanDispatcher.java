@@ -40,9 +40,9 @@ public class BeanDispatcher implements RequestChainProcessor {
         if (request.getRequestObject().getServletPath().indexOf("/" + URLMarkupGenerator.COMMAND_RUNNER) != -1) {
             ControllerStatus.lookup().consumeURIPart(ControllerStatus.lookup().getURIToBeConsumed());
         }
-        if (response != null) {
-            ControllerStatus.lookup().setResponse(response);
-        }
+
+        ControllerStatus.lookup().setResponse(response);
+
         return true;
     }
 
