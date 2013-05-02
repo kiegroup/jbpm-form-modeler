@@ -15,13 +15,24 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.controller.requestChain;
 
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.service.annotation.config.Config;
+import org.jbpm.formModeler.service.bb.mvc.components.ControllerStatus;
+import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.SendErrorResponse;
 
-public class FreeMemoryProcessor extends RequestChainProcessor {
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+/**
+ * Analyzes the free memory available.
+ */
+public class FreeMemoryProcessor implements RequestChainProcessor {
+
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FreeMemoryProcessor.class.getName());
 
-    private long minMemorySize = 1000000; //Less than 1MB means memory is running low
-    private float minMemoryPercentage = (float) 0.05; //Less than 5% free memory means memory is running low
+    private long minMemorySize = 1000000; // Less than 1MB means memory is running low
+    private float minMemoryPercentage = 0.05f; // Less than 5% free memory means memory is running low
 
     public long getMinMemorySize() {
         return minMemorySize;
@@ -39,7 +50,7 @@ public class FreeMemoryProcessor extends RequestChainProcessor {
         this.minMemoryPercentage = minMemoryPercentage;
     }
 
-    protected boolean processRequest() throws Exception {
+    public boolean processRequest(CommandRequest request) throws Exception {
         long freeMemory = Runtime.getRuntime().freeMemory();
         long totalMemory = Runtime.getRuntime().totalMemory();
         if (isLowMemory(freeMemory, totalMemory)) {
@@ -48,8 +59,8 @@ public class FreeMemoryProcessor extends RequestChainProcessor {
             freeMemory = Runtime.getRuntime().freeMemory();
             totalMemory = Runtime.getRuntime().totalMemory();
             if (isLowMemory(freeMemory, totalMemory)) {
-                getControllerStatus().setResponse(new SendErrorResponse(503));
-                getControllerStatus().consumeURIPart(getControllerStatus().getURIToBeConsumed());
+                ControllerStatus.lookup().setResponse(new SendErrorResponse(503));
+                ControllerStatus.lookup().consumeURIPart(ControllerStatus.lookup().getURIToBeConsumed());
                 log.error("Memory is so low that a user request had to be canceled - 503 sent. Consider increasing memory for current running application.");
                 return false;
             }
@@ -59,7 +70,7 @@ public class FreeMemoryProcessor extends RequestChainProcessor {
     }
 
     protected void freeSomeMemory(long freeMemory, long totalMemory) {
-        System.gc(); //Simpler memory free algorythm possible
+        System.gc(); // Simpler memory free algorythm possible
         long newFreeMemory = Runtime.getRuntime().freeMemory();
         long newTotalMemory = Runtime.getRuntime().totalMemory();
         if (isLowMemory(newFreeMemory, newTotalMemory)) {
@@ -71,7 +82,7 @@ public class FreeMemoryProcessor extends RequestChainProcessor {
     }
 
     protected void freeEvenMoreMemory(long freeMemory, long totalMemory) {
-        //Empty some caches... Drastic measure when memory is low and a System.gc was insufficient to release memory
+        // Empty some caches... Drastic measure when memory is low and a System.gc was insufficient to release memory
         System.gc();
         long newFreeMemory = Runtime.getRuntime().freeMemory();
         long newTotalMemory = Runtime.getRuntime().totalMemory();

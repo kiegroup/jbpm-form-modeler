@@ -15,18 +15,25 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing;
 
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.processing.FormNamespaceData;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
-import org.jbpm.formModeler.core.config.FormManagerImpl;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 
-public class NamespaceManager extends BasicFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(NamespaceManager.class.getName());
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
-    public FormManagerImpl getFormsManager() {
-        return FormManagerImpl.lookup();
+@ApplicationScoped
+public class NamespaceManager {
+
+    public static NamespaceManager lookup() {
+        return (NamespaceManager) CDIBeanLocator.getBeanByType(NamespaceManager.class);
     }
+
+    @Inject
+    private Log log;
 
     public String getParentNamespace(String namespace) {
         if (namespace != null) {
@@ -55,7 +62,7 @@ public class NamespaceManager extends BasicFactoryElement {
                 if (!"_".equals(formIdString)) {
                     Long formId = Long.decode(formIdString);
                     try {
-                        Form form = getFormsManager().getFormById(formId);
+                        Form form = FormCoreServices.lookup().getFormManager().getFormById(formId);
                         return new FormNamespaceData(form, namespace, fieldNameInParent);
                     } catch (Exception e) {
                         log.error("Error: ", e);

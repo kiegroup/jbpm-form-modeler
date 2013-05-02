@@ -152,36 +152,21 @@
                                 <contextPath>/</contextPath>
                                 <jettyEnvXml>${project.build.directory}/jbpm-form-modeler-app/WEB-INF/jetty-env.xml</jettyEnvXml>
                                 <descriptor>${project.build.directory}/jbpm-form-modeler-app/WEB-INF/web.xml</descriptor>
-
                                 <resourceBases>
                                     <resourcesAsCSV>${project.basedir}/src/main/webapp</resourcesAsCSV>
-
                                     <resourcesAsCSV>${project.basedir}/target/jbpm-form-modeler-app</resourcesAsCSV>
-
-                                    <resourcesAsCSV>${project.basedir}/../jbpm-form-modeler-request-dispatcher/src/main/webapp</resourcesAsCSV>
-
-                                    <resourcesAsCSV>${project.basedir}/../jbpm-form-modeler-core-ui/src/main/webapp</resourcesAsCSV>
-
-                                    <resourcesAsCSV>${project.basedir}/../jbpm-form-modeler-component/src/main/webapp</resourcesAsCSV>
-
                                 </resourceBases>
                             </webApp>
-
                             <systemProperties>
-
                                 <systemProperty>
                                     <name>log4j.configuration</name>
                                     <value>file:${project.basedir}/src/test/resources/log4j.xml</value>
                                 </systemProperty>
-
                                 <systemProperty>
                                     <name>slf4j</name>
                                     <value>false</value>
                                 </systemProperty>
-
-
                             </systemProperties>
-
                         </configuration>
                     </plugin>
                     <plugin>

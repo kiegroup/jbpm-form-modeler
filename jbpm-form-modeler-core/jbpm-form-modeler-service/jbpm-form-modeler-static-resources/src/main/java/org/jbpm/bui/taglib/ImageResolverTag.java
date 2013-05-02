@@ -15,7 +15,7 @@
  */
 package org.jbpm.bui.taglib;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.jbpm.formModeler.service.bb.mvc.taglib.ContextTag;
 import org.jbpm.bui.resources.StaticResourceResolver;
 import org.apache.commons.lang.StringUtils;
@@ -29,6 +29,7 @@ import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
 
 public class ImageResolverTag extends BodyTagSupport {
+
     /**
      * Logger
      */
@@ -89,7 +90,7 @@ public class ImageResolverTag extends BodyTagSupport {
     }
 
     public StaticResourceResolver getImageResolver() {
-        return (StaticResourceResolver) Factory.lookup("org.jbpm.bui.resources.StaticImageResolver");
+        return (StaticResourceResolver) CDIBeanLocator.getBeanByType(StaticResourceResolver.class);
     }
 
     public static class TEI extends TagExtraInfo {

@@ -25,7 +25,7 @@ public interface CommandResponse {
      * that are provided in the org.jbpm.formModeler.service.mvc.controller.responses package.
      *
      * @param cmdReq Object encapsulating the request information.
-     * @return boolean if the execution has been successfuly executed, false otherwise.
+     * @return boolean if the execution has been successfully executed, false otherwise.
      */
-    public boolean execute(CommandRequest cmdReq) throws Exception;
+    boolean execute(CommandRequest cmdReq) throws Exception;
 }

@@ -16,20 +16,24 @@
 package org.jbpm.formModeler.components.editor;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.api.processing.FieldHandler;
+import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Field;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
 public class FieldTypePropertyFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FieldTypePropertyFormatter.class.getName());
+
+    @Inject
+    private Log log;
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         Field field = (Field) getParameter("field");
@@ -42,7 +46,7 @@ public class FieldTypePropertyFormatter extends Formatter {
                 Method getter = type.getClass().getMethod("get" + StringUtils.capitalize(propertyName));
                 Object typeValue = getter.invoke(type);
 
-                FieldHandler handler = ((FieldHandler)Factory.lookup(field.getFieldType().getManagerClass()));
+                FieldHandler handler = FormProcessingServices.lookup().getFieldHandlersManager().getHandler(field.getFieldType());
                 String displayPage = handler.getPageToIncludeForDisplaying();
                 setAttribute(FormRenderingFormatter.ATTR_VALUE, typeValue);
                 setAttribute(FormRenderingFormatter.ATTR_NAME, "_$default_" + propertyName);

@@ -25,17 +25,13 @@ import org.jbpm.formModeler.api.model.FormDisplayInfo;
 import org.jbpm.formModeler.api.util.helpers.EditorHelper;
 import org.jbpm.formModeler.api.model.i18n.I18nSet;
 import org.jbpm.formModeler.api.util.helpers.CDIHelper;
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
+import org.jbpm.formModeler.service.LocaleManager;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Manager class form Forms, it provides the common operations over Forms (creation, edit, delete) and distinct search methods.
- */
 @ApplicationScoped
 public class FormManagerImpl implements FormManager {
 
@@ -44,16 +40,8 @@ public class FormManagerImpl implements FormManager {
 
     private HashSet<Form> forms = new HashSet<Form>();
 
-    public FormManagerImpl() {
-    }
-
-
     /**
-     * Get all formularies by subject.
-     *
-     * @param subject
-     * @return
-     * @throws Exception
+     * Get all forms by subject.
      */
     public List<Form> getFormsBySubject(String subject) throws Exception {
 
@@ -68,12 +56,7 @@ public class FormManagerImpl implements FormManager {
     }
 
     /**
-     * Get all formularies by subject and name.
-     *
-     * @param subject
-     * @param name
-     * @return
-     * @throws Exception
+     * Get all forms by subject and name.
      */
     public List<Form> getFormsBySubjectAndName(String subject, String name) throws Exception {
         if (subject == null) subject = "";
@@ -93,7 +76,7 @@ public class FormManagerImpl implements FormManager {
     }
 
     /**
-     * Get the formulary to edit a form field depending on its type
+     * Get the form to edit a form field depending on its type
      *
      * @param fieldType for which we want to edit
      * @return a form suitable for editing it, or null if none fits
@@ -153,7 +136,7 @@ public class FormManagerImpl implements FormManager {
     }
 
     /**
-     * Create an empty formulary with given parameters
+     * Create an empty form with given parameters
      *
      * @param subject     Form subject
      * @param name        Form name
@@ -178,7 +161,7 @@ public class FormManagerImpl implements FormManager {
     }
 
     /**
-     * Create an empty formulary with given parameters
+     * Create an empty form with given parameters
      *
      * @param duplicateId Form id to duplicate
      * @param name        Form name
@@ -233,10 +216,7 @@ public class FormManagerImpl implements FormManager {
     }
 
     /**
-     * Copy formulary structure from one form to another.
-     *
-     * @param sourceForm
-     * @param destinationForm
+     * Copy form structure from one form to another.
      */
     protected void copyStructure(Form sourceForm, Form destinationForm) {
 
@@ -248,7 +228,7 @@ public class FormManagerImpl implements FormManager {
             addedField.putAll(field);
         }
 
-        //Copy properties
+        // Copy properties
         destinationForm.setName(sourceForm.getName());
         destinationForm.setSubject(sourceForm.getSubject());
         destinationForm.setFormTemplate(sourceForm.getFormTemplate());
@@ -310,7 +290,7 @@ public class FormManagerImpl implements FormManager {
     }
 
     /**
-     * Deletes a formulay
+     * Deletes a form
      *
      * @param pForm form to delete
      * @throws Exception in case of error
@@ -373,7 +353,7 @@ public class FormManagerImpl implements FormManager {
 
 
             if (label != null){
-                String currentLang = ((LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager")).getDefaultLang();
+                String currentLang = LocaleManager.lookup().getDefaultLang();
                 if(label.getValue(currentLang)==null) {
                     label.setValue(currentLang, fieldType.getCode()+field.getPosition());
                 }
@@ -650,10 +630,6 @@ public class FormManagerImpl implements FormManager {
      */
     public boolean isDeleteable(Form form) {
         return true;
-    }
-
-    public static FormManagerImpl lookup() {
-        return (FormManagerImpl) CDIHelper.getBeanByType(FormManagerImpl.class);
     }
 
     protected void logWarn(String message) {

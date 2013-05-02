@@ -15,31 +15,30 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.config.FormManager;
 import org.jbpm.formModeler.api.model.Form;
 
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- */
 public class EditFormFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(EditFormFormatter.class.getName());
 
-    private WysiwygFormEditor wysiwygFormEditor;
+    @Inject
+    private Log log;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
-            Form formulary = wysiwygFormEditor.getCurrentEditForm();
+            Form form = WysiwygFormEditor.lookup().getCurrentEditForm();
 
-            setFormularyAttributes(formulary);
+            setFormularyAttributes(form);
             renderFragment("outputStart");
 
-            setFormularyAttributes(formulary);
+            setFormularyAttributes(form);
             renderFragment("outputNameInput");
 
             renderFragment("outputStatusInputStart");
@@ -48,24 +47,24 @@ public class EditFormFormatter extends Formatter {
             for (int i = 0; i < statuses.length; i++) {
                 int status = statuses[i];
                 setAttribute("optionValue", status);
-                setAttribute("selected", formulary.getStatus().intValue() == status ? "selected" : "");
+                setAttribute("selected", form.getStatus().intValue() == status ? "selected" : "");
                 renderFragment("outputStatusInputOption");
             }
             renderFragment("outputStatusInputEnd");
 
 
-            setFormularyAttributes(formulary);
+            setFormularyAttributes(form);
             renderFragment("outputProcessorInput");
 
-            if (formulary.getDisplayMode() == null || "".equals(formulary.getDisplayMode())) {
-                formulary.setDisplayMode("default");
+            if (form.getDisplayMode() == null || "".equals(form.getDisplayMode())) {
+                form.setDisplayMode("default");
             }
             renderFragment("outputDisplayModeStart");
-            setAttribute("checked", formulary.getDisplayMode().equals(Form.DISPLAY_MODE_DEFAULT) ? "checked" : "");
+            setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_DEFAULT) ? "checked" : "");
             renderFragment("outputDefaultDisplayMode");
-            setAttribute("checked", formulary.getDisplayMode().equals(Form.DISPLAY_MODE_ALIGNED) ? "checked" : "");
+            setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_ALIGNED) ? "checked" : "");
             renderFragment("outputAlignedDisplayMode");
-            setAttribute("checked", formulary.getDisplayMode().equals(Form.DISPLAY_MODE_NONE) ? "checked" : "");
+            setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_NONE) ? "checked" : "");
             renderFragment("outputNoneDisplayMode");
             //setAttribute("checked", formulary.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE) ? "checked" : "");
             //renderFragment("outputTemplateDisplayMode");
@@ -82,8 +81,8 @@ public class EditFormFormatter extends Formatter {
             for (int i = 0; i < possibleLabelModes.length; i++) {
                 String labelMode = possibleLabelModes[i];
                 setAttribute("labelMode", labelMode);
-                boolean selected = labelMode.equals(formulary.getLabelMode());
-                if (formulary.getLabelMode() == null || formulary.getLabelMode().equals(""))
+                boolean selected = labelMode.equals(form.getLabelMode());
+                if (form.getLabelMode() == null || form.getLabelMode().equals(""))
                     selected = (i == 0);
                 renderFragment("outputLabelMode" + (selected ? "Selected" : ""));
             }
@@ -103,13 +102,5 @@ public class EditFormFormatter extends Formatter {
         setAttribute("formDisplayMode", formulary.getDisplayMode());
         setAttribute("formStatus", formulary.getStatus());
         setAttribute("formName", formulary.getName());
-    }
-
-    public WysiwygFormEditor getWysiwygFormEditor() {
-        return wysiwygFormEditor;
-    }
-
-    public void setWysiwygFormEditor(WysiwygFormEditor wysiwygFormEditor) {
-        this.wysiwygFormEditor = wysiwygFormEditor;
     }
 }

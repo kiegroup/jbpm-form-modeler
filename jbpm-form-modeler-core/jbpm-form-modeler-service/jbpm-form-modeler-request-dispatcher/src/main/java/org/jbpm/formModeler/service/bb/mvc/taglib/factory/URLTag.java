@@ -15,7 +15,6 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib.factory;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
 import org.jbpm.formModeler.service.bb.mvc.components.URLMarkupGenerator;
 
 import javax.servlet.jsp.JspException;
@@ -26,7 +25,6 @@ public class URLTag extends GenericFactoryTag {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(URLTag.class.getName());
 
     private Map paramsMap = new HashMap();
-
     private boolean friendly = true;
 
     public boolean isFriendly() {
@@ -43,7 +41,7 @@ public class URLTag extends GenericFactoryTag {
     }
 
     public int doEndTag() throws JspException {
-        URLMarkupGenerator urlMarkupGenerator = (URLMarkupGenerator) Factory.lookup("org.jbpm.formModeler.service.mvc.components.URLMarkupGenerator");
+        URLMarkupGenerator urlMarkupGenerator = URLMarkupGenerator.lookup();
         String markup = friendly ? urlMarkupGenerator.getMarkup(getBean(), getAction(), paramsMap) : urlMarkupGenerator.getPermanentLink(getBean(), getAction(), paramsMap) ;
         try {
             pageContext.getOut().print(markup);

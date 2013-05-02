@@ -15,7 +15,6 @@
  */
 package org.jbpm.formModeler.core.processing;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.processing.FieldHandler;
@@ -24,8 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public abstract class AbstractFieldHandler extends BasicFactoryElement implements FieldHandler {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(AbstractFieldHandler.class.getName());
+public abstract class AbstractFieldHandler implements FieldHandler {
 
     public String getHumanName(Locale locale) {
         ResourceBundle bundle = ResourceBundle.getBundle("org.jbpm.formModeler.core.processing.fieldHandlers", locale);
@@ -41,12 +39,28 @@ public abstract class AbstractFieldHandler extends BasicFactoryElement implement
         
     }
 
-    @Override
     public boolean isEvaluable(String inputName, Map parametersMap, Map filesMap) {
         return true;
     }
 
     protected boolean checkBooleanParameter(String[] param) {
         return param != null && param.length > 0 && Boolean.valueOf(StringUtils.defaultString(param[0])).booleanValue();
+    }
+
+    protected String getFieldName() {
+        String name = getClass().getSimpleName();
+        return name.substring(0, name.indexOf("FieldHandler"));
+    }
+
+    public String getPageToIncludeForRendering() {
+        return "/formModeler/fieldHandlers/" + getFieldName() + "/input.jsp";
+    }
+
+    public String getPageToIncludeForDisplaying() {
+        return "/formModeler/fieldHandlers/" + getFieldName() + "/show.jsp";
+    }
+
+    public String getPageToIncludeForSearching() {
+        return "/formModeler/fieldHandlers/" + getFieldName() + "/search.jsp";
     }
 }

@@ -16,7 +16,7 @@
 
 --%>
 <%@ page import="org.jbpm.formModeler.api.model.Form" %>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager"%>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>

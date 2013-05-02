@@ -15,26 +15,30 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
+import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
+import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.validators.NumericRangeValidator;
+import org.jbpm.formModeler.service.annotation.config.Config;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.*;
 
+/**
+ * Handler for numeric text input
+ */
 public class NumericFieldHandler extends DefaultFieldHandler {
+
     public static final String NUMERIC_FROM_SUFFIX = "_from";
     public static final String NUMERIC_TO_SUFFIX = "_to";
     public static final boolean DEFAULT_MAX_VALUE = true;
 
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(NumericFieldHandler.class.getName());
-
-    private String pageToIncludeForRendering = "/formModeler/fieldHandlers/Numeric/input.jsp";
-    private String pageToIncludeForDisplaying = "/formModeler/fieldHandlers/Numeric/show.jsp";
-    private String pageToIncludeForSearching = "/formModeler/fieldHandlers/Numeric/search.jsp";
 
     /**
      * Read a parameter value (normally from a request), and translate it to
@@ -181,10 +185,6 @@ public class NumericFieldHandler extends DefaultFieldHandler {
         return true;
     }
 
-    public String getName() {
-        return getComponentName();
-    }
-
     /**
      * Determine the list of class types this field can generate. That is, normally,
      * a field can generate multiple outputs (an input text can generate Strings,
@@ -208,30 +208,6 @@ public class NumericFieldHandler extends DefaultFieldHandler {
         }
 
         return value != null && "".equals(value);
-    }
-
-    public String getPageToIncludeForRendering() {
-        return pageToIncludeForRendering;
-    }
-
-    public void setPageToIncludeForRendering(String pageToIncludeForRendering) {
-        this.pageToIncludeForRendering = pageToIncludeForRendering;
-    }
-
-    public String getPageToIncludeForDisplaying() {
-        return pageToIncludeForDisplaying;
-    }
-
-    public void setPageToIncludeForDisplaying(String pageToIncludeForDisplaying) {
-        this.pageToIncludeForDisplaying = pageToIncludeForDisplaying;
-    }
-
-    public String getPageToIncludeForSearching() {
-        return pageToIncludeForSearching;
-    }
-
-    public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
-        this.pageToIncludeForSearching = pageToIncludeForSearching;
     }
 
     public class EmptyNumberException extends Exception {

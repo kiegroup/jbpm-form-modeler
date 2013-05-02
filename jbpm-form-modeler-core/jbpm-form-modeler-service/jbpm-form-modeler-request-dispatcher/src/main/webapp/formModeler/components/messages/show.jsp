@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager"%>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager"%>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
@@ -24,8 +24,7 @@
 
 <i18n:bundle baseName="org.jbpm.formModeler.service.mvc.components.handling.messages" id="defaultBundle" locale="<%=LocaleManager.currentLocale()%>"/>
 
-<factory:property property="messagesComponentFormatter" id="messagesComponentFormatter">
-<mvc:formatter name="<%=messagesComponentFormatter%>">
+<mvc:formatter name="org.jbpm.formModeler.service.bb.mvc.components.handling.MessagesComponentFormatter">
     <mvc:fragment name="outputStart">
         <mvc:fragmentValue name="image" id="image">
         <mvc:fragmentValue name="bundle" id="bundle">
@@ -120,4 +119,3 @@
         </div>
     </mvc:fragment>
 </mvc:formatter>
-</factory:property>

@@ -15,14 +15,16 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.components;
 
-import org.jbpm.formModeler.service.bb.mvc.components.handling.HandlerFactoryElement;
+import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.DoNothingResponse;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.ShowScreenResponse;
 
-public class RedirectionHandler extends HandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(RedirectionHandler.class.getName());
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+public class RedirectionHandler extends BeanHandler {
 
     public static final String PARAM_PAGE_TO_REDIRECT = "JB_page_to_redirect";
 

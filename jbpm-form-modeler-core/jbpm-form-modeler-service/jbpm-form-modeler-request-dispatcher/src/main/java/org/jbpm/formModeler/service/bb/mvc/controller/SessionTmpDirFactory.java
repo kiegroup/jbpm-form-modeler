@@ -15,9 +15,7 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.controller;
 
-import org.jbpm.formModeler.service.bb.commons.config.ConfigurationManager;
-import org.jbpm.formModeler.service.bb.mvc.FrameworkConfiguration;
-
+import org.jbpm.formModeler.service.Application;
 import java.io.File;
 
 /**
@@ -53,7 +51,7 @@ public class SessionTmpDirFactory {
      * exist.
      */
     public static String getTmpDir(javax.servlet.http.HttpServletRequest req) {
-        String file = ConfigurationManager.singleton().getBaseAppDirectory() + "/" + FrameworkConfiguration.getParamDownloadDir() + File.separator + req.getSession().getId();
+        String file = Application.lookup().getBaseAppDirectory() + "/" + HTTPSettings.lookup().getDownloadDir() + File.separator + req.getSession().getId();
 
         File f = new File(file);
 

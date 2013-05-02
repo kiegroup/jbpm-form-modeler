@@ -15,19 +15,23 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
+import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DecimalFormat;
 
 /**
- *
+ * Formatter for simple fields
  */
 public class RangeInputTextFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(RangeInputTextFieldHandlerFormatter.class.getName());
+
+    @Inject
+    private Log log;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
 

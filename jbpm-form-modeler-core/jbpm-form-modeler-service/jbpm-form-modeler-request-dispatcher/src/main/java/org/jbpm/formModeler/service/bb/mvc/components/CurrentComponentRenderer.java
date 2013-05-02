@@ -1,17 +1,41 @@
+/**
+ * Copyright (C) 2012 JBoss Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.jbpm.formModeler.service.bb.mvc.components;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
+import org.jbpm.formModeler.service.bb.mvc.components.handling.UIBeanHandler;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
-import org.jbpm.formModeler.service.bb.mvc.components.handling.UIComponentHandlerFactoryElement;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
-import java.lang.Override;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 import java.lang.String;
 
-public class CurrentComponentRenderer extends UIComponentHandlerFactoryElement {
+//@SessionScoped
+@ApplicationScoped
+@Named("ccrenderer")
+public class CurrentComponentRenderer extends UIBeanHandler {
+
+    public static CurrentComponentRenderer lookup() {
+        return (CurrentComponentRenderer) CDIBeanLocator.getBeanByName("ccrenderer");
+    }
+
     private BaseUIComponent currentComponent;
 
-    @Override
-    public String getComponentIncludeJSP() {
+    public String getBeanJSP() {
         if (currentComponent != null) return currentComponent.getBaseComponentJSP();
         return "";
     }
@@ -22,9 +46,5 @@ public class CurrentComponentRenderer extends UIComponentHandlerFactoryElement {
 
     public void setCurrentComponent(BaseUIComponent currentComponent) {
         this.currentComponent = currentComponent;
-    }
-
-    public static final CurrentComponentRenderer lookup() {
-        return (CurrentComponentRenderer) Factory.lookup("org.jbpm.formModeler.service.mvc.components.CurrentComponentRenderer");
     }
 }

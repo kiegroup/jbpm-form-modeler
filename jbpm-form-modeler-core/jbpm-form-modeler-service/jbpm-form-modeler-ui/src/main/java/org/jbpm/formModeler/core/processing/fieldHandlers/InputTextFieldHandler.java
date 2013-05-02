@@ -16,45 +16,23 @@
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
-import org.jbpm.formModeler.core.processing.formProcessing.Functions;
-import org.jbpm.formModeler.core.processing.formProcessing.NamespaceManager;
 import org.jbpm.formModeler.api.model.Field;
+import org.jbpm.formModeler.service.annotation.config.Config;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Handler for input text
  */
 public class InputTextFieldHandler extends DefaultFieldHandler {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(InputTextFieldHandler.class.getName());
 
     private String pageToIncludeForRendering = "/formModeler/fieldHandlers/InputText/input.jsp";
     private String pageToIncludeForDisplaying = "/formModeler/fieldHandlers/InputText/show.jsp";
     private String pageToIncludeForSearching = "/formModeler/fieldHandlers/InputText/search.jsp";
-    private Functions functions;
-    private NamespaceManager namespaceManager;
-
-    public NamespaceManager getNamespaceManager() {
-        return namespaceManager;
-    }
-
-    public void setNamespaceManager(NamespaceManager namespaceManager) {
-        this.namespaceManager = namespaceManager;
-    }
-
-    public Functions getFunctions() {
-        return functions;
-    }
-
-    public void setFunctions(Functions functions) {
-        this.functions = functions;
-    }
-
-    public String getName() {
-        return getComponentName();
-    }
 
     /**
      * Determine the list of class types this field can generate. That is, normally,
@@ -105,7 +83,7 @@ public class InputTextFieldHandler extends DefaultFieldHandler {
 
 
     /**
-     * When rendering a formulary, if field is handled by this handler, determine the
+     * When rendering a form, if field is handled by this handler, determine the
      * page that renders the displaying of the value
      *
      * @return a page to include
@@ -127,7 +105,7 @@ public class InputTextFieldHandler extends DefaultFieldHandler {
     }
 
     /**
-     * When rendering a formulary, if field is handled by this handler, determine the
+     * When rendering a form, if field is handled by this handler, determine the
      * page that renders the input(s)
      *
      * @return a page to include

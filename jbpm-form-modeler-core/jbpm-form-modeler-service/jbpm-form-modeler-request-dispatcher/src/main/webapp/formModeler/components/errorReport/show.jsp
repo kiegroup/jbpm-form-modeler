@@ -15,21 +15,12 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager" %>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory" %>
-<%@ page import="org.jbpm.formModeler.service.error.ErrorReportHandler" %>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <i18n:bundle baseName="org.jbpm.formModeler.service.error.messages" locale="<%= LocaleManager.currentLocale() %>"/>
-<%
-    ErrorReportHandler errorHandler = null;
-    String errorHandlerName = (String) request.getAttribute("errorHandlerName");
-    if (errorHandlerName != null) errorHandler = (ErrorReportHandler) Factory.lookup(errorHandlerName);
-    else errorHandler = (ErrorReportHandler) Factory.lookup("org.jbpm.formModeler.service.error.ErrorReportHandler");
-%>
 <mvc:formatter name="org.jbpm.formModeler.service.error.ErrorReportFormatter">
-    <mvc:formatterParam name="errorHandler" value="<%= errorHandler %>" />
     <mvc:fragment name="errorMessage">
     <mvc:fragmentValue name="technicalDetails" id="technicalDetails">
     <mvc:fragmentValue name="closeEnabled" id="closeEnabled">

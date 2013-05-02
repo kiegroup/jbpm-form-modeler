@@ -19,50 +19,26 @@ import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
 import org.jbpm.formModeler.core.wrappers.HTMLi18n;
 import org.jbpm.formModeler.api.model.i18n.I18nEntry;
 import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
+import org.jbpm.formModeler.service.LocaleManager;
+import org.jbpm.formModeler.service.annotation.config.Config;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * Handler for text area with HTML i18n
+ */
+@ApplicationScoped
 public class HTMLi18nFieldHandler extends DefaultFieldHandler {
 
-    private String pageToIncludeForRendering = "/formModeler/fieldHandlers/HTMLi18n/input.jsp";
-    private String pageToIncludeForDisplaying = "/formModeler/fieldHandlers/HTMLi18n/show.jsp";
-    private String pageToIncludeForSearching = "/formModeler/fieldHandlers/HTMLi18n/search.jsp";
     public static final String DIV_INPUT_NAME_PREFFIX = "Div__";
-
-    public String getPageToIncludeForSearching() {
-        return pageToIncludeForSearching;
-    }
-
-    public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
-        this.pageToIncludeForSearching = pageToIncludeForSearching;
-    }
-
-    public String getPageToIncludeForDisplaying() {
-        return pageToIncludeForDisplaying;
-    }
-
-    public void setPageToIncludeForDisplaying(String pageToIncludeForDisplaying) {
-        this.pageToIncludeForDisplaying = pageToIncludeForDisplaying;
-    }
-
-    public String getPageToIncludeForRendering() {
-        return pageToIncludeForRendering;
-    }
-
-    public void setPageToIncludeForRendering(String pageToIncludeForRendering) {
-        this.pageToIncludeForRendering = pageToIncludeForRendering;
-    }
 
     public String[] getCompatibleClassNames() {
         return new String[]{"I18nHTMLText"};
-    }
-
-    public String getName() {
-        return getComponentName();
     }
 
     /**

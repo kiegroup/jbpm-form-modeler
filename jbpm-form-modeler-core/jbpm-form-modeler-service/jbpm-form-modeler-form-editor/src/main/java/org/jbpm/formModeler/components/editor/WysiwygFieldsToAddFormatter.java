@@ -15,28 +15,22 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 public class WysiwygFieldsToAddFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(WysiwygFieldsToAddFormatter.class.getName());
 
-    private WysiwygFormEditor editor;
-
-    public WysiwygFormEditor getEditor() {
-        return editor;
-    }
-
-    public void setEditor(WysiwygFormEditor editor) {
-        this.editor = editor;
-    }
+    @Inject
+    private Log log;
 
     private void renderFieldsToAdd(Form form) throws Exception {
         renderFragment("fieldsToAddStart");
@@ -105,7 +99,7 @@ public class WysiwygFieldsToAddFormatter extends Formatter {
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
-            Form form = editor.getCurrentForm();
+            Form form = WysiwygFormEditor.lookup().getCurrentForm();
             if (form != null) {
                 //Fields are no longer added from the top:
                 renderFieldsToAdd(form);
@@ -115,6 +109,5 @@ public class WysiwygFieldsToAddFormatter extends Formatter {
             log.error("Error: ", e);
             throw new FormatterException(e);
         }
-
     }
 }

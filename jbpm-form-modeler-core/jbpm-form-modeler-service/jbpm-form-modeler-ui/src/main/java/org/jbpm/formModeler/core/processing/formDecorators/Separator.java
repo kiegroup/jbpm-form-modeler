@@ -15,10 +15,24 @@
  */
 package org.jbpm.formModeler.core.processing.formDecorators;
 
+import org.jbpm.formModeler.service.annotation.config.Config;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+/**
+ * Separator
+ */
+@ApplicationScoped
 public class Separator extends FormDecorator {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(Separator.class.getName());
+
+    @Inject @Config("/formModeler/formDecorators/Separator/input.jsp")
     private String pageToIncludeForRendering = "/formModeler/formDecorators/Separator/input.jsp";
+
+    @Inject @Config("/formModeler/formDecorators/Separator/show.jsp")
     private String pageToIncludeForDisplaying = "/formModeler/formDecorators/Separator/show.jsp";
+
+    @Inject @Config("/formModeler/formDecorators/Separator/search.jsp")
     private String pageToIncludeForSearching = "/formModeler/formDecorators/Separator/search.jsp";
 
     public String getPageToIncludeForDisplaying() {
@@ -44,6 +58,4 @@ public class Separator extends FormDecorator {
     public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
         this.pageToIncludeForSearching = pageToIncludeForSearching;
     }
-
-
 }

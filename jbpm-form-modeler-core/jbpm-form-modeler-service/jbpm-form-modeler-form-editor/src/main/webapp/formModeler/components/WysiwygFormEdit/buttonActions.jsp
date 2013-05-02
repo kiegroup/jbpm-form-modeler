@@ -1,3 +1,4 @@
+<%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
 <%--
 
     Copyright (C) 2012 JBoss Inc

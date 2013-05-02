@@ -15,30 +15,24 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class WysiwygEditionPropertiesFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(WysiwygMenuFormatter.class.getName());
 
-    private WysiwygFormEditor editor;
-
-    public WysiwygFormEditor getEditor() {
-        return editor;
-    }
-
-    public void setEditor(WysiwygFormEditor editor) {
-        this.editor = editor;
-    }
+    @Inject
+    private Log log;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
             renderFragment("outputStart");
 
-            setAttribute("renderMode", editor.getRenderMode());
+            setAttribute("renderMode", WysiwygFormEditor.lookup().getRenderMode());
             renderFragment("outputSwitchRenderMode");
 
             renderFragment("outputEnd");

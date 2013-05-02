@@ -16,71 +16,38 @@
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
+import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.api.model.i18n.I18nEntry;
 import org.jbpm.formModeler.api.model.i18n.I18nSet;
 import org.jbpm.formModeler.api.model.Field;
+import org.jbpm.formModeler.service.annotation.config.Config;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 /**
- *
+ * Handler for I18nSet
  */
 public class I18nSetFieldHandler extends DefaultFieldHandler {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(I18nSetFieldHandler.class.getName());
-
-    private String pageToIncludeForRendering = "/formModeler/fieldHandlers/I18nSet/input.jsp";
-    private String pageToIncludeForDisplaying = "/formModeler/fieldHandlers/I18nSet/show.jsp";
-    private String pageToIncludeForSearching = "/formModeler/fieldHandlers/I18nSet/search.jsp";
-
-    private LocaleManager localeManager;
-
-    public LocaleManager getLocaleManager() {
-        return localeManager;
-    }
-
-    public void setLocaleManager(LocaleManager localeManager) {
-        this.localeManager = localeManager;
-    }
-
-    public String getPageToIncludeForDisplaying() {
-        return pageToIncludeForDisplaying;
-    }
 
     public boolean isEmpty(Object value) {
-        if (value == null || ((I18nSet) value).isEmpty())
+        if (value == null || ((I18nSet) value).isEmpty()) {
             return true;
-        if ("".equals(((I18nSet) value).getValue(getLocaleManager().getDefaultLang())))
+        }
+        if ("".equals(((I18nSet) value).getValue(LocaleManager.lookup().getDefaultLang()))) {
             return true;
+        }
         for (Iterator it = ((I18nSet) value).iterator(); it.hasNext();) {
             I18nEntry entry = (I18nEntry) it.next();
-            if (entry.getValue() != null && !"".equals(entry.getValue()))
+            if (entry.getValue() != null && !"".equals(entry.getValue())) {
                 return false;
+            }
         }
         return true;
-    }
-
-    public void setPageToIncludeForDisplaying(String pageToIncludeForDisplaying) {
-        this.pageToIncludeForDisplaying = pageToIncludeForDisplaying;
-    }
-
-    public String getPageToIncludeForRendering() {
-        return pageToIncludeForRendering;
-    }
-
-    public void setPageToIncludeForRendering(String pageToIncludeForRendering) {
-        this.pageToIncludeForRendering = pageToIncludeForRendering;
-    }
-
-    public String getPageToIncludeForSearching() {
-        return pageToIncludeForSearching;
-    }
-
-    public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
-        this.pageToIncludeForSearching = pageToIncludeForSearching;
     }
 
     /**
@@ -92,10 +59,6 @@ public class I18nSetFieldHandler extends DefaultFieldHandler {
      */
     public String[] getCompatibleClassNames() {
         return new String[]{"I18nText", "I18nTextArea"};
-    }
-
-    public String getName() {
-        return getComponentName();
     }
 
     /**

@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager" %>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
 <%@ page import="org.jbpm.formModeler.api.model.i18n.I18nSet" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
@@ -40,7 +40,7 @@
                   StringEscapeUtils.escapeHtml((val != null && !"".equals(val)) ? StringUtils.defaultString(((LocaleManager) localeManager).localize(((I18nSet) val).asMap())==null ? "" : ((LocaleManager) localeManager).localize(((I18nSet) val).asMap()).toString()) : "")%>
             </<%=htmlContainer!=null ? htmlContainer : "span"%>>
             <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
-                <mvc:formatterParam name="factoryElement" value="org.jbpm.formModeler.service.LocaleManager"/>
+                <mvc:formatterParam name="bean" value="org.jbpm.formModeler.service.LocaleManager"/>
                     <mvc:formatterParam name="property" value="platformAvailableLocales"/>
                     <mvc:fragment name="output">
                         <mvc:fragmentValue name="index" id="index">

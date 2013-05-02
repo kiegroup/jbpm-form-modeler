@@ -15,9 +15,11 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.api.config.FieldTypeManager;
+import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter;
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
+import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.core.config.FieldTypeManagerImpl;
 import org.jbpm.formModeler.api.model.Field;
@@ -26,36 +28,27 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.processing.FieldHandler;
 import org.jbpm.formModeler.api.processing.PropertyDefinition;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
-/**
- *
- */
 public class FormFieldEditionFormatter extends FormRenderingFormatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormFieldEditionFormatter.class.getName());
 
-    private FieldTypeManagerImpl fieldTypesManager;
-    private WysiwygFormEditor editor;
-
-    @Override
-    public void start() throws Exception {
-        super.start();
-        fieldTypesManager = FieldTypeManagerImpl.lookup();
-    }
+    @Inject
+    private Log log;
 
     public WysiwygFormEditor getEditor() {
-        return editor;
+        return WysiwygFormEditor.lookup();
     }
 
-    public void setEditor(WysiwygFormEditor editor) {
-        this.editor = editor;
+    public FieldTypeManager getFieldTypesManager() {
+        return FormCoreServices.lookup().getFieldTypeManager();
     }
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
-            Field field = editor.getCurrentEditField();
+            Field field = getEditor(). getCurrentEditField();
             if (field == null) {
                 renderFragment("empty");
             } else {
@@ -72,8 +65,8 @@ public class FormFieldEditionFormatter extends FormRenderingFormatter {
     }
 
     public Form getFormularyForFieldEdition(Field field) throws Exception {
-        if (editor != null) {
-            return editor.getFormularyForFieldEdition(field);
+        if (getEditor() != null) {
+            return getEditor(). getFormularyForFieldEdition(field);
         }
         return null;
     }
@@ -82,8 +75,8 @@ public class FormFieldEditionFormatter extends FormRenderingFormatter {
         String fieldName = field.getFieldName();
         boolean isDecorator = field.getFieldName().startsWith(":");
         if (isDecorator) fieldName = "{" + fieldName + "}";
-        if(field.getLabel()!=null && (field.getLabel().getValue(((LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager")).getDefaultLang())!=null)){
-           fieldName =field.getLabel().getValue(((LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager")).getDefaultLang());
+        if(field.getLabel()!=null && (field.getLabel().getValue(getLocaleManager().getDefaultLang())!=null)){
+           fieldName =field.getLabel().getValue(getLocaleManager().getDefaultLang());
         }
         setAttribute("fieldName", fieldName);
         setAttribute("isDecorator", isDecorator);
@@ -105,7 +98,7 @@ public class FormFieldEditionFormatter extends FormRenderingFormatter {
     }
 
     protected String getFieldTypeToView() {
-        return editor.getFieldTypeToView();
+        return getEditor(). getFieldTypeToView();
     }
 
     protected void removeHiddenProperties(Set parametersNames) {
@@ -188,10 +181,10 @@ public class FormFieldEditionFormatter extends FormRenderingFormatter {
                 setAttribute("name", paramName);
                 renderFragment("outputName");
 
-                List suitableTypes = fieldTypesManager.getSuitableFieldTypes(paramName, propertyType);
+                List suitableTypes = getFieldTypesManager().getSuitableFieldTypes(paramName, propertyType);
                 if (suitableTypes != null && suitableTypes.size() > 0) {
                     FieldType pFtype = (FieldType) suitableTypes.get(0);
-                    FieldHandler fieldHandler = (FieldHandler) Factory.lookup(pFtype.getManagerClass());
+                    FieldHandler fieldHandler = getFieldHandlersManager().getHandler(pFtype);
                     String renderPage = fieldHandler.getPageToIncludeForRendering();
                     String displayPage = fieldHandler.getPageToIncludeForDisplaying();
                     renderFragment("beforeDefaultValue");
@@ -220,13 +213,5 @@ public class FormFieldEditionFormatter extends FormRenderingFormatter {
             }
             renderFragment("outputEnd");
         }
-    }
-
-    public FieldTypeManagerImpl getFieldTypesManager() {
-        return fieldTypesManager;
-    }
-
-    public void setFieldTypesManager(FieldTypeManagerImpl fieldTypesManager) {
-        this.fieldTypesManager = fieldTypesManager;
     }
 }

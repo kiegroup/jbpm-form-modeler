@@ -15,9 +15,12 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib.formatter;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
 import org.apache.commons.jxpath.JXPathContext;
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Array;
@@ -30,8 +33,8 @@ import java.util.*;
  * <ul>
  * <li> array. List of objects to render. Optional, but if it is empty or null, nothing is rendered.
  * <li> nullValue. Value to display for the null items in the list. Optional, if not set, the null item is rendered.
- * <li> factoryElement. If array is missing or null, and a Factory element is passed, use it as array.
- * <li> property. If array is missing or null, and factoryElement is specified, use this property as array to iterate.
+ * <li> bean. If array is missing or null, and a Factory element is passed, use it as array.
+ * <li> property. If array is missing or null, and bean is specified, use this property as array to iterate.
  * <li> sortProperties. If you want array properties to be sorted, use a string like "+property -property +property"
  * </ul>
  * <p/>
@@ -48,17 +51,20 @@ import java.util.*;
  * <li> empty.If the list is empty.
  * </ul>
  */
+@Named("org.jbpm.formModeler.service.mvc.formatters.ForFormatter")
 public class ForFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ForFormatter.class.getName());
+
+    @Inject
+    private Log log;
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         log.debug("Servicing ForFormatter.");
         Object array = getParameter("array");
         if (array == null) {
-            Object componentName = getParameter("factoryElement");
+            Object componentName = getParameter("bean");
             Object propertyName = getParameter("property");
             if (componentName != null) {
-                Object component = Factory.lookup((String) componentName);
+                Object component = CDIBeanLocator.getBeanByNameOrType((String) componentName);
                 array = component;
                 if (propertyName != null) {
                     JXPathContext ctx = JXPathContext.newContext(component);

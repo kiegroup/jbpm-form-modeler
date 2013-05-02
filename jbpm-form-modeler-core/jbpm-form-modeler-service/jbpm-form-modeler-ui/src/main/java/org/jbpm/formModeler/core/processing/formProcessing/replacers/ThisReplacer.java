@@ -17,7 +17,14 @@ package org.jbpm.formModeler.core.processing.formProcessing.replacers;
 
 import org.apache.commons.lang.StringUtils;
 
+import javax.enterprise.context.ApplicationScoped;
+
+/**
+ * Replaces the {$this} token on formula.
+ */
+@ApplicationScoped
 public class ThisReplacer implements FormulaReplacer {
+
     public static final String THIS_TOKEN = "{$this}";
 
     public String replace(FormulaReplacementContext ctx) {

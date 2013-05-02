@@ -25,6 +25,7 @@ import javax.servlet.jsp.JspTagException;
  * is retrieved from the ViewsManager object.
  */
 public class PaneTag extends javax.servlet.jsp.tagext.TagSupport {
+
     /**
      * Logger
      */
@@ -32,10 +33,6 @@ public class PaneTag extends javax.servlet.jsp.tagext.TagSupport {
 
     private String paneId = null;
 
-
-    /**
-     * @see javax.servlet.jsp.tagext.TagSupport
-     */
     public int doEndTag() throws JspException {
         try {
              pageContext.include("/formModeler/configuration/show.jsp");
@@ -45,12 +42,7 @@ public class PaneTag extends javax.servlet.jsp.tagext.TagSupport {
         return EVAL_PAGE;
     }
 
-
-    /**
-     * @see javax.servlet.jsp.tagext.TagSupport
-     */
     public int doStartTag() throws JspTagException {
-
         return SKIP_BODY;
     }
 

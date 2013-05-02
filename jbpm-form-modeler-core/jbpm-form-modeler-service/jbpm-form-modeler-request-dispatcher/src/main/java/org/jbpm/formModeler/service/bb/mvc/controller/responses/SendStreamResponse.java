@@ -16,11 +16,10 @@
 
 package org.jbpm.formModeler.service.bb.mvc.controller.responses;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
-import org.jbpm.formModeler.service.bb.mvc.Framework;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 import org.apache.commons.io.IOUtils;
+import org.jbpm.formModeler.service.bb.mvc.controller.HTTPSettings;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -134,7 +133,7 @@ public class SendStreamResponse implements CommandResponse {
         if (resetHeaders)
             res.reset(); //Remove everything, including headers. The stream is often a file that may be cached.
 
-        res.setHeader("Content-Encoding", ((Framework) Factory.lookup("org.jbpm.formModeler.service.mvc.Framework")).getFrameworkEncoding());
+        res.setHeader("Content-Encoding", HTTPSettings.lookup().getEncoding());
         if (contentDisposition != null) {
             res.setHeader("Content-Disposition", contentDisposition);
             log.debug("Content-Disposition = " + contentDisposition);

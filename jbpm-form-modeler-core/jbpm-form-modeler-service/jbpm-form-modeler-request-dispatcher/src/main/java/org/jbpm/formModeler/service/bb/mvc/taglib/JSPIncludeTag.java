@@ -15,7 +15,6 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
 import org.jbpm.formModeler.service.error.ErrorManager;
 import org.jbpm.formModeler.service.error.ErrorReport;
 import org.jbpm.formModeler.service.error.ErrorReportHandler;
@@ -83,7 +82,7 @@ public class JSPIncludeTag extends TagSupport {
         ErrorReport errorReport = ErrorManager.lookup().notifyError(t, true);
         try {
             // Display the error page.
-            ErrorReportHandler errorHandler = (ErrorReportHandler) Factory.lookup("org.jbpm.formModeler.service.error.JSPIncludeErrorHandler");
+            ErrorReportHandler errorHandler = ErrorReportHandler.lookup();
             errorHandler.setErrorReport(errorReport);
             errorHandler.setCloseEnabled(false);
             pageContext.getRequest().setAttribute("errorHandlerName", "org.jbpm.formModeler.service.error.JSPIncludeErrorHandler");

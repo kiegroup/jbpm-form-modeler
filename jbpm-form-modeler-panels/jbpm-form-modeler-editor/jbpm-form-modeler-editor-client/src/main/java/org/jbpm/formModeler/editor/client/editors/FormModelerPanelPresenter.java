@@ -69,8 +69,12 @@ public class FormModelerPanelPresenter {
         modelerService.call(new RemoteCallback<Long>() {
             @Override
             public void callback(Long formModel) {
-                setFormId(formModel);
-                notification.fire(new NotificationEvent("Model was loaded from server: " + formModel + " at time: " + new java.util.Date()));
+                if (formModel == null) {
+                    notification.fire(new NotificationEvent("Cannot load the form from server."));
+                } else {
+                    setFormId(formModel);
+                    notification.fire(new NotificationEvent("Model was loaded from server: " + formModel + " at time: " + new java.util.Date()));
+                }
             }
         }).loadForm(path);
 

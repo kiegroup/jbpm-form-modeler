@@ -1,7 +1,23 @@
+/**
+ * Copyright (C) 2012 JBoss Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.jbpm.formModeler.core.config;
 
-
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
 import org.apache.xerces.parsers.DOMParser;
 import org.jbpm.datamodeler.xml.util.XMLNode;
 import org.jbpm.formModeler.api.config.FieldTypeManager;
@@ -22,13 +38,10 @@ import javax.inject.Inject;
 import java.io.*;
 import java.util.*;
 
-
 @ApplicationScoped
 public class FormSerializationManagerImpl implements FormSerializationManager {
 
-
     public static final String NODE_FORM = "form";
-
     public static final String NODE_FIELD = "field";
     public static final String NODE_PROPERTY = "property";
     public static final String NODE_DATA_HOLDER = "dataHolder";
@@ -40,98 +53,91 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     public static final String ATTR_VALUE = "value";
 
     @Inject
-    FormManager formManager;
+    protected Log log;
 
     @Inject
-    FieldTypeManager fieldTypeManager;
+    protected FormManager formManager;
 
+    @Inject
+    protected FieldTypeManager fieldTypeManager;
 
-    @Override
     public String generateFormXML(Form form) {
         XMLNode rootNode = new XMLNode(NODE_FORM, null);
 
        // TestFormSerialization test = new TestFormSerialization();
        // test.saveFormToLocalDrive(form);
 
-        return generateFormXML(form, rootNode);
-    }
-
-    @Override
-    public Form loadFormFromXML(String xml) {
         try {
-            if (xml == null || xml.trim().equals("")) return null;
-
-            DOMParser parser = new DOMParser();
-            parser.parse(new InputSource(new StringReader(xml)));
-            Document doc = parser.getDocument();
-            NodeList nodes = doc.getElementsByTagName(NODE_FORM);
-            Node rootNode = nodes.item(0); // only comes a form
-            return deserializeForm(rootNode);
-
+            return generateFormXML(form, rootNode);
         } catch (Exception e) {
-
+            log.error("Error serializing form to XML.", e);
+            return "";
         }
-        return null;
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    public Form loadFormFromXML(String xml) throws Exception {
+        if (StringUtils.isBlank(xml)) return null;
+        return loadFormFromXML(new InputSource(new StringReader(xml)));
+    }
 
-    public Form deserializeForm(Node nodeForm) {
+    public Form loadFormFromXML(InputStream is) throws Exception {
+        return loadFormFromXML(new InputSource(is));
+    }
 
-        try {
-            if (nodeForm.getNodeName().equals(NODE_FORM)) {
-                Form form = formManager.createForm("");
-                NodeList childNodes = nodeForm.getChildNodes();
+    public Form loadFormFromXML(InputSource source) throws Exception {
+        DOMParser parser = new DOMParser();
+        parser.parse(source);
+        Document doc = parser.getDocument();
+        NodeList nodes = doc.getElementsByTagName(NODE_FORM);
+        Node rootNode = nodes.item(0); // only comes a form
+        return deserializeForm(rootNode);
+    }
 
-                form.setId(Long.valueOf(StringEscapeUtils.unescapeXml(nodeForm.getAttributes().getNamedItem(ATTR_ID).getNodeValue())));
+    public Form deserializeForm(Node nodeForm) throws Exception {
+        if (!nodeForm.getNodeName().equals(NODE_FORM)) return null;
 
-                Set<Field> fields = new TreeSet<Field>();
+        Form form = formManager.createForm("");
+        form.setId(Long.valueOf(StringEscapeUtils.unescapeXml(nodeForm.getAttributes().getNamedItem(ATTR_ID).getNodeValue())));
 
-                for (int i = 0; i < childNodes.getLength(); i++) {
-                    Node node = childNodes.item(i);
-                    if (node.getNodeName().equals(NODE_PROPERTY)) {
-                        String propName = node.getAttributes().getNamedItem(ATTR_NAME).getNodeValue();
-                        String value = StringEscapeUtils.unescapeXml(node.getAttributes().getNamedItem(ATTR_VALUE).getNodeValue());
-                        if ("subject".equals(propName)) {
-                            form.setSubject(value);
-                        } else if ("name".equals(propName)) {
-                            form.setName(value);
-                        } else if ("displayMode".equals(propName)) {
-                            form.setDisplayMode(value);
-                        } else if ("labelMode".equals(propName)) {
-                            form.setLabelMode(value);
-                        } else if ("showMode".equals(propName)) {
-                            form.setShowMode(value);
-                        } else if ("status".equals(propName)) {
-                            form.setStatus(Long.valueOf(value));
-                        } else if ("formTemplate".equals(propName)) {
-                            form.setFormTemplate(value);
-                        }
-                    } else if (node.getNodeName().equals(NODE_FIELD)) {
-                        Field field = deserializeField(node);
-                        field.setForm(form);
-                        fields.add(field);
-                    } else if (node.getNodeName().equals(NODE_DATA_HOLDER)) {
-
-                        String holderId =node.getAttributes().getNamedItem(ATTR_ID).getNodeValue();
-                        String holderType =node.getAttributes().getNamedItem(ATTR_TYPE).getNodeValue();
-                        String holderValue =node.getAttributes().getNamedItem(ATTR_VALUE).getNodeValue();
-                        String holderRenderColor =node.getAttributes().getNamedItem(ATTR_NAME).getNodeValue();
-                        if(holderId!=null && holderType!=null && holderValue!=null){
-                            form.setDataHolder(holderId,holderType,holderValue,holderRenderColor);
-                        }
-
-                    }
+        Set<Field> fields = new TreeSet<Field>();
+        NodeList childNodes = nodeForm.getChildNodes();
+        for (int i = 0; i < childNodes.getLength(); i++) {
+            Node node = childNodes.item(i);
+            if (node.getNodeName().equals(NODE_PROPERTY)) {
+                String propName = node.getAttributes().getNamedItem(ATTR_NAME).getNodeValue();
+                String value = StringEscapeUtils.unescapeXml(node.getAttributes().getNamedItem(ATTR_VALUE).getNodeValue());
+                if ("subject".equals(propName)) {
+                    form.setSubject(value);
+                } else if ("name".equals(propName)) {
+                    form.setName(value);
+                } else if ("displayMode".equals(propName)) {
+                    form.setDisplayMode(value);
+                } else if ("labelMode".equals(propName)) {
+                    form.setLabelMode(value);
+                } else if ("showMode".equals(propName)) {
+                    form.setShowMode(value);
+                } else if ("status".equals(propName)) {
+                    form.setStatus(Long.valueOf(value));
+                } else if ("formTemplate".equals(propName)) {
+                    form.setFormTemplate(value);
                 }
-                if (fields != null)
-                    form.setFormFields(fields);
-                return form;
-            }
-        } catch (Exception e) {
-            System.out.println("error " + e);
-        }
-        return null;
+            } else if (node.getNodeName().equals(NODE_FIELD)) {
+                Field field = deserializeField(node);
+                field.setForm(form);
+                fields.add(field);
+            } else if (node.getNodeName().equals(NODE_DATA_HOLDER)) {
 
+                String holderId =node.getAttributes().getNamedItem(ATTR_ID).getNodeValue();
+                String holderType =node.getAttributes().getNamedItem(ATTR_TYPE).getNodeValue();
+                String holderValue =node.getAttributes().getNamedItem(ATTR_VALUE).getNodeValue();
+                String holderRenderColor =node.getAttributes().getNamedItem(ATTR_NAME).getNodeValue();
+                if(holderId!=null && holderType!=null && holderValue!=null){
+                    form.setDataHolder(holderId,holderType,holderValue,holderRenderColor);
+                }
+            }
+        }
+        if (fields != null) form.setFormFields(fields);
+        return form;
     }
 
 
@@ -145,178 +151,151 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     }
 
 
-    /*
-    Generates the xml representation and mount in rootNode the structure to be included
-    Fills the XMLNode structure with the form representation and returns the string
+    /**
+     * Generates the xml representation and mount in rootNode the structure to be included.
+     * Fills the XMLNode structure with the form representation and returns the string.
     */
-    public String generateFormXML(Form form, XMLNode rootNode) {
-        try {
-            rootNode.addAttribute(ATTR_ID, form.getId().toString());
+    public String generateFormXML(Form form, XMLNode rootNode) throws Exception {
+        rootNode.addAttribute(ATTR_ID, form.getId().toString());
 
-            addXMLNode("subject", form.getSubject(), rootNode);
-            addXMLNode("name", form.getName(), rootNode);
-            addXMLNode("displayMode", form.getDisplayMode(), rootNode);
-            addXMLNode("labelMode", form.getLabelMode(), rootNode);
-            addXMLNode("showMode", form.getShowMode(), rootNode);
-            addXMLNode("status", (form.getStatus() != null ? String.valueOf(form.getStatus()) : null), rootNode);
-            addXMLNode("formTemplate", form.getFormTemplate(), rootNode);
+        addXMLNode("subject", form.getSubject(), rootNode);
+        addXMLNode("name", form.getName(), rootNode);
+        addXMLNode("displayMode", form.getDisplayMode(), rootNode);
+        addXMLNode("labelMode", form.getLabelMode(), rootNode);
+        addXMLNode("showMode", form.getShowMode(), rootNode);
+        addXMLNode("status", (form.getStatus() != null ? String.valueOf(form.getStatus()) : null), rootNode);
+        addXMLNode("formTemplate", form.getFormTemplate(), rootNode);
 
-            for (Field field: form.getFormFields()) {
-                generateFieldXML(field, rootNode);
-            }
-
-            for (DataHolder dataHolder: form.getHolders()) {
-                generateDataHolderXML(dataHolder, rootNode);
-            }
-
-            StringWriter sw = new StringWriter();
-            rootNode.writeXML(sw, true);
-
-            return sw.toString();
-        } catch (Exception e) {
-
+        for (Field field: form.getFormFields()) {
+            generateFieldXML(field, rootNode);
         }
 
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        for (DataHolder dataHolder: form.getHolders()) {
+            generateDataHolderXML(dataHolder, rootNode);
+        }
+
+        StringWriter sw = new StringWriter();
+        rootNode.writeXML(sw, true);
+
+        return sw.toString();
     }
-    public Field deserializeField(Node nodeField) {
 
-        try {
-            if (nodeField.getNodeName().equals(NODE_FIELD)) {
+    public Field deserializeField(Node nodeField) throws Exception {
+        if (!nodeField.getNodeName().equals(NODE_FIELD)) return null;
 
-                Field field = new Field();
-                field.setId(Long.valueOf(nodeField.getAttributes().getNamedItem(ATTR_ID).getNodeValue()));
-                field.setFieldName(nodeField.getAttributes().getNamedItem(ATTR_NAME).getNodeValue());
-                field.setPosition(Integer.parseInt(nodeField.getAttributes().getNamedItem(ATTR_POSITION).getNodeValue()));
-                field.setFieldType(fieldTypeManager.getTypeByCode(nodeField.getAttributes().getNamedItem(ATTR_TYPE).getNodeValue()));
+        Field field = new Field();
+        field.setId(Long.valueOf(nodeField.getAttributes().getNamedItem(ATTR_ID).getNodeValue()));
+        field.setFieldName(nodeField.getAttributes().getNamedItem(ATTR_NAME).getNodeValue());
+        field.setPosition(Integer.parseInt(nodeField.getAttributes().getNamedItem(ATTR_POSITION).getNodeValue()));
+        field.setFieldType(fieldTypeManager.getTypeByCode(nodeField.getAttributes().getNamedItem(ATTR_TYPE).getNodeValue()));
 
-                NodeList fieldPropsNodes = nodeField.getChildNodes();
-                for (int j = 0; j < fieldPropsNodes.getLength(); j++) {
-                    Node nodeFieldProp = fieldPropsNodes.item(j);
-                    if (nodeFieldProp.getNodeName().equals(NODE_PROPERTY)) {
-                        String propName = nodeFieldProp.getAttributes().getNamedItem(ATTR_NAME).getNodeValue();
-                        String value = StringEscapeUtils.unescapeXml(nodeFieldProp.getAttributes().getNamedItem(ATTR_VALUE).getNodeValue());
-                        if (propName != null && value != null) {
-                            if ("fieldName".equals(propName)) {
-                                field.setFieldName(value);
-                            } else if ("fieldRequired".equals(propName)) {
-                                field.setFieldRequired(Boolean.valueOf(value));
-                            } else if ("groupWithPrevious".equals(propName)) {
-                                field.setGroupWithPrevious(Boolean.valueOf(value));
-                            } else if ("height".equals(propName)) {
-                                field.setHeight(value);
-                            } else if ("labelCSSClass".equals(propName)) {
-                                field.setLabelCSSClass(value);
-                            } else if ("labelCSSStyle".equals(propName)) {
-                                field.setLabelCSSStyle(value);
-                            } else if ("label".equals(propName)) {
-                                field.setLabel(deserializeI18nEntrySet(value));
-                            } else if ("errorMessage".equals(propName)) {
-                                field.setErrorMessage(deserializeI18nEntrySet(value));
-                            } else if ("title".equals(propName)) {
-                                field.setTitle(deserializeI18nEntrySet(value));
-                            } else if ("disabled".equals(propName)) {
-                                field.setDisabled(Boolean.valueOf(value));
-                            } else if ("readonly".equals(propName)) {
-                                field.setReadonly(Boolean.valueOf(value));
-                            } else if ("size".equals(propName)) {
-                                field.setSize(value);
-                            } else if ("formula".equals(propName)) {
-                                field.setFormula(value);
-                            } else if ("rangeFormula".equals(propName)) {
-                                field.setRangeFormula(value);
-                            } else if ("pattern".equals(propName)) {
-                                field.setPattern(value);
-                            } else if ("maxlength".equals(propName)) {
-                                field.setMaxlength(Long.valueOf(value));
-                            } else if ("styleclass".equals(propName)) {
-                                field.setStyleclass(value);
-                            } else if ("cssStyle".equals(propName)) {
-                                field.setCssStyle(value);
-                            } else if ("tabindex".equals(propName)) {
-                                field.setTabindex(Long.valueOf(value));
-                            } else if ("accesskey".equals(propName)) {
-                                field.setAccesskey(value);
-                            }  else if ("htmlContainer".equals(propName)) {
-                                field.setHtmlContainer(value);
-                            } else if ("isHTML".equals(propName)) {
-                                field.setIsHTML(Boolean.valueOf(value));
-                            } else if ("hideContent".equals(propName)) {
-                                field.setHideContent(Boolean.valueOf(value));
-                            }  else if ("defaultValueFormula".equals(propName)) {
-                                field.setDefaultValueFormula(value);
-                            }
-                        }
+        NodeList fieldPropsNodes = nodeField.getChildNodes();
+        for (int j = 0; j < fieldPropsNodes.getLength(); j++) {
+            Node nodeFieldProp = fieldPropsNodes.item(j);
+            if (nodeFieldProp.getNodeName().equals(NODE_PROPERTY)) {
+                String propName = nodeFieldProp.getAttributes().getNamedItem(ATTR_NAME).getNodeValue();
+                String value = StringEscapeUtils.unescapeXml(nodeFieldProp.getAttributes().getNamedItem(ATTR_VALUE).getNodeValue());
+                if (propName != null && value != null) {
+                    if ("fieldName".equals(propName)) {
+                        field.setFieldName(value);
+                    } else if ("fieldRequired".equals(propName)) {
+                        field.setFieldRequired(Boolean.valueOf(value));
+                    } else if ("groupWithPrevious".equals(propName)) {
+                        field.setGroupWithPrevious(Boolean.valueOf(value));
+                    } else if ("height".equals(propName)) {
+                        field.setHeight(value);
+                    } else if ("labelCSSClass".equals(propName)) {
+                        field.setLabelCSSClass(value);
+                    } else if ("labelCSSStyle".equals(propName)) {
+                        field.setLabelCSSStyle(value);
+                    } else if ("label".equals(propName)) {
+                        field.setLabel(deserializeI18nEntrySet(value));
+                    } else if ("errorMessage".equals(propName)) {
+                        field.setErrorMessage(deserializeI18nEntrySet(value));
+                    } else if ("title".equals(propName)) {
+                        field.setTitle(deserializeI18nEntrySet(value));
+                    } else if ("disabled".equals(propName)) {
+                        field.setDisabled(Boolean.valueOf(value));
+                    } else if ("readonly".equals(propName)) {
+                        field.setReadonly(Boolean.valueOf(value));
+                    } else if ("size".equals(propName)) {
+                        field.setSize(value);
+                    } else if ("formula".equals(propName)) {
+                        field.setFormula(value);
+                    } else if ("rangeFormula".equals(propName)) {
+                        field.setRangeFormula(value);
+                    } else if ("pattern".equals(propName)) {
+                        field.setPattern(value);
+                    } else if ("maxlength".equals(propName)) {
+                        field.setMaxlength(Long.valueOf(value));
+                    } else if ("styleclass".equals(propName)) {
+                        field.setStyleclass(value);
+                    } else if ("cssStyle".equals(propName)) {
+                        field.setCssStyle(value);
+                    } else if ("tabindex".equals(propName)) {
+                        field.setTabindex(Long.valueOf(value));
+                    } else if ("accesskey".equals(propName)) {
+                        field.setAccesskey(value);
+                    }  else if ("htmlContainer".equals(propName)) {
+                        field.setHtmlContainer(value);
+                    } else if ("isHTML".equals(propName)) {
+                        field.setIsHTML(Boolean.valueOf(value));
+                    } else if ("hideContent".equals(propName)) {
+                        field.setHideContent(Boolean.valueOf(value));
+                    }  else if ("defaultValueFormula".equals(propName)) {
+                        field.setDefaultValueFormula(value);
                     }
                 }
-                return field;
             }
-        } catch (Exception e) {
-            System.out.println("excepcion"+ e);
         }
-        return null;
+        return field;
     }
 
-
-
-
     public void generateFieldXML(Field field, XMLNode parent) {
-        try {
-            XMLNode rootNode = new XMLNode(NODE_FIELD, parent);
-            rootNode.addAttribute(ATTR_ID, String.valueOf(field.getId()));
-            rootNode.addAttribute(ATTR_POSITION, String.valueOf(field.getPosition()));
-            rootNode.addAttribute(ATTR_NAME, field.getFieldName());
-            if (field.getFieldType() != null)
-                rootNode.addAttribute(ATTR_TYPE, field.getFieldType().getCode());
-
-            addXMLNode("fieldName", field.getFieldName(), rootNode);
-            addXMLNode("fieldRequired", (field.getFieldRequired() != null ? String.valueOf(field.getFieldRequired()) : null), rootNode);
-            addXMLNode("groupWithPrevious", (field.getGroupWithPrevious() != null ? String.valueOf(field.getGroupWithPrevious()) : null), rootNode);
-            addXMLNode("height", field.getHeight(), rootNode);
-            addXMLNode("labelCSSClass", field.getLabelCSSClass(), rootNode);
-            addXMLNode("labelCSSStyle", field.getLabelCSSStyle(), rootNode);
-            addXMLNode("label", (field.getLabel() != null ? serializeI18nSet(field.getLabel()) : null), rootNode);
-            addXMLNode("errorMessage", (field.getErrorMessage() != null ? serializeI18nSet(field.getErrorMessage()) : null), rootNode);
-            addXMLNode("title", (field.getTitle() != null ? serializeI18nSet(field.getTitle()) : null), rootNode);
-            addXMLNode("disabled", (field.getDisabled() != null ? String.valueOf(field.getDisabled()) : null), rootNode);
-            addXMLNode("readonly", (field.getReadonly() != null ? String.valueOf(field.getReadonly()) : null), rootNode);
-            addXMLNode("size", field.getSize(), rootNode);
-            addXMLNode("formula", field.getFormula(), rootNode);
-            addXMLNode("rangeFormula", field.getRangeFormula(), rootNode);
-            addXMLNode("pattern", field.getPattern(), rootNode);
-            addXMLNode("maxlength", (field.getMaxlength() != null ? String.valueOf(field.getMaxlength()) : null), rootNode);
-            addXMLNode("styleclass", field.getStyleclass(), rootNode);
-            addXMLNode("cssStyle", field.getCssStyle(), rootNode);
-            addXMLNode("tabindex", (field.getTabindex() != null ? String.valueOf(field.getTabindex()) : null), rootNode);
-            addXMLNode("accesskey", field.getAccesskey(), rootNode);
-            addXMLNode("isHTML", (field.getIsHTML() != null ? String.valueOf(field.getIsHTML()) : null), rootNode);
-            addXMLNode("hideContent", (field.getHideContent() != null ? String.valueOf(field.getHideContent()) : null), rootNode);
-            addXMLNode("htmlContainer", field.getHtmlContainer(), rootNode);
-            addXMLNode("defaultValueFormula", field.getDefaultValueFormula(), rootNode);
-
-            parent.addChild(rootNode);
-
-        } catch (Exception e) {
-
+        XMLNode rootNode = new XMLNode(NODE_FIELD, parent);
+        rootNode.addAttribute(ATTR_ID, String.valueOf(field.getId()));
+        rootNode.addAttribute(ATTR_POSITION, String.valueOf(field.getPosition()));
+        rootNode.addAttribute(ATTR_NAME, field.getFieldName());
+        if (field.getFieldType() != null) {
+            rootNode.addAttribute(ATTR_TYPE, field.getFieldType().getCode());
         }
 
+        addXMLNode("fieldName", field.getFieldName(), rootNode);
+        addXMLNode("fieldRequired", (field.getFieldRequired() != null ? String.valueOf(field.getFieldRequired()) : null), rootNode);
+        addXMLNode("groupWithPrevious", (field.getGroupWithPrevious() != null ? String.valueOf(field.getGroupWithPrevious()) : null), rootNode);
+        addXMLNode("height", field.getHeight(), rootNode);
+        addXMLNode("labelCSSClass", field.getLabelCSSClass(), rootNode);
+        addXMLNode("labelCSSStyle", field.getLabelCSSStyle(), rootNode);
+        addXMLNode("label", (field.getLabel() != null ? serializeI18nSet(field.getLabel()) : null), rootNode);
+        addXMLNode("errorMessage", (field.getErrorMessage() != null ? serializeI18nSet(field.getErrorMessage()) : null), rootNode);
+        addXMLNode("title", (field.getTitle() != null ? serializeI18nSet(field.getTitle()) : null), rootNode);
+        addXMLNode("disabled", (field.getDisabled() != null ? String.valueOf(field.getDisabled()) : null), rootNode);
+        addXMLNode("readonly", (field.getReadonly() != null ? String.valueOf(field.getReadonly()) : null), rootNode);
+        addXMLNode("size", field.getSize(), rootNode);
+        addXMLNode("formula", field.getFormula(), rootNode);
+        addXMLNode("rangeFormula", field.getRangeFormula(), rootNode);
+        addXMLNode("pattern", field.getPattern(), rootNode);
+        addXMLNode("maxlength", (field.getMaxlength() != null ? String.valueOf(field.getMaxlength()) : null), rootNode);
+        addXMLNode("styleclass", field.getStyleclass(), rootNode);
+        addXMLNode("cssStyle", field.getCssStyle(), rootNode);
+        addXMLNode("tabindex", (field.getTabindex() != null ? String.valueOf(field.getTabindex()) : null), rootNode);
+        addXMLNode("accesskey", field.getAccesskey(), rootNode);
+        addXMLNode("isHTML", (field.getIsHTML() != null ? String.valueOf(field.getIsHTML()) : null), rootNode);
+        addXMLNode("hideContent", (field.getHideContent() != null ? String.valueOf(field.getHideContent()) : null), rootNode);
+        addXMLNode("htmlContainer", field.getHtmlContainer(), rootNode);
+        addXMLNode("defaultValueFormula", field.getDefaultValueFormula(), rootNode);
+
+        parent.addChild(rootNode);
     }
 
     public void generateDataHolderXML(DataHolder dataHolder, XMLNode parent) {
-        try {
-            XMLNode rootNode = new XMLNode(NODE_DATA_HOLDER, parent);
-            rootNode.addAttribute(ATTR_ID, String.valueOf(dataHolder.getId()));
-            rootNode.addAttribute(ATTR_TYPE, String.valueOf(dataHolder.getTypeCode()));
-            rootNode.addAttribute(ATTR_VALUE, String.valueOf(dataHolder.getInfo()));
-            rootNode.addAttribute(ATTR_NAME, String.valueOf(dataHolder.getRenderColor()));
+        XMLNode rootNode = new XMLNode(NODE_DATA_HOLDER, parent);
+        rootNode.addAttribute(ATTR_ID, String.valueOf(dataHolder.getId()));
+        rootNode.addAttribute(ATTR_TYPE, String.valueOf(dataHolder.getTypeCode()));
+        rootNode.addAttribute(ATTR_VALUE, String.valueOf(dataHolder.getInfo()));
+        rootNode.addAttribute(ATTR_NAME, String.valueOf(dataHolder.getRenderColor()));
 
-            parent.addChild(rootNode);
-
-
-        } catch (Exception e) {
-
-        }
-
+        parent.addChild(rootNode);
     }
 
     protected String[] decodeStringArray(String textValue) {
@@ -364,7 +343,5 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
 
         }
         return new I18nSet(mapValues);
-
     }
-
 }

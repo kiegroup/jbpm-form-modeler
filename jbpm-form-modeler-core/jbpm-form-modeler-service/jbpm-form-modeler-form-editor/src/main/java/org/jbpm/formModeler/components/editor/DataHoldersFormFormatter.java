@@ -15,47 +15,38 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.model.*;
 import org.jbpm.formModeler.api.processing.BindingManager;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
-/**
- *
- */
 public class DataHoldersFormFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DataHoldersFormFormatter.class.getName());
 
-    private WysiwygFormEditor wysiwygFormEditor;
-
-
-    public WysiwygFormEditor getWysiwygFormEditor() {
-        return wysiwygFormEditor;
-    }
-
-    public void setWysiwygFormEditor(WysiwygFormEditor editor) {
-        this.wysiwygFormEditor = editor;
-    }
+    @Inject
+    private Log log;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
-        if(WysiwygFormEditor.EDITION_OPTION_BINDINGS_FIELDS.equals(wysiwygFormEditor.getCurrentEditionOption())){
-            renderPendingFields();
-        }else {
-            renderDataHolders();
-        }
+            WysiwygFormEditor wysiwygFormEditor = WysiwygFormEditor.lookup();
+            if (WysiwygFormEditor.EDITION_OPTION_BINDINGS_FIELDS.equals(wysiwygFormEditor.getCurrentEditionOption())){
+                renderPendingFields();
+            } else {
+                renderDataHolders();
+            }
         }catch (Exception e){
             log.error(" DataHoldersFormFormatter rendering error");
         }
     }
 
     public void renderDataHolders(){
-
+        WysiwygFormEditor wysiwygFormEditor = WysiwygFormEditor.lookup();
         try {
             renderFragment("outputStart");
 
@@ -79,10 +70,10 @@ public class DataHoldersFormFormatter extends Formatter {
         } catch (Exception e) {
             log.error("Error:", e);
         }
-
     }
 
     public void renderPendingFields() throws Exception {
+        WysiwygFormEditor wysiwygFormEditor = WysiwygFormEditor.lookup();
         Form form = wysiwygFormEditor.getCurrentForm();
         Set<DataHolder> holders=form.getHolders();
         BindingManager bindingManager = wysiwygFormEditor.getBindingManager();
@@ -127,16 +118,14 @@ public class DataHoldersFormFormatter extends Formatter {
         renderFragment("outputEnd");
     }
     public void renderAddField(String fieldName, FieldType type,String bindingId){
-            setAttribute("typeName", type.getCode());
-            setAttribute("bindingId", bindingId);
-            setAttribute("showFieldName", ((fieldName!=null && fieldName.length()<17) ? fieldName: fieldName.substring(0,13) +"..."));
+        WysiwygFormEditor wysiwygFormEditor = WysiwygFormEditor.lookup();
 
-            setAttribute("iconUri", wysiwygFormEditor.getFieldTypesManager().getIconPathForCode(type.getCode()));
-            setAttribute("fieldName", fieldName);
-            renderFragment("outputField");
+        setAttribute("typeName", type.getCode());
+        setAttribute("bindingId", bindingId);
+        setAttribute("showFieldName", ((fieldName!=null && fieldName.length()<17) ? fieldName: fieldName.substring(0,13) +"..."));
+
+        setAttribute("iconUri", wysiwygFormEditor.getFieldTypesManager().getIconPathForCode(type.getCode()));
+        setAttribute("fieldName", fieldName);
+        renderFragment("outputField");
     }
-
-
-
-
 }

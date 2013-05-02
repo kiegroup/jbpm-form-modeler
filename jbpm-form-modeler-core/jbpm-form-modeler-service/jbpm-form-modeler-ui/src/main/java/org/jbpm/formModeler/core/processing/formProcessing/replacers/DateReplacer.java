@@ -15,8 +15,13 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing.replacers;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.text.SimpleDateFormat;
 
+/**
+ * Replaces the {$date(format)} token on formula.
+ */
+@ApplicationScoped
 public class DateReplacer implements FormulaReplacer {
 
     public String replace(FormulaReplacementContext ctx) {

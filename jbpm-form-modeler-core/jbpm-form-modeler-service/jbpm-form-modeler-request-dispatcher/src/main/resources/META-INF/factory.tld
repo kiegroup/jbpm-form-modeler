@@ -70,28 +70,6 @@
     </tag>
 
     <tag>
-        <name>setProperty</name>
-        <tagclass>org.jbpm.formModeler.service.bb.mvc.taglib.factory.SetPropertyTag</tagclass>
-        <bodycontent>empty</bodycontent>
-        <info></info>
-        <attribute>
-            <name>bean</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>property</name>
-            <required>true</required>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>propValue</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-    </tag>
-
-    <tag>
         <name>handler</name>
         <tagclass>org.jbpm.formModeler.service.bb.mvc.taglib.factory.HandlerTag</tagclass>
         <bodycontent>empty</bodycontent>

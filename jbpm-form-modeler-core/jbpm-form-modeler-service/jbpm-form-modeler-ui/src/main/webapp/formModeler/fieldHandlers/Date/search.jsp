@@ -18,7 +18,7 @@
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.DateFieldHandler" %>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager" %>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>

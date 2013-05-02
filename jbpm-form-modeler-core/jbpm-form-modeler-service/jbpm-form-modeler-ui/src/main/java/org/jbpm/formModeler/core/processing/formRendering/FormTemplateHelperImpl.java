@@ -15,9 +15,9 @@
  */
 package org.jbpm.formModeler.core.processing.formRendering;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
 import org.jbpm.formModeler.api.processing.formRendering.FormTemplateHelper;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -25,8 +25,8 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 
-public class FormTemplateHelperImpl extends BasicFactoryElement implements FormTemplateHelper {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormTemplateHelperImpl.class.getName());
+@ApplicationScoped
+public class FormTemplateHelperImpl implements FormTemplateHelper {
 
     public static final MessageFormat fieldMsgFormat = new MessageFormat(FIELD_FORMAT);
     public static final MessageFormat labelMsgFormat = new MessageFormat(LABEL_FORMAT);

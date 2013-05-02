@@ -15,10 +15,10 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib.factory;
 
-import org.jbpm.formModeler.service.bb.mvc.components.handling.UIComponentHandlerFactoryElement;
+import org.jbpm.formModeler.service.bb.mvc.components.handling.UIBeanHandler;
 
 public class GenericFactoryTag extends javax.servlet.jsp.tagext.BodyTagSupport {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(GenericFactoryTag.class.getName());
+
     private String bean;
     private String action;
     private String property;
@@ -33,9 +33,9 @@ public class GenericFactoryTag extends javax.servlet.jsp.tagext.BodyTagSupport {
 
     public String getBean() {
         if (bean == null) {
-            UIComponentHandlerFactoryElement currentComponent = (UIComponentHandlerFactoryElement) pageContext.getRequest().getAttribute(UseComponentTag.COMPONENT_ATTR_NAME);
+            UIBeanHandler currentComponent = (UIBeanHandler) pageContext.getRequest().getAttribute(UseComponentTag.COMPONENT_ATTR_NAME);
             if (currentComponent != null) {
-                return currentComponent.getName();
+                return currentComponent.getBeanName();
             }
         }
         return bean;
