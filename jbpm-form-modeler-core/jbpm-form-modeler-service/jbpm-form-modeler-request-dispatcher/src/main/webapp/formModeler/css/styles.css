@@ -428,6 +428,10 @@ div.GlobalBreadCrump {
     padding: 10px;
 }
 
+.FormProperties .skn-input {
+    width: 190px;
+}
+
 .horizontal_drop_area {
     cursor: pointer;
     height:10px;
