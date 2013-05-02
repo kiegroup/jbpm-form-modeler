@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
@@ -24,13 +25,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 public class FieldPropertyTooltipFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FieldPropertyTooltipFormatter.class.getName());
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         Field field = (Field) getParameter("field");
         Map fieldTitle = field.getTitle();
         if (fieldTitle != null) {
-            String help = (String)getLocalizedValue(fieldTitle);
+            String help = (String) LocaleManager.lookup().localize(fieldTitle);
             if (help != null && !"".equals(help.trim())) {
                 setAttribute("help", help);
                 renderFragment("output");

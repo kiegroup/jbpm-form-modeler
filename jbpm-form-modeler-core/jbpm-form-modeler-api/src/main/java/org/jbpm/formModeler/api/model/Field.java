@@ -86,10 +86,6 @@ public class Field implements Comparable<Field> {
         return this.id;
     }
 
-    public String getItemClassName() {
-        return Field.class.getName();
-    }
-
     public void setId(Long id) {
         this.id = id;
     }

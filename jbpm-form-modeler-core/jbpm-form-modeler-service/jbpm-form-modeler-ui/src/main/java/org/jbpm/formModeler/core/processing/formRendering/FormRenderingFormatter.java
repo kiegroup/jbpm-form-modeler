@@ -15,12 +15,16 @@
  */
 package org.jbpm.formModeler.core.processing.formRendering;
 
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.api.config.FormManager;
+import org.jbpm.formModeler.core.FieldHandlersManager;
+import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.UIDGenerator;
+import org.jbpm.formModeler.core.processing.FormProcessingServices;
+import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.MessagesComponentHandler;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
-import org.jbpm.formModeler.core.config.FormManagerImpl;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.FormDisplayInfo;
@@ -29,18 +33,17 @@ import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.processing.FieldHandler;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 import org.jbpm.formModeler.api.processing.FormStatusData;
-import org.jbpm.formModeler.api.processing.formRendering.FormTemplateHelper;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
 import java.util.*;
 
 /**
- *
+ * Renders a form.
  */
 public class FormRenderingFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormRenderingFormatter.class.getName());
 
     public static final String ATTR_FIELD = "_ddm_currentField";
     public static final String ATTR_NAMESPACE = "_ddm_currentNamespace";
@@ -49,103 +52,58 @@ public class FormRenderingFormatter extends Formatter {
     public static final String ATTR_NAME = "_ddm_currentName";
     public static final String ATTR_FIELD_IS_WRONG = "_ddm_currentFieldIsWrong";
     public static final String ATTR_FORM_RENDER_MODE = "_ddm_current_renderMode";
-
     public static final String ATTR_VALUE_IS_DYNAMIC_OBJECT = "_ddm_valueIsObject";
     public static final String ATTR_VALUE_IS_DYNAMIC_OBJECT_ARRAY = "_ddm_valueIsObjectArray";
     public static final String ATTR_DYNAMIC_OBJECT_ID = "_ddm_currentValueIds";
     public static final String ATTR_DYNAMIC_OBJECT_ENTITY_NAME = "_ddm_currentValueEntityName";
-
     public static final String ATTR_FIELD_IS_DISABLED = "_ddm_fieldIsDisabled";
     public static final String ATTR_FIELD_IS_READONLY = "_ddm_fieldIsReadonly";
-
     public static final String FIELD_CONTAINER_STYLE = "padding-top: 3px; padding-right:3px;";
-
     public static final String TEMPLATE_FIELD_TOKEN = "$field";
     public static final String TEMPLATE_LABEL_TOKEN = "$label";
 
-    private String errorsPage;
-    private FormManagerImpl formManagerImpl;
-    private FormProcessor defaultFormProcessor;
-    private FormErrorMessageBuilder formErrorMessageBuilder;
-    private CustomRenderingInfo renderInfo;
-    private UIDGenerator uidGenerator;
-    private MessagesComponentHandler messagesComponentHandler;
+    @Inject
+    private Log log;
 
-    private FormTemplateHelper formTemplateHelper;
+    @Inject
+    private FormErrorMessageBuilder formErrorMessageBuilder;
+
+    @Inject @Config("/formModeler/defaultFormErrors.jsp")
+    private String errorsPage;
 
     private String[] formModes = new String[]{Form.RENDER_MODE_FORM, Form.RENDER_MODE_WYSIWYG_FORM};
     private String[] displayModes = new String[]{Form.RENDER_MODE_DISPLAY, Form.RENDER_MODE_WYSIWYG_DISPLAY};
 
-    protected Form formToPaint;
-    protected String namespace;
-    protected String renderMode;
-    protected Boolean isDisabled = Boolean.FALSE;
-    protected Boolean isReadonly = Boolean.FALSE;
-    protected Long objectIdToLoad = null;
-
-    @Override
-    public void start() throws Exception {
-        super.start();
-        formManagerImpl = FormManagerImpl.lookup();
-    }
+    protected transient Form formToPaint;
+    protected transient String namespace;
+    protected transient String renderMode;
+    protected transient Boolean isDisabled = Boolean.FALSE;
+    protected transient Boolean isReadonly = Boolean.FALSE;
+    protected transient Long objectIdToLoad = null;
 
     public UIDGenerator getUidGenerator() {
-        return uidGenerator;
+        return UIDGenerator.lookup();
     }
 
-    public void setUidGenerator(UIDGenerator uidGenerator) {
-        this.uidGenerator = uidGenerator;
+    public FormManager getFormManager() {
+        return FormCoreServices.lookup().getFormManager();
     }
 
-    public FormManagerImpl getFormManager() {
-        return formManagerImpl;
+    public FormProcessor getFormProcessor() {
+        return FormProcessingServices.lookup().getFormProcessor();
     }
 
-    public void setFormManager(FormManagerImpl formManagerImpl) {
-        this.formManagerImpl = formManagerImpl;
-    }
-
-    public FormProcessor getDefaultFormProcessor() {
-        return defaultFormProcessor;
-    }
-
-    public void setDefaultFormProcessor(FormProcessor defaultFormProcessor) {
-        this.defaultFormProcessor = defaultFormProcessor;
-    }
-
-    public CustomRenderingInfo getRenderInfo() {
-        return renderInfo;
-    }
-
-    public void setRenderInfo(CustomRenderingInfo renderInfo) {
-        this.renderInfo = renderInfo;
-    }
-
-    public MessagesComponentHandler getMessagesComponentHandler() {
-        return messagesComponentHandler;
-    }
-
-    public void setMessagesComponentHandler(MessagesComponentHandler messagesComponentHandler) {
-        this.messagesComponentHandler = messagesComponentHandler;
-    }
-
-    public String getErrorsPage() {
-        return errorsPage;
-    }
-
-    public void setErrorsPage(String errorsPage) {
-        this.errorsPage = errorsPage;
+    public FieldHandlersManager getFieldHandlersManager() {
+        return FormProcessingServices.lookup().getFieldHandlersManager();
     }
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
-
-        //init formToRender
         Object formObject = getParameter("form");
         if (formObject != null) formToPaint = (Form) formObject;
         else {
             Object formIdObject = getParameter("formId");
             Long formId = Long.decode(String.valueOf(formIdObject));
-            formToPaint = formManagerImpl.getFormById(formId);
+            formToPaint = getFormManager().getFormById(formId);
         }
 
         renderMode = (String) getParameter("renderMode");     //Default is form
@@ -176,8 +134,6 @@ public class FormRenderingFormatter extends Formatter {
         } else if (!Character.isJavaIdentifierStart(namespace.charAt(0))) {
             log.warn("Namespace "+namespace+" starts with an illegal character. It may cause unexpected behaviour of form under IE.");
         }
-
-
 
         // Default render mode is FORM
         renderMode = renderMode == null ? Form.RENDER_MODE_FORM : renderMode;
@@ -212,12 +168,12 @@ public class FormRenderingFormatter extends Formatter {
 
             ((Map) formValues).put(FormProcessor.FORM_MODE, formMode);
 
-            FormStatusData formStatusData = defaultFormProcessor.read(formToPaint.getId(), namespace, (Map) formValues);
+            FormStatusData formStatusData = getFormProcessor().read(formToPaint.getId(), namespace, (Map) formValues);
             if (!reuseStatus) {
-                defaultFormProcessor.clear(formToPaint.getId(), namespace);
+                getFormProcessor().clear(formToPaint.getId(), namespace);
             }
             if (!reuseStatus || formStatusData.isNew()) {
-                defaultFormProcessor.load(formToPaint.getId(), namespace, formValues, renderMode);
+                getFormProcessor().load(formToPaint.getId(), namespace, formValues, renderMode);
                 /*
                 TODO: review this to load data directly from the object
                 if (objectToLoadClass != null && objectIdToLoad != null) {
@@ -231,7 +187,7 @@ public class FormRenderingFormatter extends Formatter {
                 if (formValues != null) {
                     if (log.isDebugEnabled())
                         log.debug("Loading map of values into form " + formToPaint.getId() + " in namespace " + namespace + ": " + formValues);
-                    defaultFormProcessor.load(formToPaint.getId(), namespace, formValues, renderMode);
+                    getFormProcessor().load(formToPaint.getId(), namespace, formValues, renderMode);
                 }
             }
 
@@ -251,7 +207,7 @@ public class FormRenderingFormatter extends Formatter {
             }
 
             if (log.isDebugEnabled())
-                log.debug("About to display form " + formToPaint.getId() + " in namespace " + namespace + " with status " + defaultFormProcessor.read(formToPaint.getId(), namespace));
+                log.debug("About to display form " + formToPaint.getId() + " in namespace " + namespace + " with status " + getFormProcessor().read(formToPaint.getId(), namespace));
             display(formToPaint, namespace, displayMode, displayInfo, renderMode, labelMode, isSubForm, isMultiple);
 
         } catch (Exception e) {
@@ -261,6 +217,7 @@ public class FormRenderingFormatter extends Formatter {
     }
 
     protected void setFormFieldErrors(String namespace, Form form) {
+        MessagesComponentHandler messagesComponentHandler = MessagesComponentHandler.lookup();
         if (namespace != null && form != null) {
             try {
                 messagesComponentHandler.getErrorsToDisplay().addAll(formErrorMessageBuilder.getWrongFormErrors(namespace, form));
@@ -276,12 +233,10 @@ public class FormRenderingFormatter extends Formatter {
             setFormFieldErrors(namespace, form);
             includePage(errorsPage);
         }
-
-        setRenderingInfoValues(form, namespace, renderMode, labelMode, displayMode);
-
         if (displayMode == null) {
             defaultDisplay(form, namespace, renderMode, labelMode, Form.DISPLAY_MODE_DEFAULT);
-        } else {
+        }
+        else {
             if (Form.DISPLAY_MODE_DEFAULT.equals(displayMode)) {
                 defaultDisplay(form, namespace, renderMode, labelMode, Form.DISPLAY_MODE_DEFAULT);
             } else if (Form.DISPLAY_MODE_ALIGNED.equals(displayMode)) {
@@ -296,36 +251,19 @@ public class FormRenderingFormatter extends Formatter {
         }
     }
 
-    private CustomRenderingInfo previousRenderingInfo;
-
-    protected void setRenderingInfoValues(Form form, String namespace, String renderMode, String labelMode, String displayMode) {
-        try {
-            previousRenderingInfo = (CustomRenderingInfo) renderInfo.clone();
-        } catch (CloneNotSupportedException e) {
-            log.error("Error: ", e);
-        }
-        renderInfo.setForm(form);
-        renderInfo.setNamespace(namespace);
-        renderInfo.setDisplayMode(displayMode);
-        renderInfo.setLabelMode(labelMode);
-        renderInfo.setRenderMode(renderMode);
-    }
-
     public void afterRendering(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         super.afterRendering(httpServletRequest, httpServletResponse);
-        //Restore previous status
-        if (renderInfo != null)
-            renderInfo.copyFrom(previousRenderingInfo);
-        //If form was used just to show something, clear the form status.
+
+        // If form was used just to show something, clear the form status.
         if (Form.RENDER_MODE_DISPLAY.equals(renderMode) || Form.RENDER_MODE_TEMPLATE_EDIT.equals(renderMode)) {
             if (formToPaint != null) {
-                defaultFormProcessor.clear(formToPaint.getId(), namespace);
+                getFormProcessor().clear(formToPaint.getId(), namespace);
             }
         }
     }
 
     protected void templateDisplay(final Form form, final String namespace, final String renderMode) {
-        List renderingInstructions = formTemplateHelper.getRenderingInstructions(form.getFormTemplate());
+        List renderingInstructions = FormProcessingServices.lookup().getFormTemplateHelper().getRenderingInstructions(form.getFormTemplate());
         FormRenderer renderer = new FormRenderer() {
             public void writeToOut(String text) {
                 FormRenderingFormatter.this.writeToOut(text);
@@ -336,11 +274,7 @@ public class FormRenderingFormatter extends Formatter {
                 if (field != null) {
                     setAttribute("field", field.getForm().getFormFields().iterator().next());
                     FormRenderingFormatter.this.renderFragment("beforeFieldInTemplateMode");
-                    FormRenderingFormatter.this.renderField(
-                            (Field) field,
-                            namespace,
-                            renderMode
-                    );
+                    FormRenderingFormatter.this.renderField(field, namespace, renderMode);
                     FormRenderingFormatter.this.renderFragment("afterFieldInTemplateMode");
                 } else {
                     setAttribute("fieldName", fieldName);
@@ -355,7 +289,7 @@ public class FormRenderingFormatter extends Formatter {
                 if (field != null) {
                     FormRenderingFormatter.this.renderFragment("beforeLabelInTemplateMode");
                     FormRenderingFormatter.this.renderLabel(
-                            (Field) field.getForm().getFormFields().iterator().next(),
+                            field.getForm().getFormFields().iterator().next(),
                             namespace,
                             renderMode
                     );
@@ -390,10 +324,10 @@ public class FormRenderingFormatter extends Formatter {
         }
 
         Form form = (Form) field.getForm();
-        FormStatusData fsd = defaultFormProcessor.read(form.getId(), namespace);
+        FormStatusData fsd = getFormProcessor().read(form.getId(), namespace);
         boolean fieldHasErrors = fsd.getWrongFields().contains(field.getFieldName());
         String renderPage = "";
-        FieldHandler fieldHandler = (FieldHandler) Factory.lookup(field.getFieldType().getManagerClass());
+        FieldHandler fieldHandler = getFieldHandlersManager().getHandler(field.getFieldType());
 
         if (Arrays.asList(formModes).contains(renderMode)) {
             renderPage = fieldHandler.getPageToIncludeForRendering();
@@ -450,7 +384,7 @@ public class FormRenderingFormatter extends Formatter {
         String uid = getFormManager().getUniqueIdentifier(field.getForm(), namespace, field, field.getFieldName());
         String fieldTypeCss = field.getFieldType().getCssStyle();
         String fieldCss = field.getCssStyle();
-        Object overridenValue = defaultFormProcessor.getAttribute(field.getForm(), namespace, field.getFieldName() + ".cssStyle");
+        Object overridenValue = getFormProcessor().getAttribute(field.getForm(), namespace, field.getFieldName() + ".cssStyle");
         String css = fieldTypeCss;
         if (!StringUtils.isEmpty(fieldCss)) {
             css = fieldCss;
@@ -491,7 +425,7 @@ public class FormRenderingFormatter extends Formatter {
             labelCssStyle = field.getLabelCSSStyle();
             labelCssClass = field.getLabelCSSClass();
             //Check if label style was overriden by formulas.
-            Object style = defaultFormProcessor.getAttribute(field.getForm(), namespace, field.getFieldName() + ".labelCSSStyle");
+            Object style = getFormProcessor().getAttribute(field.getForm(), namespace, field.getFieldName() + ".labelCSSStyle");
             if (style != null)
                 labelCssStyle = style.toString();
 
@@ -503,7 +437,7 @@ public class FormRenderingFormatter extends Formatter {
             writeToOut(Form.TEMPLATE_LABEL + "{" + field.getFieldName() + "}");
         } else {
             Form form = field.getForm();
-            FormStatusData fsd = defaultFormProcessor.read(form.getId(), namespace);
+            FormStatusData fsd = getFormProcessor().read(form.getId(), namespace);
             boolean fieldHasErrors = fsd.getWrongFields().contains(field.getFieldName());
             String label = (String) getLocaleManager().localize(field.getLabel());
             Boolean fieldIsRequired = field.getFieldRequired();
@@ -535,7 +469,7 @@ public class FormRenderingFormatter extends Formatter {
     protected void beforeRenderLabel(Field field, String namespace, String renderMode) {
         String uid = getFormManager().getUniqueIdentifier(field.getForm(), namespace, field, field.getFieldName());
         String fieldCss = field.getLabelCSSStyle();
-        Object overridenValue = defaultFormProcessor.getAttribute(field.getForm(), namespace, field.getFieldName() + ".labelCSSStyle");
+        Object overridenValue = getFormProcessor().getAttribute(field.getForm(), namespace, field.getFieldName() + ".labelCSSStyle");
         String css = fieldCss;
         if (overridenValue != null) {
             css = (String) overridenValue;
@@ -568,7 +502,7 @@ public class FormRenderingFormatter extends Formatter {
         Set<Field> fields = form.getFormFields();
         List<Field> sortedFields = new ArrayList(fields);
         Collections.sort(sortedFields, new Field.Comparator());
-        FormStatusData formStatusData = defaultFormProcessor.read(form.getId(), namespace);
+        FormStatusData formStatusData = getFormProcessor().read(form.getId(), namespace);
 
         setAttribute("width", deduceWidthForForm(form, renderMode, labelMode, mode));
         renderFragment("outputStart");
@@ -638,11 +572,6 @@ public class FormRenderingFormatter extends Formatter {
 
     /**
      * Deduce width for a form.
-     *
-     * @param form
-     * @param renderMode
-     * @param labelMode
-     * @param mode
      * @return Deduced width for a form.
      */
     protected String deduceWidthForForm(Form form, String renderMode, String labelMode, String mode) {
@@ -775,21 +704,5 @@ public class FormRenderingFormatter extends Formatter {
         setAttribute(ATTR_DYNAMIC_OBJECT_ID, null);
         setAttribute(ATTR_DYNAMIC_OBJECT_ENTITY_NAME, null);
         setAttribute(ATTR_FORM_RENDER_MODE, renderMode);
-    }
-
-    public FormErrorMessageBuilder getFormErrorMessageBuilder() {
-        return formErrorMessageBuilder;
-    }
-
-    public void setFormErrorMessageBuilder(FormErrorMessageBuilder formErrorMessageBuilder) {
-        this.formErrorMessageBuilder = formErrorMessageBuilder;
-    }
-
-    public FormTemplateHelper getFormTemplateHelper() {
-        return formTemplateHelper;
-    }
-
-    public void setFormTemplateHelper(FormTemplateHelper formTemplateHelper) {
-        this.formTemplateHelper = formTemplateHelper;
     }
 }

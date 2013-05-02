@@ -15,7 +15,6 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib.factory;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
 import org.jbpm.formModeler.service.bb.mvc.components.URLMarkupGenerator;
 
 import javax.servlet.jsp.JspException;
@@ -38,7 +37,7 @@ public class FormURLTag extends GenericFactoryTag {
     }
 
     public int doEndTag() throws JspException {
-        URLMarkupGenerator urlMarkupGenerator = (URLMarkupGenerator) Factory.lookup("org.jbpm.formModeler.service.mvc.components.URLMarkupGenerator");
+        URLMarkupGenerator urlMarkupGenerator = URLMarkupGenerator.lookup();
         String markup = friendly ? urlMarkupGenerator.getBaseURI() : urlMarkupGenerator.getServletMapping();
         try {
             pageContext.getOut().print(markup);

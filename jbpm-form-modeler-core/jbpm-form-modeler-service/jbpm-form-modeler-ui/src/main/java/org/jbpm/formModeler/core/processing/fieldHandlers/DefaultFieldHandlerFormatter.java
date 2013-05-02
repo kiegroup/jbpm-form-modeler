@@ -15,9 +15,13 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.api.config.FormManager;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.processing.BindingManager;
-import org.jbpm.formModeler.core.processing.BindingManagerImpl;
+import org.jbpm.formModeler.core.FormCoreServices;
+import org.jbpm.formModeler.core.processing.FormProcessingServices;
+import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormaterTagDynamicAttributesInterpreter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 
@@ -29,40 +33,36 @@ import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 
-/**
- *
- */
+import javax.inject.Inject;
+
 public abstract class DefaultFieldHandlerFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DefaultFieldHandlerFormatter.class.getName());
 
-    protected int defaultMaxLength = 128;
-    protected int defaultSize = 25;
-    private FormManagerImpl formManagerImpl;
-    private FormProcessor defaultFormProcessor;
+    @Inject
+    private Log log;
 
-    @Override
-    public void start() throws Exception {
-        super.start();
-        formManagerImpl = FormManagerImpl.lookup();
+    @Inject @Config("128")
+    protected int defaultMaxLength;
+
+    @Inject @Config("25")
+    protected int defaultSize;
+
+    public final FormManager getFormManager() {
+        return FormCoreServices.lookup().getFormManager();
     }
 
-    public final FormManagerImpl getFormManager() {
-        return formManagerImpl;
-    }
-
-    public final void setFormManager(FormManagerImpl formManagerImpl) {
-        this.formManagerImpl = formManagerImpl;
+    public final FormProcessor getFormProcessor() {
+        return FormProcessingServices.lookup().getFormProcessor();
     }
 
     protected void setDefaultAttributes(final Field field, final Form form, final String namespace) {
         setAttributeInterpreter(new FormaterTagDynamicAttributesInterpreter() {
-            private BindingManager bindingManager = BindingManagerImpl.lookup();
+            private BindingManager bindingManager = FormCoreServices.lookup().getBindingManager();
             public Object getValueForParameter(String parameter) {
                 Object value = null;
                 if ("form".equals(parameter)) value = form;
                 if ("field".equals(parameter)) value = field;
                 if (form != null && ("lastParameterMap".equals(parameter))) {
-                    value = defaultFormProcessor.read(form.getId(), namespace).getCurrentInputValues();
+                    value = getFormProcessor().read(form.getId(), namespace).getCurrentInputValues();
                 }
                 if (field != null && ("name".equals(parameter))) {
                     value = field.getFieldName();
@@ -111,18 +111,10 @@ public abstract class DefaultFieldHandlerFormatter extends Formatter {
                 propValue = StringEscapeUtils.escapeHtml(StringUtils.defaultString((String) propValue));
             }
         }
-        Object overridenValue = defaultFormProcessor.getAttribute(form, namespace, field.getFieldName() + "." + propName);
+        Object overridenValue = getFormProcessor().getAttribute(form, namespace, field.getFieldName() + "." + propName);
         if (overridenValue != null) {
             propValue = overridenValue;
         }
         return propValue;
-    }
-
-    public FormProcessor getDefaultFormProcessor() {
-        return defaultFormProcessor;
-    }
-
-    public void setDefaultFormProcessor(FormProcessor defaultFormProcessor) {
-        this.defaultFormProcessor = defaultFormProcessor;
     }
 }

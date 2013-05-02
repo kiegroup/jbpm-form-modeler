@@ -15,12 +15,14 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing;
 
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.api.config.FormManager;
+import org.jbpm.formModeler.service.LocaleManager;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
-import org.jbpm.formModeler.core.config.FormManagerImpl;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,34 +32,17 @@ import java.util.regex.Pattern;
 /**
  * Util functions that can be used on field Formulas.
  */
-public class Functions extends BasicFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(Functions.class.getName());
+@ApplicationScoped
+public class Functions {
 
-    private static String NIF_STRING_ASOCIATION = "TRWAGMYFPDXBNJZSQVHLCKET";
+    @Inject
+    private Log log;
+
+    @Inject
+    private FormManager formManager;
+
     private static int[] PESO_DIGITOS_CCC = {1, 2, 4, 8, 5, 10, 9, 7, 3, 6};
-
-    //A = 1, B = 2, C = 3, D = 4, E = 5, F = 6, G = 7, H = 8, I = 9, J = 0
-    private static String[] CONTROL_CIF = {"J", "A", "B", "C", "D", "E", "F", "G", "H", "I"};
-
     private static String[] MONTHS = {"jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};
-
-    private FormManagerImpl formManagerImpl;
-    private Map validHTMLContainers;
-
-    @Override
-    public void start() throws Exception {
-        super.start();
-        formManagerImpl = FormManagerImpl.lookup();
-    }
-
-    public Map getValidHTMLContainers() {
-        if (validHTMLContainers == null) validHTMLContainers = new TreeMap();
-        return validHTMLContainers;
-    }
-
-    public void setValidHTMLContainers(Map validHTMLContainers) {
-        this.validHTMLContainers = validHTMLContainers;
-    }
 
     /**
      * This enables using StringUtils functions by using something like Functions.String.replace(...)
@@ -70,14 +55,6 @@ public class Functions extends BasicFactoryElement {
     public static final WordUtils Word = new WordUtils();
 
     public Functions() {
-    }
-
-    public FormManagerImpl getFormManager() {
-        return formManagerImpl;
-    }
-
-    public void setFormManager(FormManagerImpl formManagerImpl) {
-        this.formManagerImpl = formManagerImpl;
     }
 
     // Extend this class providing desired project functions

@@ -17,22 +17,31 @@ package org.jbpm.formModeler.core.processing.formProcessing;
 
 import bsh.EvalError;
 import bsh.Interpreter;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.Enumeration;
 import java.util.Properties;
 
 /**
- * Properties class used to provide Java objects as a functions that can be used on field Forumlas.
+ * Properties class used to provide Java objects as a functions that can be used on field Formulas.
  */
+@ApplicationScoped
 public class FunctionsProvider extends Properties {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FunctionsProvider.class.getName());
+
+    public static FunctionsProvider lookup() {
+        return (FunctionsProvider) CDIBeanLocator.getBeanByType(FunctionsProvider.class);
+    }
+
+    @Inject
+    private Log log;
+
+    @Inject
+    Functions functions;
 
     public void populate(Interpreter interpreter) throws EvalError {
-        for (Enumeration en = keys(); en.hasMoreElements();) {
-            String key = (String) en.nextElement();
-            String path = getProperty(key);
-            interpreter.set(key, Factory.lookup(path));
-        }
+        interpreter.set("Functions", functions);
     }
 }

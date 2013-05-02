@@ -15,10 +15,10 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib.factory;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathException;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagData;
@@ -61,9 +61,10 @@ public class PropertyTag extends GenericFactoryTag {
                 Object value = getValue();
                 String textValue = value == null ? "" : value.toString();
                 pageContext.getOut().print(valueIsHTML ? textValue : StringEscapeUtils.escapeHtml(textValue));
-            } else
+            } else {
                 pageContext.getOut().print(bodyContent.getString());
-        } catch (IOException e) {
+            }
+        } catch (Exception e) {
             log.error("Error:", e);
             throw new JspException(e);
         }
@@ -71,17 +72,17 @@ public class PropertyTag extends GenericFactoryTag {
         return EVAL_PAGE;
     }
 
-    protected Object getValue() {
-        if (value != null)
-            return value;
-        Object beanObject = Factory.lookup(getBean());
+    protected Object getValue() throws Exception {
+        if (value != null) return value;
+        Object beanObject = CDIBeanLocator.getBeanByNameOrType(getBean());
         if (beanObject != null) {
             JXPathContext ctx = JXPathContext.newContext(beanObject);
             try {
                 return value = ctx.getValue(getProperty());
             } catch (JXPathException jxpe) {
-                if (log.isDebugEnabled())
+                if (log.isDebugEnabled()) {
                     log.debug("Can't read property " + getProperty() + " in " + getBean() + ": ", jxpe);
+                }
             }
         }
         return null;
@@ -94,10 +95,11 @@ public class PropertyTag extends GenericFactoryTag {
         try {
             Object value = getValue();
             String valueName = id == null ? VALUE_NAME : id;
-            if (value == null)
+            if (value == null) {
                 pageContext.removeAttribute(valueName);
-            else
+            } else {
                 pageContext.setAttribute(valueName, value);
+            }
         } catch (Exception e) {
             log.error("Error:", e);
             throw new JspException(e);

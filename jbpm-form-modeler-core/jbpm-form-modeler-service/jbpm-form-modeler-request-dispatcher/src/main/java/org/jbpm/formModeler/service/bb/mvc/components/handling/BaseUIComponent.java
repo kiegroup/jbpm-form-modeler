@@ -4,7 +4,7 @@ import org.jbpm.formModeler.service.bb.mvc.components.CurrentComponentRenderer;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 
-public abstract class BaseUIComponent extends UIComponentHandlerFactoryElement {
+public abstract class BaseUIComponent extends UIBeanHandler {
 
     private boolean firstTime;
 
@@ -22,7 +22,7 @@ public abstract class BaseUIComponent extends UIComponentHandlerFactoryElement {
         String ajaxParam = request.getRequestObject().getParameter("ajaxAction");
         boolean isAjax = ajaxParam != null && Boolean.valueOf(ajaxParam).booleanValue();
 
-        if (!this.equals(componentRenderer.getCurrentComponent()) || firstTime || !isAjax) {
+        if (firstTime || !isAjax) {
             response = null;
             firstTime = false;
         }

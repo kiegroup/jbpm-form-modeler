@@ -15,28 +15,43 @@
  */
 package org.jbpm.formModeler.service.error;
 
+import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
+
+//@SessionScoped
+@ApplicationScoped
+@Named("errorhandler")
 public class ErrorReportHandler extends BaseUIComponent {
 
-    protected ErrorReport errorReport;
+    public static ErrorReportHandler lookup() {
+        return (ErrorReportHandler) CDIBeanLocator.getBeanByType(ErrorReportHandler.class);
+    }
+
+    @Inject @Config("/formModeler/components/errorReport/show.jsp")
     protected String componentIncludeJSP;
-    protected int width;
-    protected int height;
-    protected boolean closeEnabled;
-    protected Runnable closeListener;
+
+    @Inject @Config("/formModeler/components/errorReport/show.jsp")
     private String baseComponentJSP;
 
-    public ErrorReportHandler() {
-        componentIncludeJSP = "/formModeler/components/errorReport/show.jsp";
-        baseComponentJSP = "/formModeler/components/errorReport/show.jsp";
-        closeEnabled = true;
-        width = 1000;
-        height = 400;
-        errorReport = null;
-        closeListener = null;
-    }
+    @Inject @Config("1000")
+    protected int width;
+
+    @Inject @Config("400")
+    protected int height;
+
+    @Inject @Config("true")
+    protected boolean closeEnabled;
+
+    protected Runnable closeListener = null;
+    protected ErrorReport errorReport;
 
     public boolean isCloseEnabled() {
         return closeEnabled;
@@ -54,7 +69,7 @@ public class ErrorReportHandler extends BaseUIComponent {
         this.closeListener = closeListener;
     }
 
-    public String getComponentIncludeJSP() {
+    public String getBeanJSP() {
         return componentIncludeJSP;
     }
 
@@ -97,7 +112,6 @@ public class ErrorReportHandler extends BaseUIComponent {
         this.baseComponentJSP = baseComponentJSP;
     }
 
-    @Override
     public String getBaseComponentJSP() {
         return baseComponentJSP;
     }

@@ -15,31 +15,40 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
+import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.api.model.Field;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
+import org.jbpm.formModeler.service.annotation.config.Config;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Handler for dates
+ */
 public class DateFieldHandler extends DefaultFieldHandler {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DateFieldHandler.class.getName());
 
     public static final String DATE_FROM_SUFFIX = "_from";
-    public static final String DATE_TO_SUFFIX = "_to";
     public static final String HAS_CHANGED_PARAM = "_hasChanged";
     public static final String DATE_PATTERN_SUFFIX = "_pattern";
-    public static final Date DEFAULT_MIN_DATE = new Date(0); 
+    public static final Date DEFAULT_MIN_DATE = new Date(0);
+    public static final String DATE_TO_SUFFIX = "_to";
 
-    private String pageToIncludeForRendering;
-    private String pageToIncludeForDisplaying;
-    private String pageToIncludeForSearching;
-    private String defaultPattern;
-    private String defaultPatterTimeSuffix = "";
+    protected String defaultPattern;
+    protected String defaultPatterTimeSuffix;
+
+    public DateFieldHandler() {
+        defaultPattern = "mm-dd-yy";
+        defaultPatterTimeSuffix = "HH:mm:ss";
+    }
 
     /**
      * Read a parameter value (normally from a request), and translate it to
@@ -72,10 +81,6 @@ public class DateFieldHandler extends DefaultFieldHandler {
         return previousValue;
     }
     
-    public String getName() {
-        return getComponentName();
-    }
-
     /**
      * Determine the list of class types this field can generate. That is, normally,
      * a field can generate multiple outputs (an input text can generate Strings,
@@ -85,10 +90,6 @@ public class DateFieldHandler extends DefaultFieldHandler {
      */
     public String[] getCompatibleClassNames() {
         return new String[]{"InputDate", "InputShortDate"};
-    }
-
-    public String getPageToIncludeForDisplaying() {
-        return pageToIncludeForDisplaying;
     }
 
     public boolean isEmpty(Object value) {
@@ -110,26 +111,6 @@ public class DateFieldHandler extends DefaultFieldHandler {
 
     public void setDefaultPattern(String defaultPattern) {
         this.defaultPattern = defaultPattern;
-    }
-
-    public void setPageToIncludeForDisplaying(String pageToIncludeForDisplaying) {
-        this.pageToIncludeForDisplaying = pageToIncludeForDisplaying;
-    }
-
-    public String getPageToIncludeForRendering() {
-        return pageToIncludeForRendering;
-    }
-
-    public void setPageToIncludeForRendering(String pageToIncludeForRendering) {
-        this.pageToIncludeForRendering = pageToIncludeForRendering;
-    }
-
-    public String getPageToIncludeForSearching() {
-        return pageToIncludeForSearching;
-    }
-
-    public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
-        this.pageToIncludeForSearching = pageToIncludeForSearching;
     }
 
     protected String getPattern(Field field, boolean useDefault, String pattern) {

@@ -15,7 +15,6 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Form;
@@ -23,8 +22,7 @@ import org.jbpm.formModeler.api.model.Form;
 import java.util.Arrays;
 import java.util.Collection;
 
-public abstract class FormChangeProcessor extends BasicFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormChangeProcessor.class.getName());
+public abstract class FormChangeProcessor {
 
     public static final int MAX_ELEMENTS_TO_SHOW = 20;
 

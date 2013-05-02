@@ -15,25 +15,28 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
+import org.jbpm.formModeler.api.processing.FieldHandler;
+import org.jbpm.formModeler.core.FieldHandlersManager;
+import org.jbpm.formModeler.core.processing.FormProcessingServices;
+import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.apache.commons.lang.StringUtils;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 
+@ApplicationScoped
 public class DateFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
-    
-    private DateFieldHandler dateFieldHandler;
-    
-    @Override
+
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         FieldHandlerParametersReader paramsReader = new FieldHandlerParametersReader(request);
-
         Field field = paramsReader.getCurrentField();
+
         Form form = paramsReader.getCurrentForm();
         String namespace = paramsReader.getCurrentNamespace();
         Object value = paramsReader.getCurrentFieldValue();
@@ -41,14 +44,16 @@ public class DateFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
 
         setDefaultAttributes(field, form, namespace);
 
+        FieldHandlersManager fieldHandlersManager = FormProcessingServices.lookup().getFieldHandlersManager();
+        DateFieldHandler dateFieldHandler = (DateFieldHandler) fieldHandlersManager.getHandler(field.getFieldType());
         String inputPattern = dateFieldHandler.getDefaultPattern();
 
-        if (!StringUtils.isEmpty(dateFieldHandler.getDefaultPatterTimeSuffix())) inputPattern += " " + dateFieldHandler.getDefaultPatterTimeSuffix();
+        if (!StringUtils.isEmpty(dateFieldHandler.getDefaultPatterTimeSuffix())) {
+            inputPattern += " " + dateFieldHandler.getDefaultPatterTimeSuffix();
+        }
 
         SimpleDateFormat sdf = new SimpleDateFormat(inputPattern,  LocaleManager.currentLocale());
-
         String dateValue = "";
-
         if (value != null) dateValue = sdf.format(value);
 
         setAttribute("name", fieldName);
@@ -57,13 +62,5 @@ public class DateFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
         setAttribute("timePattern", dateFieldHandler.getDefaultPatterTimeSuffix());
         setAttribute("uid", getFormManager().getUniqueIdentifier(form, namespace, field, fieldName));
         renderFragment("output");
-    }
-
-    public DateFieldHandler getDateFieldHandler() {
-        return dateFieldHandler;
-    }
-
-    public void setDateFieldHandler(DateFieldHandler dateFieldHandler) {
-        this.dateFieldHandler = dateFieldHandler;
     }
 }

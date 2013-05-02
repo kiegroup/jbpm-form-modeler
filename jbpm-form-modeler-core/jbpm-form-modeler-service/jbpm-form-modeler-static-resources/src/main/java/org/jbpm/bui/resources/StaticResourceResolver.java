@@ -15,15 +15,8 @@
  */
 package org.jbpm.bui.resources;
 
-/**
- * Created with IntelliJ IDEA.
- * User: pefernan
- * Date: 05/11/12
- * Time: 16:45
- * To change this template use File | Settings | File Templates.
- */
 public interface StaticResourceResolver {
-    String getImagePath(String image);
 
+    String getImagePath(String image);
     String getBasePath();
 }

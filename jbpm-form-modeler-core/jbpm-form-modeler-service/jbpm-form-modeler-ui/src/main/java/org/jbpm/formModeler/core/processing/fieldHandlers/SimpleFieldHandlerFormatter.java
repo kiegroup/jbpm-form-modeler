@@ -15,38 +15,28 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
-
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
+import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DecimalFormat;
 import java.util.Locale;
 
 /**
- *
+ * Formatter for simple fields
  */
+@ApplicationScoped
 public class SimpleFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SimpleFieldHandlerFormatter.class.getName());
-
-    private LocaleManager localeManager;
-
-    public LocaleManager getLocaleManager() {
-        return localeManager;
-    }
-
-    public void setLocaleManager(LocaleManager localeManager) {
-        this.localeManager = localeManager;
-    }
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         FieldHandlerParametersReader paramsReader = new FieldHandlerParametersReader(httpServletRequest);
 
         Field field = paramsReader.getCurrentField();
-        Form form = (Form) paramsReader.getCurrentForm();
+        Form form = paramsReader.getCurrentForm();
         Object value = paramsReader.getCurrentFieldValue();
         String fieldName = paramsReader.getCurrentFieldName();
         int position = paramsReader.getCurrentPosition();

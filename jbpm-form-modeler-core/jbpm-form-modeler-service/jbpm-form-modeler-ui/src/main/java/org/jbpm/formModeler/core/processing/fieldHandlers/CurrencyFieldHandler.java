@@ -15,14 +15,11 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
+import org.jbpm.formModeler.service.annotation.config.Config;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 public class CurrencyFieldHandler extends NumericFieldHandler {
-
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CurrencyFieldHandler.class.getName());
-
-    private String pageToIncludeForRendering = "/formModeler/fieldHandlers/Currency/input.jsp";
-    private String pageToIncludeForDisplaying = "/formModeler/fieldHandlers/Currency/show.jsp";
-    private String pageToIncludeForSearching = "/formModeler/fieldHandlers/Currency/search.jsp";
-
 
 }

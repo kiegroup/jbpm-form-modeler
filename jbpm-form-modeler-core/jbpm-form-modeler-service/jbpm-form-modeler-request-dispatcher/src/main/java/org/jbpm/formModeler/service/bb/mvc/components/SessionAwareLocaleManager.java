@@ -15,56 +15,35 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.components;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
+import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.service.bb.mvc.controller.RequestContext;
 
+import javax.enterprise.inject.Specializes;
 import java.util.Locale;
 
-public class SessionAwareLocaleManager extends org.jbpm.formModeler.service.bb.commons.config.LocaleManager {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SessionAwareLocaleManager.class.getName());
+@Specializes
+public class SessionAwareLocaleManager extends LocaleManager {
 
-    private String sessionHelper;
-
-    public String getSessionHelper() {
-        return sessionHelper;
+    protected SessionContext getSessionContext() {
+        return (RequestContext.getCurrentContext() != null ? SessionContext.lookup() : null);
     }
 
-    public void setSessionHelper(String sessionHelper) {
-        this.sessionHelper = sessionHelper;
-    }
-
-    protected SessionHelper getSessionHelperObject() {
-        return (RequestContext.getCurrentContext() != null) ? (SessionHelper) Factory.lookup(sessionHelper) : null;
-    }
-
-
-    /**
-     * Current locale for viewing contents
-     *
-     * @return Current locale for viewing contents
-     */
     public Locale getCurrentLocale() {
-        SessionHelper helper = getSessionHelperObject();
-        Locale locale = helper != null ? helper.getCurrentLocale() : null;
+        SessionContext ctx = getSessionContext();
+        Locale locale = ctx != null ? ctx.getCurrentLocale() : null;
         return (locale != null) ? locale : getDefaultLocale();
     }
 
     public void setCurrentLocale(Locale currentLocale) {
-        getSessionHelperObject().setCurrentLocale(currentLocale);
+        getSessionContext().setCurrentLocale(currentLocale);
     }
 
-
-    /**
-     * Current locale for editing contents
-     *
-     * @return Current locale for editing contents
-     */
     public Locale getCurrentEditLocale() {
-        Locale locale = getSessionHelperObject().getCurrentEditLocale();
+        Locale locale = getSessionContext().getCurrentEditLocale();
         return (locale != null) ? locale : getDefaultLocale();
     }
 
     public void setCurrentEditLocale(Locale currentEditLocale) {
-        getSessionHelperObject().setCurrentEditLocale(currentEditLocale);
+        getSessionContext().setCurrentEditLocale(currentEditLocale);
     }
 }

@@ -19,7 +19,7 @@
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ page import="java.util.Locale" %>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager"%>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <i18n:bundle baseName="org.jbpm.formModeler.core.processing.fieldHandlers.messages" locale="<%=LocaleManager.currentLocale()%>"/>
@@ -46,7 +46,7 @@
     <tr valign="top">
         <td>
                         <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
-                            <mvc:formatterParam name="factoryElement" value="org.jbpm.formModeler.service.LocaleManager"/>
+                            <mvc:formatterParam name="bean" value="org.jbpm.formModeler.service.LocaleManager"/>
                             <mvc:formatterParam name="property" value="platformAvailableLocales"/>
                             <mvc:fragment name="outputStart">
             <select id="<mvc:fragmentValue name="uid"/>"
@@ -55,7 +55,7 @@
                 style="<%=StringUtils.defaultString((String) cssStyle)%>"
                         onchange="
                                 <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
-                                <mvc:formatterParam name="factoryElement" value="org.jbpm.formModeler.service.LocaleManager"/>
+                                <mvc:formatterParam name="bean" value="org.jbpm.formModeler.service.LocaleManager"/>
                             <mvc:formatterParam name="property" value="platformAvailableLocales"/>
                             <mvc:fragment name="output">
                                 <mvc:fragmentValue name="index" id="index">
@@ -97,7 +97,7 @@
     <tr>
         <td>
                         <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
-                            <mvc:formatterParam name="factoryElement" value="org.jbpm.formModeler.service.LocaleManager"/>
+                            <mvc:formatterParam name="bean" value="org.jbpm.formModeler.service.LocaleManager"/>
                             <mvc:formatterParam name="property" value="platformAvailableLocales"/>
                             <mvc:fragment name="output">
                                 <mvc:fragmentValue name="index" id="index">

@@ -15,11 +15,10 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib.formatter;
 
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
-import org.jbpm.formModeler.service.bb.mvc.Framework;
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.service.LocaleManager;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
@@ -53,31 +52,24 @@ import java.util.Map;
  * </ul>
  */
 
-public abstract class Formatter extends BasicFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(Formatter.class.getName());
+public abstract class Formatter {
 
-    private static LocaleManager localeManager;
+    @Inject
+    private Log log;
 
-    private FormatterTag tag;
-    private Locale currentLocale;
-    private DateFormat dateTimeFormat;
-    private NumberFormat numberFormat;
-    private String currentLang;
-
-    public Formatter() {
-    }
+    private transient FormatterTag tag;
+    private transient Locale currentLocale;
+    private transient String currentLang;
 
     /**
      * Sets the parent tag. Called by the framework.
-     *
-     * @param tag
      */
     public void setTag(FormatterTag tag) {
         this.tag = tag;
     }
 
     protected LocaleManager getLocaleManager() {
-        return (LocaleManager) Factory.lookup("org.jbpm.formModeler.service.LocaleManager");
+        return LocaleManager.lookup();
     }
 
     protected Locale getLocale() {
@@ -88,14 +80,6 @@ public abstract class Formatter extends BasicFactoryElement {
     protected String getLang() {
         if (currentLang != null) return currentLang;
         return currentLang = getLocaleManager().getCurrentLang();
-    }
-
-    /**
-     * @return The framework's encoding
-     */
-    protected String getEncoding() {
-        Framework fr = (Framework) Factory.lookup("org.jbpm.formModeler.service.mvc.Framework");
-        return fr.getFrameworkEncoding();
     }
 
     /**
@@ -474,34 +458,5 @@ public abstract class Formatter extends BasicFactoryElement {
      * @throws FormatterException
      */
     public void afterRendering(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
-    }
-
-    /**
-     * Given an object it returns a string representation.
-     */
-    public String formatObject(Object obj) {
-        if (obj == null) return null;
-
-        if (obj instanceof String) {
-            return (String) obj;
-        }
-        if (obj instanceof Number) {
-            if (numberFormat == null) numberFormat = NumberFormat.getNumberInstance(getLocale());
-            return numberFormat.format(obj);
-        }
-        if (obj instanceof Date) {
-            if (dateTimeFormat == null) dateTimeFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, getLocale());
-            String dateStr = dateTimeFormat.format(obj);
-            if (dateStr.indexOf("/") == 1) dateStr = "0" + dateStr;
-            return dateStr;
-        }
-        return null;
-    }
-
-    public Object getLocalizedValue(Map value) {
-        if (localeManager == null) {
-            localeManager = LocaleManager.lookup();
-        }
-        return localeManager.localize(value);
     }
 }

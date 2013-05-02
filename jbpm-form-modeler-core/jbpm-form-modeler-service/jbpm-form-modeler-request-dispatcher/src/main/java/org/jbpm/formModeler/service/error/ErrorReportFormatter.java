@@ -15,59 +15,27 @@
  */
 package org.jbpm.formModeler.service.error;
 
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
+import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ErrorReportFormatter extends Formatter {
 
-    private static transient Log log = LogFactory.getLog(ErrorReportFormatter.class.getName());
-
-    protected LocaleManager localeManager;
-
+    @Inject @Config("/formModeler/components/errorReport/images/32x32/info.gif")
     protected String messagesImg;
+
+    @Inject @Config("/formModeler/components/errorReport/images/32x32/warning.gif")
     protected String warningsImg;
+
+    @Inject @Config("/formModeler/components/errorReport/images/32x32/error.gif")
     protected String errorsImg;
 
-    public LocaleManager getLocaleManager() {
-        return localeManager;
-    }
-
-    public void setLocaleManager(LocaleManager localeManager) {
-        this.localeManager = localeManager;
-    }
-
-    public String getMessagesImg() {
-        return messagesImg;
-    }
-
-    public void setMessagesImg(String messagesImg) {
-        this.messagesImg = messagesImg;
-    }
-
-    public String getWarningsImg() {
-        return warningsImg;
-    }
-
-    public void setWarningsImg(String warningsImg) {
-        this.warningsImg = warningsImg;
-    }
-
-    public String getErrorsImg() {
-        return errorsImg;
-    }
-
-    public void setErrorsImg(String errorsImg) {
-        this.errorsImg = errorsImg;
-    }
-
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
-        ErrorReportHandler errorReportHandler = (ErrorReportHandler) getParameter("errorHandler");
+        ErrorReportHandler errorReportHandler = ErrorReportHandler.lookup();
         ErrorReport errorReport = errorReportHandler.getErrorReport();
         if (errorReport != null) {
             setAttribute("errorIcon", getErrorIcon(errorReport));

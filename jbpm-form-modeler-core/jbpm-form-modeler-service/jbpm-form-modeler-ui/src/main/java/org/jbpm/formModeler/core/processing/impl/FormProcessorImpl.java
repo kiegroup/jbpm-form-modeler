@@ -15,14 +15,15 @@
  */
 package org.jbpm.formModeler.core.processing.impl;
 
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.processing.ProcessingMessagedException;
 import org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler;
 import org.jbpm.formModeler.core.processing.formProcessing.FormChangeProcessor;
 import org.jbpm.formModeler.core.processing.formProcessing.FormChangeResponse;
+import org.jbpm.formModeler.core.processing.formProcessing.NamespaceManager;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatus;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatusManager;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.i18n.I18nSet;
@@ -33,49 +34,36 @@ import org.jbpm.formModeler.api.processing.FormProcessor;
 import org.jbpm.formModeler.api.processing.FormStatusData;
 import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.*;
 
-/**
- *
- */
-public class FormProcessorImpl extends BasicFactoryElement implements FormProcessor {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormProcessorImpl.class.getName());
+@ApplicationScoped
+public class FormProcessorImpl implements FormProcessor, Serializable {
 
+    @Inject
+    private Log log;
+
+    // TODO: fix formulas
+    //@Inject
     private FormChangeProcessor formChangeProcessor;
-    private FormStatusManager formStatusManager;
 
-    public FormStatusManager getFormStatusManager() {
-        return formStatusManager;
-    }
-
-    public void setFormStatusManager(FormStatusManager formStatusManager) {
-        this.formStatusManager = formStatusManager;
-    }
-
-    public FormChangeProcessor getFormChangeProcessor() {
-        return formChangeProcessor;
-    }
-
-    public void setFormChangeProcessor(FormChangeProcessor formChangeProcessor) {
-        this.formChangeProcessor = formChangeProcessor;
-    }
-
-    public String getFactoryName() {
-        return getComponentName();
-    }
+    @Inject
+    private FieldHandlersManager fieldHandlersManager;
 
     protected FormStatus getFormStatus(Long formId, String namespace) {
         return getFormStatus(formId, namespace, new HashMap());
     }
 
     protected FormStatus getFormStatus(Long formId, String namespace, Map currentValues) {
-        FormStatus formStatus = getFormStatusManager().getFormStatus(formId, namespace);
+        FormStatus formStatus = FormStatusManager.lookup().getFormStatus(formId, namespace);
         return formStatus != null ? formStatus : createFormStatus(formId, namespace, currentValues);
     }
 
     protected boolean existsFormStatus(Long formId, String namespace) {
-        FormStatus formStatus = getFormStatusManager().getFormStatus(formId, namespace);
+        FormStatus formStatus = FormStatusManager.lookup().getFormStatus(formId, namespace);
         return formStatus != null;
     }
 
@@ -84,7 +72,7 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
     }
 
     protected FormStatus createFormStatus(Long formId, String namespace, Map currentValues) {
-        FormStatus fStatus = formStatusManager.createFormStatus(formId, namespace);
+        FormStatus fStatus = FormStatusManager.lookup().createFormStatus(formId, namespace);
         setDefaultValues(formId, namespace, currentValues);
         return fStatus;
     }
@@ -106,7 +94,7 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
                 String inputName = getPrefix(pf, namespace) + pField.getFieldName();
 
                 try {
-                    FieldHandler handler = (FieldHandler) Factory.lookup(pField.getFieldType().getManagerClass());
+                    FieldHandler handler = fieldHandlersManager.getHandler(pField.getFieldType());
                     if ((value instanceof Map && !((Map)value).containsKey(FORM_MODE)) && !(value instanceof I18nSet)) ((Map)value).put(FORM_MODE, currentValues.get(FORM_MODE));
                     Map paramValue = handler.getParamValue(inputName, value, pField.getPattern());
                     if (paramValue != null && !paramValue.isEmpty()) params.putAll(paramValue);
@@ -142,7 +130,7 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
     }
 
     protected void destroyFormStatus(Long formId, String namespace) {
-        formStatusManager.destroyFormStatus(formId, namespace);
+        FormStatusManager.lookup().destroyFormStatus(formId, namespace);
     }
 
     public void setValues(Form form, String namespace, Map parameterMap, Map filesMap) {
@@ -196,7 +184,7 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
     protected void setFieldValue(Field field, FormStatus formStatus, String inputsPrefix, Map parameterMap, Map filesMap, boolean incremental) {
         String fieldName = field.getFieldName();
         String inputName = inputsPrefix + fieldName;
-        FieldHandler handler = (FieldHandler) Factory.lookup(field.getFieldType().getManagerClass());
+        FieldHandler handler = fieldHandlersManager.getHandler(field.getFieldType());
         try {
             Object previousValue = formStatus.getInputValues().get(fieldName);
             boolean isRequired = field.getFieldRequired().booleanValue();
@@ -241,9 +229,9 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
     }
 
     protected void propagateChangesToParentFormStatuses(FormStatus formStatus, String fieldName, Object value) {
-        FormStatus parent = getFormStatusManager().getParent(formStatus);
+        FormStatus parent = FormStatusManager.lookup().getParent(formStatus);
         if (parent != null) {
-            String fieldNameInParent = getFormStatusManager().namespaceManager.getNamespace(formStatus.getNamespace()).getFieldNameInParent();
+            String fieldNameInParent = NamespaceManager.lookup().getNamespace(formStatus.getNamespace()).getFieldNameInParent();
             Object valueInParent = parent.getInputValues().get(fieldNameInParent);
             if (valueInParent != null) {
                 Map parentMapObjectRepresentation = null;
@@ -286,7 +274,9 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
     }
 
     public void flushPendingCalculations(Form form, String namespace) {
-        if (getFormChangeProcessor() != null) getFormChangeProcessor().process(form, namespace, new FormChangeResponse());//Response is ignored, we just need the session values.
+        if (formChangeProcessor != null) {
+            formChangeProcessor.process(form, namespace, new FormChangeResponse());//Response is ignored, we just need the session values.
+        }
     }
 
     public Map getMapRepresentationToPersist(Form form, String namespace) throws Exception {
@@ -415,11 +405,11 @@ public class FormProcessorImpl extends BasicFactoryElement implements FormProces
     }
 
     public void clearFieldErrors(Form form, String namespace) {
-        formStatusManager.cascadeClearWrongFields(form.getId(), namespace);
+        FormStatusManager.lookup().cascadeClearWrongFields(form.getId(), namespace);
     }
 
     public void forceWrongField(Form form, String namespace, String fieldName) {
-        formStatusManager.getFormStatus(form.getId(), namespace).getWrongFields().add(fieldName);
+        FormStatusManager.lookup().getFormStatus(form.getId(), namespace).getWrongFields().add(fieldName);
     }
 
     // OLD deprecated methods (before namespaces)

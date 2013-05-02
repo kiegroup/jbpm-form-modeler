@@ -16,29 +16,31 @@
 package org.jbpm.formModeler.core.processing.formProcessing;
 
 import org.jbpm.formModeler.core.processing.formProcessing.replacers.FormulaReplacer;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.jbpm.formModeler.core.processing.formProcessing.replacers.FormulaReplacementContext;
 
-public class FormulaReplacementManager extends BasicFactoryElement {
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+import java.util.Iterator;
 
-    private FormulaReplacer[] formulaReplacements;
+@ApplicationScoped
+public class FormulaReplacementManager {
 
-    public FormulaReplacer[] getFormulaReplacements() {
-        return formulaReplacements;
+    public static FormulaReplacementManager lookup() {
+        return (FormulaReplacementManager) CDIBeanLocator.getBeanByType(FormulaReplacementManager.class);
     }
 
-    public void setFormulaReplacements(FormulaReplacer[] formulaReplacements) {
-        this.formulaReplacements = formulaReplacements;
-    }
+    @Inject
+    private Instance<FormulaReplacer> formulaReplacements;
 
     public String replace(FormulaReplacementContext ctx) {
-        if (formulaReplacements != null) {
-            for (int i = 0; i < formulaReplacements.length; i++) {
-                String formula = formulaReplacements[i].replace(ctx);
-                ctx.setFormula(formula);
-            }
+        Iterator<FormulaReplacer> it = formulaReplacements.iterator();
+        while (it.hasNext()) {
+            FormulaReplacer fr = it.next();
+            String formula = fr.replace(ctx);
+            ctx.setFormula(formula);
         }
         return ctx.getFormula();
     }
-
 }

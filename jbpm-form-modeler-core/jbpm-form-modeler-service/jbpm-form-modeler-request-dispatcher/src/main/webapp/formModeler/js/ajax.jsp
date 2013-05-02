@@ -16,8 +16,7 @@
 
 --%>
 <%@ page import="org.jbpm.formModeler.service.bb.mvc.components.FactoryURL"%>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager" %>
-<%@ page import="org.jbpm.formModeler.service.bb.mvc.Framework" %>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n"%>
 <i18n:bundle baseName="org.jbpm.formModeler.service.mvc.messages" locale="<%= LocaleManager.currentLocale() %>"/>
 
@@ -455,7 +454,7 @@ function doSetAjax(elementId, onAjaxRequestScript, onAjaxResponseScript) {
         }
         var parentElement = element.parentNode;
         while (parentElement) {
-            if (parentElement && parentElement.id && (parentElement.id.indexOf("<%=Framework.AJAX_AREA_PREFFIX%>") == 0)) {
+            if (parentElement && parentElement.id && (parentElement.id.indexOf("<%=HTTPSettings.AJAX_AREA_PREFFIX%>") == 0)) {
                 if (ajaxAlertsEnabled) alert("Found " + parentElement.id);
                 var retValue = setAjaxTarget(element, parentElement.id, onAjaxRequestScript, onAjaxResponseScript);
                 element = null;

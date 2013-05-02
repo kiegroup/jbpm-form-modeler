@@ -17,32 +17,18 @@ package org.jbpm.formModeler.core.processing;
 
 import org.jbpm.formModeler.core.processing.formProcessing.FormulaReplacementManager;
 import org.jbpm.formModeler.core.processing.formProcessing.FunctionsProvider;
-import org.jbpm.formModeler.core.processing.formProcessing.FunctionsProvider;
 
 public abstract class DefaultFieldHandler extends AbstractFieldHandler {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DefaultFieldHandler.class.getName());
-
-    private FunctionsProvider functionsProvider;
-    private FormulaReplacementManager replacementManager;
 
     public FormulaReplacementManager getReplacementManager() {
-        return replacementManager;
-    }
-
-    public void setReplacementManager(FormulaReplacementManager replacementManager) {
-        this.replacementManager = replacementManager;
+        return FormulaReplacementManager.lookup();
     }
 
     public FunctionsProvider getFunctionsProvider() {
-        return functionsProvider;
-    }
-
-    public void setFunctionsProvider(FunctionsProvider functionsProvider) {
-        this.functionsProvider = functionsProvider;
+        return FunctionsProvider.lookup();
     }
 
     public String getName() {
-        return getComponentName();
+        return this.getClass().getName();
     }
-
 }

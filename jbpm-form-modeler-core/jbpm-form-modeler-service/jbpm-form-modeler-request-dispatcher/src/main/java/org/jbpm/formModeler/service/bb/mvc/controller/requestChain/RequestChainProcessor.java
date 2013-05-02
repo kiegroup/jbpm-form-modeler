@@ -15,53 +15,17 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.controller.requestChain;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
-import org.jbpm.formModeler.service.bb.mvc.components.ControllerStatus;
-import org.jbpm.formModeler.service.bb.mvc.controller.RequestContext;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 
 /**
  * Inspired on the pattern chain-of-responsability
  */
-public abstract class RequestChainProcessor extends BasicFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(RequestChainProcessor.class.getName());
-
-    private RequestChainProcessor nextStep;
-
-    public ControllerStatus getControllerStatus() {
-        return (ControllerStatus) Factory.lookup("org.jbpm.formModeler.service.mvc.controller.ControllerStatus");
-    }
-
-    public RequestChainProcessor getNextStep() {
-        return nextStep;
-    }
-
-    public void setNextStep(RequestChainProcessor nextStep) {
-        this.nextStep = nextStep;
-    }
-
-    public HttpServletRequest getRequest() {
-        return RequestContext.getCurrentContext().getRequest().getRequestObject();
-    }
-
-    public HttpServletResponse getResponse() {
-        return RequestContext.getCurrentContext().getRequest().getResponseObject();
-    }
+public interface RequestChainProcessor {
 
     /**
      * Make required processing of request.
      *
      * @return true if processing must continue, false otherwise.
      */
-    protected abstract boolean processRequest() throws Exception;
-
-    public final void doRequestProcessing() throws Exception {
-        boolean continueProcessing = processRequest();
-        if (continueProcessing && nextStep != null) {
-            nextStep.doRequestProcessing();
-        }
-    }
+    boolean processRequest(CommandRequest request) throws Exception;
 }

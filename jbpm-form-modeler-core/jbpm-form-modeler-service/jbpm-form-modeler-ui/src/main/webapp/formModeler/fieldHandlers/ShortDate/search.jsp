@@ -18,7 +18,7 @@
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.DateFieldHandler" %>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager" %>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
@@ -28,7 +28,7 @@
 %>
 <table border="0" cellpadding="0" cellspacing="0" >
     <tr valign="top">
-<mvc:formatter name="org.jbpm.formModeler.core.processing.fieldHandlers.ShortDateFieldHandlerFormatter">
+<mvc:formatter name="org.jbpm.formModeler.core.processing.fieldHandlers.DateFieldHandlerFormatter">
     <mvc:fragment name="output">
         <mvc:fragmentValue name="name" id="name">
         <mvc:fragmentValue name="title" id="title">

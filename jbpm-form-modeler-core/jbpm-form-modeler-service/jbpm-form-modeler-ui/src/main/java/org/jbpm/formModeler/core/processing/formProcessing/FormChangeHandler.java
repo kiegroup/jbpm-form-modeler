@@ -15,82 +15,48 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing;
 
+import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.core.processing.FormNamespaceData;
-import org.jbpm.formModeler.service.bb.mvc.components.handling.HandlerFactoryElement;
+import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.DoNothingResponse;
-import org.jbpm.formModeler.core.config.FormManagerImpl;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 
-public class FormChangeHandler extends HandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormChangeHandler.class.getName());
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
-    private FormManagerImpl formsManager;
-    private FormChangeProcessor changeProcessor;
-    private NamespaceManager namespaceManager;
-    private FormProcessor defaultFormProcessor;
+//@SessionScoped
+@ApplicationScoped
+public class FormChangeHandler extends BeanHandler {
 
-    @Override
-    public void start() throws Exception {
-        super.start();
-        formsManager = FormManagerImpl.lookup();
-    }
+    @Inject
+    private Log log;
 
-    public FormManagerImpl getFormsManager() {
-        return formsManager;
-    }
-
-    public void setFormsManager(FormManagerImpl formsManager) {
-        this.formsManager = formsManager;
-    }
-
-    public FormChangeProcessor getChangeProcessor() {
-        return changeProcessor;
-    }
-
-    public void setChangeProcessor(FormChangeProcessor changeProcessor) {
-        this.changeProcessor = changeProcessor;
-    }
-
-    public NamespaceManager getNamespaceManager() {
-        return namespaceManager;
-    }
-
-    public void setNamespaceManager(NamespaceManager namespaceManager) {
-        this.namespaceManager = namespaceManager;
-    }
+    @Inject
+    private FormProcessor formProcessor;
 
     public CommandResponse actionProcess(CommandRequest request) throws Exception {
         String modifiedFieldName = request.getParameter("modifiedFieldName");
-        FormNamespaceData formNamespaceData = getNamespaceManager().getNamespace(modifiedFieldName);
-
+        FormNamespaceData formNamespaceData = NamespaceManager.lookup().getNamespace(modifiedFieldName);
         FormChangeResponse changeResponse = new FormChangeResponse();
 
         while (formNamespaceData != null) {
             //if (getChangeProcessor() != null) {
-                defaultFormProcessor.setValues(formNamespaceData.getForm(), formNamespaceData.getNamespace(), request.getRequestObject().getParameterMap(), request.getFilesByParamName(), false);
+            formProcessor.setValues(formNamespaceData.getForm(), formNamespaceData.getNamespace(), request.getRequestObject().getParameterMap(), request.getFilesByParamName(), false);
             //    getChangeProcessor().process(formNamespaceData.getForm(), formNamespaceData.getNamespace(), changeResponse);
                 // Clear errors that might be stored in formStatuses
-                defaultFormProcessor.clearFieldErrors(formNamespaceData.getForm(), formNamespaceData.getNamespace());
+            formProcessor.clearFieldErrors(formNamespaceData.getForm(), formNamespaceData.getNamespace());
             //}
             // Evaluate parent's formulas
-            formNamespaceData = getNamespaceManager().getNamespace(formNamespaceData.getNamespace());
+            formNamespaceData = NamespaceManager.lookup().getNamespace(formNamespaceData.getNamespace());
         }
 
         request.getResponseObject().setContentType("text/xml");
-        if (log.isDebugEnabled())
-            log.debug("Sending form change response " + changeResponse.getXML());
+        if (log.isDebugEnabled()) log.debug("Sending form change response " + changeResponse.getXML());
         request.getResponseObject().getWriter().write(changeResponse.getXML());
 
         return new DoNothingResponse();
-    }
-
-    public FormProcessor getDefaultFormProcessor() {
-        return defaultFormProcessor;
-    }
-
-    public void setDefaultFormProcessor(FormProcessor defaultFormProcessor) {
-        this.defaultFormProcessor = defaultFormProcessor;
     }
 }

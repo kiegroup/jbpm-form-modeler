@@ -15,24 +15,33 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.components;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
-import org.jbpm.formModeler.service.bb.mvc.components.handling.HandlerFactoryElement;
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
-public class HandlerMarkupGenerator extends BasicFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(HandlerMarkupGenerator.class.getName());
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+@ApplicationScoped
+public class HandlerMarkupGenerator {
+
+    public static HandlerMarkupGenerator lookup() {
+        return (HandlerMarkupGenerator) CDIBeanLocator.getBeanByType(HandlerMarkupGenerator.class);
+    }
+
+    @Inject
+    private Log log;
 
     public String getMarkup(String bean, String property) {
         StringBuffer sb = new StringBuffer();
-        String alias = Factory.getAlias(bean);
-        sb.append(getHiddenMarkup(FactoryURL.PARAMETER_BEAN, alias != null ? alias : bean));
+        sb.append(getHiddenMarkup(FactoryURL.PARAMETER_BEAN, bean));
         sb.append(getHiddenMarkup(FactoryURL.PARAMETER_PROPERTY, property));
         try {
-            HandlerFactoryElement element = (HandlerFactoryElement) Factory.lookup(bean);
+            BeanHandler element = (BeanHandler) CDIBeanLocator.getBeanByNameOrType(bean);
             element.setEnabledForActionHandling(true);
         } catch (ClassCastException cce) {
-            log.error("Bean " + bean + " is not a HandlerFactoryElement.");
+            log.error("Bean " + bean + " is not a BeanHandler.");
         }        
         return sb.toString();
     }
@@ -42,5 +51,4 @@ public class HandlerMarkupGenerator extends BasicFactoryElement {
         value = StringEscapeUtils.escapeHtml(value);
         return "<input type=\"hidden\" name=\"" + name + "\" value=\"" + value + "\">";
     }
-
 }

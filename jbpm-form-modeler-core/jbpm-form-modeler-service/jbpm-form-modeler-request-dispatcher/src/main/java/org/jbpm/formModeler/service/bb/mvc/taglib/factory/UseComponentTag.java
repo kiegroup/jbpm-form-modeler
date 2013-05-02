@@ -15,40 +15,37 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib.factory;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
-import org.jbpm.formModeler.service.bb.mvc.components.handling.UIComponentHandlerFactoryElement;
+import org.jbpm.formModeler.service.bb.mvc.components.handling.UIBeanHandler;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.servlet.jsp.JspTagException;
 
 public class UseComponentTag extends GenericFactoryTag {
+
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(UseComponentTag.class.getName());
 
     public static final String COMPONENT_ATTR_NAME = "currentComponentBeingRendered";
 
-    /**
-     * @see javax.servlet.jsp.tagext.TagSupport
-     */
     public int doEndTag() throws JspTagException {
-        Object bean = Factory.lookup(getBean());
+        Object bean = CDIBeanLocator.getBeanByNameOrType(getBean());
         if (bean != null) {
-            if (bean instanceof UIComponentHandlerFactoryElement) {
-                String page = ((UIComponentHandlerFactoryElement) bean).getComponentIncludeJSP();
-                if (page == null)
-                    log.error("Page for component " + getBean() + " is null.");
+            if (bean instanceof UIBeanHandler) {
+                String page = ((UIBeanHandler) bean).getBeanJSP();
+                if (page == null) log.error("Page for component " + getBean() + " is null.");
                 Object previousComponent = pageContext.getRequest().getAttribute(COMPONENT_ATTR_NAME);
                 try {
-                    ((UIComponentHandlerFactoryElement) bean).beforeRenderComponent();
+                    ((UIBeanHandler) bean).beforeRenderBean();
                     pageContext.getRequest().setAttribute(COMPONENT_ATTR_NAME, bean);
                     pageContext.include(page);
                     pageContext.getRequest().setAttribute(COMPONENT_ATTR_NAME, previousComponent);
-                    ((UIComponentHandlerFactoryElement) bean).afterRenderComponent();
+                    ((UIBeanHandler) bean).afterRenderBean();
                 } catch (Exception e) {
                     throw new JspTagException("Error rendering UI bean '" + getBean() + "'", e);
                 } finally {
                     pageContext.getRequest().setAttribute(COMPONENT_ATTR_NAME, previousComponent);
                 }
             } else {
-                log.error("Bean " + getBean() + " is not a UIComponentHandlerFactoryElement");
+                log.error("Bean " + getBean() + " is not a UIBeanHandler");
             }
         } else {
             log.error("Bean " + getBean() + " is null.");
@@ -56,10 +53,6 @@ public class UseComponentTag extends GenericFactoryTag {
         return EVAL_PAGE;
     }
 
-
-    /**
-     * @see javax.servlet.jsp.tagext.TagSupport
-     */
     public int doStartTag() throws JspTagException {
         return SKIP_BODY;
     }

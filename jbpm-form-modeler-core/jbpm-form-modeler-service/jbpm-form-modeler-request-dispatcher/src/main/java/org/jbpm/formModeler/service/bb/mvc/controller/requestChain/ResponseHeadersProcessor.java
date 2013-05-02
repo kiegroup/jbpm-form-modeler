@@ -15,64 +15,36 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.controller.requestChain;
 
-import org.jbpm.formModeler.service.bb.mvc.Framework;
+import org.jbpm.formModeler.service.annotation.config.Config;
+import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
+import org.jbpm.formModeler.service.bb.mvc.controller.HTTPSettings;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- *
- */
-public class ResponseHeadersProcessor extends RequestChainProcessor {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ResponseHeadersProcessor.class.getName());
+public class ResponseHeadersProcessor implements RequestChainProcessor {
 
     private boolean useRefreshHeader = false;
     private String responseContentType = "text/html";
-    private Framework framework;
 
-
-    public boolean isUseRefreshHeader() {
-        return useRefreshHeader;
-    }
-
-    public void setUseRefreshHeader(boolean useRefreshHeader) {
-        this.useRefreshHeader = useRefreshHeader;
-    }
-
-    public String getResponseContentType() {
-        return responseContentType;
-    }
-
-    public void setResponseContentType(String responseContentType) {
-        this.responseContentType = responseContentType;
-    }
-
-    public Framework getFramework() {
-        return framework;
-    }
-
-    public void setFramework(Framework framework) {
-        this.framework = framework;
-    }
-
-    /**
-     * Make required processing of request.
-     *
-     * @return true if processing must continue, false otherwise.
-     */
-    protected boolean processRequest() {
+    public boolean processRequest(CommandRequest request) {
+        HttpServletResponse response = request.getResponseObject();
         if (responseContentType != null && !"".equals(responseContentType)) {
-            getResponse().setContentType(responseContentType);
-            getResponse().setHeader("Content-Type", responseContentType + "; charset=" + framework.getFrameworkEncoding());
+            response.setContentType(responseContentType);
+            response.setHeader("Content-Type", responseContentType + "; charset=" + HTTPSettings.lookup().getEncoding());
         }
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss", Locale.US);
-        getResponse().setHeader("Expires", "Mon, 06 Jan 2003 21:29:02 GMT");
-        getResponse().setHeader("Last-Modified", sdf.format(new Date()) + " GMT");
-        getResponse().setHeader("Cache-Control", "no-cache, must-revalidate");
-        getResponse().setHeader("Pragma", "no-cache");
-        if (useRefreshHeader)
-            getResponse().setHeader("Refresh", String.valueOf(getRequest().getSession().getMaxInactiveInterval() + 61));
+        response.setHeader("Expires", "Mon, 06 Jan 2003 21:29:02 GMT");
+        response.setHeader("Last-Modified", sdf.format(new Date()) + " GMT");
+        response.setHeader("Cache-Control", "no-cache, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        if (useRefreshHeader) {
+            response.setHeader("Refresh", String.valueOf(request.getSessionObject().getMaxInactiveInterval() + 61));
+        }
         return true;
     }
 }

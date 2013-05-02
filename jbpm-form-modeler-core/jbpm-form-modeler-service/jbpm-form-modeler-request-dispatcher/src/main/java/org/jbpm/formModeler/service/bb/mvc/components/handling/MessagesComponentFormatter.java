@@ -15,104 +15,46 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.components.handling;
 
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.service.LocaleManager;
+import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class MessagesComponentFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(MessagesComponentFormatter.class.getName());
 
-    private MessagesComponentHandler messagesComponentHandler;
-    private LocaleManager localeManager;
+    @Inject
+    private Log log;
 
-    private int maxVisibleErrors = 5;
+    @Inject @Config("5")
+    private int maxVisibleErrors;
 
+    @Inject @Config("/formModeler/components/messages/images/32x32/info.gif")
     private String messagesImg;
+
+    @Inject @Config("/formModeler/components/messages/images/32x32/warning.gif")
     private String warningsImg;
+
+    @Inject @Config("/formModeler/components/messages/images/32x32/error.gif")
     private String errorsImg;
 
+    @Inject @Config("5")
     private String classForMessages;
+
+    @Inject @Config("skn-error")
     private String classForWarnings;
+
+    @Inject @Config("skn-error")
     private String classForErrors;
 
-    public MessagesComponentHandler getMessagesComponentHandler() {
-        return messagesComponentHandler;
-    }
-
-    public void setMessagesComponentHandler(MessagesComponentHandler messagesComponentHandler) {
-        this.messagesComponentHandler = messagesComponentHandler;
-    }
-
-    public LocaleManager getLocaleManager() {
-        return localeManager;
-    }
-
-    public void setLocaleManager(LocaleManager localeManager) {
-        this.localeManager = localeManager;
-    }
-
-    public int getMaxVisibleErrors() {
-        return maxVisibleErrors;
-    }
-
-    public void setMaxVisibleErrors(int maxVisibleErrors) {
-        this.maxVisibleErrors = maxVisibleErrors;
-    }
-
-    public String getClassForMessages() {
-        return classForMessages;
-    }
-
-    public void setClassForMessages(String classForMessages) {
-        this.classForMessages = classForMessages;
-    }
-
-    public String getClassForWarnings() {
-        return classForWarnings;
-    }
-
-    public void setClassForWarnings(String classForWarnings) {
-        this.classForWarnings = classForWarnings;
-    }
-
-    public String getClassForErrors() {
-        return classForErrors;
-    }
-
-    public void setClassForErrors(String classForErrors) {
-        this.classForErrors = classForErrors;
-    }
-
-    public String getMessagesImg() {
-        return messagesImg;
-    }
-
-    public void setMessagesImg(String messagesImg) {
-        this.messagesImg = messagesImg;
-    }
-
-    public String getWarningsImg() {
-        return warningsImg;
-    }
-
-    public void setWarningsImg(String warningsImg) {
-        this.warningsImg = warningsImg;
-    }
-
-    public String getErrorsImg() {
-        return errorsImg;
-    }
-
-    public void setErrorsImg(String errorsImg) {
-        this.errorsImg = errorsImg;
-    }
-
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
+        MessagesComponentHandler messagesComponentHandler = MessagesComponentHandler.lookup();
         if (messagesComponentHandler.getErrorsToDisplay() != null && messagesComponentHandler.getErrorsToDisplay().size() > 0) {
             renderMessages(messagesComponentHandler.getErrorsToDisplay(), messagesComponentHandler.getErrorsParameters(), errorsImg, classForErrors);
         } else if (messagesComponentHandler.getWarningsToDisplay() != null && messagesComponentHandler.getWarningsToDisplay().size() > 0) {
@@ -123,6 +65,7 @@ public class MessagesComponentFormatter extends Formatter {
     }
 
     protected void renderMessages(List messages, List params, String img, String className) {
+        MessagesComponentHandler messagesComponentHandler = MessagesComponentHandler.lookup();
         while (messages.size() > params.size()) {
             params.add(null);
         }
@@ -160,9 +103,10 @@ public class MessagesComponentFormatter extends Formatter {
     }
 
     protected String localizeMessage(String message) {
+        MessagesComponentHandler messagesComponentHandler = MessagesComponentHandler.lookup();
         try {
             if (messagesComponentHandler.getI18nBundle() != null) {
-                ResourceBundle bundle = ResourceBundle.getBundle(messagesComponentHandler.getI18nBundle(), localeManager.getCurrentLocale());
+                ResourceBundle bundle = ResourceBundle.getBundle(messagesComponentHandler.getI18nBundle(), getLocale());
                 message = bundle.getString(message);
             }
         } catch (Exception e) {

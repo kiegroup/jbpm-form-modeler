@@ -18,7 +18,6 @@ package org.jbpm.formModeler.service.bb.mvc.components.handling;
 import org.jbpm.formModeler.service.bb.mvc.components.FactoryURL;
 
 public class FieldException extends Exception {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FieldException.class.getName());
 
     private FactoryURL property;
     private Object propertyValue;

@@ -18,24 +18,18 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
 import org.jbpm.formModeler.core.wrappers.Link;
 import org.jbpm.formModeler.api.model.Field;
+import org.jbpm.formModeler.service.annotation.config.Config;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Handler for links
  */
 public class LinkFieldHandler extends DefaultFieldHandler {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(LinkFieldHandler.class.getName());
-
-    private String pageToIncludeForRendering = "/formModeler/fieldHandlers/Link/input.jsp";
-    private String pageToIncludeForDisplaying = "/formModeler/fieldHandlers/Link/show.jsp";
-    private String pageToIncludeForSearching = "/formModeler/fieldHandlers/Link/search.jsp";
-
-    public String getName() {
-        return getComponentName();
-    }
 
     /**
      * Determine the list of class types this field can generate. That is, normally,
@@ -85,48 +79,11 @@ public class LinkFieldHandler extends DefaultFieldHandler {
         return m;
     }
 
-
-    /**
-     * When rendering a formulary, if field is handled by this handler, determine the
-     * page that renders the displaying of the value
-     *
-     * @return a page to include
-     */
-    public String getPageToIncludeForDisplaying() {
-        return pageToIncludeForDisplaying;
-    }
-
     public boolean isEmpty(Object value) {
         return value == null || ((Link) value).getLink() == null || "".equals(((Link) value).getLink());
     }
 
-    public void setPageToIncludeForDisplaying(String pageToIncludeForDisplaying) {
-        this.pageToIncludeForDisplaying = pageToIncludeForDisplaying;
-    }
-
     public boolean acceptsPropertyName(String propName) {
         return true;
-    }
-
-    /**
-     * When rendering a formulary, if field is handled by this handler, determine the
-     * page that renders the input(s)
-     *
-     * @return a page to include
-     */
-    public String getPageToIncludeForRendering() {
-        return pageToIncludeForRendering;
-    }
-
-    public void setPageToIncludeForRendering(String pageToIncludeForRendering) {
-        this.pageToIncludeForRendering = pageToIncludeForRendering;
-    }
-
-    public String getPageToIncludeForSearching() {
-        return pageToIncludeForSearching;
-    }
-
-    public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
-        this.pageToIncludeForSearching = pageToIncludeForSearching;
     }
 }

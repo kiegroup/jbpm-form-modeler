@@ -26,7 +26,6 @@ import javax.servlet.jsp.tagext.VariableInfo;
 import java.io.IOException;
 
 import org.jbpm.formModeler.service.bb.mvc.components.URLMarkupGenerator;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
 
 public class ContextTag extends BodyTagSupport {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ContextTag.class.getName());
@@ -97,7 +96,7 @@ public class ContextTag extends BodyTagSupport {
     }
 
     public String getContextHost() {
-        URLMarkupGenerator urlmg = (URLMarkupGenerator)Factory.lookup("org.jbpm.formModeler.service.mvc.components.URLMarkupGenerator");
+        URLMarkupGenerator urlmg = URLMarkupGenerator.lookup();
         return urlmg.getContextHost(pageContext.getRequest());
     }
 

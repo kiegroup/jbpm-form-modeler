@@ -21,7 +21,7 @@
 <%@ page import="org.apache.commons.lang.StringUtils"%>
 <%@ page import="org.jbpm.formModeler.core.wrappers.HTMLi18n"%>
 <%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.HTMLi18nFieldHandler"%>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager"%>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%try{%>

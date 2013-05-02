@@ -16,30 +16,28 @@
 package org.jbpm.formModeler.components.editor;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.api.processing.BindingManager;
+import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.core.processing.BindingManagerImpl;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class FieldAvailableTypesFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FieldAvailableTypesFormatter.class.getName());
 
-    private WysiwygFormEditor editor;
+    @Inject
+    private Log log;
 
     public WysiwygFormEditor getEditor() {
-        return editor;
+        return WysiwygFormEditor.lookup();
     }
-
-    public void setEditor(WysiwygFormEditor editor) {
-        this.editor = editor;
-    }
-
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
             Field field = getEditor().getCurrentEditField();
@@ -50,15 +48,16 @@ public class FieldAvailableTypesFormatter extends Formatter {
             // TODO: fix that to load properties from pojos!
             List suitableFieldTypes = null;
             if (!"void".equals(field.getFieldType().getFieldClass())) {
-                if (!StringUtils.isEmpty(form.getSubject())) suitableFieldTypes = editor.getFieldTypesManager().getSuitableFieldTypes(propertyName, BindingManagerImpl.lookup().getPropertyDefinition(propertyName, form.getSubject()));
-                else suitableFieldTypes = editor.getFieldTypesManager().getSuitableFieldTypes(propertyName, BindingManagerImpl.lookup().getPropertyDefinition(field.getFieldType()));
+                BindingManager bindingManager = FormCoreServices.lookup().getBindingManager();
+                if (!StringUtils.isEmpty(form.getSubject())) suitableFieldTypes = getEditor().getFieldTypesManager().getSuitableFieldTypes(propertyName, bindingManager.getPropertyDefinition(propertyName, form.getSubject()));
+                else suitableFieldTypes = getEditor().getFieldTypesManager().getSuitableFieldTypes(propertyName, bindingManager.getPropertyDefinition(field.getFieldType()));
             }
 
 
             if (suitableFieldTypes != null && !suitableFieldTypes.isEmpty()) {
                 renderFragment("outputStart");
 
-                String currentType = editor.getFieldTypeToView();
+                String currentType = getEditor().getFieldTypeToView();
                 currentType = currentType == null ? field.getFieldType().getCode() : currentType;
 
                 for (int i = 0; i < suitableFieldTypes.size(); i++) {
@@ -79,7 +78,5 @@ public class FieldAvailableTypesFormatter extends Formatter {
         } catch (Exception e) {
             log.error("Error:", e);
         }
-
-
     }
 }

@@ -15,15 +15,23 @@
  */
 package org.jbpm.formModeler.core.processing.formDecorators;
 
-
 import org.jbpm.formModeler.core.processing.fieldHandlers.InputTextFieldHandler;
+import org.jbpm.formModeler.service.annotation.config.Config;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+@ApplicationScoped
 public class FreeText extends InputTextFieldHandler {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FreeText.class.getName());
 
-    private String pageToIncludeForRendering = "/formModeler/formDecorators/FreeText/input.jsp";
-    private String pageToIncludeForDisplaying = "/formModeler/formDecorators/FreeText/show.jsp";
-    private String pageToIncludeForSearching = "/formModeler/formDecorators/FreeText/search.jsp";
+    @Inject @Config("/formModeler/formDecorators/FreeText/input.jsp")
+    private String pageToIncludeForRendering;
+
+    @Inject @Config("/formModeler/formDecorators/FreeText/show.jsp")
+    private String pageToIncludeForDisplaying;
+
+    @Inject @Config("/formModeler/formDecorators/FreeText/search.jsp")
+    private String pageToIncludeForSearching;
 
     public String getPageToIncludeForDisplaying() {
         return pageToIncludeForDisplaying;
@@ -48,5 +56,4 @@ public class FreeText extends InputTextFieldHandler {
     public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
         this.pageToIncludeForSearching = pageToIncludeForSearching;
     }
-
 }
