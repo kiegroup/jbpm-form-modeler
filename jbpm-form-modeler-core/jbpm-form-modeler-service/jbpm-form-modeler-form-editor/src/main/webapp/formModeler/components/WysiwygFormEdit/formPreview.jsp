@@ -279,14 +279,15 @@
                                             </div>
                                         </mvc:fragment>
                                         <mvc:fragment name="afterFieldInTemplateMode"><div style="height:2px;"></div></div></mvc:fragment>
-                                        <mvc:fragment name="beforeLabel"><td valign="top" nowrap width="1%"></mvc:fragment>
-                                        <mvc:fragment name="afterLabel">
+                                        <mvc:fragment name="beforeLabel">
                                             <mvc:fragmentValue name="renderHolderColor" id="renderHolderColor">
-                                            <mvc:fragmentValue name="bindingStr" id="bindingStr"><%=
-                                            (((displayBindings!=null && !((Boolean)displayBindings).booleanValue() )|| bindingStr==null) ? "": "<div class='bulletBinding' style='background-color: "+ renderHolderColor+";' title='"+bindingStr+"'></div>")
-                                                %></td></mvc:fragmentValue>
+                                                <mvc:fragmentValue name="bindingStr" id="bindingStr">
+                                                    <td valign="top" nowrap width="1%"><%=
+                                                (((displayBindings!=null && !((Boolean)displayBindings).booleanValue() )|| bindingStr==null) ? "": "<div class='bulletBinding' style='background-color: "+ renderHolderColor+";' title='"+bindingStr+"'></div>")
+                                                %></mvc:fragmentValue>
                                             </mvc:fragmentValue>
                                         </mvc:fragment>
+                                        <mvc:fragment name="afterLabel"></td></mvc:fragment>
                                         <mvc:fragment name="lineBetweenLabelAndField"></tr><tr></mvc:fragment>
                                         <mvc:fragment name="beforeField"><td valign="top" style="height: 2px; overflow:visible;"></mvc:fragment>
                                         <mvc:fragment name="afterField"></td></mvc:fragment>

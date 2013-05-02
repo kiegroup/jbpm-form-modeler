@@ -35,7 +35,7 @@ public class FieldButtonsFormatter extends Formatter {
     @Inject
     private Log log;
 
-    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/down.png")
+    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/edit.png")
     private String editIcon;
 
     @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/down.png")
