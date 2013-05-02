@@ -72,13 +72,13 @@
                     <tr>
                         <td valign="top"><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" type="text" class="skn-input" value="" size="20" maxlength="64"></td>
                         <td valign="top"><select class="skn-input" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_RENDERCOLOR%>">
-                            <option value="#FF8881">ROJO </option>
-                            <option value="#FBB767">NARANJA</option>
-                            <option value="#E9E371">AMARILLO</option>
-                            <option value="#A7E690">VERDE</option>
-                            <option value="#9BCAFA">AZUL</option>
-                            <option value="#B29FE4">VIOLETA</option>
-                            <option value="#BBBBBB">GRIS</option>
+                            <option value="#FF8881"><i18n:message key="holder_color_red">Red</i18n:message></option>
+                            <option value="#FBB767"><i18n:message key="holder_color_orange">Orange</i18n:message></option>
+                            <option value="#E9E371"><i18n:message key="holder_color_yellow">Yellow</i18n:message></option>
+                            <option value="#A7E690"><i18n:message key="holder_color_green">Green</i18n:message></option>
+                            <option value="#9BCAFA"><i18n:message key="holder_color_blue">Blue</i18n:message></option>
+                            <option value="#B29FE4"><i18n:message key="holder_color_violet">Violet</i18n:message></option>
+                            <option value="#BBBBBB"><i18n:message key="holder_color_grey">Grey</i18n:message></option>
                         </select></td>
 
                         <td valign="top">
