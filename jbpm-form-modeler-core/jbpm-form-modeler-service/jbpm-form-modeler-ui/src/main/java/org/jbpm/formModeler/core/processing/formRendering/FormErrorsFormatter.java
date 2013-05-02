@@ -73,9 +73,18 @@ public class FormErrorsFormatter extends Formatter {
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
 
         String namespace = httpServletRequest.getAttribute("namespace") != null ? (String) httpServletRequest.getAttribute("namespace") : "";
-        Long formId = httpServletRequest.getAttribute("formId") != null ? (Long) httpServletRequest.getAttribute("formId") : null;
 
-        List errorsToShow = getFormFieldErrors(namespace, formId);
+        Form formToPaint = null;
+
+        Object formObject = httpServletRequest.getAttribute("form");
+        if (formObject != null) formToPaint = (Form) formObject;
+        else {
+            Object formIdObject = httpServletRequest.getAttribute("formId");
+            Long formId = Long.decode(String.valueOf(formIdObject));
+            formToPaint = formManagerImpl.getFormById(formId);
+        }
+
+        List errorsToShow = getFormFieldErrors(namespace, formToPaint);
 
         if (errorsToShow.size() > 0) {
             renderFragment("outputStart");
@@ -100,17 +109,16 @@ public class FormErrorsFormatter extends Formatter {
         }
     }
 
-    public List getFormFieldErrors(String namespace, Long formId) {
+    public List getFormFieldErrors(String namespace, Form form) {
         List errorsToShow = new ArrayList();
-        if (formId != null && namespace != null) {
+        if (form != null && namespace != null) {
             try {
-                Form form = formManagerImpl.getFormById(formId);
-                FormStatusData statusData = defaultFormProcessor.read(formId, namespace);
+                FormStatusData statusData = defaultFormProcessor.read(form, namespace);
                 for (int i = 0; i < statusData.getWrongFields().size(); i++) {
                     Field field = form.getField((String) statusData.getWrongFields().get(i));
                     Boolean fieldIsRequired = field.getFieldRequired();
                     boolean fieldRequired = fieldIsRequired != null && fieldIsRequired.booleanValue() && !Form.RENDER_MODE_DISPLAY.equals(fieldIsRequired);
-                    String currentValue = statusData.getCurrentInputValue(namespace + FormProcessor.NAMESPACE_SEPARATOR + formId.intValue() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName());
+                    String currentValue = statusData.getCurrentInputValue(namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName());
                     if (fieldRequired && (currentValue == null || currentValue.trim().equals(""))) {
                         errorsToShow.clear();
                         ResourceBundle bundle = ResourceBundle.getBundle("org.jbpm.formModeler.core.processing.formRendering.messages", LocaleManager.currentLocale());
@@ -119,7 +127,7 @@ public class FormErrorsFormatter extends Formatter {
                     }
                 }
             } catch (Exception e) {
-                log.error("Error getting error messages for object " + formId + ": ", e);
+                log.error("Error getting error messages for object " + form.getId() + ": ", e);
             }
         }
         return errorsToShow;

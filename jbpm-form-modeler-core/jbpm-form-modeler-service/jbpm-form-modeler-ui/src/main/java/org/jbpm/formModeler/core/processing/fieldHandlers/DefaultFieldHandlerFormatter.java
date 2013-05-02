@@ -64,7 +64,7 @@ public abstract class DefaultFieldHandlerFormatter extends Formatter {
                 if ("form".equals(parameter)) value = form;
                 if ("field".equals(parameter)) value = field;
                 if (form != null && ("lastParameterMap".equals(parameter))) {
-                    value = defaultFormProcessor.read(form.getId(), namespace).getCurrentInputValues();
+                    value = defaultFormProcessor.read(form, namespace).getCurrentInputValues();
                 }
                 if (field != null && ("name".equals(parameter))) {
                     value = field.getFieldName();

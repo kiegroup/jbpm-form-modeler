@@ -21,9 +21,10 @@ import java.util.Set;
 public interface DataHolder extends Comparable{
 
     String getId();
-    Map load(Map<String, Object> values);
-    void writeValue(String id, Object value);
-    Object readValue(String id);
+    Object createInstance() throws Exception;
+    Map load(Map<String, Object> values) throws Exception;
+    void writeValue(Object destination, String propName, Object value) throws Exception;
+    Object readValue(Object destination, String propName) throws Exception;
     Set<DataFieldHolder> getFieldHolders();
     DataFieldHolder getDataFieldHolderById(String id);
     String getTypeCode();

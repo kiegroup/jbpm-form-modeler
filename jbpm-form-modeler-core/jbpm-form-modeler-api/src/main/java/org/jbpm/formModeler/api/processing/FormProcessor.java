@@ -86,6 +86,21 @@ public interface FormProcessor {
     public Object getAttribute(Form form, String namespace, String attributeName);
 
     /**
+     * Read status for given FormRenderContext id.
+     *
+     * @param ctxUid Form render context UID
+     * @return a FormStatusData object representing the form status
+     */
+    public FormStatusData read(String ctxUid);
+
+    /**
+     * Persists the status for given FormRenderContext id.
+     *
+     * @param ctxUid Form render context UID
+     */
+    void persist(String ctxUid) throws Exception;
+
+    /**
      * Read status for given form id.
      *
      * @param form    Form id to read

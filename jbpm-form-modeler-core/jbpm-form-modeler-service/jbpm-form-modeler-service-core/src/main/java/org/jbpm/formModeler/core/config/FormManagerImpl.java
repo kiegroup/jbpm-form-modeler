@@ -93,7 +93,7 @@ public class FormManagerImpl implements FormManager {
     }
 
     /**
-     * Get the formulary to edit a form field depending on its type
+     * Get the form to edit a form field depending on its type
      *
      * @param fieldType for which we want to edit
      * @return a form suitable for editing it, or null if none fits
@@ -153,7 +153,7 @@ public class FormManagerImpl implements FormManager {
     }
 
     /**
-     * Create an empty formulary with given parameters
+     * Create an empty form with given parameters
      *
      * @param subject     Form subject
      * @param name        Form name
@@ -178,7 +178,7 @@ public class FormManagerImpl implements FormManager {
     }
 
     /**
-     * Create an empty formulary with given parameters
+     * Create an empty form with given parameters
      *
      * @param duplicateId Form id to duplicate
      * @param name        Form name
@@ -233,7 +233,7 @@ public class FormManagerImpl implements FormManager {
     }
 
     /**
-     * Copy formulary structure from one form to another.
+     * Copy form structure from one form to another.
      *
      * @param sourceForm
      * @param destinationForm

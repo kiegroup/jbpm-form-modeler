@@ -27,7 +27,7 @@
                      property="clearAfterRender" propValue="true" />
 <factory:useComponent bean="org.jbpm.formModeler.service.mvc.components.handling.MessagesComponentHandler"/>
 
-
+<%--
 
 <i18n:bundle baseName="org.jbpm.formModeler.core.processing.formRendering.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <mvc:formatter name="org.jbpm.formModeler.core.processing.formRendering.FormErrorsFormatter">
@@ -81,3 +81,4 @@
         </div>
     </mvc:fragment>
 </mvc:formatter>
+--%>

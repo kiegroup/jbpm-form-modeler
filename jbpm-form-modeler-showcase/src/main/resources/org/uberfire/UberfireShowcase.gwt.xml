@@ -9,7 +9,6 @@
     <inherits name="org.uberfire.UberfireWorkbench"/>
     <inherits name="org.uberfire.UberfireWidgetsCore"/>
     <inherits name="org.uberfire.UberfireBackend"/>
-    <inherits name="org.uberfire.UberfireMarkdownWidget"/>
 
     <inherits name="org.jboss.errai.databinding.DataBinding"  />
     <inherits name="org.jboss.errai.ui.UI"  />

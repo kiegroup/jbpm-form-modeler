@@ -34,12 +34,12 @@ public class EditFormFormatter extends Formatter {
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
-            Form formulary = wysiwygFormEditor.getCurrentEditForm();
+            Form form = wysiwygFormEditor.getCurrentEditForm();
 
-            setFormularyAttributes(formulary);
+            setFormularyAttributes(form);
             renderFragment("outputStart");
 
-            setFormularyAttributes(formulary);
+            setFormularyAttributes(form);
             renderFragment("outputNameInput");
 
             renderFragment("outputStatusInputStart");
@@ -48,26 +48,26 @@ public class EditFormFormatter extends Formatter {
             for (int i = 0; i < statuses.length; i++) {
                 int status = statuses[i];
                 setAttribute("optionValue", status);
-                setAttribute("selected", formulary.getStatus().intValue() == status ? "selected" : "");
+                setAttribute("selected", form.getStatus().intValue() == status ? "selected" : "");
                 renderFragment("outputStatusInputOption");
             }
             renderFragment("outputStatusInputEnd");
 
 
-            setFormularyAttributes(formulary);
+            setFormularyAttributes(form);
             renderFragment("outputProcessorInput");
 
-            if (formulary.getDisplayMode() == null || "".equals(formulary.getDisplayMode())) {
-                formulary.setDisplayMode("default");
+            if (form.getDisplayMode() == null || "".equals(form.getDisplayMode())) {
+                form.setDisplayMode("default");
             }
             renderFragment("outputDisplayModeStart");
-            setAttribute("checked", formulary.getDisplayMode().equals(Form.DISPLAY_MODE_DEFAULT) ? "checked" : "");
+            setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_DEFAULT) ? "checked" : "");
             renderFragment("outputDefaultDisplayMode");
-            setAttribute("checked", formulary.getDisplayMode().equals(Form.DISPLAY_MODE_ALIGNED) ? "checked" : "");
+            setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_ALIGNED) ? "checked" : "");
             renderFragment("outputAlignedDisplayMode");
-            setAttribute("checked", formulary.getDisplayMode().equals(Form.DISPLAY_MODE_NONE) ? "checked" : "");
+            setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_NONE) ? "checked" : "");
             renderFragment("outputNoneDisplayMode");
-            //setAttribute("checked", formulary.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE) ? "checked" : "");
+            //setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE) ? "checked" : "");
             //renderFragment("outputTemplateDisplayMode");
 
             renderFragment("outputLabelModeStart");
@@ -82,8 +82,8 @@ public class EditFormFormatter extends Formatter {
             for (int i = 0; i < possibleLabelModes.length; i++) {
                 String labelMode = possibleLabelModes[i];
                 setAttribute("labelMode", labelMode);
-                boolean selected = labelMode.equals(formulary.getLabelMode());
-                if (formulary.getLabelMode() == null || formulary.getLabelMode().equals(""))
+                boolean selected = labelMode.equals(form.getLabelMode());
+                if (form.getLabelMode() == null || form.getLabelMode().equals(""))
                     selected = (i == 0);
                 renderFragment("outputLabelMode" + (selected ? "Selected" : ""));
             }
@@ -98,11 +98,11 @@ public class EditFormFormatter extends Formatter {
 
     }
 
-    protected void setFormularyAttributes(Form formulary) {
-        setAttribute("formulary", formulary);
-        setAttribute("formDisplayMode", formulary.getDisplayMode());
-        setAttribute("formStatus", formulary.getStatus());
-        setAttribute("formName", formulary.getName());
+    protected void setFormularyAttributes(Form form) {
+        setAttribute("form", form);
+        setAttribute("formDisplayMode", form.getDisplayMode());
+        setAttribute("formStatus", form.getStatus());
+        setAttribute("formName", form.getName());
     }
 
     public WysiwygFormEditor getWysiwygFormEditor() {

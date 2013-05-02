@@ -15,18 +15,11 @@
  */
 package org.jbpm.formModeler.renderer;
 
-import org.jboss.errai.common.client.api.annotations.Portable;
-import org.jbpm.formModeler.api.config.FormManager;
-import org.jbpm.formModeler.api.model.DataFieldHolder;
-import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 
-import javax.inject.Inject;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class FormRenderContext {
     private String UID;
@@ -34,24 +27,21 @@ public class FormRenderContext {
     private Map<String, Object> bindingData;
     private FormRenderListener formRenderListener;
 
-    public FormRenderContext() {
-    }
-
     public FormRenderContext(String uid, Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener) {
         this.UID = uid;
         this.form = form;
         this.bindingData = bindingData;
         this.formRenderListener = formRenderListener;
-        FormProcessor formProcessor = (FormProcessor) CDIHelper.getBeanByType(FormProcessor.class);
 
-        formProcessor.read(form.getId(), uid, bindingData);
+        FormProcessor formProcessor = (FormProcessor) CDIHelper.getBeanByType(FormProcessor.class);
+        formProcessor.read(uid);
     }
 
     public String getUID() {
         return UID;
     }
 
-    public Form getform() {
+    public Form getForm() {
         return form;
     }
 

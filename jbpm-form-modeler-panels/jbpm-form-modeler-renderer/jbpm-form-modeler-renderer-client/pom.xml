@@ -65,16 +65,39 @@
             <artifactId>errai-data-binding</artifactId>
         </dependency>
 
+        <!-- Guvnor dependencies -->
+
+        <dependency>
+            <groupId>org.kie.guvnor</groupId>
+            <artifactId>guvnor-commons-ui</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kie.guvnor</groupId>
+            <artifactId>guvnor-project-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kie.guvnor</groupId>
+            <artifactId>guvnor-commons-data</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kie.guvnor</groupId>
+            <artifactId>guvnor-commons-services-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kie.guvnor</groupId>
+            <artifactId>guvnor-core-services-api</artifactId>
+        </dependency>
+
         <!-- GWT and GWT Extensions -->
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-renderer-api</artifactId>

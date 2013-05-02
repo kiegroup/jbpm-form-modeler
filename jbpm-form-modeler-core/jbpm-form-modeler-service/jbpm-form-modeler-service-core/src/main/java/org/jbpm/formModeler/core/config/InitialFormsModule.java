@@ -15,10 +15,14 @@
  */
 package org.jbpm.formModeler.core.config;
 
+import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 import org.jbpm.formModeler.core.FormTemplate;
 import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.InitialModule;
 import org.jbpm.formModeler.core.FormTemplate;
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,7 +51,22 @@ public class InitialFormsModule extends InitialModule {
                     return false;
                 }
             }
+            try {
+                FormSerializationManagerImpl serializer = (FormSerializationManagerImpl) CDIHelper.getBeanByType(FormSerializationManagerImpl.class);
+                for (Form form: formManagerImpl.getAllForms()) {
+                    File file = new File("/home/pefernan/forms/" + form.getName() + ".form");
+
+                    if (file.exists()) file.delete();
+                    file.createNewFile();
+                    PrintWriter pw = new PrintWriter(file);
+                    pw.print(serializer.generateFormXML(form));
+                    pw.close();
+                }
+            } catch (Exception e) {
+                log.error("Error serializing forms: ", e);
+            }
         }
+
         return true;
     }
 

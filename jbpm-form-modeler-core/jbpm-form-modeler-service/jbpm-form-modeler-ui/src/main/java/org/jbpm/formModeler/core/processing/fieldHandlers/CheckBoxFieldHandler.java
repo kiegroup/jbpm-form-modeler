@@ -85,7 +85,7 @@ public class CheckBoxFieldHandler extends DefaultFieldHandler {
         if (parametersMap == null || parametersMap.size() == 0) return null;
 
         String[] pValues = (String[]) parametersMap.get(inputName + "Value");
-        // Fixed bug 3588. Parameter map could contains or null value ( if generated from deserializing formulary) or NULL_VALUE if comes from http request.
+        // Fixed bug 3588. Parameter map could contains or null value ( if generated from deserializing form) or NULL_VALUE if comes from http request.
         if (pValues == null || (pValues != null && NULL_VALUE.equals(pValues[0]))) return null;
         return pValues != null ? Boolean.valueOf(pValues[0]) : (previousValue == null ? Boolean.FALSE : previousValue);
     }

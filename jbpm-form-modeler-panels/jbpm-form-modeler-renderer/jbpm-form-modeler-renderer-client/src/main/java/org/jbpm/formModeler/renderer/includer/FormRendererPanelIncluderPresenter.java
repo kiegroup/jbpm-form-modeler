@@ -84,6 +84,14 @@ public class FormRendererPanelIncluderPresenter {
         }).startRendering(formId, new HashMap<String, Object>(), new FormRenderListener());
     }
 
+    public void startTest() {
+        renderingService.call(new RemoteCallback<Object>() {
+            @Override
+            public void callback(Object ctx) {
+            }
+        }).launchTest();
+    }
+
     @WorkbenchPartTitle
     public String getTitle() {
         return "Form Renderer Panel Includer";

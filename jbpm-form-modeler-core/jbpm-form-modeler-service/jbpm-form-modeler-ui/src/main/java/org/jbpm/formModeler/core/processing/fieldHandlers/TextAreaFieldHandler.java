@@ -77,7 +77,7 @@ public class TextAreaFieldHandler extends DefaultFieldHandler {
     }
 
     /**
-     * When rendering a formulary, if field is handled by this handler, determine the
+     * When rendering a form, if field is handled by this handler, determine the
      * page that renders the input(s)
      *
      * @return a page to include
@@ -87,7 +87,7 @@ public class TextAreaFieldHandler extends DefaultFieldHandler {
     }
 
     /**
-     * When rendering a formulary, if field is handled by this handler, determine the
+     * When rendering a form, if field is handled by this handler, determine the
      * page that renders the displaying of the value
      *
      * @return a page to include

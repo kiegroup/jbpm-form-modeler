@@ -55,7 +55,7 @@ public class FormRenderingComponent extends BaseUIComponent {
         Form form = ctx.getForm();
 
         formProcessor.setValues(form, ctxUID, request.getRequestObject().getParameterMap(), request.getFilesByParamName());
-        FormStatusData fsd = formProcessor.read(form.getId(), ctxUID);
+        FormStatusData fsd = formProcessor.read(form, ctxUID);
         if (fsd.isValid()) {
             formProcessor.clear(form.getId(), ctxUID);
             if (ctxUID.equals(this.ctxUID)) {

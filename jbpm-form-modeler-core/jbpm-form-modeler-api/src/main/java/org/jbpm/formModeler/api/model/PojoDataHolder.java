@@ -19,8 +19,8 @@ import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
+import java.lang.reflect.Field;
 import java.util.*;
 
 public class PojoDataHolder extends  DefaultDataHolder implements Comparable {
@@ -31,6 +31,16 @@ public class PojoDataHolder extends  DefaultDataHolder implements Comparable {
 
     Set<DataFieldHolder> dataFieldHolders;
 
+
+    public Object createInstance() throws Exception {
+        Object result = null;
+        for (Constructor constructor : Class.forName(className).getConstructors()) {
+            if (constructor.getParameterTypes().length == 0) {
+                result = constructor.newInstance();
+            }
+        }
+        return result;
+    }
 
     public PojoDataHolder(String id, String className,String renderColor) {
         this.id = id;
@@ -45,13 +55,26 @@ public class PojoDataHolder extends  DefaultDataHolder implements Comparable {
     }
 
     @Override
-    public void writeValue(String id, Object value) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void writeValue(Object destination, String propName, Object value) throws Exception {
+        Field field = destination.getClass().getDeclaredField(propName);
+
+        Method setterMethod = destination.getClass().getMethod("set" + capitalize(propName), new Class[]{field.getType()});
+        setterMethod.invoke(destination, new Object[]{value});
     }
 
     @Override
-    public Object readValue(String id) {
-        return null;
+    public Object readValue(Object destination, String propName) throws Exception {
+        Object value = null;
+
+        Method getter = destination.getClass().getMethod("get" + capitalize(propName));
+        value = getter.invoke(destination);
+
+        return value;
+    }
+
+    private String capitalize(String string) {
+        if (null == string) return "";
+        return Character.toUpperCase(string.charAt(0)) + string.substring(1);
     }
 
     @Override

@@ -495,7 +495,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             } else {
                 //Use custom edit form
                 defaultFormProcessor.setValues(editForm, "edit_" + pField.getId(), parameterMap, filesMap);
-                FormStatusData data = defaultFormProcessor.read(editForm.getId(), "edit_" + pField.getId());
+                FormStatusData data = defaultFormProcessor.read(editForm, "edit_" + pField.getId());
                 if (data.isValid()) {
 
                     /*

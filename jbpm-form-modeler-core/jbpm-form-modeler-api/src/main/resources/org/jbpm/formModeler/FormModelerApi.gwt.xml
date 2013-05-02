@@ -25,5 +25,5 @@
     <inherits name="com.google.gwt.user.User"/>
 
   <source path='api'/>
-    <source path='renderer'/>
+  <source path='renderer'/>
 </module>

@@ -80,7 +80,7 @@
 </mvc:fragment>
 <%------------------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="fieldCustomFormulary">
-    <mvc:fragmentValue name="formId" id="formularyId">
+    <mvc:fragmentValue name="formId" id="formId">
         <mvc:fragmentValue name="namespace" id="formNamespace">
             <mvc:fragmentValue name="editClass" id="editClass">
                 <mvc:fragmentValue name="editId" id="editId">
@@ -88,7 +88,7 @@
                         <mvc:fragmentValue name="fieldType" id="fieldType">
 
                             <mvc:formatter name="org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter">
-                                <mvc:formatterParam name="formId" value="<%=formularyId%>"/>
+                                <mvc:formatterParam name="formId" value="<%=formId%>"/>
                                 <mvc:formatterParam name="namespace" value="<%=formNamespace%>"/>
                                 <mvc:formatterParam name="editId" value="<%=editId%>"/>
                                 <mvc:formatterParam name="editClass" value="<%=editClass%>"/>

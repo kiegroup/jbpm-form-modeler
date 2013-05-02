@@ -101,22 +101,22 @@ function doprocessFormInputChange(element) {
         return;
     }
 
-    var formulary = element.form;
+    var form = element.form;
     var elementName = element.name;
 
-    var _backup_bean = getFormInputValue(formulary, '<%=FactoryURL.PARAMETER_BEAN%>');
-    var _backup_prop = getFormInputValue(formulary, '<%=FactoryURL.PARAMETER_PROPERTY%>');
-    var _backup_pAction = getFormInputValue(formulary, 'pAction');
-    /*var _backup_FormAction = formulary.action; */
+    var _backup_bean = getFormInputValue(form, '<%=FactoryURL.PARAMETER_BEAN%>');
+    var _backup_prop = getFormInputValue(form, '<%=FactoryURL.PARAMETER_PROPERTY%>');
+    var _backup_pAction = getFormInputValue(form, 'pAction');
+    /*var _backup_FormAction = form.action; */
 
-    prepareFormForHandler(formulary, 'org.jbpm.formModeler.core.processing.formProcessing.FormChangeHandler', 'process');
-    setFormInputValue( formulary, 'modifiedFieldName', elementName );
-    var formBody = getFormBody(formulary, false);
+    prepareFormForHandler(form, 'org.jbpm.formModeler.core.processing.formProcessing.FormChangeHandler', 'process');
+    setFormInputValue( form, 'modifiedFieldName', elementName );
+    var formBody = getFormBody(form, false);
 
-    setFormInputValue(formulary, '<%=FactoryURL.PARAMETER_BEAN%>', _backup_bean);
-    setFormInputValue(formulary, '<%=FactoryURL.PARAMETER_PROPERTY%>', _backup_prop);
-    setFormInputValue(formulary, 'pAction', _backup_pAction);
-    /*formulary.action = _backup_FormAction; */
+    setFormInputValue(form, '<%=FactoryURL.PARAMETER_BEAN%>', _backup_bean);
+    setFormInputValue(form, '<%=FactoryURL.PARAMETER_PROPERTY%>', _backup_prop);
+    setFormInputValue(form, 'pAction', _backup_pAction);
+    /*form.action = _backup_FormAction; */
 
     var url = "Controller";
     var formProcessor = new Object();
@@ -142,8 +142,8 @@ function doprocessFormInputChange(element) {
                         var fieldId = setValues[i].getAttribute("name");
                         var fieldValue = setValues[i].getAttribute("value");
                         /*alert("Putting field "+fieldId+" = "+fieldValue);*/
-                        if (formulary.elements[fieldId]){
-                            formulary.elements[fieldId].value = fieldValue;
+                        if (form.elements[fieldId]){
+                            form.elements[fieldId].value = fieldValue;
                         }
                         var elms = document.getElementsByName(fieldId+'_showContainer') ;
                         if ( elms ) {
@@ -156,7 +156,7 @@ function doprocessFormInputChange(element) {
                     //alert("setListValues ="+setListValues+" with size "+ (setListValues?setListValues.length:0) );
                     for (i = 0; i < setListValues.length; i++) {
                         var fieldId = setListValues[i].getAttribute("name");
-                        var formField =  formulary.elements[fieldId];
+                        var formField =  form.elements[fieldId];
                         if ( formField && formField.nodeName ) {
                             if ( formField && formField.nodeName.toLowerCase() == 'select') {
                                 <%--var selectedValue = formField.options[formField.selectedIndex].value;--%>

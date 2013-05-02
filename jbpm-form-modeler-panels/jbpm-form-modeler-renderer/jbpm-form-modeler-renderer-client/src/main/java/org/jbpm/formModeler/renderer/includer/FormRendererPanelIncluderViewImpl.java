@@ -47,11 +47,17 @@ public class FormRendererPanelIncluderViewImpl extends Composite implements Form
     @DataField
     public Button submitButton;
 
+    @Inject
+    @DataField
+    public Button startTestButton;
+
     private FormRendererPanelIncluderPresenter presenter;
 
     @Override
     public void init(FormRendererPanelIncluderPresenter presenter) {
         this.presenter = presenter;
+        submitButton.setText("submit");
+        startTestButton.setText("start");
     }
 
     @Override
@@ -60,6 +66,11 @@ public class FormRendererPanelIncluderViewImpl extends Composite implements Form
         for (FormTO form : formsToAdd) {
             forms.addItem(form.getFormName(), String.valueOf(form.getFormId()));
         }
+    }
+
+    @EventHandler("startTestButton")
+    public void startTest(ClickEvent event) {
+        presenter.startTest();
     }
 
     @EventHandler("submitButton")

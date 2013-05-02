@@ -44,6 +44,8 @@
 
     <inherits name="org.kie.guvnor.services.GuvnorCoreServicesAPI"/>
 
+    <inherits name="org.kie.guvnor.decoratedgrid.GuvnorDecoratedGridWidget" />
+
   <inherits name="org.jbpm.formModeler.editor.FormModelerAPI"/>
 
   <source path="client"/>

@@ -28,7 +28,7 @@ public class FieldRenderingFormatter extends FormRenderingFormatter {
         String fieldName = (String) getParameter("field");
         Field field = getRenderInfo().getForm().getField(fieldName);
         if (field == null) {
-            log.error("Field " + fieldName + " cannot be found in formulary.");
+            log.error("Field " + fieldName + " cannot be found in form.");
         } else {
             renderField((Field) field, getRenderInfo().getNamespace(), getRenderInfo().getRenderMode());
         }
