@@ -87,6 +87,7 @@ public class DataHoldersFormFormatter extends Formatter {
 
             String fieldName = "";
             int i=0;
+            if(dataFieldHolders!=null){
             for (DataFieldHolder dataFieldHolder : dataFieldHolders) {
                 fieldName =dataFieldHolder.getId();
                 if(fieldName!=null && !form.existBinding(dataHolder,fieldName)){
@@ -111,6 +112,7 @@ public class DataHoldersFormFormatter extends Formatter {
             }
             if(i!=0){//last field of list
                 renderFragment("outputEndBinding");
+            }
             }
 
         }

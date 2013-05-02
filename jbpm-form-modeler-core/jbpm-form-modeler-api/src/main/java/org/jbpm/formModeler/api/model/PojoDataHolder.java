@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-public class PojoDataHolder implements DataHolder,Comparable {
+public class PojoDataHolder implements DataHolder, Comparable {
     private String id;
     private String className;
     private String renderColor;
@@ -33,11 +33,11 @@ public class PojoDataHolder implements DataHolder,Comparable {
     Set<DataFieldHolder> dataFieldHolders;
 
 
-    public PojoDataHolder(String id, String className,String renderColor) {
+    public PojoDataHolder(String id, String className, String renderColor) {
         this.id = id;
         this.className = className;
-        fieldTypeManager = (FieldTypeManager)CDIHelper.getBeanByType(FieldTypeManager.class);
-        this.renderColor =renderColor;
+        fieldTypeManager = (FieldTypeManager) CDIHelper.getBeanByType(FieldTypeManager.class);
+        this.renderColor = renderColor;
     }
 
     @Override
@@ -62,11 +62,11 @@ public class PojoDataHolder implements DataHolder,Comparable {
 
     @Override
     public Set<DataFieldHolder> getFieldHolders() {
-        try{
-            if(dataFieldHolders == null || dataFieldHolders.size()==0)
+        try {
+            if (dataFieldHolders == null || dataFieldHolders.size() == 0)
                 dataFieldHolders = calculatePropertyNames();
             return dataFieldHolders;
-        }catch (Exception e){
+        } catch (Exception e) {
         }
         return null;
     }
@@ -88,14 +88,16 @@ public class PojoDataHolder implements DataHolder,Comparable {
 
     @Override
     public DataFieldHolder getDataFieldHolderById(String fieldHolderId) {
-        for(DataFieldHolder dataFieldHolder: dataFieldHolders ){
-            if(dataFieldHolder.getId().equals(fieldHolderId))
-                return dataFieldHolder;
+        if (dataFieldHolders != null) {
+            for (DataFieldHolder dataFieldHolder : dataFieldHolders) {
+                if (dataFieldHolder.getId().equals(fieldHolderId))
+                    return dataFieldHolder;
+            }
         }
         return null;
     }
 
-    private Set<DataFieldHolder> calculatePropertyNames() throws Exception{
+    private Set<DataFieldHolder> calculatePropertyNames() throws Exception {
 
         Class clase = null;
         try {
@@ -135,7 +137,7 @@ public class PojoDataHolder implements DataHolder,Comparable {
                 }
             }
         }
-        DataFieldHolder fieldHolder=null;
+        DataFieldHolder fieldHolder = null;
         for (Iterator it = propertiesDescriptors.keySet().iterator(); it.hasNext(); ) {
             String propertyName = (String) it.next();
             Map propertyValue = (Map) propertiesDescriptors.get(propertyName);
@@ -143,10 +145,10 @@ public class PojoDataHolder implements DataHolder,Comparable {
                 Class clazz = (Class) itMethods.next();
                 Boolean[] clazzValues = (Boolean[]) propertyValue.get(clazz);
                 if (clazzValues[0].booleanValue() && clazzValues[1].booleanValue()) {
-                    try{
-                        fieldHolder =  new DataFieldHolder(this,propertyName, fieldTypeManager.getTypeByClass(clazz.getName()).getCode());
+                    try {
+                        fieldHolder = new DataFieldHolder(this, propertyName, fieldTypeManager.getTypeByClass(clazz.getName()).getCode());
                         dataFieldHolders.add(fieldHolder);
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         //The
                     }
                     break;
@@ -156,8 +158,8 @@ public class PojoDataHolder implements DataHolder,Comparable {
         return dataFieldHolders;
     }
 
-    protected boolean isValidReturnType(String returnType) throws Exception{
-        if(returnType== null) return false;
+    protected boolean isValidReturnType(String returnType) throws Exception {
+        if (returnType == null) return false;
         if ("void".equals(returnType)) return true;
         if (fieldTypeManager.getTypeByClass(returnType) != null) return true;
             //else if ("boolean".equals(returnType)) return true;
