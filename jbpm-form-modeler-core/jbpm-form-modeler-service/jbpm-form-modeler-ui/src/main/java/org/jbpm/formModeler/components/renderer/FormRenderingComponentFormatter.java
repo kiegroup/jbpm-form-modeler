@@ -19,14 +19,19 @@ import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Dependent
 public class FormRenderingComponentFormatter extends Formatter {
+
     private FormRenderingComponent formRenderingComponent;
 
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
+        formRenderingComponent = FormRenderingComponent.lookup();
         if (formRenderingComponent.getForm() == null || StringUtils.isEmpty(formRenderingComponent.getCtxUID())) return;
 
         setAttribute("ctxUID", formRenderingComponent.getCtxUID());

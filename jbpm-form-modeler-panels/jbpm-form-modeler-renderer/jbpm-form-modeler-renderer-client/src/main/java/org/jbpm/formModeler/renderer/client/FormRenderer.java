@@ -24,13 +24,12 @@ import com.google.gwt.safehtml.shared.UriUtils;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import org.jbpm.formModeler.renderer.FormRenderContext;
-
+import org.jbpm.formModeler.renderer.FormRenderContextTO;
 
 
 public class FormRenderer extends Composite {
 
-    private FormRenderContext ctx;
+    private FormRenderContextTO ctx;
 
     private Frame frame = new Frame();
 
@@ -43,17 +42,17 @@ public class FormRenderer extends Composite {
     }
 
     public void submitForm() {
-        submitForm(ctx.getUID());
+        submitForm(ctx.getCtxUID());
     }
 
     private native void submitForm(String uid)  /*-{
         $wnd.submitFormRenderer(uid)
     }-*/;
 
-    public void loadContext(FormRenderContext ctx) {
+    public void loadContext(FormRenderContextTO ctx) {
         this.ctx = ctx;
 
-        String ctxUID = ctx.getUID();
+        String ctxUID = ctx.getCtxUID();
 
         frame.getElement().setId("frame_" + ctxUID);
         frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=frc&_fp=Start&ctxUID=" + ctxUID).asString());

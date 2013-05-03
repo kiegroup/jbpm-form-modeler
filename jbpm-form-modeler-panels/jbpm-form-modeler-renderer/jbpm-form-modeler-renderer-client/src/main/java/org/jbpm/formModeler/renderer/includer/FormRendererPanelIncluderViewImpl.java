@@ -25,6 +25,7 @@ import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.jbpm.formModeler.api.model.FormTO;
 import org.jbpm.formModeler.renderer.FormRenderContext;
+import org.jbpm.formModeler.renderer.FormRenderContextTO;
 import org.jbpm.formModeler.renderer.client.FormRenderer;
 
 import javax.enterprise.context.Dependent;
@@ -84,7 +85,7 @@ public class FormRendererPanelIncluderViewImpl extends Composite implements Form
     }
 
     @Override
-    public void loadContext(FormRenderContext ctx) {
+    public void loadContext(FormRenderContextTO ctx) {
         if (ctx != null) formRenderer.loadContext(ctx);
     }
 }

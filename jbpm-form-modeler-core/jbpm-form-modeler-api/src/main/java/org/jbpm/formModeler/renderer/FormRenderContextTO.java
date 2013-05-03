@@ -24,6 +24,9 @@ public class FormRenderContextTO implements Serializable {
     private String ctxUID;
     private Long formId;
 
+    public FormRenderContextTO() {
+    }
+
     public FormRenderContextTO(String ctxUID, Long formId) {
         this.ctxUID = ctxUID;
         this.formId = formId;
@@ -33,7 +36,15 @@ public class FormRenderContextTO implements Serializable {
         return ctxUID;
     }
 
+    public void setCtxUID(String ctxUID) {
+        this.ctxUID = ctxUID;
+    }
+
     public Long getFormId() {
         return formId;
+    }
+
+    public void setFormId(Long formId) {
+        this.formId = formId;
     }
 }

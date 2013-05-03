@@ -303,7 +303,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         Integer pos = Integer.decode(request.getParameter("position"));
         setCurrentEditFieldPosition(pos.intValue());
 
-        Form formToEdit = getFormularyForFieldEdition(getCurrentEditField());
+        Form formToEdit = getFormForFieldEdition(getCurrentEditField());
         if (formToEdit != null) {
             getFormProcessor().clear(formToEdit.getId(), "edit_" + getCurrentEditField().getId());
         }
@@ -450,13 +450,13 @@ public class WysiwygFormEditor extends BaseUIComponent {
         }
     }
 
-    public void actionAddFieldToFormulary(CommandRequest request) throws Exception {
+    public void actionAddFieldToForm(CommandRequest request) throws Exception {
         final String fieldType = request.getParameter("fieldType");
         Form form = getCurrentEditForm();
         addFieldToForm(form, fieldType);
     }
 
-    public void actionAddDecoratorToFormulary(CommandRequest request) throws Exception {
+    public void actionAddDecoratorToForm(CommandRequest request) throws Exception {
         final String fieldType = request.getParameter("fieldType");
         Form form = getCurrentEditForm();
         if (form == null) {
@@ -488,7 +488,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         return name;
     }
 
-    public Form getFormularyForFieldEdition(Field field) throws Exception {
+    public Form getFormForFieldEdition(Field field) throws Exception {
         if (getFieldTypeToView() != null) {
             return getFormManager().getFormForFieldEdition(getFieldTypesManager().getTypeByCode(getFieldTypeToView()));
         }
@@ -506,7 +506,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         } else {
             fieldTypeToView = ((String[]) parameterMap.get("fieldType"))[0];
 
-            Form editForm = getFormularyForFieldEdition(pField);
+            Form editForm = getFormForFieldEdition(pField);
 
             if (ACTION_CHANGE_FIELD_TYPE.equals(action)) {
                 pField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView()));
@@ -518,7 +518,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             } else {
                 //Use custom edit form
                 getFormProcessor().setValues(editForm, "edit_" + pField.getId(), parameterMap, filesMap);
-                FormStatusData data = getFormProcessor().read(editForm.getId(), "edit_" + pField.getId());
+                FormStatusData data = getFormProcessor().read(editForm, "edit_" + pField.getId());
                 if (data.isValid()) {
 
                     /*
@@ -611,7 +611,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
     }
 
     /*
-  public void actionAddComplexFieldToFormulary(CommandRequest request) throws Exception {
+  public void actionAddComplexFieldToForm(CommandRequest request) throws Exception {
       String managerClass = request.getParameter("fieldClass");
       String name = request.getParameter("name");
       String label = request.getParameter("label");

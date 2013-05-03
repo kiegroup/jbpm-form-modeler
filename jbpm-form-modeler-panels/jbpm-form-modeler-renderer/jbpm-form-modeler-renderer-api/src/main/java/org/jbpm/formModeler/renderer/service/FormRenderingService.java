@@ -18,8 +18,8 @@ package org.jbpm.formModeler.renderer.service;
 import org.jboss.errai.bus.server.annotations.Remote;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.FormTO;
-import org.jbpm.formModeler.renderer.FormRenderContext;
 import org.jbpm.formModeler.renderer.FormRenderContextManager;
+import org.jbpm.formModeler.renderer.FormRenderContextTO;
 import org.jbpm.formModeler.renderer.FormRenderListener;
 
 import java.lang.Long;
@@ -33,7 +33,7 @@ public interface FormRenderingService extends FormRenderContextManager {
     List<FormTO> getAllForms();
 
     void loadForm(Long id, Long formId);
-    void startRendering(Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener);
-    void startRendering(Long formId, Map<String, Object> bindingData, FormRenderListener formRenderListener);
-    void launchTest();
+    FormRenderContextTO startRendering(Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener);
+    FormRenderContextTO startRendering(Long formId, Map<String, Object> bindingData, FormRenderListener formRenderListener);
+    FormRenderContextTO launchTest();
 }

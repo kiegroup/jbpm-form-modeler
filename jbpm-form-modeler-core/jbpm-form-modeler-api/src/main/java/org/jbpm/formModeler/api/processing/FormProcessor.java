@@ -36,7 +36,7 @@ public interface FormProcessor {
      * Get submit values from a request parameter map and a files map, and store it in
      * a form status.
      *
-     * @param form         Formulary to process
+     * @param form         Form to process
      * @param parameterMap Parameters map, as extracted from a request.
      * @param filesMap     files map, where a parameter name points to a file
      * @param namespace    Form namespace
@@ -47,7 +47,7 @@ public interface FormProcessor {
      * Get submit values from a request parameter map and a files map, and store it in
      * a form status.
      *
-     * @param form         Formulary to process
+     * @param form         Form to process
      * @param parameterMap Parameters map, as extracted from a request.
      * @param filesMap     files map, where a parameter name points to a file
      * @param incremental  Determines if form status should be cleared before setting the parameter values
@@ -58,7 +58,7 @@ public interface FormProcessor {
     /**
      * Directly modify the status value for a form field.
      *
-     * @param form      Formulary to modify
+     * @param form      Form to modify
      * @param namespace Form namespace
      * @param fieldName Field name to modify
      * @param value     new value to set for this field.
@@ -68,7 +68,7 @@ public interface FormProcessor {
     /**
      * Sets an attribute for given form status
      *
-     * @param form           Formulary to process
+     * @param form           Form to process
      * @param namespace      Form namespace
      * @param attributeName  Attribute name
      * @param attributeValue Attribute value
@@ -78,7 +78,7 @@ public interface FormProcessor {
     /**
      * Gets an attribute for given form status
      *
-     * @param form          Formulary to process
+     * @param form          Form to process
      * @param namespace     Form namespace
      * @param attributeName Attribute name
      * @return the attribute value
@@ -123,7 +123,7 @@ public interface FormProcessor {
      * Calculates all formulas for given form. Should be called before reading status, otherwise, some
      * calculations might be performed afterwards (they may arrive asynchronously through ajax).
      *
-     * @param form      Formulary to store
+     * @param form      Form to store
      * @param namespace Form namespace
      */
     public void flushPendingCalculations(Form form, String namespace);
@@ -193,7 +193,7 @@ public interface FormProcessor {
     /**
      * Clears status data for given form id.
      *
-     * @param formId    Formulary id to clear
+     * @param formId    Form id to clear
      * @param namespace Form namespace
      */
     public void clear(Long formId, String namespace);
@@ -201,7 +201,7 @@ public interface FormProcessor {
     /**
      * Clear a field value. Just sets to null related status entry
      *
-     * @param formId    Formulary id to process
+     * @param formId    Form id to process
      * @param namespace Form namespace
      * @param fieldName Field name to clear
      */

@@ -53,12 +53,12 @@ public class LinkFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
 
         String name = "", link = "";
         if ("".equals(((Link) value).getLink())) {
-            link = getFormProcessor().read(form.getId(), "").getCurrentInputValue(fieldName + "_link");
+            link = getFormProcessor().read(form, "").getCurrentInputValue(fieldName + "_link");
             ((Link) value).setLink(link == null ? "" : link);
 
         }
         if ("".equals(((Link) value).getName())) {
-            name = getFormProcessor().read(form.getId(), "").getCurrentInputValue(fieldName + "_name");
+            name = getFormProcessor().read(form, "").getCurrentInputValue(fieldName + "_name");
             ((Link) value).setName(name == null ? "" : name);
 
         }

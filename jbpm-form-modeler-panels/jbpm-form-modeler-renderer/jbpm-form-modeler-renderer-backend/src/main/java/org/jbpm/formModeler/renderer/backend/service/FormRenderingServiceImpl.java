@@ -8,12 +8,15 @@ import org.jboss.errai.bus.client.api.builder.MessageBuildSubject;
 import org.jboss.errai.bus.client.api.builder.MessageReplySendable;
 import org.jboss.errai.bus.server.annotations.Service;
 import org.jboss.errai.bus.server.api.RpcContext;
+import org.jbpm.formModeler.api.Invoice;
 import org.jbpm.formModeler.api.config.FormManager;
 import org.jbpm.formModeler.api.config.FormSerializationManager;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.FormTO;
+import org.jbpm.formModeler.api.processing.FormProcessor;
 import org.jbpm.formModeler.api.util.helpers.RenderHelper;
 import org.jbpm.formModeler.renderer.FormRenderContext;
+import org.jbpm.formModeler.renderer.FormRenderContextTO;
 import org.jbpm.formModeler.renderer.FormRenderListener;
 import org.jbpm.formModeler.renderer.service.FormRenderingService;
 import org.jbpm.formModeler.renderer.validation.FormValidationResult;
@@ -23,7 +26,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,17 +42,20 @@ public class FormRenderingServiceImpl implements FormRenderingService, MessageCa
     @Inject
     private FormSerializationManager formSerializationManager;
 
+    @Inject
+    private FormProcessor formProcessor;
+
     protected Map<String, FormRenderContext> formRenderContextMap = new HashMap<String, FormRenderContext>();
 
     @Override
-    public void startRendering(Long formId, Map<String, Object> bindingData, FormRenderListener formRenderListener) {
+    public FormRenderContextTO startRendering(Long formId, Map<String, Object> bindingData, FormRenderListener formRenderListener) {
         Form form = formManager.getFormById(formId);
 
-        startRendering(form, bindingData, formRenderListener);
+        return startRendering(form, bindingData, formRenderListener);
     }
 
     @Override
-    public void launchTest() {
+    public FormRenderContextTO launchTest() {
 
         try {
             InputStreamReader is = new InputStreamReader(this.getClass().getResourceAsStream("test/testInvoice.form"));
@@ -67,22 +72,39 @@ public class FormRenderingServiceImpl implements FormRenderingService, MessageCa
 
             Form form = formSerializationManager.loadFormFromXML(sb.toString());
 
+            Invoice invoice = new Invoice();
+
+            invoice.setName("Ned Stark");
+            invoice.setCity("Winterfall");
+
+            Map<String, Object> bindingData = new HashMap<String, Object>();
+            bindingData.put("invoice", invoice);
+
+            return startRendering(form, bindingData, null);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return null;
     }
 
-    public void startRendering(Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener) {
+    public FormRenderContextTO startRendering(Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener) {
         if (form != null) {
-            String uid = "formRenderCtx_" + form.getId() + "_" + System.currentTimeMillis();
-            FormRenderContext ctx = new FormRenderContext(uid, form, bindingData, formRenderListener);
-            formRenderContextMap.put(uid, ctx);
-            //return ctx;
+
+            FormRenderContext ctx = newContext(form, bindingData, formRenderListener);
+
+            return ctx.getFormRenderingContextTO();
         }
 
-        //return null;
+        return null;
+    }
+
+    protected FormRenderContext newContext(Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener) {
+        String uid = "formRenderCtx_" + form.getId() + "_" + System.currentTimeMillis();
+        FormRenderContext ctx = new FormRenderContext(uid, form, bindingData, formRenderListener);
+        formRenderContextMap.put(uid, ctx);
+        formProcessor.read(ctx.getUID());
+        return ctx;
     }
 
     @Override

@@ -22,15 +22,32 @@ import org.jbpm.formModeler.api.processing.FormStatusData;
 import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 import org.jbpm.formModeler.renderer.FormRenderContext;
 import org.jbpm.formModeler.renderer.FormRenderContextManager;
+import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+@ApplicationScoped
+@Named("frc")
 public class FormRenderingComponent extends BaseUIComponent {
-    private String baseComponentJSP = "/formModeler/components/renderer/component.jsp";
-    private String componentIncludeJSP = "/formModeler/components/renderer/show.jsp";
+    @Inject
+    @Config("/formModeler/components/renderer/component.jsp")
+    private String baseComponentJSP;
 
+    @Inject
+    @Config("/formModeler/components/renderer/show.jsp")
+    private String componentIncludeJSP;
+
+    @Inject
     private FormRenderContextManager formRenderContextManager;
-    private FormProcessor formProcessor = (FormProcessor) CDIHelper.getBeanByType(FormProcessor.class);
+
+    @Inject
+    private FormProcessor formProcessor;
+
     private String ctxUID;
     private Form form;
 
@@ -39,8 +56,6 @@ public class FormRenderingComponent extends BaseUIComponent {
         this.ctxUID = commandRequest.getRequestObject().getParameter("ctxUID");
 
         if (StringUtils.isEmpty(ctxUID)) return;
-
-        if (formRenderContextManager == null) formRenderContextManager = (FormRenderContextManager) CDIHelper.getBeanByType(FormRenderContextManager.class);
 
         FormRenderContext ctx = formRenderContextManager.getFormRenderContext(ctxUID);
 
@@ -55,7 +70,7 @@ public class FormRenderingComponent extends BaseUIComponent {
         Form form = ctx.getForm();
 
         formProcessor.setValues(form, ctxUID, request.getRequestObject().getParameterMap(), request.getFilesByParamName());
-        FormStatusData fsd = formProcessor.read(form, ctxUID);
+        FormStatusData fsd = formProcessor.read(ctxUID);
         if (fsd.isValid()) {
             formProcessor.clear(form.getId(), ctxUID);
             if (ctxUID.equals(this.ctxUID)) {
@@ -95,7 +110,7 @@ public class FormRenderingComponent extends BaseUIComponent {
     }
 
     @Override
-    public String getComponentIncludeJSP() {
+    public String getBeanJSP() {
         return componentIncludeJSP;
     }
 
@@ -105,5 +120,9 @@ public class FormRenderingComponent extends BaseUIComponent {
 
     public void setFormProcessor(FormProcessor formProcessor) {
         this.formProcessor = formProcessor;
+    }
+
+    public static FormRenderingComponent lookup() {
+        return (FormRenderingComponent) CDIBeanLocator.getBeanByType(FormRenderingComponent.class);
     }
 }

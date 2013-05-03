@@ -22,6 +22,8 @@
 
 <factory:useComponent bean="org.jbpm.formModeler.service.bb.mvc.components.handling.MessagesComponentHandler"/>
 
+<%--
+
 <i18n:bundle baseName="org.jbpm.formModeler.core.processing.formRendering.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <mvc:formatter name="org.jbpm.formModeler.core.processing.formRendering.FormErrorsFormatter">
     <mvc:fragment name="outputStart">
@@ -74,3 +76,4 @@
         </div>
     </mvc:fragment>
 </mvc:formatter>
+--%>

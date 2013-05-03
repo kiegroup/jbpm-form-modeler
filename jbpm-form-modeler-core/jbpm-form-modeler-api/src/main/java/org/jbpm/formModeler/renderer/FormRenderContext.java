@@ -32,9 +32,6 @@ public class FormRenderContext {
         this.form = form;
         this.bindingData = bindingData;
         this.formRenderListener = formRenderListener;
-
-        FormProcessor formProcessor = (FormProcessor) CDIHelper.getBeanByType(FormProcessor.class);
-        formProcessor.read(uid);
     }
 
     public String getUID() {
@@ -54,5 +51,9 @@ public class FormRenderContext {
 
     public void setFormRenderListener(FormRenderListener formRenderListener) {
         this.formRenderListener = formRenderListener;
+    }
+
+    public FormRenderContextTO getFormRenderingContextTO() {
+        return new FormRenderContextTO(UID, form.getId());
     }
 }

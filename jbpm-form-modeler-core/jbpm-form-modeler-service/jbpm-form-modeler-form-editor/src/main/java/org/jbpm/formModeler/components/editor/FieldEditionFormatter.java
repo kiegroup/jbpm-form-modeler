@@ -35,7 +35,7 @@ public class FieldEditionFormatter extends FormFieldEditionFormatter {
             if (field == null) {
                 renderFragment("empty");
             } else {
-                Form formToEdit = getEditor().getFormularyForFieldEdition(field);
+                Form formToEdit = getEditor().getFormForFieldEdition(field);
                 if (formToEdit != null) {
                     renderFieldUsingForm(field, formToEdit);
                 } else {

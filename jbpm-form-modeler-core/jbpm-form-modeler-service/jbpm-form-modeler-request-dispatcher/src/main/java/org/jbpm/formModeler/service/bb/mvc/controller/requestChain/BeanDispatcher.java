@@ -16,7 +16,6 @@
 package org.jbpm.formModeler.service.bb.mvc.controller.requestChain;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.service.bb.mvc.components.ControllerStatus;
 import org.jbpm.formModeler.service.bb.mvc.components.FactoryURL;
 import org.jbpm.formModeler.service.bb.mvc.components.URLMarkupGenerator;
@@ -25,8 +24,6 @@ import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 /**
  * Dispatch the request to the specified UIBeanHandler.

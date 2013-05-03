@@ -20,6 +20,7 @@ import org.jboss.errai.bus.client.framework.MessageBus;
 import org.jboss.errai.ioc.client.api.Caller;
 import org.jbpm.formModeler.api.model.FormTO;
 import org.jbpm.formModeler.renderer.FormRenderContext;
+import org.jbpm.formModeler.renderer.FormRenderContextTO;
 import org.jbpm.formModeler.renderer.FormRenderListener;
 import org.jbpm.formModeler.renderer.service.FormRenderingService;
 import org.uberfire.client.annotations.WorkbenchPartTitle;
@@ -49,7 +50,7 @@ public class FormRendererPanelIncluderPresenter {
             UberView<FormRendererPanelIncluderPresenter> {
 
         void addForms(List<FormTO> forms);
-        void loadContext(FormRenderContext ctx);
+        void loadContext(FormRenderContextTO ctx);
     }
 
     @Inject
@@ -76,18 +77,19 @@ public class FormRendererPanelIncluderPresenter {
     }
 
     public void loadForm(Long formId) {
-        renderingService.call(new RemoteCallback<FormRenderContext>() {
+        renderingService.call(new RemoteCallback<FormRenderContextTO>() {
             @Override
-            public void callback(FormRenderContext ctx) {
+            public void callback(FormRenderContextTO ctx) {
                 view.loadContext(ctx);
             }
         }).startRendering(formId, new HashMap<String, Object>(), new FormRenderListener());
     }
 
     public void startTest() {
-        renderingService.call(new RemoteCallback<Object>() {
+        renderingService.call(new RemoteCallback<FormRenderContextTO>() {
             @Override
-            public void callback(Object ctx) {
+            public void callback(FormRenderContextTO ctx) {
+                view.loadContext(ctx);
             }
         }).launchTest();
     }

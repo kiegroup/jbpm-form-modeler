@@ -35,10 +35,10 @@ public class EditFormFormatter extends Formatter {
         try {
             Form form = WysiwygFormEditor.lookup().getCurrentEditForm();
 
-            setFormularyAttributes(form);
+            setFormAttributes(form);
             renderFragment("outputStart");
 
-            setFormularyAttributes(form);
+            setFormAttributes(form);
             renderFragment("outputNameInput");
 
             renderFragment("outputStatusInputStart");
@@ -53,7 +53,7 @@ public class EditFormFormatter extends Formatter {
             renderFragment("outputStatusInputEnd");
 
 
-            setFormularyAttributes(form);
+            setFormAttributes(form);
             renderFragment("outputProcessorInput");
 
             if (form.getDisplayMode() == null || "".equals(form.getDisplayMode())) {
@@ -66,7 +66,7 @@ public class EditFormFormatter extends Formatter {
             renderFragment("outputAlignedDisplayMode");
             setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_NONE) ? "checked" : "");
             renderFragment("outputNoneDisplayMode");
-            //setAttribute("checked", formulary.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE) ? "checked" : "");
+            //setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE) ? "checked" : "");
             //renderFragment("outputTemplateDisplayMode");
 
             renderFragment("outputLabelModeStart");
@@ -97,10 +97,10 @@ public class EditFormFormatter extends Formatter {
 
     }
 
-    protected void setFormularyAttributes(Form formulary) {
-        setAttribute("formulary", formulary);
-        setAttribute("formDisplayMode", formulary.getDisplayMode());
-        setAttribute("formStatus", formulary.getStatus());
-        setAttribute("formName", formulary.getName());
+    protected void setFormAttributes(Form form) {
+        setAttribute("form", form);
+        setAttribute("formDisplayMode", form.getDisplayMode());
+        setAttribute("formStatus", form.getStatus());
+        setAttribute("formName", form.getName());
     }
 }

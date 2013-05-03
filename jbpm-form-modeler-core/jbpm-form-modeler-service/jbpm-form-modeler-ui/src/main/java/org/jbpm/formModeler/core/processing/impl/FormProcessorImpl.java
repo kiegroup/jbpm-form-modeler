@@ -16,6 +16,7 @@
 package org.jbpm.formModeler.core.processing.impl;
 
 import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.processing.ProcessingMessagedException;
 import org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler;
@@ -33,9 +34,10 @@ import org.jbpm.formModeler.api.processing.FieldHandler;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 import org.jbpm.formModeler.api.processing.FormStatusData;
 import org.jbpm.formModeler.api.util.helpers.CDIHelper;
+import org.jbpm.formModeler.renderer.FormRenderContext;
+import org.jbpm.formModeler.renderer.FormRenderContextManager;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.*;
@@ -52,6 +54,13 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
     @Inject
     private FieldHandlersManager fieldHandlersManager;
+
+    @Inject
+    FormRenderContextManager formRenderContextManager;
+
+    protected FormStatus getContextFormStatus(FormRenderContext context) {
+        return FormStatusManager.lookup().getFormStatus(context.getForm().getId(), context.getUID());
+    }
 
     protected FormStatus getFormStatus(Long formId, String namespace) {
         return getFormStatus(formId, namespace, new HashMap());
@@ -256,10 +265,73 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         }
     }
 
-    public FormStatusData read(Long formId, String namespace, Map currentValues) {
-        boolean exists = existsFormStatus(formId, namespace);
+    public FormStatusData read(String ctxUid) {
+        FormStatusDataImpl data = null;
+
+        try {
+            FormRenderContext context = formRenderContextManager.getFormRenderContext(ctxUid);
+            if (context == null ) return null;
+
+            FormStatus formStatus = getContextFormStatus(context);
+
+            boolean isNew = formStatus == null;
+
+            if (isNew) {
+                formStatus = createContextFormStatus(context);
+            }
+
+            data = new FormStatusDataImpl(formStatus, isNew);
+        } catch (Exception e) {
+            log.error("Error: ", e);
+        }
+
+        return data;
+    }
+
+    protected FormStatus createContextFormStatus(FormRenderContext context) throws Exception {
+        Map values = new HashMap();
+
+        Map<String, Object> bindingData = context.getBindingData();
+
+        if (bindingData != null && !bindingData.isEmpty()) {
+
+            Form form = context.getForm();
+            Set<Field> fields = form.getFormFields();
+
+            if (fields != null) {
+                for (Field field : form.getFormFields()) {
+                    String bindingString = field.getBindingStr();
+                    if (!StringUtils.isEmpty(bindingString)) {
+                        bindingString = bindingString.substring(1, bindingString.length() - 1);
+
+                        boolean canSetValue = bindingString.indexOf("/") > 0;
+
+                        if (canSetValue) {
+                            String holderId = bindingString.substring(bindingString.indexOf("/"));
+                            String holderFieldId = bindingString.substring(holderId.length() + 1);
+
+                            DataHolder holder = form.getDataHolderById(holderId);
+                            if (holder != null && !StringUtils.isEmpty(holderFieldId)) {
+
+                                Object value = bindingData.get(holder.getId());
+
+                                if (value == null) continue;
+
+                                values.put(field.getFieldName(), holder.readValue(value, holderFieldId));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return getFormStatus(context.getForm().getId(), context.getUID(), values);
+    }
+
+    public FormStatusData read(Form form, String namespace, Map currentValues) {
+        boolean exists = existsFormStatus(form.getId(), namespace);
         if (currentValues == null) currentValues = new HashMap();
-        FormStatus formStatus = getFormStatus(formId, namespace, currentValues);
+        FormStatus formStatus = getFormStatus(form.getId(), namespace, currentValues);
         FormStatusDataImpl data = null;
         try {
             data = new FormStatusDataImpl(formStatus, !exists);
@@ -269,13 +341,48 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         return data;
     }
 
-    public FormStatusData read(Long formId, String namespace) {
-        return read(formId, namespace, new HashMap());
+    public FormStatusData read(Form form, String namespace) {
+        return read(form, namespace, new HashMap<String, Object>());
     }
 
     public void flushPendingCalculations(Form form, String namespace) {
         if (formChangeProcessor != null) {
             formChangeProcessor.process(form, namespace, new FormChangeResponse());//Response is ignored, we just need the session values.
+        }
+    }
+
+    public void persist(String ctxUid) throws Exception {
+        FormRenderContext context = formRenderContextManager.getFormRenderContext(ctxUid);
+
+        Form form = context.getForm();
+
+        ctxUid = StringUtils.defaultIfEmpty(ctxUid, FormProcessor.DEFAULT_NAMESPACE);
+
+        Map mapToPersist = getFilteredMapRepresentationToPersist(form, ctxUid);
+
+        for (Iterator it = mapToPersist.keySet().iterator(); it.hasNext();) {
+            String fieldName = (String) it.next();
+            Field field = form.getField(fieldName);
+            String bindingString = field.getBindingStr();
+            if (!StringUtils.isEmpty(bindingString)) {
+                bindingString = bindingString.substring(1, bindingString.length() - 1);
+
+                boolean canBind = bindingString.indexOf("/") > 0;
+
+                if (canBind) {
+                    String holderId = bindingString.substring(bindingString.indexOf("/"));
+                    String holderFieldId = bindingString.substring(holderId.length() + 1);
+                    DataHolder holder = form.getDataHolderById(holderId);
+                    if (holder != null && !StringUtils.isEmpty(holderFieldId)) holder.writeValue(context.getBindingData().get(holderId), holderFieldId, mapToPersist.get(fieldName));
+                    else canBind = false;
+                }
+
+                if (!canBind) {
+                    log.error("Unable to bind DataHolder for field '" + fieldName + "' to '" + bindingString + "'. This may be caused because bindingString is incorrect or the form doesn't contains the defined DataHolder.");
+                    context.getBindingData().put(bindingString, mapToPersist.get(fieldName));
+                }
+
+            }
         }
     }
 
@@ -395,7 +502,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
     public void clear(Long formId, String namespace) {
         if (log.isDebugEnabled())
-            log.debug("Clearing form status for formulary " + formId + " with namespace '" + namespace + "'");
+            log.debug("Clearing form status for form " + formId + " with namespace '" + namespace + "'");
         destroyFormStatus(formId, namespace);
     }
 
@@ -428,10 +535,6 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
     public void load(Long formId, Long objIdentifier, String itemClassName) throws Exception {
         load(formId, "", objIdentifier, itemClassName);
-    }
-
-    public FormStatusData read(Long formId) {
-        return read(formId, "");
     }
 
     public void setValues(Form form, Map parameterMap, Map filesMap) {

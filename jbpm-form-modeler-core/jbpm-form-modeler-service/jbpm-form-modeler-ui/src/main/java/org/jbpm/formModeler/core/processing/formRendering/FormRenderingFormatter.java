@@ -168,29 +168,9 @@ public class FormRenderingFormatter extends Formatter {
 
             ((Map) formValues).put(FormProcessor.FORM_MODE, formMode);
 
-            FormStatusData formStatusData = getFormProcessor().read(formToPaint.getId(), namespace, (Map) formValues);
             if (!reuseStatus) {
                 getFormProcessor().clear(formToPaint.getId(), namespace);
             }
-            if (!reuseStatus || formStatusData.isNew()) {
-                getFormProcessor().load(formToPaint.getId(), namespace, formValues, renderMode);
-                /*
-                TODO: review this to load data directly from the object
-                if (objectToLoadClass != null && objectIdToLoad != null) {
-                    if (log.isDebugEnabled())
-                        log.debug("Loading into memory status object with class " + objectToLoadClass + " and id=" + objectIdToLoad + " for form " + formToPaint.getId() + " in namespace " + namespace);
-                    formProcessor.load(formToPaint.getId(), namespace, objectIdToLoad, objectToLoadClass, renderMode);
-                } else {
-                    formProcessor.load(formToPaint.getId(), namespace, formValues, renderMode);
-                } */
-            } else {
-                if (formValues != null) {
-                    if (log.isDebugEnabled())
-                        log.debug("Loading map of values into form " + formToPaint.getId() + " in namespace " + namespace + ": " + formValues);
-                    getFormProcessor().load(formToPaint.getId(), namespace, formValues, renderMode);
-                }
-            }
-
 
             String displayMode = formToPaint.getDisplayMode();
             if (displayModeParam != null)
@@ -207,7 +187,7 @@ public class FormRenderingFormatter extends Formatter {
             }
 
             if (log.isDebugEnabled())
-                log.debug("About to display form " + formToPaint.getId() + " in namespace " + namespace + " with status " + getFormProcessor().read(formToPaint.getId(), namespace));
+                log.debug("About to display form " + formToPaint.getId() + " in namespace " + namespace + " with status " + getFormProcessor().read(formToPaint, namespace));
             display(formToPaint, namespace, displayMode, displayInfo, renderMode, labelMode, isSubForm, isMultiple);
 
         } catch (Exception e) {
@@ -324,7 +304,7 @@ public class FormRenderingFormatter extends Formatter {
         }
 
         Form form = (Form) field.getForm();
-        FormStatusData fsd = getFormProcessor().read(form.getId(), namespace);
+        FormStatusData fsd = getFormProcessor().read(form, namespace);
         boolean fieldHasErrors = fsd.getWrongFields().contains(field.getFieldName());
         String renderPage = "";
         FieldHandler fieldHandler = getFieldHandlersManager().getHandler(field.getFieldType());
@@ -437,7 +417,7 @@ public class FormRenderingFormatter extends Formatter {
             writeToOut(Form.TEMPLATE_LABEL + "{" + field.getFieldName() + "}");
         } else {
             Form form = field.getForm();
-            FormStatusData fsd = getFormProcessor().read(form.getId(), namespace);
+            FormStatusData fsd = getFormProcessor().read(form, namespace);
             boolean fieldHasErrors = fsd.getWrongFields().contains(field.getFieldName());
             String label = (String) getLocaleManager().localize(field.getLabel());
             Boolean fieldIsRequired = field.getFieldRequired();
@@ -502,7 +482,7 @@ public class FormRenderingFormatter extends Formatter {
         Set<Field> fields = form.getFormFields();
         List<Field> sortedFields = new ArrayList(fields);
         Collections.sort(sortedFields, new Field.Comparator());
-        FormStatusData formStatusData = getFormProcessor().read(form.getId(), namespace);
+        FormStatusData formStatusData = getFormProcessor().read(form, namespace);
 
         setAttribute("width", deduceWidthForForm(form, renderMode, labelMode, mode));
         renderFragment("outputStart");

@@ -315,7 +315,7 @@ public class Form implements Serializable, Comparable{
 
         if (field!=null && field.getBindingStr()!=null && field.getBindingStr().trim().length()>0  ){
             String bindingStr = field.getBindingStr();
-            String bindedFieldName = getFieldNameFromBindingStr(bindingStr);
+            String bindedFieldName = getDataFieldHolderNameFromBindingStr(bindingStr);
             if(bindingStr!=null && bindingStr.length()>0){
                 for (DataHolder holder : holders) {
                     if (bindingStr.equals(generateBindingStr(holder, bindedFieldName)))
@@ -343,7 +343,7 @@ public class Form implements Serializable, Comparable{
         return "";
     }
 
-    public String getFieldNameFromBindingStr(String bindingStr){
+    public String getDataFieldHolderNameFromBindingStr(String bindingStr){
         if(bindingStr!=null && bindingStr.indexOf('/')!=-1 && bindingStr.length()>1)
             return bindingStr.substring(bindingStr.indexOf('/')+1,bindingStr.length()-1);
         return "";

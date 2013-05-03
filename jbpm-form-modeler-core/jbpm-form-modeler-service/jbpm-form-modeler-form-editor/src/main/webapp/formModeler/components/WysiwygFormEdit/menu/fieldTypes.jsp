@@ -50,7 +50,7 @@
                     <td nowrap="nowrap"  class="fieldTypes">
                         <form method="POST" style="margin:0px;" action="<factory:formUrl/>"
                               id="<%="addPrimitiveFieldForm"+uid%>">
-                            <factory:handler action="addFieldToFormulary"/>
+                            <factory:handler action="addFieldToForm"/>
                             <table cellspacing="0" cellpadding="0" width="100%">
                                 <tr onmouseover="className='skn-even_row_alt'"
                                     onmouseout="className=''">
@@ -92,7 +92,7 @@
     <mvc:fragmentValue name="uid" id="uid">
         <form method="POST" style="margin:0px;" action="<factory:formUrl/>"
               id="<%="addPrimitiveFieldForm"+uid%>">
-            <factory:handler action="addFieldToFormulary"/>
+            <factory:handler action="addFieldToForm"/>
             <table cellspacing="0" cellpadding="0" width="100%">
                 <tr onmouseover="className='skn-even_row_alt'" onmouseout="className=''">
                     <td>
@@ -170,7 +170,7 @@
             setAjax("<%="addComplexForm"+uid%>");
         </script>
         <form method="POST" style="margin:0px;" action="<factory:formUrl/>" id="<%="addComplexForm"+uid%>">
-            <factory:handler action="addComplexFieldToFormulary"/>
+            <factory:handler action="addComplexFieldToForm"/>
             <table cellspacing="0" cellpadding="0" width="100%">
                 <tr onmouseover="className='skn-even_row_alt'" onmouseout="className=''">
                     <td>
@@ -207,7 +207,7 @@
                 <td nowrap="nowrap" width="10px">
                     <form method="POST" style="margin:0px;" action="<factory:formUrl/>"
                           id="<%="addDecForm"+position%>">
-                        <factory:handler action="addDecoratorToFormulary"/>
+                        <factory:handler action="addDecoratorToForm"/>
 
                         <input type="hidden" name="fieldType" value="<%=decoratorId%>">
                         <table cellspacing="0" cellpadding="0" width="100%">

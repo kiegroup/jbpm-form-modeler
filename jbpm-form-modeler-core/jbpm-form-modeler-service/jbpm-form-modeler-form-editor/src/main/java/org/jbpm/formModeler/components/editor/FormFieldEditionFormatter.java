@@ -52,7 +52,7 @@ public class FormFieldEditionFormatter extends FormRenderingFormatter {
             if (field == null) {
                 renderFragment("empty");
             } else {
-                Form formToEdit = getFormularyForFieldEdition(field);
+                Form formToEdit = getFormForFieldEdition(field);
                 if (formToEdit != null) {
                     renderFieldUsingForm(field, formToEdit);
                 } else {
@@ -64,9 +64,9 @@ public class FormFieldEditionFormatter extends FormRenderingFormatter {
         }
     }
 
-    public Form getFormularyForFieldEdition(Field field) throws Exception {
+    public Form getFormForFieldEdition(Field field) throws Exception {
         if (getEditor() != null) {
-            return getEditor(). getFormularyForFieldEdition(field);
+            return getEditor(). getFormForFieldEdition(field);
         }
         return null;
     }
@@ -92,7 +92,7 @@ public class FormFieldEditionFormatter extends FormRenderingFormatter {
         }
         setAttribute("formValues", field.asMap());
         setAttribute("fieldType", type);
-        renderFragment("fieldCustomFormulary");
+        renderFragment("fieldCustomForm");
         setAttribute("fieldName", fieldName);
         renderFragment("outputEnd");
     }

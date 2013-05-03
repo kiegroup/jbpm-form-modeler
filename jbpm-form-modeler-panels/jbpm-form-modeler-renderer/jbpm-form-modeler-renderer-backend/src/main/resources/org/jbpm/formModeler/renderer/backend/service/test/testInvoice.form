@@ -1,7 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form id="363050652">
+<form id="236665306">
 <property name="subject" value=""/>
-<property name="name" value="invoice.form"/>
-<property name="displayMode" value="default"/>
+<property name="name" value="testInvoice.form"/>
+<property name="displayMode" value="aligned"/>
+<property name="labelMode" value="undefined"/>
 <property name="status" value="0"/>
+<field position="9" name="invoice_accountBalance" type="InputTextDouble" id="422209186">
+<property name="fieldName" value="invoice_accountBalance"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="label" value="quot;enquot;,quot;accountBalance (invoice)quot;"/>
+</field>
+<field position="10" name="invoice_accountBalance_counting" type="InputTextDouble" id="38869357">
+<property name="fieldName" value="invoice_accountBalance_counting"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="label" value="quot;enquot;,quot;accountBalance_counting (invoice)quot;"/>
+</field>
+<field position="6" name="invoice_createdDate" type="InputDate" id="1778293416">
+<property name="fieldName" value="invoice_createdDate"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="label" value="quot;enquot;,quot;createdDate (invoice)quot;"/>
+</field>
+<field position="1" name="invoice_phone" type="InputTextPhone" id="980678893">
+<property name="fieldName" value="invoice_phone"/>
+<property name="fieldRequired" value="true"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="labelCSSClass" value=""/>
+<property name="labelCSSStyle" value=""/>
+<property name="label" value="quot;SSClassquot;,quot;quot;quot;SSStylequot;,quot;quot;quot;enquot;,quot;phone (invoice)quot;quot;esquot;,quot;quot;"/>
+<property name="errorMessage" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="title" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="12"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="htmlContainer" value=""/>
+<property name="defaultValueFormula" value=""/>
+</field>
+<field position="8" name="invoice_availableCredit" type="InputTextDouble" id="596952628">
+<property name="fieldName" value="invoice_availableCredit"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="label" value="quot;enquot;,quot;availableCredit (invoice)quot;"/>
+</field>
+<field position="5" name="invoice_city" type="InputText" id="418287347">
+<property name="fieldName" value="invoice_city"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="label" value="quot;enquot;,quot;city (invoice)quot;"/>
+</field>
+<field position="7" name="invoice_updatedDate" type="InputDate" id="2038763242">
+<property name="fieldName" value="invoice_updatedDate"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="label" value="quot;enquot;,quot;updatedDate (invoice)quot;"/>
+</field>
+<field position="0" name="invoice_name" type="InputText" id="1474798771">
+<property name="fieldName" value="invoice_name"/>
+<property name="fieldRequired" value="true"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="labelCSSClass" value=""/>
+<property name="labelCSSStyle" value=""/>
+<property name="label" value="quot;SSClassquot;,quot;quot;quot;SSStylequot;,quot;quot;quot;enquot;,quot;name (invoice)quot;quot;esquot;,quot;quot;"/>
+<property name="errorMessage" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="title" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="60"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="isHTML" value="false"/>
+<property name="hideContent" value="false"/>
+<property name="htmlContainer" value=""/>
+<property name="defaultValueFormula" value=""/>
+</field>
+<field position="2" name="invoice_email" type="InputTextEmail" id="1653337100">
+<property name="fieldName" value="invoice_email"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="labelCSSClass" value=""/>
+<property name="labelCSSStyle" value=""/>
+<property name="label" value="quot;SSClassquot;,quot;quot;quot;SSStylequot;,quot;quot;quot;enquot;,quot;email (invoice)quot;quot;esquot;,quot;quot;"/>
+<property name="errorMessage" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="title" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="30"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="htmlContainer" value=""/>
+<property name="defaultValueFormula" value=""/>
+</field>
+<field position="13" name="invoice_notes" type="I18nText" id="905393161">
+<property name="fieldName" value="invoice_notes"/>
+<property name="fieldRequired" value="false"/>
+<property name="label" value="quot;enquot;,quot;notes (invoice)quot;"/>
+</field>
+<field position="3" name="invoice_address" type="InputTextArea" id="887652408">
+<property name="fieldName" value="invoice_address"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value="10"/>
+<property name="labelCSSClass" value=""/>
+<property name="labelCSSStyle" value=""/>
+<property name="label" value="quot;SSClassquot;,quot;quot;quot;SSStylequot;,quot;quot;quot;enquot;,quot;address (invoice)quot;quot;esquot;,quot;quot;"/>
+<property name="errorMessage" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="title" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="60"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="htmlContainer" value=""/>
+<property name="defaultValueFormula" value=""/>
+</field>
+<field position="12" name="invoice_enable" type="CheckBox" id="818091108">
+<property name="fieldName" value="invoice_enable"/>
+<property name="fieldRequired" value="false"/>
+<property name="label" value="quot;enquot;,quot;enable (invoice)quot;"/>
+</field>
+<field position="11" name="invoice_totalBalance" type="InputTextDouble" id="1027561352">
+<property name="fieldName" value="invoice_totalBalance"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="label" value="quot;enquot;,quot;totalBalance (invoice)quot;"/>
+</field>
+<field position="4" name="invoice_zip" type="InputText" id="1804093667">
+<property name="fieldName" value="invoice_zip"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="label" value="quot;enquot;,quot;zip (invoice)quot;"/>
+</field>
+<dataHolder name="#A7E690" type="className" value="org.jbpm.formModeler.api.Invoice" id="invoice"/>
 </form>

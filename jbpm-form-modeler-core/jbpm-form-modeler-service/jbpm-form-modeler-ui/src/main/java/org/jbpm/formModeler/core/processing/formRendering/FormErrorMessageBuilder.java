@@ -49,18 +49,18 @@ public class FormErrorMessageBuilder {
         requiredMessage = bundle.getString("errorMessages.required");
     }
 
-    public List getWrongFormErrors(String namespace, Form formulary) {
+    public List getWrongFormErrors(String namespace, Form form) {
         List errors = new ArrayList();
-        if (namespace != null && formulary != null) {
+        if (namespace != null && form != null) {
             try {
                 
-                FormStatusData statusData = FormProcessingServices.lookup().getFormProcessor().read(formulary.getId(), namespace);
+                FormStatusData statusData = FormProcessingServices.lookup().getFormProcessor().read(form, namespace);
 
                 for (int i = 0; i < statusData.getWrongFields().size(); i++) {
-                    Field field = formulary.getField((String) statusData.getWrongFields().get(i));
+                    Field field = form.getField((String) statusData.getWrongFields().get(i));
                     Boolean fieldIsRequired = field.getFieldRequired();
                     boolean fieldRequired = fieldIsRequired != null && fieldIsRequired.booleanValue() && !Form.RENDER_MODE_DISPLAY.equals(fieldIsRequired);
-                    String currentNamespace = namespace + FormProcessor.NAMESPACE_SEPARATOR + formulary.getId().intValue() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName();
+                    String currentNamespace = namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId().intValue() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName();
                     String currentValue = statusData.getCurrentInputValue(currentNamespace);
                     if (!statusData.hasErrorMessage(field.getFieldName())) {
                         if (fieldRequired && StringUtils.isEmpty(currentValue)) {
@@ -70,7 +70,7 @@ public class FormErrorMessageBuilder {
 
                 }
             } catch (Exception e) {
-                log.error("Error getting error messages for form " + formulary.getId() + ": ", e);
+                log.error("Error getting error messages for form " + form.getId() + ": ", e);
             }
         }
         return errors;

@@ -88,7 +88,7 @@ public class FormErrorsFormatter extends Formatter {
         if (formId != null && namespace != null) {
             try {
                 Form form = FormCoreServices.lookup().getFormManager().getFormById(formId);
-                FormStatusData statusData = FormProcessingServices.lookup().getFormProcessor().read(formId, namespace);
+                FormStatusData statusData = FormProcessingServices.lookup().getFormProcessor().read(form, namespace);
                 for (int i = 0; i < statusData.getWrongFields().size(); i++) {
                     Field field = form.getField((String) statusData.getWrongFields().get(i));
                     Boolean fieldIsRequired = field.getFieldRequired();
