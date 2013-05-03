@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager" %>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ page import="org.jbpm.formModeler.components.editor.WysiwygFormEditor" %>
 <%@ page import="org.jbpm.formModeler.api.model.Form" %>
@@ -45,17 +45,15 @@
     </mvc:fragment>
 
     <mvc:fragment name="optionsOutputStart">
-
-        <form action="<factory:formUrl/>" style="margin:0px;" id="optionsForm">
-        <factory:handler action="void"/>
-        <input type="hidden" name="<factory:bean property="currentEditionOption"/>">
+        <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="changeMainOption"/>">
+        <factory:handler action="changeMainOption"/>
+        <input type="hidden" name="newMainOption">
     </mvc:fragment>
     <mvc:fragment name="outputOption">
         <mvc:fragmentValue name="optionName" id="optionName">
             <mvc:fragmentValue name="optionImage" id="optionImage">
                 <input type="image"
-                       onclick="setFormInputValue(this.form,'<factory:bean
-                               property="currentEditionOption"/>','<%=optionName%>');"
+                       onclick="setFormInputValue(this.form,'newMainOption','<%=optionName%>');"
                        style="cursor:hand;" title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
                        src="<static:image relativePath="<%=(String)optionImage%>"/>">
             </mvc:fragmentValue>
@@ -65,8 +63,7 @@
         <mvc:fragmentValue name="optionName" id="optionName">
             <mvc:fragmentValue name="optionImage" id="optionImage">
                 <input type="image"
-                       onclick="setFormInputValue(this.form,'<factory:bean
-                               property="currentEditionOption"/>','<%=optionName%>');"
+                       onclick="setFormInputValue(this.form,'newMainOption','<%=optionName%>');"
                        style="cursor:hand;  opacity:.5;" title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
                        src="<static:image relativePath="<%=(String)optionImage%>"/>">
             </mvc:fragmentValue>
@@ -74,29 +71,45 @@
     </mvc:fragment>
     <mvc:fragment name="optionsOutputEnd">
         <mvc:fragmentValue name="renderMode" id="renderMode">
-            </form>
-            <script defer>
-                setAjax("optionsForm");
-            </script>
-
-            </td>
-            <td valign="top" style="padding:6px 0px; white-space: nowrap;" width="99%;">
-                <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="switchRenderMode"/>">
-                    <factory:handler action="switchRenderMode"/>
-                    <input type="image"
-                           onclick="setFormInputValue(this.form,'renderMode','<%=((renderMode!=null && renderMode.equals(Form.RENDER_MODE_WYSIWYG_FORM)) ? Form.RENDER_MODE_WYSIWYG_DISPLAY : Form.RENDER_MODE_WYSIWYG_FORM )%>');"
-                           style="cursor:hand;" title=""
-                           src="<static:image relativePath="<%=((renderMode!=null && renderMode.equals(Form.RENDER_MODE_WYSIWYG_FORM)) ? WysiwygFormEditor.EDITION_OPTION_IMG_FORM_SHOWTMODE : WysiwygFormEditor.EDITION_OPTION_IMG_FORM_INSERTMODE )%>"/>">
-
+            <mvc:fragmentValue name="displayBindings" id="displayBindings">
+                <mvc:fragmentValue name="displayCheckbox" id="displayCheckbox">
                 </form>
-                <script type="text/javascript" defer="defer">
-                    setAjax("<factory:encode name="switchRenderMode"/>");
+                <script defer>
+                    setAjax("optionsForm");
                 </script>
-            </td>
-            </tr>
-            </table>
-            </td>
-            </tr>
+
+                </td>
+                <td valign="top" style="padding:6px 0px; white-space: nowrap;" width="99%;">
+
+                </td>
+                <td style="white-space: nowrap;">
+                    <% if(displayCheckbox!=null && ((Boolean)displayCheckbox).booleanValue()) { %>
+                    <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="switchRenderMode"/>">
+                        <factory:handler action="switchRenderMode"/>
+
+                        <input type="hidden" name="renderMode" value="<%=renderMode%>">
+                        <input type="hidden" name="displayBindings" value=<%=displayBindings%>>
+                        <input type="checkbox"  <%if (Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode)){ %>checked <% }%>
+                               onclick="setFormInputValue(this.form,'renderMode','<%=(Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode) ? Form.RENDER_MODE_WYSIWYG_DISPLAY : Form.RENDER_MODE_WYSIWYG_FORM)%>');submitAjaxForm(form);"> <i18n:message key="header_chk_show">Show mode</i18n:message>
+                        <input type="checkbox"  <%= ((displayBindings!=null && !((Boolean) displayBindings).booleanValue()) ? "": "checked")%>
+                               onclick="setFormInputValue(this.form,'displayBindings','<%=(displayBindings!=null ? Boolean.toString(!((Boolean)displayBindings).booleanValue()): Boolean.TRUE.toString()) %>');submitAjaxForm(form);"> <i18n:message key="header_chk_bindings">Bindings</i18n:message>
+                        <input type="checkbox" value="rule" onclick="
+                        if ($('#preview').hasClass('bgGuides'))
+                            $('#preview').removeClass('bgGuides');
+                        else $('#preview').addClass('bgGuides');"> <i18n:message key="header_chk_ruler">Grid & ruler</i18n:message>
+                    </form>
+                    <script type="text/javascript" defer="defer">
+                        setAjax("<factory:encode name="switchRenderMode"/>");
+                    </script>
+                    <% } %>
+
+                </td>
+                </tr>
+                </table>
+                </td>
+                </tr>
+            </mvc:fragmentValue>
+            </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
 
@@ -106,10 +119,10 @@
                 <td>
                     <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
                         <tr>
-                            <td style="vertical-align: top;" width="250px">
+                            <td style="vertical-align: top;height: 600px;" width="220px">
                                 <jsp:include page="<%=(String)editionPage%>" flush="true"/>
                             </td>
-                            <td style="vertical-align: top;">
+                            <td style="vertical-align: top;" id="preview">
                                 <jsp:include page="formPreview.jsp"/>
                             </td>
                             <td style="vertical-align: top;">

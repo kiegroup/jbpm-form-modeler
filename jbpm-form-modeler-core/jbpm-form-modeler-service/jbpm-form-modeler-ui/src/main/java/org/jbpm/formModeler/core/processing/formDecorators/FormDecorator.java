@@ -21,10 +21,9 @@ import org.jbpm.formModeler.core.processing.AbstractFieldHandler;
 import java.util.Map;
 
 public abstract class FormDecorator extends AbstractFieldHandler {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormDecorator.class.getName());
 
     public String getName() {
-        return getComponentName();
+        return this.getClass().getName();
     }
 
     public String[] getCompatibleClassNames() {

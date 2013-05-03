@@ -20,10 +20,6 @@ import org.jbpm.formModeler.api.model.Field;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- *
- *
- */
 public interface FieldHandler {
 
     public String getName();

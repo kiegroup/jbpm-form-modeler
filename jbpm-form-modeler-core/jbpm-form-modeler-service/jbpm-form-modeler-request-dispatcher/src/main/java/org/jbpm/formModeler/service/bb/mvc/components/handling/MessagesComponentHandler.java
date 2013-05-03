@@ -15,22 +15,42 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.components.handling;
 
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
+import org.jbpm.formModeler.service.LocaleManager;
+import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.components.PanelComponent;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+//@SessionScoped
+@ApplicationScoped
+@Named("msghandler")
 public class MessagesComponentHandler extends PanelComponent {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(MessagesComponentHandler.class.getName());
 
+    public static MessagesComponentHandler lookup() {
+        return (MessagesComponentHandler) CDIBeanLocator.getBeanByType(MessagesComponentHandler.class);
+    }
+
+    @Inject @Config("600")
     protected int width;
+
+    @Inject @Config("200")
     protected int height;
 
-    private String componentIncludeJSP;
-    private String i18nBundle;
+    @Inject @Config("/formModeler/components/messages/show.jsp")
+    protected String componentIncludeJSP;
+
+    @Inject @Config("true")
     private boolean clearAfterRender = true;
+
+    @Inject @Config("org.jbpm.formModeler.core.processing.formRendering.messages")
+    private String i18nBundle;
 
     private List messagesToDisplay = new ArrayList();
     private List warningsToDisplay = new ArrayList();
@@ -39,13 +59,6 @@ public class MessagesComponentHandler extends PanelComponent {
     private List messagesParameters = new ArrayList();
     private List warningsParameters = new ArrayList();
     private List errorsParameters = new ArrayList();
-
-    private String messagesComponentFormatter;
-
-    public MessagesComponentHandler() {
-        width = 600;
-        height = 200;
-    }
 
     public int getWidth() {
         return width;
@@ -111,7 +124,7 @@ public class MessagesComponentHandler extends PanelComponent {
         this.errorsParameters = errorsParameters;
     }
 
-    public String getComponentIncludeJSP() {
+    public String getBeanJSP() {
         return componentIncludeJSP;
     }
 
@@ -133,14 +146,6 @@ public class MessagesComponentHandler extends PanelComponent {
 
     public void setClearAfterRender(boolean clearAfterRender) {
         this.clearAfterRender = clearAfterRender;
-    }
-
-    public String getMessagesComponentFormatter() {
-        return messagesComponentFormatter;
-    }
-
-    public void setMessagesComponentFormatter(String messagesComponentFormatter) {
-        this.messagesComponentFormatter = messagesComponentFormatter;
     }
 
     public void clearAll() {

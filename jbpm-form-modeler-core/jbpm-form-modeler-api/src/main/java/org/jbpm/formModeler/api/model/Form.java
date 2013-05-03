@@ -27,6 +27,7 @@ public class Form implements Serializable, Comparable{
     public static final String RENDER_MODE_TEMPLATE_EDIT = "templateEdit";
     public static final String RENDER_MODE_WYSIWYG_FORM = "wysiwyg-form";
     public static final String RENDER_MODE_WYSIWYG_DISPLAY = "wysiwyg-display";
+
     public static final String LABEL_MODE_UNDEFINED = "undefined";
     public static final String LABEL_MODE_BEFORE = "before";
     public static final String LABEL_MODE_AFTER = "after";

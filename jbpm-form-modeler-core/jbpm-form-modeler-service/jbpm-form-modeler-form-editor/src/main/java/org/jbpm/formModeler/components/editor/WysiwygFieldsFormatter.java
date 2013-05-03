@@ -15,8 +15,11 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.core.FieldHandlersManager;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
+import org.jbpm.formModeler.core.FormCoreServices;
+import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.FieldType;
@@ -24,36 +27,28 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.processing.FieldHandler;
 import org.jbpm.formModeler.api.processing.PropertyDefinition;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
 import java.util.*;
 
 public class WysiwygFieldsFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(WysiwygFieldsFormatter.class.getName());
 
-    private WysiwygFormEditor editor;
-    private FieldHandlersManager fieldHandlersManager;
-
-    public WysiwygFormEditor getEditor() {
-        return editor;
-    }
-
-    public void setEditor(WysiwygFormEditor editor) {
-        this.editor = editor;
-    }
+    @Inject
+    private Log log;
 
     public FieldHandlersManager getFieldHandlersManager() {
-        return fieldHandlersManager;
+        return FormProcessingServices.lookup().getFieldHandlersManager();
     }
 
-    public void setFieldHandlersManager(FieldHandlersManager fieldHandlersManager) {
-        this.fieldHandlersManager = fieldHandlersManager;
+    public FieldTypeManager getFieldTypesManager() {
+        return FormCoreServices.lookup().getFieldTypeManager();
     }
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
-            Form form = getEditor().getCurrentForm();
+            Form form = WysiwygFormEditor.lookup().getCurrentForm();
             renderAvailableFields(form);
         } catch (Exception e) {
             log.error("Error: ", e);
@@ -93,14 +88,14 @@ public class WysiwygFieldsFormatter extends Formatter {
     }
 
     protected void renderDecorators(Form form) throws Exception {
-        List decorators = editor.getFieldTypesManager().getFormDecoratorTypes();
+        List decorators = getFieldTypesManager().getFormDecoratorTypes();
         if (decorators.size() > 0) {
             renderFragment("decoratorsStart");
             for (int i = 0; i < decorators.size(); i++) {
                 FieldType type = (FieldType) decorators.get(i);
                 setAttribute("decorator", type);
                 setAttribute("decoratorId", type.getCode());
-                setAttribute("iconUri", getEditor().getFieldTypesManager().getIconPathForCode(type.getCode()));
+                setAttribute("iconUri", getFieldTypesManager().getIconPathForCode(type.getCode()));
                 setAttribute("position", i);
                 renderFragment("outputDecorator");
             }
@@ -185,9 +180,9 @@ public class WysiwygFieldsFormatter extends Formatter {
     }
 
     protected void renderPrimitiveTypes(Form form, HashMap availableEntityProperties) throws Exception {
-        FieldHandler[] handlers = getFieldHandlersManager().getStaticHandlers();
-        for (int i = 0; i < handlers.length; i++) {
-            FieldHandler handler = handlers[i];
+        List<FieldHandler> handlers = getFieldHandlersManager().getHandlers();
+        for (int i = 0; i < handlers.size(); i++) {
+            FieldHandler handler = handlers.get(i);
             String managerId = handler.getName();
             String managerName = handler.getHumanName(getLocale());
             List fieldTypes = getTypesForManager(managerId);
@@ -200,7 +195,7 @@ public class WysiwygFieldsFormatter extends Formatter {
                 for (int j = 0; j < fieldTypes.size(); j++) {
                     FieldType type = (FieldType) fieldTypes.get(j);
                     setAttribute("typeName", type.getCode());
-                    setAttribute("iconUri", getEditor().getFieldTypesManager().getIconPathForCode(type.getCode()));
+                    setAttribute("iconUri", getFieldTypesManager().getIconPathForCode(type.getCode()));
                     setAttribute("uid", "primitive" + i + "_" + j);
                     setAttribute("typeId", type.getCode());
                     renderFragment("outputType");
@@ -234,14 +229,14 @@ public class WysiwygFieldsFormatter extends Formatter {
     }
 
     protected List<FieldType> getTypesForManager(String managerClass) throws Exception {
-        return editor.getFieldTypesManager().getSuitableFieldTypes(managerClass);
+        return getFieldTypesManager().getSuitableFieldTypes(managerClass);
     }
 
     protected List getAvailablePropertiesForType(FieldType type, Form form,Map availableEntityProperties) throws Exception {
         List props = new ArrayList();
         for (Iterator iterator = availableEntityProperties.keySet().iterator(); iterator.hasNext();) {
             String propertyName = (String) iterator.next();
-            if (!((FieldHandler)Factory.lookup(type.getManagerClass())).acceptsPropertyName(propertyName)) continue;
+            if (!getFieldHandlersManager().getHandler(type).acceptsPropertyName(propertyName)) continue;
             PropertyDefinition def = (PropertyDefinition) availableEntityProperties.get(propertyName);
             String typeDescription = def.getId();
             if (type.getFieldClass().equals(typeDescription)) {

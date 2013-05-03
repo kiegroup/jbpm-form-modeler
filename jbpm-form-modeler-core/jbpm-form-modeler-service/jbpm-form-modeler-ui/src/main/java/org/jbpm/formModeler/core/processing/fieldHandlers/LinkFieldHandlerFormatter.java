@@ -23,12 +23,7 @@ import org.jbpm.formModeler.api.model.Form;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- */
 public class LinkFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(LinkFieldHandlerFormatter.class.getName());
-
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         FieldHandlerParametersReader paramsReader = new FieldHandlerParametersReader(httpServletRequest);
@@ -58,12 +53,12 @@ public class LinkFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
 
         String name = "", link = "";
         if ("".equals(((Link) value).getLink())) {
-            link = getDefaultFormProcessor().read(form, "").getCurrentInputValue(fieldName + "_link");
+            link = getFormProcessor().read(form.getId(), "").getCurrentInputValue(fieldName + "_link");
             ((Link) value).setLink(link == null ? "" : link);
 
         }
         if ("".equals(((Link) value).getName())) {
-            name = getDefaultFormProcessor().read(form, "").getCurrentInputValue(fieldName + "_name");
+            name = getFormProcessor().read(form.getId(), "").getCurrentInputValue(fieldName + "_name");
             ((Link) value).setName(name == null ? "" : name);
 
         }

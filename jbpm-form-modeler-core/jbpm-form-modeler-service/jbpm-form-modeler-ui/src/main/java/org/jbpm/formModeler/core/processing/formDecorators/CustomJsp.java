@@ -15,14 +15,27 @@
  */
 package org.jbpm.formModeler.core.processing.formDecorators;
 
+import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.controller.RequestContext;
 import org.jbpm.formModeler.api.model.Field;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
+/**
+ * Custom JSP decorator
+ */
+@ApplicationScoped
 public class CustomJsp extends FormDecorator {
-    private String pageToIncludeForRendering = "/formModeler/formDecorators/customJsp/input.jsp";
-    private String pageToIncludeForDisplaying = "/formModeler/formDecorators/customJsp/show.jsp";
-    private String pageToIncludeForSearching = "/formModeler/formDecorators/customJsp/search.jsp";
+
+    @Inject @Config("/formModeler/formDecorators/customJsp/input.jsp")
+    private String pageToIncludeForRendering;
+
+    @Inject @Config("/formModeler/formDecorators/customJsp/show.jsp")
+    private String pageToIncludeForDisplaying;
+
+    @Inject @Config("/formModeler/formDecorators/customJsp/search.jsp")
+    private String pageToIncludeForSearching;
 
     public String getPageToIncludeForRendering() {
         return pageToIncludeForRendering;

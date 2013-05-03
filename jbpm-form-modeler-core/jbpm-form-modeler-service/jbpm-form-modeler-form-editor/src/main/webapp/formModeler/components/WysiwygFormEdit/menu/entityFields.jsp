@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager"%>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager"%>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>

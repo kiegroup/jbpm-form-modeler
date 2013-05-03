@@ -15,9 +15,16 @@
  */
 package org.jbpm.formModeler.core;
 
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class UIDGenerator {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(UIDGenerator.class.getName());
+
+    public static UIDGenerator lookup() {
+        return (UIDGenerator) CDIBeanLocator.getBeanByType(UIDGenerator.class);
+    }
 
     private String preffix = "uid_";
 
@@ -32,5 +39,4 @@ public class UIDGenerator {
     public String getUniqueIdentifiersPreffix() {
         return preffix;
     }
-
 }

@@ -15,22 +15,18 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing.replacers;
 
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
+import org.jbpm.formModeler.service.LocaleManager;
 import org.apache.commons.lang.StringUtils;
 
+import javax.enterprise.context.ApplicationScoped;
+
+/**
+ * Replaces the {$lang} token on formula.
+ */
+@ApplicationScoped
 public class LangReplacer implements FormulaReplacer {
 
-    private LocaleManager localeManager;
-
-    public LocaleManager getLocaleManager() {
-        return localeManager;
-    }
-
-    public void setLocaleManager(LocaleManager localeManager) {
-        this.localeManager = localeManager;
-    }
-
     public String replace(FormulaReplacementContext ctx) {
-        return StringUtils.replace(ctx.getFormula(), "{$lang}", localeManager.getCurrentLang());
+        return StringUtils.replace(ctx.getFormula(), "{$lang}", LocaleManager.currentLang());
     }
 }

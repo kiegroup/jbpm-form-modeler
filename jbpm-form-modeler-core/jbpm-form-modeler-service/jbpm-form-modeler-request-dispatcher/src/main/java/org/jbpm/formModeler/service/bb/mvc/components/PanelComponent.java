@@ -15,12 +15,12 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.components;
 
-import org.jbpm.formModeler.service.bb.mvc.components.handling.UIComponentHandlerFactoryElement;
+import org.jbpm.formModeler.service.bb.mvc.components.handling.UIBeanHandler;
 
 /**
  * UI component that has graphic properties
  */
-public abstract class PanelComponent extends UIComponentHandlerFactoryElement {
+public abstract class PanelComponent extends UIBeanHandler {
 
     public abstract int getWidth();
     public abstract int getHeight();

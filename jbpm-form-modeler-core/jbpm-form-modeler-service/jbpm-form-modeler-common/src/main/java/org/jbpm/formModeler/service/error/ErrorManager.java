@@ -15,31 +15,37 @@
  */
 package org.jbpm.formModeler.service.error;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
+import org.jbpm.formModeler.service.annotation.config.Config;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.servlet.ServletException;
+import javax.servlet.jsp.JspException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 
 /**
  * Manages the error handling in the platform.
  */
-public class ErrorManager extends BasicFactoryElement {
+@ApplicationScoped
+public class ErrorManager {
 
-    /** Logger */
-    private static transient Log log = LogFactory.getLog(ErrorManager.class.getName());
-
-    private ErrorReport errorReport;
-
-    /**
-     * Get an ExceptionManager instance.
-     */
     public static ErrorManager lookup() {
-        return (ErrorManager) Factory.lookup("org.jbpmErrorManager");
+        return (ErrorManager) CDIBeanLocator.getBeanByType(ErrorManager.class);
     }
 
-    protected boolean logErrorReportEnabled = true;
+    @Inject
+    protected Log log;
+
+    @Inject @Config("true")
+    protected boolean logErrorReportEnabled;
+
+    @Inject @Config("true")
+    protected boolean logDBInterlockThreadsEnabled;
+
 
     public boolean isLogErrorReportEnabled() {
         return logErrorReportEnabled;
@@ -48,6 +54,11 @@ public class ErrorManager extends BasicFactoryElement {
     public void setLogErrorReportEnabled(boolean logErrorReportEnabled) {
         this.logErrorReportEnabled = logErrorReportEnabled;
     }
+
+    /**
+     * The error report for the current thread.
+     */
+    protected ThreadLocal<ErrorReport> currentThreadError = new ThreadLocal<ErrorReport>();
 
     /**
      * <p>Force the given error to be thrown. the current transaction is aborted and the give message string is displayed
@@ -114,14 +125,34 @@ public class ErrorManager extends BasicFactoryElement {
 
 
     /**
+     * Get the root exception.
+     */
+    public Throwable getRootCause(Throwable t) {
+        if (t == null) return null;
+        Throwable root = t.getCause();
+        if (root == null) {
+            if (t instanceof ServletException) root = ((ServletException) t).getRootCause();
+            if (t instanceof JspException) root = ((JspException) t).getRootCause();
+            if (t instanceof InvocationTargetException) root = ((InvocationTargetException) t).getTargetException();
+        }
+        if (root == null) return t;
+        else return getRootCause(root);
+    }
+
+    /**
      * Generate an error report and log the error if requested.
      */
     public ErrorReport notifyError(Throwable t, boolean doLog) {
         // Build the report.
-        ErrorReport report = (ErrorReport) Factory.lookup("org.jbpm.formModeler.service.error.ErrorReport");
+        ErrorReport report = new ErrorReport();
         report.setId(String.valueOf(System.currentTimeMillis()));
         report.setException(t);
-        errorReport = report;
+
+        currentThreadError.set(report);
+
+        // Log the error.
+        if (doLog) logError(report);
+
         return report;
     }
 
@@ -140,10 +171,6 @@ public class ErrorManager extends BasicFactoryElement {
     }
 
     public ErrorReport getErrorReport() {
-        return errorReport;
-    }
-
-    public void setErrorReport(ErrorReport errorReport) {
-        this.errorReport = errorReport;
+        return currentThreadError.get();
     }
 }

@@ -15,20 +15,16 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib.factory;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
 import org.jbpm.formModeler.service.bb.mvc.components.HandlerMarkupGenerator;
 
 import javax.servlet.jsp.JspTagException;
 
-
 public class HandlerTag extends GenericFactoryTag {
+
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(HandlerTag.class.getName());
 
-    /**
-     * @see javax.servlet.jsp.tagext.TagSupport
-     */
     public int doEndTag() throws JspTagException {
-        HandlerMarkupGenerator markupGenerator = (HandlerMarkupGenerator) Factory.lookup("org.jbpm.formModeler.service.mvc.components.HandlerMarkupGenerator");
+        HandlerMarkupGenerator markupGenerator = HandlerMarkupGenerator.lookup();
         String textToWrite = markupGenerator.getMarkup(getBean(), getAction());
         try {
             pageContext.getOut().print(textToWrite);
@@ -38,12 +34,7 @@ public class HandlerTag extends GenericFactoryTag {
         return EVAL_PAGE;
     }
 
-
-    /**
-     * @see javax.servlet.jsp.tagext.TagSupport
-     */
     public int doStartTag() throws JspTagException {
         return SKIP_BODY;
     }
-
 }

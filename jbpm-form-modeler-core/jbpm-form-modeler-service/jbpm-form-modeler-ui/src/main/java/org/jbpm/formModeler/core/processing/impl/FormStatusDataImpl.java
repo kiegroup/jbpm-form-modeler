@@ -15,8 +15,10 @@
  */
 package org.jbpm.formModeler.core.processing.impl;
 
+import org.jbpm.formModeler.api.config.FormManager;
+import org.jbpm.formModeler.core.FormCoreServices;
+import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatus;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
 import org.apache.commons.collections.CollectionUtils;
 import org.jbpm.formModeler.core.config.FormManagerImpl;
 import org.jbpm.formModeler.api.model.Field;
@@ -31,6 +33,7 @@ import java.util.*;
  *
  */
 public class FormStatusDataImpl implements FormStatusData {
+
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormStatusDataImpl.class.getName());
 
     private List wrongFields;
@@ -53,17 +56,15 @@ public class FormStatusDataImpl implements FormStatusData {
 
         Map inputValues = status.getInputValues();
         setEmpty(true);
-        FormManagerImpl formsManager = FormManagerImpl.lookup();
+        FormManager formsManager = FormCoreServices.lookup().getFormManager();
         Form form = null;
         try {
             form = formsManager.getFormById(status.getRelatedFormId());
-            Iterator it = form.getFormFields().iterator();
-
             for (Field field : form.getFormFields() ) {
                 Object value = inputValues.get(field.getFieldName());
                 if (value != null) {
-                    if (!((FieldHandler) Factory.lookup(field.getFieldType().getManagerClass())).isEmpty(value))
-                        setEmpty(false);
+                    FieldHandler fieldHandler = FormProcessingServices.lookup().getFieldHandlersManager().getHandler(field.getFieldType());
+                    if (!fieldHandler.isEmpty(value)) setEmpty(false);
                 }
             }
         } catch (Exception e) {

@@ -15,10 +15,7 @@
  */
 package org.jbpm.formModeler.service.error;
 
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
-import javax.servlet.ServletException;
-import javax.servlet.jsp.JspException;
+import org.jbpm.formModeler.service.LocaleManager;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
@@ -28,7 +25,7 @@ import java.util.ResourceBundle;
 /**
  * An error report.
  */
-public class ErrorReport extends BasicFactoryElement {
+public class ErrorReport {
 
     /** The error date */
     protected Date date;
@@ -67,22 +64,6 @@ public class ErrorReport extends BasicFactoryElement {
         return exception;
     }
 
-    public Throwable getRootException() {
-        // Get the root cause.
-        return getRootCause(exception);
-    }
-
-    protected Throwable getRootCause(Throwable t) {
-        if (t == null) return null;
-        Throwable root = t.getCause();
-        if (root == null) {
-            if (t instanceof ServletException) root = ((ServletException) t).getRootCause();
-            if (t instanceof JspException) root = ((JspException) t).getRootCause();
-        }
-        if (root == null) return t;
-        else return getRootCause(root);
-    }
-
     public void setException(Throwable exception) {
         this.exception = exception;
     }
@@ -106,7 +87,7 @@ public class ErrorReport extends BasicFactoryElement {
 
     public String printExceptionTrace() {
         StringWriter sw = new StringWriter();
-        getRootException().printStackTrace(new PrintWriter(sw));
+        ErrorManager.lookup().getRootCause(exception).printStackTrace(new PrintWriter(sw));
         return sw.getBuffer().toString();
     }
 

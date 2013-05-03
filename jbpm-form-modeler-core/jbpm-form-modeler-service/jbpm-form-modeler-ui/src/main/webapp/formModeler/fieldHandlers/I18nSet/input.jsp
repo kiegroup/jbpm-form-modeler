@@ -19,7 +19,7 @@
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ page import="java.util.Locale" %>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager"%>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <i18n:bundle baseName="org.jbpm.formModeler.core.processing.fieldHandlers.messages" locale="<%=LocaleManager.currentLocale()%>"/>
@@ -48,7 +48,7 @@
 
                                                                                     <td>
                                                                                         <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
-                                                                                            <mvc:formatterParam name="factoryElement" value="org.jbpm.formModeler.service.LocaleManager"/>
+                                                                                            <mvc:formatterParam name="bean" value="org.jbpm.formModeler.service.LocaleManager"/>
                                                                                             <mvc:formatterParam name="property" value="platformAvailableLocales"/>
                                                                                             <mvc:fragment name="output">
                                                                                                 <mvc:fragmentValue name="index" id="index">
@@ -80,7 +80,7 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
-                                                                                            <mvc:formatterParam name="factoryElement" value="org.jbpm.formModeler.service.LocaleManager"/>
+                                                                                            <mvc:formatterParam name="bean" value="org.jbpm.formModeler.service.LocaleManager"/>
                                                                                             <mvc:formatterParam name="property" value="platformAvailableLocales"/>
                                                                                             <mvc:fragment name="outputStart">
                                                                                                 <select id="<%=uid%>_langSelect"
@@ -88,29 +88,10 @@
                                                                                                 class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
                                                                                                 <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
                                                                                                 onchange="
-                                                                                                <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
-                                                                                                    <mvc:formatterParam name="factoryElement" value="org.jbpm.formModeler.service.LocaleManager"/>
-                                                                                                    <mvc:formatterParam name="property" value="platformAvailableLocales"/>
-                                                                                                    <mvc:fragment name="output">
-                                                                                                        <mvc:fragmentValue name="index" id="index">
-                                                                                                            <mvc:fragmentValue name="element" id="locale">
-                                                                                                                var elements = this.parentNode.parentNode.getElementsByTagName('DIV');
-                                                                                                                var selectedOption = this.options[this.selectedIndex];
-                                                                                                                for(i =0 ; i<elements.length; i++) {
-                                                                                                                var element = elements[i];
-                                                                                                                if( element.id == '<%=uid+((Locale) locale).toString()%>')
-                                                                                                                if(element.id == '<%=uid%>'+selectedOption.value ) {
-                                                                                                                element.style.display= 'inline';
-                                                                                                                }
-                                                                                                                else{
-                                                                                                                element.style.display= 'none';
-                                                                                                                }
-                                                                                                                }
-                                                                                                            </mvc:fragmentValue>
-                                                                                                        </mvc:fragmentValue>
-                                                                                                    </mvc:fragment>
-                                                                                                </mvc:formatter>
-                                                                                                ">
+                                                                                                for (var index = 0; index < this.options.length; index ++) {
+                                                                                                    if (index == this.selectedIndex) $('#<%=uid%>' + this.options[index].value).show();
+                                                                                                    else $('#<%=uid%>' + this.options[index].value).hide();
+                                                                                                }">
                                                                                             </mvc:fragment>
                                                                                             <mvc:fragment name="output">
                                                                                                 <mvc:fragmentValue name="index" id="index">

@@ -20,17 +20,14 @@ import org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter
 import org.jbpm.formModeler.api.model.Form;
 
 import javax.servlet.http.HttpServletRequest;
-/**
- *
- */
+
 public class FieldHandlerParametersReader {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FieldHandlerParametersReader.class.getName());
+
     private HttpServletRequest httpServletRequest;
 
     public FieldHandlerParametersReader(HttpServletRequest httpServletRequest) {
         this.httpServletRequest = httpServletRequest;
     }
-
 
     public Form getCurrentForm() {
         Field field = (Field) httpServletRequest.getAttribute(FormRenderingFormatter.ATTR_FIELD);

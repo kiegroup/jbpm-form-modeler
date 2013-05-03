@@ -15,55 +15,54 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.components.URLMarkupGenerator;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+@Dependent
 public class FieldButtonsFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FieldButtonsFormatter.class.getName());
 
-    private String editIcon = "/formModeler/components/WysiwygFormEdit/buttons/edit.png";
-    private String downIcon = "/formModeler/components/WysiwygFormEdit/buttons/down.png";
-    private String firstIcon = "/formModeler/components/WysiwygFormEdit/buttons/first.png";
-    private String lastIcon = "/formModeler/components/WysiwygFormEdit/buttons/last.png";
-    private String moveIcon = "/formModeler/components/WysiwygFormEdit/buttons/move.png";
-    private String trashIcon = "/formModeler/components/WysiwygFormEdit/buttons/trash.png";
-    private String upIcon = "/formModeler/components/WysiwygFormEdit/buttons/up.png";
+    @Inject
+    private Log log;
 
-    private WysiwygFormEditor editor;
-    private URLMarkupGenerator urlMarkupGenerator;
+    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/edit.png")
+    private String editIcon;
 
-    public WysiwygFormEditor getEditor() {
-        return editor;
-    }
+    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/down.png")
+    private String downIcon;
 
-    public void setEditor(WysiwygFormEditor editor) {
-        this.editor = editor;
-    }
+    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/first.png")
+    private String firstIcon;
 
-    public URLMarkupGenerator getUrlMarkupGenerator() {
-        return urlMarkupGenerator;
-    }
+    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/last.png")
+    private String lastIcon;
 
-    public void setUrlMarkupGenerator(URLMarkupGenerator urlMarkupGenerator) {
-        this.urlMarkupGenerator = urlMarkupGenerator;
-    }
+    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/move.png")
+    private String moveIcon;
+
+    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/trash.png")
+    private String trashIcon;
+
+    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/up.png")
+    private String upIcon;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         Field formField = (Field) getParameter("field");
-
         Boolean hideMotionButtons = (Boolean) getParameter("hideMotionButtons");
-
         if (formField != null) {
             try {
                 if (!Boolean.TRUE.equals(hideMotionButtons)) {
-                    int formSize = getEditor().getCurrentEditForm().getFormFields().size();
+                    int formSize = WysiwygFormEditor.lookup().getCurrentEditForm().getFormFields().size();
                     if (formField.getPosition() != 0) {
                         //Move first for non-first field
                         renderMoveButton(formField, getFirstIcon(), "moveFirst", "moveFirst", httpServletRequest);
@@ -121,7 +120,7 @@ public class FieldButtonsFormatter extends Formatter {
         setAttribute("icon", icon);
         Map paramsMap = new HashMap();
         paramsMap.put("position", String.valueOf(formField.getPosition()));
-        String actionUrl = urlMarkupGenerator.getMarkup(editor.getBeanName(), action, paramsMap);
+        String actionUrl = URLMarkupGenerator.lookup().getMarkup(WysiwygFormEditor.lookup().getBeanName(), action, paramsMap);
         setAttribute("actionUrl", actionUrl);
         setAttribute("buttonId", action + "_BTN_" + formField.getPosition());
         renderFragment("outputMoveField");

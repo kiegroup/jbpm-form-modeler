@@ -18,11 +18,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 @ApplicationScoped
 public class FormModelerServiceImpl implements FormModelerService {
-
 
     @Inject
     @Named("ioStrategy")
@@ -81,15 +82,20 @@ public class FormModelerServiceImpl implements FormModelerService {
     }
     @Override
     public Long loadForm(Path context) {
-        org.kie.commons.java.nio.file.Path kiePath = paths.convert( context );
+        try {
+            org.kie.commons.java.nio.file.Path kiePath = paths.convert( context );
 
-        String xml = ioService.readAllString(kiePath).trim();
-        Form form = formSerializationManager.loadFormFromXML(xml);
+            String xml = ioService.readAllString(kiePath).trim();
+            Form form = formSerializationManager.loadFormFromXML(xml);
 
-        EditorHelper helper = getHelper(context.toURI());
-        helper.setFormToEdit(context.toURI(),form);
+            EditorHelper helper = getHelper(context.toURI());
+            helper.setFormToEdit(context.toURI(),form);
 
-        return form.getId();
+            return form.getId();
+        } catch (Exception e) {
+            Logger.getLogger(FormModelerServiceImpl.class.getName()).log(Level.WARNING, null, e);
+            return null;
+        }
     }
 
     @Override
@@ -135,7 +141,7 @@ public class FormModelerServiceImpl implements FormModelerService {
         Form form = formManager.createForm(formName);
 
         ioService.write(kiePath, formSerializationManager.generateFormXML(form));
-        EditorHelper helper =getHelper(context.toURI());
+        EditorHelper helper = getHelper(context.toURI());
 
         if( helper!=null){
             helper.setFormToEdit(context.toURI(), form);

@@ -17,26 +17,18 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
+import org.jbpm.formModeler.service.annotation.config.Config;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Handler for text area
  */
 public class TextAreaFieldHandler extends DefaultFieldHandler {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(TextAreaFieldHandler.class.getName());
-
-
-    private String pageToIncludeForRendering = "/formModeler/fieldHandlers/TextArea/input.jsp";
-    private String pageToIncludeForDisplaying = "/formModeler/fieldHandlers/TextArea/show.jsp";
-    private String pageToIncludeForSearching = "/formModeler/fieldHandlers/TextArea/search.jsp";
-
-
-    public String getName() {
-        return getComponentName();
-    }
 
     /**
      * Determine the list of class types this field can generate. That is, normally,
@@ -76,44 +68,8 @@ public class TextAreaFieldHandler extends DefaultFieldHandler {
         return m;
     }
 
-    /**
-     * When rendering a form, if field is handled by this handler, determine the
-     * page that renders the input(s)
-     *
-     * @return a page to include
-     */
-    public String getPageToIncludeForRendering() {
-        return pageToIncludeForRendering;
-    }
-
-    /**
-     * When rendering a form, if field is handled by this handler, determine the
-     * page that renders the displaying of the value
-     *
-     * @return a page to include
-     */
-    public String getPageToIncludeForDisplaying() {
-        return pageToIncludeForDisplaying;
-    }
-
     public boolean isEmpty(Object value) {
         return value == null || "".equals(value);
-    }
-
-    public void setPageToIncludeForDisplaying(String pageToIncludeForDisplaying) {
-        this.pageToIncludeForDisplaying = pageToIncludeForDisplaying;
-    }
-
-    public void setPageToIncludeForRendering(String pageToIncludeForRendering) {
-        this.pageToIncludeForRendering = pageToIncludeForRendering;
-    }
-
-    public String getPageToIncludeForSearching() {
-        return pageToIncludeForSearching;
-    }
-
-    public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
-        this.pageToIncludeForSearching = pageToIncludeForSearching;
     }
 
     public boolean acceptsPropertyName(String propName) {

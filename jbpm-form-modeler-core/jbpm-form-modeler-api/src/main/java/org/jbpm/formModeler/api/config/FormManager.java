@@ -8,8 +8,12 @@ import org.jbpm.formModeler.api.model.i18n.I18nSet;
 import java.io.Serializable;
 import java.util.List;
 
-
+/**
+ * Manager interface form Forms.
+ * <p/>It provides the common operations over Forms (creation, edit, delete) and distinct search methods.
+ */
 public interface FormManager extends Serializable {
+
     public static final int FORMSTATUS_NORMAL = 0;
     public static final int FORMSTATUS_HIDDEN = 1;
 

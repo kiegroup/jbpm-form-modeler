@@ -21,10 +21,8 @@
 
 <web-app>
     <display-name>jbpm-form-modeler-app</display-name>
-    <description>Business User Interface</description>
+    <description>Form Modeler</description>
 
-
-    <!-- SERVLET(S) required by product formModeler -->
     <servlet>
         <servlet-name>Controller</servlet-name>
         <servlet-class>org.jbpm.formModeler.service.bb.mvc.controller.ControllerServlet</servlet-class>
@@ -35,14 +33,11 @@
         </init-param>
     </servlet>
 
-
-<!-- SERVLET-MAPPINGS(S) required by product mvc -->
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>
         <url-pattern>/Controller</url-pattern>
     </servlet-mapping>
 
-    <!-- SERVLET-MAPPINGS(S) required by product formModeler -->
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>
         <url-pattern>/workspace/*</url-pattern>
@@ -51,13 +46,11 @@
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
-
-
-<!-- TAGLIB(S) required by product externalLibs -->
     <taglib>
         <taglib-uri>http://jakarta.apache.org/taglibs/i18n-1.0</taglib-uri>
         <taglib-location>/WEB-INF/tlds/i18n.tld</taglib-location>

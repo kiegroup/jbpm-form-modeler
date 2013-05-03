@@ -15,13 +15,22 @@
  */
 package org.jbpm.formModeler.components.editor;
 
-import org.jbpm.formModeler.service.bb.mvc.components.handling.HandlerFactoryElement;
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.core.FormCoreServices;
+import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
-import org.jbpm.formModeler.core.config.FormManagerImpl;
 import org.jbpm.formModeler.api.model.Form;
 
-public class FormTemplateEditor extends HandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormTemplateEditor.class.getName());
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+
+//@SessionScoped
+@ApplicationScoped
+public class FormTemplateEditor extends BeanHandler {
+
+    @Inject
+    private Log log;
 
     private Long formId;
     private String templateContent;
@@ -29,13 +38,6 @@ public class FormTemplateEditor extends HandlerFactoryElement {
     private boolean persist;
     private boolean loadTemplate;
     private String templateToLoad;
-    private FormManagerImpl formManagerImpl;
-
-    @Override
-    public void start() throws Exception {
-        super.start();
-        formManagerImpl = FormManagerImpl.lookup();
-    }
 
     public boolean isOn() {
         return formId != null;
@@ -57,7 +59,7 @@ public class FormTemplateEditor extends HandlerFactoryElement {
     }
 
     public Form getForm() throws Exception {
-        return formManagerImpl.getFormById(formId);
+        return FormCoreServices.lookup().getFormManager().getFormById(formId);
     }
 
     public String getTemplateContent() {
@@ -113,7 +115,7 @@ public class FormTemplateEditor extends HandlerFactoryElement {
             setFormId(null);
         } else {
             if (isPersist()) {
-                formManagerImpl.saveTemplateForForm(getFormId(), getTemplateContent());
+                FormCoreServices.lookup().getFormManager().saveTemplateForForm(getFormId(), getTemplateContent());
                 setFormId(null);
             }
         }

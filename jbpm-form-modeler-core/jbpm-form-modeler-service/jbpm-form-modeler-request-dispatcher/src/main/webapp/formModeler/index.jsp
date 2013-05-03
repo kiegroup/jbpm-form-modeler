@@ -15,11 +15,11 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jbpm.formModeler.service.bb.mvc.Framework" %>
 <%@ page import="org.jbpm.formModeler.service.bb.mvc.components.ControllerStatus" %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.jbpm.formModeler.service.bb.mvc.controller.HTTPSettings" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 
-<div id="<%=Framework.AJAX_AREA_PREFFIX + "main_component"%>">
-    <factory:useComponent bean="org.jbpm.formModeler.service.mvc.components.CurrentComponentRenderer"/>
+<div id="<%=HTTPSettings.AJAX_AREA_PREFFIX + "main_component"%>">
+    <factory:useComponent bean="org.jbpm.formModeler.service.bb.mvc.components.CurrentComponentRenderer"/>
 </div>

@@ -15,26 +15,25 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.config.FormManager;
 import org.jbpm.formModeler.api.model.Form;
 
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- */
 public class EditFormFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(EditFormFormatter.class.getName());
 
-    private WysiwygFormEditor wysiwygFormEditor;
+    @Inject
+    private Log log;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
-            Form form = wysiwygFormEditor.getCurrentEditForm();
+            Form form = WysiwygFormEditor.lookup().getCurrentEditForm();
 
             setFormularyAttributes(form);
             renderFragment("outputStart");
@@ -67,7 +66,7 @@ public class EditFormFormatter extends Formatter {
             renderFragment("outputAlignedDisplayMode");
             setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_NONE) ? "checked" : "");
             renderFragment("outputNoneDisplayMode");
-            //setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE) ? "checked" : "");
+            //setAttribute("checked", formulary.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE) ? "checked" : "");
             //renderFragment("outputTemplateDisplayMode");
 
             renderFragment("outputLabelModeStart");
@@ -98,18 +97,10 @@ public class EditFormFormatter extends Formatter {
 
     }
 
-    protected void setFormularyAttributes(Form form) {
-        setAttribute("form", form);
-        setAttribute("formDisplayMode", form.getDisplayMode());
-        setAttribute("formStatus", form.getStatus());
-        setAttribute("formName", form.getName());
-    }
-
-    public WysiwygFormEditor getWysiwygFormEditor() {
-        return wysiwygFormEditor;
-    }
-
-    public void setWysiwygFormEditor(WysiwygFormEditor wysiwygFormEditor) {
-        this.wysiwygFormEditor = wysiwygFormEditor;
+    protected void setFormularyAttributes(Form formulary) {
+        setAttribute("formulary", formulary);
+        setAttribute("formDisplayMode", formulary.getDisplayMode());
+        setAttribute("formStatus", formulary.getStatus());
+        setAttribute("formName", formulary.getName());
     }
 }

@@ -15,27 +15,22 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class WysiwygMenuFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(WysiwygMenuFormatter.class.getName());
 
-    private WysiwygFormEditor editor;
-
-    public WysiwygFormEditor getEditor() {
-        return editor;
-    }
-
-    public void setEditor(WysiwygFormEditor editor) {
-        this.editor = editor;
-    }
+    @Inject
+    private Log log;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
+            WysiwygFormEditor editor = WysiwygFormEditor.lookup();
             renderFragment("outputStart");
 
             setAttribute("formName", editor.getCurrentEditForm().getName());
@@ -83,7 +78,15 @@ public class WysiwygMenuFormatter extends Formatter {
             }
 
             setAttribute("renderMode", editor.getRenderMode());
+            setAttribute("displayBindings", editor.getDisplayBindings());
+            if("shared".equals(render) ){
+                setAttribute("displayCheckbox", Boolean.TRUE);
+            } else {
+                setAttribute("displayCheckbox", Boolean.FALSE);
+
+            }
             renderFragment("optionsOutputEnd");
+
 
             setAttribute("editionPage", "menu/" + editor.getCurrentEditionOption() + ".jsp");
 

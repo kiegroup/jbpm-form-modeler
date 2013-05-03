@@ -15,9 +15,9 @@
  */
 package org.jbpm.formModeler.core.processing.formRendering;
 
-import org.jbpm.formModeler.api.util.helpers.CDIHelper;
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.core.processing.FormProcessingServices;
+import org.jbpm.formModeler.service.LocaleManager;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Form;
@@ -25,31 +25,42 @@ import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 import org.jbpm.formModeler.api.processing.FormStatusData;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class FormErrorMessageBuilder extends BasicFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormErrorMessageBuilder.class.getName());
+/**
+ * Builds form error messages
+ */
+public class FormErrorMessageBuilder {
+
+    @Inject
+    private Log log;
     
-    private ResourceBundle bundle = ResourceBundle.getBundle("org.jbpm.formModeler.core.processing.formRendering.messages", LocaleManager.currentLocale());
-    private String requiredMessage = bundle.getString("errorMessages.required");
-    private FormProcessor defaultFormProcessor = (FormProcessor) CDIHelper.getBeanByType(FormProcessor.class);
-    private LocaleManager localeManager;
-    
-    public List getWrongFormErrors(String namespace, Form form) {
+    private ResourceBundle bundle;
+    private String requiredMessage;
+
+    @PostConstruct
+    protected void init() {
+        bundle = ResourceBundle.getBundle("org.jbpm.formModeler.core.processing.formRendering.messages", LocaleManager.currentLocale());
+        requiredMessage = bundle.getString("errorMessages.required");
+    }
+
+    public List getWrongFormErrors(String namespace, Form formulary) {
         List errors = new ArrayList();
-        if (namespace != null && form != null) {
+        if (namespace != null && formulary != null) {
             try {
                 
-                FormStatusData statusData = defaultFormProcessor.read(form, namespace);
+                FormStatusData statusData = FormProcessingServices.lookup().getFormProcessor().read(formulary.getId(), namespace);
 
                 for (int i = 0; i < statusData.getWrongFields().size(); i++) {
-                    Field field = form.getField((String) statusData.getWrongFields().get(i));
+                    Field field = formulary.getField((String) statusData.getWrongFields().get(i));
                     Boolean fieldIsRequired = field.getFieldRequired();
                     boolean fieldRequired = fieldIsRequired != null && fieldIsRequired.booleanValue() && !Form.RENDER_MODE_DISPLAY.equals(fieldIsRequired);
-                    String currentNamespace = namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId().intValue() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName();
+                    String currentNamespace = namespace + FormProcessor.NAMESPACE_SEPARATOR + formulary.getId().intValue() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName();
                     String currentValue = statusData.getCurrentInputValue(currentNamespace);
                     if (!statusData.hasErrorMessage(field.getFieldName())) {
                         if (fieldRequired && StringUtils.isEmpty(currentValue)) {
@@ -59,7 +70,7 @@ public class FormErrorMessageBuilder extends BasicFactoryElement {
 
                 }
             } catch (Exception e) {
-                log.error("Error getting error messages for form " + form.getId() + ": ", e);
+                log.error("Error getting error messages for form " + formulary.getId() + ": ", e);
             }
         }
         return errors;
@@ -83,21 +94,5 @@ public class FormErrorMessageBuilder extends BasicFactoryElement {
         result.append(bundle.getString("error.start")).append(label).append(bundle.getString("error.end")).append(msg);
         
         return result.toString();
-    }
-
-    public LocaleManager getLocaleManager() {
-        return localeManager;
-    }
-
-    public void setLocaleManager(LocaleManager localeManager) {
-        this.localeManager = localeManager;
-    }
-
-    public FormProcessor getDefaultFormProcessor() {
-        return defaultFormProcessor;
-    }
-
-    public void setDefaultFormProcessor(FormProcessor defaultFormProcessor) {
-        this.defaultFormProcessor = defaultFormProcessor;
     }
 }

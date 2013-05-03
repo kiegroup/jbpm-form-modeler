@@ -15,14 +15,33 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.components;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
-import org.jbpm.formModeler.service.bb.mvc.components.handling.UIComponentHandlerFactoryElement;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.jbpm.formModeler.service.bb.mvc.components.handling.UIBeanHandler;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.servlet.jsp.PageContext;
 
-public abstract class FactoryUniqueIdEncoder extends BasicFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FactoryUniqueIdEncoder.class.getName());
+@ApplicationScoped
+public class FactoryUniqueIdEncoder {
 
-    public abstract String encodeFromContext(PageContext context, String name);
-    public abstract String encode(Object panel, UIComponentHandlerFactoryElement factoryComponent, String name);
+    public static FactoryUniqueIdEncoder lookup() {
+        return (FactoryUniqueIdEncoder) CDIBeanLocator.getBeanByType(FactoryUniqueIdEncoder.class);
+    }
+
+    /**
+     * Encode a name for a given panel context, appending it to a String depending on the panel.
+     *
+     * @param uiBean The UI bean
+     * @param name  The symbolic name to encode so that different panels bean instances have different names.
+     * @return A encoded name
+     */
+    public String encode(UIBeanHandler uiBean, String name) {
+        StringBuffer sb = new StringBuffer();
+        if (uiBean != null) {
+            sb.append("uibean").append(Math.abs(uiBean.getBeanName().hashCode())).append("_");
+        }
+        sb.append(StringEscapeUtils.escapeHtml(name));
+        return sb.toString();
+    }
 }

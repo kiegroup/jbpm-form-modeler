@@ -16,7 +16,7 @@
 
 --%>
 <%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.CheckBoxFieldHandler"%>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager"%>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.core.processing.fieldHandlers.messages" locale="<%=LocaleManager.currentLocale()%>"/>

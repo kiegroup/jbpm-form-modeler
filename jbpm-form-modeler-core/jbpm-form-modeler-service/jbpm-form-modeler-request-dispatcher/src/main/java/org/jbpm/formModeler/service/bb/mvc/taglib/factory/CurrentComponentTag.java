@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib.factory;
 
-import org.jbpm.formModeler.service.bb.mvc.components.handling.UIComponentHandlerFactoryElement;
+import org.jbpm.formModeler.service.bb.mvc.components.handling.UIBeanHandler;
 
 import javax.servlet.jsp.JspTagException;
 
@@ -26,9 +26,9 @@ public class CurrentComponentTag extends GenericFactoryTag {
      * @see javax.servlet.jsp.tagext.TagSupport
      */
     public int doEndTag() throws JspTagException {
-        UIComponentHandlerFactoryElement currentComponent = (UIComponentHandlerFactoryElement)pageContext.getRequest().getAttribute(UseComponentTag.COMPONENT_ATTR_NAME);
+        UIBeanHandler currentComponent = (UIBeanHandler)pageContext.getRequest().getAttribute(UseComponentTag.COMPONENT_ATTR_NAME);
         try {
-            String componentClass = currentComponent.getName();
+            String componentClass = currentComponent.getBeanName();
             pageContext.getOut().print(componentClass != null ? componentClass : "");
         } catch (java.io.IOException ex) {
             log.error("Error: ", ex);

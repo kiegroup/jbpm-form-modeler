@@ -15,22 +15,14 @@
     limitations under the License.
 
 --%>
-<% try{ %>
-
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory"%>
-<%@ page import="org.jbpm.formModeler.service.bb.mvc.Framework"%>
 <%@ page import="org.jbpm.formModeler.service.bb.mvc.components.FactoryURL"%>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager"%>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager"%>
 <%@ page import="org.jbpm.formModeler.api.processing.FormProcessor"%>
 <%@ page import="org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <i18n:bundle baseName="org.jbpm.formModeler.core.processing.fieldHandlers.messages" locale="<%=LocaleManager.currentLocale()%>"/>
-
-<%
-    Framework framework = (Framework) Factory.lookup("org.jbpm.formModeler.service.mvc.Framework");
-%>
 
 function ismaxlength(obj) {
 var mlength = obj.getAttribute? parseInt(obj.getAttribute("maxlength")) : ""
@@ -552,4 +544,3 @@ document.getElementById("link_"+id+"_show").style.display = linkShow;
 document.getElementById("link_"+id+"_hide").style.display = linkHide;
 }
 }
-<%} catch (Throwable t) {t.printStackTrace();} %>

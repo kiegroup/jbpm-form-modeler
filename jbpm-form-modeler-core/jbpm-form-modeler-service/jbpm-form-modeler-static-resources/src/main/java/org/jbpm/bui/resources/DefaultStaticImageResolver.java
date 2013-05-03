@@ -15,14 +15,21 @@
  */
 package org.jbpm.bui.resources;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
 import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.service.annotation.config.Config;
 
-public class DefaultStaticImageResolver extends BasicFactoryElement implements StaticResourceResolver {
-    private String basePath = "/formModeler/images/";
-    private String separator = "/";
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
-    @Override
+@ApplicationScoped
+public class DefaultStaticImageResolver implements StaticResourceResolver {
+
+    @Inject @Config("/formModeler/images/")
+    private String basePath;
+
+    @Inject @Config("/")
+    private String separator;
+
     public String getImagePath(String image) {
         if (StringUtils.isEmpty(image)) return null;
         if (!basePath.endsWith(separator) && !image.startsWith(separator)) image = separator + image;
@@ -38,7 +45,6 @@ public class DefaultStaticImageResolver extends BasicFactoryElement implements S
         this.separator = separator;
     }
 
-    @Override
     public String getBasePath() {
         return basePath;
     }

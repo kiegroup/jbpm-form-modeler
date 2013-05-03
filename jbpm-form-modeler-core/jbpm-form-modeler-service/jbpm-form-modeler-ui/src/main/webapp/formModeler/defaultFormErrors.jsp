@@ -15,19 +15,12 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager" %>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 
-
-<factory:setProperty bean="org.jbpm.formModeler.service.mvc.components.handling.MessagesComponentHandler"
-                     property="i18nBundle" propValue="org.jbpm.formModeler.core.processing.formRendering.messages" />
-<factory:setProperty bean="org.jbpm.formModeler.service.mvc.components.handling.MessagesComponentHandler"
-                     property="clearAfterRender" propValue="true" />
-<factory:useComponent bean="org.jbpm.formModeler.service.mvc.components.handling.MessagesComponentHandler"/>
-
-<%--
+<factory:useComponent bean="org.jbpm.formModeler.service.bb.mvc.components.handling.MessagesComponentHandler"/>
 
 <i18n:bundle baseName="org.jbpm.formModeler.core.processing.formRendering.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <mvc:formatter name="org.jbpm.formModeler.core.processing.formRendering.FormErrorsFormatter">
@@ -81,4 +74,3 @@
         </div>
     </mvc:fragment>
 </mvc:formatter>
---%>

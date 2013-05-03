@@ -15,16 +15,14 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib.factory;
 
-
-
 import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.jsp.JspTagException;
 
-import org.jbpm.formModeler.service.bb.mvc.components.handling.UIComponentHandlerFactoryElement;
 import org.jbpm.formModeler.service.bb.mvc.components.FactoryUniqueIdEncoder;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
+import org.jbpm.formModeler.service.bb.mvc.components.handling.UIBeanHandler;
 
 public class EncodeTag extends TagSupport {
+
     /**
      * Logger
      */
@@ -35,43 +33,6 @@ public class EncodeTag extends TagSupport {
      */
     private String name = null;
 
-    /**
-     * @see javax.servlet.jsp.tagext.TagSupport
-     */
-    public int doEndTag() throws JspTagException {
-        //String encodedName = getFactoryUniqueIdEncoder().encodeFromContext(pageContext, name);
-        String encodedName = name;
-        try {
-            pageContext.getOut().print(encodedName);
-        } catch (Exception ex) {
-            log.error("Error encoding name [" + name + "]");
-        }
-        return SKIP_BODY;
-    }
-
-   /**
-     * Encode a name for a given panel context, appending it to a String depending on the panel.
-     *
-     * @param panel          Panel being rendered
-     * @param factoryComponent factoryComponent
-     * @param name             symbolic name to encode @return an encoded version for that name, so that different panels have different names.
-     * @return a encoded name
-     */
-    public static String encode(Object panel, UIComponentHandlerFactoryElement factoryComponent, String name) {
-        return getFactoryUniqueIdEncoder().encode(panel, factoryComponent, name);
-    }
-
-    /**
-     * Encode a name for a given panel context, appending it to a String depending on the panel.
-     *
-     * @param panel Panel being rendered
-     * @param name    symbolic name to encode
-     * @return an encoded version for that name, so that different panels have different names.
-     */
-    public static String encode(Object panel, String name) {
-        return encode(panel, null, name);
-    }
-
     public String getName() {
         return name;
     }
@@ -80,7 +41,14 @@ public class EncodeTag extends TagSupport {
         this.name = name;
     }
 
-    public static FactoryUniqueIdEncoder getFactoryUniqueIdEncoder() {
-        return (FactoryUniqueIdEncoder) Factory.lookup("org.jbpm.formModeler.service.mvc.components.FactoryUniqueIdEncoder");
+    public int doEndTag() throws JspTagException {
+        UIBeanHandler uiBean = (UIBeanHandler) pageContext.getRequest().getAttribute(UseComponentTag.COMPONENT_ATTR_NAME);
+        String encodedName = FactoryUniqueIdEncoder.lookup().encode(uiBean, name);
+        try {
+            pageContext.getOut().print(encodedName);
+        } catch (Exception ex) {
+            log.error("Error encoding name [" + name + "]");
+        }
+        return SKIP_BODY;
     }
 }

@@ -17,49 +17,20 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
+import org.jbpm.formModeler.service.annotation.config.Config;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- */
 public class CheckBoxFieldHandler extends DefaultFieldHandler {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CheckBoxFieldHandler.class.getName());
 
     public static final String NULL_VALUE = "-1";
 
-    private String pageToIncludeForRendering = "/formModeler/fieldHandlers/CheckBox/input.jsp";
-    private String pageToIncludeForDisplaying = "/formModeler/fieldHandlers/CheckBox/show.jsp";
-    private String pageToIncludeForSearching = "/formModeler/fieldHandlers/CheckBox/search.jsp";
-
-    public String getPageToIncludeForDisplaying() {
-        return pageToIncludeForDisplaying;
-    }
-
     public boolean isEmpty(Object value) {
         return value == null;
-    }
-
-    public String getPageToIncludeForSearching() {
-        return pageToIncludeForSearching;
-    }
-
-    public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
-        this.pageToIncludeForSearching = pageToIncludeForSearching;
-    }
-
-    public void setPageToIncludeForDisplaying(String pageToIncludeForDisplaying) {
-        this.pageToIncludeForDisplaying = pageToIncludeForDisplaying;
-    }
-
-    public String getPageToIncludeForRendering() {
-        return pageToIncludeForRendering;
-    }
-
-    public void setPageToIncludeForRendering(String pageToIncludeForRendering) {
-        this.pageToIncludeForRendering = pageToIncludeForRendering;
     }
 
     /**

@@ -15,18 +15,15 @@
  */
 package org.jbpm.formModeler.core.processing.impl;
 
-import org.jbpm.formModeler.api.config.FormManager;
-import org.jbpm.formModeler.api.model.DataFieldHolder;
-import org.jbpm.formModeler.api.model.DataHolder;
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.processing.ProcessingMessagedException;
 import org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler;
 import org.jbpm.formModeler.core.processing.formProcessing.FormChangeProcessor;
 import org.jbpm.formModeler.core.processing.formProcessing.FormChangeResponse;
+import org.jbpm.formModeler.core.processing.formProcessing.NamespaceManager;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatus;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatusManager;
-import org.jbpm.formModeler.renderer.FormRenderContext;
-import org.jbpm.formModeler.renderer.FormRenderContextManager;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.i18n.I18nSet;
@@ -36,55 +33,37 @@ import org.jbpm.formModeler.api.processing.FieldHandler;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 import org.jbpm.formModeler.api.processing.FormStatusData;
 import org.jbpm.formModeler.api.util.helpers.CDIHelper;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.FactoryWork;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.*;
 
 @ApplicationScoped
-public class FormProcessorImpl implements FormProcessor {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormProcessorImpl.class.getName());
+public class FormProcessorImpl implements FormProcessor, Serializable {
 
+    @Inject
+    private Log log;
+
+    // TODO: fix formulas
+    //@Inject
     private FormChangeProcessor formChangeProcessor;
 
     @Inject
-    private FormManager formManager;
-
-    @Inject
-    private FormStatusManager formStatusManager;
-
-    @Inject
-    private FormRenderContextManager formRenderContextManager;
-
-    public FormStatusManager getFormStatusManager() {
-        return formStatusManager;
-    }
-
-    public void setFormStatusManager(FormStatusManager formStatusManager) {
-        this.formStatusManager = formStatusManager;
-    }
-
-    public FormChangeProcessor getFormChangeProcessor() {
-        return formChangeProcessor;
-    }
-
-    public void setFormChangeProcessor(FormChangeProcessor formChangeProcessor) {
-        this.formChangeProcessor = formChangeProcessor;
-    }
+    private FieldHandlersManager fieldHandlersManager;
 
     protected FormStatus getFormStatus(Long formId, String namespace) {
         return getFormStatus(formId, namespace, new HashMap());
     }
 
     protected FormStatus getFormStatus(Long formId, String namespace, Map currentValues) {
-        FormStatus formStatus = getFormStatusManager().getFormStatus(formId, namespace);
+        FormStatus formStatus = FormStatusManager.lookup().getFormStatus(formId, namespace);
         return formStatus != null ? formStatus : createFormStatus(formId, namespace, currentValues);
     }
 
     protected boolean existsFormStatus(Long formId, String namespace) {
-        FormStatus formStatus = getFormStatusManager().getFormStatus(formId, namespace);
+        FormStatus formStatus = FormStatusManager.lookup().getFormStatus(formId, namespace);
         return formStatus != null;
     }
 
@@ -93,7 +72,7 @@ public class FormProcessorImpl implements FormProcessor {
     }
 
     protected FormStatus createFormStatus(Long formId, String namespace, Map currentValues) {
-        FormStatus fStatus = formStatusManager.createFormStatus(formId, namespace);
+        FormStatus fStatus = FormStatusManager.lookup().createFormStatus(formId, namespace);
         setDefaultValues(formId, namespace, currentValues);
         return fStatus;
     }
@@ -109,15 +88,14 @@ public class FormProcessorImpl implements FormProcessor {
         if (pf != null) {
             Set formFields = pf.getFormFields();
             Map params = new HashMap(5);
-            for (Iterator iterator = formFields.iterator(); iterator.hasNext(); ) {
+            for (Iterator iterator = formFields.iterator(); iterator.hasNext();) {
                 Field pField = (Field) iterator.next();
                 Object value = currentValues.get(pField.getFieldName());
                 String inputName = getPrefix(pf, namespace) + pField.getFieldName();
 
                 try {
-                    FieldHandler handler = (FieldHandler) Factory.lookup(pField.getFieldType().getManagerClass());
-                    if ((value instanceof Map && !((Map) value).containsKey(FORM_MODE)) && !(value instanceof I18nSet))
-                        ((Map) value).put(FORM_MODE, currentValues.get(FORM_MODE));
+                    FieldHandler handler = fieldHandlersManager.getHandler(pField.getFieldType());
+                    if ((value instanceof Map && !((Map)value).containsKey(FORM_MODE)) && !(value instanceof I18nSet)) ((Map)value).put(FORM_MODE, currentValues.get(FORM_MODE));
                     Map paramValue = handler.getParamValue(inputName, value, pField.getPattern());
                     if (paramValue != null && !paramValue.isEmpty()) params.putAll(paramValue);
 
@@ -152,7 +130,7 @@ public class FormProcessorImpl implements FormProcessor {
     }
 
     protected void destroyFormStatus(Long formId, String namespace) {
-        formStatusManager.destroyFormStatus(formId, namespace);
+        FormStatusManager.lookup().destroyFormStatus(formId, namespace);
     }
 
     public void setValues(Form form, String namespace, Map parameterMap, Map filesMap) {
@@ -161,7 +139,6 @@ public class FormProcessorImpl implements FormProcessor {
 
     public void setValues(Form form, String namespace, Map parameterMap, Map filesMap, boolean incremental) {
         if (form != null) {
-
             namespace = StringUtils.defaultIfEmpty(namespace, DEFAULT_NAMESPACE);
             FormStatus formStatus = getFormStatus(form.getId(), namespace);
             //  if (!incremental) formStatus.getWrongFields().clear();
@@ -176,7 +153,7 @@ public class FormProcessorImpl implements FormProcessor {
                 formStatus.setLastParameterMap(parameterMap);
             }
             String inputsPrefix = getPrefix(form, namespace);
-
+            
             for (Field field : form.getFormFields()) {
                 setFieldValue(field, formStatus, inputsPrefix, parameterMap, filesMap, incremental);
             }
@@ -197,7 +174,7 @@ public class FormProcessorImpl implements FormProcessor {
     }
 
     public Object getAttribute(Form form, String namespace, String attributeName) {
-        if (form != null) {
+        if (form != null){
             FormStatus formStatus = getFormStatus(form.getId(), namespace);
             return formStatus.getAttributes().get(attributeName);
         }
@@ -207,13 +184,12 @@ public class FormProcessorImpl implements FormProcessor {
     protected void setFieldValue(Field field, FormStatus formStatus, String inputsPrefix, Map parameterMap, Map filesMap, boolean incremental) {
         String fieldName = field.getFieldName();
         String inputName = inputsPrefix + fieldName;
-        FieldHandler handler = (FieldHandler) Factory.lookup(field.getFieldType().getManagerClass());
+        FieldHandler handler = fieldHandlersManager.getHandler(field.getFieldType());
         try {
             Object previousValue = formStatus.getInputValues().get(fieldName);
             boolean isRequired = field.getFieldRequired().booleanValue();
-
-            if (!handler.isEvaluable(inputName, parameterMap, filesMap) && !(handler.isEmpty(previousValue) && isRequired))
-                return;
+            
+            if (!handler.isEvaluable(inputName, parameterMap, filesMap) && !(handler.isEmpty(previousValue) && isRequired)) return;
 
             Object value = null;
             boolean emptyNumber = false;
@@ -253,9 +229,9 @@ public class FormProcessorImpl implements FormProcessor {
     }
 
     protected void propagateChangesToParentFormStatuses(FormStatus formStatus, String fieldName, Object value) {
-        FormStatus parent = getFormStatusManager().getParent(formStatus);
+        FormStatus parent = FormStatusManager.lookup().getParent(formStatus);
         if (parent != null) {
-            String fieldNameInParent = getFormStatusManager().getNamespaceManager().getNamespace(formStatus.getNamespace()).getFieldNameInParent();
+            String fieldNameInParent = NamespaceManager.lookup().getNamespace(formStatus.getNamespace()).getFieldNameInParent();
             Object valueInParent = parent.getInputValues().get(fieldNameInParent);
             if (valueInParent != null) {
                 Map parentMapObjectRepresentation = null;
@@ -280,125 +256,26 @@ public class FormProcessorImpl implements FormProcessor {
         }
     }
 
-    public FormStatusData read(final String ctxUid) {
-        final FormStatusDataImpl[] data = new FormStatusDataImpl[1];
-
-        /*
-            This Factory.doWork is needed to read the form data outside Factory context.
-            This must be on CDI migration
-         */
-        Factory.doWork(new FactoryWork() {
-            public void doWork() {
-                try {
-                    FormRenderContext context = formRenderContextManager.getFormRenderContext(ctxUid);
-                    if (context == null ) return;
-
-                    boolean exists = existsFormStatus(context.getForm().getId(), ctxUid);
-
-                    Map values = new HashMap();
-
-                    Map<String, Object> bindingData = context.getBindingData();
-
-                    if (bindingData != null && !bindingData.isEmpty()) {
-                        Set<DataHolder> holders = context.getForm().getHolders();
-
-                        for (DataHolder holder : holders) {
-                            Object value = bindingData.get(holder.getId());
-                            if (value != null) {
-                                values.putAll(holder.load(bindingData));
-                            }
-                        }
-                    }
-
-                    FormStatus formStatus = getFormStatus(context.getForm().getId(), ctxUid, values);
-
-                    data[0] = new FormStatusDataImpl(formStatus, !exists);
-                } catch (Exception e) {
-                    log.error("Error: ", e);
-                }
-
-            }
-        });
-        return data[0];
+    public FormStatusData read(Long formId, String namespace, Map currentValues) {
+        boolean exists = existsFormStatus(formId, namespace);
+        if (currentValues == null) currentValues = new HashMap();
+        FormStatus formStatus = getFormStatus(formId, namespace, currentValues);
+        FormStatusDataImpl data = null;
+        try {
+            data = new FormStatusDataImpl(formStatus, !exists);
+        } catch (Exception e) {
+            log.error("Error: ", e);
+        }
+        return data;
     }
 
-    public FormStatusData read(final Form form, final String namespace, final Map<String, Object> bindingData) {
-        final FormStatusDataImpl[] data = new FormStatusDataImpl[1];
-
-        /*
-            This Factory.doWork is needed to read the form data outside Factory context.
-            This must be on CDI migration
-         */
-        Factory.doWork(new FactoryWork() {
-            public void doWork() {
-                try {
-                    boolean exists = existsFormStatus(form.getId(), namespace);
-                    Map values = new HashMap();
-
-                    if (bindingData != null && !bindingData.isEmpty()) {
-                        Set<DataHolder> holders = form.getHolders();
-
-                        for (DataHolder holder : holders) {
-                            Object value = bindingData.get(holder.getId());
-                            if (value != null) {
-                                values.putAll(holder.load(bindingData));
-                            }
-                        }
-                    }
-
-                    FormStatus formStatus = getFormStatus(form.getId(), namespace, values);
-
-                    data[0] = new FormStatusDataImpl(formStatus, !exists);
-                } catch (Exception e) {
-                    log.error("Error: ", e);
-                }
-
-            }
-        });
-        return data[0];
-    }
-
-    public FormStatusData read(Form form, String namespace) {
-        return read(form, namespace, new HashMap());
+    public FormStatusData read(Long formId, String namespace) {
+        return read(formId, namespace, new HashMap());
     }
 
     public void flushPendingCalculations(Form form, String namespace) {
-        if (getFormChangeProcessor() != null)
-            getFormChangeProcessor().process(form, namespace, new FormChangeResponse());//Response is ignored, we just need the session values.
-    }
-
-    public void persist(String ctxUid) throws Exception {
-        FormRenderContext context = formRenderContextManager.getFormRenderContext(ctxUid);
-
-        Form form = context.getForm();
-
-        ctxUid = StringUtils.defaultIfEmpty(ctxUid, FormProcessor.DEFAULT_NAMESPACE);
-
-        Map mapToPersist = getFilteredMapRepresentationToPersist(form, ctxUid);
-
-        for (Iterator it = mapToPersist.keySet().iterator(); it.hasNext();) {
-            String fieldName = (String) it.next();
-            Field field = form.getField(fieldName);
-            String bindingString = field.getBindingStr();
-            if (!StringUtils.isEmpty(bindingString)) {
-                bindingString = bindingString.substring(1, bindingString.length() - 1);
-
-                boolean canBind = bindingString.indexOf("/") > 0;
-
-                if (canBind) {
-                    String holderId = bindingString.substring(bindingString.indexOf("/"));
-                    String holderFieldId = bindingString.substring(holderId.length() + 1);
-                    DataHolder holder = form.getDataHolderById(holderId);
-                    if (holder != null && !StringUtils.isEmpty(holderFieldId)) holder.writeValue(context.getBindingData().get(holderId), holderFieldId, mapToPersist.get(fieldName));
-                    else canBind = false;
-                }
-
-                if (!canBind) {
-                    log.error("Unable to bind DataHolder for field '" + fieldName + "' to '" + bindingString + "'. This may be caused because bindingString is incorrect or the form doesn't contains the defined DataHolder.");
-                    context.getBindingData().put(bindingString, mapToPersist.get(fieldName));
-                }
-
-            }
+        if (formChangeProcessor != null) {
+            formChangeProcessor.process(form, namespace, new FormChangeResponse());//Response is ignored, we just need the session values.
         }
     }
 
@@ -430,7 +307,7 @@ public class FormProcessorImpl implements FormProcessor {
     public Map filterMapRepresentationToPersist(Map inputValues) throws Exception {
         Map filteredMap = new HashMap();
         Set keys = inputValues.keySet();
-        for (Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
+        for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
             String key = (String) iterator.next();
             filteredMap.put(key, inputValues.get(key));
         }
@@ -446,7 +323,7 @@ public class FormProcessorImpl implements FormProcessor {
      */
     protected void fillObjectValues(final Map obj, Map values, Form form) throws Exception {
         Map valuesToSet = new HashMap();
-        for (Iterator it = values.keySet().iterator(); it.hasNext(); ) {
+        for (Iterator it = values.keySet().iterator(); it.hasNext();) {
             String propertyName = (String) it.next();
             Object propertyValue = values.get(propertyName);
             valuesToSet.put(propertyName, propertyValue);
@@ -511,14 +388,14 @@ public class FormProcessorImpl implements FormProcessor {
         if (formStatus != null) {
             final Serializable objIdentifier = formStatus.getLoadedItemId();
             final String itemClassName = formStatus.getLoadedItemClass();
-            //TODO load data from object here!
+                    //TODO load data from object here!
         }
         return loadedObject;
     }
 
     public void clear(Long formId, String namespace) {
         if (log.isDebugEnabled())
-            log.debug("Clearing form status for form " + formId + " with namespace '" + namespace + "'");
+            log.debug("Clearing form status for formulary " + formId + " with namespace '" + namespace + "'");
         destroyFormStatus(formId, namespace);
     }
 
@@ -528,11 +405,11 @@ public class FormProcessorImpl implements FormProcessor {
     }
 
     public void clearFieldErrors(Form form, String namespace) {
-        formStatusManager.cascadeClearWrongFields(form.getId(), namespace);
+        FormStatusManager.lookup().cascadeClearWrongFields(form.getId(), namespace);
     }
 
     public void forceWrongField(Form form, String namespace, String fieldName) {
-        formStatusManager.getFormStatus(form.getId(), namespace).getWrongFields().add(fieldName);
+        FormStatusManager.lookup().getFormStatus(form.getId(), namespace).getWrongFields().add(fieldName);
     }
 
     // OLD deprecated methods (before namespaces)
@@ -551,6 +428,10 @@ public class FormProcessorImpl implements FormProcessor {
 
     public void load(Long formId, Long objIdentifier, String itemClassName) throws Exception {
         load(formId, "", objIdentifier, itemClassName);
+    }
+
+    public FormStatusData read(Long formId) {
+        return read(formId, "");
     }
 
     public void setValues(Form form, Map parameterMap, Map filesMap) {

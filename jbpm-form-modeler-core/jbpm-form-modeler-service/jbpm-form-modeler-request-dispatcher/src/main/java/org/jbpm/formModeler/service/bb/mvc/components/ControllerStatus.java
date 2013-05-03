@@ -15,32 +15,45 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.components;
 
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.BasicFactoryElement;
-import org.jbpm.formModeler.service.bb.commons.config.componentsFactory.Factory;
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.RedirectToURLResponse;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.ShowScreenResponse;
 import org.apache.commons.lang.StringUtils;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+
 /**
+ * Request-scoped component that holds the processing status for a given request.
  */
-public class ControllerStatus extends BasicFactoryElement {
+//@RequestScoped
+@ApplicationScoped
+public class ControllerStatus {
 
     public static ControllerStatus lookup() {
-        return (ControllerStatus) Factory.lookup("org.jbpm.formModeler.service.mvc.controller.ControllerStatus");
+        return (ControllerStatus) CDIBeanLocator.getBeanByType(ControllerStatus.class);
     }
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ControllerStatus.class.getName());
+    @Inject
+    private Log log;
 
-    private Throwable exception;
-    //By default, this is the response that will be executed.
     private CommandResponse response;
+    private Throwable exception;
     private String showPage = "/formModeler/controllerResponse.jsp";
     private String currentComponentPage;
     private String requestURI;
     private StringBuffer consumedRequestURI;
     private CommandRequest request;
+
+    @PostConstruct
+    public void init() throws Exception {
+        response = new ShowScreenResponse(showPage);
+    }
 
     public String getShowPage() {
         return showPage;
@@ -48,11 +61,6 @@ public class ControllerStatus extends BasicFactoryElement {
 
     public void setShowPage(String showPage) {
         this.showPage = showPage;
-    }
-
-    public void start() throws Exception {
-        super.start();
-        response = new ShowScreenResponse(showPage);
     }
 
     public void setException(Throwable exception) {
@@ -68,6 +76,9 @@ public class ControllerStatus extends BasicFactoryElement {
     }
 
     public void setResponse(CommandResponse response) {
+        if (response == null) {
+            response =  new ShowScreenResponse(showPage);
+        }
         this.response = response;
     }
 

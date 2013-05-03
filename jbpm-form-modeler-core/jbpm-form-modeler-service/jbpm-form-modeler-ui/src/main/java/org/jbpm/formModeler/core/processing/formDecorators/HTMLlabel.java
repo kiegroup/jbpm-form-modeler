@@ -15,11 +15,25 @@
  */
 package org.jbpm.formModeler.core.processing.formDecorators;
 
+import org.jbpm.formModeler.service.annotation.config.Config;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+/**
+ * HTML label decorator
+ */
+@ApplicationScoped
 public class HTMLlabel extends FormDecorator {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(HTMLlabel.class.getName());
-    private String pageToIncludeForRendering = "/formModeler/formDecorators/HTMLlabel/input.jsp";
-    private String pageToIncludeForDisplaying = "/formModeler/formDecorators/HTMLlabel/show.jsp";
-    private String pageToIncludeForSearching = "/formModeler/formDecorators/HTMLlabel/search.jsp";
+
+    @Inject @Config("/formModeler/formDecorators/HTMLlabel/input.jsp")
+    private String pageToIncludeForRendering;
+
+    @Inject @Config("/formModeler/formDecorators/HTMLlabel/show.jsp")
+    private String pageToIncludeForDisplaying;
+
+    @Inject @Config("/formModeler/formDecorators/HTMLlabel/search.jsp")
+    private String pageToIncludeForSearching;
 
     public String getPageToIncludeForDisplaying() {
         return pageToIncludeForDisplaying;
@@ -44,6 +58,4 @@ public class HTMLlabel extends FormDecorator {
     public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
         this.pageToIncludeForSearching = pageToIncludeForSearching;
     }
-
-
 }

@@ -19,6 +19,9 @@ import org.jbpm.formModeler.api.model.Form;
 
 import java.util.List;
 
+/**
+ * Helps in rendering template based forms
+ */
 public interface FormTemplateHelper {
     String FIELD_FORMAT = "{0}" + Form.TEMPLATE_FIELD + "'{'{1}'}'{2}";
     String LABEL_FORMAT = "{0}" + Form.TEMPLATE_LABEL + "'{'{1}'}'{2}";

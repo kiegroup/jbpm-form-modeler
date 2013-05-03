@@ -15,52 +15,35 @@
  */
 package org.jbpm.formModeler.core.processing.formRendering;
 
-import org.jbpm.formModeler.api.util.helpers.CDIHelper;
-import org.jbpm.formModeler.service.bb.commons.config.LocaleManager;
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.core.FormCoreServices;
+import org.jbpm.formModeler.core.processing.FormProcessingServices;
+import org.jbpm.formModeler.service.LocaleManager;
+import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
-import org.jbpm.formModeler.core.config.FormManagerImpl;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 import org.jbpm.formModeler.api.processing.FormStatusData;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Renders a dynamic form errors
+ */
 public class FormErrorsFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormErrorsFormatter.class.getName());
 
-    private LocaleManager localeManager;
-    private FormManagerImpl formManagerImpl;
-    private FormProcessor defaultFormProcessor = (FormProcessor) CDIHelper.getBeanByType(FormProcessor.class);
+    @Inject
+    private Log log;
 
-    private int maxVisibleErrors = 5;
-
-    @Override
-    public void start() throws Exception {
-        super.start();
-        formManagerImpl = FormManagerImpl.lookup();
-    }
-
-    public LocaleManager getLocaleManager() {
-        return localeManager;
-    }
-
-    public void setLocaleManager(LocaleManager localeManager) {
-        this.localeManager = localeManager;
-    }
-
-    public FormManagerImpl getFormManager() {
-        return formManagerImpl;
-    }
-
-    public void setFormManager(FormManagerImpl formManagerImpl) {
-        this.formManagerImpl = formManagerImpl;
-    }
+    @Inject @Config("5")
+    private int maxVisibleErrors;
 
     public int getMaxVisibleErrors() {
         return maxVisibleErrors;
@@ -73,18 +56,9 @@ public class FormErrorsFormatter extends Formatter {
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
 
         String namespace = httpServletRequest.getAttribute("namespace") != null ? (String) httpServletRequest.getAttribute("namespace") : "";
+        Long formId = httpServletRequest.getAttribute("formId") != null ? (Long) httpServletRequest.getAttribute("formId") : null;
 
-        Form formToPaint = null;
-
-        Object formObject = httpServletRequest.getAttribute("form");
-        if (formObject != null) formToPaint = (Form) formObject;
-        else {
-            Object formIdObject = httpServletRequest.getAttribute("formId");
-            Long formId = Long.decode(String.valueOf(formIdObject));
-            formToPaint = formManagerImpl.getFormById(formId);
-        }
-
-        List errorsToShow = getFormFieldErrors(namespace, formToPaint);
+        List errorsToShow = getFormFieldErrors(namespace, formId);
 
         if (errorsToShow.size() > 0) {
             renderFragment("outputStart");
@@ -109,16 +83,17 @@ public class FormErrorsFormatter extends Formatter {
         }
     }
 
-    public List getFormFieldErrors(String namespace, Form form) {
+    public List getFormFieldErrors(String namespace, Long formId) {
         List errorsToShow = new ArrayList();
-        if (form != null && namespace != null) {
+        if (formId != null && namespace != null) {
             try {
-                FormStatusData statusData = defaultFormProcessor.read(form, namespace);
+                Form form = FormCoreServices.lookup().getFormManager().getFormById(formId);
+                FormStatusData statusData = FormProcessingServices.lookup().getFormProcessor().read(formId, namespace);
                 for (int i = 0; i < statusData.getWrongFields().size(); i++) {
                     Field field = form.getField((String) statusData.getWrongFields().get(i));
                     Boolean fieldIsRequired = field.getFieldRequired();
                     boolean fieldRequired = fieldIsRequired != null && fieldIsRequired.booleanValue() && !Form.RENDER_MODE_DISPLAY.equals(fieldIsRequired);
-                    String currentValue = statusData.getCurrentInputValue(namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName());
+                    String currentValue = statusData.getCurrentInputValue(namespace + FormProcessor.NAMESPACE_SEPARATOR + formId.intValue() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName());
                     if (fieldRequired && (currentValue == null || currentValue.trim().equals(""))) {
                         errorsToShow.clear();
                         ResourceBundle bundle = ResourceBundle.getBundle("org.jbpm.formModeler.core.processing.formRendering.messages", LocaleManager.currentLocale());
@@ -127,17 +102,9 @@ public class FormErrorsFormatter extends Formatter {
                     }
                 }
             } catch (Exception e) {
-                log.error("Error getting error messages for object " + form.getId() + ": ", e);
+                log.error("Error getting error messages for object " + formId + ": ", e);
             }
         }
         return errorsToShow;
-    }
-
-    public FormProcessor getDefaultFormProcessor() {
-        return defaultFormProcessor;
-    }
-
-    public void setDefaultFormProcessor(FormProcessor defaultFormProcessor) {
-        this.defaultFormProcessor = defaultFormProcessor;
     }
 }

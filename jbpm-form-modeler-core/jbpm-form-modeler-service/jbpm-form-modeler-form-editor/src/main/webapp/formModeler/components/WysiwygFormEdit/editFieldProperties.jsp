@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager"%>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager"%>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@ page import="org.jbpm.formModeler.components.editor.WysiwygFormEditor" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
@@ -28,199 +28,203 @@
 
 
 <mvc:formatter name="org.jbpm.formModeler.components.editor.FieldEditionFormatter">
-<%------------------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="outputStart">
-    <mvc:fragmentValue name="fieldName" id="fieldName">
-        <div id="<factory:encode name="fieldProperties"/>">
-        <form action="<factory:formUrl/>" id="<factory:encode name="updateFormField"/>" method="POST" enctype="multipart/form-data">
-        <factory:handler bean="org.jbpm.formModeler.components.editor.WysiwygFormEditor" action="saveFieldProperties"/>
-        <input type="hidden" name="<%=WysiwygFormEditor.ACTION_TO_DO%>" id="<factory:encode name="actionToDo"/>" value="<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>"/>
+    <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="outputStart">
+        <mvc:fragmentValue name="fieldName" id="fieldName">
+            <div id="<factory:encode name="fieldProperties"/>">
+            <form action="<factory:formUrl/>" id="<factory:encode name="updateFormField"/>" method="POST" enctype="multipart/form-data">
+            <factory:handler bean="org.jbpm.formModeler.components.editor.WysiwygFormEditor" action="saveFieldProperties"/>
+            <input type="hidden" name="<%=WysiwygFormEditor.ACTION_TO_DO%>" id="<factory:encode name="actionToDo"/>" value="<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>"/>
 
-        <table border="0" class="EditFieldProperties">
-        <tr>
-            <td align="left" colspan="3">
-                <div class="headerEditFP">
-                    <input type="image" onclick="this.onclick=function(){return false;}" style="cursor:hand; float: left; margin-right: 15px;" src="<static:image relativePath="actions/close.png"/>"><i18n:message key="properties">Properties</i18n:message> (<%=fieldName%>)
-                </div>
-            </td>
-        </tr>
-        <tr>
-        <td colspan="3">
-        <table class="FormFieldProperties">
-        <tr>
-            <td><i18n:message key="fieldType">!!!Tipo de campo</i18n:message></td>
-        </tr>
-        <tr>
+            <table border="0" class="EditFieldProperties">
+            <tr>
+                <td align="left" colspan="3">
+                    <div class="headerEditFP">
+                        <input type="image" onclick="this.onclick=function(){return false;}" style="cursor:hand; float: left; margin-right: 15px;" src="<static:image relativePath="actions/close.png"/>"><i18n:message key="properties">Properties</i18n:message> (<%=fieldName%>)
+                    </div>
+                </td>
+            </tr>
+            <tr>
             <td colspan="3">
-                <mvc:formatter name="org.jbpm.formModeler.components.editor.FieldAvailableTypesFormatter">
-                    <mvc:fragment name="outputStart">
-                        <select name="fieldType" class="skn-input" style="width:200px" onchange="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CHANGE_FIELD_TYPE%>'); submitAjaxForm(this.form);">
-                    </mvc:fragment>
-                    <mvc:fragment name="output">
-                        <mvc:fragmentValue name="id" id="id">
-                            <option value="<%=id%>"><i18n:message key="<%="fieldType." + id%>"/></option>
-                        </mvc:fragmentValue>
-                    </mvc:fragment>
-                    <mvc:fragment name="outputSelected">
-                        <mvc:fragmentValue name="id" id="id">
-                            <option value="<%=id%>" selected><i18n:message key="<%="fieldType." + id%>"/></option>
-                        </mvc:fragmentValue>
-                    </mvc:fragment>
-                    <mvc:fragment name="outputEnd">
-                        </select>
-                    </mvc:fragment>
-                    <mvc:fragment name="empty">
-                        <input type="hidden" name="fieldType" value="<mvc:fragmentValue name="id"/>">
-                    </mvc:fragment>
-                </mvc:formatter>
-            </td>
-            <td></td>
-        </tr>
-    </mvc:fragmentValue>
-</mvc:fragment>
-<%------------------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="fieldCustomFormulary">
-    <mvc:fragmentValue name="formId" id="formId">
-        <mvc:fragmentValue name="namespace" id="formNamespace">
-            <mvc:fragmentValue name="editClass" id="editClass">
-                <mvc:fragmentValue name="editId" id="editId">
-                    <mvc:fragmentValue name="formValues" id="formValues">
-                        <mvc:fragmentValue name="fieldType" id="fieldType">
+            <table class="FormFieldProperties">
+            <tr>
+                <td><i18n:message key="fieldType">!!!Tipo de campo</i18n:message></td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <mvc:formatter name="org.jbpm.formModeler.components.editor.FieldAvailableTypesFormatter">
+                        <mvc:fragment name="outputStart">
+                            <select name="fieldType" class="skn-input" style="width:200px" onchange="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CHANGE_FIELD_TYPE%>'); submitAjaxForm(this.form);">
+                        </mvc:fragment>
+                        <mvc:fragment name="output">
+                            <mvc:fragmentValue name="id" id="id">
+                                <option value="<%=id%>"><i18n:message key="<%="fieldType." + id%>"/></option>
+                            </mvc:fragmentValue>
+                        </mvc:fragment>
+                        <mvc:fragment name="outputSelected">
+                            <mvc:fragmentValue name="id" id="id">
+                                <option value="<%=id%>" selected><i18n:message key="<%="fieldType." + id%>"/></option>
+                            </mvc:fragmentValue>
+                        </mvc:fragment>
+                        <mvc:fragment name="outputEnd">
+                            </select>
+                        </mvc:fragment>
+                        <mvc:fragment name="empty">
+                            <input type="hidden" name="fieldType" value="<mvc:fragmentValue name="id"/>">
+                        </mvc:fragment>
+                    </mvc:formatter>
+                </td>
+                <td></td>
+            </tr>
+        </mvc:fragmentValue>
+    </mvc:fragment>
+    <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="fieldCustomFormulary">
+        <mvc:fragmentValue name="formId" id="formularyId">
+            <mvc:fragmentValue name="namespace" id="formNamespace">
+                <mvc:fragmentValue name="editClass" id="editClass">
+                    <mvc:fragmentValue name="editId" id="editId">
+                        <mvc:fragmentValue name="formValues" id="formValues">
+                            <mvc:fragmentValue name="fieldType" id="fieldType">
 
-                            <mvc:formatter name="org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter">
-                                <mvc:formatterParam name="formId" value="<%=formId%>"/>
-                                <mvc:formatterParam name="namespace" value="<%=formNamespace%>"/>
-                                <mvc:formatterParam name="editId" value="<%=editId%>"/>
-                                <mvc:formatterParam name="editClass" value="<%=editClass%>"/>
-                                <mvc:formatterParam name="formValues" value="<%=formValues%>"/>
-                                <mvc:fragment name="outputStart">
-                                </mvc:fragment>
-                                <mvc:fragment name="groupStart">
-                                    <tr>
-                                    <td colspan="3">
-                                    <table border="0" cellpadding="0" cellspacing="0">
-                                    <tr>
-                                </mvc:fragment>
-                                <mvc:fragment name="groupEnd">
-                                    </tr>
-                                    </table >
-                                    </td>
-                                    </tr>
-                                </mvc:fragment>
-                                <mvc:fragment name="beforeInputElement">
-                                    <td>
-                                    <table border="0" cellpadding="0" cellspacing="0" >
-                                </mvc:fragment>
-
-                                <mvc:fragment name="beforeLabel"><tr><td valign="top" colspan="2"></mvc:fragment>
-                                <mvc:fragment name="afterLabel"></td></tr></mvc:fragment>
-                                <mvc:fragment name="beforeField">
-                                    <mvc:fragmentValue name="field" id="field">
+                                <mvc:formatter name="org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter">
+                                    <mvc:formatterParam name="formId" value="<%=formularyId%>"/>
+                                    <mvc:formatterParam name="namespace" value="<%=formNamespace%>"/>
+                                    <mvc:formatterParam name="editId" value="<%=editId%>"/>
+                                    <mvc:formatterParam name="editClass" value="<%=editClass%>"/>
+                                    <mvc:formatterParam name="formValues" value="<%=formValues%>"/>
+                                    <mvc:fragment name="outputStart">
+                                    </mvc:fragment>
+                                    <mvc:fragment name="groupStart">
                                         <tr>
+                                        <td colspan="3">
+                                        <table border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                    </mvc:fragment>
+                                    <mvc:fragment name="groupEnd">
+                                        </tr>
+                                        </table >
+                                        </td>
+                                        </tr>
+                                    </mvc:fragment>
+                                    <mvc:fragment name="beforeInputElement">
                                         <td>
-                                    </mvc:fragmentValue>
-                                </mvc:fragment>
-                                <mvc:fragment name="afterField">
-                                    <mvc:fragmentValue name="field" id="field">
-                                        <mvc:fragmentValue id="fieldPosition" name="field/position">
-                                            </td>
+                                        <table border="0" cellpadding="0" cellspacing="0" >
+                                        <tr>
+                                    </mvc:fragment>
+
+                                    <mvc:fragment name="beforeLabel"><td valign="top" colspan="2"></mvc:fragment>
+                                    <mvc:fragment name="afterLabel"></td></mvc:fragment>
+                                    <mvc:fragment name="lineBetweenLabelAndField">
+                                        </tr>
+                                        <tr>
+                                    </mvc:fragment>
+                                    <mvc:fragment name="beforeField">
+                                        <mvc:fragmentValue name="field" id="field">
                                             <td>
-                                                <mvc:formatter name="org.jbpm.formModeler.components.editor.FieldPropertyTooltipFormatter">
-                                                    <mvc:formatterParam name="field" value="<%=field%>"/>
-                                                    <mvc:fragment name="output">
-                                                        <mvc:fragmentValue name="help" id="help">
-                                                            <img src="<static:image relativePath="general/16x16/ico-info.png"/>"
-                                                                 id="<%="tooltip_" + fieldPosition%>" border="0" title="<%=StringEscapeUtils.unescapeHtml((String)help)%>"/>
-                                                            <script type="text/javascript" defer="defer">
-                                                                $(function() {
-                                                                    $('#<%="tooltip_" + fieldPosition%>').tooltip();
-                                                                });
-                                                            </script>
-                                                        </mvc:fragmentValue>
-                                                    </mvc:fragment>
-                                                </mvc:formatter>
-                                            </td>
-                                            </tr>
                                         </mvc:fragmentValue>
-                                    </mvc:fragmentValue>
-                                </mvc:fragment>
-                                <mvc:fragment name="afterInputElement">
-                                    </table></td>
-                                </mvc:fragment>
-                                <mvc:fragment name="outputEnd">
-                                </mvc:fragment>
-                            </mvc:formatter>
+                                    </mvc:fragment>
+                                    <mvc:fragment name="afterField">
+                                        <mvc:fragmentValue name="field" id="field">
+                                            <mvc:fragmentValue id="fieldPosition" name="field/position">
+                                                </td>
+                                                <td>
+                                                    <mvc:formatter name="org.jbpm.formModeler.components.editor.FieldPropertyTooltipFormatter">
+                                                        <mvc:formatterParam name="field" value="<%=field%>"/>
+                                                        <mvc:fragment name="output">
+                                                            <mvc:fragmentValue name="help" id="help">
+                                                                <img src="<static:image relativePath="general/16x16/ico-info.png"/>"
+                                                                     id="<%="tooltip_" + fieldPosition%>" border="0" title="<%=StringEscapeUtils.unescapeHtml((String)help)%>"/>
+                                                                <script type="text/javascript" defer="defer">
+                                                                    $(function() {
+                                                                        $('#<%="tooltip_" + fieldPosition%>').tooltip();
+                                                                    });
+                                                                </script>
+                                                            </mvc:fragmentValue>
+                                                        </mvc:fragment>
+                                                    </mvc:formatter>
+                                                </td>
+                                            </mvc:fragmentValue>
+                                        </mvc:fragmentValue>
+                                    </mvc:fragment>
+                                    <mvc:fragment name="afterInputElement">
+                                        </tr>
+                                        </table></td>
+                                    </mvc:fragment>
+                                    <mvc:fragment name="outputEnd">
+                                    </mvc:fragment>
+                                </mvc:formatter>
+                            </mvc:fragmentValue>
                         </mvc:fragmentValue>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragmentValue>
-    </mvc:fragmentValue>
-</mvc:fragment>
-<%------------------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="outputName">
-    <mvc:fragmentValue name="index" id="index">
-        <mvc:fragmentValue name="name" id="name">
-            <tr class="<%=((Integer) index).intValue() % 2 == 0 ? "skn-even_row" : "skn-odd_row"%>">
-            <td>
-                <i18n:message key='<%="field."+name%>'><%=name%></i18n:message>
-            </td>
+    </mvc:fragment>
+    <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="outputName">
+        <mvc:fragmentValue name="index" id="index">
+            <mvc:fragmentValue name="name" id="name">
+                <tr class="<%=((Integer) index).intValue() % 2 == 0 ? "skn-even_row" : "skn-odd_row"%>">
+                <td>
+                    <i18n:message key='<%="field."+name%>'><%=name%></i18n:message>
+                </td>
+            </mvc:fragmentValue>
         </mvc:fragmentValue>
-    </mvc:fragmentValue>
-</mvc:fragment>
-<%------------------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="beforeDefaultValue">
-    <td>
-</mvc:fragment>
-<%------------------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="afterDefaultValue">
-    </td>
-</mvc:fragment>
-<%------------------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="beforeInput">
-    <td>
-</mvc:fragment>
-<%------------------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="afterInput">
-    </td>
-</mvc:fragment>
-<%------------------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="cantShowInput">
-    <td>-</td>
-</mvc:fragment>
-<%------------------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="errorShowingInput">
-    <td colspan="2"></td>
-</mvc:fragment>
-<%------------------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="outputNameEnd">
-    </tr>
-</mvc:fragment>
-<%------------------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="outputEnd">
-    <mvc:fragmentValue name="fieldName" id="fieldName">
-        <tr>
-            <td align="center" colspan="3">
-                <table>
-                    <tr>
-                        <td><input type="submit" value="<i18n:message key="save"> !!!Save </i18n:message>" class="skn-button"
-                                   onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>');"></td>
-                        <td><input type="submit" value="<i18n:message key="cancel"> !!!Cancel </i18n:message>" class="skn-button_alt"
-                                   onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CANCEL_FIELD_EDITION%>');"></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        </table>
+    </mvc:fragment>
+    <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="beforeDefaultValue">
+        <td>
+    </mvc:fragment>
+    <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="afterDefaultValue">
         </td>
+    </mvc:fragment>
+    <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="beforeInput">
+        <td>
+    </mvc:fragment>
+    <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="afterInput">
+        </td>
+    </mvc:fragment>
+    <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="cantShowInput">
+        <td>-</td>
+    </mvc:fragment>
+    <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="errorShowingInput">
+        <td colspan="2"></td>
+    </mvc:fragment>
+    <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="outputNameEnd">
         </tr>
-        </table>
+    </mvc:fragment>
+    <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="outputEnd">
+        <mvc:fragmentValue name="fieldName" id="fieldName">
+            <tr>
+                <td align="center" colspan="3">
+                    <table>
+                        <tr>
+                            <td><input type="submit" value="<i18n:message key="save"> !!!Save </i18n:message>" class="skn-button"
+                                       onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>');"></td>
+                            <td><input type="submit" value="<i18n:message key="cancel"> !!!Cancel </i18n:message>" class="skn-button_alt"
+                                       onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CANCEL_FIELD_EDITION%>');"></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            </table>
+            </td>
+            </tr>
+            </table>
 
-        </form>
-        </div>
-        <script type="text/javascript" defer="defer">
-            setAjax("<factory:encode name="updateFormField"/>");
-        </script>
-    </mvc:fragmentValue>
-</mvc:fragment>
+            </form>
+            </div>
+            <script type="text/javascript" defer="defer">
+                setAjax("<factory:encode name="updateFormField"/>");
+            </script>
+        </mvc:fragmentValue>
+    </mvc:fragment>
 </mvc:formatter>

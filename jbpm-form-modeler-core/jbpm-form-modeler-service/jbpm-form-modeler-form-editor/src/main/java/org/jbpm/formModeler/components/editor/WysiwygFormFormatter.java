@@ -15,40 +15,37 @@
  */
 package org.jbpm.formModeler.components.editor;
 
-import org.jbpm.formModeler.api.util.helpers.CDIHelper;
+import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class WysiwygFormFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(WysiwygFormFormatter.class.getName());
 
-    private WysiwygFormEditor editor;
-    private FormProcessor defaultFormProcessor = (FormProcessor) CDIHelper.getBeanByType(FormProcessor.class);
-
-    public WysiwygFormEditor getEditor() {
-        return editor;
-    }
-
-    public void setEditor(WysiwygFormEditor editor) {
-        this.editor = editor;
-    }
+    @Inject
+    private Log log;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
+        WysiwygFormEditor editor = WysiwygFormEditor.lookup();
         Form form = editor.getCurrentForm();
         String namespace = "wysiwyg_form_preview";
 
         try {
             if (form != null) {
-                if (Form.RENDER_MODE_WYSIWYG_FORM.equals(editor.getRenderMode()))defaultFormProcessor.clear(form.getId(), namespace);
+                if (Form.RENDER_MODE_WYSIWYG_FORM.equals(editor.getRenderMode())) {
+                    FormProcessingServices.lookup().getFormProcessor().clear(form.getId(), namespace);
+                }
 
                 setAttribute("form", form);
                 setAttribute("namespace", namespace);
                 setAttribute("renderMode", editor.getRenderMode());
+                setAttribute("displayBindings", editor.getDisplayBindings());
                 String displayMode = form.getDisplayMode();
                 if (Form.DISPLAY_MODE_TEMPLATE.equals(displayMode)) {
                     setAttribute("showDisplayWarningMessage", true);
@@ -61,14 +58,5 @@ public class WysiwygFormFormatter extends Formatter {
             log.error("Error: ", e);
             throw new FormatterException(e);
         }
-
-    }
-
-    public FormProcessor getDefaultFormProcessor() {
-        return defaultFormProcessor;
-    }
-
-    public void setDefaultFormProcessor(FormProcessor defaultFormProcessor) {
-        this.defaultFormProcessor = defaultFormProcessor;
     }
 }

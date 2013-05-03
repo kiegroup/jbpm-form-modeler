@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jbpm.formModeler.service.bb.commons.config.LocaleManager" %>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
 <%@ page import="org.jbpm.formModeler.api.model.Form" %>
 <%@ page import="org.jbpm.formModeler.components.editor.WysiwygFormEditor" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
@@ -36,61 +36,88 @@
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputNameInput">
         <tr>
-        <td class="FormProperties">
-            <b><i18n:message key="dataHolder_id">!!!dataHolder_id</i18n:message>:</b><br>
-            <input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" type="text" class="skn-input" value="" size="20" maxlength="64">
-            <br>
-            <br>
-            <b><i18n:message key="dataHolder_info">!!!dataHolder_info</i18n:message>:</b><br>
-            <input type="radio" name="group1" value="val1"><i18n:message key="dataHolder_process">!!!Process </i18n:message><br>
-            <select class="skn-input">
-                <option value="bindStr11">Process1-Task1 - inputForm</option>
-                <option value="bindStr12">Process1-Task2 - inputForm</option>
-                <option value="bindStr13">Process1-Task3 - inputForm</option>
-                <option value="bindStr14">Process1-Task4 - inputForm</option>
-                <option value="bindStr21">Process2-Task1 - inputForm</option>
-                <option value="bindStr22">Process2-Task2 - inputForm</option>
-            </select>
-            <br>
-            <br>
-            <b><i18n:message key="dataHolder_info">!!!dataHolbindingder_info</i18n:message>:</b><br>
-            <input type="radio" name="group1" value="val2"><i18n:message key="dataHolder_datamodel">!!!Data Model source</i18n:message><br>
-            <select class="skn-input">
-                <option value="bindStr11">Model1 </option>
-                <option value="bindStr12">Model2 </option>
-                <option value="bindStr13">Model3 </option>
-            </select>
-            <br>
-            <br>
-            <b><i18n:message key="dataHolder_info">!!!dataHolder_info</i18n:message>:</b><br>
-            <input type="radio" name="group1" value="val2"><i18n:message key="dataHolder_info_javaClass">!!!dataHolder_info_javaClass</i18n:message><br>
-            <input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_INFO%>" type="text" class="skn-input" value="" size="20" maxlength="64">
-            <br>
-            <br>
+            <td class="FormProperties">
+                <script type="text/javascript">
 
-            <b><i18n:message key="dataHolder_renderColor">!!!dataHolder_renderColor</i18n:message>:</b><br>
-            <select class="skn-input" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_RENDERCOLOR%>">
-                <option value="#FF8881">ROJO </option>
-                <option value="#FBB767">NARANJA</option>
-                <option value="#E9E371">AMARILLO</option>
-                <option value="#A7E690">VERDE</option>
-                <option value="#9BCAFA">AZUL</option>
-                <option value="#B29FE4">VIOLETA</option>
-                <option value="#BBBBBB">GRIS</option>
-            </select>
-            <br>
-            <br>
+                    function show_dataholderInfo(divStr){
+                        if (divStr =='val1'){
+                            document.getElementById('val1').style.display='block';
+                            document.getElementById('val2').style.display='none';
+                            document.getElementById('val3').style.display='none';
+                        } else if (divStr=='val2'){
+                            document.getElementById('val1').style.display='none';
+                            document.getElementById('val2').style.display='block';
+                            document.getElementById('val3').style.display='none';
+                        } else if (divStr=='val3'){
+                            document.getElementById('val1').style.display='none';
+                            document.getElementById('val2').style.display='none';
+                            document.getElementById('val3').style.display='block';
+                        } else {
+                            document.getElementById('val1').style.display='none';
+                            document.getElementById('val2').style.display='none';
+                            document.getElementById('val3').style.display='none';
+                        }
 
-            <div style="text-align: center;">
-                <input type="submit" value="<i18n:message key="dataHolder_addDataHolder">!!! dataHolder_addDataHolder</i18n:message>" class="skn-button">
-            </div>
+                    }
+                    show_dataholderInfo("none");
 
-        </td>
+                </script>
+                <table>
+                    <tr>
+                        <td><b><i18n:message key="dataHolder_id">!!!dataHolder_id</i18n:message>:</b></td>
+                        <td><b><i18n:message key="dataHolder_renderColor">!!!dataHolder_renderColor</i18n:message>:</b></td>
+                        <td><b><i18n:message key="dataHolder_type">!!!dataHolder_type</i18n:message>:</td>
+                        <td><b><i18n:message key="dataHolder_info">!!!dataHolder_info</i18n:message>:</td>
+                    <tr>
+                    <tr>
+                        <td><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" type="text" class="skn-input" value="" size="20" maxlength="64"></td>
+                        <td><select class="skn-input" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_RENDERCOLOR%>">
+                            <option value="#FF8881">ROJO </option>
+                            <option value="#FBB767">NARANJA</option>
+                            <option value="#E9E371">AMARILLO</option>
+                            <option value="#A7E690">VERDE</option>
+                            <option value="#9BCAFA">AZUL</option>
+                            <option value="#B29FE4">VIOLETA</option>
+                            <option value="#BBBBBB">GRIS</option>
+                        </select></td>
+
+                        <td>
+                            <table>
+                                <tr><td><input type="radio" name="group1" value="val1" onclick="show_dataholderInfo('val1');"><i18n:message key="dataHolder_process">!!!Process </i18n:message></td></tr>
+                                <tr><td><input type="radio" name="group1" value="val2" onclick="show_dataholderInfo('val2')"><i18n:message key="dataHolder_datamodel">!!!Data Model source</i18n:message></td></tr>
+                                <tr><td><input type="radio" name="group1" value="val2" onclick="show_dataholderInfo('val3')"><i18n:message key="dataHolder_info_javaClass">!!!dataHolder_info_javaClass</i18n:message><br></td></tr>
+                            </table>
+                        </td>
+                        <td><table>
+                            <tr><td><select class="skn-input" id="val1" style="display: none">
+                                <option value="bindStr11">Process1-Task1 - inputForm</option>
+                                <option value="bindStr12">Process1-Task2 - inputForm</option>
+                                <option value="bindStr13">Process1-Task3 - inputForm</option>
+                                <option value="bindStr14">Process1-Task4 - inputForm</option>
+                                <option value="bindStr21">Process2-Task1 - inputForm</option>
+                                <option value="bindStr22">Process2-Task2 - inputForm</option>
+                            </select></tr>
+                            <tr><td><select class="skn-input" id="val2" style="display: none">
+                                <option value="bindStr11">Model1 </option>
+                                <option value="bindStr12">Model2 </option>
+                                <option value="bindStr13">Model3 </option>
+                            </select></td></tr>
+                            <tr><td> <input id="val3" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_INFO%>" type="text" class="skn-input" value="" size="20" maxlength="64" style="display: none"></td></tr>
+                        </table></td>
+                    <tr>
+                </table>
+
+                <div style="text-align: center;">
+                    <input type="submit" value="<i18n:message key="dataHolder_addDataHolder">!!! dataHolder_addDataHolder</i18n:message>" class="skn-button">
+                </div>
+
+            </td>
+        </tr>
 
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputStartBindings">
-
+        <tr>
         <td style="vertical-align: top">
         <br><br>
         <table cellpadding="4" cellspacing="1" border="0" width="50%" class="skn-table_border" align="center">
