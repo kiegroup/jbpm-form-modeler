@@ -194,6 +194,9 @@ A:hover {
     border-bottom: #BCBCBC 1px solid;
     border-right: #BCBCBC 1px solid;
     border-top: #DCDCDC 1px solid;
+    -webkit-border-radius: .5em .5em 0 0;
+    -moz-border-radius: .5em .5em 0 0;
+    border-radius: .5em .5em 0 0;
 }
 
 /* Style for table headers.*/
@@ -206,6 +209,7 @@ A:hover {
     font-weight: bold;
     text-align: center;
 }
+
 tr.skn-table_header th, .skn-table_header td, .skn-table_header a:link  {
     color: #333333 !important;
     font-weight: bold !important;
