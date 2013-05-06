@@ -108,7 +108,7 @@ public class FormModelerPanelPresenter {
                 loadContext(context);
             }
 
-        }).setFormFocus(context.getCtxUID());
+        }).setFormFocus((context!=null? context.getCtxUID():null));
 
     }
 
