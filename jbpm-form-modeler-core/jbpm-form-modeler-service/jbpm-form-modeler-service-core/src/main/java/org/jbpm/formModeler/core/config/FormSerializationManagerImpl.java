@@ -244,6 +244,8 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         field.setHideContent(Boolean.valueOf(value));
                     }  else if ("defaultValueFormula".equals(propName)) {
                         field.setDefaultValueFormula(value);
+                    }  else if ("bindingStr".equals(propName)) {
+                        field.setBindingStr(value);
                     }
                 }
             }
@@ -284,6 +286,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         addXMLNode("hideContent", (field.getHideContent() != null ? String.valueOf(field.getHideContent()) : null), rootNode);
         addXMLNode("htmlContainer", field.getHtmlContainer(), rootNode);
         addXMLNode("defaultValueFormula", field.getDefaultValueFormula(), rootNode);
+        addXMLNode("bindingStr", field.getBindingStr(), rootNode);
 
         parent.addChild(rootNode);
     }
