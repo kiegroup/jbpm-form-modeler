@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbpm.formModeler.renderer;
+package org.jbpm.formModeler.api.processing;
 
 import org.jboss.errai.common.client.api.annotations.Portable;
 
 import java.io.Serializable;
 
 @Portable
-public class FormRenderContextTO implements Serializable {
+public class FormEditorContextTO implements Serializable {
     private String ctxUID;
     private Long formId;
 
-    public FormRenderContextTO() {
+    public FormEditorContextTO() {
     }
 
-    public FormRenderContextTO(String ctxUID, Long formId) {
+    public FormEditorContextTO(String ctxUID, Long formId) {
         this.ctxUID = ctxUID;
         this.formId = formId;
     }

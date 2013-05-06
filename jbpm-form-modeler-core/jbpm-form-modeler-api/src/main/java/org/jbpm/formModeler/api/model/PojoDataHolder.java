@@ -19,13 +19,14 @@ import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 
 
-import java.lang.reflect.*;
-import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.*;
 
-public class PojoDataHolder extends  DefaultDataHolder implements Comparable {
+public class PojoDataHolder implements DataHolder,Comparable {
     private String id;
     private String className;
+    private String renderColor;
 
     FieldTypeManager fieldTypeManager;
 
@@ -195,4 +196,10 @@ public class PojoDataHolder extends  DefaultDataHolder implements Comparable {
         }
         return propName;
     }
+
+    @Override
+    public String getRenderColor() {
+        return renderColor;
+    }
+
 }

@@ -36,7 +36,7 @@
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputNameInput">
         <tr>
-            <td class="FormProperties">
+            <td class="FormProperties" align="center">
                 <script type="text/javascript">
 
                     function show_dataholderInfo(divStr){
@@ -62,33 +62,33 @@
                     show_dataholderInfo("none");
 
                 </script>
-                <table>
+                <table cellpadding="2" cellspacing="0" border="0">
                     <tr>
-                        <td><b><i18n:message key="dataHolder_id">!!!dataHolder_id</i18n:message>:</b></td>
-                        <td><b><i18n:message key="dataHolder_renderColor">!!!dataHolder_renderColor</i18n:message>:</b></td>
-                        <td><b><i18n:message key="dataHolder_type">!!!dataHolder_type</i18n:message>:</td>
-                        <td><b><i18n:message key="dataHolder_info">!!!dataHolder_info</i18n:message>:</td>
+                        <td width="25%"><b><i18n:message key="dataHolder_id">!!!dataHolder_id</i18n:message>:</b></td>
+                        <td width="25%"><b><i18n:message key="dataHolder_renderColor">!!!dataHolder_renderColor</i18n:message>:</b></td>
+                        <td width="20%"><b><i18n:message key="dataHolder_type">!!!dataHolder_type</i18n:message>:</b></td>
+                        <td width="25%"><b><i18n:message key="dataHolder_info">!!!dataHolder_info</i18n:message>:</b></td>
                     <tr>
                     <tr>
-                        <td><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" type="text" class="skn-input" value="" size="20" maxlength="64"></td>
-                        <td><select class="skn-input" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_RENDERCOLOR%>">
-                            <option value="#FF8881">ROJO </option>
-                            <option value="#FBB767">NARANJA</option>
-                            <option value="#E9E371">AMARILLO</option>
-                            <option value="#A7E690">VERDE</option>
-                            <option value="#9BCAFA">AZUL</option>
-                            <option value="#B29FE4">VIOLETA</option>
-                            <option value="#BBBBBB">GRIS</option>
+                        <td valign="top"><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" type="text" class="skn-input" value="" size="20" maxlength="64"></td>
+                        <td valign="top"><select class="skn-input" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_RENDERCOLOR%>">
+                            <option value="#FF8881"><i18n:message key="holder_color_red">Red</i18n:message></option>
+                            <option value="#FBB767"><i18n:message key="holder_color_orange">Orange</i18n:message></option>
+                            <option value="#E9E371"><i18n:message key="holder_color_yellow">Yellow</i18n:message></option>
+                            <option value="#A7E690"><i18n:message key="holder_color_green">Green</i18n:message></option>
+                            <option value="#9BCAFA"><i18n:message key="holder_color_blue">Blue</i18n:message></option>
+                            <option value="#B29FE4"><i18n:message key="holder_color_violet">Violet</i18n:message></option>
+                            <option value="#BBBBBB"><i18n:message key="holder_color_grey">Grey</i18n:message></option>
                         </select></td>
 
-                        <td>
-                            <table>
+                        <td valign="top">
+                            <table cellpadding="0" cellspacing="0" border="0" width="100%" >
                                 <tr><td><input type="radio" name="group1" value="val1" onclick="show_dataholderInfo('val1');"><i18n:message key="dataHolder_process">!!!Process </i18n:message></td></tr>
                                 <tr><td><input type="radio" name="group1" value="val2" onclick="show_dataholderInfo('val2')"><i18n:message key="dataHolder_datamodel">!!!Data Model source</i18n:message></td></tr>
                                 <tr><td><input type="radio" name="group1" value="val2" onclick="show_dataholderInfo('val3')"><i18n:message key="dataHolder_info_javaClass">!!!dataHolder_info_javaClass</i18n:message><br></td></tr>
                             </table>
                         </td>
-                        <td><table>
+                        <td valign="top"><table cellpadding="0" cellspacing="0" border="0" width="100%" >
                             <tr><td><select class="skn-input" id="val1" style="display: none">
                                 <option value="bindStr11">Process1-Task1 - inputForm</option>
                                 <option value="bindStr12">Process1-Task2 - inputForm</option>
@@ -106,7 +106,7 @@
                         </table></td>
                     <tr>
                 </table>
-
+                <br>
                 <div style="text-align: center;">
                     <input type="submit" value="<i18n:message key="dataHolder_addDataHolder">!!! dataHolder_addDataHolder</i18n:message>" class="skn-button">
                 </div>
@@ -122,11 +122,13 @@
         <br><br>
         <table cellpadding="4" cellspacing="1" border="0" width="50%" class="skn-table_border" align="center">
         <tr class="skn-table_header">
+            <td>&nbsp;</td>
+            <td><i18n:message key="dataHolder_renderColor">!!!!!!dataHolder_renderColor</i18n:message></td>
             <td><i18n:message key="dataHolder_id">!!!dataHolder_id</i18n:message></td>
             <td><i18n:message key="dataHolder_type">!!!dataHolder_type</i18n:message></td>
             <td><i18n:message key="dataHolder_info">!!!!!!dataHolder_info</i18n:message></td>
-            <td><i18n:message key="dataHolder_renderColor">!!!!!!dataHolder_renderColor</i18n:message></td>
-            <td>&nbsp;</td>
+
+
         </tr>
     </mvc:fragment>
 
@@ -135,19 +137,20 @@
             <mvc:fragmentValue name="type" id="type">
                 <mvc:fragmentValue name="value" id="value">
                     <mvc:fragmentValue name="renderColor" id="renderColor">
-                        <tr>
-                            <td><%=id%></td>
-                            <td><%=type%></td>
-                            <td><%=value%></td>
-                            <td><div style="background-color: <%=renderColor%> ">&nbsp;</div></td>
-                            <td align="center"><a title="<i18n:message key="delete">!!!Borrar</i18n:message>"
+                        <tr><td align="center"><a title="<i18n:message key="delete">!!!Borrar</i18n:message>"
                                                   href="<factory:url  action="formDataHolders">
                                          <factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=id%>"/>
                                          <factory:param name="<%=WysiwygFormEditor.ACTION_TO_DO%>" value="<%=WysiwygFormEditor.ACTION_REMOVE_DATA_HOLDER%>"/>
                                       </factory:url>"
                                                   onclick="return confirm('<i18n:message key="dataHolder_delete.confirm">Sure?</i18n:message>');">
-                                <img src="<static:image relativePath="actions/delete.png"/>" border="0" title="<i18n:message key="delete">!!!Clear</i18n:message>"/>
-                            </a></td>
+                            <img src="<static:image relativePath="actions/delete.png"/>" border="0" title="<i18n:message key="delete">!!!Clear</i18n:message>"/>
+                        </a></td>
+                            <td><div style="background-color: <%=renderColor%> ">&nbsp;</div></td>
+                            <td><%=id%></td>
+                            <td><%=type%></td>
+                            <td><%=value%></td>
+
+
 
                         </tr>
                     </mvc:fragmentValue>

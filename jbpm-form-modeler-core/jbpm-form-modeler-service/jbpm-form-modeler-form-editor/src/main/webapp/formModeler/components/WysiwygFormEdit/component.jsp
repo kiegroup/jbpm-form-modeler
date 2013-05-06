@@ -75,7 +75,7 @@
                 <mvc:fragmentValue name="displayCheckbox" id="displayCheckbox">
                 </form>
                 <script defer>
-                    setAjax("optionsForm");
+                    setAjax("<factory:encode name="changeMainOption"/>");
                 </script>
 
                 </td>
