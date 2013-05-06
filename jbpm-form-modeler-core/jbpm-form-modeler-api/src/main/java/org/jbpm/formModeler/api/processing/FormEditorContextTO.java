@@ -23,13 +23,15 @@ import java.io.Serializable;
 public class FormEditorContextTO implements Serializable {
     private String ctxUID;
     private Long formId;
+    private Object path;
 
     public FormEditorContextTO() {
     }
 
-    public FormEditorContextTO(String ctxUID, Long formId) {
+    public FormEditorContextTO(String ctxUID, Long formId, Object path) {
         this.ctxUID = ctxUID;
         this.formId = formId;
+        this.path = path;
     }
 
     public String getCtxUID() {
@@ -46,5 +48,13 @@ public class FormEditorContextTO implements Serializable {
 
     public void setFormId(Long formId) {
         this.formId = formId;
+    }
+
+    public Object getPath() {
+        return path;
+    }
+
+    public void setPath(Object path) {
+        this.path = path;
     }
 }

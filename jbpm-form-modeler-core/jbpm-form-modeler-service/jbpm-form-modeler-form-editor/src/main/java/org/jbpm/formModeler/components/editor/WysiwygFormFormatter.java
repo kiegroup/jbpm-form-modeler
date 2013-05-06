@@ -34,7 +34,7 @@ public class WysiwygFormFormatter extends Formatter {
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         WysiwygFormEditor editor = WysiwygFormEditor.lookup();
         Form form = editor.getCurrentForm();
-        String namespace = "wysiwyg_form_preview";
+        String namespace = editor.getNamespace();
 
         try {
             if (form != null) {

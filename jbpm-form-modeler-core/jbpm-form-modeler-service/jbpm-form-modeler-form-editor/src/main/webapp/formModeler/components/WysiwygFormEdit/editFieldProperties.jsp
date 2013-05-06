@@ -84,15 +84,13 @@
             <mvc:fragmentValue name="namespace" id="formNamespace">
                 <mvc:fragmentValue name="editClass" id="editClass">
                     <mvc:fragmentValue name="editId" id="editId">
-                        <mvc:fragmentValue name="formValues" id="formValues">
-                            <mvc:fragmentValue name="fieldType" id="fieldType">
+                        <mvc:fragmentValue name="fieldType" id="fieldType">
 
                                 <mvc:formatter name="org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter">
                                     <mvc:formatterParam name="formId" value="<%=formId%>"/>
                                     <mvc:formatterParam name="namespace" value="<%=formNamespace%>"/>
                                     <mvc:formatterParam name="editId" value="<%=editId%>"/>
                                     <mvc:formatterParam name="editClass" value="<%=editClass%>"/>
-                                    <mvc:formatterParam name="formValues" value="<%=formValues%>"/>
                                     <mvc:fragment name="outputStart">
                                     </mvc:fragment>
                                     <mvc:fragment name="groupStart">
@@ -154,7 +152,6 @@
                                     <mvc:fragment name="outputEnd">
                                     </mvc:fragment>
                                 </mvc:formatter>
-                            </mvc:fragmentValue>
                         </mvc:fragmentValue>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>

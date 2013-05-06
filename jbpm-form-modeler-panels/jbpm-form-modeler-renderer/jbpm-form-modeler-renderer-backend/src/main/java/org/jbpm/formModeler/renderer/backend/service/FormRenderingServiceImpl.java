@@ -14,10 +14,11 @@ import org.jbpm.formModeler.api.config.FormSerializationManager;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.FormTO;
 import org.jbpm.formModeler.api.processing.FormProcessor;
+import org.jbpm.formModeler.api.processing.FormRenderContext;
 import org.jbpm.formModeler.api.util.helpers.RenderHelper;
-import org.jbpm.formModeler.renderer.FormRenderContext;
-import org.jbpm.formModeler.renderer.FormRenderContextTO;
-import org.jbpm.formModeler.renderer.FormRenderListener;
+import org.jbpm.formModeler.api.processing.FormRenderContext;
+import org.jbpm.formModeler.api.processing.FormRenderContextTO;
+import org.jbpm.formModeler.api.processing.FormRenderListener;
 import org.jbpm.formModeler.renderer.service.FormRenderingService;
 import org.jbpm.formModeler.renderer.validation.FormValidationResult;
 
@@ -99,7 +100,8 @@ public class FormRenderingServiceImpl implements FormRenderingService, MessageCa
         return null;
     }
 
-    protected FormRenderContext newContext(Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener) {
+    @Override
+    public FormRenderContext newContext(Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener) {
         String uid = "formRenderCtx_" + form.getId() + "_" + System.currentTimeMillis();
         FormRenderContext ctx = new FormRenderContext(uid, form, bindingData, formRenderListener);
         formRenderContextMap.put(uid, ctx);

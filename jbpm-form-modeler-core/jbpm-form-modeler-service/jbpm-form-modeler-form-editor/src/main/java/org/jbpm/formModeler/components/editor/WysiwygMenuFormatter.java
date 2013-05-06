@@ -33,7 +33,7 @@ public class WysiwygMenuFormatter extends Formatter {
             WysiwygFormEditor editor = WysiwygFormEditor.lookup();
             renderFragment("outputStart");
 
-            setAttribute("formName", editor.getCurrentEditForm().getName());
+            setAttribute("formName", editor.getCurrentForm().getName());
             renderFragment("outputHeader");
 
             renderFragment("beforeOptions");

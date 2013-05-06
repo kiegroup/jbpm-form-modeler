@@ -2,17 +2,14 @@ package org.jbpm.formModeler.api.processing;
 
 import org.jbpm.formModeler.api.model.Form;
 
-import org.jbpm.formModeler.api.processing.FormRenderContext;
-import org.jbpm.formModeler.api.processing.FormRenderListener;
-import org.uberfire.backend.vfs.Path;
-import java.util.Map;
 
-public class FormEditorContext extends FormRenderContext {
+public class FormEditorContext {
+    private FormRenderContext renderContext;
     private Form originalForm;
     private Object path;
 
-    public FormEditorContext(String uid, Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener, Object path) {
-        super(uid, form, bindingData, formRenderListener);
+    public FormEditorContext(FormRenderContext ctx, Object path) {
+        this.renderContext = ctx;
         this.path = path;
     }
 
@@ -30,5 +27,17 @@ public class FormEditorContext extends FormRenderContext {
 
     public void setOriginalForm(Form originalForm) {
         this.originalForm = originalForm;
+    }
+
+    public FormRenderContext getRenderContext() {
+        return renderContext;
+    }
+
+    public Form getForm() {
+        return renderContext.getForm();
+    }
+
+    public FormEditorContextTO getFormEditorContextTO() {
+        return new FormEditorContextTO(renderContext.getUID(), renderContext.getForm().getId(), path);
     }
 }

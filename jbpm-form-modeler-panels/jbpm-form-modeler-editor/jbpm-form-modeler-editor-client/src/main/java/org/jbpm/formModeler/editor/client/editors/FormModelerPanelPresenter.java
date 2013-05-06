@@ -5,6 +5,8 @@ import org.jboss.errai.bus.client.api.RemoteCallback;
 import org.jboss.errai.ioc.client.api.Caller;
 import org.jboss.errai.ioc.client.container.IOCBeanManager;
 import org.jbpm.formModeler.api.model.FormTO;
+import org.jbpm.formModeler.api.processing.FormEditorContext;
+import org.jbpm.formModeler.api.processing.FormEditorContextTO;
 import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.uberfire.backend.vfs.Path;
@@ -29,12 +31,14 @@ import static org.uberfire.client.workbench.widgets.menu.MenuFactory.newSimpleIt
 @Dependent
 @WorkbenchEditor(identifier = "FormModelerEditor", supportedTypes = {FormDefinitionResourceType.class })
 public class FormModelerPanelPresenter {
+
     public interface FormModelerPanelView
             extends
             UberView<FormModelerPanelPresenter> {
+
         void hideForm();
 
-        void showForm();
+        void loadContext(FormEditorContextTO context);
     }
 
     @Inject
@@ -52,9 +56,11 @@ public class FormModelerPanelPresenter {
     @Inject
     private Event<NotificationEvent> notification;
 
-    private Path path;
+    private FormEditorContextTO context;
 
     private Menus menus;
+
+    private Path path;
 
     @OnStart
     public void onStart(Path path, PlaceRequest placeRequest) {
@@ -63,14 +69,14 @@ public class FormModelerPanelPresenter {
 
         this.path = path;
 
-        modelerService.call(new RemoteCallback<Long>() {
+        modelerService.call(new RemoteCallback<FormEditorContextTO>() {
             @Override
-            public void callback(Long formModel) {
-                if (formModel == null) {
+            public void callback(FormEditorContextTO ctx) {
+                if (ctx == null) {
                     notification.fire(new NotificationEvent("Cannot load the form from server."));
                 } else {
-                    setFormId(formModel);
-                    notification.fire(new NotificationEvent("Model was loaded from server: " + formModel + " at time: " + new java.util.Date()));
+                    loadContext(ctx);
+                    notification.fire(new NotificationEvent("Model was loaded from server: " + ctx + " at time: " + new java.util.Date()));
                 }
             }
         }).loadForm(path);
@@ -80,12 +86,12 @@ public class FormModelerPanelPresenter {
     @OnSave
     public void onSave() {
         //makeMenuBar();
-        Window.alert("Saving.. "+ path.getFileName());
+
         modelerService.call(new RemoteCallback<Long>() {
             @Override
             public void callback(Long formId) {
             }
-        }).saveForm(path);
+        }).saveForm(context.getCtxUID());
 
     }
 
@@ -96,14 +102,13 @@ public class FormModelerPanelPresenter {
 
         makeMenuBar();
 
-        modelerService.call(new RemoteCallback<Long>() {
+        modelerService.call(new RemoteCallback<FormEditorContextTO>() {
             @Override
-            public void callback(Long formModel) {
-                setFormId(formModel);
-        //        notification.fire(new NotificationEvent("Model was loaded from server: " + formModel + " at time: " + new java.util.Date()));
+            public void callback(FormEditorContextTO context) {
+                loadContext(context);
             }
 
-        }).setFormFocus(path);
+        }).setFormFocus(context.getCtxUID());
 
     }
 
@@ -114,37 +119,17 @@ public class FormModelerPanelPresenter {
             public void callback(Long formId) {
             }
 
-        }).removeEditingForm(path);
+        }).removeEditingForm(context.getCtxUID());
 
     }
-    public void setFormId(Long formId) {
-        modelerService.call(new RemoteCallback<Long>() {
-            @Override
-            public void callback(Long formId) {
-                view.showForm();
-    /*            if (formId != null) {
-                    view.showForm();
-                } else {
-                    view.hideForm();
-                }*/
-            }
-        }).setFormId(formId, path.toURI());
-    }
-
-    public void getFormId() {
-        modelerService.call(new RemoteCallback<FormTO>() {
-            @Override
-            public void callback(FormTO currentForm) {
-                if (currentForm == null) notification.fire(new NotificationEvent("Null form received"));
-                else notification.fire(new NotificationEvent("Received form: " + currentForm.getFormName()));
-            }
-        }).getCurrentForm(path.toURI());
-        view.hideForm();
+    public void loadContext(FormEditorContextTO ctx) {
+        this.context = ctx;
+        view.loadContext(ctx);
     }
 
     @WorkbenchPartTitle
     public String getTitle() {
-        return "Form Modeler Panel ["+path.getFileName()+"]";
+        return "Form Modeler Panel ["+ path.getFileName() + "]";
     }
 
     @WorkbenchPartView

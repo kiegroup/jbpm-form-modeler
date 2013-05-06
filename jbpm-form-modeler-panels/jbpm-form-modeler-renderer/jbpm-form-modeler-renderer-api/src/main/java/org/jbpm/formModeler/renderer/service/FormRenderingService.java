@@ -18,10 +18,11 @@ package org.jbpm.formModeler.renderer.service;
 import org.jboss.errai.bus.server.annotations.Remote;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.FormTO;
-import org.jbpm.formModeler.renderer.FormRenderContextManager;
-import org.jbpm.formModeler.renderer.FormRenderContextTO;
-import org.jbpm.formModeler.renderer.FormRenderListener;
+import org.jbpm.formModeler.api.processing.FormRenderContextManager;
+import org.jbpm.formModeler.api.processing.FormRenderContextTO;
+import org.jbpm.formModeler.api.processing.FormRenderListener;
 
+import java.io.Serializable;
 import java.lang.Long;
 import java.lang.Object;
 import java.lang.String;
@@ -29,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 @Remote
-public interface FormRenderingService extends FormRenderContextManager {
+public interface FormRenderingService extends FormRenderContextManager, Serializable {
     List<FormTO> getAllForms();
 
     void loadForm(Long id, Long formId);

@@ -62,7 +62,7 @@ public class FieldButtonsFormatter extends Formatter {
         if (formField != null) {
             try {
                 if (!Boolean.TRUE.equals(hideMotionButtons)) {
-                    int formSize = WysiwygFormEditor.lookup().getCurrentEditForm().getFormFields().size();
+                    int formSize = WysiwygFormEditor.lookup().getCurrentForm().getFormFields().size();
                     if (formField.getPosition() != 0) {
                         //Move first for non-first field
                         renderMoveButton(formField, getFirstIcon(), "moveFirst", "moveFirst", httpServletRequest);

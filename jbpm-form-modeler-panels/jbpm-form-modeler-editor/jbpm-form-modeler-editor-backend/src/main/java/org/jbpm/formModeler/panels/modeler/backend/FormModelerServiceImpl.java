@@ -1,9 +1,14 @@
 package org.jbpm.formModeler.panels.modeler.backend;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.errai.bus.server.annotations.Service;
 import org.jboss.errai.bus.server.api.RpcContext;
 import org.jbpm.formModeler.api.config.FormManager;
 import org.jbpm.formModeler.api.config.FormSerializationManager;
+import org.jbpm.formModeler.api.processing.FormEditorContextTO;
+import org.jbpm.formModeler.api.processing.FormRenderContext;
+import org.jbpm.formModeler.api.processing.FormRenderContextManager;
+import org.jbpm.formModeler.api.processing.FormEditorContext;
 import org.jbpm.formModeler.api.util.helpers.EditorHelper;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.FormTO;
@@ -17,7 +22,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,6 +45,11 @@ public class FormModelerServiceImpl implements FormModelerService {
     @Inject
     private FormSerializationManager formSerializationManager;
 
+    @Inject
+    private FormRenderContextManager formRenderContextManager;
+
+    protected Map<String, FormEditorContext> formEditorContextMap = new HashMap<String, FormEditorContext>();
+
     private Menus menus;
 
     @Override
@@ -50,7 +62,7 @@ public class FormModelerServiceImpl implements FormModelerService {
     }
 
     @Override
-    public Long setFormId(Long formId,String contextUri) {
+    public Long setFormId(Long formId, String contextUri) {
         EditorHelper helper = getHelper(contextUri);
 
         if (helper != null) {
@@ -63,39 +75,43 @@ public class FormModelerServiceImpl implements FormModelerService {
     }
 
     @Override
-    public Long setFormFocus(Path context) {
-
-        EditorHelper helper = getHelper(context.toURI());
-        if  (helper!=null && helper.getFormToEdit(context.toURI())!=null)
-            return helper.getFormToEdit(context.toURI()).getId();
-        else
-            return null;
+    public FormEditorContextTO setFormFocus(String ctxUID) {
+        if (StringUtils.isEmpty(ctxUID)) return null;
+        return getFormEditorContext(ctxUID).getFormEditorContextTO();
     }
 
     @Override
-    public void removeEditingForm(Path context) {
-
-        EditorHelper helper = getHelper(context.toURI());
-        helper.removeEditingForm(context.toURI());
-        getHelper(context.toURI());
+    public void removeEditingForm(String ctxUID) {
+        formEditorContextMap.remove(ctxUID);
 
     }
+
     @Override
-    public Long loadForm(Path context) {
+    public FormEditorContextTO loadForm(Path context) {
         try {
             org.kie.commons.java.nio.file.Path kiePath = paths.convert( context );
 
             String xml = ioService.readAllString(kiePath).trim();
             Form form = formSerializationManager.loadFormFromXML(xml);
 
-            EditorHelper helper = getHelper(context.toURI());
-            helper.setFormToEdit(context.toURI(),form);
-
-            return form.getId();
+            return newContext(form, context).getFormEditorContextTO();
         } catch (Exception e) {
             Logger.getLogger(FormModelerServiceImpl.class.getName()).log(Level.WARNING, null, e);
             return null;
         }
+    }
+
+    @Override
+    public FormEditorContext newContext(Form form, Object path) {
+        FormRenderContext ctx = formRenderContextManager.newContext(form, new HashMap<String, Object>(), null);
+        FormEditorContext formEditorContext = new FormEditorContext(ctx, path);
+        formEditorContextMap.put(ctx.getUID(), formEditorContext);
+        return formEditorContext;
+    }
+
+    @Override
+    public FormEditorContext getFormEditorContext(String UID) {
+        return formEditorContextMap.get(UID);
     }
 
     @Override
@@ -123,13 +139,14 @@ public class FormModelerServiceImpl implements FormModelerService {
     }
 
     @Override
-    public void saveForm(Path context) {
-        EditorHelper helper = getHelper(context.toURI());
+    public void saveForm(String ctxUID) {
 
-        formManager.replaceForm(helper.getOriginalForm(), helper.getFormToEdit(context.toURI()));
+        FormEditorContext ctx = getFormEditorContext(ctxUID);
 
-        org.kie.commons.java.nio.file.Path kiePath = paths.convert(context);
-        ioService.write(kiePath, formSerializationManager.generateFormXML(helper.getFormToEdit(context.toURI())));
+        formManager.replaceForm(ctx.getOriginalForm(), ctx.getForm());
+
+        org.kie.commons.java.nio.file.Path kiePath = paths.convert((Path)ctx.getPath());
+        ioService.write(kiePath, formSerializationManager.generateFormXML(ctx.getForm()));
     }
 
     @Override

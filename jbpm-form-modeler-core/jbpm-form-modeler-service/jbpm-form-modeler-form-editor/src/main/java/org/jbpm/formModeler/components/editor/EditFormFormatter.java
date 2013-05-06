@@ -33,7 +33,7 @@ public class EditFormFormatter extends Formatter {
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
-            Form form = WysiwygFormEditor.lookup().getCurrentEditForm();
+            Form form = WysiwygFormEditor.lookup().getCurrentForm();
 
             setFormAttributes(form);
             renderFragment("outputStart");

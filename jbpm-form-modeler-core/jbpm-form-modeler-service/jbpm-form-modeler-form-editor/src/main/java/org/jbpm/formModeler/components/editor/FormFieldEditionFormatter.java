@@ -90,7 +90,6 @@ public class FormFieldEditionFormatter extends FormRenderingFormatter {
         if (memoryType != null) {
             type = getFieldTypesManager().getTypeByCode(memoryType);
         }
-        setAttribute("formValues", field.asMap());
         setAttribute("fieldType", type);
         renderFragment("fieldCustomForm");
         setAttribute("fieldName", fieldName);

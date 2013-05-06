@@ -19,11 +19,11 @@ import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
+import java.lang.reflect.Field;
 import java.util.*;
 
-public class PojoDataHolder implements DataHolder,Comparable {
+public class PojoDataHolder extends DefaultDataHolder implements Comparable {
     private String id;
     private String className;
     private String renderColor;
@@ -106,7 +106,7 @@ public class PojoDataHolder implements DataHolder,Comparable {
 
     @Override
     public DataFieldHolder getDataFieldHolderById(String fieldHolderId) {
-        for(DataFieldHolder dataFieldHolder: dataFieldHolders ){
+        for(DataFieldHolder dataFieldHolder: getFieldHolders() ){
             if(dataFieldHolder.getId().equals(fieldHolderId))
                 return dataFieldHolder;
         }
@@ -153,7 +153,7 @@ public class PojoDataHolder implements DataHolder,Comparable {
                 }
             }
         }
-        DataFieldHolder fieldHolder=null;
+        DataFieldHolder fieldHolder = null;
         for (Iterator it = propertiesDescriptors.keySet().iterator(); it.hasNext(); ) {
             String propertyName = (String) it.next();
             Map propertyValue = (Map) propertiesDescriptors.get(propertyName);
@@ -202,4 +202,8 @@ public class PojoDataHolder implements DataHolder,Comparable {
         return renderColor;
     }
 
+    @Override
+    public void setRenderColor(String renderColor) {
+        this.renderColor = renderColor;
+    }
 }

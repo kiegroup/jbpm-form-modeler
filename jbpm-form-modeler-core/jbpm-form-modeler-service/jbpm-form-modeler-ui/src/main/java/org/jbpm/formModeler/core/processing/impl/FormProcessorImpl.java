@@ -17,6 +17,7 @@ package org.jbpm.formModeler.core.processing.impl;
 
 import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.api.model.DataHolder;
+import org.jbpm.formModeler.api.processing.*;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.processing.ProcessingMessagedException;
 import org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler;
@@ -30,12 +31,9 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.i18n.I18nSet;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.core.config.FormManagerImpl;
-import org.jbpm.formModeler.api.processing.FieldHandler;
-import org.jbpm.formModeler.api.processing.FormProcessor;
-import org.jbpm.formModeler.api.processing.FormStatusData;
 import org.jbpm.formModeler.api.util.helpers.CDIHelper;
-import org.jbpm.formModeler.renderer.FormRenderContext;
-import org.jbpm.formModeler.renderer.FormRenderContextManager;
+import org.jbpm.formModeler.api.processing.FormRenderContext;
+import org.jbpm.formModeler.api.processing.FormRenderContextManager;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -307,7 +305,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                         boolean canSetValue = bindingString.indexOf("/") > 0;
 
                         if (canSetValue) {
-                            String holderId = bindingString.substring(bindingString.indexOf("/"));
+                            String holderId = bindingString.substring(0, bindingString.indexOf("/"));
                             String holderFieldId = bindingString.substring(holderId.length() + 1);
 
                             DataHolder holder = form.getDataHolderById(holderId);

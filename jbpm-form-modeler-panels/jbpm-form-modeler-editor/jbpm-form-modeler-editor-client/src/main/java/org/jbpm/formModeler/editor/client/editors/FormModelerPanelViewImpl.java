@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.jbpm.formModeler.api.processing.FormEditorContextTO;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
@@ -52,13 +53,6 @@ public class FormModelerPanelViewImpl extends Composite
 
     }
 
-    @EventHandler("frame")
-    public void onLoadFrame(LoadEvent event) {
-        if (!"".equals(frame.getUrl())) visible(true);
-        else visible(false);
-    }
-
-
     public void visible(boolean show) {
         frame.setVisible(show);
     }
@@ -70,8 +64,9 @@ public class FormModelerPanelViewImpl extends Composite
     }
 
     @Override
-    public void showForm() {
-        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=wysiwygfe&_fp=Start").asString());
+    public void loadContext(FormEditorContextTO context) {
+        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=wysiwygfe&_fp=Start&ctxUID=" + context.getCtxUID()).asString());
+        visible(true);
     }
 }
 

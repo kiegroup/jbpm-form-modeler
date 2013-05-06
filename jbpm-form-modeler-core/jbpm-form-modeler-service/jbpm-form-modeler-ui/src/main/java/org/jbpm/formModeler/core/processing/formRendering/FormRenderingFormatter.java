@@ -79,7 +79,7 @@ public class FormRenderingFormatter extends Formatter {
     protected transient String renderMode;
     protected transient Boolean isDisabled = Boolean.FALSE;
     protected transient Boolean isReadonly = Boolean.FALSE;
-    protected transient Long objectIdToLoad = null;
+    protected transient FormStatusData formStatusData;
 
     public UIDGenerator getUidGenerator() {
         return UIDGenerator.lookup();
@@ -107,8 +107,6 @@ public class FormRenderingFormatter extends Formatter {
         }
 
         renderMode = (String) getParameter("renderMode");     //Default is form
-        objectIdToLoad = (Long) getParameter("editId");
-        String objectToLoadClass = (String) getParameter("editClass");
         String labelMode = (String) getParameter("labelMode");           //Default is before;
         String reusingStatus = (String) getParameter("reuseStatus"); //Default is true;
         String forceLabelModeParam = (String) getParameter("forceLabelMode"); //Default is false
@@ -125,7 +123,6 @@ public class FormRenderingFormatter extends Formatter {
         boolean isSubForm = subForm != null && Boolean.valueOf(subForm).booleanValue();
         boolean isMultiple = multiple != null && Boolean.valueOf(multiple).booleanValue();
 
-        Object formValues = getParameter("formValues");
         namespace = (String) getParameter("namespace");
 
         if (StringUtils.isEmpty(namespace)) {
@@ -158,19 +155,7 @@ public class FormRenderingFormatter extends Formatter {
                     labelMode = formLabelMode;
             }
 
-            String formMode;
-
-            if (Form.RENDER_MODE_FORM.equals(renderMode) || Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode)) {
-                formMode = formValues == null && objectIdToLoad == null ? "create" : "edit";
-            } else formMode = renderMode;
-
-            if (formValues == null) formValues = new HashMap();
-
-            ((Map) formValues).put(FormProcessor.FORM_MODE, formMode);
-
-            if (!reuseStatus) {
-                getFormProcessor().clear(formToPaint.getId(), namespace);
-            }
+            formStatusData = getFormProcessor().read(formToPaint, namespace);
 
             String displayMode = formToPaint.getDisplayMode();
             if (displayModeParam != null)
@@ -187,7 +172,7 @@ public class FormRenderingFormatter extends Formatter {
             }
 
             if (log.isDebugEnabled())
-                log.debug("About to display form " + formToPaint.getId() + " in namespace " + namespace + " with status " + getFormProcessor().read(formToPaint, namespace));
+                log.debug("About to display form " + formToPaint.getId() + " in namespace " + namespace);
             display(formToPaint, namespace, displayMode, displayInfo, renderMode, labelMode, isSubForm, isMultiple);
 
         } catch (Exception e) {
@@ -303,9 +288,7 @@ public class FormRenderingFormatter extends Formatter {
             externalOnclickForField = fieldOnClick;
         }
 
-        Form form = (Form) field.getForm();
-        FormStatusData fsd = getFormProcessor().read(form, namespace);
-        boolean fieldHasErrors = fsd.getWrongFields().contains(field.getFieldName());
+        boolean fieldHasErrors = formStatusData.getWrongFields().contains(field.getFieldName());
         String renderPage = "";
         FieldHandler fieldHandler = getFieldHandlersManager().getHandler(field.getFieldType());
 
@@ -329,10 +312,10 @@ public class FormRenderingFormatter extends Formatter {
                 }
                 writeToOut(" >");
             }
-            Object value = fsd.getCurrentValue(field.getFieldName());
+            Object value = formStatusData.getCurrentValue(field.getFieldName());
             boolean isStringType = String.class.getName().equals(field.getFieldType().getFieldClass());
             if (value == null && isStringType) {
-                Map currentInputValues = fsd.getCurrentInputValues();
+                Map currentInputValues = formStatusData.getCurrentInputValues();
                 String[] values = null;
                 if (currentInputValues != null) {
                     values = ((String[]) currentInputValues.get(namespace + FormProcessor.NAMESPACE_SEPARATOR + field.getForm().getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName()));
@@ -340,7 +323,7 @@ public class FormRenderingFormatter extends Formatter {
                 value = values != null && values.length > 0 ? values[0] : value;
             }
 
-            setRenderingAttributes(field, namespace, value, fsd, fieldHasErrors);
+            setRenderingAttributes(field, namespace, value, formStatusData, fieldHasErrors);
             // If disabled and/or readonly parameters were received from a subformformatter, pass them on to the included
             // fields (only relevant when they're set to true)
             if (isDisabled) setAttribute(ATTR_FIELD_IS_DISABLED, isDisabled);
@@ -416,9 +399,7 @@ public class FormRenderingFormatter extends Formatter {
         if (Form.RENDER_MODE_TEMPLATE_EDIT.equals(renderMode)) {
             writeToOut(Form.TEMPLATE_LABEL + "{" + field.getFieldName() + "}");
         } else {
-            Form form = field.getForm();
-            FormStatusData fsd = getFormProcessor().read(form, namespace);
-            boolean fieldHasErrors = fsd.getWrongFields().contains(field.getFieldName());
+            boolean fieldHasErrors = formStatusData.getWrongFields().contains(field.getFieldName());
             String label = (String) getLocaleManager().localize(field.getLabel());
             Boolean fieldIsRequired = field.getFieldRequired();
             boolean fieldRequired = fieldIsRequired != null && fieldIsRequired.booleanValue() && !Form.RENDER_MODE_DISPLAY.equals(fieldIsRequired);

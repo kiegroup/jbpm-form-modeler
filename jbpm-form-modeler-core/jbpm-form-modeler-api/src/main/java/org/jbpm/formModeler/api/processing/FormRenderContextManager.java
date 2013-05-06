@@ -15,6 +15,11 @@
  */
 package org.jbpm.formModeler.api.processing;
 
+import org.jbpm.formModeler.api.model.Form;
+
+import java.util.Map;
+
 public interface FormRenderContextManager {
+    FormRenderContext newContext(Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener);
     FormRenderContext getFormRenderContext(String UID);
 }

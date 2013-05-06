@@ -41,7 +41,7 @@ public class FieldAvailableTypesFormatter extends Formatter {
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
             Field field = getEditor().getCurrentEditField();
-            Form form = getEditor().getCurrentEditForm();
+            Form form = getEditor().getCurrentForm();
             String propertyName = field.getFieldName();
 
 

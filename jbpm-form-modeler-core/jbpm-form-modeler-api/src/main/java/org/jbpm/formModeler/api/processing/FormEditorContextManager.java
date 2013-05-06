@@ -15,5 +15,10 @@
  */
 package org.jbpm.formModeler.api.processing;
 
+import org.jbpm.formModeler.api.model.Form;
+
+
 public interface FormEditorContextManager {
+    FormEditorContext newContext(Form form, Object path);
+    FormEditorContext getFormEditorContext(String UID);
 }

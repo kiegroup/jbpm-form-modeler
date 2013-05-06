@@ -24,8 +24,9 @@ import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.jbpm.formModeler.api.model.FormTO;
-import org.jbpm.formModeler.renderer.FormRenderContext;
-import org.jbpm.formModeler.renderer.FormRenderContextTO;
+import org.jbpm.formModeler.api.processing.FormRenderContextTO;
+import org.jbpm.formModeler.api.processing.FormRenderContext;
+import org.jbpm.formModeler.api.processing.FormRenderContextTO;
 import org.jbpm.formModeler.renderer.client.FormRenderer;
 
 import javax.enterprise.context.Dependent;

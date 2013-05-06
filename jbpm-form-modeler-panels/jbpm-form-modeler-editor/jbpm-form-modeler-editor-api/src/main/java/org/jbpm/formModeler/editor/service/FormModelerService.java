@@ -2,13 +2,17 @@ package org.jbpm.formModeler.editor.service;
 
 import org.jboss.errai.bus.server.annotations.Remote;
 import org.jbpm.formModeler.api.model.FormTO;
+import org.jbpm.formModeler.api.processing.FormEditorContext;
+import org.jbpm.formModeler.api.processing.FormEditorContextManager;
+import org.jbpm.formModeler.api.processing.FormEditorContextTO;
+import org.jbpm.formModeler.api.processing.FormRenderContextManager;
 import org.uberfire.backend.vfs.Path;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Remote
-public interface FormModelerService extends Serializable {
+public interface FormModelerService extends FormEditorContextManager, Serializable {
 
     List<FormTO> getAllForms();
 
@@ -16,13 +20,13 @@ public interface FormModelerService extends Serializable {
 
     Long setFormId(Long formId, String contextURI);
 
-    void saveForm(Path path);
+    void saveForm(String ctxUID);
 
-    Long loadForm(Path context);
+    FormEditorContextTO loadForm(Path context);
 
-    Long setFormFocus(Path context);
+    FormEditorContextTO setFormFocus(String ctxUID);
 
-    void removeEditingForm(Path context);
+    void removeEditingForm(String ctxUID);
 
     Path createForm(Path context, String formName);
 }
