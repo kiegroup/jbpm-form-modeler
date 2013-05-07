@@ -102,6 +102,8 @@ public class FormModelerPanelPresenter {
 
         makeMenuBar();
 
+        if(context==null) return;
+
         modelerService.call(new RemoteCallback<FormEditorContextTO>() {
             @Override
             public void callback(FormEditorContextTO context) {

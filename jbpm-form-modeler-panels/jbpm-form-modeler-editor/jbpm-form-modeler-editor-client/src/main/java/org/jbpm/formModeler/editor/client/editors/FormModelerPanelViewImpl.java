@@ -65,7 +65,11 @@ public class FormModelerPanelViewImpl extends Composite
 
     @Override
     public void loadContext(FormEditorContextTO context) {
-        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=wysiwygfe&_fp=Start&ctxUID=" + context.getCtxUID()).asString());
+        String contexUID="";
+        if(context!=null){
+            contexUID= context.getCtxUID();
+        }
+        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=wysiwygfe&_fp=Start&ctxUID=" + contexUID).asString());
         visible(true);
     }
 }
