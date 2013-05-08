@@ -23,13 +23,16 @@ import com.google.gwt.user.client.ui.ListBox;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.jbpm.formModeler.api.events.FormRenderEvent;
+import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
+import org.jbpm.formModeler.api.events.FormSubmittedEvent;
 import org.jbpm.formModeler.api.model.FormTO;
-import org.jbpm.formModeler.api.processing.FormRenderContextTO;
-import org.jbpm.formModeler.api.processing.FormRenderContext;
 import org.jbpm.formModeler.api.processing.FormRenderContextTO;
 import org.jbpm.formModeler.renderer.client.FormRenderer;
 
 import javax.enterprise.context.Dependent;
+import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.util.List;
 
@@ -53,13 +56,20 @@ public class FormRendererPanelIncluderViewImpl extends Composite implements Form
     @DataField
     public Button startTestButton;
 
+    private FormRenderContextTO context;
+
     private FormRendererPanelIncluderPresenter presenter;
+
+    @Inject
+    Event<FormRenderEvent> formRenderEvent;
 
     @Override
     public void init(FormRendererPanelIncluderPresenter presenter) {
         this.presenter = presenter;
         submitButton.setText("submit");
         startTestButton.setText("start");
+        formRenderer.setVisible(false);
+        submitButton.setVisible(false);
     }
 
     @Override
@@ -73,6 +83,8 @@ public class FormRendererPanelIncluderViewImpl extends Composite implements Form
     @EventHandler("startTestButton")
     public void startTest(ClickEvent event) {
         presenter.startTest();
+        formRenderer.setVisible(true);
+        submitButton.setVisible(true);
     }
 
     @EventHandler("submitButton")
@@ -87,6 +99,29 @@ public class FormRendererPanelIncluderViewImpl extends Composite implements Form
 
     @Override
     public void loadContext(FormRenderContextTO ctx) {
-        if (ctx != null) formRenderer.loadContext(ctx);
+        if (ctx != null) {
+            context = ctx;
+            formRenderer.loadContext(ctx);
+        }
+    }
+
+    //Event Observers
+    public void onFormSubmitted(@Observes FormSubmittedEvent event) {
+        if (event.isMine(context)) {
+            int errors = event.getContext().getErrors();
+            if (errors == 0) {
+                formRenderer.setVisible(false);
+                submitButton.setVisible(false);
+                presenter.notifyFormSubmit();
+            } else {
+                presenter.notifyErrors(errors);
+            }
+        }
+    }
+
+    public  void onFormSubmitFail(@Observes FormSubmitFailEvent event) {
+        if (event.isMine(context)) {
+            presenter.notifyFormProcessingError(event.getCause());
+        }
     }
 }

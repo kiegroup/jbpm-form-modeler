@@ -35,6 +35,8 @@ public class FormRenderingComponentFormatter extends Formatter {
         if (formRenderingComponent.getForm() == null || StringUtils.isEmpty(formRenderingComponent.getCtxUID())) return;
 
         setAttribute("ctxUID", formRenderingComponent.getCtxUID());
+        setAttribute("errors", formRenderingComponent.getFieldErrors().size());
+        setAttribute("submitted", formRenderingComponent.isSubmited());
         setAttribute("form", formRenderingComponent.getForm());
         renderFragment("output");
     }

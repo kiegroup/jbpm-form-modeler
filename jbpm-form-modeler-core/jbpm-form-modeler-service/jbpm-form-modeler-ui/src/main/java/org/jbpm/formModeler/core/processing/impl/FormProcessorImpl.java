@@ -317,6 +317,9 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
                                 values.put(field.getFieldName(), holder.readValue(value, holderFieldId));
                             }
+                        } else {
+                            Object value = bindingData.get(bindingString);
+                            if (value != null) values.put(bindingString, value);
                         }
                     }
                 }
@@ -361,25 +364,27 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         for (Iterator it = mapToPersist.keySet().iterator(); it.hasNext();) {
             String fieldName = (String) it.next();
             Field field = form.getField(fieldName);
-            String bindingString = field.getBindingStr();
-            if (!StringUtils.isEmpty(bindingString)) {
-                bindingString = bindingString.substring(1, bindingString.length() - 1);
+            if (field != null) {
+                String bindingString = field.getBindingStr();
+                if (!StringUtils.isEmpty(bindingString)) {
+                    bindingString = bindingString.substring(1, bindingString.length() - 1);
 
-                boolean canBind = bindingString.indexOf("/") > 0;
+                    boolean canBind = bindingString.indexOf("/") > 0;
 
-                if (canBind) {
-                    String holderId = bindingString.substring(bindingString.indexOf("/"));
-                    String holderFieldId = bindingString.substring(holderId.length() + 1);
-                    DataHolder holder = form.getDataHolderById(holderId);
-                    if (holder != null && !StringUtils.isEmpty(holderFieldId)) holder.writeValue(context.getBindingData().get(holderId), holderFieldId, mapToPersist.get(fieldName));
-                    else canBind = false;
+                    if (canBind) {
+                        String holderId = bindingString.substring(0, bindingString.indexOf("/"));
+                        String holderFieldId = bindingString.substring(holderId.length() + 1);
+                        DataHolder holder = form.getDataHolderById(holderId);
+                        if (holder != null && !StringUtils.isEmpty(holderFieldId)) holder.writeValue(context.getBindingData().get(holderId), holderFieldId, mapToPersist.get(fieldName));
+                        else canBind = false;
+                    }
+
+                    if (!canBind) {
+                        log.error("Unable to bind DataHolder for field '" + fieldName + "' to '" + bindingString + "'. This may be caused because bindingString is incorrect or the form doesn't contains the defined DataHolder.");
+                        context.getBindingData().put(bindingString, mapToPersist.get(fieldName));
+                    }
+
                 }
-
-                if (!canBind) {
-                    log.error("Unable to bind DataHolder for field '" + fieldName + "' to '" + bindingString + "'. This may be caused because bindingString is incorrect or the form doesn't contains the defined DataHolder.");
-                    context.getBindingData().put(bindingString, mapToPersist.get(fieldName));
-                }
-
             }
         }
     }

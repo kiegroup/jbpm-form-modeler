@@ -16,6 +16,9 @@
 package org.jbpm.formModeler.components.renderer;
 
 import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.api.events.FormRenderEvent;
+import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
+import org.jbpm.formModeler.api.events.FormSubmittedEvent;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.processing.FormProcessor;
 import org.jbpm.formModeler.api.processing.FormRenderContext;
@@ -30,8 +33,10 @@ import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 
 @ApplicationScoped
 @Named("frc")
@@ -50,8 +55,12 @@ public class FormRenderingComponent extends BaseUIComponent {
     @Inject
     private FormProcessor formProcessor;
 
+    @Inject
+    Event<FormRenderEvent> formRenderEvent;
+
     private String ctxUID;
     private Form form;
+    private boolean submited = false;
 
     public void doStart(CommandRequest commandRequest) {
 
@@ -61,25 +70,40 @@ public class FormRenderingComponent extends BaseUIComponent {
 
         FormRenderContext ctx = formRenderContextManager.getFormRenderContext(ctxUID);
 
+        submited = false;
+
         this.form = ctx.getForm();
 
     }
 
     public void actionSubmitForm(CommandRequest request) {
-
         String ctxUID = request.getRequestObject().getParameter("ctxUID");
         FormRenderContext ctx = formRenderContextManager.getFormRenderContext(ctxUID);
-        Form form = ctx.getForm();
+        if (ctx == null) return;
+        try {
+            ctx.setSubmit(true);
+            Form form = ctx.getForm();
 
-        formProcessor.setValues(form, ctxUID, request.getRequestObject().getParameterMap(), request.getFilesByParamName());
-        FormStatusData fsd = formProcessor.read(ctxUID);
-        if (fsd.isValid()) {
-            formProcessor.clear(form.getId(), ctxUID);
-            if (ctxUID.equals(this.ctxUID)) {
-                this.form = null;
-                this.ctxUID = null;
-            }
+            formProcessor.setValues(form, ctxUID, request.getRequestObject().getParameterMap(), request.getFilesByParamName());
+            FormStatusData fsd = formProcessor.read(ctxUID);
+
+            ctx.setErrors(fsd.getWrongFields().size());
+            submited = true;
+
+            ctx.setSubmit(false);
+            formRenderEvent.fire(new FormSubmittedEvent(ctx.getFormRenderingContextTO()));
+        } catch (Exception e) {
+            formRenderEvent.fire(new FormSubmitFailEvent(ctx.getFormRenderingContextTO(), e.getMessage()));
         }
+
+
+    }
+
+    public void actionIsProcessed(CommandRequest request) throws IOException {
+        String ctxUID = request.getRequestObject().getParameter("ctxUID");
+        FormRenderContext ctx = formRenderContextManager.getFormRenderContext(ctxUID);
+
+        request.getResponseObject().getWriter().print(ctx.isSubmit());
     }
 
     public String getCtxUID() {
@@ -126,5 +150,13 @@ public class FormRenderingComponent extends BaseUIComponent {
 
     public static FormRenderingComponent lookup() {
         return (FormRenderingComponent) CDIBeanLocator.getBeanByType(FormRenderingComponent.class);
+    }
+
+    public boolean isSubmited() {
+        return submited;
+    }
+
+    public void setSubmited(boolean submited) {
+        this.submited = submited;
     }
 }
