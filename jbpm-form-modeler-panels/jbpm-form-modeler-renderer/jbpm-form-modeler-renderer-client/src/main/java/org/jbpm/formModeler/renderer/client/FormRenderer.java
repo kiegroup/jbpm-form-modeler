@@ -16,19 +16,24 @@
 package org.jbpm.formModeler.renderer.client;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.HeadElement;
-import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.dom.client.HasFormSubmittedHandlers;
+import com.google.gwt.event.dom.client.LoadEvent;
+import com.google.gwt.event.dom.client.LoadHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.http.client.*;
 import com.google.gwt.safehtml.shared.UriUtils;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.jbpm.formModeler.api.processing.FormRenderContextTO;
-import org.jbpm.formModeler.api.processing.FormRenderContextTO;
 
 
-public class FormRenderer extends Composite {
+public class FormRenderer extends Composite implements HasFormSubmittedHandlers {
+
+    final private HandlerManager handlerManager = new HandlerManager(this);
 
     private FormRenderContextTO ctx;
 
@@ -39,15 +44,65 @@ public class FormRenderer extends Composite {
         initWidget(widget);
         widget.add(frame);
         frame.setWidth("100%");
+        frame.setHeight("600px");
         frame.getElement().getStyle().setBorderWidth(0, Style.Unit.PX);
+        frame.addLoadHandler(new LoadHandler() {
+            @Override
+            public void onLoad(LoadEvent e) {
+                /*if (ctx != null) {
+                    boolean submitted = isSubmitted(ctx.getCtxUID());
+                    if (submitted) {
+                        int errors = getErrors(ctx.getCtxUID());
+                        if (errors > 0) {
+                            FormSubmittedEvent event = new FormSubmittedEvent();
+                            event.setCtxUID(ctx.getCtxUID());
+                            event.setErrors(errors);
+                            fireEvent(event);
+                        }
+                    }
+                } */
+            }
+        });
     }
 
-    public void submitForm() {
+    public boolean submitForm() {
         submitForm(ctx.getCtxUID());
+
+        final boolean[] submitEnded = new boolean[]{false};
+        final int errors[] = new int[] {0};
+
+        return errors[0] > 0;
     }
 
-    private native void submitForm(String uid)  /*-{
-        $wnd.submitFormRenderer(uid)
+    private native boolean isSubmitted(String uid) /*-{
+        var frame = $doc.getElementById('frame_' + uid)
+
+        if (frame) {
+            var frameDoc = frame.contentWindow.document;
+            return frameDoc.getElementById('submitted_' + uid).value;
+        }
+
+        return false
+    }-*/;
+
+    private native int getErrors(String uid) /*-{
+        var frame = $doc.getElementById('frame_' + uid)
+
+        if (frame) {
+            var frameDoc = frame.contentWindow.document;
+            return frameDoc.getElementById('errors_' + uid).value;
+        }
+
+        return 0
+    }-*/;
+
+    private native void submitForm(String uid) /*-{
+        var frame = $doc.getElementById('frame_' + uid)
+
+        if (frame) {
+            var frameDoc = frame.contentWindow.document;
+            frameDoc.getElementById('formRendering' + uid).submit();
+        }
     }-*/;
 
     public void loadContext(FormRenderContextTO ctx) {
@@ -56,21 +111,12 @@ public class FormRenderer extends Composite {
         String ctxUID = ctx.getCtxUID();
 
         frame.getElement().setId("frame_" + ctxUID);
-        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=frc&_fp=Start&ctxUID=" + ctxUID).asString());
+        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=frc&_fp=Start&ctxUID=" + ctx.getCtxUID()).asString());
+    }
 
-        HeadElement head = frame.getElement().getOwnerDocument().getElementsByTagName( HeadElement.TAG ).getItem(0).cast();
-
-        StringBuffer js = new StringBuffer();
-
-        js.append("function submitFormRenderer(uid) {")
-                .append("var frd = document.getElementById('frame_' + ").append(ctxUID).append(").contentWindow.document;")
-                .append("var forms = frd.getElementById('formRendering").append(ctxUID).append("');")
-                .append("if (forms && forms.length == 1) forms[0].submit();")
-                .append("}");
-
-        ScriptElement scriptElement = Document.get().createScriptElement(js.toString());
-        scriptElement.setType( "text/javascript" );
-        head.appendChild( scriptElement );
+    @Override
+    public void addFormSubmittedHandler(FormSubmittedHandler handler) {
+        handlerManager.addHandler(FormSubmittedEvent.getType(), handler);
     }
 }
 

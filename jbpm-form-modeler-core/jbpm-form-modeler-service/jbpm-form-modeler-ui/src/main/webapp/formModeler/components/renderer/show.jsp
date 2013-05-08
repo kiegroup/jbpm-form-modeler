@@ -5,9 +5,13 @@
     <mvc:fragment name="output">
         <mvc:fragmentValue name="ctxUID" id="ctxUID">
         <mvc:fragmentValue name="form" id="form">
+        <mvc:fragmentValue name="errors" id="errors">
+        <mvc:fragmentValue name="submitted" id="submitted">
+<input type="hidden" id="errors_<%=ctxUID%>" value="<%=errors%>"/>
+<input type="hidden" id="submitted_<%=ctxUID%>" value="<%=submitted%>"/>
 <form action="<factory:formUrl/>" method="post" id="formRendering<%=ctxUID%>">
     <factory:handler action="submitForm"/>
-    <input type="hidden" name="ctxUID" value="<%=ctxUID%>"/>
+    <input type="hidden" name="ctxUID" id="ctxUID" value="<%=ctxUID%>"/>
     <mvc:formatter name="org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter">
         <mvc:formatterParam name="form" value="<%=form%>"/>
         <mvc:formatterParam name="renderMode" value="<%=Form.RENDER_MODE_FORM%>"/>
@@ -19,6 +23,8 @@
 <script type="text/javascript"defer="defer">
     setAjax("formRendering<%=ctxUID%>");
 </script>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>

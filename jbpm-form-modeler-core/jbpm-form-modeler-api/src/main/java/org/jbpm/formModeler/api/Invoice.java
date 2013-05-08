@@ -41,7 +41,7 @@ public class Invoice {
     private Date createdDate;
     private Date updatedDate;
 
-    private Boolean Enable;
+    private Boolean enable;
     private I18nSet notes;
 
     public String getId() {
@@ -137,11 +137,11 @@ public class Invoice {
     }
 
     public Boolean getEnable() {
-        return Enable;
+        return enable;
     }
 
     public void setEnable(Boolean enable) {
-        Enable = enable;
+        this.enable = enable;
     }
 
     public I18nSet getNotes() {

@@ -26,6 +26,8 @@ public class FormRenderContext {
     private Form form;
     private Map<String, Object> bindingData;
     private FormRenderListener formRenderListener;
+    private boolean submit = false;
+    private int errors;
 
     public FormRenderContext(String uid, Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener) {
         this.UID = uid;
@@ -54,6 +56,23 @@ public class FormRenderContext {
     }
 
     public FormRenderContextTO getFormRenderingContextTO() {
-        return new FormRenderContextTO(UID, form.getId());
+        FormRenderContextTO formRenderContextTO = new FormRenderContextTO(UID, form.getId(), submit, errors);
+        return formRenderContextTO;
+    }
+
+    public boolean isSubmit() {
+        return submit;
+    }
+
+    public void setSubmit(boolean submit) {
+        this.submit = submit;
+    }
+
+    public void setErrors(int errors) {
+        this.errors = errors;
+    }
+
+    public int getErrors() {
+        return errors;
     }
 }

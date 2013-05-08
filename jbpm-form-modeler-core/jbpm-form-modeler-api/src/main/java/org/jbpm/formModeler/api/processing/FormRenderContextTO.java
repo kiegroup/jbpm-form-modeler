@@ -23,6 +23,8 @@ import java.io.Serializable;
 public class FormRenderContextTO implements Serializable {
     private String ctxUID;
     private Long formId;
+    private boolean submit;
+    private int errors;
 
     public FormRenderContextTO() {
     }
@@ -30,6 +32,13 @@ public class FormRenderContextTO implements Serializable {
     public FormRenderContextTO(String ctxUID, Long formId) {
         this.ctxUID = ctxUID;
         this.formId = formId;
+    }
+
+    public FormRenderContextTO(String ctxUID, Long formId, boolean submit, int errors) {
+        this.ctxUID = ctxUID;
+        this.formId = formId;
+        this.submit = submit;
+        this.errors = errors;
     }
 
     public String getCtxUID() {
@@ -46,5 +55,21 @@ public class FormRenderContextTO implements Serializable {
 
     public void setFormId(Long formId) {
         this.formId = formId;
+    }
+
+    public boolean isSubmit() {
+        return submit;
+    }
+
+    public void setSubmit(boolean submit) {
+        this.submit = submit;
+    }
+
+    public int getErrors() {
+        return errors;
+    }
+
+    public void setErrors(int errors) {
+        this.errors = errors;
     }
 }
