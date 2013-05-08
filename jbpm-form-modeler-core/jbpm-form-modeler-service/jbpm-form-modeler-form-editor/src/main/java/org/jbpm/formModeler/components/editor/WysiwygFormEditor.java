@@ -62,10 +62,12 @@ public class WysiwygFormEditor extends BaseUIComponent {
     @Inject
     private FormEditorContextManager formEditorContextManager;
 
-    @Inject @Config("/formModeler/components/WysiwygFormEdit/component.jsp")
+    @Inject
+    @Config("/formModeler/components/WysiwygFormEdit/component.jsp")
     private String componentIncludeJSP;
 
-    @Inject @Config("/formModeler/components/WysiwygFormEdit/show.jsp")
+    @Inject
+    @Config("/formModeler/components/WysiwygFormEdit/show.jsp")
     private String baseComponentJSP;
 
     public static final String TOP_FIELD_MODIFIER = "topModifier";
@@ -491,44 +493,54 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if (pField == null) {
             log.error("Cannot update unexistant field.");
         } else {
-            fieldTypeToView = ((String[]) parameterMap.get("fieldType"))[0];
-
-            Form editForm = getFormForFieldEdition(pField);
-
-            if (ACTION_CHANGE_FIELD_TYPE.equals(action)) {
-                pField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView()));
-            } else if (ACTION_CANCEL_FIELD_EDITION.equals(action)) {
+            if (ACTION_CANCEL_FIELD_EDITION.equals(action)) {
+                Form editForm = getFormForFieldEdition(pField);
                 pField.setFieldType(originalFieldType);
                 getFormProcessor().clear(editForm.getId(), "edit_" + pField.getId());
                 originalFieldType = null;
                 currentEditFieldPosition = -1;
             } else {
                 //Use custom edit form
+                Form editForm = getFormForFieldEdition(pField);
                 getFormProcessor().setValues(editForm, "edit_" + pField.getId(), parameterMap, filesMap);
                 FormStatusData data = getFormProcessor().read(editForm, "edit_" + pField.getId());
-                if (data.isValid()) {
 
-                    /*
-                     * TODO: fix that
-                     */
-                    Set names = pField.getPropertyNames();
-
-                    for (Iterator it = data.getCurrentValues().keySet().iterator(); it.hasNext(); ) {
-                        String propertyName = (String) it.next();
-                        if (names.contains(propertyName)) {
-                            Object value = data.getCurrentValue(propertyName);
-                            try {
-                                getBindingManager().setPropertyValue(pField, propertyName, value);
-                            } catch (Exception e) {
-                                log.error("Error setting property '" + propertyName + "' on field " + pField.getFieldName(), e);
-                            }
-
-                        }
+                if (ACTION_CHANGE_FIELD_TYPE.equals(action)) {
+                    fieldTypeToView = ((String[]) parameterMap.get("fieldType"))[0];
+                    pField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView()));
+                    Form formToEdit = getFormForFieldEdition(pField);
+                    if (formToEdit != null) {
+                        getFormProcessor().clear(formToEdit.getId(), "edit_" + pField.getId());
+                        getFormProcessor().read(formToEdit, "edit_" + pField.getId(), data.getCurrentValues());
                     }
 
-                    pField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView()));
-                    currentEditFieldPosition = -1;
+                } else {
+                    if (data.isValid()) {
+
+                        /*
+                        * TODO: fix that
+                        */
+                        Set names = pField.getPropertyNames();
+
+                        for (Iterator it = data.getCurrentValues().keySet().iterator(); it.hasNext(); ) {
+                            String propertyName = (String) it.next();
+                            if (names.contains(propertyName)) {
+                                Object value = data.getCurrentValue(propertyName);
+                                try {
+                                    getBindingManager().setPropertyValue(pField, propertyName, value);
+                                } catch (Exception e) {
+                                    log.error("Error setting property '" + propertyName + "' on field " + pField.getFieldName(), e);
+                                }
+
+                            }
+                        }
+
+                        currentEditFieldPosition = -1;
+                        pField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView()));
+                    }
                 }
+
+
             }
 
         }
@@ -579,7 +591,8 @@ public class WysiwygFormEditor extends BaseUIComponent {
             getFormManager().moveTop(form, fieldPosition);
             lastMovedFieldPosition = 0;
             if (currentEditFieldPosition == fieldPosition) currentEditFieldPosition = lastMovedFieldPosition;
-            else if (currentEditFieldPosition > -1 && fieldPosition > currentEditFieldPosition) currentEditFieldPosition ++;
+            else if (currentEditFieldPosition > -1 && fieldPosition > currentEditFieldPosition)
+                currentEditFieldPosition++;
         }
     }
 
@@ -626,14 +639,13 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
     public synchronized void actionSwitchRenderMode(CommandRequest request) throws Exception {
         String renderMode = request.getRequestObject().getParameter("renderMode");
-        String displayBindings= request.getRequestObject().getParameter("displayBindings");
-        if((displayBindings!=null) && !Boolean.parseBoolean(displayBindings)){
+        String displayBindings = request.getRequestObject().getParameter("displayBindings");
+        if ((displayBindings != null) && !Boolean.parseBoolean(displayBindings)) {
             setDisplayBindings(Boolean.FALSE);
-        }
-        else {
+        } else {
             setDisplayBindings(Boolean.TRUE);
         }
-        if (Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode) || Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode) )
+        if (Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode) || Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode))
             setRenderMode(renderMode);
     }
 
@@ -720,11 +732,11 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
     public synchronized void actionFormDataHolders(CommandRequest request) throws Exception {
         String action = request.getRequestObject().getParameter(ACTION_TO_DO);
-        if(ACTION_ADD_DATA_HOLDER.equals(action)){
+        if (ACTION_ADD_DATA_HOLDER.equals(action)) {
             addDataHolder(request.getRequestObject().getParameterMap());
-        } else if(ACTION_REMOVE_DATA_HOLDER.equals(action)){
+        } else if (ACTION_REMOVE_DATA_HOLDER.equals(action)) {
             removeDataHolder(request.getRequestObject().getParameterMap());
-        } else if(ACTION_ADD_DATA_HOLDER_FIELDS.equals(action)){
+        } else if (ACTION_ADD_DATA_HOLDER_FIELDS.equals(action)) {
             addAllDataHolderFieldsToForm(request.getRequestObject().getParameterMap());
         }
 
@@ -742,11 +754,12 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
 
         String holderRenderColor = null;
-        if (holderRenderColorArray != null && holderRenderColorArray.length > 0) holderRenderColor = holderRenderColorArray[0];
+        if (holderRenderColorArray != null && holderRenderColorArray.length > 0)
+            holderRenderColor = holderRenderColorArray[0];
 
-        if ((holderInfo != null) && ( holderId!= null)){
+        if ((holderInfo != null) && (holderId != null)) {
             Form form = getCurrentForm();
-            form.setDataHolder(holderId, Form.HOLDER_TYPE_CODE_POJO_CLASSNAME, holderInfo,holderRenderColor);
+            form.setDataHolder(holderId, Form.HOLDER_TYPE_CODE_POJO_CLASSNAME, holderInfo, holderRenderColor);
         }
     }
 
@@ -757,7 +770,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String holderId = null;
         if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
 
-        if ( ( holderId!= null)){
+        if ((holderId != null)) {
             Form form = getCurrentForm();
             form.removeDataHolder(holderId);
         }
@@ -770,7 +783,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String holderId = null;
         if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
 
-        if ( holderId!= null){
+        if (holderId != null) {
             Form form = getCurrentForm();
             DataHolder holder = form.getDataHolderById(holderId);
 
@@ -798,17 +811,17 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if (fieldTypeCodeArray != null && fieldTypeCodeArray.length > 0) fieldTypeCode = fieldTypeCodeArray[0];
 
 
-        if ( bindingId!= null){
+        if (bindingId != null) {
             Form form = getCurrentForm();
             DataHolder holder = form.getDataHolderById(bindingId);
             addDataFieldHolder(form, holder.getId(), fieldName, getFieldTypesManager().getTypeByCode(fieldTypeCode));
         }
     }
 
-    private void addDataFieldHolder(Form form, String dataHolderId, String fieldName, FieldType fieldType) throws Exception{
+    private void addDataFieldHolder(Form form, String dataHolderId, String fieldName, FieldType fieldType) throws Exception {
         I18nSet label = new I18nSet();
         String defaultLang = LocaleManager.lookup().getDefaultLang();
-        label.setValue(defaultLang, fieldName+" ("+dataHolderId+")");
+        label.setValue(defaultLang, fieldName + " (" + dataHolderId + ")");
         getFormManager().addFieldToForm(form, dataHolderId + "_" + fieldName, fieldType, label, form.generateBindingStr(dataHolderId, fieldName));
         setLastDataHolderUsedId(dataHolderId);
     }
