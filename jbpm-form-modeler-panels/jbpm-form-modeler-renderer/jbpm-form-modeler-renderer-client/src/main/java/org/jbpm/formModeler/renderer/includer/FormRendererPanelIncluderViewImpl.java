@@ -42,10 +42,6 @@ public class FormRendererPanelIncluderViewImpl extends Composite implements Form
 
     @Inject
     @DataField
-    public ListBox forms;
-
-    @Inject
-    @DataField
     public FormRenderer formRenderer;
 
     @Inject
@@ -72,14 +68,6 @@ public class FormRendererPanelIncluderViewImpl extends Composite implements Form
         submitButton.setVisible(false);
     }
 
-    @Override
-    public void addForms(List<FormTO> formsToAdd) {
-        forms.clear();
-        for (FormTO form : formsToAdd) {
-            forms.addItem(form.getFormName(), String.valueOf(form.getFormId()));
-        }
-    }
-
     @EventHandler("startTestButton")
     public void startTest(ClickEvent event) {
         presenter.startTest();
@@ -90,11 +78,6 @@ public class FormRendererPanelIncluderViewImpl extends Composite implements Form
     @EventHandler("submitButton")
     public void submitForm(ClickEvent event) {
         formRenderer.submitForm();
-    }
-
-    @EventHandler("forms")
-    public void selectForm(ChangeEvent event) {
-        presenter.loadForm(Long.decode(forms.getValue(forms.getSelectedIndex())));
     }
 
     @Override
