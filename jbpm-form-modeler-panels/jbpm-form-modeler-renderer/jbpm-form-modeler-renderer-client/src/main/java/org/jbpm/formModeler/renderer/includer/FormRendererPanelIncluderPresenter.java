@@ -21,12 +21,9 @@ import org.jboss.errai.ioc.client.api.Caller;
 import org.jbpm.formModeler.api.events.FormRenderEvent;
 import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
 import org.jbpm.formModeler.api.events.FormSubmittedEvent;
-import org.jbpm.formModeler.api.model.FormTO;
 import org.jbpm.formModeler.api.processing.FormRenderContextTO;
 import org.jbpm.formModeler.api.processing.FormRenderListener;
-import org.jbpm.formModeler.api.processing.FormRenderContext;
-import org.jbpm.formModeler.api.processing.FormRenderContextTO;
-import org.jbpm.formModeler.api.processing.FormRenderListener;
+import org.jbpm.formModeler.renderer.service.FormRendererIncluderService;
 import org.jbpm.formModeler.renderer.service.FormRenderingService;
 import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartView;
@@ -41,7 +38,6 @@ import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.util.HashMap;
-import java.util.List;
 
 
 @Dependent
@@ -60,7 +56,6 @@ public class FormRendererPanelIncluderPresenter {
             extends
             UberView<FormRendererPanelIncluderPresenter> {
 
-        void addForms(List<FormTO> forms);
         void loadContext(FormRenderContextTO ctx);
     }
 
@@ -74,30 +69,15 @@ public class FormRendererPanelIncluderPresenter {
     private Event<NotificationEvent> notification;
 
     @Inject
-    Caller<FormRenderingService> renderingService;
+    Caller<FormRendererIncluderService> includerService;
 
     @PostConstruct
     public void init() {
-        renderingService.call(new RemoteCallback<List<FormTO>>() {
-            @Override
-            public void callback(List<FormTO> forms) {
-                view.addForms(forms);
-            }
 
-        }).getAllForms();
-    }
-
-    public void loadForm(Long formId) {
-        renderingService.call(new RemoteCallback<FormRenderContextTO>() {
-            @Override
-            public void callback(FormRenderContextTO ctx) {
-                view.loadContext(ctx);
-            }
-        }).startRendering(formId, new HashMap<String, Object>(), new FormRenderListener());
     }
 
     public void startTest() {
-        renderingService.call(new RemoteCallback<FormRenderContextTO>() {
+        includerService.call(new RemoteCallback<FormRenderContextTO>() {
             @Override
             public void callback(FormRenderContextTO ctx) {
                 context = ctx;

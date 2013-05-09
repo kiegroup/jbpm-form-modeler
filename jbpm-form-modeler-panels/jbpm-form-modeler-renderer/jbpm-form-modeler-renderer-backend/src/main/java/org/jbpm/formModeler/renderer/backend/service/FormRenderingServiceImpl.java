@@ -35,7 +35,7 @@ import java.util.Map;
 @Service
 @ApplicationScoped
 @Named ("FormRenderingService")
-public class FormRenderingServiceImpl implements FormRenderingService, MessageCallback {
+public class FormRenderingServiceImpl implements FormRenderingService {
 
     @Inject
     private FormManager formManager;
@@ -53,40 +53,6 @@ public class FormRenderingServiceImpl implements FormRenderingService, MessageCa
         Form form = formManager.getFormById(formId);
 
         return startRendering(form, bindingData, formRenderListener);
-    }
-
-    @Override
-    public FormRenderContextTO launchTest() {
-
-        try {
-            InputStreamReader is = new InputStreamReader(this.getClass().getResourceAsStream("test/testInvoice.form"));
-            StringBuilder sb=new StringBuilder();
-            BufferedReader br = new BufferedReader(is);
-            String read = br.readLine();
-
-            while(read != null) {
-                sb.append(read);
-                read = br.readLine();
-            }
-
-            sb.toString();
-
-            Form form = formSerializationManager.loadFormFromXML(sb.toString());
-
-            Invoice invoice = new Invoice();
-
-            invoice.setName("Ned Stark");
-            invoice.setCity("Winterfall");
-
-            Map<String, Object> bindingData = new HashMap<String, Object>();
-            bindingData.put("invoice", invoice);
-
-            return startRendering(form, bindingData, null);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public FormRenderContextTO startRendering(Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener) {
@@ -112,65 +78,5 @@ public class FormRenderingServiceImpl implements FormRenderingService, MessageCa
     @Override
     public FormRenderContext getFormRenderContext(String UID) {
         return formRenderContextMap.get(UID);
-    }
-
-    private Map conversations = new HashMap<String, MessageBuildSubject<MessageReplySendable>>();
-
-
-
-    @Override
-    public List<FormTO> getAllForms() {
-        List<FormTO> result = new ArrayList<FormTO>();
-        for (Form form : formManager.getAllForms()) {
-            result.add(new FormTO(form.getId(), form.getName()));
-        }
-        return result;
-    }
-
-    @Override
-    public void loadForm(Long id, Long formId) {
-        RenderHelper helper = getHelper();
-
-        helper.setForm(formManager.getFormById(formId));
-        helper.setSessionId(id);
-
-    }
-
-    protected RenderHelper getHelper() {
-        RenderHelper helper = (RenderHelper) RpcContext.getHttpSession().getAttribute("RenderHelper");
-
-        if (helper == null) helper = new RenderHelper();
-
-        RpcContext.getHttpSession().setAttribute("RenderHelper", helper);
-
-        return helper;
-    }
-
-    public void callback(Message message) {
-
-        String id = (String) message.getParts().get("id");
-
-        if (!StringUtils.isEmpty(id)) {
-            conversations.put(id, MessageBuilder.createConversation(message));
-        }
-
-        System.out.println(message.getParts().get("message"));
-    }
-
-
-
-
-    public void notiyValidation(String id, FormValidationResult result) {
-        if (!StringUtils.isEmpty(id)) {
-            MessageBuildSubject<MessageReplySendable> conversation = (MessageBuildSubject<MessageReplySendable>) conversations.get(id);
-
-            conversation.subjectProvided()
-                    .signalling()
-                    .with("message", "Evaluat form!")
-                    .with("result", result)
-                    .noErrorHandling()
-                    .reply();
-            conversations.remove(id);
-        }
     }
 }

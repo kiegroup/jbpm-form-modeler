@@ -31,10 +31,6 @@ import java.util.Map;
 
 @Remote
 public interface FormRenderingService extends FormRenderContextManager, Serializable {
-    List<FormTO> getAllForms();
-
-    void loadForm(Long id, Long formId);
     FormRenderContextTO startRendering(Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener);
     FormRenderContextTO startRendering(Long formId, Map<String, Object> bindingData, FormRenderListener formRenderListener);
-    FormRenderContextTO launchTest();
 }
