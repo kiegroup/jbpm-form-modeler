@@ -18,17 +18,12 @@ package org.jbpm.formModeler.renderer.includer;
 import org.jboss.errai.bus.client.api.RemoteCallback;
 import org.jboss.errai.bus.client.framework.MessageBus;
 import org.jboss.errai.ioc.client.api.Caller;
-import org.jbpm.formModeler.api.events.FormRenderEvent;
-import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
-import org.jbpm.formModeler.api.events.FormSubmittedEvent;
+import org.jbpm.formModeler.api.events.*;
 import org.jbpm.formModeler.api.processing.FormRenderContextTO;
-import org.jbpm.formModeler.api.processing.FormRenderListener;
 import org.jbpm.formModeler.renderer.service.FormRendererIncluderService;
-import org.jbpm.formModeler.renderer.service.FormRenderingService;
 import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.annotations.WorkbenchScreen;
-import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.mvp.UberView;
 import org.uberfire.client.workbench.widgets.events.NotificationEvent;
 
@@ -37,7 +32,6 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import java.util.HashMap;
 
 
 @Dependent
@@ -60,9 +54,6 @@ public class FormRendererPanelIncluderPresenter {
     }
 
     @Inject
-    private PlaceManager placeManager;
-
-    @Inject
     FormRendererIncluderPanelView view;
 
     @Inject
@@ -82,6 +73,7 @@ public class FormRendererPanelIncluderPresenter {
             public void callback(FormRenderContextTO ctx) {
                 context = ctx;
                 view.loadContext(ctx);
+                formRenderEvent.fire(new FormRenderEvent(ctx));
             }
         }).launchTest();
     }
@@ -97,15 +89,15 @@ public class FormRendererPanelIncluderPresenter {
     }
 
     public void notifyErrors(int errorNumber) {
-        notification.fire(new NotificationEvent("Unable to process form, it has " + errorNumber + " errors!"));
+        notification.fire(new NotificationEvent("Unable to process form, it has " + errorNumber + " errors!", NotificationEvent.NotificationType.WARNING));
     }
 
     public void notifyFormSubmit() {
-        notification.fire(new NotificationEvent("Form submitted OK!"));
+        notification.fire(new NotificationEvent("Form submitted OK!", NotificationEvent.NotificationType.SUCCESS));
     }
 
     public void notifyFormProcessingError(String cause) {
-        notification.fire(new NotificationEvent("Something wrong happened processing form, cause: '" + cause + "'"));
+        notification.fire(new NotificationEvent("Something wrong happened processing form, cause: '" + cause + "'", NotificationEvent.NotificationType.ERROR));
     }
 
     //Event Observers

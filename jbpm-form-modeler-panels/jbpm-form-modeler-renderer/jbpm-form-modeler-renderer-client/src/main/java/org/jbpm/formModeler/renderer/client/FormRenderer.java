@@ -17,21 +17,15 @@ package org.jbpm.formModeler.renderer.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.HasFormSubmittedHandlers;
-import com.google.gwt.event.dom.client.LoadEvent;
-import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.http.client.*;
 import com.google.gwt.safehtml.shared.UriUtils;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.jbpm.formModeler.api.processing.FormRenderContextTO;
 
 
-public class FormRenderer extends Composite implements HasFormSubmittedHandlers {
+public class FormRenderer extends Composite {
 
     final private HandlerManager handlerManager = new HandlerManager(this);
 
@@ -46,23 +40,6 @@ public class FormRenderer extends Composite implements HasFormSubmittedHandlers 
         frame.setWidth("100%");
         frame.setHeight("600px");
         frame.getElement().getStyle().setBorderWidth(0, Style.Unit.PX);
-        frame.addLoadHandler(new LoadHandler() {
-            @Override
-            public void onLoad(LoadEvent e) {
-                /*if (ctx != null) {
-                    boolean submitted = isSubmitted(ctx.getCtxUID());
-                    if (submitted) {
-                        int errors = getErrors(ctx.getCtxUID());
-                        if (errors > 0) {
-                            FormSubmittedEvent event = new FormSubmittedEvent();
-                            event.setCtxUID(ctx.getCtxUID());
-                            event.setErrors(errors);
-                            fireEvent(event);
-                        }
-                    }
-                } */
-            }
-        });
     }
 
     public boolean submitForm() {
@@ -106,17 +83,13 @@ public class FormRenderer extends Composite implements HasFormSubmittedHandlers 
     }-*/;
 
     public void loadContext(FormRenderContextTO ctx) {
+
         this.ctx = ctx;
 
         String ctxUID = ctx.getCtxUID();
 
         frame.getElement().setId("frame_" + ctxUID);
         frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=frc&_fp=Start&ctxUID=" + ctx.getCtxUID()).asString());
-    }
-
-    @Override
-    public void addFormSubmittedHandler(FormSubmittedHandler handler) {
-        handlerManager.addHandler(FormSubmittedEvent.getType(), handler);
     }
 }
 

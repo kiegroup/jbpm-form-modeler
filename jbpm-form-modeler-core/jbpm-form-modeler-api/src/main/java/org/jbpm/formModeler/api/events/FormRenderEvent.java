@@ -18,8 +18,10 @@ package org.jbpm.formModeler.api.events;
 import org.jboss.errai.common.client.api.annotations.Portable;
 import org.jbpm.formModeler.api.processing.FormRenderContextTO;
 
+import java.io.Serializable;
+
 @Portable
-public class FormRenderEvent {
+public class FormRenderEvent implements Serializable {
     private FormRenderContextTO context;
 
     public FormRenderEvent() {

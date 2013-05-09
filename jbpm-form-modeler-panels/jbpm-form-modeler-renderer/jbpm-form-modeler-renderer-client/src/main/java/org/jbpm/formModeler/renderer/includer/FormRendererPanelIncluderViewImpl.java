@@ -15,26 +15,19 @@
  */
 package org.jbpm.formModeler.renderer.includer;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.ListBox;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
-import org.jbpm.formModeler.api.events.FormRenderEvent;
-import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
-import org.jbpm.formModeler.api.events.FormSubmittedEvent;
-import org.jbpm.formModeler.api.model.FormTO;
+import org.jbpm.formModeler.api.events.*;
 import org.jbpm.formModeler.api.processing.FormRenderContextTO;
 import org.jbpm.formModeler.renderer.client.FormRenderer;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import java.util.List;
 
 @Dependent
 @Templated(value = "FormRendererPanelIncluderViewImpl.html")
@@ -51,8 +44,6 @@ public class FormRendererPanelIncluderViewImpl extends Composite implements Form
     @Inject
     @DataField
     public Button startTestButton;
-
-    private FormRenderContextTO context;
 
     private FormRendererPanelIncluderPresenter presenter;
 
@@ -83,28 +74,7 @@ public class FormRendererPanelIncluderViewImpl extends Composite implements Form
     @Override
     public void loadContext(FormRenderContextTO ctx) {
         if (ctx != null) {
-            context = ctx;
             formRenderer.loadContext(ctx);
-        }
-    }
-
-    //Event Observers
-    public void onFormSubmitted(@Observes FormSubmittedEvent event) {
-        if (event.isMine(context)) {
-            int errors = event.getContext().getErrors();
-            if (errors == 0) {
-                formRenderer.setVisible(false);
-                submitButton.setVisible(false);
-                presenter.notifyFormSubmit();
-            } else {
-                presenter.notifyErrors(errors);
-            }
-        }
-    }
-
-    public  void onFormSubmitFail(@Observes FormSubmitFailEvent event) {
-        if (event.isMine(context)) {
-            presenter.notifyFormProcessingError(event.getCause());
         }
     }
 }

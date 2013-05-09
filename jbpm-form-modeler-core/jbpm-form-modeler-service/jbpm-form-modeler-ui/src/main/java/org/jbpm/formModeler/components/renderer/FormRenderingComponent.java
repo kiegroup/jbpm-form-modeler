@@ -16,7 +16,6 @@
 package org.jbpm.formModeler.components.renderer;
 
 import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.api.events.FormRenderEvent;
 import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
 import org.jbpm.formModeler.api.events.FormSubmittedEvent;
 import org.jbpm.formModeler.api.model.Form;
@@ -24,9 +23,6 @@ import org.jbpm.formModeler.api.processing.FormProcessor;
 import org.jbpm.formModeler.api.processing.FormRenderContext;
 import org.jbpm.formModeler.api.processing.FormRenderContextManager;
 import org.jbpm.formModeler.api.processing.FormStatusData;
-import org.jbpm.formModeler.api.util.helpers.CDIHelper;
-import org.jbpm.formModeler.api.processing.FormRenderContext;
-import org.jbpm.formModeler.api.processing.FormRenderContextManager;
 import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
@@ -36,7 +32,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.IOException;
 
 @ApplicationScoped
 @Named("frc")
@@ -54,9 +49,6 @@ public class FormRenderingComponent extends BaseUIComponent {
 
     @Inject
     private FormProcessor formProcessor;
-
-    @Inject
-    Event<FormRenderEvent> formRenderEvent;
 
     private String ctxUID;
     private Form form;
@@ -91,19 +83,12 @@ public class FormRenderingComponent extends BaseUIComponent {
             submited = true;
 
             ctx.setSubmit(false);
-            formRenderEvent.fire(new FormSubmittedEvent(ctx.getFormRenderingContextTO()));
+            formRenderContextManager.fireContextSubmit(new FormSubmittedEvent(ctx.getFormRenderingContextTO()));
         } catch (Exception e) {
-            formRenderEvent.fire(new FormSubmitFailEvent(ctx.getFormRenderingContextTO(), e.getMessage()));
+            formRenderContextManager.fireContextSubmitError(new FormSubmitFailEvent(ctx.getFormRenderingContextTO(), e.getMessage()));
         }
 
 
-    }
-
-    public void actionIsProcessed(CommandRequest request) throws IOException {
-        String ctxUID = request.getRequestObject().getParameter("ctxUID");
-        FormRenderContext ctx = formRenderContextManager.getFormRenderContext(ctxUID);
-
-        request.getResponseObject().getWriter().print(ctx.isSubmit());
     }
 
     public String getCtxUID() {

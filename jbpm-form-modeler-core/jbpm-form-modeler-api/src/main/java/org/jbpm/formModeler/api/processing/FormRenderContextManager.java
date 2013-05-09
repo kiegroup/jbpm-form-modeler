@@ -15,6 +15,9 @@
  */
 package org.jbpm.formModeler.api.processing;
 
+import org.jbpm.formModeler.api.events.FormRenderEvent;
+import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
+import org.jbpm.formModeler.api.events.FormSubmittedEvent;
 import org.jbpm.formModeler.api.model.Form;
 
 import java.util.Map;
@@ -22,4 +25,6 @@ import java.util.Map;
 public interface FormRenderContextManager {
     FormRenderContext newContext(Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener);
     FormRenderContext getFormRenderContext(String UID);
+    void fireContextSubmitError(FormSubmitFailEvent event);
+    void fireContextSubmit(FormSubmittedEvent event);
 }
