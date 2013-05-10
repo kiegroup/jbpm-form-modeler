@@ -230,12 +230,12 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.kie.guvnor</groupId>
-            <artifactId>guvnor-metadata-widget</artifactId>
+            <groupId>org.kie.workbench.widgets</groupId>
+            <artifactId>kie-wb-metadata-widget</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.kie.guvnor</groupId>
-            <artifactId>guvnor-config-resource-widget</artifactId>
+            <groupId>org.kie.workbench.widgets</groupId>
+            <artifactId>kie-wb-config-resource-widget</artifactId>
         </dependency>
         <dependency>
             <groupId>org.kie.guvnor</groupId>
@@ -254,12 +254,12 @@
             <artifactId>guvnor-project-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.kie.guvnor</groupId>
-            <artifactId>guvnor-view-source-widget</artifactId>
+            <groupId> org.kie.workbench.widgets</groupId>
+            <artifactId>kie-wb-view-source-widget</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.kie.guvnor</groupId>
-            <artifactId>guvnor-decorated-grid-widget</artifactId>
+            <groupId>org.kie.workbench.widgets</groupId>
+            <artifactId>kie-wb-decorated-grid-widget</artifactId>
         </dependency>
         <dependency>
             <groupId>org.kie.guvnor</groupId>
@@ -276,22 +276,6 @@
         <dependency>
             <groupId>org.kie.guvnor</groupId>
             <artifactId>guvnor-explorer-client</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.kie.guvnor</groupId>
-            <artifactId>guvnor-test-scenario-editor-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-guvnor-models-commons</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-guvnor-models-test-scenarios</artifactId>
         </dependency>
 
         <dependency>
@@ -389,13 +373,13 @@
                     <module>org.uberfire.FastCompiledUberfireShowcase</module>
                     <logLevel>INFO</logLevel>
                     <compileSourcesArtifacts>
-                        <compileSourcesArtifact>org.kie.guvnor:guvnor-decorated-grid-widget</compileSourcesArtifact>
-                        <compileSourcesArtifact>org.kie.guvnor:guvnor-view-source-widget</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.kie.workbench.widgets:kie-wb-decorated-grid-widget</compileSourcesArtifact>
+                        <compileSourcesArtifact> org.kie.workbench.widgets:kie-wb-view-source-widget</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.guvnor:guvnor-common-ui</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.guvnor:guvnor-commons-security</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.guvnor:guvnor-commons-services-api</compileSourcesArtifact>
-                        <compileSourcesArtifact>org.kie.guvnor:guvnor-metadata-widget</compileSourcesArtifact>
-                        <compileSourcesArtifact>org.kie.guvnor:guvnor-config-resource-widget</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.kie.workbench.widgets:kie-wb-metadata-widget</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.kie.workbench.widgets:kie-wb-config-resource-widget</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.guvnor:guvnor-core-services-api</compileSourcesArtifact>
 
                         <compileSourcesArtifact>org.kie.guvnor:guvnor-project-api</compileSourcesArtifact>
