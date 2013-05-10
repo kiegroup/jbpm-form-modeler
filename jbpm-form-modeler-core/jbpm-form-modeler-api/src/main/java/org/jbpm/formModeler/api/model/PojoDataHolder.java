@@ -26,7 +26,7 @@ import java.util.*;
 public class PojoDataHolder extends DefaultDataHolder implements Comparable {
     private String id;
     private String className;
-    private String renderColor;
+//    private String renderColor;
 
     FieldTypeManager fieldTypeManager;
 
@@ -106,9 +106,11 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
 
     @Override
     public DataFieldHolder getDataFieldHolderById(String fieldHolderId) {
-        for(DataFieldHolder dataFieldHolder: getFieldHolders() ){
-            if(dataFieldHolder.getId().equals(fieldHolderId))
-                return dataFieldHolder;
+        if(getFieldHolders()!=null){
+            for(DataFieldHolder dataFieldHolder: getFieldHolders() ){
+                if(dataFieldHolder.getId().equals(fieldHolderId))
+                    return dataFieldHolder;
+            }
         }
         return null;
     }
@@ -197,13 +199,13 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
         return propName;
     }
 
-    @Override
-    public String getRenderColor() {
-        return renderColor;
-    }
+//    @Override
+//    public String getRenderColor() {
+//        return renderColor;
+//    }
 
-    @Override
-    public void setRenderColor(String renderColor) {
-        this.renderColor = renderColor;
-    }
+//    @Override
+//    public void setRenderColor(String renderColor) {
+//        this.renderColor = renderColor;
+//    }
 }

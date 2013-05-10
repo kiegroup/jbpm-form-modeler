@@ -101,6 +101,9 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
     public static final String PARAMETER_HOLDER_ID = "holderId";
     public static final String PARAMETER_HOLDER_INFO = "holderInfo";
+    public static final String PARAMETER_HOLDER_TYPE = "holderType";
+    public static final String PARAMETER_HOLDER_DM_INFO = "holderDMInfo";
+    public static final String PARAMETER_HOLDER_PR_INFO = "holderPRInfo";
     public static final String PARAMETER_FIELD_NAME = "fieldName";
     public static final String PARAMETER_FIELD_TYPECODE = "typeCode";
     public static final String PARAMETER_HOLDER_RENDERCOLOR = "holderRenderColor";
@@ -743,12 +746,12 @@ public class WysiwygFormEditor extends BaseUIComponent {
     }
 
     public void addDataHolder(Map parameterMap) throws Exception {
-        String[] holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_INFO);
+        String[] holderTypeArray = (String[]) parameterMap.get(PARAMETER_HOLDER_TYPE);
         String[] holderIdArray = (String[]) parameterMap.get(PARAMETER_HOLDER_ID);
         String[] holderRenderColorArray = (String[]) parameterMap.get(PARAMETER_HOLDER_RENDERCOLOR);
 
-        String holderInfo = null;
-        if (holderInfoArray != null && holderInfoArray.length > 0) holderInfo = holderInfoArray[0];
+        String holderType = null;
+        if (holderTypeArray != null && holderTypeArray.length > 0) holderType = holderTypeArray[0];
 
         String holderId = null;
         if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
@@ -757,10 +760,36 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if (holderRenderColorArray != null && holderRenderColorArray.length > 0)
             holderRenderColor = holderRenderColorArray[0];
 
-        if ((holderInfo != null) && (holderId != null)) {
-            Form form = getCurrentForm();
-            form.setDataHolder(holderId, Form.HOLDER_TYPE_CODE_POJO_CLASSNAME, holderInfo, holderRenderColor);
+        String holderInfo =null;
+        if(Form.HOLDER_TYPE_CODE_BPM_PROCESS.equals(holderType)){
+            String[] holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_PR_INFO);
+
+            if (holderInfoArray != null && holderInfoArray.length > 0) holderInfo = holderInfoArray[0];
+            if ((holderInfo != null) && (holderId != null)) {
+                Form form = getCurrentForm();
+                form.setDataHolder(holderId, Form.HOLDER_TYPE_CODE_BPM_PROCESS, holderInfo, holderRenderColor);
+            }
+        } else if(Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL.equals(holderType)){
+            String[] holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_DM_INFO);
+
+            if (holderInfoArray != null && holderInfoArray.length > 0) holderInfo = holderInfoArray[0];
+            if ((holderInfo != null) && (holderId != null)) {
+                Form form = getCurrentForm();
+                form.setDataHolder(holderId, Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL, holderInfo, holderRenderColor);
+            }
+
+        } else if(Form.HOLDER_TYPE_CODE_POJO_CLASSNAME.equals(holderType)){
+            String[] holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_INFO);
+
+            if (holderInfoArray != null && holderInfoArray.length > 0) holderInfo = holderInfoArray[0];
+            if ((holderInfo != null) && (holderId != null)) {
+                Form form = getCurrentForm();
+                form.setDataHolder(holderId, Form.HOLDER_TYPE_CODE_POJO_CLASSNAME, holderInfo, holderRenderColor);
+            }
+
         }
+
+
     }
 
 

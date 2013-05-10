@@ -34,84 +34,100 @@
         <table cellpadding="0" cellspacing="0" border="0" width="100%" >
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
-    <mvc:fragment name="outputNameInput">
+    <mvc:fragment name="outputFormAddHolderStart">
         <tr>
-            <td class="FormProperties" align="center">
-                <script type="text/javascript">
+        <td class="FormProperties" align="center">
+        <script type="text/javascript">
 
-                    function show_dataholderInfo(divStr){
-                        if (divStr =='val1'){
-                            document.getElementById('val1').style.display='block';
-                            document.getElementById('val2').style.display='none';
-                            document.getElementById('val3').style.display='none';
-                        } else if (divStr=='val2'){
-                            document.getElementById('val1').style.display='none';
-                            document.getElementById('val2').style.display='block';
-                            document.getElementById('val3').style.display='none';
-                        } else if (divStr=='val3'){
-                            document.getElementById('val1').style.display='none';
-                            document.getElementById('val2').style.display='none';
-                            document.getElementById('val3').style.display='block';
-                        } else {
-                            document.getElementById('val1').style.display='none';
-                            document.getElementById('val2').style.display='none';
-                            document.getElementById('val3').style.display='none';
-                        }
+            function show_dataholderInfo(divStr){
+                if (divStr =='<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>'){
+                    document.getElementById('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>').style.display='block';
+                    document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>').style.display='none';
+                    document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>').style.display='none';
+                } else if (divStr=='<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>'){
+                    document.getElementById('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>').style.display='none';
+                    document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>').style.display='block';
+                    document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>').style.display='none';
+                } else if (divStr=='<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>'){
+                    document.getElementById('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>').style.display='none';
+                    document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>').style.display='none';
+                    document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>').style.display='block';
+                } else {
+                    document.getElementById('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>').style.display='none';
+                    document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>').style.display='none';
+                    document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>').style.display='none';
+                }
 
-                    }
-                    show_dataholderInfo("none");
+            }
+            show_dataholderInfo("none");
 
-                </script>
-                <table cellpadding="2" cellspacing="0" border="0">
-                    <tr>
-                        <td width="25%"><b><i18n:message key="dataHolder_id">!!!dataHolder_id</i18n:message>:</b></td>
-                        <td width="25%"><b><i18n:message key="dataHolder_renderColor">!!!dataHolder_renderColor</i18n:message>:</b></td>
-                        <td width="20%"><b><i18n:message key="dataHolder_type">!!!dataHolder_type</i18n:message>:</b></td>
-                        <td width="25%"><b><i18n:message key="dataHolder_info">!!!dataHolder_info</i18n:message>:</b></td>
-                    <tr>
-                    <tr>
-                        <td valign="top"><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" type="text" class="skn-input" value="" size="20" maxlength="64"></td>
-                        <td valign="top"><select class="skn-input" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_RENDERCOLOR%>">
-                            <option value="#FF8881"><i18n:message key="holder_color_red">Red</i18n:message></option>
-                            <option value="#FBB767"><i18n:message key="holder_color_orange">Orange</i18n:message></option>
-                            <option value="#E9E371"><i18n:message key="holder_color_yellow">Yellow</i18n:message></option>
-                            <option value="#A7E690"><i18n:message key="holder_color_green">Green</i18n:message></option>
-                            <option value="#9BCAFA"><i18n:message key="holder_color_blue">Blue</i18n:message></option>
-                            <option value="#B29FE4"><i18n:message key="holder_color_violet">Violet</i18n:message></option>
-                            <option value="#BBBBBB"><i18n:message key="holder_color_grey">Grey</i18n:message></option>
-                        </select></td>
+        </script>
+        <table cellpadding="2" cellspacing="0" border="0">
+        <tr>
+            <td width="25%"><b><i18n:message key="dataHolder_id">!!!dataHolder_id</i18n:message>:</b></td>
+            <td width="25%"><b><i18n:message key="dataHolder_renderColor">!!!dataHolder_renderColor</i18n:message>:</b></td>
+            <td width="20%"><b><i18n:message key="dataHolder_type">!!!dataHolder_type</i18n:message>:</b></td>
+            <td width="25%"><b><i18n:message key="dataHolder_info">!!!dataHolder_info</i18n:message>:</b></td>
+        <tr>
+        <tr>
+        <td valign="top"><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" type="text" class="skn-input" value="" size="20" maxlength="64"></td>
+        <td valign="top"><select class="skn-input" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_RENDERCOLOR%>">
+            <option value="#FF8881"><i18n:message key="holder_color_red">Red</i18n:message></option>
+            <option value="#FBB767"><i18n:message key="holder_color_orange">Orange</i18n:message></option>
+            <option value="#E9E371"><i18n:message key="holder_color_yellow">Yellow</i18n:message></option>
+            <option value="#A7E690"><i18n:message key="holder_color_green">Green</i18n:message></option>
+            <option value="#9BCAFA"><i18n:message key="holder_color_blue">Blue</i18n:message></option>
+            <option value="#B29FE4"><i18n:message key="holder_color_violet">Violet</i18n:message></option>
+            <option value="#BBBBBB"><i18n:message key="holder_color_grey">Grey</i18n:message></option>
+        </select></td>
 
-                        <td valign="top">
-                            <table cellpadding="0" cellspacing="0" border="0" width="100%" >
-                                <tr><td><input type="radio" name="group1" value="val1" onclick="show_dataholderInfo('val1');"><i18n:message key="dataHolder_process">!!!Process </i18n:message></td></tr>
-                                <tr><td><input type="radio" name="group1" value="val2" onclick="show_dataholderInfo('val2')"><i18n:message key="dataHolder_datamodel">!!!Data Model source</i18n:message></td></tr>
-                                <tr><td><input type="radio" name="group1" value="val2" onclick="show_dataholderInfo('val3')"><i18n:message key="dataHolder_info_javaClass">!!!dataHolder_info_javaClass</i18n:message><br></td></tr>
-                            </table>
-                        </td>
-                        <td valign="top"><table cellpadding="0" cellspacing="0" border="0" width="100%" >
-                            <tr><td><select class="skn-input" id="val1" style="display: none">
-                                <option value="bindStr11">Process1-Task1 - inputForm</option>
-                                <option value="bindStr12">Process1-Task2 - inputForm</option>
-                                <option value="bindStr13">Process1-Task3 - inputForm</option>
-                                <option value="bindStr14">Process1-Task4 - inputForm</option>
-                                <option value="bindStr21">Process2-Task1 - inputForm</option>
-                                <option value="bindStr22">Process2-Task2 - inputForm</option>
-                            </select></tr>
-                            <tr><td><select class="skn-input" id="val2" style="display: none">
-                                <option value="bindStr11">Model1 </option>
-                                <option value="bindStr12">Model2 </option>
-                                <option value="bindStr13">Model3 </option>
-                            </select></td></tr>
-                            <tr><td> <input id="val3" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_INFO%>" type="text" class="skn-input" value="" size="20" maxlength="64" style="display: none"></td></tr>
-                        </table></td>
-                    <tr>
-                </table>
-                <br>
-                <div style="text-align: center;">
-                    <input type="submit" value="<i18n:message key="dataHolder_addDataHolder">!!! dataHolder_addDataHolder</i18n:message>" class="skn-button">
-                </div>
+        <td valign="top">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%" >
+                <tr><td><input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>" value="<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>" onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>');"><i18n:message key="dataHolder_process">!!!Process </i18n:message></td></tr>
+                <tr><td><input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>" value="<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>" onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>')"><i18n:message key="dataHolder_datamodel">!!!Data Model source</i18n:message></td></tr>
+                <tr><td><input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>" value="<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>" onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>')"><i18n:message key="dataHolder_info_javaClass">!!!dataHolder_info_javaClass</i18n:message><br></td></tr>
+            </table>
+        </td>
+        <td valign="top">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" >
+    </mvc:fragment>
+    <mvc:fragment name="rowStart">
+        <tr><td>
+    </mvc:fragment>
+    <%--------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="selectStart">
+        <mvc:fragmentValue name="id" id="id">
+            <mvc:fragmentValue name="name" id="name">
+                <select class="skn-input" id="<%= id %>" name="<%=name%>" style="display: none">
+            </mvc:fragmentValue>
+        </mvc:fragmentValue>
+    </mvc:fragment>
+    <%--------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="selectOption">
+        <mvc:fragmentValue name="optionLabel" id="optionLabel">
+            <mvc:fragmentValue name="optionValue" id="optionValue">
+                <option value="<%=optionValue%>"><%=optionLabel%></option>
+            </mvc:fragmentValue>
+        </mvc:fragmentValue>
+    </mvc:fragment>
+    <%--------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="selectEnd">
+        </select>
+    </mvc:fragment>
+    <mvc:fragment name="rowEnd">
+        </td></tr>
+    </mvc:fragment>
+    <mvc:fragment name="outputFormAddHolderEnd">
+        <tr><td> <input id="<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_INFO%>" type="text" class="skn-input" value="" size="20" maxlength="64" style="display: none"></td></tr>
+        </table></td>
+        <tr>
+        </table>
+        <br>
+        <div style="text-align: center;">
+            <input type="submit" value="<i18n:message key="dataHolder_addDataHolder">!!! dataHolder_addDataHolder</i18n:message>" class="skn-button">
+        </div>
 
-            </td>
+        </td>
         </tr>
 
     </mvc:fragment>
