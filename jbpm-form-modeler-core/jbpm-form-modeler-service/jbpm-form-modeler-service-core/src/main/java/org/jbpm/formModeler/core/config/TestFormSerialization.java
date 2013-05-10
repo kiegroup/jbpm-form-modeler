@@ -1,6 +1,6 @@
 package org.jbpm.formModeler.core.config;
 
-import org.jbpm.datamodeler.xml.util.XMLNode;
+import org.jbpm.formModeler.core.xml.util.XMLNode;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.i18n.I18nSet;

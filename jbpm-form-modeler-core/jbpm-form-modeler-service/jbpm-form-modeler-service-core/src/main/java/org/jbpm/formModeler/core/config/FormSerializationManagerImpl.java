@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.xerces.parsers.DOMParser;
-import org.jbpm.datamodeler.xml.util.XMLNode;
+import org.jbpm.formModeler.core.xml.util.XMLNode;
 import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.config.FormManager;
 import org.jbpm.formModeler.api.config.FormSerializationManager;
