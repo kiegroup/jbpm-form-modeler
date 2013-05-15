@@ -17,23 +17,26 @@ package org.jbpm.formModeler.renderer.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.safehtml.shared.UriUtils;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.jbpm.formModeler.api.processing.FormRenderContextTO;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 
+@Dependent
 public class FormRenderer extends Composite {
-
-    final private HandlerManager handlerManager = new HandlerManager(this);
 
     private FormRenderContextTO ctx;
 
-    private Frame frame = new Frame();
+    @Inject
+    private Frame frame;
 
-    public FormRenderer() {
+    @PostConstruct
+    public void initRenderer() {
         VerticalPanel widget = new VerticalPanel();
         initWidget(widget);
         widget.add(frame);

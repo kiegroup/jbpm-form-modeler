@@ -25,6 +25,5 @@
     <inherits name="org.jbpm.formModeler.FormModelerApi"/>
 
     <source path="service"/>
-    <source path="validation"/>
 
 </module>

@@ -18,12 +18,14 @@ package org.jbpm.formModeler.renderer.includer;
 import org.jboss.errai.bus.client.api.RemoteCallback;
 import org.jboss.errai.bus.client.framework.MessageBus;
 import org.jboss.errai.ioc.client.api.Caller;
+import org.jboss.errai.ioc.client.container.IOCBeanManager;
 import org.jbpm.formModeler.api.events.*;
 import org.jbpm.formModeler.api.processing.FormRenderContextTO;
 import org.jbpm.formModeler.renderer.service.FormRendererIncluderService;
 import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.annotations.WorkbenchScreen;
+import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.mvp.UberView;
 import org.uberfire.client.workbench.widgets.events.NotificationEvent;
 
@@ -38,14 +40,6 @@ import javax.inject.Inject;
 @WorkbenchScreen(identifier = "FormRendererIncluderPanel")
 public class FormRendererPanelIncluderPresenter {
 
-    @Inject
-    MessageBus bus;
-
-    @Inject
-    Event<FormRenderEvent> formRenderEvent;
-
-    private FormRenderContextTO context;
-
     public interface FormRendererIncluderPanelView
             extends
             UberView<FormRendererPanelIncluderPresenter> {
@@ -54,13 +48,19 @@ public class FormRendererPanelIncluderPresenter {
     }
 
     @Inject
-    FormRendererIncluderPanelView view;
+    private Event<FormRenderEvent> formRenderEvent;
+
+    private FormRenderContextTO context;
+
+    @Inject
+    private FormRendererIncluderPanelView view;
 
     @Inject
     private Event<NotificationEvent> notification;
 
     @Inject
     Caller<FormRendererIncluderService> includerService;
+
 
     @PostConstruct
     public void init() {

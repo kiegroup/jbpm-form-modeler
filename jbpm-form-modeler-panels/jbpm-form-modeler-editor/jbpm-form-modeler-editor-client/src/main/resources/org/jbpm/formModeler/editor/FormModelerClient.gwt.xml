@@ -40,9 +40,7 @@
 
     <inherits name="org.kie.workbench.widgets.common.KieWorkbenchWidgetsCommon"/>
 
-    <inherits name="org.kie.guvnor.commons.service.GuvnorCommonsServicesAPI"/>
-
-    <inherits name="org.kie.guvnor.services.GuvnorCoreServicesAPI"/>
+    <inherits name="org.kie.workbench.services.KieWorkbenchCommonServicesAPI"/>
 
   <inherits name="org.jbpm.formModeler.editor.FormModelerAPI"/>
 
