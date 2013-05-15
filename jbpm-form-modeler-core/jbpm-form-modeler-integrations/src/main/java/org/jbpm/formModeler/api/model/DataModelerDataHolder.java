@@ -20,6 +20,8 @@ import org.jbpm.formModeler.api.util.helpers.CDIHelper;
 
 
 import java.lang.reflect.Field;
+import java.lang.reflect.*;
+import java.util.*;
 
 public class DataModelerDataHolder extends DefaultDataHolder implements Comparable {
     private String id;
