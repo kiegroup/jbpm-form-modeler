@@ -39,7 +39,7 @@
                 });
             });
         </script>
-        <div class="FormProperties">
+        <div class="LeftColumnProperties">
         <table cellpadding="0" cellspacing="0" border="0"  width="100%"><tr><td>
         <ul id="red" class="treeview-red">
 
