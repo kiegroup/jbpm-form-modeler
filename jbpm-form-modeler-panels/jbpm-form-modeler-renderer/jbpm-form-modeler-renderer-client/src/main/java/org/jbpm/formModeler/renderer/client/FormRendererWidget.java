@@ -28,7 +28,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 @Dependent
-public class FormRenderer extends Composite {
+public class FormRendererWidget extends Composite {
 
     private FormRenderContextTO ctx;
 
