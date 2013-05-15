@@ -20,9 +20,11 @@ import org.hibernate.engine.spi.AssociationKey;
 //import org.jbpm.datamodeler.editor.model.DataModelTO;
 //import org.jbpm.datamodeler.editor.model.DataObjectTO;
 //import org.jbpm.datamodeler.editor.service.DataModelerService;
-import org.jbpm.datamodeler.editor.model.DataModelTO;
-import org.jbpm.datamodeler.editor.model.DataObjectTO;
-import org.jbpm.datamodeler.editor.service.DataModelerService;
+
+import org.kie.workbench.common.screens.datamodeller.model.DataModelTO;
+import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
+import org.kie.workbench.common.screens.datamodeller.service.DataModelerService;
+
 import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.model.*;
 import org.jbpm.formModeler.api.processing.BindingManager;
