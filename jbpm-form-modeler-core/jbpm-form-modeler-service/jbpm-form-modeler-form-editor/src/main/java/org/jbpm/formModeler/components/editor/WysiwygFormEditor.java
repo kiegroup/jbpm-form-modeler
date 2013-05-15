@@ -184,6 +184,10 @@ public class WysiwygFormEditor extends BaseUIComponent {
         this.formTemplateEditor = formTemplateEditor;
     }
 
+    public FormEditorContext getCurrentEditionContext() {
+        return editionContext;
+    }
+
     public String getCurrentEditionOption() {
         return currentEditionOption;
     }
