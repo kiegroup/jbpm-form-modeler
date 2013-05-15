@@ -402,6 +402,10 @@
                         <compileSourcesArtifact>org.guvnor:guvnor-m2repo-editor-client</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-project-explorer-client</compileSourcesArtifact>
 
+                        <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-data-modeller-api</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-data-modeller-client</compileSourcesArtifact>
+
+
                         <compileSourcesArtifact>org.uberfire:uberfire-security-api</compileSourcesArtifact>
                         <compileSourcesArtifact>org.uberfire:uberfire-security-client</compileSourcesArtifact>
                         <compileSourcesArtifact>org.uberfire:uberfire-api</compileSourcesArtifact>
