@@ -97,7 +97,7 @@ public class BindingManagerImpl implements BindingManager {
         setterMethod.invoke(destination, new Object[]{value});
     }
 
-    public static final BindingManagerImpl lookup() {
+    public static BindingManagerImpl lookup() {
         return (BindingManagerImpl) CDIHelper.getBeanByType(BindingManagerImpl.class);
     }
 

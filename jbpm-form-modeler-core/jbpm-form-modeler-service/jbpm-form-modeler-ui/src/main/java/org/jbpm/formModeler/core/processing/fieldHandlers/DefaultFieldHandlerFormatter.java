@@ -46,11 +46,11 @@ public abstract class DefaultFieldHandlerFormatter extends Formatter {
     @Inject @Config("25")
     protected int defaultSize;
 
-    public final FormManager getFormManager() {
+    public FormManager getFormManager() {
         return FormCoreServices.lookup().getFormManager();
     }
 
-    public final FormProcessor getFormProcessor() {
+    public FormProcessor getFormProcessor() {
         return FormProcessingServices.lookup().getFormProcessor();
     }
 
