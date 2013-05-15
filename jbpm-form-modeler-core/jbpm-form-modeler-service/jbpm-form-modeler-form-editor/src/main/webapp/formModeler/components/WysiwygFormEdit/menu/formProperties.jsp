@@ -29,7 +29,7 @@
     <mvc:fragment name="outputStart">
         <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="saveForm"/>">
         <factory:handler action="saveCurrentForm" />
-        <div class="FormProperties">
+        <div class="LeftColumnProperties">
         <table>
         <tr>
 
