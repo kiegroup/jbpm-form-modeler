@@ -271,12 +271,12 @@
             <artifactId>guvnor-commons-builder</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.kie.guvnor</groupId>
-            <artifactId>guvnor-explorer-backend</artifactId>
+            <groupId>org.kie.workbench.screens</groupId>
+            <artifactId>kie-wb-common-project-explorer-backend</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.kie.guvnor</groupId>
-            <artifactId>guvnor-explorer-client</artifactId>
+            <groupId>org.kie.workbench.screens</groupId>
+            <artifactId>kie-wb-common-project-explorer-client</artifactId>
         </dependency>
 
         <dependency>
