@@ -4,6 +4,9 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
+    <listener>
+        <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
+    </listener>
 
   <filter>
     <filter-name>UberFire Security Filter</filter-name>
@@ -66,18 +69,6 @@ profile in pom.xml to use that. -->
     <servlet-name>ErraiServlet</servlet-name>
     <url-pattern>*.erraiBus</url-pattern>
   </servlet-mapping>
-
-  <listener>
-    <!--
-
-    NOTE: The orig servlet listener has been patched,
-    until a solution to the bean validation problems in hosted mode is found.
-
-    <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
-    -->
-
-    <listener-class>org.jboss.errai.container.CDIServletStateListener</listener-class>
-  </listener>
 
     <servlet>
         <servlet-name>Controller</servlet-name>

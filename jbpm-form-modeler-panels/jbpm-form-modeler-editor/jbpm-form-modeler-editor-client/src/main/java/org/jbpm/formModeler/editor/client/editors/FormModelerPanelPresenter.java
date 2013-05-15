@@ -1,11 +1,8 @@
 package org.jbpm.formModeler.editor.client.editors;
 
-import com.google.gwt.user.client.Window;
 import org.jboss.errai.bus.client.api.RemoteCallback;
 import org.jboss.errai.ioc.client.api.Caller;
 import org.jboss.errai.ioc.client.container.IOCBeanManager;
-import org.jbpm.formModeler.api.model.FormTO;
-import org.jbpm.formModeler.api.processing.FormEditorContext;
 import org.jbpm.formModeler.api.processing.FormEditorContextTO;
 import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
 import org.jbpm.formModeler.editor.service.FormModelerService;

@@ -201,15 +201,6 @@
 
         <dependency>
             <groupId>org.kie.guvnor</groupId>
-            <artifactId>guvnor-core-services-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.kie.guvnor</groupId>
-            <artifactId>guvnor-core-services-backend</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kie.guvnor</groupId>
             <artifactId>guvnor-project-editor-client</artifactId>
         </dependency>
         <dependency>
@@ -263,8 +254,8 @@
             <artifactId>kie-wb-decorated-grid-widget</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.kie.guvnor</groupId>
-            <artifactId>guvnor-commons-services-api</artifactId>
+            <groupId>org.kie.workbench.services</groupId>
+            <artifactId>kie-wb-common-services-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.kie.guvnor</groupId>
@@ -395,24 +386,21 @@
                     <logLevel>INFO</logLevel>
                     <compileSourcesArtifacts>
                         <compileSourcesArtifact>org.kie.workbench.widgets:kie-wb-decorated-grid-widget</compileSourcesArtifact>
-                        <compileSourcesArtifact> org.kie.workbench.widgets:kie-wb-view-source-widget</compileSourcesArtifact>
-                        <compileSourcesArtifact>org.kie.guvnor:guvnor-common-ui</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.kie.workbench.widgets:kie-wb-view-source-widget</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.kie.workbench.widgets:kie-wb-common-ui</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.guvnor:guvnor-commons-security</compileSourcesArtifact>
-                        <compileSourcesArtifact>org.kie.guvnor:guvnor-commons-services-api</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.kie.workbench.services:kie-wb-common-services-api</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.workbench.widgets:kie-wb-metadata-widget</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.workbench.widgets:kie-wb-config-resource-widget</compileSourcesArtifact>
-                        <compileSourcesArtifact>org.kie.guvnor:guvnor-core-services-api</compileSourcesArtifact>
 
                         <compileSourcesArtifact>org.kie.guvnor:guvnor-project-api</compileSourcesArtifact>
-                        <compileSourcesArtifact>org.kie.guvnor:guvnor-project-client</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.guvnor:guvnor-project-editor-api</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.guvnor:guvnor-project-editor-client</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.guvnor:guvnor-project-config-editor-api</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.guvnor:guvnor-project-config-editor-client</compileSourcesArtifact>
                         <compileSourcesArtifact>org.guvnor:guvnor-m2repo-editor-api</compileSourcesArtifact>
                         <compileSourcesArtifact>org.guvnor:guvnor-m2repo-editor-client</compileSourcesArtifact>
-                        <compileSourcesArtifact>org.kie.guvnor:guvnor-explorer-client</compileSourcesArtifact>
-                        <compileSourcesArtifact>org.kie.guvnor:guvnor-explorer-client</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-project-explorer-client</compileSourcesArtifact>
 
                         <compileSourcesArtifact>org.uberfire:uberfire-security-api</compileSourcesArtifact>
                         <compileSourcesArtifact>org.uberfire:uberfire-security-client</compileSourcesArtifact>
@@ -421,7 +409,6 @@
                         <compileSourcesArtifact>org.uberfire:uberfire-widgets-commons</compileSourcesArtifact>
                         <compileSourcesArtifact>org.uberfire:uberfire-workbench</compileSourcesArtifact>
                         <compileSourcesArtifact>org.uberfire:uberfire-backend-api</compileSourcesArtifact>
-                        <compileSourcesArtifact>org.uberfire:uberfire-backend-commons</compileSourcesArtifact>
 
                         <compileSourcesArtifact>org.kie.commons:kie-nio2-model</compileSourcesArtifact>
                     </compileSourcesArtifacts>
