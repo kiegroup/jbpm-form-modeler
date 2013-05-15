@@ -23,7 +23,7 @@ import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.jbpm.formModeler.api.events.*;
 import org.jbpm.formModeler.api.processing.FormRenderContextTO;
-import org.jbpm.formModeler.renderer.client.FormRenderer;
+import org.jbpm.formModeler.renderer.client.FormRendererWidget;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
@@ -35,7 +35,7 @@ public class FormRendererPanelIncluderViewImpl extends Composite implements Form
 
     @Inject
     @DataField
-    public FormRenderer formRenderer;
+    public FormRendererWidget formRenderer;
 
     @Inject
     @DataField
@@ -49,6 +49,10 @@ public class FormRendererPanelIncluderViewImpl extends Composite implements Form
 
     @Inject
     Event<FormRenderEvent> formRenderEvent;
+
+    public FormRendererPanelIncluderViewImpl() {
+        super();
+    }
 
     @Override
     public void init(FormRendererPanelIncluderPresenter presenter) {
