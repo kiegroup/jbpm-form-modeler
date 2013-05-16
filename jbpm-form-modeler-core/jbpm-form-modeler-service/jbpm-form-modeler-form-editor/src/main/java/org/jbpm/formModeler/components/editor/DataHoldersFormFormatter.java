@@ -110,15 +110,15 @@ public class DataHoldersFormFormatter extends Formatter {
 
     public void renderSelectDataModel(FormEditorContext context) throws Exception {
 
-        Path path = (Path) context.getPath();//TODO retrieve from context
+        //Path path = (Path) context.getPath();//TODO retrieve from context
 
-        DataModelTO dataModelTO = dataModelerService.loadModel(path);  //TODO ask if is possible that the form can define dataholder from diferent datamodels
+        //DataModelTO dataModelTO = dataModelerService.loadModel(path);  //TODO ask if is possible that the form can define dataholder from diferent datamodels
 
         setAttribute("id", Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL);
         setAttribute("name", WysiwygFormEditor.PARAMETER_HOLDER_DM_INFO);
         renderFragment("selectStart");
 
-        if (dataModelTO != null && dataModelTO.getDataObjects() != null) {
+        /*if (dataModelTO != null && dataModelTO.getDataObjects() != null) {
             String className = "";
             for (DataObjectTO dataObjectTO : dataModelTO.getDataObjects()) {
                 className = dataObjectTO.getClassName();  //TODO get the pojo reference that will be loaded in runtime at classpath
@@ -126,7 +126,7 @@ public class DataHoldersFormFormatter extends Formatter {
                 setAttribute("optionValue", className);
                 renderFragment("selectOption");
             }
-        }
+        } */
         renderFragment("selectEnd");
 
 
