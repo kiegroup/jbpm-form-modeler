@@ -39,7 +39,7 @@ public class AppSetup {
     //private static final String REPO_PLAYGROUND = "jbpm-playground";
     //private static final String ORIGIN_URL      = "https://github.com/guvnorngtestuser1/jbpm-console-ng-playground.git";
     private static final String REPO_PLAYGROUND = "uf-playground";
-    private static final String ORIGIN_URL      = "https://github.com/nmiraschTest/guvnorng-playground.git";
+    private static final String ORIGIN_URL      = "https://github.com/wmedvede/guvnorng-playground.git";
 
 
     private final IOService ioService = new IOServiceDotFileImpl();
@@ -63,8 +63,8 @@ public class AppSetup {
             final String password = "test1234";
 */
 
-            final String userName = "nmiraschTest";
-            final String password = "test1234";
+            final String userName = "wmedvede";
+            final String password = "med0077";
 
             repositoryService.cloneRepository("git", REPO_PLAYGROUND, ORIGIN_URL, userName, password);
             repository = repositoryService.getRepository(REPO_PLAYGROUND);
