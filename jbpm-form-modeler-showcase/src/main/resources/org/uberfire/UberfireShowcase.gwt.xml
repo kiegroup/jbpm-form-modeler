@@ -33,6 +33,8 @@
     <inherits name="org.jbpm.formModeler.editor.FormModelerClient"/>
     <inherits name="org.jbpm.formModeler.renderer.FormRendererClient"/>
 
+    <inherits name="org.kie.workbench.common.screens.datamodeller.KieWorkbenchDatamodellerClient"/>
+
     <!-- Specify the application specific style sheet. -->
     <stylesheet src='css/uberfire-showcase.css'/>
 

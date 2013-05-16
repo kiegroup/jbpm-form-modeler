@@ -323,6 +323,7 @@
             <artifactId>jbpm-form-modeler-renderer-backend</artifactId>
             <version>6.0.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-editor-api</artifactId>
@@ -334,9 +335,28 @@
             <artifactId>jbpm-form-modeler-editor-client</artifactId>
             <version>6.0.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-editor-backend</artifactId>
+            <version>6.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kie.workbench.screens</groupId>
+            <artifactId>kie-wb-common-data-modeller-api</artifactId>
+            <version>6.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kie.workbench.screens</groupId>
+            <artifactId>kie-wb-common-data-modeller-backend</artifactId>
+            <version>6.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kie.workbench.screens</groupId>
+            <artifactId>kie-wb-common-data-modeller-client</artifactId>
             <version>6.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
@@ -381,6 +401,10 @@
                         <compileSourcesArtifact>org.guvnor:guvnor-m2repo-editor-api</compileSourcesArtifact>
                         <compileSourcesArtifact>org.guvnor:guvnor-m2repo-editor-client</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-project-explorer-client</compileSourcesArtifact>
+
+                        <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-data-modeller-api</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-data-modeller-client</compileSourcesArtifact>
+
 
                         <compileSourcesArtifact>org.uberfire:uberfire-security-api</compileSourcesArtifact>
                         <compileSourcesArtifact>org.uberfire:uberfire-security-client</compileSourcesArtifact>
