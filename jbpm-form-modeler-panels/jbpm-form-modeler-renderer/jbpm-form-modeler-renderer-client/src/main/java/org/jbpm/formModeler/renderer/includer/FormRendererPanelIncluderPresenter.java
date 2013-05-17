@@ -45,10 +45,9 @@ public class FormRendererPanelIncluderPresenter {
             UberView<FormRendererPanelIncluderPresenter> {
 
         void loadContext(FormRenderContextTO ctx);
-    }
 
-    @Inject
-    private Event<FormRenderEvent> formRenderEvent;
+        void hide();
+    }
 
     private FormRenderContextTO context;
 
@@ -73,9 +72,31 @@ public class FormRendererPanelIncluderPresenter {
             public void callback(FormRenderContextTO ctx) {
                 context = ctx;
                 view.loadContext(ctx);
-                formRenderEvent.fire(new FormRenderEvent(ctx));
             }
         }).launchTest();
+    }
+
+    public void persistForm() {
+        includerService.call(new RemoteCallback<Boolean>() {
+            @Override
+            public void callback(Boolean result) {
+                if (result) notification.fire(new NotificationEvent("Form persisted OK!", NotificationEvent.NotificationType.SUCCESS));
+                else notification.fire(new NotificationEvent("Something wrong happened persisting form", NotificationEvent.NotificationType.ERROR));
+            }
+        }).persistContext(context.getCtxUID());
+    }
+
+
+    public void clearFormStatus() {
+        includerService.call(new RemoteCallback<Boolean>() {
+            @Override
+            public void callback(Boolean result) {
+                if (result) {
+                    notification.fire(new NotificationEvent("Form cleared!", NotificationEvent.NotificationType.SUCCESS));
+                    view.hide();
+                } else notification.fire(new NotificationEvent("Something wrong happened clearing form", NotificationEvent.NotificationType.ERROR));
+            }
+        }).clearContext(context.getCtxUID());
     }
 
     @WorkbenchPartTitle

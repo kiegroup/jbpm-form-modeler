@@ -94,6 +94,13 @@ public interface FormProcessor {
     public FormStatusData read(String ctxUid);
 
     /**
+     * Persists the status for given FormRenderContext.
+     *
+     * @param context Form render context
+     */
+    void persist(FormRenderContext context) throws Exception;
+
+    /**
      * Persists the status for given FormRenderContext id.
      *
      * @param ctxUid Form render context UID
@@ -189,6 +196,20 @@ public interface FormProcessor {
      * @throws Exception in case of error reading persisted object
      */
     public Object getLoadedObject(Long formId, String namespace) throws Exception;
+
+    /**
+     * Clears status data for given render context
+     *
+     * @param context    Context to clear
+     */
+    public void clear(FormRenderContext context);
+
+    /**
+     * Clears status data for given render context
+     *
+     * @param ctxUID    Render context id to clear
+     */
+    public void clear(String ctxUID);
 
     /**
      * Clears status data for given form id.

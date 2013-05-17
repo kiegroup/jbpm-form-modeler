@@ -7,6 +7,7 @@
         <mvc:fragmentValue name="form" id="form">
         <mvc:fragmentValue name="errors" id="errors">
         <mvc:fragmentValue name="submitted" id="submitted">
+<input type="hidden" id="persist_<%=ctxUID%>" name="persistForm" value="false"/>
 <input type="hidden" id="errors_<%=ctxUID%>" value="<%=errors%>"/>
 <input type="hidden" id="submitted_<%=ctxUID%>" value="<%=submitted%>"/>
 <form action="<factory:formUrl/>" method="post" id="formRendering<%=ctxUID%>">

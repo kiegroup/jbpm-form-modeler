@@ -70,6 +70,7 @@ public class FormRenderingComponent extends BaseUIComponent {
 
     public void actionSubmitForm(CommandRequest request) {
         String ctxUID = request.getRequestObject().getParameter("ctxUID");
+        String persist = request.getRequestObject().getParameter("persistForm");
         FormRenderContext ctx = formRenderContextManager.getFormRenderContext(ctxUID);
         if (ctx == null) return;
         try {
@@ -80,6 +81,9 @@ public class FormRenderingComponent extends BaseUIComponent {
             FormStatusData fsd = formProcessor.read(ctxUID);
 
             ctx.setErrors(fsd.getWrongFields().size());
+
+            if (Boolean.getBoolean(persist) && fsd.isValid()) formRenderContextManager.persistContext(ctx);
+
             submited = true;
 
             ctx.setSubmit(false);

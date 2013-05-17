@@ -43,6 +43,18 @@ public class FormRendererPanelIncluderViewImpl extends Composite implements Form
 
     @Inject
     @DataField
+    public Button submitAndPersistButton;
+
+    @Inject
+    @DataField
+    public Button persistButton;
+
+    @Inject
+    @DataField
+    public Button clearButton;
+
+    @Inject
+    @DataField
     public Button startTestButton;
 
     private FormRendererPanelIncluderPresenter presenter;
@@ -58,21 +70,51 @@ public class FormRendererPanelIncluderViewImpl extends Composite implements Form
     public void init(FormRendererPanelIncluderPresenter presenter) {
         this.presenter = presenter;
         submitButton.setText("submit");
+        submitAndPersistButton.setText("submit form and persist");
+        persistButton.setText("persist form status data without submit");
+        clearButton.setText("clear form status data without submit");
         startTestButton.setText("start");
-        formRenderer.setVisible(false);
-        submitButton.setVisible(false);
+        setVisisbleButtons(false);
     }
 
     @EventHandler("startTestButton")
     public void startTest(ClickEvent event) {
         presenter.startTest();
-        formRenderer.setVisible(true);
-        submitButton.setVisible(true);
+        setVisisbleButtons(true);
+    }
+
+    @Override
+    public void hide() {
+        setVisisbleButtons(false);
+        formRenderer.endContext();
+    }
+
+    protected void setVisisbleButtons(boolean visible) {
+        formRenderer.setVisible(visible);
+        submitButton.setVisible(visible);
+        submitAndPersistButton.setVisible(visible);
+        persistButton.setVisible(visible);
+        clearButton.setVisible(visible);
     }
 
     @EventHandler("submitButton")
     public void submitForm(ClickEvent event) {
         formRenderer.submitForm();
+    }
+
+    @EventHandler("submitAndPersistButton")
+    public void submitAndPersistForm(ClickEvent event) {
+        formRenderer.submitFormAndPersist();
+    }
+
+    @EventHandler("persistButton")
+    public void persistForm(ClickEvent event) {
+        presenter.persistForm();
+    }
+
+    @EventHandler("clearButton")
+    public void clearForm(ClickEvent event) {
+        presenter.clearFormStatus();
     }
 
     @Override

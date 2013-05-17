@@ -25,15 +25,13 @@ public class FormRenderContext {
     private String UID;
     private Form form;
     private Map<String, Object> bindingData;
-    private FormRenderListener formRenderListener;
     private boolean submit = false;
     private int errors;
 
-    public FormRenderContext(String uid, Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener) {
+    public FormRenderContext(String uid, Form form, Map<String, Object> bindingData) {
         this.UID = uid;
         this.form = form;
         this.bindingData = bindingData;
-        this.formRenderListener = formRenderListener;
     }
 
     public String getUID() {
@@ -46,13 +44,6 @@ public class FormRenderContext {
 
     public Map<String, Object> getBindingData() {
         return bindingData;
-    }
-    public FormRenderListener getFormRenderListener() {
-        return formRenderListener;
-    }
-
-    public void setFormRenderListener(FormRenderListener formRenderListener) {
-        this.formRenderListener = formRenderListener;
     }
 
     public FormRenderContextTO getFormRenderingContextTO() {

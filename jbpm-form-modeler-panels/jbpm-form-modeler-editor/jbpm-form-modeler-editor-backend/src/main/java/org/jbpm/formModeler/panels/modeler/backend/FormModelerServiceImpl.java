@@ -107,7 +107,7 @@ public class FormModelerServiceImpl implements FormModelerService {
 
     @Override
     public FormEditorContext newContext(Form form, Object path) {
-        FormRenderContext ctx = formRenderContextManager.newContext(form, new HashMap<String, Object>(), null);
+        FormRenderContext ctx = formRenderContextManager.newContext(form, new HashMap<String, Object>());
         FormEditorContext formEditorContext = new FormEditorContext(ctx, path);
         formEditorContextMap.put(ctx.getUID(), formEditorContext);
         return formEditorContext;

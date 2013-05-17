@@ -60,11 +60,33 @@ public class FormRendererIncluderServiceImpl implements FormRendererIncluderServ
             bindingData.put("variable1", "this is a value");
             bindingData.put("variable2", "this is another value");
 
-            return formRenderingService.startRendering(form, bindingData, null);
+            return formRenderingService.startRendering(form, bindingData);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public Boolean persistContext(String ctxUID) {
+        try {
+            formRenderingService.persistContext(ctxUID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean clearContext(String ctxUID) {
+        try {
+            formRenderingService.removeContext(ctxUID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
     }
 }

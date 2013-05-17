@@ -6,4 +6,8 @@ import org.jbpm.formModeler.api.processing.FormRenderContextTO;
 @Remote
 public interface FormRendererIncluderService {
     FormRenderContextTO launchTest();
+
+    Boolean persistContext(String ctxUID);
+
+    Boolean clearContext(String ctxUID);
 }

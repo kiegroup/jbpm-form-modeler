@@ -353,13 +353,15 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     }
 
     public void persist(String ctxUid) throws Exception {
-        FormRenderContext context = formRenderContextManager.getFormRenderContext(ctxUid);
+        ctxUid = StringUtils.defaultIfEmpty(ctxUid, FormProcessor.DEFAULT_NAMESPACE);
+        persist(formRenderContextManager.getFormRenderContext(ctxUid));
 
+    }
+
+    public void persist(FormRenderContext context) throws Exception {
         Form form = context.getForm();
 
-        ctxUid = StringUtils.defaultIfEmpty(ctxUid, FormProcessor.DEFAULT_NAMESPACE);
-
-        Map mapToPersist = getFilteredMapRepresentationToPersist(form, ctxUid);
+        Map mapToPersist = getFilteredMapRepresentationToPersist(form, context.getUID());
 
         for (Iterator it = mapToPersist.keySet().iterator(); it.hasNext();) {
             String fieldName = (String) it.next();
@@ -380,7 +382,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                     }
 
                     if (!canBind) {
-                        log.error("Unable to bind DataHolder for field '" + fieldName + "' to '" + bindingString + "'. This may be caused because bindingString is incorrect or the form doesn't contains the defined DataHolder.");
+                        log.warn("Unable to bind DataHolder for field '" + fieldName + "' to '" + bindingString + "'. This may be caused because bindingString is incorrect or the form doesn't contains the defined DataHolder.");
                         context.getBindingData().put(bindingString, mapToPersist.get(fieldName));
                     }
 
@@ -501,6 +503,16 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                     //TODO load data from object here!
         }
         return loadedObject;
+    }
+
+    @Override
+    public void clear(FormRenderContext context) {
+        clear(context.getForm().getId(), context.getUID());
+    }
+
+    @Override
+    public void clear(String ctxUID) {
+        clear(formRenderContextManager.getFormRenderContext(ctxUID));
     }
 
     public void clear(Long formId, String namespace) {

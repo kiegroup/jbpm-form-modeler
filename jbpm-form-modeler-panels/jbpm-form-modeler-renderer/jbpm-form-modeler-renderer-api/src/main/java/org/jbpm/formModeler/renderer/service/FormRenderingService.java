@@ -16,24 +16,18 @@
 package org.jbpm.formModeler.renderer.service;
 
 import org.jboss.errai.bus.server.annotations.Remote;
-import org.jbpm.formModeler.api.events.FormRenderEvent;
-import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
-import org.jbpm.formModeler.api.events.FormSubmittedEvent;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.model.FormTO;
 import org.jbpm.formModeler.api.processing.FormRenderContextManager;
 import org.jbpm.formModeler.api.processing.FormRenderContextTO;
-import org.jbpm.formModeler.api.processing.FormRenderListener;
 
 import java.io.Serializable;
 import java.lang.Long;
 import java.lang.Object;
 import java.lang.String;
-import java.util.List;
 import java.util.Map;
 
 @Remote
 public interface FormRenderingService extends FormRenderContextManager, Serializable {
-    FormRenderContextTO startRendering(Form form, Map<String, Object> bindingData, FormRenderListener formRenderListener);
-    FormRenderContextTO startRendering(Long formId, Map<String, Object> bindingData, FormRenderListener formRenderListener);
+    FormRenderContextTO startRendering(Form form, Map<String, Object> bindingData);
+    FormRenderContextTO startRendering(Long formId, Map<String, Object> bindingData);
 }

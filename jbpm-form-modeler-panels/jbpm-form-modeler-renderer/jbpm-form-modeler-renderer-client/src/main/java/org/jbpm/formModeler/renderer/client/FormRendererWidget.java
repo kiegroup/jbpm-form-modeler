@@ -30,6 +30,7 @@ import javax.inject.Inject;
 @Dependent
 public class FormRendererWidget extends Composite {
 
+    boolean canSubmit = false;
     private FormRenderContextTO ctx;
 
     @Inject
@@ -45,42 +46,20 @@ public class FormRendererWidget extends Composite {
         frame.getElement().getStyle().setBorderWidth(0, Style.Unit.PX);
     }
 
-    public boolean submitForm() {
-        submitForm(ctx.getCtxUID());
-
-        final boolean[] submitEnded = new boolean[]{false};
-        final int errors[] = new int[] {0};
-
-        return errors[0] > 0;
+    public void submitForm() {
+        if (canSubmit) submitForm(ctx.getCtxUID(), false);
     }
 
-    private native boolean isSubmitted(String uid) /*-{
+    public void submitFormAndPersist() {
+        if (canSubmit) submitForm(ctx.getCtxUID(), true);
+    }
+
+    private native void submitForm(String uid, boolean persist) /*-{
         var frame = $doc.getElementById('frame_' + uid)
 
         if (frame) {
             var frameDoc = frame.contentWindow.document;
-            return frameDoc.getElementById('submitted_' + uid).value;
-        }
-
-        return false
-    }-*/;
-
-    private native int getErrors(String uid) /*-{
-        var frame = $doc.getElementById('frame_' + uid)
-
-        if (frame) {
-            var frameDoc = frame.contentWindow.document;
-            return frameDoc.getElementById('errors_' + uid).value;
-        }
-
-        return 0
-    }-*/;
-
-    private native void submitForm(String uid) /*-{
-        var frame = $doc.getElementById('frame_' + uid)
-
-        if (frame) {
-            var frameDoc = frame.contentWindow.document;
+            frameDoc.getElementById('persist_' + uid).value = persist;
             frameDoc.getElementById('formRendering' + uid).submit();
         }
     }-*/;
@@ -93,6 +72,13 @@ public class FormRendererWidget extends Composite {
 
         frame.getElement().setId("frame_" + ctxUID);
         frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=frc&_fp=Start&ctxUID=" + ctx.getCtxUID()).asString());
+        canSubmit = true;
+    }
+
+    public void endContext() {
+        canSubmit = false;
+        frame.setUrl("");
+        ctx = null;
     }
 }
 
