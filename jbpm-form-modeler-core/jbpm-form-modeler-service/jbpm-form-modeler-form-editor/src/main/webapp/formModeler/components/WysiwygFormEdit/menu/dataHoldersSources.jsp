@@ -40,26 +40,16 @@
     <tr>
     <td class="LeftColumnProperties" align="center">
     <script type="text/javascript">
+        var supportedHolders = new Array();
+        supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>');
+        supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>');
+        supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>');
 
         function show_dataholderInfo(divStr) {
-            if (divStr == '<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>') {
-                document.getElementById('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>').style.display = 'block';
-                document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>').style.display = 'none';
-                document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>').style.display = 'none';
-            } else if (divStr == '<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>') {
-                document.getElementById('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>').style.display = 'none';
-                document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>').style.display = 'block';
-                document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>').style.display = 'none';
-            } else if (divStr == '<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>') {
-                document.getElementById('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>').style.display = 'none';
-                document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>').style.display = 'none';
-                document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>').style.display = 'block';
-            } else {
-                document.getElementById('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>').style.display = 'none';
-                document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>').style.display = 'none';
-                document.getElementById('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>').style.display = 'none';
-            }
-
+            jQuery.each( supportedHolders, function( index, value ) {
+                if (divStr == value) $('#' + value).show();
+                else $('#' + value).hide();
+            });
         }
         show_dataholderInfo("none");
 
