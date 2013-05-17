@@ -58,6 +58,18 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
     @Override
     public void writeValue(Object destination, String propName, Object value) throws Exception {
         Field field = destination.getClass().getDeclaredField(propName);

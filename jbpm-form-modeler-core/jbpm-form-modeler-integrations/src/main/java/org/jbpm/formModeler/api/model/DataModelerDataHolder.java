@@ -26,31 +26,21 @@ import java.lang.reflect.*;
 import java.util.*;
 
 public class DataModelerDataHolder extends PojoDataHolder implements Comparable,DataHolder {
-    private String id;
-    private String className;
+
     DataObjectTO dataObjectTO ;
 
 //    private String renderColor;
 
-    FieldTypeManager fieldTypeManager;
+//    FieldTypeManager fieldTypeManager;
 
-    Set<DataFieldHolder> dataFieldHolders;
+//    Set<DataFieldHolder> dataFieldHolders;
 
 
-    public Object createInstance() throws Exception {
-        Object result = null;
-        for (Constructor constructor : Class.forName(className).getConstructors()) {
-            if (constructor.getParameterTypes().length == 0) {
-                result = constructor.newInstance();
-            }
-        }
-        return result;
-    }
 
 
     public DataModelerDataHolder(String id, String className, String renderColor, DataObjectTO dataObjectTO) {
-        this.id = id;
-        this.className = className;
+        super.setId(id);
+        super.setClassName(className);
         fieldTypeManager = (FieldTypeManager)CDIHelper.getBeanByType(FieldTypeManager.class);
         this.dataObjectTO = dataObjectTO;
         setRenderColor(renderColor);
@@ -79,12 +69,12 @@ public class DataModelerDataHolder extends PojoDataHolder implements Comparable,
 
 
     public int compareTo(Object o) {
-        return id.compareTo(((PojoDataHolder) o).getId());
+        return super.getId().compareTo(((PojoDataHolder) o).getId());
     }
 
     @Override
     public String getInfo() {
-        return className;
+        return super.getClassName();
     }
 
     @Override
@@ -108,12 +98,12 @@ public class DataModelerDataHolder extends PojoDataHolder implements Comparable,
 
         for (ObjectPropertyTO propertyTO : properties) {;
             Class returnType = propertyTO.getClass();
-            if (isValidReturnType(returnType.getName())) {
+            if (isValidReturnType(propertyTO.getClassName())) {
                 try{
-                    fieldHolder =  new DataFieldHolder(this,propertyTO.getName(), fieldTypeManager.getTypeByClass(propertyTO.getName()).getCode());
+                    fieldHolder =  new DataFieldHolder(this,propertyTO.getName(), fieldTypeManager.getTypeByClass(propertyTO.getClassName()).getCode());
                     dataFieldHolders.add(fieldHolder);
                 } catch (Exception e){
-                    //The
+
                 }
             }
         }
