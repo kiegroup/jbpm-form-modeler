@@ -79,11 +79,14 @@ public class DataHoldersFormFormatter extends Formatter {
             Form form = wysiwygFormEditor.getCurrentForm();
 
             Set<DataHolder> holders = form.getHolders();
+            int i=0;
             for (DataHolder holder : holders) {
                 setAttribute("id", holder.getId());
                 setAttribute("type", holder.getTypeCode());
                 setAttribute("renderColor", holder.getRenderColor());
                 setAttribute("value", holder.getInfo());
+                setAttribute("rowStyle",i%2==1 ? "skn-even_row":"skn-odd_row" );
+                i++;
                 renderFragment("outputBindings");
             }
             renderFragment("outputEndBindings");
@@ -116,8 +119,6 @@ public class DataHoldersFormFormatter extends Formatter {
     }
 
     public void renderSelectProcessSource() throws Exception {
-        //TODO retrieve from context
-        //TODO Ask mauricio about  ProcessInstanceHelper and DataServiceEntryPointImpl and taskSumaryHelper
 
         //Collection processes = dataService.getProcesses();  //TODO we want retrieve the process available in dessign time
         //if(processes!=null){

@@ -176,8 +176,8 @@
         <mvc:fragmentValue name="type" id="type">
             <mvc:fragmentValue name="value" id="value">
                 <mvc:fragmentValue name="renderColor" id="renderColor">
-                    <mvc:fragmentValue name="color" id="color">
-                        <tr>
+                    <mvc:fragmentValue name="rowStyle" id="rowStyle">
+                        <tr class="<%=rowStyle%>">
                             <td align="center" style="width:16px;"><a
                                     title="<i18n:message key="delete">!!!Borrar</i18n:message>"
                                     href="<factory:url  action="formDataHolders">
