@@ -17,15 +17,19 @@ package org.jbpm.formModeler.api.model;
 
 import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.util.helpers.CDIHelper;
+import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
+import org.kie.workbench.common.screens.datamodeller.model.ObjectPropertyTO;
 
 
 import java.lang.reflect.Field;
 import java.lang.reflect.*;
 import java.util.*;
 
-public class DataModelerDataHolder extends DefaultDataHolder implements Comparable {
+public class DataModelerDataHolder extends PojoDataHolder implements Comparable,DataHolder {
     private String id;
     private String className;
+    DataObjectTO dataObjectTO ;
+
 //    private String renderColor;
 
     FieldTypeManager fieldTypeManager;
@@ -43,34 +47,13 @@ public class DataModelerDataHolder extends DefaultDataHolder implements Comparab
         return result;
     }
 
-    public DataModelerDataHolder(String id, String className, String renderColor) {
+
+    public DataModelerDataHolder(String id, String className, String renderColor, DataObjectTO dataObjectTO) {
         this.id = id;
         this.className = className;
         fieldTypeManager = (FieldTypeManager)CDIHelper.getBeanByType(FieldTypeManager.class);
+        this.dataObjectTO = dataObjectTO;
         setRenderColor(renderColor);
-    }
-
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public void writeValue(Object destination, String propName, Object value) throws Exception {
-        Field field = destination.getClass().getDeclaredField(propName);
-
-        Method setterMethod = destination.getClass().getMethod("set" + capitalize(propName), new Class[]{field.getType()});
-        setterMethod.invoke(destination, new Object[]{value});
-    }
-
-    @Override
-    public Object readValue(Object destination, String propName) throws Exception {
-        Object value = null;
-
-        Method getter = destination.getClass().getMethod("get" + capitalize(propName));
-        value = getter.invoke(destination);
-
-        return value;
     }
 
     private String capitalize(String string) {
@@ -116,60 +99,21 @@ public class DataModelerDataHolder extends DefaultDataHolder implements Comparab
     }
 
     private Set<DataFieldHolder> calculatePropertyNames() throws Exception{
-
-        Class clase = null;
-        try {
-            clase = Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            return null;
-        }
-
-        if (clase == null) {
-            return null;
-        }
+        List<ObjectPropertyTO> properties = dataObjectTO.getProperties();
 
         Set<DataFieldHolder> dataFieldHolders = new TreeSet<DataFieldHolder>();
 
         Map propertiesDescriptors = new HashMap();
-        Method[] methods = clase.getMethods();
-        for (int i = 0; i < methods.length; i++) {
-            Method method = methods[i];
-            String methodName = method.getName();
-            Class[] parameterTypes = method.getParameterTypes();
-            Class returnType = method.getReturnType();
-            if (isValidReturnType(returnType.getName())) {
-                String propertyName = getPropertyName(methodName, returnType, parameterTypes);
-                if (propertyName != null && Modifier.isPublic(method.getModifiers())) {
-                    Map values = (Map) propertiesDescriptors.get(propertyName);
-                    if (values == null)
-                        propertiesDescriptors.put(propertyName, values = new HashMap());
-                    Class clazz = parameterTypes.length == 0 ? returnType : parameterTypes[0]; // Relevant
-                    // class
-                    Boolean[] clazzValues = (Boolean[]) values.get(clazz);
-                    if (clazzValues == null)
-                        values.put(clazz, clazzValues = new Boolean[]{Boolean.FALSE, Boolean.FALSE});
-                    clazzValues[parameterTypes.length] = Boolean.TRUE;// 0 ->
-                    // getter,
-                    // 1->
-                    // setter
-                }
-            }
-        }
         DataFieldHolder fieldHolder = null;
-        for (Iterator it = propertiesDescriptors.keySet().iterator(); it.hasNext(); ) {
-            String propertyName = (String) it.next();
-            Map propertyValue = (Map) propertiesDescriptors.get(propertyName);
-            for (Iterator itMethods = propertyValue.keySet().iterator(); itMethods.hasNext(); ) {
-                Class clazz = (Class) itMethods.next();
-                Boolean[] clazzValues = (Boolean[]) propertyValue.get(clazz);
-                if (clazzValues[0].booleanValue() && clazzValues[1].booleanValue()) {
-                    try{
-                        fieldHolder =  new DataFieldHolder(this,propertyName, fieldTypeManager.getTypeByClass(clazz.getName()).getCode());
-                        dataFieldHolders.add(fieldHolder);
-                    } catch (Exception e){
-                        //The
-                    }
-                    break;
+
+        for (ObjectPropertyTO propertyTO : properties) {;
+            Class returnType = propertyTO.getClass();
+            if (isValidReturnType(returnType.getName())) {
+                try{
+                    fieldHolder =  new DataFieldHolder(this,propertyTO.getName(), fieldTypeManager.getTypeByClass(propertyTO.getName()).getCode());
+                    dataFieldHolders.add(fieldHolder);
+                } catch (Exception e){
+                    //The
                 }
             }
         }
@@ -185,27 +129,4 @@ public class DataModelerDataHolder extends DefaultDataHolder implements Comparab
 
     }
 
-    protected String getPropertyName(String methodName, Class returnType, Class[] parameterTypes) {
-        String propName = null;
-        if (((methodName.startsWith("get") && (parameterTypes.length == 0)) || (methodName.startsWith("set") && parameterTypes.length == 1)) && methodName.length() > 3) {
-            propName = String.valueOf(Character.toLowerCase(methodName.charAt(3)));
-            if (methodName.length() > 4)
-                propName += methodName.substring(4);
-        } else if (methodName.startsWith("is") && methodName.length() > 2 && returnType.equals(Boolean.class) && parameterTypes.length == 0) {
-            propName = String.valueOf(Character.toLowerCase(methodName.charAt(2)));
-            if (methodName.length() > 3)
-                propName += methodName.substring(3);
-        }
-        return propName;
-    }
-
-//    @Override
-//    public String getRenderColor() {
-//        return renderColor;
-//    }
-
-//    @Override
-//    public void setRenderColor(String renderColor) {
-//        this.renderColor = renderColor;
-//    }
 }

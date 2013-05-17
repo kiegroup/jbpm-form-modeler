@@ -34,6 +34,10 @@ import org.jbpm.formModeler.api.util.helpers.EditorHelper;
 import org.jbpm.formModeler.api.model.i18n.I18nSet;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.kie.workbench.common.screens.datamodeller.model.DataModelTO;
+import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
+import org.kie.workbench.common.screens.datamodeller.service.DataModelerService;
+import org.uberfire.backend.vfs.Path;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
@@ -48,6 +52,9 @@ import java.util.*;
 @ApplicationScoped
 @Named("wysiwygfe")
 public class WysiwygFormEditor extends BaseUIComponent {
+
+    @Inject
+    private org.jbpm.formModeler.integration.DataModelerService dataModelerService;
 
     public static WysiwygFormEditor lookup() {
         return (WysiwygFormEditor) CDIBeanLocator.getBeanByType(WysiwygFormEditor.class);
@@ -779,7 +786,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             if (holderInfoArray != null && holderInfoArray.length > 0) holderInfo = holderInfoArray[0];
             if ((holderInfo != null) && (holderId != null)) {
                 Form form = getCurrentForm();
-                form.setDataHolder(holderId, Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL, holderInfo, holderRenderColor);
+                form.setDataHolder(dataModelerService.createDataHolder(getCurrentEditionContext().getPath(),holderId, holderInfo, holderRenderColor));
             }
 
         } else if(Form.HOLDER_TYPE_CODE_POJO_CLASSNAME.equals(holderType)){
@@ -858,4 +865,6 @@ public class WysiwygFormEditor extends BaseUIComponent {
         getFormManager().addFieldToForm(form, dataHolderId + "_" + fieldName, fieldType, label, form.generateBindingStr(dataHolderId, fieldName));
         setLastDataHolderUsedId(dataHolderId);
     }
+
+
 }

@@ -152,6 +152,14 @@ public class Form implements Serializable, Comparable{
         this.formFields = formFields;
     }
 
+    public void setDataHolder(DataHolder holder) {
+        if (holder == null || holder.getId()==null || holder.getId().trim().length() == 0) return;
+        if(getDataHolderById(holder.getId())!=null){
+            holders.remove(holder);
+        }
+        holders.add(holder);
+    }
+
     public void setDataHolder(String id, String type,String dataHolderInfo, String renderColor) {
         if (id == null || id.trim().length() == 0) return;
         //if(HOLDER_TYPE_CODE_POJO_CLASSNAME.equals(type)){    //TODO add another Dataholer types

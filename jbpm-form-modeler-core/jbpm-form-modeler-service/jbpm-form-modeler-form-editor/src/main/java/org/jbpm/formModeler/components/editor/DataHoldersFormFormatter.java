@@ -16,33 +16,19 @@
 package org.jbpm.formModeler.components.editor;
 
 import org.apache.commons.logging.Log;
-import org.hibernate.engine.spi.AssociationKey;
-//import org.jbpm.datamodeler.editor.model.DataModelTO;
-//import org.jbpm.datamodeler.editor.model.DataObjectTO;
-//import org.jbpm.datamodeler.editor.service.DataModelerService;
 
-import org.kie.workbench.common.screens.datamodeller.model.DataModelTO;
-import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
-import org.kie.workbench.common.screens.datamodeller.service.DataModelerService;
 
 import org.jbpm.formModeler.api.config.FieldTypeManager;
 import org.jbpm.formModeler.api.model.*;
 import org.jbpm.formModeler.api.processing.BindingManager;
-import org.jbpm.formModeler.api.processing.FormEditorContext;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
-//import org.jbpm.kie.services.impl.model.ProcessDesc;
-import org.uberfire.backend.vfs.Path;
-//import org.jbpm.kie.services.api.RuntimeDataService;
 
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 public class DataHoldersFormFormatter extends Formatter {
@@ -51,7 +37,7 @@ public class DataHoldersFormFormatter extends Formatter {
     private Log log;
 
     @Inject
-    private DataModelerService dataModelerService;
+    private org.jbpm.formModeler.integration.DataModelerService dataModelerService;
 
     //  @Inject
     //  private RuntimeDataService dataService;
@@ -77,12 +63,12 @@ public class DataHoldersFormFormatter extends Formatter {
             renderFragment("outputFormAddHolderStart");
 
             renderFragment("rowStart");
-            renderSelectDataModel(wysiwygFormEditor.getCurrentEditionContext());
+            renderSelectDataModel(dataModelerService.getDataModelObjectList(wysiwygFormEditor.getCurrentEditionContext().getPath()));
             renderFragment("rowEnd");
 
-            renderFragment("rowStart");
-            renderSelectProcessSource();
-            renderFragment("rowEnd");
+            //renderFragment("rowStart");
+            //renderSelectProcessSource();
+            //renderFragment("rowEnd");
 
             renderFragment("outputFormAddHolderEnd");
 
@@ -108,22 +94,19 @@ public class DataHoldersFormFormatter extends Formatter {
         }
     }
 
-    public void renderSelectDataModel(FormEditorContext context) throws Exception {
+    public void renderSelectDataModel(List dataObjectList) throws Exception {
 
-        Path path = (Path) context.getPath();//TODO retrieve from context
-
-        DataModelTO dataModelTO = dataModelerService.loadModel(path);  //TODO ask if is possible that the form can define dataholder from diferent datamodels
 
         setAttribute("id", Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL);
         setAttribute("name", WysiwygFormEditor.PARAMETER_HOLDER_DM_INFO);
         renderFragment("selectStart");
 
-        if (dataModelTO != null && dataModelTO.getDataObjects() != null) {
-            String className = "";
-            for (DataObjectTO dataObjectTO : dataModelTO.getDataObjects()) {
-                className = dataObjectTO.getClassName();  //TODO get the pojo reference that will be loaded in runtime at classpath
-                setAttribute("optionLabel", className);
-                setAttribute("optionValue", className);
+        if (dataObjectList!= null ) {
+            HashMap map ;
+            for (Iterator it = dataObjectList.iterator();it.hasNext();) {
+                map=(HashMap) it.next();
+                setAttribute("optionLabel", map.get("optionLabel"));
+                setAttribute("optionValue", map.get("optionValue"));
                 renderFragment("selectOption");
             }
         }

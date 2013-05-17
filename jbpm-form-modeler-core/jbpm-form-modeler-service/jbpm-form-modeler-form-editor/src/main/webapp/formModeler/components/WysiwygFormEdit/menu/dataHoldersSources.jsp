@@ -93,10 +93,10 @@
     </tr>
     <tr>
         <td>
-            <input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
+            <!--input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
                    value="<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>"
                    onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>');">&nbsp;<i18n:message
-                key="dataHolder_process">!!!Process </i18n:message><br>
+                key="dataHolder_process">!!!Process </i18n:message><br-->
             <input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
                    value="<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>"
                    onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>')">&nbsp;<i18n:message

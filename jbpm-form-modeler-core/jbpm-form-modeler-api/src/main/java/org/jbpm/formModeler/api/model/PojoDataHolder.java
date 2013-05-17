@@ -43,6 +43,9 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
         return result;
     }
 
+    public PojoDataHolder(){
+    }
+
     public PojoDataHolder(String id, String className,String renderColor) {
         this.id = id;
         this.className = className;
