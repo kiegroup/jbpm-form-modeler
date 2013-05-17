@@ -26,7 +26,9 @@ public interface FormSerializationManager extends Serializable {
 
     String generateFormXML(Form form);
 
+    Form loadFormFromXML(String xml,Object path) throws Exception;
     Form loadFormFromXML(String xml) throws Exception;
+
     Form loadFormFromXML(InputStream is) throws Exception;
     Form loadFormFromXML(InputSource source) throws Exception;
 }

@@ -351,8 +351,7 @@ public class FormManagerImpl implements FormManager {
             field.setForm(pForm);
             field.setPosition(pForm.getFormFields().size());
 
-
-            if (label != null){
+            if (label != null && !"Separator".equals(fieldType.getCode()) && !"HTMLLabel".equals(fieldType.getCode())){
                 String currentLang = LocaleManager.lookup().getDefaultLang();
                 if(label.getValue(currentLang)==null) {
                     label.setValue(currentLang, fieldType.getCode()+field.getPosition());

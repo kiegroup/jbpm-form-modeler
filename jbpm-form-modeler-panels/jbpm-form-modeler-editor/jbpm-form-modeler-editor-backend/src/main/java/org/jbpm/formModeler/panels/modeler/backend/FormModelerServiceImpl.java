@@ -16,15 +16,16 @@ import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
+import org.uberfire.client.workbench.widgets.events.ChangeType;
+import org.uberfire.client.workbench.widgets.events.ResourceBatchChangesEvent;
+import org.uberfire.client.workbench.widgets.events.ResourceChange;
 import org.uberfire.client.workbench.widgets.menu.Menus;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,6 +39,9 @@ public class FormModelerServiceImpl implements FormModelerService {
 
     @Inject
     private Paths paths;
+
+    @Inject
+    private Event<ResourceBatchChangesEvent> resourceBatchChangesEvent;
 
     @Inject
     private FormManager formManager;
@@ -92,7 +96,7 @@ public class FormModelerServiceImpl implements FormModelerService {
             org.kie.commons.java.nio.file.Path kiePath = paths.convert( context );
 
             String xml = ioService.readAllString(kiePath).trim();
-            Form form = formSerializationManager.loadFormFromXML(xml);
+            Form form = formSerializationManager.loadFormFromXML(xml, context);
 
             return newContext(form, context).getFormEditorContextTO();
         } catch (Exception e) {
@@ -142,11 +146,10 @@ public class FormModelerServiceImpl implements FormModelerService {
     public void saveForm(String ctxUID) {
 
         FormEditorContext ctx = getFormEditorContext(ctxUID);
-
         formManager.replaceForm(ctx.getOriginalForm(), ctx.getForm());
-
         org.kie.commons.java.nio.file.Path kiePath = paths.convert((Path)ctx.getPath());
         ioService.write(kiePath, formSerializationManager.generateFormXML(ctx.getForm()));
+
     }
 
     @Override
@@ -165,6 +168,9 @@ public class FormModelerServiceImpl implements FormModelerService {
             helper.setOriginalForm(form.getId());
             getHelper(context.toURI());
         }
+        Set<ResourceChange> batchChanges = new HashSet<ResourceChange>();
+        batchChanges.add(new ResourceChange(ChangeType.ADD, paths.convert(kiePath)));
+        resourceBatchChangesEvent.fire(new ResourceBatchChangesEvent(batchChanges));
 
         //setFormId(form.getId());
 
