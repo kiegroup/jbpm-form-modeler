@@ -448,6 +448,8 @@ div.GlobalBreadCrump {
     margin: -1px;
     padding: 6px 14px 8px 5px;
     width: 100%;
+    font-size: 10pt;
+    letter-spacing: -0.4px;
 }
 
 .LeftColumnProperties {
