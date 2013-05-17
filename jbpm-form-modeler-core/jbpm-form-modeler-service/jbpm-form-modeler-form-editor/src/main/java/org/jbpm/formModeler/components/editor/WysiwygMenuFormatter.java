@@ -45,22 +45,21 @@ public class WysiwygMenuFormatter extends Formatter {
 
             String[] options = {
                     WysiwygFormEditor.EDITION_OPTION_BINDINGS_SOURCES,
+                    WysiwygFormEditor.EDITION_OPTION_BINDINGS_FIELDS,
                     WysiwygFormEditor.EDITION_OPTION_FIELDTYPES,
-                    WysiwygFormEditor.EDITION_OPTION_FORM_PROPERTIES,
-                    WysiwygFormEditor.EDITION_OPTION_BINDINGS_FIELDS};
+                    WysiwygFormEditor.EDITION_OPTION_FORM_PROPERTIES};
 
             String[] optionsImg = {
                     WysiwygFormEditor.EDITION_OPTION_IMG_BINDINGS_SOURCES,
+                    WysiwygFormEditor.EDITION_OPTION_IMG_BINDINGS_FIELDS,
                     WysiwygFormEditor.EDITION_OPTION_IMG_FIELDTYPES,
-                    WysiwygFormEditor.EDITION_OPTION_IMG_FORM_PROPERTIES,
-                    WysiwygFormEditor.EDITION_OPTION_IMG_BINDINGS_FIELDS};
+                    WysiwygFormEditor.EDITION_OPTION_IMG_FORM_PROPERTIES};
 
             String [] optionVis = {
                     WysiwygFormEditor.EDITION_OPTION_VIS_MODE_BINDINGS_SOURCE,
+                    WysiwygFormEditor.EDITION_OPTION_VIS_MODE_BINDINGS_FIELDS,
                     WysiwygFormEditor.EDITION_OPTION_VIS_MODE_FIELDTYPES,
-                    WysiwygFormEditor.EDITION_OPTION_VIS_MODE_FORM_PROPERTIES,
-                    WysiwygFormEditor.EDITION_OPTION_VIS_MODE_BINDINGS_FIELDS
-                    };
+                    WysiwygFormEditor.EDITION_OPTION_VIS_MODE_FORM_PROPERTIES};
 
             String render = "shared";
             for (int i = 0; i < options.length; i++) {
