@@ -349,6 +349,44 @@ div.GlobalBreadCrump {
     height: 8px;
 }
 
+.HorMenu {
+    border-collapse: collapse;
+}
+
+.HorMenuOn {
+    white-space:nowrap;
+    border-bottom: solid 2px #0099d3;
+    cursor:hand;
+    color: #0099d3;
+    font-weight: bold;
+    padding: 0 10px;
+    font-size: 9.7pt !important;
+    border-left: solid 1px #DCDCDC;
+    border-right: solid 1px #D1D1D1;
+    letter-spacing: -0.5px;
+}
+
+.HorMenuOff {
+    white-space:nowrap;
+    cursor:hand;
+    padding: 0 10px;
+    font-size: 9.8pt !important;
+    border-left: solid 1px #DCDCDC;
+    border-right: solid 1px #D1D1D1;
+}
+
+.HorMenuOn a {
+    color: #0099d3;
+}
+
+.HorMenuOff a {
+    color: #383f47;
+}
+
+.HorMenuOn a, .HorMenuOff a, .HorMenuOn a:hover , .HorMenuOff a:hover {
+    text-decoration: none !important;
+}
+
 .headerComponent{
     border-bottom: 1px solid #D1D1D1;
     box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.1);

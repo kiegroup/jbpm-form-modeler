@@ -31,41 +31,48 @@
 
 <mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygMenuFormatter">
     <mvc:fragment name="outputStart">
-        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+        <table style="width: 100%; border-collapse: collapse;">
     </mvc:fragment>
     <mvc:fragment name="outputHeader">
         <tr>
-        <td class="headerComponent" width="100%">
-
-        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <td class="headerComponent">
+        <table width="100%">
         <tr>
     </mvc:fragment>
     <mvc:fragment name="beforeOptions">
-        <td valign="top" style="padding:9px 6px 0 6px; white-space: nowrap;">
+        <td valign="top">
     </mvc:fragment>
 
     <mvc:fragment name="optionsOutputStart">
+
         <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="changeMainOption"/>">
         <factory:handler action="changeMainOption"/>
         <input type="hidden" name="newMainOption">
+        <table class="HorMenu"><tr>
     </mvc:fragment>
     <mvc:fragment name="outputOption">
         <mvc:fragmentValue name="optionName" id="optionName">
             <mvc:fragmentValue name="optionImage" id="optionImage">
-                <input type="image"
-                       onclick="setFormInputValue(this.form,'newMainOption','<%=optionName%>');"
-                       style="cursor:hand;  opacity:.3;" title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
-                       src="<static:image relativePath="<%=(String)optionImage%>"/>">
+                <td class="HorMenuOff">
+                    <input type="image"
+                           onclick="setFormInputValue(this.form,'newMainOption','<%=optionName%>');"
+                           title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
+                           src="<static:image relativePath="<%=(String)optionImage%>"/>">&nbsp;<a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitAjaxForm(document.getElementById('<factory:encode name="changeMainOption"/>'));"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
+                </td>
+
             </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
     <mvc:fragment name="outputSelectedOption">
         <mvc:fragmentValue name="optionName" id="optionName">
             <mvc:fragmentValue name="optionImage" id="optionImage">
-                <input type="image"
-                       onclick="setFormInputValue(this.form,'newMainOption','<%=optionName%>');"
-                       style="cursor:hand;" title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
-                       src="<static:image relativePath="<%=(String)optionImage%>"/>">
+                <td class="HorMenuOn">
+                    <input type="image"
+                           onclick="setFormInputValue(this.form,'newMainOption','<%=optionName%>');"
+                           title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
+                           src="<static:image relativePath="<%=(String)optionImage%>"/>">&nbsp;<a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitForm(document.getElementById('<factory:encode name="changeMainOption"/>'));"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
+                </td>
+
             </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
@@ -73,6 +80,7 @@
         <mvc:fragmentValue name="renderMode" id="renderMode">
             <mvc:fragmentValue name="displayBindings" id="displayBindings">
                 <mvc:fragmentValue name="displayCheckbox" id="displayCheckbox">
+                    </tr></table>
                     </form>
                     <script defer>
                         setAjax("<factory:encode name="changeMainOption"/>");

@@ -93,10 +93,10 @@
     </tr>
     <tr>
         <td>
-            <input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
+            <!--input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
                    value="<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>"
                    onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>');">&nbsp;<i18n:message
-                key="dataHolder_process">!!!Process </i18n:message><br>
+                key="dataHolder_process">!!!Process </i18n:message><br-->
             <input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
                    value="<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>"
                    onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>')">&nbsp;<i18n:message
@@ -166,20 +166,17 @@
 
     <td class="RightMainColumn">
 
-    <h1>Form Data Holder Management</h1>
+    <h1>Manage form data origins</h1>
 
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-        ea commodo consequat.</p>
+    <p>List of data sources that will be binded to form fields.</p>
     <br><br>
-    <table width="50%" class="skn-table_border" align="center">
+    <table width="100%" class="skn-table_border">
     <tr class="skn-table_header">
-        <td>&nbsp;</td>
-        <td><i18n:message key="dataHolder_renderColor">!!!!!!dataHolder_renderColor</i18n:message></td>
+        <td style="width:16px;">&nbsp;</td>
         <td><i18n:message key="dataHolder_id">!!!dataHolder_id</i18n:message></td>
         <td><i18n:message key="dataHolder_type">!!!dataHolder_type</i18n:message></td>
         <td><i18n:message key="dataHolder_info">!!!!!!dataHolder_info</i18n:message></td>
-
+        <td style="width: 100px;"><i18n:message key="dataHolder_renderColor">!!!!!!dataHolder_renderColor</i18n:message></td>
 
     </tr>
 </mvc:fragment>
@@ -189,29 +186,30 @@
         <mvc:fragmentValue name="type" id="type">
             <mvc:fragmentValue name="value" id="value">
                 <mvc:fragmentValue name="renderColor" id="renderColor">
-                    <tr>
-                        <td align="center"><a title="<i18n:message key="delete">!!!Borrar</i18n:message>"
-                                              href="<factory:url  action="formDataHolders">
+                    <mvc:fragmentValue name="color" id="color">
+                        <tr>
+                            <td align="center" style="width:16px;"><a
+                                    title="<i18n:message key="delete">!!!Borrar</i18n:message>"
+                                    href="<factory:url  action="formDataHolders">
                                          <factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=id%>"/>
                                          <factory:param name="<%=WysiwygFormEditor.ACTION_TO_DO%>" value="<%=WysiwygFormEditor.ACTION_REMOVE_DATA_HOLDER%>"/>
                                       </factory:url>"
-                                              onclick="return confirm('<i18n:message
-                                                      key="dataHolder_delete.confirm">Sure?</i18n:message>');">
-                            <img src="<static:image relativePath="actions/delete.png"/>" border="0"
-                                 title="<i18n:message key="delete">!!!Clear</i18n:message>"/>
-                        </a></td>
-                        <td>
-                            <div style="background-color: <%=renderColor%> ">&nbsp;</div>
-                        </td>
-                        <td><%=id%>
-                        </td>
-                        <td><%=type%>
-                        </td>
-                        <td><%=value%>
-                        </td>
-
-
-                    </tr>
+                                    onclick="return confirm('<i18n:message
+                                            key="dataHolder_delete.confirm">Sure?</i18n:message>');">
+                                <img src="<static:image relativePath="actions/delete.png"/>" border="0"
+                                     title="<i18n:message key="delete">!!!Clear</i18n:message>"/>
+                            </a></td>
+                            <td><%=id%>
+                            </td>
+                            <td><%=type%>
+                            </td>
+                            <td><%=value%>
+                            </td>
+                            <td style="width: 100px;">
+                                <div style="background-color: <%=renderColor%> ">&nbsp;</div>
+                            </td>
+                        </tr>
+                    </mvc:fragmentValue>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragmentValue>
