@@ -123,6 +123,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
     private boolean showReturnButton = false;
     private String renderMode = Form.RENDER_MODE_WYSIWYG_FORM;
     private Boolean displayBindings = Boolean.TRUE;
+    private Boolean displayGrid = Boolean.TRUE;
     private FieldType originalFieldType;
     private String lastDataHolderUsedId = "";
     private FormEditorContext editionContext;
@@ -165,6 +166,14 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
     public void setDisplayBindings(Boolean displayBindings) {
         this.displayBindings = displayBindings;
+    }
+
+    public Boolean getDisplayGrid() {
+        return displayGrid;
+    }
+
+    public void setDisplayGrid(Boolean displayGrid) {
+        this.displayGrid = displayGrid;
     }
 
     public boolean isShowReturnButton() {
@@ -654,11 +663,20 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public synchronized void actionSwitchRenderMode(CommandRequest request) throws Exception {
         String renderMode = request.getRequestObject().getParameter("renderMode");
         String displayBindings = request.getRequestObject().getParameter("displayBindings");
+        String displayGrid = request.getRequestObject().getParameter("displayGrid");
+
         if ((displayBindings != null) && !Boolean.parseBoolean(displayBindings)) {
             setDisplayBindings(Boolean.FALSE);
         } else {
             setDisplayBindings(Boolean.TRUE);
         }
+
+        if ((displayGrid != null) && !Boolean.parseBoolean(displayGrid)) {
+            setDisplayGrid(Boolean.FALSE);
+        } else {
+            setDisplayGrid(Boolean.TRUE);
+        }
+
         if (Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode) || Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode))
             setRenderMode(renderMode);
     }

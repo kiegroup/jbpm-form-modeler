@@ -78,6 +78,7 @@ public class WysiwygMenuFormatter extends Formatter {
 
             setAttribute("renderMode", editor.getRenderMode());
             setAttribute("displayBindings", editor.getDisplayBindings());
+            setAttribute("displayGrid", editor.getDisplayGrid());
             if("shared".equals(render) ){
                 setAttribute("displayCheckbox", Boolean.TRUE);
             } else {
