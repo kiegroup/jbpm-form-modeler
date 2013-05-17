@@ -420,14 +420,17 @@ div.GlobalBreadCrump {
     -webkit-box-shadow: -1px 1px 1px 1px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: -1px 1px 1px 1px rgba(0, 0, 0, 0.1);
     box-shadow: -1px 1px 1px 1px rgba(0, 0, 0, 0.1);
-    background-color: #DADADA;
+    background-color: #F6F6F6;
     display: block;
     float: right;
-    margin-top: -56px;
+    margin-top: -40px;
     position: relative;
     z-index: 999;
     border-collapse: collapse;
-    border: 1px solid #8F8F8F;
+    border-top: #D1D1D1 1px solid;
+    border-right: #DCDCDC 1px solid;
+    border-bottom: #CDCDCD 1px solid;
+    border-left: #DCDCDC 1px solid;
 }
 .FormFieldProperties  {
     margin: 10px;
@@ -437,13 +440,13 @@ div.GlobalBreadCrump {
     border: none !Important;
 }
 .headerEditFP{
-    background-color: #8F8F8F;
+    background-color: #DCDCDC;
     border: 1px solid white;
     color: #383f47;
     font-weight: bold;
     height: 14px;
     margin: -1px;
-    padding: 14px 14px 14px 5px;
+    padding: 6px 14px 8px 5px;
     width: 100%;
 }
 
