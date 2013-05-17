@@ -64,7 +64,7 @@ public class DataModelerDataHolder extends PojoDataHolder implements Comparable,
 
     @Override
     public String getTypeCode() {
-        return "className";
+        return Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL;
     }
 
 

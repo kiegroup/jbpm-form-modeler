@@ -53,6 +53,9 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     public static final String ATTR_VALUE = "value";
 
     @Inject
+    private org.jbpm.formModeler.integration.DataModelerService dataModelerService;
+
+    @Inject
     protected Log log;
 
     @Inject
@@ -75,25 +78,42 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         }
     }
 
+    @Override
+    public Form loadFormFromXML(String xml,Object path) throws Exception {
+        if (StringUtils.isBlank(xml)) return null;
+        return loadFormFromXML(new InputSource(new StringReader(xml)),path);
+    }
+
+    @Override
     public Form loadFormFromXML(String xml) throws Exception {
         if (StringUtils.isBlank(xml)) return null;
         return loadFormFromXML(new InputSource(new StringReader(xml)));
     }
 
+    @Override
     public Form loadFormFromXML(InputStream is) throws Exception {
         return loadFormFromXML(new InputSource(is));
     }
 
+    @Override
     public Form loadFormFromXML(InputSource source) throws Exception {
         DOMParser parser = new DOMParser();
         parser.parse(source);
         Document doc = parser.getDocument();
         NodeList nodes = doc.getElementsByTagName(NODE_FORM);
         Node rootNode = nodes.item(0); // only comes a form
-        return deserializeForm(rootNode);
+        return deserializeForm(rootNode,null);
     }
 
-    public Form deserializeForm(Node nodeForm) throws Exception {
+    public Form loadFormFromXML(InputSource source, Object path) throws Exception {
+        DOMParser parser = new DOMParser();
+        parser.parse(source);
+        Document doc = parser.getDocument();
+        NodeList nodes = doc.getElementsByTagName(NODE_FORM);
+        Node rootNode = nodes.item(0); // only comes a form
+        return deserializeForm(rootNode,path);
+    }
+    public Form deserializeForm(Node nodeForm, Object path) throws Exception {
         if (!nodeForm.getNodeName().equals(NODE_FORM)) return null;
 
         Form form = formManager.createForm("");
@@ -131,8 +151,13 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                 String holderType =node.getAttributes().getNamedItem(ATTR_TYPE).getNodeValue();
                 String holderValue =node.getAttributes().getNamedItem(ATTR_VALUE).getNodeValue();
                 String holderRenderColor =node.getAttributes().getNamedItem(ATTR_NAME).getNodeValue();
+
                 if(holderId!=null && holderType!=null && holderValue!=null){
-                    form.setDataHolder(holderId,holderType,holderValue,holderRenderColor);
+                    if(path!=null && Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL.equals(holderType)){
+                        form.setDataHolder(dataModelerService.createDataHolder(path,holderId, holderValue, holderRenderColor));
+                    } else {
+                        form.setDataHolder(holderId,holderType,holderValue,holderRenderColor);
+                    }
                 }
             }
         }

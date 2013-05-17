@@ -96,7 +96,7 @@ public class FormModelerServiceImpl implements FormModelerService {
             org.kie.commons.java.nio.file.Path kiePath = paths.convert( context );
 
             String xml = ioService.readAllString(kiePath).trim();
-            Form form = formSerializationManager.loadFormFromXML(xml);
+            Form form = formSerializationManager.loadFormFromXML(xml, context);
 
             return newContext(form, context).getFormEditorContextTO();
         } catch (Exception e) {
