@@ -265,6 +265,8 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         field.setHtmlContainer(value);
                     } else if ("isHTML".equals(propName)) {
                         field.setIsHTML(Boolean.valueOf(value));
+                    } else if ("htmlContent".equals(propName)) {
+                        field.setHtmlContent(deserializeI18nEntrySet(value));
                     } else if ("hideContent".equals(propName)) {
                         field.setHideContent(Boolean.valueOf(value));
                     }  else if ("defaultValueFormula".equals(propName)) {
@@ -312,6 +314,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         addXMLNode("htmlContainer", field.getHtmlContainer(), rootNode);
         addXMLNode("defaultValueFormula", field.getDefaultValueFormula(), rootNode);
         addXMLNode("bindingStr", field.getBindingStr(), rootNode);
+        addXMLNode("htmlContent", (field.getHtmlContent() != null ? serializeI18nSet(field.getHtmlContent()) : null), rootNode);
 
         parent.addChild(rootNode);
     }
