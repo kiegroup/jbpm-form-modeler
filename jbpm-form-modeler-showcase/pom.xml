@@ -200,13 +200,20 @@
         </dependency>
 
         <dependency>
-            <groupId>org.kie.guvnor</groupId>
-            <artifactId>guvnor-project-editor-client</artifactId>
+            <groupId>org.kie.workbench.screens</groupId>
+            <artifactId>kie-wb-project-editor-client</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>org.kie.guvnor</groupId>
-            <artifactId>guvnor-project-editor-backend</artifactId>
+            <groupId>org.kie.workbench.screens</groupId>
+            <artifactId>kie-wb-project-editor-backend</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.kie.workbench.screens</groupId>
+            <artifactId>kie-wb-project-imports-editor-client</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.guvnor</groupId>
             <artifactId>guvnor-m2repo-editor-client</artifactId>
@@ -238,16 +245,8 @@
             <artifactId>kie-wb-common-workingset-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.kie.guvnor</groupId>
-            <artifactId>guvnor-project-config-editor-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.kie.guvnor</groupId>
-            <artifactId>guvnor-project-config-editor-backend</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.kie.guvnor</groupId>
-            <artifactId>guvnor-project-api</artifactId>
+            <groupId>org.kie.workbench.services</groupId>
+            <artifactId>kie-wb-common-project-api</artifactId>
         </dependency>
         <dependency>
             <groupId> org.kie.workbench.widgets</groupId>
@@ -403,18 +402,16 @@
                         <compileSourcesArtifact>org.kie.workbench.widgets:kie-wb-metadata-widget</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.workbench.widgets:kie-wb-config-resource-widget</compileSourcesArtifact>
 
-                        <compileSourcesArtifact>org.kie.guvnor:guvnor-project-api</compileSourcesArtifact>
-                        <compileSourcesArtifact>org.kie.guvnor:guvnor-project-editor-api</compileSourcesArtifact>
-                        <compileSourcesArtifact>org.kie.guvnor:guvnor-project-editor-client</compileSourcesArtifact>
-                        <compileSourcesArtifact>org.kie.guvnor:guvnor-project-config-editor-api</compileSourcesArtifact>
-                        <compileSourcesArtifact>org.kie.guvnor:guvnor-project-config-editor-client</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-project-editor-api</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-project-editor-client</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-project-imports-editor-api</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-project-imports-editor-client</compileSourcesArtifact>
                         <compileSourcesArtifact>org.guvnor:guvnor-m2repo-editor-api</compileSourcesArtifact>
                         <compileSourcesArtifact>org.guvnor:guvnor-m2repo-editor-client</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-project-explorer-client</compileSourcesArtifact>
 
                         <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-data-modeller-api</compileSourcesArtifact>
                         <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-data-modeller-client</compileSourcesArtifact>
-
 
                         <compileSourcesArtifact>org.uberfire:uberfire-security-api</compileSourcesArtifact>
                         <compileSourcesArtifact>org.uberfire:uberfire-security-client</compileSourcesArtifact>

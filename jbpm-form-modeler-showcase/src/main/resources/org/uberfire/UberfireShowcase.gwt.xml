@@ -2,20 +2,19 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.4.0//EN"
     "http://google-web-toolkit.googlecode.com/svn/tags/2.5.0/distro-source/core/src/gwt-module.dtd">
 <module>
-    <inherits name="org.jboss.errai.enterprise.CDI"/>
-
+    <!-- UberFire -->
     <inherits name="org.uberfire.security.UberfireSecurityClient"/>
-
     <inherits name="org.uberfire.UberfireWorkbench"/>
     <inherits name="org.uberfire.UberfireWidgetsCore"/>
     <inherits name="org.uberfire.UberfireBackend"/>
 
-    <inherits name="org.jboss.errai.databinding.DataBinding"  />
+    <!-- Errai -->
     <inherits name="org.jboss.errai.ui.UI"  />
+    <inherits name="org.jboss.errai.enterprise.CDI"/>
 
     <!-- Infrastructure -->
-    <inherits name="org.kie.guvnor.project.GuvnorProjectAPI"/>
-    <inherits name='org.kie.guvnor.datamodel.GuvnorDataModelAPI'/>
+    <inherits name="org.kie.workbench.common.services.project.GuvnorProjectAPI"/>
+    <inherits name='org.kie.workbench.common.services.datamodel.KieWorkbenchCommonDataModelAPI'/>
     <inherits name="org.kie.workbench.common.services.data.KieWorkbenchCommonData"/>
     <inherits name="org.kie.workbench.common.services.KieWorkbenchCommonServicesAPI"/>
     <inherits name="org.kie.workbench.common.services.security.KieWorkbenchCommonSecurity"/>
@@ -27,8 +26,8 @@
 
     <!-- projects -->
     <inherits name="org.guvnor.m2repo.GuvnorM2RepoEditorClient"/>
-    <inherits name="org.kie.guvnor.projecteditor.GuvnorProjectEditorClient"/>
-    <inherits name="org.kie.guvnor.projectconfigscreen.GuvnorProjectConfigScreenClient"/>
+    <inherits name="org.kie.workbench.projecteditor.GuvnorProjectEditorClient" />
+    <inherits name="org.kie.workbench.projectimportsscreen.GuvnorProjectConfigScreenClient" />
 
     <inherits name="org.jbpm.formModeler.FormModelerApi"/>
     <inherits name="org.jbpm.formModeler.editor.FormModelerClient"/>

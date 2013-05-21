@@ -16,9 +16,7 @@ import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
-import org.uberfire.client.workbench.widgets.events.ChangeType;
-import org.uberfire.client.workbench.widgets.events.ResourceBatchChangesEvent;
-import org.uberfire.client.workbench.widgets.events.ResourceChange;
+import org.uberfire.client.workbench.widgets.events.ResourceAddedEvent;
 import org.uberfire.client.workbench.widgets.menu.Menus;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -41,7 +39,7 @@ public class FormModelerServiceImpl implements FormModelerService {
     private Paths paths;
 
     @Inject
-    private Event<ResourceBatchChangesEvent> resourceBatchChangesEvent;
+    private Event<ResourceAddedEvent> resourceAddedEvent;
 
     @Inject
     private FormManager formManager;
@@ -168,11 +166,8 @@ public class FormModelerServiceImpl implements FormModelerService {
             helper.setOriginalForm(form.getId());
             getHelper(context.toURI());
         }
-        Set<ResourceChange> batchChanges = new HashSet<ResourceChange>();
-        batchChanges.add(new ResourceChange(ChangeType.ADD, paths.convert(kiePath)));
-        resourceBatchChangesEvent.fire(new ResourceBatchChangesEvent(batchChanges));
 
-        //setFormId(form.getId());
+        resourceAddedEvent.fire(new ResourceAddedEvent(context));
 
         final Path path = paths.convert(kiePath, false);
 

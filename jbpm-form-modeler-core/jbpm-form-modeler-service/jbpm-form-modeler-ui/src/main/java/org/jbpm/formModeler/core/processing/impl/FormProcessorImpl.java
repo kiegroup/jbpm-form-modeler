@@ -103,7 +103,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                 try {
                     FieldHandler handler = fieldHandlersManager.getHandler(pField.getFieldType());
                     if ((value instanceof Map && !((Map)value).containsKey(FORM_MODE)) && !(value instanceof I18nSet)) ((Map)value).put(FORM_MODE, currentValues.get(FORM_MODE));
-                    Map paramValue = handler.getParamValue(inputName, value, pField.getPattern());
+                    Map paramValue = handler.getParamValue(inputName, value, pField.getFieldPattern());
                     if (paramValue != null && !paramValue.isEmpty()) params.putAll(paramValue);
 
                 /*

@@ -2,7 +2,7 @@ package org.uberfire.client.perspectives;
 
 import org.jboss.errai.bus.client.api.RemoteCallback;
 import org.jboss.errai.ioc.client.api.Caller;
-import org.kie.guvnor.project.service.ProjectService;
+import org.kie.workbench.common.services.project.service.ProjectService;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.mvp.Command;
 import org.uberfire.client.mvp.PlaceManager;
