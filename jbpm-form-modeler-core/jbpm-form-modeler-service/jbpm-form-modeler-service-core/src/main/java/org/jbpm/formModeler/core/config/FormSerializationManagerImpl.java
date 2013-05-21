@@ -67,8 +67,8 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     public String generateFormXML(Form form) {
         XMLNode rootNode = new XMLNode(NODE_FORM, null);
 
-       TestFormSerialization test = new TestFormSerialization();
-       test.saveFormToLocalDrive(form);
+       //TestFormSerialization test = new TestFormSerialization();
+       //test.saveFormToLocalDrive(form);
 
         try {
             return generateFormXML(form, rootNode);
