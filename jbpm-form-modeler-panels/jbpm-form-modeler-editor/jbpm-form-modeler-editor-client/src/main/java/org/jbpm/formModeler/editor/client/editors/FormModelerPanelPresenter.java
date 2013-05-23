@@ -73,7 +73,6 @@ public class FormModelerPanelPresenter {
                     notification.fire(new NotificationEvent("Cannot load the form from server."));
                 } else {
                     loadContext(ctx);
-                    notification.fire(new NotificationEvent("Model was loaded from server: " + ctx + " at time: " + new java.util.Date()));
                 }
             }
         }).loadForm(path);
