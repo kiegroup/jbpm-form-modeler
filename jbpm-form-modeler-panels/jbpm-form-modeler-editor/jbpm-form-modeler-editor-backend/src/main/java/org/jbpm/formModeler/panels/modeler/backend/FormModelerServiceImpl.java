@@ -85,7 +85,7 @@ public class FormModelerServiceImpl implements FormModelerService {
     @Override
     public void removeEditingForm(String ctxUID) {
         formEditorContextMap.remove(ctxUID);
-
+        formRenderContextManager.removeContext(ctxUID);
     }
 
     @Override

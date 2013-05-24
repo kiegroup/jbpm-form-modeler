@@ -15,7 +15,11 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.api.config.FormManager;
+import org.jbpm.formModeler.api.processing.FormStatusData;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
@@ -24,6 +28,9 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DecimalFormat;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Formatter for simple fields
@@ -32,6 +39,9 @@ public class RangeInputTextFieldHandlerFormatter extends DefaultFieldHandlerForm
 
     @Inject
     private Log log;
+
+    @Inject
+    private FormManager formManager;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
 
@@ -49,13 +59,42 @@ public class RangeInputTextFieldHandlerFormatter extends DefaultFieldHandlerForm
         Boolean isDisabled = paramsReader.isFieldDisabled();
         Boolean isReadonly = paramsReader.isFieldReadonly();
 
-        String formula = null;
-        boolean forceShow = false;        
+        boolean forceShow = Boolean.TRUE.equals(field.getIsHTML());
 
-        if (log.isDebugEnabled())
-            log.debug("Range Formula: [" + formula + "]");
+        Map rangeFormulas = (Map) getFormProcessor().getAttribute(form, namespace, FormStatusData.CALCULATED_RANGE_FORMULAS);
+        Map fieldRange = rangeFormulas != null ? (Map) rangeFormulas.get(field.getFieldName()) : null;
 
-            setDefaultAttributes(field, form, namespace);
+        setDefaultAttributes(field, form, namespace);
+
+        if (fieldRange != null && !forceShow) {
+            setAttribute("size", 1);
+            setAttribute("name", fieldName);
+            setAttribute("lang", getLang());
+            setAttribute("uid", formManager.getUniqueIdentifier(form, namespace, field, fieldName));
+            String keyValueStr = StringEscapeUtils.escapeHtml(StringUtils.defaultString(value == null ? "" : String.valueOf(value)));
+
+            // Override the field's own disabled and readonly values with the ones coming from a parent formatter
+            // that contains it if they're set to true.
+            if (isDisabled) setAttribute("disabled", isDisabled);
+            if (isReadonly) setAttribute("readonly", isReadonly);
+            renderFragment("outputStartRange");
+
+            renderFragment("outputRange");
+
+            for (Iterator iter = fieldRange.keySet().iterator(); iter.hasNext();) {
+                Object key = iter.next();
+                setAttribute("key", key);
+                String valueKey = (String) fieldRange.get(key);
+                setAttribute("value", valueKey);
+                if (keyValueStr != null && keyValueStr.equals(key.toString())) {
+                    renderFragment("outputSelectedRange");
+                } else {
+                    renderFragment("outputRange");
+                }
+            }
+
+            renderFragment("outputEndRange");
+        } else {
             value = applyPattern(field, value);
             setAttribute("value", value);
             setAttribute("wrong", wrong);
@@ -69,6 +108,7 @@ public class RangeInputTextFieldHandlerFormatter extends DefaultFieldHandlerForm
             if (isDisabled) setAttribute("disabled", isDisabled);
             if (isReadonly) setAttribute("readonly", isReadonly);
             renderFragment(forceShow ? "outputForceShowMode" : "output");
+        }
 
     }
 

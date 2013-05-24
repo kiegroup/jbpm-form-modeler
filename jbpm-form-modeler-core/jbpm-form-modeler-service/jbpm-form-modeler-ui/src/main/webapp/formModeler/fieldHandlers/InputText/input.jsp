@@ -119,13 +119,12 @@
                 <mvc:fragmentValue name="size" id="size">
                     <mvc:fragmentValue name="maxlength" id="maxlength">
                         <mvc:fragmentValue name="tabindex" id="tabindex">
-                            <mvc:fragmentValue name="value" id="value">
-                                <mvc:fragmentValue name="accesskey" id="accesskey">
-                                    <mvc:fragmentValue name="alt" id="alt">
-                                        <mvc:fragmentValue name="cssStyle" id="cssStyle">
-                                            <mvc:fragmentValue name="disabled" id="disabled">
-                                                <mvc:fragmentValue name="height" id="height">
-                                                    <mvc:fragmentValue name="readonly" id="readonly">
+                            <mvc:fragmentValue name="accesskey" id="accesskey">
+                                <mvc:fragmentValue name="alt" id="alt">
+                                    <mvc:fragmentValue name="cssStyle" id="cssStyle">
+                                        <mvc:fragmentValue name="disabled" id="disabled">
+                                            <mvc:fragmentValue name="height" id="height">
+                                                <mvc:fragmentValue name="readonly" id="readonly">
                                                         <select name="<%=name%>"  id='<mvc:fragmentValue name="uid"/>'
                                                             onchange="processFormInputChange(this)"
                                                             <%=title!=null?("title=\""+title+"\""):""%>
@@ -139,7 +138,6 @@
                                                             <%=height!=null ? " height=\""+height+"\"":""%>
                                                             <%=readonly!=null && ((Boolean)readonly).booleanValue()? " onfocus=\"this.blur();\" ":""%>
                                                             <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%> >
-                                                    </mvc:fragmentValue>
                                                 </mvc:fragmentValue>
                                             </mvc:fragmentValue>
                                         </mvc:fragmentValue>

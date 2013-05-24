@@ -37,7 +37,7 @@ public class HTMLTextAreaFieldHandler extends DefaultFieldHandler {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(HTMLTextAreaFieldHandler.class.getName());
 
     public String[] getCompatibleClassNames() {
-        return new String[]{"HTMLEditor"};
+        return new String[]{HTMLString.class.getName()};
     }
 
     /**

@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.impl;
 
+import au.com.bytecode.opencsv.CSVParser;
 import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.processing.*;
@@ -56,17 +57,20 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     @Inject
     FormRenderContextManager formRenderContextManager;
 
+    private CSVParser rangeParser = new CSVParser(';');
+    private CSVParser optionParser = new CSVParser(',');
+
     protected FormStatus getContextFormStatus(FormRenderContext context) {
         return FormStatusManager.lookup().getFormStatus(context.getForm().getId(), context.getUID());
     }
 
-    protected FormStatus getFormStatus(Long formId, String namespace) {
-        return getFormStatus(formId, namespace, new HashMap());
+    protected FormStatus getFormStatus(Form form, String namespace) {
+        return getFormStatus(form, namespace, new HashMap());
     }
 
-    protected FormStatus getFormStatus(Long formId, String namespace, Map currentValues) {
-        FormStatus formStatus = FormStatusManager.lookup().getFormStatus(formId, namespace);
-        return formStatus != null ? formStatus : createFormStatus(formId, namespace, currentValues);
+    protected FormStatus getFormStatus(Form form, String namespace, Map currentValues) {
+        FormStatus formStatus = FormStatusManager.lookup().getFormStatus(form.getId(), namespace);
+        return formStatus != null ? formStatus : createFormStatus(form, namespace, currentValues);
     }
 
     protected boolean existsFormStatus(Long formId, String namespace) {
@@ -74,37 +78,53 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         return formStatus != null;
     }
 
-    protected FormStatus createFormStatus(Long formId, String namespace) {
-        return createFormStatus(formId, namespace, new HashMap());
-    }
-
-    protected FormStatus createFormStatus(Long formId, String namespace, Map currentValues) {
-        FormStatus fStatus = FormStatusManager.lookup().createFormStatus(formId, namespace);
-        setDefaultValues(formId, namespace, currentValues);
+    protected FormStatus createFormStatus(Form form, String namespace, Map currentValues) {
+        FormStatus fStatus = FormStatusManager.lookup().createFormStatus(form.getId(), namespace);
+        setDefaultValues(form, namespace, currentValues);
         return fStatus;
     }
 
-    protected void setDefaultValues(Long formId, String namespace, Map currentValues) {
-        Form pf = null;
-        try {
-            pf = getFormsManager().getFormById(formId);
-        } catch (Exception e) {
-            log.error("Error recovering Form with id " + formId + ", no field default values will be set", e);
-        }
+    protected void setDefaultValues(Form form, String namespace, Map currentValues) {
 
-        if (pf != null) {
-            Set formFields = pf.getFormFields();
+        if (form != null) {
+            Set formFields = form.getFormFields();
             Map params = new HashMap(5);
+
+            Map rangeFormulas = (Map) getAttribute(form, namespace, FormStatusData.CALCULATED_RANGE_FORMULAS);
+
+            if (rangeFormulas == null) {
+                rangeFormulas = new HashMap();
+                setAttribute(form, namespace, FormStatusData.CALCULATED_RANGE_FORMULAS, rangeFormulas);
+            }
+
             for (Iterator iterator = formFields.iterator(); iterator.hasNext();) {
-                Field pField = (Field) iterator.next();
-                Object value = currentValues.get(pField.getFieldName());
-                String inputName = getPrefix(pf, namespace) + pField.getFieldName();
+                Field field = (Field) iterator.next();
+                Object value = currentValues.get(field.getFieldName());
+                String inputName = getPrefix(form, namespace) + field.getFieldName();
 
                 try {
-                    FieldHandler handler = fieldHandlersManager.getHandler(pField.getFieldType());
+                    FieldHandler handler = fieldHandlersManager.getHandler(field.getFieldType());
                     if ((value instanceof Map && !((Map)value).containsKey(FORM_MODE)) && !(value instanceof I18nSet)) ((Map)value).put(FORM_MODE, currentValues.get(FORM_MODE));
-                    Map paramValue = handler.getParamValue(inputName, value, pField.getFieldPattern());
+                    Map paramValue = handler.getParamValue(inputName, value, field.getFieldPattern());
                     if (paramValue != null && !paramValue.isEmpty()) params.putAll(paramValue);
+
+                    // Init ranges for simple combos
+                    String rangeFormula = field.getRangeFormula();
+                    if (!StringUtils.isEmpty(rangeFormula) && rangeFormula.startsWith("{") && rangeFormula.endsWith("}")) {
+                        rangeFormula = rangeFormula.substring(1, rangeFormula.length() - 1);
+
+                        String[] options = rangeParser.parseLine(rangeFormula);
+                        if (options != null) {
+                            Map rangeValues = new HashMap();
+                            for (String option : options) {
+                                String[] values = optionParser.parseLine(option);
+                                if (values != null && values.length == 2) {
+                                    rangeValues.put(values[0], values[1]);
+                                }
+                            }
+                            rangeFormulas.put(field.getFieldName(), rangeValues);
+                        }
+                    }
 
                 /*
                 TODO: implement again formulas for default values
@@ -132,12 +152,12 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                     log.error("Error obtaining default values for " + inputName, e);
                 }
             }
-            setValues(pf, namespace, params, null, true);
+            setValues(form, namespace, params, null, true);
         }
     }
 
-    protected void destroyFormStatus(Long formId, String namespace) {
-        FormStatusManager.lookup().destroyFormStatus(formId, namespace);
+    protected void destroyFormStatus(Form form, String namespace) {
+        FormStatusManager.lookup().destroyFormStatus(form.getId(), namespace);
     }
 
     public void setValues(Form form, String namespace, Map parameterMap, Map filesMap) {
@@ -147,7 +167,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     public void setValues(Form form, String namespace, Map parameterMap, Map filesMap, boolean incremental) {
         if (form != null) {
             namespace = StringUtils.defaultIfEmpty(namespace, DEFAULT_NAMESPACE);
-            FormStatus formStatus = getFormStatus(form.getId(), namespace);
+            FormStatus formStatus = getFormStatus(form, namespace);
             //  if (!incremental) formStatus.getWrongFields().clear();
             if (incremental) {
                 Map mergedParameterMap = new HashMap();
@@ -168,21 +188,21 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     }
 
     public void modify(Form form, String namespace, String fieldName, Object value) {
-        FormStatus formStatus = getFormStatus(form.getId(), namespace);
+        FormStatus formStatus = getFormStatus(form, namespace);
         formStatus.getInputValues().put(fieldName, value);
         propagateChangesToParentFormStatuses(formStatus, fieldName, value);
     }
 
     public void setAttribute(Form form, String namespace, String attributeName, Object attributeValue) {
         if (form != null) {
-            FormStatus formStatus = getFormStatus(form.getId(), namespace);
+            FormStatus formStatus = getFormStatus(form, namespace);
             formStatus.getAttributes().put(attributeName, attributeValue);
         }
     }
 
     public Object getAttribute(Form form, String namespace, String attributeName) {
         if (form != null){
-            FormStatus formStatus = getFormStatus(form.getId(), namespace);
+            FormStatus formStatus = getFormStatus(form, namespace);
             return formStatus.getAttributes().get(attributeName);
         }
         return null;
@@ -326,13 +346,13 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
             }
         }
 
-        return getFormStatus(context.getForm().getId(), context.getUID(), values);
+        return getFormStatus(context.getForm(), context.getUID(), values);
     }
 
     public FormStatusData read(Form form, String namespace, Map currentValues) {
         boolean exists = existsFormStatus(form.getId(), namespace);
         if (currentValues == null) currentValues = new HashMap();
-        FormStatus formStatus = getFormStatus(form.getId(), namespace, currentValues);
+        FormStatus formStatus = getFormStatus(form, namespace, currentValues);
         FormStatusDataImpl data = null;
         try {
             data = new FormStatusDataImpl(formStatus, !exists);
@@ -382,7 +402,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                     }
 
                     if (!canBind) {
-                        log.warn("Unable to bind DataHolder for field '" + fieldName + "' to '" + bindingString + "'. This may be caused because bindingString is incorrect or the form doesn't contains the defined DataHolder.");
+                        log.debug("Unable to bind DataHolder for field '" + fieldName + "' to '" + bindingString + "'. This may be caused because bindingString is incorrect or the form doesn't contains the defined DataHolder.");
                         context.getBindingData().put(bindingString, mapToPersist.get(fieldName));
                     }
 
@@ -395,7 +415,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         namespace = StringUtils.defaultIfEmpty(namespace, DEFAULT_NAMESPACE);
         flushPendingCalculations(form, namespace);
         Map m = new HashMap();
-        FormStatus formStatus = getFormStatus(form.getId(), namespace);
+        FormStatus formStatus = getFormStatus(form, namespace);
         if (!formStatus.getWrongFields().isEmpty()) {
             throw new IllegalArgumentException("Validation error.");
         }
@@ -443,71 +463,13 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         obj.putAll(valuesToSet);
     }
 
-    public void load(Long formId, String namespace, Long objIdentifier, String itemClassName) throws Exception {
-        load(formId, namespace, objIdentifier, itemClassName, null);
-    }
-
-    public void load(Long formId, String namespace, Long objIdentifier, String itemClassName, String formMode) throws Exception {
-        namespace = StringUtils.defaultIfEmpty(namespace, DEFAULT_NAMESPACE);
-        FormStatus formStatus = createFormStatus(formId, namespace);
-        formStatus.setLoadedItemId(objIdentifier);
-        formStatus.setLoadedItemClass(itemClassName);
-        load(formId, namespace, getLoadedObject(formId, namespace), formMode);
-    }
-
-    public void load(Long formId, String namespace, Object loadObject) throws Exception {
-        load(formId, namespace, loadObject, null);
-    }
-
-    public void load(Long formId, String namespace, Object loadObject, String formMode) throws Exception {
-        namespace = StringUtils.defaultIfEmpty(namespace, DEFAULT_NAMESPACE);
-        if (loadObject == null) { //Clear loaded object id preserving fields
-            FormStatus formStatus = getFormStatus(formId, namespace);
-            formStatus.setLoadedItemId(null);
-            formStatus.setLoadedItemClass(null);
-            // Simulate a fake form submission with no filled in fields, so that all values are properly set internally.
-            setValues(getFormsManager().getFormById(formId), namespace, Collections.EMPTY_MAP, Collections.EMPTY_MAP, true);
-        } else
-            synchronized (loadObject) {
-                FormStatus formStatus = getFormStatus(formId, namespace, (Map) loadObject);
-                if (loadObject instanceof Map) {
-                    Map obj = (Map) loadObject;
-                    Iterator it = obj.keySet().iterator();
-                    while (it.hasNext()) {
-                        String key = (String) it.next();
-                        Object value = obj.get(key);
-                        if (value != null)
-                            formStatus.getInputValues().put(key, value);
-                    }
-                }
-            }
-        //Calculate formulas
-        /*
-        TODO: evaluate formulas
-        if (getFormChangeProcessor() != null)
-            getFormChangeProcessor().process(getFormsManager().getFormById(formId), namespace, formMode, new FormChangeResponse());//Response is ignored, we just need the session values.
-            */
-
-    }
-
     protected FormManagerImpl getFormsManager() {
         return (FormManagerImpl) CDIHelper.getBeanByType(FormManagerImpl.class);
     }
 
-    public Object getLoadedObject(Long formId, String namespace) throws Exception {
-        FormStatus formStatus = getFormStatus(formId, namespace);
-        Object loadedObject = null;
-        if (formStatus != null) {
-            final Serializable objIdentifier = formStatus.getLoadedItemId();
-            final String itemClassName = formStatus.getLoadedItemClass();
-                    //TODO load data from object here!
-        }
-        return loadedObject;
-    }
-
     @Override
     public void clear(FormRenderContext context) {
-        clear(context.getForm().getId(), context.getUID());
+        clear(context.getForm(), context.getUID());
     }
 
     @Override
@@ -515,14 +477,14 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         clear(formRenderContextManager.getFormRenderContext(ctxUID));
     }
 
-    public void clear(Long formId, String namespace) {
+    public void clear(Form form, String namespace) {
         if (log.isDebugEnabled())
-            log.debug("Clearing form status for form " + formId + " with namespace '" + namespace + "'");
-        destroyFormStatus(formId, namespace);
+            log.debug("Clearing form status for form " + form.getName() + " with namespace '" + namespace + "'");
+        destroyFormStatus(form, namespace);
     }
 
-    public void clearField(Long formId, String namespace, String fieldName) {
-        FormStatus formStatus = getFormStatus(formId, namespace);
+    public void clearField(Form form, String namespace, String fieldName) {
+        FormStatus formStatus = getFormStatus(form, namespace);
         formStatus.getInputValues().remove(fieldName);
     }
 
@@ -534,33 +496,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         FormStatusManager.lookup().getFormStatus(form.getId(), namespace).getWrongFields().add(fieldName);
     }
 
-    // OLD deprecated methods (before namespaces)
-
-    public void clear(Long formId) {
-        clear(formId, "");
-    }
-
-    public Object getLoadedObject(Long formId) throws Exception {
-        return getLoadedObject(formId, "");
-    }
-
-    public void load(Long formId, Object loadObject) throws Exception {
-        load(formId, "", loadObject);
-    }
-
-    public void load(Long formId, Long objIdentifier, String itemClassName) throws Exception {
-        load(formId, "", objIdentifier, itemClassName);
-    }
-
-    public void setValues(Form form, Map parameterMap, Map filesMap) {
-        setValues(form, "", parameterMap, filesMap);
-    }
-
-    public void setValues(Form form, Map parameterMap, Map filesMap, boolean incremental) {
-        setValues(form, "", parameterMap, filesMap, incremental);
-    }
-
     protected String getPrefix(Form form, String namespace) {
-        return namespace + NAMESPACE_SEPARATOR + form.getId() + NAMESPACE_SEPARATOR;
+        return namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR;
     }
 }

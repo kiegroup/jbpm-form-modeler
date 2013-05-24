@@ -39,7 +39,7 @@ public class WysiwygFormFormatter extends Formatter {
         try {
             if (form != null) {
                 if (Form.RENDER_MODE_WYSIWYG_FORM.equals(editor.getRenderMode())) {
-                    FormProcessingServices.lookup().getFormProcessor().clear(form.getId(), namespace);
+                    FormProcessingServices.lookup().getFormProcessor().clear(form, namespace);
                 }
 
                 setAttribute("form", form);

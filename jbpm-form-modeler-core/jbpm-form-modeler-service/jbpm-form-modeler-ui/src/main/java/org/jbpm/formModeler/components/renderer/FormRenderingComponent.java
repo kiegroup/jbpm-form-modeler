@@ -82,7 +82,7 @@ public class FormRenderingComponent extends BaseUIComponent {
 
             ctx.setErrors(fsd.getWrongFields().size());
 
-            if (Boolean.getBoolean(persist) && fsd.isValid()) formRenderContextManager.persistContext(ctx);
+            if (Boolean.parseBoolean(persist) && fsd.isValid()) formRenderContextManager.persistContext(ctx);
 
             submited = true;
 

@@ -222,7 +222,7 @@ public class FormRenderingFormatter extends Formatter {
         // If form was used just to show something, clear the form status.
         if (Form.RENDER_MODE_DISPLAY.equals(renderMode) || Form.RENDER_MODE_TEMPLATE_EDIT.equals(renderMode)) {
             if (formToPaint != null) {
-                getFormProcessor().clear(formToPaint.getId(), namespace);
+                getFormProcessor().clear(formToPaint, namespace);
             }
         }
     }

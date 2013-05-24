@@ -38,7 +38,7 @@ public class HTMLi18nFieldHandler extends DefaultFieldHandler {
     public static final String DIV_INPUT_NAME_PREFFIX = "Div__";
 
     public String[] getCompatibleClassNames() {
-        return new String[]{"I18nHTMLText"};
+        return new String[]{HTMLi18n.class.getName()};
     }
 
     /**

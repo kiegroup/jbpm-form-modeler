@@ -48,7 +48,6 @@ import java.util.*;
 /**
  * Component to edit forms in a WYSIWYG way
  */
-//@SessionScoped
 @ApplicationScoped
 @Named("wysiwygfe")
 public class WysiwygFormEditor extends BaseUIComponent {
@@ -325,7 +324,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
         Form formToEdit = getFormForFieldEdition(editField);
         if (formToEdit != null) {
-            getFormProcessor().clear(formToEdit.getId(), "edit_" + editField.getId());
+            getFormProcessor().clear(formToEdit, "edit_" + editField.getId());
             getFormProcessor().read(formToEdit, "edit_" + editField.getId(), editField.asMap());
         }
         originalFieldType = editField.getFieldType();
@@ -519,7 +518,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             if (ACTION_CANCEL_FIELD_EDITION.equals(action)) {
                 Form editForm = getFormForFieldEdition(pField);
                 pField.setFieldType(originalFieldType);
-                getFormProcessor().clear(editForm.getId(), "edit_" + pField.getId());
+                getFormProcessor().clear(editForm, "edit_" + pField.getId());
                 originalFieldType = null;
                 currentEditFieldPosition = -1;
             } else {
@@ -533,7 +532,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
                     pField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView()));
                     Form formToEdit = getFormForFieldEdition(pField);
                     if (formToEdit != null) {
-                        getFormProcessor().clear(formToEdit.getId(), "edit_" + pField.getId());
+                        getFormProcessor().clear(formToEdit, "edit_" + pField.getId());
                         getFormProcessor().read(formToEdit, "edit_" + pField.getId(), data.getCurrentValues());
                     }
 
@@ -560,6 +559,8 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
                         currentEditFieldPosition = -1;
                         pField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView()));
+                        getFormProcessor().clear(editForm, "edit_" + pField.getId());
+                        getFormProcessor().read(editForm, "edit_" + pField.getId(), data.getCurrentValues());
                     }
                 }
 

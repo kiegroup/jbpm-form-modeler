@@ -146,58 +146,6 @@ public interface FormProcessor {
     public Map getMapRepresentationToPersist(Form form, String namespace) throws Exception;
 
     /**
-     * Loads into form status values read from a persistent object.
-     *
-     * @param formId        Form id to fill in
-     * @param objIdentifier object identifier to read
-     * @param itemClassName item class name to read
-     * @param namespace     Form namespace
-     * @throws Exception in case of error reading.
-     */
-    public void load(Long formId, String namespace, Long objIdentifier, String itemClassName) throws Exception;
-
-    /**
-     * Loads into form status values read from a persistent object.
-     *
-     * @param formId        Form id to fill in
-     * @param objIdentifier object identifier to read
-     * @param itemClassName item class name to read
-     * @param namespace     Form namespace
-     * @param formMode      Form mode for the form that's loading the status
-     * @throws Exception in case of error reading.
-     */
-    public void load(Long formId, String namespace, Long objIdentifier, String itemClassName, String formMode) throws Exception;
-
-    /**
-     * Loads into form status values read from given object.
-     *
-     * @param formId     Form id to fill in
-     * @param loadObject Object to load
-     * @param namespace  Form namespace
-     */
-    public void load(Long formId, String namespace, Object loadObject) throws Exception;
-
-    /**
-     * Loads into form status values read from given object.
-     *
-     * @param formId     Form id to fill in
-     * @param loadObject Object to load
-     * @param formMode      Form mode for the form that's loading the status
-     * @param namespace  Form namespace
-     */
-    public void load(Long formId, String namespace, Object loadObject, String formMode) throws Exception;
-
-    /**
-     * If an object was loaded for given form id, return the loaded object
-     *
-     * @param formId    form id to read.
-     * @param namespace Form namespace
-     * @return The loaded object if any
-     * @throws Exception in case of error reading persisted object
-     */
-    public Object getLoadedObject(Long formId, String namespace) throws Exception;
-
-    /**
      * Clears status data for given render context
      *
      * @param context    Context to clear
@@ -212,21 +160,21 @@ public interface FormProcessor {
     public void clear(String ctxUID);
 
     /**
-     * Clears status data for given form id.
+     * Clears status data for given form.
      *
-     * @param formId    Form id to clear
+     * @param form    Form to clear
      * @param namespace Form namespace
      */
-    public void clear(Long formId, String namespace);
+    public void clear(Form form, String namespace);
 
     /**
      * Clear a field value. Just sets to null related status entry
      *
-     * @param formId    Form id to process
+     * @param form    Form to process
      * @param namespace Form namespace
      * @param fieldName Field name to clear
      */
-    void clearField(Long formId, String namespace, String fieldName);
+    void clearField(Form form, String namespace, String fieldName);
 
     /**
      * Remove field errors that might be in this formStatus. A new call to setValues() might restore
