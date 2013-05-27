@@ -67,7 +67,7 @@
                 <%=height!=null ? " height=\""+height+"\"":""%>
                 readonly
                 <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%>
-                    value="<%= (value!=null) ? ((value instanceof Object[]) ? ((((Object[])value)[0]!=null) ? sdf.format((Date)((Object[])value)[0]):""):"") : ""%>">
+                    value='<%= (value!=null) ? ((value instanceof Object[]) ? ((((Object[])value)[0]!=null) ? sdf.format((Date)((Object[])value)[0]):""):"") : ""%>'>
         </td>
         <td>
             <a href="#"

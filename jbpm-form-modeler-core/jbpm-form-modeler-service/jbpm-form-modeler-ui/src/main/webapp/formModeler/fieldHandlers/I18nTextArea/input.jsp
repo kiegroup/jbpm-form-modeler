@@ -51,7 +51,7 @@
                             <mvc:fragment name="outputStart">
             <select id="<mvc:fragmentValue name="uid"/>"
                 <%=title != null ? ("title=\"" + title + "\"") : ""%>
-                class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
+                class='dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>'
                 style="<%=StringUtils.defaultString((String) cssStyle)%>"
                         onchange="
                                 <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
@@ -103,13 +103,13 @@
                                 <mvc:fragmentValue name="index" id="index">
                                 <mvc:fragmentValue name="element" id="locale">
                             <div id="<%=uid%><%=((Locale) locale).toString()%>"
-                                 style="<%=(((Locale) locale).getLanguage().equals(LocaleManager.currentLang()) ? "display:block;" : "display:none;")%>"
+                                 style='<%=(((Locale) locale).getLanguage().equals(LocaleManager.currentLang()) ? "display:block;" : "display:none;")%>'
                                     >
             <textarea  id="<%=uid%>_<%=((Locale) locale).toString()%>" name="<%=name%>_<%=((Locale) locale).toString()%>"
                        onchange="processFormInputChange(this)"
                        onkeyup="return ismaxlength(this)"
                        <%=title!=null?("title=\""+title+"\""):""%>
-                       class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
+                       class='dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>'
                        style="<%=StringUtils.defaultString((String) cssStyle)%>"
                        <%=size!=null ? " cols=\""+size+"\"":""%>
                        <%=maxlength!=null ? " maxlength=\""+maxlength+"\"":""%>

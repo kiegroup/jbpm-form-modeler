@@ -39,7 +39,7 @@
         <mvc:fragmentValue name="uid" id="uid">
         <mvc:fragmentValue name="inputPattern" id="inputPattern">
 <table border="0" cellpadding="0" cellspacing="0"
-       class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "")%>"
+       class='dynInputStyle <%=StringUtils.defaultString((String) styleclass, "")%>'
        <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>>
     <tr valign="top">
         <td>
@@ -48,7 +48,7 @@
                     onchange="processFormInputChange(this)"
                     id="<%=uid%>"
                 <%=title!=null?("title=\""+title+"\""):""%>
-                class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
+                class='dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>'
                 <%=size!=null ? " size=\""+size+"\"":""%>
                 <%=maxlength!=null ? " maxlength=\""+maxlength+"\"":""%>
                 <%=tabindex!=null ? " tabindex=\""+tabindex+"\"":""%>

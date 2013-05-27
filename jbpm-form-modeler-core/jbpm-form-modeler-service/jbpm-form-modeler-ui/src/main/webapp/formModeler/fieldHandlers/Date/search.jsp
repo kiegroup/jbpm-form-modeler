@@ -55,7 +55,7 @@
             <input type="hidden" name="<%=name + DateFieldHandler.DATE_PATTERN_SUFFIX%>" id="<%=uid + DateFieldHandler.DATE_PATTERN_SUFFIX%>" value="<%=inputPattern%>"/>
             <input  name="<%=name + DateFieldHandler.DATE_FROM_SUFFIX%>"
                     onchange="processFormInputChange(this)"
-                    id="<mvc:fragmentValue name="uid"/><%=DateFieldHandler.DATE_FROM_SUFFIX%>"
+                    id='<mvc:fragmentValue name="uid"/><%=DateFieldHandler.DATE_FROM_SUFFIX%>'
                 <%=title!=null?("title=\""+title+"\""):""%>
                 <%=styleclass!=null && ((String)styleclass).trim().length()>0 ? " class=\""+styleclass+"\"":"class=\"skn-input\""%>
                 <%=size!=null ? " size=\""+size+"\"":""%>
@@ -67,7 +67,7 @@
                 <%=height!=null ? " height=\""+height+"\"":""%>
                 readonly
                 <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%>
-                    value="<%= (value!=null) ? ((value instanceof Object[]) ? ((((Object[])value)[0]!=null) ? sdf.format((Date)((Object[])value)[0]):""):"") : ""%>">
+                    value='<%= (value!=null) ? ((value instanceof Object[]) ? ((((Object[])value)[0]!=null) ? sdf.format((Date)((Object[])value)[0]):""):"") : ""%>'>
         </td>
         <td>
             <a href="#"
@@ -114,7 +114,7 @@
             <%=height!=null ? " height=\""+height+"\"":""%>
             readonly
             <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%>
-                value="<%= (value!=null) ? ((value instanceof Object[]) ? ((((Object[])value)[1]!=null) ? sdf.format((Date)((Object[])value)[1]):""):"") : ""%>">
+                value='<%= (value!=null) ? ((value instanceof Object[]) ? ((((Object[])value)[1]!=null) ? sdf.format((Date)((Object[])value)[1]):""):"") : ""%>'>
         </td>
         <td>
             <a href="#"

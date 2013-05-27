@@ -40,7 +40,7 @@
                                             <table border="0" cellpadding="0" cellspacing="0" >
                                                 <tr valign="top">
                                                     <td>
-                                                        <input  name="<%=name%>"  id="<mvc:fragmentValue name="uid"/>"
+                                                        <input  name="<%=name%>"  id='<mvc:fragmentValue name="uid"/>'
                                                             onchange="processFormInputChange(this)"
                                                             <%=title!=null?("title=\""+title+"\""):""%>
                                                             class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
@@ -53,12 +53,12 @@
                                                             <%=height!=null ? " height=\""+height+"\"":""%>
                                                             <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>
                                                             <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%>
-                                                                value="<%=
+                                                                value='<%=
                                                                 Boolean.TRUE.equals(wrong)?
                                                                 (StringEscapeUtils.escapeHtml(StringUtils.defaultString(inputValue==null?"":String.valueOf(inputValue))))
                                                                 :
                                                                 (StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":String.valueOf(value))))
-                                                                %>">
+                                                                %>'>
                                                     </td>
                                                     <td align="left">
                                                         &nbsp;<b>&#8364;</b>

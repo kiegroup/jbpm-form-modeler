@@ -39,7 +39,7 @@
                                                 <mvc:fragmentValue name="height" id="height">
                                                     <mvc:fragmentValue name="readonly" id="readonly">
                                                         <select name="<%=name%>Value"
-                                                            id="<mvc:fragmentValue name="uid"/>"
+                                                            id='<mvc:fragmentValue name="uid"/>'
                                                             <%=title!=null?("title=\""+title+"\""):""%>
                                                             <%=styleclass!=null && ((String)styleclass).trim().length()>0 ? " class=\""+styleclass+"\"":"class=\"skn-input\""%>
                                                             <%=tabindex!=null ? " tabindex=\""+tabindex+"\"":""%>

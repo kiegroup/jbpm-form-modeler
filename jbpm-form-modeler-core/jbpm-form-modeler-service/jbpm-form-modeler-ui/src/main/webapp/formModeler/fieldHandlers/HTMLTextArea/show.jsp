@@ -33,7 +33,7 @@
                             <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
                             <%=title!=null?("title=\""+title+"\""):""%>
                             ><%=StringUtils.defaultString( value==null?"":((HTMLString)value).getValue())%></span>
-                    <input type="hidden" name="<%=name%>" value="<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":((HTMLString)value).getValue()))%>"/>
+                    <input type="hidden" name="<%=name%>" value='<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":((HTMLString)value).getValue()))%>'/>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragmentValue>

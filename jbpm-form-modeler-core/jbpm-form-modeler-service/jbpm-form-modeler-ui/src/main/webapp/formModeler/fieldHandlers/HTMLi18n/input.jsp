@@ -54,7 +54,7 @@
                                                             <mvc:formatterParam name="property" value="platformAvailableLocales"/>
                                                             <mvc:fragment name="outputStart">
                                                                 <select name="selectChangeLanguage"   id="<%=uid%>_selectLang"
-                                                                    class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
+                                                                    class='dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>'
                                                                     <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
                                                                     onchange="
                                                                         for (var index = 0; index < this.options.length; index ++) {

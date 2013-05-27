@@ -34,11 +34,11 @@
 
             <input name="<%=name%>"  id="<mvc:fragmentValue name="uid"/>"
                 onchange="processFormInputChange(this)" type="hidden"
-                    value="<%=Boolean.TRUE.equals(wrong)?
+                    value='<%=Boolean.TRUE.equals(wrong)?
                     (StringEscapeUtils.escapeHtml(StringUtils.defaultString(inputValue==null?"":String.valueOf(inputValue))))
                     :
                     (StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":String.valueOf(value))))
-                    %>">
+                    %>'>
 
                     <<%=htmlContainer!=null ? htmlContainer : "span"%>
                             <%=styleclass!=null && ((String)styleclass).trim().length()>0 ? " class=\""+styleclass+"\"":""%>
@@ -88,12 +88,12 @@
                                                             <%=height!=null ? " height=\""+height+"\"":""%>
                                                             <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>
                                                             <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%>
-                                                                value="<%=
+                                                                value='<%=
                                                                 Boolean.TRUE.equals(wrong)?
                                                                 (StringEscapeUtils.escapeHtml(StringUtils.defaultString(inputValue==null?"":String.valueOf(inputValue))))
                                                                 :
                                                                 (StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":String.valueOf(value))))
-                                                                %>">
+                                                                %>'>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -128,7 +128,7 @@
                                                         <select name="<%=name%>"  id='<mvc:fragmentValue name="uid"/>'
                                                             onchange="processFormInputChange(this)"
                                                             <%=title!=null?("title=\""+title+"\""):""%>
-                                                            class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
+                                                            class='dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>'
                                                             style="<%=StringUtils.defaultString((String) cssStyle)%>"
                                                             <%=size!=null ? " size=\""+size+"\"":""%>
                                                             <%=maxlength!=null ? " maxlength=\""+maxlength+"\"":""%>

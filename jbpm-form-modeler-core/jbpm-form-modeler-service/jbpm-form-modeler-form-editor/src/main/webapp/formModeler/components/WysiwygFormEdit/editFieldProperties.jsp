@@ -58,12 +58,12 @@
                         </mvc:fragment>
                         <mvc:fragment name="output">
                             <mvc:fragmentValue name="id" id="id">
-                                <option value="<%=id%>"><i18n:message key="<%="fieldType." + id%>"/></option>
+                                <option value="<%=id%>"><i18n:message key='<%="fieldType." + id%>'/></option>
                             </mvc:fragmentValue>
                         </mvc:fragment>
                         <mvc:fragment name="outputSelected">
                             <mvc:fragmentValue name="id" id="id">
-                                <option value="<%=id%>" selected><i18n:message key="<%="fieldType." + id%>"/></option>
+                                <option value="<%=id%>" selected><i18n:message key='<%="fieldType." + id%>'/></option>
                             </mvc:fragmentValue>
                         </mvc:fragment>
                         <mvc:fragment name="outputEnd">
@@ -132,7 +132,7 @@
                                                         <mvc:fragment name="output">
                                                             <mvc:fragmentValue name="help" id="help">
                                                                 <img src="<static:image relativePath="general/16x16/ico-info.png"/>"
-                                                                     id="<%="tooltip_" + fieldPosition%>" border="0" title="<%=StringEscapeUtils.unescapeHtml((String)help)%>"/>
+                                                                     id='<%="tooltip_" + fieldPosition%>' border="0" title="<%=StringEscapeUtils.unescapeHtml((String)help)%>"/>
                                                                 <script type="text/javascript" defer="defer">
                                                                     $(function() {
                                                                         $('#<%="tooltip_" + fieldPosition%>').tooltip();

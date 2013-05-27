@@ -20,6 +20,6 @@
 <%@ page import="org.jbpm.formModeler.service.bb.mvc.controller.HTTPSettings" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 
-<div id="<%=HTTPSettings.AJAX_AREA_PREFFIX + "main_component"%>">
+<div id='<%=HTTPSettings.AJAX_AREA_PREFFIX + "main_component"%>'>
     <factory:useComponent bean="org.jbpm.formModeler.service.bb.mvc.components.CurrentComponentRenderer"/>
 </div>

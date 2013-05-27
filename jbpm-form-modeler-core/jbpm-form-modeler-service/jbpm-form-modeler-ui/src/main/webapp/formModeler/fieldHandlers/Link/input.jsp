@@ -63,7 +63,7 @@
                                                             <%=height!=null ? " height=\""+height+"\"":""%>
                                                             <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>
                                                             <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%>
-                                                                value="<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":String.valueOf(((Link)value).getName())))%>">
+                                                                value='<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":String.valueOf(((Link)value).getName())))%>'>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -86,7 +86,7 @@
                                                             <%=height!=null ? " height=\""+height+"\"":""%>
                                                             <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>
                                                             <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%>
-                                                                value="<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":String.valueOf(((Link)value).getLink())))%>">
+                                                                value='<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":String.valueOf(((Link)value).getLink())))%>'>
 
                                                     </td>
 

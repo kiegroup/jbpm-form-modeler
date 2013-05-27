@@ -51,7 +51,7 @@
                                                             <%=height!=null ? " height=\""+height+"\"":""%>
                                                             <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>
                                                             <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%>
-                                                                value="<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":String.valueOf(value)))%>">
+                                                                value='<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":String.valueOf(value)))%>' >
                                                     </mvc:fragmentValue>
                                                 </mvc:fragmentValue>
                                             </mvc:fragmentValue>

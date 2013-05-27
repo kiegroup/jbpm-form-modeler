@@ -43,7 +43,7 @@
                                                         <input  name="<%=name%>"  id="<mvc:fragmentValue name="uid"/>"
                                                             onchange="processFormInputChange(this)"
                                                             <%=title!=null?("title=\""+title+"\""):""%>
-                                                            class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
+                                                            class='dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>'
                                                             style="<%=StringUtils.defaultString((String) cssStyle)%>"
                                                             <%=size!=null ? " size=\""+size+"\"":""%>
                                                             <%=maxlength!=null ? " maxlength=\""+maxlength+"\"":""%>
