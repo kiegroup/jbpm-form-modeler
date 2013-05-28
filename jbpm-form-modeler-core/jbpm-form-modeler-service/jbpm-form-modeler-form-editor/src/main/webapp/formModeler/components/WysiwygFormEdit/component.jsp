@@ -73,6 +73,7 @@
                            src="<static:image relativePath="<%=(String)optionImage%>"/>">&nbsp;<a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitForm(document.getElementById('<factory:encode name="changeMainOption"/>'));"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
                 </td>
 
+
             </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
@@ -81,7 +82,7 @@
             <mvc:fragmentValue name="displayBindings" id="displayBindings">
                 <mvc:fragmentValue name="displayCheckbox" id="displayCheckbox">
                     <mvc:fragmentValue name="displayGrid" id="displayGrid">
-                        </tr></table>
+                        <td class="HorMenuOff"><img src="<static:image relativePath="general/Save.png"/>">&nbsp;<a href="#">Save</a></td></tr></table>
                         </form>
                         <script defer>
                             setAjax("<factory:encode name="changeMainOption"/>");
