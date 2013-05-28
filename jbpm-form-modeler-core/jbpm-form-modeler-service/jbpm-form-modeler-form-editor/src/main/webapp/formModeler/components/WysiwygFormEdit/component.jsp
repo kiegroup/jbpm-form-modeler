@@ -131,13 +131,13 @@
                 <td>
                     <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
                         <tr>
-                            <td style="vertical-align: top;height: 600px;" width="220px">
+                            <td class="CompLeftColumn">
                                 <jsp:include page="<%=(String)editionPage%>" flush="true"/>
                             </td>
-                            <td style="vertical-align: top;" id="preview">
+                            <td class="CompCenterColumn" id="preview">
                                 <jsp:include page="formPreview.jsp"/>
                             </td>
-                            <td style="vertical-align: top;">
+                            <td class="CompRightColumn">
                                 <jsp:include page="editFieldProperties.jsp"/>
                             </td>
                         </tr>

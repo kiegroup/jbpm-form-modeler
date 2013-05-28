@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 body, td, p, dl, dt, dd, ul, ol, li, blockquote, textarea, input, option {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 9pt;
     color: #383f47;
     margin: 0;
@@ -519,4 +519,19 @@ div.GlobalBreadCrump {
 .bgGuides {
     background:url(images/bgGuides.png) no-repeat;
     padding: 20px;
+}
+
+.CompLeftColumn {
+    vertical-align: top;
+    height: 600px;
+    width: 220px;
+}
+
+.CompCenterColumn {
+    vertical-align: top;
+}
+
+.CompRightColumn {
+    vertical-align: top;
+    width: 1px;
 }
