@@ -58,11 +58,7 @@
             <artifactId>jbpm-form-modeler-editor-api</artifactId>
             <version>6.0.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>org.jbpm</groupId>
-            <artifactId>jbpm-form-modeler-form-provider</artifactId>
-            <version>6.0.0-SNAPSHOT</version>
-        </dependency>
+
     </dependencies>
     <build>
         <resources>

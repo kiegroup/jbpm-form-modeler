@@ -14,7 +14,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>jbpm-form-modeler-data-modeler</module>
-        <module>jbpm-form-modeler-form-provider</module>
     </modules>
 
     <build>
