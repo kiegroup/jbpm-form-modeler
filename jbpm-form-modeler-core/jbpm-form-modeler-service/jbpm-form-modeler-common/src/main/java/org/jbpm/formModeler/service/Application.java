@@ -20,7 +20,6 @@ import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  * Class that defines some application set-up parameters.

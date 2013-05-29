@@ -15,15 +15,11 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
-import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.api.model.Field;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
-import org.jbpm.formModeler.service.annotation.config.Config;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

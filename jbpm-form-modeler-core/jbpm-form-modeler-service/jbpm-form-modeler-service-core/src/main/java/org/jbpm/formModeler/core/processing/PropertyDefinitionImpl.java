@@ -15,8 +15,6 @@
  */
 package org.jbpm.formModeler.core.processing;
 
-import org.jbpm.formModeler.api.processing.PropertyDefinition;
-
 import java.util.HashMap;
 import java.util.Map;
 

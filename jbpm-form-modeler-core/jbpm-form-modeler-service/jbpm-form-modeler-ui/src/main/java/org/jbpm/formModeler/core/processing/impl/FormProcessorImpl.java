@@ -18,8 +18,10 @@ package org.jbpm.formModeler.core.processing.impl;
 import au.com.bytecode.opencsv.CSVParser;
 import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.api.model.DataHolder;
-import org.jbpm.formModeler.api.processing.*;
 import org.jbpm.formModeler.core.FieldHandlersManager;
+import org.jbpm.formModeler.core.processing.FieldHandler;
+import org.jbpm.formModeler.core.processing.FormProcessor;
+import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.core.processing.ProcessingMessagedException;
 import org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler;
 import org.jbpm.formModeler.core.processing.formProcessing.FormChangeProcessor;
@@ -29,12 +31,12 @@ import org.jbpm.formModeler.core.processing.formStatus.FormStatus;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatusManager;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.model.i18n.I18nSet;
+import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.core.config.FormManagerImpl;
-import org.jbpm.formModeler.api.util.helpers.CDIHelper;
-import org.jbpm.formModeler.api.processing.FormRenderContext;
-import org.jbpm.formModeler.api.processing.FormRenderContextManager;
+import org.jbpm.formModeler.api.client.FormRenderContext;
+import org.jbpm.formModeler.api.client.FormRenderContextManager;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -464,7 +466,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     }
 
     protected FormManagerImpl getFormsManager() {
-        return (FormManagerImpl) CDIHelper.getBeanByType(FormManagerImpl.class);
+        return (FormManagerImpl) CDIBeanLocator.getBeanByType(FormManagerImpl.class);
     }
 
     @Override

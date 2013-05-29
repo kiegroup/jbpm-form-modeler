@@ -15,16 +15,12 @@
  */
 package org.jbpm.formModeler.core.config;
 
-import com.google.inject.Inject;
 import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.api.config.FormManager;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.FormDisplayInfo;
-import org.jbpm.formModeler.api.util.helpers.EditorHelper;
-import org.jbpm.formModeler.api.model.i18n.I18nSet;
-import org.jbpm.formModeler.api.util.helpers.CDIHelper;
+import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.jbpm.formModeler.service.LocaleManager;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -34,9 +30,6 @@ import java.util.logging.Logger;
 
 @ApplicationScoped
 public class FormManagerImpl implements FormManager {
-
-    @Inject
-    private EditorHelper editorHelper;
 
     private HashSet<Form> forms = new HashSet<Form>();
 

@@ -19,15 +19,12 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.xerces.parsers.DOMParser;
+import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.xml.util.XMLNode;
-import org.jbpm.formModeler.api.config.FieldTypeManager;
-import org.jbpm.formModeler.api.config.FormManager;
-import org.jbpm.formModeler.api.config.FormSerializationManager;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.model.i18n.I18nEntry;
-import org.jbpm.formModeler.api.model.i18n.I18nSet;
+import org.jbpm.formModeler.api.model.wrappers.I18nEntry;
+import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -53,7 +50,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     public static final String ATTR_VALUE = "value";
 
     @Inject
-    private org.jbpm.formModeler.integration.DataModelerService dataModelerService;
+    private DataHolderManager dataHolderManager;
 
     @Inject
     protected Log log;
@@ -113,6 +110,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         Node rootNode = nodes.item(0); // only comes a form
         return deserializeForm(rootNode,path);
     }
+
     public Form deserializeForm(Node nodeForm, Object path) throws Exception {
         if (!nodeForm.getNodeName().equals(NODE_FORM)) return null;
 
@@ -146,18 +144,22 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                 field.setForm(form);
                 fields.add(field);
             } else if (node.getNodeName().equals(NODE_DATA_HOLDER)) {
+                String holderId = node.getAttributes().getNamedItem(ATTR_ID).getNodeValue();
+                String holderType = node.getAttributes().getNamedItem(ATTR_TYPE).getNodeValue();
+                String holderValue = node.getAttributes().getNamedItem(ATTR_VALUE).getNodeValue();
+                String holderRenderColor = node.getAttributes().getNamedItem(ATTR_NAME).getNodeValue();
 
-                String holderId =node.getAttributes().getNamedItem(ATTR_ID).getNodeValue();
-                String holderType =node.getAttributes().getNamedItem(ATTR_TYPE).getNodeValue();
-                String holderValue =node.getAttributes().getNamedItem(ATTR_VALUE).getNodeValue();
-                String holderRenderColor =node.getAttributes().getNamedItem(ATTR_NAME).getNodeValue();
+                if(holderId!=null && holderType!=null && holderValue != null) {
+                    Map<String, Object> config = new HashMap<String, Object>();
 
-                if(holderId!=null && holderType!=null && holderValue!=null){
-                    if(path!=null && Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL.equals(holderType)){
-                        form.setDataHolder(dataModelerService.createDataHolder(path,holderId, holderValue, holderRenderColor));
-                    } else {
-                        form.setDataHolder(holderId,holderType,holderValue,holderRenderColor);
-                    }
+                    config.put("id", holderId);
+                    config.put("value", holderValue);
+                    config.put("color", holderRenderColor);
+                    config.put("path", path) ;
+
+                    DataHolder holder = dataHolderManager.createDataHolderByType(holderType, config);
+
+                    if (holderId != null) form.setDataHolder(holder);
                 }
             }
         }

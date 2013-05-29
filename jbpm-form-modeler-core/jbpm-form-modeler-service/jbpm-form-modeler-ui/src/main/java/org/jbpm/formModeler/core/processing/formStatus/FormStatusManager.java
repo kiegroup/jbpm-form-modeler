@@ -24,12 +24,11 @@ import org.jbpm.formModeler.core.processing.formProcessing.NamespaceManager;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.processing.FieldHandler;
-import org.jbpm.formModeler.api.processing.FormProcessor;
+import org.jbpm.formModeler.core.processing.FieldHandler;
+import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Hashtable;

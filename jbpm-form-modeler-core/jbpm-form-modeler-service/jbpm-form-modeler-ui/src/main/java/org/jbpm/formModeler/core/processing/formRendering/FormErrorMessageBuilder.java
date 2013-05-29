@@ -22,8 +22,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.api.processing.FormProcessor;
-import org.jbpm.formModeler.api.processing.FormStatusData;
+import org.jbpm.formModeler.core.processing.FormProcessor;
+import org.jbpm.formModeler.core.processing.FormStatusData;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;

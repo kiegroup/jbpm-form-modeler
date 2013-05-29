@@ -16,9 +16,8 @@
 package org.jbpm.formModeler.service.error;
 
 import org.jbpm.formModeler.service.annotation.config.Config;
-import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

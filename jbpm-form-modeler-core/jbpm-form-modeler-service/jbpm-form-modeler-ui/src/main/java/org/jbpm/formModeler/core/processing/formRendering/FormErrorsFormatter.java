@@ -24,8 +24,8 @@ import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.api.processing.FormProcessor;
-import org.jbpm.formModeler.api.processing.FormStatusData;
+import org.jbpm.formModeler.core.processing.FormProcessor;
+import org.jbpm.formModeler.core.processing.FormStatusData;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;

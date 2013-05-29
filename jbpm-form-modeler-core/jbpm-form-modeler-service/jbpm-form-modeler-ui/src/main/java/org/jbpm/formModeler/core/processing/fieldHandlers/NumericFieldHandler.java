@@ -16,15 +16,11 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
-import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.validators.NumericRangeValidator;
-import org.jbpm.formModeler.service.annotation.config.Config;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;

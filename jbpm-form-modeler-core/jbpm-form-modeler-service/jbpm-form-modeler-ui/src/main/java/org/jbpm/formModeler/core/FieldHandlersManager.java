@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.core;
 
 import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.api.processing.FieldHandler;
+import org.jbpm.formModeler.core.processing.FieldHandler;
 
 import java.util.List;
 

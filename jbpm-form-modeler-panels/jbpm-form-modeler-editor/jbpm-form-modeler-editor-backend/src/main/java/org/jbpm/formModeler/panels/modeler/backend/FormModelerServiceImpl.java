@@ -1,21 +1,34 @@
+/**
+ * Copyright (C) 2012 JBoss Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.jbpm.formModeler.panels.modeler.backend;
 
 import org.apache.commons.lang.StringUtils;
 import org.jboss.errai.bus.server.annotations.Service;
-import org.jboss.errai.bus.server.api.RpcContext;
-import org.jbpm.formModeler.api.config.FormManager;
-import org.jbpm.formModeler.api.config.FormSerializationManager;
-import org.jbpm.formModeler.api.processing.FormEditorContextTO;
-import org.jbpm.formModeler.api.processing.FormRenderContext;
-import org.jbpm.formModeler.api.processing.FormRenderContextManager;
-import org.jbpm.formModeler.api.processing.FormEditorContext;
-import org.jbpm.formModeler.api.util.helpers.EditorHelper;
+import org.jbpm.formModeler.core.config.FormManager;
+import org.jbpm.formModeler.core.config.FormSerializationManager;
+import org.jbpm.formModeler.api.client.FormEditorContextTO;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.model.FormTO;
+import org.jbpm.formModeler.api.client.FormRenderContext;
+import org.jbpm.formModeler.api.client.FormRenderContextManager;
+import org.jbpm.formModeler.api.client.FormEditorContext;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
+import org.uberfire.client.workbench.widgets.events.NotificationEvent;
 import org.uberfire.client.workbench.widgets.events.ResourceAddedEvent;
 import org.uberfire.client.workbench.widgets.menu.Menus;
 
@@ -41,6 +54,10 @@ public class FormModelerServiceImpl implements FormModelerService {
     @Inject
     private Event<ResourceAddedEvent> resourceAddedEvent;
 
+
+    @Inject
+    private Event<NotificationEvent> notification;
+
     @Inject
     private FormManager formManager;
 
@@ -53,28 +70,6 @@ public class FormModelerServiceImpl implements FormModelerService {
     protected Map<String, FormEditorContext> formEditorContextMap = new HashMap<String, FormEditorContext>();
 
     private Menus menus;
-
-    @Override
-    public List<FormTO> getAllForms() {
-        List<FormTO> result = new ArrayList<FormTO>();
-        for (Form form : formManager.getAllForms()) {
-            if (form.isVisibleStatus()) result.add(new FormTO(form.getId(), form.getName()));
-        }
-        return result;
-    }
-
-    @Override
-    public Long setFormId(Long formId, String contextUri) {
-        EditorHelper helper = getHelper(contextUri);
-
-        if (helper != null) {
-            helper.setOriginalForm(formId);
-            helper.setFormToEdit(contextUri, formManager.getFormById(formId));
-            return formId;
-        }
-
-        return null;
-    }
 
     @Override
     public FormEditorContextTO setFormFocus(String ctxUID) {
@@ -117,37 +112,17 @@ public class FormModelerServiceImpl implements FormModelerService {
     }
 
     @Override
-    public FormTO getCurrentForm(String contextUri) {
-        EditorHelper helper = getHelper(contextUri);
-        formManager.replaceForm(helper.getOriginalForm(), helper.getFormToEdit(contextUri));
-        clearHelper();
-        return new FormTO(helper.getFormToEdit(contextUri).getId(), helper.getFormToEdit(contextUri).getName());
-    }
-
-    private void clearHelper() {
-        RpcContext.getHttpSession().removeAttribute("EditorHelper");
-        RpcContext.getHttpSession().removeAttribute("contextURI");
-    }
-
-    protected EditorHelper getHelper(String contextUri) {
-        EditorHelper helper = (EditorHelper) RpcContext.getHttpSession().getAttribute("EditorHelper");
-
-        if (helper == null) helper = new EditorHelper();
-
-        RpcContext.getHttpSession().setAttribute("EditorHelper", helper);
-        RpcContext.getHttpSession().setAttribute("contextURI", contextUri);
-
-        return helper;
+    public void saveForm(String ctxUID) {
+        saveContext(ctxUID);
     }
 
     @Override
-    public void saveForm(String ctxUID) {
-
+    public void saveContext(String ctxUID) {
         FormEditorContext ctx = getFormEditorContext(ctxUID);
         formManager.replaceForm(ctx.getOriginalForm(), ctx.getForm());
         org.kie.commons.java.nio.file.Path kiePath = paths.convert((Path)ctx.getPath());
         ioService.write(kiePath, formSerializationManager.generateFormXML(ctx.getForm()));
-
+        notification.fire(new NotificationEvent("Form '" + ctx.getForm().getName() + "' saved.", NotificationEvent.NotificationType.SUCCESS));
     }
 
     @Override
@@ -159,13 +134,6 @@ public class FormModelerServiceImpl implements FormModelerService {
         Form form = formManager.createForm(formName);
 
         ioService.write(kiePath, formSerializationManager.generateFormXML(form));
-        EditorHelper helper = getHelper(context.toURI());
-
-        if( helper!=null){
-            helper.setFormToEdit(context.toURI(), form);
-            helper.setOriginalForm(form.getId());
-            getHelper(context.toURI());
-        }
 
         resourceAddedEvent.fire(new ResourceAddedEvent(context));
 

@@ -16,22 +16,21 @@
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 import org.apache.commons.logging.Log;
-import org.jbpm.formModeler.api.config.FormManager;
+import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.api.processing.BindingManager;
+import org.jbpm.formModeler.core.processing.BindingManager;
 import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormaterTagDynamicAttributesInterpreter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 
-import org.jbpm.formModeler.core.config.FormManagerImpl;
-import org.jbpm.formModeler.api.model.i18n.I18nSet;
+import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.processing.FormProcessor;
+import org.jbpm.formModeler.core.processing.FormProcessor;
 
 import javax.inject.Inject;
 

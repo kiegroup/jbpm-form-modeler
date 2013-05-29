@@ -19,8 +19,8 @@ import bsh.EvalError;
 import bsh.Interpreter;
 import org.jbpm.formModeler.core.config.FormManagerImpl;
 import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.api.processing.FormProcessor;
-import org.jbpm.formModeler.api.util.helpers.CDIHelper;
+import org.jbpm.formModeler.core.processing.FormProcessor;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import java.util.Date;
 import java.util.Map;
@@ -133,7 +133,7 @@ public class FormulaReplacementContext {
             parentNamespace = parentNamespace.substring(0, parentNamespace.lastIndexOf(FormProcessor.NAMESPACE_SEPARATOR));
             FormulaReplacementContext parent = new FormulaReplacementContext();
 
-            FormManagerImpl formsManager = (FormManagerImpl) CDIHelper.getBeanByType(FormManagerImpl.class);
+            FormManagerImpl formsManager = (FormManagerImpl) CDIBeanLocator.getBeanByType(FormManagerImpl.class);
 
             fieldName = fieldName.substring(1);
             if (fieldName.indexOf(FormProcessor.CUSTOM_NAMESPACE_SEPARATOR) != -1)

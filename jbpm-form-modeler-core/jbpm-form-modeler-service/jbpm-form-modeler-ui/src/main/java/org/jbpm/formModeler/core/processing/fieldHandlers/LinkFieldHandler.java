@@ -18,10 +18,7 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
 import org.jbpm.formModeler.core.wrappers.Link;
 import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.service.annotation.config.Config;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;

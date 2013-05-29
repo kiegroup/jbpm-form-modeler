@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.core.processing.formProcessing;
 
 import org.apache.commons.logging.Log;
-import org.jbpm.formModeler.api.config.FormManager;
+import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;

@@ -25,7 +25,6 @@ import org.apache.commons.lang.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 /**

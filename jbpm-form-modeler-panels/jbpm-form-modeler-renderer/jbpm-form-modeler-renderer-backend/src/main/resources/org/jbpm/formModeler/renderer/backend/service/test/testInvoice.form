@@ -195,5 +195,5 @@
 <property name="defaultValueFormula" value=""/>
 <property name="bindingStr" value="{variable2}"/>
 </field>
-<dataHolder name="#A7E690" type="className" value="org.jbpm.formModeler.api.Invoice" id="invoice"/>
+<dataHolder name="#A7E690" type="className" value="org.jbpm.formModeler.api.model.Invoice" id="invoice"/>
 </form>

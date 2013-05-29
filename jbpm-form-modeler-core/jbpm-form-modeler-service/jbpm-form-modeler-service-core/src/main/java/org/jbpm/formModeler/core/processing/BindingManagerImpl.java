@@ -18,9 +18,7 @@ package org.jbpm.formModeler.core.processing;
 import org.apache.commons.lang.StringUtils;
 
 import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.api.processing.BindingManager;
-import org.jbpm.formModeler.api.processing.PropertyDefinition;
-import org.jbpm.formModeler.api.util.helpers.CDIHelper;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.lang.Class;
@@ -98,7 +96,7 @@ public class BindingManagerImpl implements BindingManager {
     }
 
     public static BindingManagerImpl lookup() {
-        return (BindingManagerImpl) CDIHelper.getBeanByType(BindingManagerImpl.class);
+        return (BindingManagerImpl) CDIBeanLocator.getBeanByType(BindingManagerImpl.class);
     }
 
 }

@@ -1,16 +1,14 @@
 package org.jbpm.formModeler.renderer.backend.service;
 
-import org.jboss.errai.bus.server.annotations.Remote;
 import org.jboss.errai.bus.server.annotations.Service;
-import org.jbpm.formModeler.api.Invoice;
-import org.jbpm.formModeler.api.config.FormSerializationManager;
+import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.processing.FormRenderContextTO;
+import org.jbpm.formModeler.api.client.FormRenderContextTO;
+import org.jbpm.formModeler.core.test.Invoice;
 import org.jbpm.formModeler.renderer.service.FormRendererIncluderService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Date;

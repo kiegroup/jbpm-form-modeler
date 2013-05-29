@@ -399,6 +399,11 @@
 
         <dependency>
             <groupId>org.uberfire</groupId>
+            <artifactId>uberfire-backend-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.uberfire</groupId>
             <artifactId>uberfire-widgets-core-client</artifactId>
         </dependency>
 
@@ -544,6 +549,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.jboss.solder</groupId>
+            <artifactId>solder-impl</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-api</artifactId>
             <version>6.0.0-SNAPSHOT</version>
@@ -601,7 +611,7 @@
 
         <dependency>
             <groupId>org.jbpm</groupId>
-            <artifactId>jbpm-form-modeler-integrations</artifactId>
+            <artifactId>jbpm-form-modeler-data-modeler</artifactId>
             <version>6.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
@@ -699,6 +709,11 @@
                         <compileSourcesArtifact>org.drools:drools-wb-workitems-editor-client</compileSourcesArtifact>
 
                         <compileSourcesArtifact>org.kie.guvnor:guvnor-datamodel-api</compileSourcesArtifact>
+
+                        <compileSourcesArtifact>org.jbpm:jbpm-form-modeler-editor-api</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.jbpm:jbpm-form-modeler-editor-client</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.jbpm:jbpm-form-modeler-renderer-api</compileSourcesArtifact>
+                        <compileSourcesArtifact>org.jbpm:jbpm-form-modeler-renderer-client</compileSourcesArtifact>
 
                         <!-- Kie Commons -->
                         <compileSourcesArtifact>org.kie.commons:kie-commons-data</compileSourcesArtifact>

@@ -15,16 +15,15 @@
  */
 package org.jbpm.formModeler.core.processing.impl;
 
-import org.jbpm.formModeler.api.config.FormManager;
+import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatus;
 import org.apache.commons.collections.CollectionUtils;
-import org.jbpm.formModeler.core.config.FormManagerImpl;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.processing.FieldHandler;
-import org.jbpm.formModeler.api.processing.FormStatusData;
+import org.jbpm.formModeler.core.processing.FieldHandler;
+import org.jbpm.formModeler.core.processing.FormStatusData;
 
 import java.io.Serializable;
 import java.util.*;

@@ -17,7 +17,6 @@ package org.jbpm.formModeler.core.processing;
 
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.api.processing.FieldHandler;
 
 import java.util.Locale;
 import java.util.Map;

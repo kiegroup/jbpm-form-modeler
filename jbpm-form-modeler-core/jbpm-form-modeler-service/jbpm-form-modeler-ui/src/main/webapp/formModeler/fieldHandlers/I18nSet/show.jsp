@@ -16,7 +16,7 @@
 
 --%>
 <%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
-<%@ page import="org.jbpm.formModeler.api.model.i18n.I18nSet" %>
+<%@ page import="org.jbpm.formModeler.api.model.wrappers.I18nSet" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>

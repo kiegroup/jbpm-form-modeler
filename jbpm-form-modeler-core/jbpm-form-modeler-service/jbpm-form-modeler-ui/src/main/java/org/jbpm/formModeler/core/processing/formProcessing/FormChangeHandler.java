@@ -21,10 +21,9 @@ import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.DoNothingResponse;
-import org.jbpm.formModeler.api.processing.FormProcessor;
+import org.jbpm.formModeler.core.processing.FormProcessor;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
 //@SessionScoped

@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jbpm.formModeler.api.model.i18n.I18nSet" %>
+<%@ page import="org.jbpm.formModeler.api.model.wrappers.I18nSet" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ page import="java.util.Locale" %>

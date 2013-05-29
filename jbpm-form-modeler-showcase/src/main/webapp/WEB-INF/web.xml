@@ -87,14 +87,6 @@ profile in pom.xml to use that. -->
         <url-pattern>/org.uberfire.UberfireShowcase/Controller</url-pattern>
     </servlet-mapping>
 
-    <!-- TAGLIB(S) required by product externalLibs -->
-    <taglib>
-        <taglib-uri>http://jakarta.apache.org/taglibs/i18n-1.0</taglib-uri>
-        <taglib-location>/WEB-INF/tlds/i18n.tld</taglib-location>
-    </taglib>
-
-
-
   <resource-env-ref>
     <description>Object factory for the CDI Bean Manager</description>
     <resource-env-ref-name>BeanManager</resource-env-ref-name>

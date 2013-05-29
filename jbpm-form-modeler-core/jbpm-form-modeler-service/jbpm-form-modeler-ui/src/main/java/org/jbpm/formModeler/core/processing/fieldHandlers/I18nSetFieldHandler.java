@@ -17,13 +17,10 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
 import org.jbpm.formModeler.service.LocaleManager;
-import org.jbpm.formModeler.api.model.i18n.I18nEntry;
-import org.jbpm.formModeler.api.model.i18n.I18nSet;
+import org.jbpm.formModeler.api.model.wrappers.I18nEntry;
+import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.service.annotation.config.Config;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;

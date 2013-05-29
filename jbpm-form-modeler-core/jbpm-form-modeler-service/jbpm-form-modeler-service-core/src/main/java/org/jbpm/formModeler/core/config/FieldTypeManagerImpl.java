@@ -15,13 +15,12 @@
  */
 package org.jbpm.formModeler.core.config;
 
-import org.jbpm.formModeler.api.config.FieldTypeManager;
-import org.jbpm.formModeler.api.config.builders.FieldTypeBuilder;
-import org.jbpm.formModeler.api.config.builders.DecoratorFieldTypeBuilder;
-import org.jbpm.formModeler.api.config.builders.SimpleFieldTypeBuilder;
+import org.jbpm.formModeler.core.config.builders.FieldTypeBuilder;
+import org.jbpm.formModeler.core.config.builders.fieldType.DecoratorFieldTypeBuilder;
+import org.jbpm.formModeler.core.config.builders.fieldType.SimpleFieldTypeBuilder;
+import org.jbpm.formModeler.core.processing.PropertyDefinition;
 import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.api.processing.PropertyDefinition;
-import org.jbpm.formModeler.api.util.helpers.CDIHelper;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -214,7 +213,7 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
     }
 
     public static FieldTypeManagerImpl lookup() {
-        return (FieldTypeManagerImpl) CDIHelper.getBeanByType(FieldTypeManagerImpl.class);
+        return (FieldTypeManagerImpl) CDIBeanLocator.getBeanByType(FieldTypeManagerImpl.class);
     }
 
 }

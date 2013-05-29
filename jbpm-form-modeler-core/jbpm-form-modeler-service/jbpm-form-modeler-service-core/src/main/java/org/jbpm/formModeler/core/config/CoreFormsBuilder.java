@@ -16,8 +16,8 @@
 package org.jbpm.formModeler.core.config;
 
 import org.apache.commons.logging.Log;
-import org.jbpm.formModeler.api.config.FormManager;
-import org.jbpm.formModeler.api.config.FormSerializationManager;
+import org.jbpm.formModeler.core.config.FormManager;
+import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.service.annotation.Priority;
 import org.jbpm.formModeler.service.annotation.Startable;
 import org.jbpm.formModeler.service.annotation.config.Config;

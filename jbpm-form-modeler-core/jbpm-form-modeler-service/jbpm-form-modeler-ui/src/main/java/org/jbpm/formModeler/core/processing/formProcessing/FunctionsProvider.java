@@ -22,7 +22,6 @@ import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.Enumeration;
 import java.util.Properties;
 
 /**

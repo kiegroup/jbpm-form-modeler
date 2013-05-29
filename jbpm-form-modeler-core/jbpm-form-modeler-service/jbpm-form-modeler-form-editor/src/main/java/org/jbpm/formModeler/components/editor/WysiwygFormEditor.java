@@ -15,13 +15,16 @@
  */
 package org.jbpm.formModeler.components.editor;
 
-import org.jbpm.formModeler.api.config.FieldTypeManager;
-import org.jbpm.formModeler.api.config.FormManager;
 import org.jbpm.formModeler.api.model.*;
-import org.jbpm.formModeler.api.processing.*;
 import org.jbpm.formModeler.core.FormCoreServices;
-import org.jbpm.formModeler.core.processing.FormProcessingServices;
+import org.jbpm.formModeler.core.config.FieldTypeManager;
+import org.jbpm.formModeler.core.config.FormManager;
+import org.jbpm.formModeler.core.processing.*;
 import org.jbpm.formModeler.core.wrappers.HTMLi18n;
+import org.jbpm.formModeler.dataModeler.integration.DataModelerService;
+import org.jbpm.formModeler.core.model.PojoDataHolder;
+import org.jbpm.formModeler.api.client.FormEditorContext;
+import org.jbpm.formModeler.api.client.FormEditorContextManager;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
@@ -30,17 +33,11 @@ import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 
 import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.core.config.FormManagerImpl;
-import org.jbpm.formModeler.api.util.helpers.EditorHelper;
-import org.jbpm.formModeler.api.model.i18n.I18nSet;
+import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
-import org.kie.workbench.common.screens.datamodeller.model.DataModelTO;
-import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
-import org.kie.workbench.common.screens.datamodeller.service.DataModelerService;
-import org.uberfire.backend.vfs.Path;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.*;
@@ -53,7 +50,7 @@ import java.util.*;
 public class WysiwygFormEditor extends BaseUIComponent {
 
     @Inject
-    private org.jbpm.formModeler.integration.DataModelerService dataModelerService;
+    private DataModelerService dataModelerService;
 
     public static WysiwygFormEditor lookup() {
         return (WysiwygFormEditor) CDIBeanLocator.getBeanByType(WysiwygFormEditor.class);
@@ -81,6 +78,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public static final String RIGHT_FIELD_MODIFIER = "rightModifier";
     public static final String BOTTOM_FIELD_MODIFIER = "bottomModifier";
 
+    public static final String EDITION_OPTION_SAVE = "saveForm";
     public static final String EDITION_OPTION_FIELDTYPES = "fieldTypes";
     public static final String EDITION_OPTION_FORM_PROPERTIES = "formProperties";
     public static final String EDITION_OPTION_BINDINGS_FIELDS = "dataHoldersFields";
@@ -683,7 +681,9 @@ public class WysiwygFormEditor extends BaseUIComponent {
     }
 
     public synchronized void actionChangeMainOption(CommandRequest request) throws Exception {
-        setCurrentEditionOption(request.getRequestObject().getParameter("newMainOption"));
+        String option = request.getRequestObject().getParameter("newMainOption");
+        if (EDITION_OPTION_SAVE.equals(option)) formEditorContextManager.saveContext(editionContext.getRenderContext().getUID());
+        else setCurrentEditionOption(option);
     }
 
     public void saveCurrentForm(Map parameterMap) throws Exception {
@@ -791,15 +791,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             holderRenderColor = holderRenderColorArray[0];
 
         String holderInfo =null;
-        if(Form.HOLDER_TYPE_CODE_BPM_PROCESS.equals(holderType)){
-            String[] holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_PR_INFO);
-
-            if (holderInfoArray != null && holderInfoArray.length > 0) holderInfo = holderInfoArray[0];
-            if ((holderInfo != null) && (holderId != null)) {
-                Form form = getCurrentForm();
-                form.setDataHolder(holderId, Form.HOLDER_TYPE_CODE_BPM_PROCESS, holderInfo, holderRenderColor);
-            }
-        } else if(Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL.equals(holderType)){
+        if(Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL.equals(holderType)){
             String[] holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_DM_INFO);
 
             if (holderInfoArray != null && holderInfoArray.length > 0) holderInfo = holderInfoArray[0];
@@ -814,7 +806,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             if (holderInfoArray != null && holderInfoArray.length > 0) holderInfo = holderInfoArray[0];
             if ((holderInfo != null) && (holderId != null)) {
                 Form form = getCurrentForm();
-                form.setDataHolder(holderId, Form.HOLDER_TYPE_CODE_POJO_CLASSNAME, holderInfo, holderRenderColor);
+                form.setDataHolder(new PojoDataHolder(holderId, holderInfo, holderRenderColor));
             }
 
         }

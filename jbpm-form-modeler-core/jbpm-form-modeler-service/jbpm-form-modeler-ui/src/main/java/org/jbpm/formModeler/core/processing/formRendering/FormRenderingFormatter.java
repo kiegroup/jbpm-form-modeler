@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.core.processing.formRendering;
 
 import org.apache.commons.logging.Log;
-import org.jbpm.formModeler.api.config.FormManager;
+import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.UIDGenerator;
@@ -30,9 +30,9 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.FormDisplayInfo;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.api.processing.FieldHandler;
-import org.jbpm.formModeler.api.processing.FormProcessor;
-import org.jbpm.formModeler.api.processing.FormStatusData;
+import org.jbpm.formModeler.core.processing.FieldHandler;
+import org.jbpm.formModeler.core.processing.FormProcessor;
+import org.jbpm.formModeler.core.processing.FormStatusData;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;

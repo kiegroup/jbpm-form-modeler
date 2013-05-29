@@ -15,10 +15,10 @@
  */
 package org.jbpm.formModeler.core;
 
-import org.jbpm.formModeler.api.config.FieldTypeManager;
-import org.jbpm.formModeler.api.config.FormManager;
-import org.jbpm.formModeler.api.config.FormSerializationManager;
-import org.jbpm.formModeler.api.processing.BindingManager;
+import org.jbpm.formModeler.core.config.FieldTypeManager;
+import org.jbpm.formModeler.core.config.FormManager;
+import org.jbpm.formModeler.core.config.FormSerializationManager;
+import org.jbpm.formModeler.core.processing.BindingManager;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;

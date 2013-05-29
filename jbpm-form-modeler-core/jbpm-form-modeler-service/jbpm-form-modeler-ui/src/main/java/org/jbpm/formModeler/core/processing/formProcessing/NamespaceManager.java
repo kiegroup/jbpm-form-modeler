@@ -20,7 +20,7 @@ import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.processing.FormNamespaceData;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.processing.FormProcessor;
+import org.jbpm.formModeler.core.processing.FormProcessor;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

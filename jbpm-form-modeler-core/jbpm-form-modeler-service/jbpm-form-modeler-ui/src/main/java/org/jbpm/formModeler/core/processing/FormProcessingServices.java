@@ -15,8 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing;
 
-import org.jbpm.formModeler.api.processing.FormProcessor;
-import org.jbpm.formModeler.api.processing.formRendering.FormTemplateHelper;
+import org.jbpm.formModeler.core.processing.formRendering.FormTemplateHelper;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.processing.formProcessing.FunctionsProvider;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;

@@ -3,10 +3,9 @@ package org.jbpm.formModeler.core.config;
 import org.jbpm.formModeler.core.xml.util.XMLNode;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.model.i18n.I18nSet;
+import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.io.*;
 import java.util.Set;
 import java.util.TreeSet;

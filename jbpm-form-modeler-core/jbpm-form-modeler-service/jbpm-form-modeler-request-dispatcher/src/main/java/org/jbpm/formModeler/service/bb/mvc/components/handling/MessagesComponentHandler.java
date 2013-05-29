@@ -21,7 +21,6 @@ import org.jbpm.formModeler.service.bb.mvc.components.PanelComponent;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.ArrayList;

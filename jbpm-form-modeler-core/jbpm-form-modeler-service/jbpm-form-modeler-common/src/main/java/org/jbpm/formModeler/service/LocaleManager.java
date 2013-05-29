@@ -16,7 +16,6 @@
 package org.jbpm.formModeler.service;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 

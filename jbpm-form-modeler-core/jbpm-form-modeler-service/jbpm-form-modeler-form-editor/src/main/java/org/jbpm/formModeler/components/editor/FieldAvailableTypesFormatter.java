@@ -17,7 +17,7 @@ package org.jbpm.formModeler.components.editor;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
-import org.jbpm.formModeler.api.processing.BindingManager;
+import org.jbpm.formModeler.core.processing.BindingManager;
 import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;

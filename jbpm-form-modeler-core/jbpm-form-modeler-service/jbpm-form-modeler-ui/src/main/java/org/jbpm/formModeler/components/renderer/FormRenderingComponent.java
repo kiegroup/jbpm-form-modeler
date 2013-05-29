@@ -19,17 +19,16 @@ import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
 import org.jbpm.formModeler.api.events.FormSubmittedEvent;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.processing.FormProcessor;
-import org.jbpm.formModeler.api.processing.FormRenderContext;
-import org.jbpm.formModeler.api.processing.FormRenderContextManager;
-import org.jbpm.formModeler.api.processing.FormStatusData;
+import org.jbpm.formModeler.core.processing.FormProcessor;
+import org.jbpm.formModeler.api.client.FormRenderContext;
+import org.jbpm.formModeler.api.client.FormRenderContextManager;
+import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 

@@ -21,8 +21,8 @@ import com.google.gwt.user.client.ui.Composite;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
-import org.jbpm.formModeler.api.events.*;
-import org.jbpm.formModeler.api.processing.FormRenderContextTO;
+import org.jbpm.formModeler.api.client.FormRenderContextTO;
+import org.jbpm.formModeler.api.events.FormRenderEvent;
 import org.jbpm.formModeler.renderer.client.FormRendererWidget;
 
 import javax.enterprise.context.Dependent;

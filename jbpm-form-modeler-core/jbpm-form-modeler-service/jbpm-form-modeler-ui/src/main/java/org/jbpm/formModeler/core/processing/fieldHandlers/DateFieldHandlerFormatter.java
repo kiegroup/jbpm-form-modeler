@@ -15,7 +15,6 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
-import org.jbpm.formModeler.api.processing.FieldHandler;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.service.LocaleManager;
@@ -25,7 +24,6 @@ import org.jbpm.formModeler.api.model.Form;
 import org.apache.commons.lang.StringUtils;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;

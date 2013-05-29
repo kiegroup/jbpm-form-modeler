@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.api.model;
 
-import org.jbpm.formModeler.api.config.FormManager;
+import org.jbpm.formModeler.core.config.FormManager;
 
 import java.io.Serializable;
 import java.util.*;
@@ -160,20 +160,13 @@ public class Form implements Serializable, Comparable{
         holders.add(holder);
     }
 
-    public void setDataHolder(String id, String type,String dataHolderInfo, String renderColor) {
-        if (id == null || id.trim().length() == 0) return;
-        DataHolder holder= new PojoDataHolder(id,dataHolderInfo, renderColor);
-        if(getDataHolderById(id)!=null){
-            holders.remove(holder);
-        }
-        holders.add(holder);
-    }
-
     public void removeDataHolder(String id) {
         if (id == null || id.trim().length() == 0) return;
-        DataHolder holder = new PojoDataHolder(id,"","");
         if(getDataHolderById(id)!=null){
-            holders.remove(holder);
+            for (Iterator it = holders.iterator(); it.hasNext();) {
+                DataHolder holder = (DataHolder) it.next();
+                if (holder.getId().equals(id)) it.remove();
+            }
         }
 
     }

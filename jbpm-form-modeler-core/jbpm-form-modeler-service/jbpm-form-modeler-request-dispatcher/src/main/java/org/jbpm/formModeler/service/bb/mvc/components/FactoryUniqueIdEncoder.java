@@ -20,7 +20,6 @@ import org.jbpm.formModeler.service.bb.mvc.components.handling.UIBeanHandler;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.servlet.jsp.PageContext;
 
 @ApplicationScoped
 public class FactoryUniqueIdEncoder {

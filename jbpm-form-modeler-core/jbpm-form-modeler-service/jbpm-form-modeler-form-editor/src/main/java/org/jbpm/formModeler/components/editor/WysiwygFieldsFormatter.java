@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.components.editor;
 
 import org.apache.commons.logging.Log;
-import org.jbpm.formModeler.api.config.FieldTypeManager;
+import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
@@ -24,8 +24,8 @@ import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.processing.FieldHandler;
-import org.jbpm.formModeler.api.processing.PropertyDefinition;
+import org.jbpm.formModeler.core.processing.FieldHandler;
+import org.jbpm.formModeler.core.processing.PropertyDefinition;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;

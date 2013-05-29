@@ -15,14 +15,10 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
-import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
 import org.jbpm.formModeler.core.wrappers.HTMLString;
 import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.service.annotation.config.Config;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;

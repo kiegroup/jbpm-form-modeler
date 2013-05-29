@@ -17,8 +17,8 @@
 --%>
 <%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
-<%@ page import="org.jbpm.formModeler.components.editor.WysiwygFormEditor" %>
 <%@ page import="org.jbpm.formModeler.api.model.Form" %>
+<%@ page import="org.jbpm.formModeler.components.editor.WysiwygFormEditor" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
@@ -73,6 +73,7 @@
                            src="<static:image relativePath="<%=(String)optionImage%>"/>">&nbsp;<a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitForm(document.getElementById('<factory:encode name="changeMainOption"/>'));"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
                 </td>
 
+
             </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
@@ -81,7 +82,14 @@
             <mvc:fragmentValue name="displayBindings" id="displayBindings">
                 <mvc:fragmentValue name="displayCheckbox" id="displayCheckbox">
                     <mvc:fragmentValue name="displayGrid" id="displayGrid">
-                        </tr></table>
+                                <td class="HorMenuOff">
+                                    <input type="image"
+                                           onclick="setFormInputValue(this.form,'newMainOption','<%=WysiwygFormEditor.EDITION_OPTION_SAVE%>');"
+                                           title="<i18n:message key="save">!!!Save</i18n:message>"
+                                           src="<static:image relativePath="general/Save.png"/>">&nbsp;<a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=WysiwygFormEditor.EDITION_OPTION_SAVE%>');submitForm(document.getElementById('<factory:encode name="changeMainOption"/>'));"><i18n:message key="save">!!!Save</i18n:message></a>
+                                </td>
+                            </tr>
+                        </table>
                         </form>
                         <script defer>
                             setAjax("<factory:encode name="changeMainOption"/>");
@@ -131,13 +139,13 @@
                 <td>
                     <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
                         <tr>
-                            <td style="vertical-align: top;height: 600px;" width="220px">
+                            <td class="CompLeftColumn">
                                 <jsp:include page="<%=(String)editionPage%>" flush="true"/>
                             </td>
-                            <td style="vertical-align: top;" id="preview">
+                            <td class="CompCenterColumn" id="preview">
                                 <jsp:include page="formPreview.jsp"/>
                             </td>
-                            <td style="vertical-align: top;">
+                            <td class="CompRightColumn">
                                 <jsp:include page="editFieldProperties.jsp"/>
                             </td>
                         </tr>

@@ -18,8 +18,8 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
-import org.jbpm.formModeler.api.config.FormManager;
-import org.jbpm.formModeler.api.processing.FormStatusData;
+import org.jbpm.formModeler.core.config.FormManager;
+import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Formatter for simple fields

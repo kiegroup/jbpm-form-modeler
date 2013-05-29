@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.api.events;
 
 import org.jboss.errai.common.client.api.annotations.Portable;
-import org.jbpm.formModeler.api.processing.FormRenderContextTO;
+import org.jbpm.formModeler.api.client.FormRenderContextTO;
 
 import java.io.Serializable;
 

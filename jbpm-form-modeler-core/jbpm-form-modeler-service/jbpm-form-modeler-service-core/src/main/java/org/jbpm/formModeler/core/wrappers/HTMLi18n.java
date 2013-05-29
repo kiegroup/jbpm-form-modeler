@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.core.wrappers;
 
-import org.jbpm.formModeler.api.model.i18n.I18nSet;
+import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 
 import java.util.Set;
 

@@ -17,14 +17,13 @@ package org.jbpm.formModeler.core;
 
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.api.processing.FieldHandler;
+import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.fieldHandlers.*;
 import org.jbpm.formModeler.core.processing.formDecorators.*;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 

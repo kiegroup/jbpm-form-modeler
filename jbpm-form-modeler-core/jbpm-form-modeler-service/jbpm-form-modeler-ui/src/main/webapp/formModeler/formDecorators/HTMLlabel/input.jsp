@@ -16,7 +16,7 @@
 
 --%>
 <%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
-<%@ page import="org.jbpm.formModeler.api.model.i18n.I18nSet" %>
+<%@ page import="org.jbpm.formModeler.api.model.wrappers.I18nSet" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%try { %>
 <mvc:formatter name="org.jbpm.formModeler.core.processing.fieldHandlers.SimpleFieldHandlerFormatter">

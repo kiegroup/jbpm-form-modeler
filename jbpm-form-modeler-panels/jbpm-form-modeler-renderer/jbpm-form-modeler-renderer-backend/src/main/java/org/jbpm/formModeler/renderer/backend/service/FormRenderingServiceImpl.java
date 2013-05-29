@@ -1,13 +1,14 @@
 package org.jbpm.formModeler.renderer.backend.service;
 
 import org.jboss.errai.bus.server.annotations.Service;
-import org.jbpm.formModeler.api.config.FormManager;
-import org.jbpm.formModeler.api.config.FormSerializationManager;
-import org.jbpm.formModeler.api.events.*;
+import org.jbpm.formModeler.core.config.FormManager;
+import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.processing.FormProcessor;
-import org.jbpm.formModeler.api.processing.FormRenderContext;
-import org.jbpm.formModeler.api.processing.FormRenderContextTO;
+import org.jbpm.formModeler.core.processing.FormProcessor;
+import org.jbpm.formModeler.api.client.FormRenderContext;
+import org.jbpm.formModeler.api.client.FormRenderContextTO;
+import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
+import org.jbpm.formModeler.api.events.FormSubmittedEvent;
 import org.jbpm.formModeler.renderer.service.FormRenderingService;
 import org.apache.commons.logging.Log;
 

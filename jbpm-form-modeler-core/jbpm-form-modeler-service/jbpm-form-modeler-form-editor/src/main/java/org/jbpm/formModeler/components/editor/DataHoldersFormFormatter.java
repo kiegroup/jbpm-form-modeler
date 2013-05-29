@@ -17,10 +17,13 @@ package org.jbpm.formModeler.components.editor;
 
 import org.apache.commons.logging.Log;
 
-
-import org.jbpm.formModeler.api.config.FieldTypeManager;
-import org.jbpm.formModeler.api.model.*;
-import org.jbpm.formModeler.api.processing.BindingManager;
+import org.jbpm.formModeler.core.config.FieldTypeManager;
+import org.jbpm.formModeler.api.model.DataFieldHolder;
+import org.jbpm.formModeler.api.model.DataHolder;
+import org.jbpm.formModeler.api.model.FieldType;
+import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.core.processing.BindingManager;
+import org.jbpm.formModeler.dataModeler.integration.DataModelerService;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
@@ -37,10 +40,7 @@ public class DataHoldersFormFormatter extends Formatter {
     private Log log;
 
     @Inject
-    private org.jbpm.formModeler.integration.DataModelerService dataModelerService;
-
-    //  @Inject
-    //  private RuntimeDataService dataService;
+    private DataModelerService dataModelerService;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
@@ -65,10 +65,6 @@ public class DataHoldersFormFormatter extends Formatter {
             renderFragment("rowStart");
             renderSelectDataModel(dataModelerService.getDataModelObjectList(wysiwygFormEditor.getCurrentEditionContext().getPath()));
             renderFragment("rowEnd");
-
-            //renderFragment("rowStart");
-            //renderSelectProcessSource();
-            //renderFragment("rowEnd");
 
             renderFragment("outputFormAddHolderEnd");
 
@@ -113,29 +109,6 @@ public class DataHoldersFormFormatter extends Formatter {
                 renderFragment("selectOption");
             }
         }
-        renderFragment("selectEnd");
-
-
-    }
-
-    public void renderSelectProcessSource() throws Exception {
-
-        //Collection processes = dataService.getProcesses();  //TODO we want retrieve the process available in dessign time
-        //if(processes!=null){
-
-        //}
-
-        setAttribute("id", Form.HOLDER_TYPE_CODE_BPM_PROCESS);
-        setAttribute("name", WysiwygFormEditor.PARAMETER_HOLDER_PR_INFO);
-        renderFragment("selectStart");
-
-        // for(DataObjectTO dataObjectTO : dataModelTO.getDataObjects()){
-        //         className = dataObjectTO.getPackageName() + "."+dataObjectTO.getClassName();  //TODO get the pojo reference that will be loaded in runtime at classpath
-        setAttribute("optionLabel", "proc1-t1");
-        setAttribute("optionValue", "org.jbpm.formModeler.api.Invoice");
-        renderFragment("selectOption");
-
-        //}
         renderFragment("selectEnd");
 
 

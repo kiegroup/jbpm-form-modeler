@@ -15,8 +15,6 @@
  */
 package org.jbpm.formModeler.core.processing.formRendering;
 
-import org.jbpm.formModeler.api.processing.formRendering.FormTemplateHelper;
-
 import javax.enterprise.context.ApplicationScoped;
 import java.text.MessageFormat;
 import java.text.ParseException;

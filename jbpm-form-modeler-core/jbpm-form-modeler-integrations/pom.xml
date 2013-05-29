@@ -7,37 +7,16 @@
         <groupId>org.jbpm</groupId>
         <version>6.0.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
+    <modelVersion>4.0.0</modelVersion>
     <artifactId>jbpm-form-modeler-integrations</artifactId>
     <version>6.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>jbpm-form-modeler-data-modeler</module>
+        <module>jbpm-form-modeler-form-provider</module>
+    </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.jboss.errai</groupId>
-            <artifactId>errai-bus</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kie.workbench.screens</groupId>
-            <artifactId>kie-wb-common-data-modeller-backend</artifactId>
-            <version>6.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jbpm</groupId>
-            <artifactId>jbpm-form-modeler-api</artifactId>
-            <version>6.0.0-SNAPSHOT</version>
-        </dependency>
-
-    </dependencies>
     <build>
         <resources>
             <!-- Include src/main/java in order not to break the Eclipse GWT plug-in -->

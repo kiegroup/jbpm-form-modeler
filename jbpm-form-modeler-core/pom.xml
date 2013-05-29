@@ -16,8 +16,8 @@
 
     <modules>
         <module>jbpm-form-modeler-api</module>
-        <module>jbpm-form-modeler-integrations</module>
         <module>jbpm-form-modeler-service</module>
+        <module>jbpm-form-modeler-integrations</module>
     </modules>
 
     
