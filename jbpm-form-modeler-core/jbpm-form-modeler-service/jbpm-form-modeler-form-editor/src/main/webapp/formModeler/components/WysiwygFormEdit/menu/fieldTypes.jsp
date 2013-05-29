@@ -59,7 +59,7 @@
                                              align="absmiddle">
                                     </td>
                                     <td>
-                                        <i18n:message key="<%="fieldType." + typeName%>"/>
+                                        <i18n:message key='<%="fieldType." + typeName%>'/>
 
                                     </td>
                                     <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
@@ -74,7 +74,7 @@
                             <input type="hidden" name="fieldType" value="<mvc:fragmentValue name="typeId"/>">
                         </form>
                         <script defer>
-                            setAjax("<%="addPrimitiveFieldForm"+uid%>");
+                            setAjax('<%="addPrimitiveFieldForm"+uid%>');
                         </script>
                     </td>
                 </tr>
@@ -85,13 +85,13 @@
 <mvc:fragment name="outputFieldNameToAddStart">
     <tr><td nowrap="nowrap">
     <mvc:fragmentValue name="uid" id="uid">
-        <div style="display:none; margin-left: 6px;" id="<%="" + uid%>">
+        <div style="display:none; margin-left: 6px;" id='<%="" + uid%>'>
     </mvc:fragmentValue>
 </mvc:fragment>
 <mvc:fragment name="outputFieldNameToAdd">
     <mvc:fragmentValue name="uid" id="uid">
         <form method="POST" style="margin:0px;" action="<factory:formUrl/>"
-              id="<%="addPrimitiveFieldForm"+uid%>">
+              id='<%="addPrimitiveFieldForm"+uid%>'>
             <factory:handler action="addFieldToForm"/>
             <table cellspacing="0" cellpadding="0" width="100%">
                 <tr onmouseover="className='skn-even_row_alt'" onmouseout="className=''">
@@ -116,7 +116,7 @@
             <input type="hidden" name="fieldType" value="<mvc:fragmentValue name="typeId"/>">
         </form>
         <script defer>
-            setAjax("<%="addPrimitiveFieldForm"+uid%>");
+            setAjax('<%="addPrimitiveFieldForm"+uid%>');
         </script>
     </mvc:fragmentValue>
 </mvc:fragment>
@@ -160,16 +160,16 @@
     <mvc:fragmentValue name="position" id="position">
         <mvc:fragmentValue name="type" id="type">
             <tr><td>
-            <div id="<%="type_" + type + position%>" style="display:none; margin-left: 6px;">
+            <div id='<%="type_" + type + position%>' style="display:none; margin-left: 6px;">
         </mvc:fragmentValue>
     </mvc:fragmentValue>
 </mvc:fragment>
 <mvc:fragment name="outputComplexFieldNameToAdd">
     <mvc:fragmentValue name="uid" id="uid">
         <script defer="true">
-            setAjax("<%="addComplexForm"+uid%>");
+            setAjax('<%="addComplexForm"+uid%>');
         </script>
-        <form method="POST" style="margin:0px;" action="<factory:formUrl/>" id="<%="addComplexForm"+uid%>">
+        <form method="POST" style="margin:0px;" action="<factory:formUrl/>" id='<%="addComplexForm"+uid%>'>
             <factory:handler action="addComplexFieldToForm"/>
             <table cellspacing="0" cellpadding="0" width="100%">
                 <tr onmouseover="className='skn-even_row_alt'" onmouseout="className=''">
@@ -206,7 +206,7 @@
             <tr>
                 <td nowrap="nowrap" width="10px">
                     <form method="POST" style="margin:0px;" action="<factory:formUrl/>"
-                          id="<%="addDecForm"+position%>">
+                          id='<%="addDecForm"+position%>' >
                         <factory:handler action="addDecoratorToForm"/>
 
                         <input type="hidden" name="fieldType" value="<%=decoratorId%>">
@@ -219,7 +219,7 @@
                                     </mvc:fragmentValue>
                                 </td>
                                 <td>
-                                    <i18n:message key="<%="fieldType." + decoratorId%>"/>
+                                    <i18n:message key='<%="fieldType." + decoratorId%>'/>
                                 </td>
                                 <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
                                     <input type="image" style="cursor:hand"
@@ -230,7 +230,7 @@
                         </table>
                     </form>
                     <script defer>
-                        setAjax("<%="addDecForm"+position%>");
+                        setAjax('<%="addDecForm"+position%>');
                     </script>
                 </td>
             </tr>

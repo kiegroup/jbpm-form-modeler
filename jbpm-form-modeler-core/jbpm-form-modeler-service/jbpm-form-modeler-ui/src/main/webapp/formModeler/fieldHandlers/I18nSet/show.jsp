@@ -46,7 +46,7 @@
                         <mvc:fragmentValue name="index" id="index">
                         <mvc:fragmentValue name="element" id="locale">
                         <input type="hidden" name="<%=name%>_<%=((Locale) locale).toString()%>"
-                            value="<%=StringEscapeUtils.escapeHtml((val != null && !"".equals(val)) ? StringUtils.defaultString(((I18nSet) val).getValue(((Locale) locale).toString())) : "" )%>"/>
+                            value='<%=StringEscapeUtils.escapeHtml((val != null && !"".equals(val)) ? StringUtils.defaultString(((I18nSet) val).getValue(((Locale) locale).toString())) : "" )%>'/>
                         </mvc:fragmentValue>
                         </mvc:fragmentValue>
                     </mvc:fragment>

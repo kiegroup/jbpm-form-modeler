@@ -50,7 +50,7 @@
     </mvc:fragment>
     <mvc:fragment name="outputHiddenMessagesStart">
         <mvc:fragmentValue name="id" id="id">
-                        <table id="<%="table_" + id%>" style="display:none;">
+                        <table id='<%="table_" + id%>' style="display:none;">
         </mvc:fragmentValue>
     </mvc:fragment>
     <mvc:fragment name="outputMessage">
@@ -93,14 +93,14 @@
         <mvc:fragmentValue name="min" id="min">
         <mvc:fragmentValue name="max" id="max">
                         <div style="width:100%; text-align:center;">
-                            <a href="#" id="<%="link_"+id+"_show"%>"
+                            <a href="#" id='<%="link_"+id+"_show"%>'
                                onclick="document.getElementById('<%="table_" + id%>').style.display='';
                                         document.getElementById('<%="link_"+id+"_hide"%>').style.display='';
                                         this.style.display='none';
                                         return false;">
                                 <i18n:message key="show" bundleRef="defaultBundle">!!! ver mas</i18n:message>
                             </a>
-                            <a href="#" style="display:none;" id="<%="link_"+id+"_hide"%>"
+                            <a href="#" style="display:none;" id='<%="link_"+id+"_hide"%>'
                                onclick="document.getElementById('<%="table_" + id%>').style.display='none';
                                         document.getElementById('<%="link_"+id+"_show"%>').style.display='';
                                         this.style.display='none';

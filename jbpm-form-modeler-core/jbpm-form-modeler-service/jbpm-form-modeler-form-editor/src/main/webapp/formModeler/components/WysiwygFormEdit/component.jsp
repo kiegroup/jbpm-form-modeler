@@ -17,8 +17,8 @@
 --%>
 <%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
-<%@ page import="org.jbpm.formModeler.api.model.Form" %>
 <%@ page import="org.jbpm.formModeler.components.editor.WysiwygFormEditor" %>
+<%@ page import="org.jbpm.formModeler.api.model.Form" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
@@ -72,6 +72,7 @@
                            title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
                            src="<static:image relativePath="<%=(String)optionImage%>"/>">&nbsp;<a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitForm(document.getElementById('<factory:encode name="changeMainOption"/>'));"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
                 </td>
+
 
 
             </mvc:fragmentValue>

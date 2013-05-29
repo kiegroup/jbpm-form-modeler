@@ -50,7 +50,7 @@
                                                             <%=height!=null ? " height=\""+height+"\"":""%>
                                                             <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>
                                                             <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%>
-                                                                value="<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(StringUtils.defaultString(!(val==null || "".equals(val))?((I18nSet)val).getValue(LocaleManager.currentLang()):"")))%>">
+                                                                value='<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(StringUtils.defaultString(!(val==null || "".equals(val))?((I18nSet)val).getValue(LocaleManager.currentLang()):"")))%>'>
                                                     </mvc:fragmentValue>
                                                 </mvc:fragmentValue>
                                             </mvc:fragmentValue>

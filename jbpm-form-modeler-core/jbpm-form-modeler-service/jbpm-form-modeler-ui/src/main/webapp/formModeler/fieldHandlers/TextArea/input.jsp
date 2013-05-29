@@ -42,7 +42,7 @@
                                                             onchange="processFormInputChange(this)"
                                                             onkeyup="return ismaxlength(this)"
                                                             <%=title!=null?("title=\""+title+"\""):""%>
-                                                            class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
+                                                            class='dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>'
                                                             style="<%=StringUtils.defaultString((String) cssStyle)%>"
                                                             <%=size!=null ? " cols=\""+size+"\"":""%>
                                                             <%=maxlength!=null ? " maxlength=\""+maxlength+"\"":""%>

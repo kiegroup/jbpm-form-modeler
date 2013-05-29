@@ -54,12 +54,12 @@
                                                                                                 <mvc:fragmentValue name="index" id="index">
                                                                                                     <mvc:fragmentValue name="element" id="locale">
                                                                                                         <div id="<%=uid%><%=((Locale) locale).toString()%>"
-                                                                                                             style="<%=(((Locale) locale).getLanguage().equals(LocaleManager.currentLang()) ? "display:block;" : "display:none;")%>"
+                                                                                                             style='<%=(((Locale) locale).getLanguage().equals(LocaleManager.currentLang()) ? "display:block;" : "display:none;")%>'
                                                                                                                 >
                                                                                                             <input id="<%=uid%><%=((Locale) locale).toString()%>" name="<%=name%>_<%=((Locale) locale).toString()%>"
                                                                                                                    onchange="processFormInputChange(this)"
                                                                                                                     <%=title != null ? ("title=\"" + title + "\"") : ""%>
-                                                                                                                   class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
+                                                                                                                   class='dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>'
                                                                                                                    style="<%=StringUtils.defaultString((String) cssStyle)%>"
                                                                                                                     <%=size != null ? " size=\"" + size + "\"" : ""%>
                                                                                                                     <%=maxlength != null ? " maxlength=\"" + maxlength + "\"" : ""%>
@@ -69,10 +69,10 @@
                                                                                                                     <%=height != null ? " height=\"" + height + "\"" : ""%>
                                                                                                                     <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly " : ""%>
                                                                                                                     <%=disabled != null && ((Boolean) disabled).booleanValue() ? " disabled " : ""%>
-                                                                                                                   value="<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(
+                                                                                                                   value='<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(
                                             (value == null || "".equals(value)) ? "" :
                                                     ((I18nSet) value).getValue( ((Locale) locale).toString()))
-                                    )%>"></div>
+                                    )%>'></div>
                                                                                                     </mvc:fragmentValue>
                                                                                                 </mvc:fragmentValue>
                                                                                             </mvc:fragment>
