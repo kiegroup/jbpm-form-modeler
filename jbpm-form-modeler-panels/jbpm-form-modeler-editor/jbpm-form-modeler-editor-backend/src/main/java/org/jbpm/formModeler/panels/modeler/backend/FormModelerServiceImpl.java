@@ -28,7 +28,6 @@ import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
-import org.uberfire.client.workbench.widgets.events.NotificationEvent;
 import org.uberfire.client.workbench.widgets.events.ResourceAddedEvent;
 import org.uberfire.client.workbench.widgets.menu.Menus;
 
@@ -53,10 +52,6 @@ public class FormModelerServiceImpl implements FormModelerService {
 
     @Inject
     private Event<ResourceAddedEvent> resourceAddedEvent;
-
-
-    @Inject
-    private Event<NotificationEvent> notification;
 
     @Inject
     private FormManager formManager;
@@ -122,7 +117,6 @@ public class FormModelerServiceImpl implements FormModelerService {
         formManager.replaceForm(ctx.getOriginalForm(), ctx.getForm());
         org.kie.commons.java.nio.file.Path kiePath = paths.convert((Path)ctx.getPath());
         ioService.write(kiePath, formSerializationManager.generateFormXML(ctx.getForm()));
-        notification.fire(new NotificationEvent("Form '" + ctx.getForm().getName() + "' saved.", NotificationEvent.NotificationType.SUCCESS));
     }
 
     @Override
