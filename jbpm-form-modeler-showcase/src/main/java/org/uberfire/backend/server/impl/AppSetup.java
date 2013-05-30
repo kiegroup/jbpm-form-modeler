@@ -17,6 +17,7 @@
 package org.uberfire.backend.server.impl;
 
 import java.net.URI;
+import java.util.*;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -25,8 +26,9 @@ import javax.inject.Named;
 
 import org.kie.commons.io.IOService;
 import org.kie.commons.io.impl.IOServiceDotFileImpl;
-import org.kie.commons.java.nio.file.FileSystem;
 import org.kie.commons.java.nio.file.FileSystemAlreadyExistsException;
+import org.uberfire.backend.group.Group;
+import org.uberfire.backend.group.GroupService;
 import org.uberfire.backend.repositories.Repository;
 import org.uberfire.backend.repositories.RepositoryService;
 
@@ -36,16 +38,16 @@ import org.kie.commons.services.cdi.Startup;
 @ApplicationScoped
 @Startup
 public class AppSetup {
-    // private static final String REPO_PLAYGROUND = "jbpm-playground";
-    // private static final String ORIGIN_URL      = "https://github.com/guvnorngtestuser1/jbpm-console-ng-playground.git";
-
-    // private static final String REPO_PLAYGROUND = "uf-playground";
-    // private static final String ORIGIN_URL      = "https://github.com/wmedvede/guvnorng-playground.git";
 
     private static final String REPO_PLAYGROUND = "jbpm-playground";
-    private static final String  ORIGIN_URL = "https://github.com/guvnorngtestuser1/jbpm-console-ng-playground-kjar.git";
+    private static final String REPO_URL = "https://github.com/guvnorngtestuser1/jbpm-console-ng-playground-kjar.git";
+    private static final String REPO_USERNAME = "guvnorngtestuser1";
+    private static final String REPO_PASS = "test1234";
 
     private final IOService ioService = new IOServiceDotFileImpl();
+
+    @Inject
+    private GroupService groupService;
 
     @Produces
     @Named("ioStrategy")
@@ -61,19 +63,23 @@ public class AppSetup {
 
         Repository repository = repositoryService.getRepository(REPO_PLAYGROUND);
         if(repository == null) {
-/*
-            final String userName = "guvnorngtestuser1";
-            final String password = "test1234";
-*/
 
-            final String userName = "guvnorngtestuser1";
-            final String password = "test1234";
-            //final String userName = "wmedvede";
-            //final String password = "med0077";
+            final Map<String, Object> env = new HashMap<String, Object>( 3 );
+            env.put( "origin", REPO_URL );
+            env.put( "username", REPO_USERNAME);
+            env.put( "crypt:REPO_PASS", REPO_PASS);
 
-            repositoryService.cloneRepository("git", REPO_PLAYGROUND, ORIGIN_URL, userName, password);
-            repository = repositoryService.getRepository(REPO_PLAYGROUND);
+            repositoryService.createRepository( "git", REPO_PLAYGROUND, env );
+            repository = repositoryService.getRepository( REPO_PLAYGROUND );
         }
+
+        Collection<Group> groups = groupService.getGroups();
+        if ( groups == null || groups.isEmpty() ) {
+            List<Repository> repositories = new ArrayList<Repository>();
+            repositories.add( repository );
+            groupService.createGroup( "demo", "demo@jbpm.org", repositories );
+        }
+
         try {
             ioService.newFileSystem(URI.create(repository.getUri()), repository.getEnvironment());
 

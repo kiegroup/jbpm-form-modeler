@@ -26,11 +26,12 @@ import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.annotations.*;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.mvp.UberView;
-import org.uberfire.client.workbench.widgets.events.NotificationEvent;
-import org.uberfire.client.workbench.widgets.menu.MenuFactory;
-import org.uberfire.client.workbench.widgets.menu.MenuItem;
-import org.uberfire.client.workbench.widgets.menu.Menus;
-import org.uberfire.shared.mvp.PlaceRequest;
+import org.uberfire.mvp.Command;
+import org.uberfire.mvp.PlaceRequest;
+import org.uberfire.workbench.events.NotificationEvent;
+import org.uberfire.workbench.model.menu.MenuFactory;
+import org.uberfire.workbench.model.menu.MenuItem;
+import org.uberfire.workbench.model.menu.Menus;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
@@ -38,7 +39,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.uberfire.client.workbench.widgets.menu.MenuFactory.newSimpleItem;
+import static org.uberfire.workbench.model.menu.MenuFactory.newSimpleItem;
 
 
 @Dependent
@@ -149,7 +150,7 @@ public class FormModelerPanelPresenter {
 
         final List<MenuItem> menuItems = new ArrayList<MenuItem>();
 
-        org.uberfire.client.mvp.Command saveCommand = new org.uberfire.client.mvp.Command() {
+        Command saveCommand = new Command() {
             @Override
             public void execute() {
                 onSave();

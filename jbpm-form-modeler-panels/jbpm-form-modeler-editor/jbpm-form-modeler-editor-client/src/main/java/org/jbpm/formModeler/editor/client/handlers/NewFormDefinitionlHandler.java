@@ -26,8 +26,8 @@ import org.kie.workbench.common.widgets.client.handlers.NewResourcePresenter;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.common.BusyPopup;
 import org.uberfire.client.mvp.PlaceManager;
-import org.uberfire.shared.mvp.PlaceRequest;
-import org.uberfire.shared.mvp.impl.PathPlaceRequest;
+import org.uberfire.mvp.PlaceRequest;
+import org.uberfire.mvp.impl.PathPlaceRequest;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
