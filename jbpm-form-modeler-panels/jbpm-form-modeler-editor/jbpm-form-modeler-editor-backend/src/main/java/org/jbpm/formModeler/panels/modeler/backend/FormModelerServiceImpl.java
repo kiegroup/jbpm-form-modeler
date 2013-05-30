@@ -28,8 +28,8 @@ import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
-import org.uberfire.client.workbench.widgets.events.ResourceAddedEvent;
-import org.uberfire.client.workbench.widgets.menu.Menus;
+import org.uberfire.workbench.events.ResourceAddedEvent;
+import org.uberfire.workbench.model.menu.Menus;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
@@ -63,8 +63,6 @@ public class FormModelerServiceImpl implements FormModelerService {
     private FormRenderContextManager formRenderContextManager;
 
     protected Map<String, FormEditorContext> formEditorContextMap = new HashMap<String, FormEditorContext>();
-
-    private Menus menus;
 
     @Override
     public FormEditorContextTO setFormFocus(String ctxUID) {

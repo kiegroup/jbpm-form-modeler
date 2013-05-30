@@ -22,15 +22,15 @@ import org.uberfire.client.annotations.Perspective;
 import org.uberfire.client.annotations.WorkbenchMenu;
 import org.uberfire.client.annotations.WorkbenchPerspective;
 import org.uberfire.client.mvp.PlaceManager;
-import org.uberfire.client.workbench.Position;
-import org.uberfire.client.workbench.model.PanelDefinition;
-import org.uberfire.client.workbench.model.PerspectiveDefinition;
-import org.uberfire.client.workbench.model.impl.PanelDefinitionImpl;
-import org.uberfire.client.workbench.model.impl.PartDefinitionImpl;
-import org.uberfire.client.workbench.model.impl.PerspectiveDefinitionImpl;
-import org.uberfire.client.workbench.widgets.menu.MenuFactory;
-import org.uberfire.client.workbench.widgets.menu.Menus;
-import org.uberfire.shared.mvp.impl.DefaultPlaceRequest;
+import org.uberfire.mvp.impl.DefaultPlaceRequest;
+import org.uberfire.workbench.model.PanelDefinition;
+import org.uberfire.workbench.model.PerspectiveDefinition;
+import org.uberfire.workbench.model.Position;
+import org.uberfire.workbench.model.impl.PanelDefinitionImpl;
+import org.uberfire.workbench.model.impl.PartDefinitionImpl;
+import org.uberfire.workbench.model.impl.PerspectiveDefinitionImpl;
+import org.uberfire.workbench.model.menu.MenuFactory;
+import org.uberfire.workbench.model.menu.Menus;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -81,7 +81,7 @@ public class HomePerspective {
 
     private void buildMenuBar() {
         this.menus = MenuFactory
-                .newTopLevelMenu( "New" )
+                .newTopLevelMenu("New")
                 .withItems(newResourcesMenu.getMenuItems())
                 .endMenu()
                 .newTopLevelMenu( "Tools" )

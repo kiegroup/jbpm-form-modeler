@@ -2,7 +2,7 @@ package org.jbpm.formModeler.editor.type;
 
 
 import org.uberfire.backend.vfs.Path;
-import org.uberfire.shared.workbench.type.ResourceTypeDefinition;
+import org.uberfire.workbench.type.ResourceTypeDefinition;
 
 import javax.enterprise.context.ApplicationScoped;
 

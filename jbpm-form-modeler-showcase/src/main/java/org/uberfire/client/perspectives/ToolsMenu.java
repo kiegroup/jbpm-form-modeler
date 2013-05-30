@@ -4,11 +4,12 @@ import org.jboss.errai.bus.client.api.RemoteCallback;
 import org.jboss.errai.ioc.client.api.Caller;
 import org.kie.workbench.common.services.project.service.ProjectService;
 import org.uberfire.backend.vfs.Path;
-import org.uberfire.client.mvp.Command;
 import org.uberfire.client.mvp.PlaceManager;
-import org.uberfire.client.workbench.widgets.events.PathChangeEvent;
-import org.uberfire.client.workbench.widgets.menu.MenuFactory;
-import org.uberfire.client.workbench.widgets.menu.MenuItem;
+
+import org.uberfire.mvp.Command;
+import org.uberfire.workbench.events.PathChangeEvent;
+import org.uberfire.workbench.model.menu.MenuFactory;
+import org.uberfire.workbench.model.menu.MenuItem;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;

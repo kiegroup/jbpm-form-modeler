@@ -198,8 +198,6 @@
             <artifactId>kie-wb-common-search-screen-client</artifactId>
         </dependency>
 
-
-
         <dependency>
             <groupId>org.kie.workbench.screens</groupId>
             <artifactId>kie-wb-common-project-explorer-api</artifactId>
@@ -376,6 +374,11 @@
             <artifactId>drools-wb-workitems-editor-backend</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-shared-services</artifactId>
+        </dependency>
+
         <!-- UberFire -->
         <dependency>
             <groupId>org.uberfire</groupId>
@@ -405,11 +408,6 @@
         <dependency>
             <groupId>org.uberfire</groupId>
             <artifactId>uberfire-widgets-core-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.uberfire</groupId>
-            <artifactId>uberfire-widgets-core-backend</artifactId>
         </dependency>
 
         <dependency>

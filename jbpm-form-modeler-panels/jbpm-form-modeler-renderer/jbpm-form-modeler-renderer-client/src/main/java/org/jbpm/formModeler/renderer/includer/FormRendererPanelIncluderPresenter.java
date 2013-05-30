@@ -25,7 +25,7 @@ import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.annotations.WorkbenchScreen;
 import org.uberfire.client.mvp.UberView;
-import org.uberfire.client.workbench.widgets.events.NotificationEvent;
+import org.uberfire.workbench.events.NotificationEvent;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
