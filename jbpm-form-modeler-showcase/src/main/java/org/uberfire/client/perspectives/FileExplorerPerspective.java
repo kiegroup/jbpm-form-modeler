@@ -15,10 +15,6 @@
  */
 package org.uberfire.client.perspectives;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -43,7 +39,12 @@ import org.uberfire.workbench.model.toolbar.ToolBar;
 import org.uberfire.workbench.model.toolbar.impl.DefaultToolBar;
 import org.uberfire.workbench.model.toolbar.impl.DefaultToolBarItem;
 
-import static org.uberfire.workbench.model.toolbar.IconType.*;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import static org.uberfire.workbench.model.toolbar.IconType.DOWNLOAD_ALT;
+import static org.uberfire.workbench.model.toolbar.IconType.FOLDER_CLOSE_ALT;
 
 /**
  * A Perspective to show File Explorer

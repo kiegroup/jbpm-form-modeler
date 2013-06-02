@@ -5,7 +5,6 @@ import org.jboss.errai.ioc.client.api.Caller;
 import org.kie.workbench.common.services.project.service.ProjectService;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.mvp.PlaceManager;
-
 import org.uberfire.mvp.Command;
 import org.uberfire.workbench.events.PathChangeEvent;
 import org.uberfire.workbench.model.menu.MenuFactory;
