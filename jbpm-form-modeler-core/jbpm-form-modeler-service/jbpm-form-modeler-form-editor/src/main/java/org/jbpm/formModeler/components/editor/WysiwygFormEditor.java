@@ -121,6 +121,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
     private String renderMode = Form.RENDER_MODE_WYSIWYG_FORM;
     private Boolean displayBindings = Boolean.TRUE;
     private Boolean displayGrid = Boolean.TRUE;
+    private Boolean showTemplateEdition = Boolean.FALSE;
     private FieldType originalFieldType;
     private String lastDataHolderUsedId = "";
     private FormEditorContext editionContext;
@@ -699,11 +700,17 @@ public class WysiwygFormEditor extends BaseUIComponent {
         form.setLabelMode(labelMode);
         form.setStatus(status);
 
+        if(!Form.DISPLAY_MODE_TEMPLATE.equals(displayMode)){
+            getFormTemplateEditor().setFormId(null);
+        }
         String[] editTemplateParams = (String[]) parameterMap.get("editTemplate");
         if (editTemplateParams != null && editTemplateParams.length > 0 && "true".equals(editTemplateParams[0])) {
+            form.setDisplayMode(Form.DISPLAY_MODE_TEMPLATE);
             getFormTemplateEditor().setFormId(form.getId());
+            getFormTemplateEditor().setTemplateContent(form.getFormTemplate());
             Long formId = form.getId();
             if (formId != null) getFormTemplateEditor().setFormId(formId);
+            showTemplateEdition = true;
         }
     }
 
@@ -875,6 +882,32 @@ public class WysiwygFormEditor extends BaseUIComponent {
         label.setValue(defaultLang, fieldName + " (" + dataHolderId + ")");
         getFormManager().addFieldToForm(form, dataHolderId + "_" + fieldName, fieldType, label, form.generateBindingStr(dataHolderId, fieldName));
         setLastDataHolderUsedId(dataHolderId);
+    }
+
+    public boolean isShowingTemplateEdition() {
+        if (getFormTemplateEditor() != null) {
+            return getFormTemplateEditor().isOn() && showTemplateEdition;
+        }
+        return false;
+    }
+
+    public void actionSaveTemplate(CommandRequest request) throws Exception {
+        String loadTemplate = request.getRequestObject().getParameter("loadTemplate");
+        String templateContent = request.getRequestObject().getParameter("templateContent");
+        getFormTemplateEditor().setTemplateContent(templateContent);
+
+        if(loadTemplate!=null && Boolean.valueOf(loadTemplate).booleanValue()) getFormTemplateEditor().setLoadTemplate(true);
+
+        else getFormTemplateEditor().setLoadTemplate(false);
+        if (getFormTemplateEditor().isCancel()) {
+            getFormTemplateEditor().setFormId(null);
+        } else {
+            //if (getFormTemplateEditor().isPersist()) {
+                FormCoreServices.lookup().getFormManager().saveTemplateForForm(getFormTemplateEditor().getFormId(), getFormTemplateEditor().getTemplateContent());
+                getFormTemplateEditor().setFormId(null);
+            //}
+        }
+        showTemplateEdition =false;
     }
 
 

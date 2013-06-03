@@ -35,6 +35,7 @@ import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
@@ -43,6 +44,7 @@ import java.util.*;
 /**
  * Renders a form.
  */
+@Named("FormRenderingFormatter")
 public class FormRenderingFormatter extends Formatter {
 
     public static final String ATTR_FIELD = "_ddm_currentField";

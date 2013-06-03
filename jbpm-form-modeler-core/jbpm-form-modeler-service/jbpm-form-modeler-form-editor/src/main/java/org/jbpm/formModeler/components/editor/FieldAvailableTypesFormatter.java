@@ -26,10 +26,12 @@ import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+@Named("FieldAvailableTypesFormatter")
 public class FieldAvailableTypesFormatter extends Formatter {
 
     @Inject

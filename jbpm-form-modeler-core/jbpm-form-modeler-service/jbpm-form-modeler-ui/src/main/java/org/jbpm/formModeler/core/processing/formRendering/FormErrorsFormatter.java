@@ -28,6 +28,7 @@ import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import java.util.ResourceBundle;
 /**
  * Renders a dynamic form errors
  */
+@Named("FormErrorsFormatter")
 public class FormErrorsFormatter extends Formatter {
 
     @Inject

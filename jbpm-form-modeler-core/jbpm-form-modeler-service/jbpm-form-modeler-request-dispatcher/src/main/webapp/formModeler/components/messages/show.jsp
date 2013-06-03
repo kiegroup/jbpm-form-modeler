@@ -24,7 +24,7 @@
 
 <i18n:bundle baseName="org.jbpm.formModeler.service.mvc.components.handling.messages" id="defaultBundle" locale="<%=LocaleManager.currentLocale()%>"/>
 
-<mvc:formatter name="org.jbpm.formModeler.service.bb.mvc.components.handling.MessagesComponentFormatter">
+<mvc:formatter name="MessagesComponentFormatter">
     <mvc:fragment name="outputStart">
         <mvc:fragmentValue name="image" id="image">
         <mvc:fragmentValue name="bundle" id="bundle">

@@ -20,9 +20,11 @@ import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Named("ErrorReportFormatter")
 public class ErrorReportFormatter extends Formatter {
 
     @Inject @Config("/formModeler/components/errorReport/images/32x32/info.gif")

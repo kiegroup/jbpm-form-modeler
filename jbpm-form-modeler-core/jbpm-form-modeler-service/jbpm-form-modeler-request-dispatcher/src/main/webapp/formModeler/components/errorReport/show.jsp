@@ -20,7 +20,7 @@
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <i18n:bundle baseName="org.jbpm.formModeler.service.error.messages" locale="<%= LocaleManager.currentLocale() %>"/>
-<mvc:formatter name="org.jbpm.formModeler.service.error.ErrorReportFormatter">
+<mvc:formatter name="ErrorReportFormatter">
     <mvc:fragment name="errorMessage">
     <mvc:fragmentValue name="technicalDetails" id="technicalDetails">
     <mvc:fragmentValue name="closeEnabled" id="closeEnabled">

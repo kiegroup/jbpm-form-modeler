@@ -20,9 +20,11 @@ import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Named("WysiwygMenuFormatter")
 public class WysiwygMenuFormatter extends Formatter {
 
     @Inject
@@ -90,8 +92,15 @@ public class WysiwygMenuFormatter extends Formatter {
 
             setAttribute("editionPage", "menu/" + editor.getCurrentEditionOption() + ".jsp");
 
-            if("shared".equals(render) )
-                renderFragment("outputWithFormEditionPage");
+            if("shared".equals(render) ){
+                if(editor.isShowingTemplateEdition()){
+                    setAttribute("editionZone", "menu/editFormTemplate.jsp");
+                    renderFragment("outputWithEditionZone");
+                } else {
+                    setAttribute("displayGrid", editor.getDisplayGrid());
+                    renderFragment("outputWithFormEditionPage");
+                }
+            }
             else
                 renderFragment("outputWithoutFormEditionPage");
             renderFragment("outputEnd");

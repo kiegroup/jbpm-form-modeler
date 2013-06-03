@@ -25,7 +25,7 @@
              locale="<%=LocaleManager.currentLocale()%>"/>
 <table cellspacing="0" cellpadding="1" align="left" border="0" width="1px">
     <tr>
-        <mvc:formatter name="org.jbpm.formModeler.components.editor.FieldButtonsFormatter">
+        <mvc:formatter name="FieldButtonsFormatter">
             <mvc:formatterParam name="hideMotionButtons" value="<%=hideMotionButtons%>"/>
             <mvc:formatterParam name="field" value="<%=field%>"/>
 
@@ -37,7 +37,7 @@
                                href="<factory:url  action="delete"><factory:param name="position" value="<%=position%>"/></factory:url>"
                                id="<factory:encode name='<%="deleteBtn"+position%>'/>"
                                onclick="return confirm('<i18n:message key="delete.field.confirm">Sure?</i18n:message>');">
-                                <img src="<%=(String)icon%>" border="0" alt="<i18n:message key="delete">!!!Borrar</i18n:message>" align="absmiddle">
+                                <img src='<static:image relativePath="<%=(String)icon%>" />' border="0" alt='<i18n:message key="delete">!!!Borrar</i18n:message>' align="absmiddle">
                             </a>
                             <script defer="true">
                                 setAjax("<factory:encode name='<%="deleteBtn"+position%>'/>");
@@ -55,7 +55,7 @@
                                 <a title="<i18n:message key="edit">!!!Editar</i18n:message>"
                                    id="<factory:encode name='<%=(String)buttonId%>'/>"
                                    href="<factory:url action="startEdit"><factory:param name="position" value="<%=position%>"/></factory:url>">
-                                    <img src="<%=(String)icon%>" border="0" alt="<i18n:message key="edit">!!!Editar</i18n:message>" align="absmiddle">
+                                    <img src='<static:image relativePath="<%=(String)icon%>"/>' border="0" alt='<i18n:message key="edit">!!!Editar</i18n:message>' align="absmiddle">
                                 </a>
                                 <script defer="true">
                                     setAjax("<factory:encode name='<%=(String)buttonId%>'/>");
@@ -75,7 +75,7 @@
                                         <a title="<i18n:message key="<%=(String)msgId%>">!!!<%=(String)msgId%></i18n:message>"
                                            href="<%=actionUrl%>"  onclick="this.onclick=function(){return false;};"
                                            id="<factory:encode name='<%=(String)buttonId%>'/>">
-                                            <img src="<%=(String)icon%>" border="0" alt="<i18n:message key="<%=(String)msgId%>">!!!<%=(String)msgId%></i18n:message>" align="absmiddle">
+                                            <img src='<static:image relativePath="<%=(String)icon%>" />' border="0" alt='<i18n:message key="<%=(String)msgId%>">!!!<%=(String)msgId%></i18n:message>' align="absmiddle">
                                         </a>
                                         <script defer="true">
                                             setAjax("<factory:encode name='<%=(String)buttonId%>'/>");
@@ -95,7 +95,7 @@
                                 <a href="#" id="<factory:encode name='selectField'/>"
                                    onclick="selectField(<%=position%>, '<factory:encode name="formMenuDiv"/>', <%=grouped%>);return false;"
                                    title="<i18n:message key="move">!!!Mover Campo</i18n:message>">
-                                    <img src="<%=(String)icon%>" border="0" alt="<i18n:message key="move">!!!Mover Campo</i18n:message>" align="absmiddle">
+                                    <img src='<static:image relativePath="<%=(String)icon%>" />' border="0" alt='<i18n:message key="move">!!!Mover Campo</i18n:message>' align="absmiddle">
                                 </a>
                             </td>
                         </mvc:fragmentValue>

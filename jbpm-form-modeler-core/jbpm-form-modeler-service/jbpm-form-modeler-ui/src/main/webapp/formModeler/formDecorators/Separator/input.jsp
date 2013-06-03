@@ -22,7 +22,7 @@
 <i18n:bundle baseName="org.jbpm.formModeler.core.processing.fieldHandlers.messages"
              locale="<%=new Locale(LocaleManager.currentLang())%>"/>
 <%try {%>
-<mvc:formatter name="org.jbpm.formModeler.core.processing.fieldHandlers.SimpleFieldHandlerFormatter">
+<mvc:formatter name="SimpleFieldHandlerFormatter">
     <mvc:fragment name="output">
         <mvc:fragmentValue name="title" id="title">
             <mvc:fragmentValue name="styleclass" id="styleclass">

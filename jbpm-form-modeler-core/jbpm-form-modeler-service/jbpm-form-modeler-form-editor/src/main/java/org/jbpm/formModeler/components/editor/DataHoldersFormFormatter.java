@@ -29,11 +29,12 @@ import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
-
+@Named("DataHoldersFormFormatter")
 public class DataHoldersFormFormatter extends Formatter {
 
     @Inject

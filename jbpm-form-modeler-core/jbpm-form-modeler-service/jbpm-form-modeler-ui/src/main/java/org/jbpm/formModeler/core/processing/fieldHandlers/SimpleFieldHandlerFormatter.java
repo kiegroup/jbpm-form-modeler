@@ -21,6 +21,7 @@ import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DecimalFormat;
@@ -30,6 +31,7 @@ import java.util.Locale;
  * Formatter for simple fields
  */
 @ApplicationScoped
+@Named("SimpleFieldHandlerFormatter")
 public class SimpleFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {

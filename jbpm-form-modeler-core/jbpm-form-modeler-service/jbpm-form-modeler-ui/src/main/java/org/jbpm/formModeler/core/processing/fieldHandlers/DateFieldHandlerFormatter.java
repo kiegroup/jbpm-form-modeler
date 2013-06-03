@@ -24,11 +24,13 @@ import org.jbpm.formModeler.api.model.Form;
 import org.apache.commons.lang.StringUtils;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 
 @ApplicationScoped
+@Named("DateFieldHandlerFormatter")
 public class DateFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {

@@ -246,6 +246,7 @@ public class Form implements Serializable, Comparable{
             getFormDisplayInfos().add(theTemplateInfo);
         }
         theTemplateInfo.setDisplayData(data);
+        theTemplateInfo.setDisplayMode(selector);
 
     }
 

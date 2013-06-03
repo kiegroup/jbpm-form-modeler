@@ -23,9 +23,11 @@ import org.jbpm.formModeler.api.model.Form;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 //@SessionScoped
 @ApplicationScoped
+@Named("FormTemplateEditor")
 public class FormTemplateEditor extends BeanHandler {
 
     @Inject

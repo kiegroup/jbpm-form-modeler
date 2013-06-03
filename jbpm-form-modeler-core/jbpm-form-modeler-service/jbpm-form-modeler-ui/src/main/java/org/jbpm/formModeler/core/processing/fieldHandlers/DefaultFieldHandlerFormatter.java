@@ -33,7 +33,9 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
+@Named("DefaultFieldHandlerFormatter")
 public abstract class DefaultFieldHandlerFormatter extends Formatter {
 
     @Inject

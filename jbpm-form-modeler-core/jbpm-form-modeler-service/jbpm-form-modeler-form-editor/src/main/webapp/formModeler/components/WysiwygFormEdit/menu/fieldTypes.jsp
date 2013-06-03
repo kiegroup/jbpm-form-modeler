@@ -26,7 +26,7 @@
 
 
 <table cellspacing="1" cellpadding="3" border="0" class="oldfieldTypes">
-<mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygFieldsFormatter">
+<mvc:formatter name="WysiwygFieldsFormatter">
 <mvc:fragment name="separator">
 
 </mvc:fragment>

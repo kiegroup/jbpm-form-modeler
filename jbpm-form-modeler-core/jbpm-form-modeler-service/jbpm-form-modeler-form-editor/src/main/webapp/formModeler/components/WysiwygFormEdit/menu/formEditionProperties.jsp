@@ -23,7 +23,7 @@
 
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 
-<mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygEditionPropertiesFormatter">
+<mvc:formatter name="WysiwygEditionPropertiesFormatter">
     <mvc:fragment name="outputStart">
         <div style="width: 100%;">
     </mvc:fragment>

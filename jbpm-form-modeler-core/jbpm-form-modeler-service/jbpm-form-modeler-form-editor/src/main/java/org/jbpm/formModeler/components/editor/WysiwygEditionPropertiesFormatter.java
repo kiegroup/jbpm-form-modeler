@@ -20,9 +20,11 @@ import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Named("WysiwygEditionPropertiesFormatter")
 public class WysiwygEditionPropertiesFormatter extends Formatter {
 
     @Inject

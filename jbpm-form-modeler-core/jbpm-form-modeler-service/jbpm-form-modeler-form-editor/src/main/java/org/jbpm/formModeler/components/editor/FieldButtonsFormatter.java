@@ -24,36 +24,38 @@ import org.jbpm.formModeler.api.model.Field;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
 @Dependent
+@Named("FieldButtonsFormatter")
 public class FieldButtonsFormatter extends Formatter {
 
     @Inject
     private Log log;
 
-    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/edit.png")
+    @Inject @Config("buttons/edit.png")
     private String editIcon;
 
-    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/down.png")
+    @Inject @Config("buttons/down.png")
     private String downIcon;
 
-    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/first.png")
+    @Inject @Config("buttons/first.png")
     private String firstIcon;
 
-    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/last.png")
+    @Inject @Config("buttons/last.png")
     private String lastIcon;
 
-    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/move.png")
+    @Inject @Config("buttons/move.png")
     private String moveIcon;
 
-    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/trash.png")
+    @Inject @Config("buttons/trash.png")
     private String trashIcon;
 
-    @Inject @Config("/formModeler/components/WysiwygFormEdit/buttons/up.png")
+    @Inject @Config("buttons/up.png")
     private String upIcon;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {

@@ -17,9 +17,11 @@ package org.jbpm.formModeler.service.bb.mvc.taglib.formatter;
 
 import org.apache.commons.lang.StringUtils;
 
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Named("TemplateFormatter")
 public class TemplateFormatter extends Formatter {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(TemplateFormatter.class.getName());
 

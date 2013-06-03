@@ -22,11 +22,13 @@ import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.ResourceBundle;
 
+@Named("MessagesComponentFormatter")
 public class MessagesComponentFormatter extends Formatter {
 
     @Inject

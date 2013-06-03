@@ -22,9 +22,9 @@
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ page import="java.util.Locale" %>
-<%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
+
 <%try {%>
-<mvc:formatter name="org.jbpm.formModeler.core.processing.fieldHandlers.SimpleFieldHandlerFormatter">
+<mvc:formatter name="SimpleFieldHandlerFormatter">
     <mvc:fragment name="output">
         <mvc:fragmentValue name="name" id="name">
         <mvc:fragmentValue name="value" id="val">

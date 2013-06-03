@@ -25,6 +25,7 @@ import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DecimalFormat;
@@ -34,6 +35,7 @@ import java.util.Map;
 /**
  * Formatter for simple fields
  */
+@Named("RangeInputTextFieldHandlerFormatter")
 public class RangeInputTextFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
 
     @Inject

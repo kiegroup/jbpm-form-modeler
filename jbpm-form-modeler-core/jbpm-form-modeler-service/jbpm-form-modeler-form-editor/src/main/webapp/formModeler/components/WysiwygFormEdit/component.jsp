@@ -29,7 +29,7 @@
     String editorBgColor = "#eaeaea";
 %>
 
-<mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygMenuFormatter">
+<mvc:formatter name="WysiwygMenuFormatter">
     <mvc:fragment name="outputStart">
         <table style="width: 100%; border-collapse: collapse;">
     </mvc:fragment>
@@ -72,9 +72,6 @@
                            title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
                            src="<static:image relativePath="<%=(String)optionImage%>"/>">&nbsp;<a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitForm(document.getElementById('<factory:encode name="changeMainOption"/>'));"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
                 </td>
-
-
-
             </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
@@ -83,13 +80,13 @@
             <mvc:fragmentValue name="displayBindings" id="displayBindings">
                 <mvc:fragmentValue name="displayCheckbox" id="displayCheckbox">
                     <mvc:fragmentValue name="displayGrid" id="displayGrid">
-                                <td class="HorMenuOff">
-                                    <input type="image"
-                                           onclick="setFormInputValue(this.form,'newMainOption','<%=WysiwygFormEditor.EDITION_OPTION_SAVE%>');"
-                                           title="<i18n:message key="save">!!!Save</i18n:message>"
-                                           src="<static:image relativePath="general/Save.png"/>">&nbsp;<a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=WysiwygFormEditor.EDITION_OPTION_SAVE%>');submitForm(document.getElementById('<factory:encode name="changeMainOption"/>'));"><i18n:message key="save">!!!Save</i18n:message></a>
-                                </td>
-                            </tr>
+                        <td class="HorMenuOff">
+                            <input type="image"
+                                   onclick="setFormInputValue(this.form,'newMainOption','<%=WysiwygFormEditor.EDITION_OPTION_SAVE%>');"
+                                   title="<i18n:message key="save">!!!Save</i18n:message>"
+                                   src="<static:image relativePath="general/Save.png"/>">&nbsp;<a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=WysiwygFormEditor.EDITION_OPTION_SAVE%>');submitForm(document.getElementById('<factory:encode name="changeMainOption"/>'));"><i18n:message key="save">!!!Save</i18n:message></a>
+                        </td>
+                        </tr>
                         </table>
                         </form>
                         <script defer>
@@ -108,10 +105,7 @@
                                 <input type="hidden" name="renderMode" value="<%=renderMode%>">
                                 <input type="hidden" name="displayBindings" value=<%=displayBindings%>>
                                 <input type="hidden" name="displayGrid" value="<%=displayGrid%>">
-                                <script type="text/javascript">
-                                    <% if (displayGrid!=null && ((Boolean) displayGrid).booleanValue()) {%>$('#preview').addClass('bgGuides');<% }
-                                   else { %>$('#preview').removeClass('bgGuides');<% } %>
-                                </script>
+
                                 <input type="checkbox"  <%if (Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode)){ %>checked <% }%>
                                        onclick="setFormInputValue(this.form,'renderMode','<%=(Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode) ? Form.RENDER_MODE_WYSIWYG_DISPLAY : Form.RENDER_MODE_WYSIWYG_FORM)%>');submitAjaxForm(form);"> <i18n:message key="header_chk_show">Show mode</i18n:message>
                                 <input type="checkbox"  <%= ((displayBindings!=null && !((Boolean) displayBindings).booleanValue()) ? "": "checked")%>
@@ -136,23 +130,50 @@
 
     <mvc:fragment name="outputWithFormEditionPage">
         <mvc:fragmentValue name="editionPage" id="editionPage">
-            <tr>
-                <td>
-                    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-                        <tr>
-                            <td class="CompLeftColumn">
-                                <jsp:include page="<%=(String)editionPage%>" flush="true"/>
-                            </td>
-                            <td class="CompCenterColumn" id="preview">
-                                <jsp:include page="formPreview.jsp"/>
-                            </td>
-                            <td class="CompRightColumn">
-                                <jsp:include page="editFieldProperties.jsp"/>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
+            <mvc:fragmentValue name="displayGrid" id="displayGrid"><!-- component:outputWithFormEditionPage -->
+                <tr>
+                    <td>
+                        <script type="text/javascript">
+                            <% if (displayGrid!=null && ((Boolean) displayGrid).booleanValue()) {%>$('#preview').addClass('bgGuides');<% }
+                                   else { %>$('#preview').removeClass('bgGuides');<% } %>
+                        </script>
+                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                            <tr>
+                                <td class="CompLeftColumn">
+                                    <jsp:include page="<%=(String)editionPage%>" flush="true"/>
+                                </td>
+
+                                <td class="CompCenterColumn" id="preview">
+                                    <jsp:include page="formPreview.jsp"/>
+                                </td>
+                                <td class="CompRightColumn">
+                                    <jsp:include page="editFieldProperties.jsp"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </mvc:fragmentValue>
+        </mvc:fragmentValue>
+    </mvc:fragment>
+    <mvc:fragment name="outputWithEditionZone">
+        <mvc:fragmentValue name="editionPage" id="editionPage">
+            <mvc:fragmentValue name="editionZone" id="editionZone">
+                <tr> <!-- component:outputWithEditionzone -->
+                    <td>
+                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                            <tr>
+                                <td style="vertical-align: top;height: 600px;" width="220px">
+                                    <jsp:include page="<%=(String)editionPage%>" flush="true"/>
+                                </td>
+                                <td style="vertical-align: top;"><!-- component: <%=(String)editionZone%>-->
+                                    <jsp:include page="<%=(String)editionZone%>" flush="true"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
     <mvc:fragment name="outputWithoutFormEditionPage">

@@ -23,9 +23,11 @@ import org.jbpm.formModeler.api.model.Form;
 
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Named("EditFormFormatter")
 public class EditFormFormatter extends Formatter {
 
     @Inject
@@ -66,8 +68,8 @@ public class EditFormFormatter extends Formatter {
             renderFragment("outputAlignedDisplayMode");
             setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_NONE) ? "checked" : "");
             renderFragment("outputNoneDisplayMode");
-            //setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE) ? "checked" : "");
-            //renderFragment("outputTemplateDisplayMode");
+            setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE) ? "checked" : "");
+            renderFragment("outputTemplateDisplayMode");
 
             renderFragment("outputLabelModeStart");
             String[] possibleLabelModes = {

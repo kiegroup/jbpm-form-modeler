@@ -21,9 +21,11 @@ import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Named("FieldEditionFormatter")
 public class FieldEditionFormatter extends FormFieldEditionFormatter {
 
     @Inject

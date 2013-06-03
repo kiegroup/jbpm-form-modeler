@@ -28,7 +28,7 @@
 <table border="0" cellpadding="0" cellspacing="0" >
     <tr>
         <td>
-<mvc:formatter name="org.jbpm.formModeler.core.processing.fieldHandlers.SimpleFieldHandlerFormatter">
+<mvc:formatter name="SimpleFieldHandlerFormatter">
     <mvc:fragment name="output">
         <mvc:fragmentValue name="name" id="name">
         <mvc:fragmentValue name="title" id="title">

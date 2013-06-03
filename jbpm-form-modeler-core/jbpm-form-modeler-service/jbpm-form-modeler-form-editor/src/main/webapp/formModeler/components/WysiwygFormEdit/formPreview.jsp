@@ -23,7 +23,7 @@
 
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 
-<mvc:formatter name="org.jbpm.formModeler.components.editor.WysiwygFormFormatter">
+<mvc:formatter name="WysiwygFormFormatter">
 <mvc:fragment name="outputForm">
 <script defer>
     var changeEnabled = true;
@@ -89,11 +89,11 @@
         } else {
             if (modifier == '<%=WysiwygFormEditor.LEFT_FIELD_MODIFIER%>') newPosition --;
         }
-        $("#<factory:encode name="selectedField"/>").val(selectedField);
-        $("#<factory:encode name="newPosition"/>").val(newPosition);
-        $("#<factory:encode name="modifier"/>").val(modifier);
-        $("#<factory:encode name="promote"/>").val(promote);
-        submitAjaxForm($("#<factory:encode name="changeFieldPositionForm"/>").get(0));
+        $('#<factory:encode name="selectedField"/>').val(selectedField);
+        $('#<factory:encode name="newPosition"/>').val(newPosition);
+        $('#<factory:encode name="modifier"/>').val(modifier);
+        $('#<factory:encode name="promote"/>').val(promote);
+        submitAjaxForm($('#<factory:encode name="changeFieldPositionForm"/>').get(0));
     }
 
     function overDestinationArea (area) {
@@ -144,7 +144,7 @@
 
     function highlightField(position, timeout) {
         if( position >= 0 ){
-            var divId = "<factory:encode name="formMenuDiv"/>" + position;
+            var divId = '<factory:encode name="formMenuDiv"/>' + position;
             var div = $("#" + divId);
             if (div){
                 if (timeout) {
@@ -165,15 +165,15 @@
     setTimeout('highlightFields()',1);
 </script>
 <div style="overflow: hidden;">
-    <form id="<factory:encode name="changeFieldPositionForm"/>" action="<factory:formUrl/>" method="post" style="margin: 0px;">
+    <form id='<factory:encode name="changeFieldPositionForm"/>' action="<factory:formUrl/>" method="post" style="margin: 0px;">
         <factory:handler action="moveField"/>
-        <input type="hidden" id="<factory:encode name="selectedField"/>" name="selectedField" value="">
-        <input type="hidden" id="<factory:encode name="newPosition"/>" name="newPosition" value="">
-        <input type="hidden" id="<factory:encode name="modifier"/>" name="modifier" value="">
-        <input type="hidden" id="<factory:encode name="promote"/>" name="promote" value="">
+        <input type="hidden" id='<factory:encode name="selectedField"/>' name="selectedField" value="">
+        <input type="hidden" id='<factory:encode name="newPosition"/>' name="newPosition" value="">
+        <input type="hidden" id='<factory:encode name="modifier"/>' name="modifier" value="">
+        <input type="hidden" id='<factory:encode name="promote"/>' name="promote" value="">
     </form>
     <script type="text/javascript" defer="defer">
-        setAjax("<factory:encode name="changeFieldPositionForm"/>");
+        setAjax('<factory:encode name="changeFieldPositionForm"/>');
     </script>
     <div>
         <mvc:fragmentValue name="form" id="form">
@@ -181,15 +181,15 @@
                 <mvc:fragmentValue name="displayMode" id="displayMode">
                     <mvc:fragmentValue name="renderMode" id="renderMode">
                         <mvc:fragmentValue name="displayBindings" id="displayBindings">
-                            <div style='width:100%; height:100%;' id="<factory:encode name="wysiwygFormTable"/>">
-                                <form action="#" onsubmit="return false;" style="margin:0px;" >
-                                    <mvc:formatter name="org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter">
+                            <div style='width:100%; height:100%;' id='<factory:encode name="wysiwygFormTable"/>'>
+                                <form action="#" onsubmit="return false;" style="margin:0px;">
+                                    <mvc:formatter name="FormRenderingFormatter">
                                         <mvc:formatterParam name="form" value="<%=form%>"/>
                                         <mvc:formatterParam name="namespace" value="<%=formNamespace%>"/>
                                         <mvc:formatterParam name="displayMode" value="<%=displayMode%>"/>
                                         <mvc:formatterParam name="renderMode" value="<%=renderMode%>"/>
                                         <mvc:fragment name="outputStart">
-                                            <table border="0" cellspacing="0" cellpadding="0"  width="<mvc:fragmentValue name="width"/>">
+                                            <table border="0" cellspacing="0" cellpadding="0"  width='<mvc:fragmentValue name="width"/>'>
                                         </mvc:fragment>
                                         <mvc:fragment name="groupStart">
                                             <mvc:fragmentValue name="isFirst" id="isFirst">
@@ -198,15 +198,15 @@
                                                 %>
                                                 <tr style="width:100%" height="100%">
                                                     <td>
-                                                        <div id="<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_top"
-                                                             colspan="<mvc:fragmentValue name="colspan"/>" width="<mvc:fragmentValue name="width"/>" class="horizontal_drop_area"
-                                                             onclick="moveField(<mvc:fragmentValue name="field/position"/>, '<%=WysiwygFormEditor.TOP_FIELD_MODIFIER%>');"
+                                                        <div id='<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_top'
+                                                             colspan='<mvc:fragmentValue name="colspan"/>' width="<mvc:fragmentValue name="width"/>" class="horizontal_drop_area"
+                                                             onclick='moveField(<mvc:fragmentValue name="field/position"/>, '<%=WysiwygFormEditor.TOP_FIELD_MODIFIER%>');'
                                                              onmouseover="overDestinationArea(this);"
                                                              onmouseout="outDestinationArea(this);">
                                                             &nbsp;
                                                         </div>
                                                         <script defer="defer">
-                                                            addArea("<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_top");
+                                                            addArea('<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_top');
                                                         </script>
                                                     </td>
                                                 </tr>
@@ -218,7 +218,7 @@
                                         </mvc:fragment>
                                         <mvc:fragment name="beforeInputElement">
                                             <mvc:fragmentValue name="index" id="index">
-                                                <td colspan="<mvc:fragmentValue name="colspan"/>" width="<mvc:fragmentValue name="width"/>" nowrap="nowrap" align="left" style="height:100%;  width:100%;" valign="top">
+                                                <td colspan='<mvc:fragmentValue name="colspan"/>' width='<mvc:fragmentValue name="width"/>' nowrap="nowrap" align="left" style="height:100%;  width:100%;" valign="top">
                                                 <table border="0" cellspacing="0" cellpadding="0" style="display:block; width:100%; height:100%;">
                                                 <tr>
                                                 <%
@@ -226,14 +226,14 @@
                                                 %>
                                                 <td valign="top" style="width: 0px; overflow: visible;">
                                                     <div class="vertical_drop_area"
-                                                         id="<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_left"
-                                                         onclick="moveField(<mvc:fragmentValue name="field/position"/>, '<%=WysiwygFormEditor.LEFT_FIELD_MODIFIER%>');"
+                                                         id='<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_left'
+                                                         onclick='moveField(<mvc:fragmentValue name="field/position"/>, "<%=WysiwygFormEditor.LEFT_FIELD_MODIFIER%>");'
                                                          onmouseover="overDestinationArea(this);"
                                                          onmouseout="outDestinationArea(this);">
                                                         &nbsp;
                                                     </div>
                                                     <script defer="defer">
-                                                        addArea("<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_left");
+                                                        addArea('<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_left');
                                                     </script>&nbsp;
                                                 </td>
                                                 <%
@@ -245,12 +245,12 @@
                                                 %>
                                                 <td width="*" valign="top">
                                                 <%-- Div with dotted border --%>
-                                                <div id="<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>"
+                                                <div id='<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>'
                                                 style="position:relative; height:100%; width:100%;z-index:2000; overflow:visible; display:block; margin: 2px;"
                                                 onmouseover="enableMenuForItem(this,false)"
                                                 onmouseout="disableMenuForItem(this)">
                                                 <%-- Div with field buttons --%>
-                                                <div id="<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_child"
+                                                <div id='<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_child'
                                                      style="position:absolute; top:-14px; left:0px; z-index:5000; text-align:left; padding:5px; display:none" align="left">
                                                     <mvc:fragmentValue name="field" id="field">
                                                         <% Boolean hideMotionButtons = Boolean.FALSE; %>
@@ -264,12 +264,12 @@
 
                                         <mvc:fragment name="beforeFieldInTemplateMode">
                                             <%-- Div with dotted border --%>
-                                            <div id="<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>"
+                                            <div id='<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>'
                                             style="position:relative; height:100%; width:100%; z-index:2000; overflow:visible;display:block; margin: 2px;"
                                             onmouseover="enableMenuForItem(this, false)"
                                             onmouseout="disableMenuForItem(this)">
                                             <%-- Div with field buttons --%>
-                                            <div id="<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_child"
+                                            <div id='<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_child'
                                                  style="position:absolute; top:-14px; left:0px; z-index:5000; text-align:left; padding:5px; display:none" align="left">
                                                 <mvc:fragmentValue name="field" id="field">
                                                     <% Boolean hideMotionButtons = Boolean.TRUE; %>
@@ -297,14 +297,14 @@
                                             </td>
                                             <td valign="top" style="width: 0px; overflow: visible;">
                                                 <div class="vertical_drop_area"
-                                                     id="<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_right"
-                                                     onclick="moveField(<mvc:fragmentValue name="field/position"/>, '<%=WysiwygFormEditor.RIGHT_FIELD_MODIFIER%>');"
+                                                     id='<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_right'
+                                                     onclick='moveField(<mvc:fragmentValue name="field/position"/>, "<%=WysiwygFormEditor.RIGHT_FIELD_MODIFIER%>");'
                                                      onmouseover="overDestinationArea(this);"
                                                      onmouseout="outDestinationArea(this);">
                                                     &nbsp;
                                                 </div>
                                                 <script defer="defer">
-                                                    addArea("<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_right");
+                                                    addArea('<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_right');
                                                 </script>
                                             </td>
                                             </tr>
@@ -315,15 +315,15 @@
                                             </tr>
                                             <tr style="width:100%" height="100%">
                                                 <td >
-                                                    <div id="<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_bottom"
-                                                         colspan="<mvc:fragmentValue name="colspan"/>" class="horizontal_drop_area"
+                                                    <div id='<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_bottom'
+                                                         colspan='<mvc:fragmentValue name="colspan"/>' class="horizontal_drop_area"
                                                          onclick="moveField(<mvc:fragmentValue name="field/position"/>, '<%=WysiwygFormEditor.BOTTOM_FIELD_MODIFIER%>');"
                                                          onmouseover="overDestinationArea(this);"
                                                          onmouseout="outDestinationArea(this);">
 
                                                     </div>
                                                     <script defer="defer">
-                                                        addArea("<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_bottom");
+                                                        addArea('<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_bottom');
                                                     </script>
                                                 </td>
                                             </tr>

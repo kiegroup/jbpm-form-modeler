@@ -20,7 +20,7 @@
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%try{%>
-<mvc:formatter name="org.jbpm.formModeler.core.processing.fieldHandlers.RangeInputTextFieldHandlerFormatter">
+<mvc:formatter name="RangeInputTextFieldHandlerFormatter">
     <mvc:fragment name="outputForceShowMode">
         <mvc:fragmentValue name="name" id="name">
             <mvc:fragmentValue name="wrong" id="wrong">

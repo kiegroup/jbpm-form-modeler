@@ -27,7 +27,7 @@
              locale="<%=LocaleManager.currentLocale()%>"/>
 
 
-<mvc:formatter name="org.jbpm.formModeler.components.editor.FieldEditionFormatter">
+<mvc:formatter name="FieldEditionFormatter">
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputStart">
         <mvc:fragmentValue name="fieldName" id="fieldName">
@@ -52,7 +52,7 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    <mvc:formatter name="org.jbpm.formModeler.components.editor.FieldAvailableTypesFormatter">
+                    <mvc:formatter name="FieldAvailableTypesFormatter">
                         <mvc:fragment name="outputStart">
                             <select name="fieldType" class="skn-input" style="width:200px" onchange="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CHANGE_FIELD_TYPE%>'); submitAjaxForm(this.form);">
                         </mvc:fragment>
@@ -86,7 +86,7 @@
                     <mvc:fragmentValue name="editId" id="editId">
                         <mvc:fragmentValue name="fieldType" id="fieldType">
 
-                                <mvc:formatter name="org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter">
+                                <mvc:formatter name="FormRenderingFormatter">
                                     <mvc:formatterParam name="formId" value="<%=formId%>"/>
                                     <mvc:formatterParam name="namespace" value="<%=formNamespace%>"/>
                                     <mvc:formatterParam name="editId" value="<%=editId%>"/>
@@ -127,7 +127,7 @@
                                             <mvc:fragmentValue id="fieldPosition" name="field/position">
                                                 </td>
                                                 <td>
-                                                    <mvc:formatter name="org.jbpm.formModeler.components.editor.FieldPropertyTooltipFormatter">
+                                                    <mvc:formatter name="FieldPropertyTooltipFormatter">
                                                         <mvc:formatterParam name="field" value="<%=field%>"/>
                                                         <mvc:fragment name="output">
                                                             <mvc:fragmentValue name="help" id="help">

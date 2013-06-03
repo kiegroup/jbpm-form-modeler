@@ -26,7 +26,7 @@
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages"
              locale="<%=LocaleManager.currentLocale()%>"/>
 
-<mvc:formatter name="org.jbpm.formModeler.components.editor.DataHoldersFormFormatter">
+<mvc:formatter name="DataHoldersFormFormatter">
 <%------------------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="outputStart">
     <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="formDataHolders"/>">

@@ -28,11 +28,13 @@ import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.PropertyDefinition;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
 import java.util.*;
 
+@Named("WysiwygFieldsFormatter")
 public class WysiwygFieldsFormatter extends Formatter {
 
     @Inject

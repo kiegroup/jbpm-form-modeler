@@ -20,10 +20,9 @@
 <%@ page import="org.apache.commons.lang.StringUtils"%>
 <%@ page import="org.jbpm.formModeler.core.wrappers.HTMLi18n"%>
 <%@ page import="org.jbpm.formModeler.service.LocaleManager"%>
-<%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
-<%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
+
 <%try{%>
-<mvc:formatter name="org.jbpm.formModeler.core.processing.fieldHandlers.SimpleFieldHandlerFormatter">
+<mvc:formatter name="SimpleFieldHandlerFormatter">
     <mvc:fragment name="output">
       <mvc:fragmentValue name="value" id="val">
         <mvc:fragmentValue name="title" id="title">

@@ -19,7 +19,7 @@
 <%@ page import="org.jbpm.formModeler.api.model.wrappers.I18nSet" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%try { %>
-<mvc:formatter name="org.jbpm.formModeler.core.processing.fieldHandlers.SimpleFieldHandlerFormatter">
+<mvc:formatter name="SimpleFieldHandlerFormatter">
     <mvc:fragment name="output">
         <mvc:fragmentValue name="htmlContent" id="htmlContent">
             <mvc:fragmentValue name="localeManager" id="localeManager">

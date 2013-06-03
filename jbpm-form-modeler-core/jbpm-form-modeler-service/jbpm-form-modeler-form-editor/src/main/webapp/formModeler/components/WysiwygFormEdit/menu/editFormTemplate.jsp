@@ -173,8 +173,7 @@
                                 <textarea id="<factory:encode name="templateTextArea"/>"
                                           name="templateContent"
                                           rows="20"
-                                          cols="80">
-                                    <% if (Boolean.TRUE.equals(loadTemplate)) {%>
+                                          cols="80"><% if (Boolean.TRUE.equals(loadTemplate)) {%>
                                     <mvc:formatter name="FormRenderingFormatter">
                                         <mvc:formatterParam name="formId" value="<%=formId%>"/>
                                         <mvc:formatterParam name="renderMode"
@@ -184,11 +183,8 @@
                                                             value='<%="template_" + templateToLoad%>'/>
                                         <%@ include
                                                 file="defaultFormRenderingFormatterOptions.jsp" %>
-                                    </mvc:formatter>
-                                    <% } else {%>
-                                    <%=templateContent%>
-                                    <%}%>
-                                </textarea>
+                                    </mvc:formatter><% } else {%><%= (templateContent!= null ? templateContent:"") %><%}
+                                    %></textarea>
                                 <b><%=templateContent%></b>
                                 <script language="Javascript" defer="true">
                                     var fieldTR='<factory:encode name="insertFieldTR"/>';
@@ -243,7 +239,8 @@
                                 <hr>
                             </td>
                         </tr>
-                        <tr>
+                        <!--
+                        <tr >
                             <td nowrap="nowrap" class="skn-even_row">
                                 <i18n:message key="loadTemplate">!!!Cargar plantilla equivalente a:</i18n:message>
                             </td>
@@ -276,10 +273,20 @@
                                        id="<factory:encode name="persistHidden"/>"
                                        value="false">
                             </td>
-                        </tr>
+                        </tr >
+           -->
                         <tr>
                             <td colspan="2">
                                 <div style="width:100%; text-align:center; padding:5px;">
+                                    <input type="hidden"
+                                           id="<factory:encode name="cancelHidden"/>"
+                                           value="false">
+                                    <input type="hidden" name="loadTemplate"
+                                           id="<factory:encode name="loadTemplateHidden"/>"
+                                           value="false">
+                                    <input type="hidden"
+                                           id="<factory:encode name="persistHidden"/>"
+                                           value="false">
                                     <input type="button" class="skn-button"
                                            onclick="document.getElementById('<factory:encode name="persistHidden"/>').value='true' ;this.form.submit();"
                                            value="<i18n:message key="save"/>">

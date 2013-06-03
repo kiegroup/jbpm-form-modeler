@@ -18,7 +18,7 @@
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
-<mvc:formatter name="org.jbpm.formModeler.core.processing.fieldHandlers.SimpleFieldHandlerFormatter">
+<mvc:formatter name="SimpleFieldHandlerFormatter">
     <mvc:fragment name="output">
         <mvc:fragmentValue name="title" id="title">
         <mvc:fragmentValue name="name" id="name">

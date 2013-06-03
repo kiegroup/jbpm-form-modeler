@@ -21,7 +21,7 @@
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%try{%>
-<mvc:formatter name="org.jbpm.formModeler.core.processing.fieldHandlers.LinkFieldHandlerFormatter">
+<mvc:formatter name="LinkFieldHandlerFormatter">
     <mvc:fragment name="output">
         <mvc:fragmentValue name="value" id="value">
         <mvc:fragmentValue name="title" id="title">

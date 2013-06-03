@@ -24,7 +24,7 @@
 
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 
-<mvc:formatter name="org.jbpm.formModeler.components.editor.EditFormFormatter">
+<mvc:formatter name="EditFormFormatter">
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputStart">
         <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="saveForm"/>">
@@ -95,6 +95,24 @@
             <mvc:fragmentValue name="checked"/> type="radio"
                                                 name="displayMode" value="none">
         <i18n:message key="displayMode.none">!!!Sin alineaci&oacute;n</i18n:message>
+        <br>
+    </mvc:fragment>
+    <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="outputTemplateDisplayMode">
+        <input <mvc:fragmentValue name="checked"/> type="radio"  id='<factory:encode name="editTemplateCheckbox"/>'
+                                                   name="displayMode" value="template">
+        <i18n:message key="displayMode.template">!!!Plantilla</i18n:message>
+        <%--a href="<panel:link action="startEditTemplate"/>" id="<panel:encode name="editTemplateLnk"/>">
+            <i18n:message key="edit">!!!Edit</i18n:message>
+        </a--%>
+        <input type="hidden" name="editTemplate" value="false">
+        <input type="image" onclick="var chk = document.getElementById('<factory:encode name="editTemplateCheckbox"/>');
+                chk.checked=true; chk.form.editTemplate.value='true';"
+               src="<static:image relativePath="general/16x16/ico-actions_edit.png"/>"
+               title="<i18n:message key="edit">!!!Edit</i18n:message>"
+               alt="<i18n:message key="edit">!!!Edit</i18n:message>"
+               border="0"
+                />
         <br>
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
