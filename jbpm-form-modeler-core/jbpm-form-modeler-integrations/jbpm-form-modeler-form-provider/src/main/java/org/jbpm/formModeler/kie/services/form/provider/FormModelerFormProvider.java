@@ -11,6 +11,7 @@ import org.kie.api.task.model.Task;
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 public class FormModelerFormProvider implements FormProvider {
@@ -64,7 +65,11 @@ public class FormModelerFormProvider implements FormProvider {
         try {
             Form form = formSerializationManager.loadFormFromXML(template);
 
-            result = formRenderContextManager.newContext(form, renderContext).getUID();
+            Map ctx = new HashMap();
+            ctx.putAll((Map) renderContext.get("outputs"));
+            ctx.put("process", renderContext.get("process"));
+
+            result = formRenderContextManager.newContext(form, ctx).getUID();
 
         } catch (Exception e) {
             log.warn("Error rendering form: ", e);

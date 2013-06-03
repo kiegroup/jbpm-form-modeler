@@ -117,7 +117,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
                         String[] options = rangeParser.parseLine(rangeFormula);
                         if (options != null) {
-                            Map rangeValues = new HashMap();
+                            Map rangeValues = new TreeMap();
                             for (String option : options) {
                                 String[] values = optionParser.parseLine(option);
                                 if (values != null && values.length == 2) {

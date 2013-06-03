@@ -4,9 +4,8 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
-    <listener>
-        <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
-    </listener>
+
+  <distributable/>
 
   <filter>
     <filter-name>UberFire Security Filter</filter-name>
@@ -70,10 +69,13 @@ profile in pom.xml to use that. -->
     <url-pattern>*.erraiBus</url-pattern>
   </servlet-mapping>
 
+  <listener>
+    <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
+  </listener>
+
     <servlet>
         <servlet-name>Controller</servlet-name>
         <servlet-class>org.jbpm.formModeler.service.bb.mvc.controller.ControllerServlet</servlet-class>
-        <load-on-startup>5</load-on-startup>
         <init-param>
             <param-name>base.app.dir</param-name>
             <param-value>${project.basedir}/target/jbpm-form-modeler-showcase</param-value>
@@ -82,7 +84,7 @@ profile in pom.xml to use that. -->
 
 
     <!-- SERVLET-MAPPINGS(S) required by formModeler -->
-   <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>Controller</servlet-name>
         <url-pattern>/org.uberfire.UberfireShowcase/Controller</url-pattern>
     </servlet-mapping>
