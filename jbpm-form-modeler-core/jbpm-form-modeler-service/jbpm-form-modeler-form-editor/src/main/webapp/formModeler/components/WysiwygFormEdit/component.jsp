@@ -133,17 +133,14 @@
             <mvc:fragmentValue name="displayGrid" id="displayGrid"><!-- component:outputWithFormEditionPage -->
                 <tr>
                     <td>
-                        <script type="text/javascript">
-                            <% if (displayGrid!=null && ((Boolean) displayGrid).booleanValue()) {%>$('#preview').addClass('bgGuides');<% }
-                                   else { %>$('#preview').removeClass('bgGuides');<% } %>
-                        </script>
+
                         <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
                             <tr>
                                 <td class="CompLeftColumn">
                                     <jsp:include page="<%=(String)editionPage%>" flush="true"/>
                                 </td>
 
-                                <td class="CompCenterColumn" id="preview">
+                                <td class="CompCenterColumn  <% if (displayGrid!=null && ((Boolean) displayGrid).booleanValue()) {%>bgGuides<%}%>" id="preview">
                                     <jsp:include page="formPreview.jsp"/>
                                 </td>
                                 <td class="CompRightColumn">
