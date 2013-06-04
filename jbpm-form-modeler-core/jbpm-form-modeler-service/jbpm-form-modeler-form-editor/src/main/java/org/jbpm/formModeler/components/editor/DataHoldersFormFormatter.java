@@ -61,11 +61,20 @@ public class DataHoldersFormFormatter extends Formatter {
         try {
             renderFragment("outputStart");
 
+            Form form = wysiwygFormEditor.getCurrentForm();
+            Set<DataHolder> holders = form.getHolders();
+            String existingIds ="\"\"";
+            for (DataHolder holder : holders) {
+                existingIds+= ", \""+holder.getId()+"\" ";
+            }
+
+            setAttribute("existingIds", existingIds);
             renderFragment("outputFormAddHolderStart");
 
             renderFragment("rowStart");
             renderSelectDataModel(dataModelerService.getDataModelObjectList(wysiwygFormEditor.getCurrentEditionContext().getPath()));
             renderFragment("rowEnd");
+
 
             renderFragment("outputFormAddHolderEnd");
 
@@ -73,9 +82,7 @@ public class DataHoldersFormFormatter extends Formatter {
 
             renderFragment("outputStartBindings");
 
-            Form form = wysiwygFormEditor.getCurrentForm();
 
-            Set<DataHolder> holders = form.getHolders();
             int i=0;
             for (DataHolder holder : holders) {
                 setAttribute("id", holder.getId());
