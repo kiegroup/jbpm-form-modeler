@@ -239,7 +239,8 @@ public class FormRenderingFormatter extends Formatter {
             public void renderField(String fieldName) {
                 Field field = form.getField(fieldName);
                 if (field != null) {
-                    setAttribute("field", field.getForm().getFormFields().iterator().next());
+                    //setAttribute("field", field.getForm().getFormFields().iterator().next());
+                    setAttribute("field", field);
                     FormRenderingFormatter.this.renderFragment("beforeFieldInTemplateMode");
                     FormRenderingFormatter.this.renderField(field, namespace, renderMode);
                     FormRenderingFormatter.this.renderFragment("afterFieldInTemplateMode");
@@ -255,8 +256,13 @@ public class FormRenderingFormatter extends Formatter {
                 Field field = form.getField(fieldName);
                 if (field != null) {
                     FormRenderingFormatter.this.renderFragment("beforeLabelInTemplateMode");
+                    //FormRenderingFormatter.this.renderLabel(
+                    //        field.getForm().getFormFields().iterator().next(),
+                    //        namespace,
+                    //        renderMode
+                    //);
                     FormRenderingFormatter.this.renderLabel(
-                            field.getForm().getFormFields().iterator().next(),
+                            field,
                             namespace,
                             renderMode
                     );
