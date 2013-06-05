@@ -16,10 +16,10 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
+import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.core.validators.NumericRangeValidator;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -47,6 +47,7 @@ public class NumericFieldHandler extends DefaultFieldHandler {
     public Object getValue(Field field, String inputName, Map parametersMap, Map filesMap, String desiredClassName, Object previousValue) throws Exception {
         String[] numberFrom = (String[]) parametersMap.get(inputName + NUMERIC_FROM_SUFFIX);
         String[] numberTo = (String[]) parametersMap.get(inputName + NUMERIC_TO_SUFFIX);
+
         if (numberFrom != null || numberTo != null) {
             Object from = null;
             try {
@@ -67,38 +68,21 @@ public class NumericFieldHandler extends DefaultFieldHandler {
     }
 
     public Object getTheValue(Field field, String[] paramValue, String desiredClassName) throws Exception {
-        NumericRangeValidator validator;
-        String rangeFormula = field.getFieldRangeFormula();
-
-        if (field == null || (rangeFormula == null) || "".equals(rangeFormula) || rangeFormula.startsWith("="))
-            validator = null;  // Ranges starting with = are used to restrict values with a select
-        else
-            validator = new NumericRangeValidator(field.getFieldRangeFormula());
         if (paramValue == null || paramValue.length == 0)
             return null;
         if (desiredClassName.equals(Integer.class.getName())) {
-            if (paramValue[0] == null || paramValue[0].trim().equals(""))
-                throw new EmptyNumberException();//Special case! indicates the user entered nothing in the field
-            if ((validator == null) || (validator.isValid(Integer.decode(paramValue[0]))))
-                return Integer.decode(paramValue[0]);
-            else {
-                log.debug("Parameter is not in the numeric range especified");
-                throw new IllegalArgumentException("Parameter is not in the numeric range especified");
-            }
-        } else if (desiredClassName.equals(Long.class.getName())) {
-            if (paramValue[0] == null || paramValue[0].trim().equals(""))
-                throw new EmptyNumberException(); //Special case! indicates the user entered nothing in the field
+            if (StringUtils.isEmpty(paramValue[0])) throw new EmptyNumberException();
 
-            if ((validator == null) || (validator.isValid(Long.decode(paramValue[0]))))
-                return Long.decode(paramValue[0]);
-            else {
-                log.error("Parameter is not in the numeric range especified");
-                throw new IllegalArgumentException("Parameter is not in the numeric range especified");
-            }
+            return Integer.decode(paramValue[0]);
+
+        } else if (desiredClassName.equals(Long.class.getName())) {
+            if (StringUtils.isEmpty(paramValue[0])) throw new EmptyNumberException();
+
+            return Long.decode(paramValue[0]);
 
         } else if (desiredClassName.equals(Double.class.getName())) {
-            if (paramValue[0] == null || paramValue[0].trim().equals(""))
-                throw new EmptyNumberException();//Special case! indicates the user entered nothing in the field
+            if (StringUtils.isEmpty(paramValue[0])) throw new EmptyNumberException();
+
             DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance(new Locale(LocaleManager.currentLang()));
             String pattern = field.getFieldPattern();
             if (pattern != null && !"".equals(pattern)) {
@@ -113,12 +97,8 @@ public class NumericFieldHandler extends DefaultFieldHandler {
                 throw new ParseException("Error parsing value", pp.getIndex());
             }
             double dvalue = num.doubleValue();
-            if ((validator == null) || (validator.isValid(new Double(dvalue)))) return new Double(dvalue);
-            else {
-                log.error("Parameter is not in the numeric range especified");
-                throw new IllegalArgumentException("Parameter is not in the numeric range especified");
-            }
 
+            return new Double(dvalue);
         }
         throw new IllegalArgumentException("Invalid class for InputTextFieldHandler: " + desiredClassName);
     }
