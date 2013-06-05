@@ -185,7 +185,6 @@
                                                 file="defaultFormRenderingFormatterOptions.jsp" %>
                                     </mvc:formatter><% } else {%><%= (templateContent!= null ? templateContent:"") %><%}
                                     %></textarea>
-                                <b><%=templateContent%></b>
                                 <script language="Javascript" defer="true">
                                     var fieldTR='<factory:encode name="insertFieldTR"/>';
                                     var labelTR='<factory:encode name="insertLabelTR"/>';
