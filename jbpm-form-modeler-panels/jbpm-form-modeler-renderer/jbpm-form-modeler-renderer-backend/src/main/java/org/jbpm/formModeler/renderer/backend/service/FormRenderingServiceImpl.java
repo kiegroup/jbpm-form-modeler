@@ -1,3 +1,18 @@
+/**
+ * Copyright (C) 2012 JBoss Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.jbpm.formModeler.renderer.backend.service;
 
 import org.jboss.errai.bus.server.annotations.Service;
@@ -21,7 +36,6 @@ import java.util.Map;
 
 @Service
 @ApplicationScoped
-@Named ("FormRenderingService")
 public class FormRenderingServiceImpl implements FormRenderingService {
     @Inject
     private Log log;
@@ -33,15 +47,8 @@ public class FormRenderingServiceImpl implements FormRenderingService {
     private FormSerializationManager formSerializationManager;
 
     @Inject
-    private FormProcessor formProcessor;
+    private FormRenderContextManagerImpl formRenderContextManager;
 
-    @Inject
-    private Event<FormSubmitFailEvent> formSubmitFailEvent;
-
-    @Inject
-    private Event<FormSubmittedEvent> formSubmittedEvent;
-
-    protected Map<String, FormRenderContext> formRenderContextMap = new HashMap<String, FormRenderContext>();
 
     @Override
     public FormRenderContextTO startRendering(Long formId, Map<String, Object> bindingData) {
@@ -54,56 +61,11 @@ public class FormRenderingServiceImpl implements FormRenderingService {
     public FormRenderContextTO startRendering(Form form, Map<String, Object> bindingData) {
         if (form != null) {
 
-            FormRenderContext ctx = newContext(form, bindingData);
+            FormRenderContext ctx = formRenderContextManager.newContext(form, bindingData);
 
             return ctx.getFormRenderingContextTO();
         }
 
         return null;
-    }
-
-    @Override
-    public void persistContext(FormRenderContext ctx) throws Exception {
-        if (ctx == null) throw new IllegalArgumentException("Unable to persist null context");
-        formProcessor.persist(ctx);
-    }
-
-    @Override
-    public void persistContext(String ctxUID) throws Exception {
-       persistContext(getFormRenderContext(ctxUID));
-    }
-
-    @Override
-    public void removeContext(String ctxUID) {
-        removeContext(getFormRenderContext(ctxUID));
-    }
-
-    @Override
-    public void removeContext(FormRenderContext context) {
-        formProcessor.clear(context);
-    }
-
-    @Override
-    public FormRenderContext newContext(Form form, Map<String, Object> bindingData) {
-        String uid = "formRenderCtx_" + form.getId() + "_" + System.currentTimeMillis();
-        FormRenderContext ctx = new FormRenderContext(uid, form, bindingData);
-        formRenderContextMap.put(uid, ctx);
-        formProcessor.read(ctx.getUID());
-        return ctx;
-    }
-
-    @Override
-    public FormRenderContext getFormRenderContext(String UID) {
-        return formRenderContextMap.get(UID);
-    }
-
-    @Override
-    public void fireContextSubmitError(FormSubmitFailEvent event) {
-        if (event != null) formSubmitFailEvent.fire(event);
-    }
-
-    @Override
-    public void fireContextSubmit(FormSubmittedEvent event) {
-        if (event != null) formSubmittedEvent.fire(event);
     }
 }

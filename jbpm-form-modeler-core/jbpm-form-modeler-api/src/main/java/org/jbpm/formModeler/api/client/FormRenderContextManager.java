@@ -15,15 +15,19 @@
  */
 package org.jbpm.formModeler.api.client;
 
+import org.jboss.errai.bus.server.annotations.Remote;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
 import org.jbpm.formModeler.api.events.FormSubmittedEvent;
 
 import java.util.Map;
 
+@Remote
 public interface FormRenderContextManager {
     FormRenderContext newContext(Form form, Map<String, Object> bindingData);
+    FormRenderContext newContext(String ctxPreffix, Form form, Map<String, Object> bindingData);
     FormRenderContext getFormRenderContext(String UID);
+    Map getContextData(String UID);
 
     void removeContext(String ctxUID);
     void removeContext(FormRenderContext context);

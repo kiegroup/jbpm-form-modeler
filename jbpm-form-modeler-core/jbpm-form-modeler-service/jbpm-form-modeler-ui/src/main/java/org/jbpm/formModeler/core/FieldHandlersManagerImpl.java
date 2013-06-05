@@ -70,6 +70,6 @@ public class FieldHandlersManagerImpl implements FieldHandlersManager {
         String handlerClass = fieldType.getManagerClass();
         if (StringUtils.isBlank(handlerClass)) return null;
 
-        return (FieldHandler) CDIBeanLocator.getBeanByType(handlerClass);
+        return (FieldHandler) CDIBeanLocator.getBeanByNameOrType(handlerClass);
     }
 }

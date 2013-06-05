@@ -18,6 +18,7 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
 import org.jbpm.formModeler.api.model.Field;
 
+import javax.inject.Named;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +26,7 @@ import java.util.Map;
 /**
  * Handler for input text
  */
+@Named("org.jbpm.formModeler.core.processing.fieldHandlers.InputTextFieldHandler")
 public class InputTextFieldHandler extends DefaultFieldHandler {
 
     private String pageToIncludeForRendering = "/formModeler/fieldHandlers/InputText/input.jsp";

@@ -40,7 +40,7 @@ public class FormModelerFormProvider implements FormProvider {
 
         if (template == null) return null;
 
-        return render(name, template, renderContext);
+        return renderProcessForm(process, template, renderContext);
     }
 
     @Override
@@ -57,17 +57,47 @@ public class FormModelerFormProvider implements FormProvider {
 
         if (template == null) return null;
 
-        return render(name, template, renderContext);
+        return renderTaskForm(task, template, renderContext);
     }
 
-    protected String render(String name, InputStream template, Map<String, Object> renderContext) {
+    protected String renderTaskForm(Task task, InputStream template, Map<String, Object> renderContext) {
         String result = null;
         try {
             Form form = formSerializationManager.loadFormFromXML(template);
 
             Map ctx = new HashMap();
+
+            Map m = (Map) renderContext.get("outputs");
+            if (m != null) ctx.putAll(m);
+
+            m = (Map) renderContext.get("inputs");
+            if (m != null) ctx.putAll(m);
+
+            Object o = renderContext.get("input");
+            if (o != null) ctx.put("input", o);
+
+            ctx.put("task", task);
+
+            String uid = "task_" + task.getId() + "_" + task.getTaskData().getActualOwner().getId();
+
+            result = formRenderContextManager.newContext(uid, form, ctx).getUID();
+
+        } catch (Exception e) {
+            log.warn("Error rendering form: ", e);
+        }
+
+        return result;
+    }
+
+    protected String renderProcessForm(ProcessDesc process, InputStream template, Map<String, Object> renderContext) {
+        String result = null;
+        try {
+            Form form = formSerializationManager.loadFormFromXML(template);
+
+            Map ctx = new HashMap();
+
             ctx.putAll((Map) renderContext.get("outputs"));
-            ctx.put("process", renderContext.get("process"));
+            ctx.put("process", process);
 
             result = formRenderContextManager.newContext(form, ctx).getUID();
 

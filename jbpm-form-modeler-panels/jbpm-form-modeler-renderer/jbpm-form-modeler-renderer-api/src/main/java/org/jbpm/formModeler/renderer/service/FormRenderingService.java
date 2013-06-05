@@ -28,7 +28,7 @@ import java.lang.String;
 import java.util.Map;
 
 @Remote
-public interface FormRenderingService extends FormRenderContextManager, Serializable {
+public interface FormRenderingService extends Serializable {
     FormRenderContextTO startRendering(Form form, Map<String, Object> bindingData);
     FormRenderContextTO startRendering(Long formId, Map<String, Object> bindingData);
 }
