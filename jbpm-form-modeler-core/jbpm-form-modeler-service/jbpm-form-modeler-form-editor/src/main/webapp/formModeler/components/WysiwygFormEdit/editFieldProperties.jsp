@@ -40,7 +40,7 @@
             <tr>
                 <td align="left" colspan="3">
                     <div class="headerEditFP">
-                        <input type="image" onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CANCEL_FIELD_EDITION%>');this.onclick=function(){return false;}" style="cursor:hand; float: left; margin-right: 10px; margin-left: 5px;" src="<static:image relativePath="actions/close.png"/>"><i18n:message key="properties">Properties</i18n:message> (<%=fieldName%>)
+                        <input type="image" onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CANCEL_FIELD_EDITION%>');this.onclick=function(){return false;}" style="cursor:hand; float: left; margin-right: 10px; margin-left: 5px;" src="<static:image relativePath="actions/close.png"/>"><i18n:message key="properties">Properties</i18n:message> (<%=StringEscapeUtils.escapeHtml((String) fieldName)%>)
                     </div>
                 </td>
             </tr>
