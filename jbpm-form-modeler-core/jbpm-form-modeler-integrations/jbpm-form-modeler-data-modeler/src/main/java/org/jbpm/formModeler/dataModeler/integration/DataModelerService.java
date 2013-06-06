@@ -40,7 +40,7 @@ public class DataModelerService implements DataHolderBuilder {
     public List getDataModelObjectList(Object path){
         List dataObjectsList = new ArrayList();
 
-
+        try{
         DataModelTO dataModelTO = dataModelerService.loadModel((Path)path);
         HashMap dO;
         if (dataModelTO != null && dataModelTO.getDataObjects() != null) {
@@ -52,6 +52,13 @@ public class DataModelerService implements DataHolderBuilder {
                 dO.put("optionValue", className);
                 dataObjectsList.add(dO);
             }
+        }
+        }catch (Exception e){
+            HashMap dO =new HashMap();
+            dO.put("optionLabel", "-");
+            dO.put("optionValue", "-");
+            dataObjectsList.add(dO);
+
         }
         return dataObjectsList;
     }
