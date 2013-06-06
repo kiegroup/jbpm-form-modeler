@@ -40,10 +40,12 @@ public class DateFieldHandler extends DefaultFieldHandler {
 
     protected String defaultPattern;
     protected String defaultPatterTimeSuffix;
+    protected String defaultJQueryPattern;
 
     public DateFieldHandler() {
-        defaultPattern = "mm-dd-yy";
+        defaultPattern = "MM-dd-yy";
         defaultPatterTimeSuffix = "HH:mm:ss";
+        defaultJQueryPattern="mm-dd-y";
     }
 
     /**
@@ -107,6 +109,14 @@ public class DateFieldHandler extends DefaultFieldHandler {
 
     public void setDefaultPattern(String defaultPattern) {
         this.defaultPattern = defaultPattern;
+    }
+
+    public String getDefaultJQueryPattern() {
+        return defaultJQueryPattern;
+    }
+
+    public void setDefaultJQueryPattern(String defaultJQueryPattern) {
+        this.defaultJQueryPattern = defaultJQueryPattern;
     }
 
     protected String getPattern(Field field, boolean useDefault, String pattern) {

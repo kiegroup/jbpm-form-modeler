@@ -58,7 +58,7 @@ public class DateFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
 
         setAttribute("name", fieldName);
         setAttribute("value", dateValue);
-        setAttribute("inputPattern", dateFieldHandler.getDefaultPattern());
+        setAttribute("inputPattern", dateFieldHandler.getDefaultJQueryPattern());
         setAttribute("timePattern", dateFieldHandler.getDefaultPatterTimeSuffix());
         setAttribute("uid", getFormManager().getUniqueIdentifier(form, namespace, field, fieldName));
         renderFragment("output");
