@@ -44,7 +44,7 @@ public class FormRenderEvent implements Serializable {
         return isMine(myContext.getCtxUID());
     }
 
-    private boolean isMine(String ctxUID) {
+    public boolean isMine(String ctxUID) {
         return context.getCtxUID().equals(ctxUID);
     }
 }

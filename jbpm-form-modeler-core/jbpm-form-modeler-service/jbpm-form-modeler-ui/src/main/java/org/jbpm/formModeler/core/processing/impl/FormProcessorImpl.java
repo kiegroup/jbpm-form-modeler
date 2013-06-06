@@ -326,6 +326,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
                         boolean canSetValue = bindingString.indexOf("/") > 0;
 
+                        Object value = null;
                         if (canSetValue) {
                             String holderId = bindingString.substring(0, bindingString.indexOf("/"));
                             String holderFieldId = bindingString.substring(holderId.length() + 1);
@@ -333,16 +334,17 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                             DataHolder holder = form.getDataHolderById(holderId);
                             if (holder != null && !StringUtils.isEmpty(holderFieldId)) {
 
-                                Object value = bindingData.get(holder.getId());
+                                Object holderValue = bindingData.get(holder.getId());
 
-                                if (value == null) continue;
+                                if (holderValue == null) continue;
 
-                                values.put(field.getFieldName(), holder.readValue(value, holderFieldId));
+                                value = holder.readValue(holderValue, holderFieldId);
                             }
                         } else {
-                            Object value = bindingData.get(bindingString);
-                            if (value != null) values.put(bindingString, value);
+                            value = bindingData.get(bindingString);
                         }
+
+                        values.put(field.getFieldName(), value);
                     }
                 }
             }
@@ -385,6 +387,8 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
         Map mapToPersist = getFilteredMapRepresentationToPersist(form, context.getUID());
 
+        Map<String, Object> result = new HashMap<String, Object>();
+
         for (Iterator it = mapToPersist.keySet().iterator(); it.hasNext();) {
             String fieldName = (String) it.next();
             Field field = form.getField(fieldName);
@@ -399,18 +403,26 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                         String holderId = bindingString.substring(0, bindingString.indexOf("/"));
                         String holderFieldId = bindingString.substring(holderId.length() + 1);
                         DataHolder holder = form.getDataHolderById(holderId);
-                        if (holder != null && !StringUtils.isEmpty(holderFieldId)) holder.writeValue(context.getBindingData().get(holderId), holderFieldId, mapToPersist.get(fieldName));
+                        if (holder != null && !StringUtils.isEmpty(holderFieldId)) {
+                            Object value = context.getBindingData().get(holderId);
+                            holder.writeValue(value, holderFieldId, mapToPersist.get(fieldName));
+                            if (!result.containsKey(holderId)) result.put(holderId, value);
+                        }
                         else canBind = false;
                     }
 
                     if (!canBind) {
                         log.debug("Unable to bind DataHolder for field '" + fieldName + "' to '" + bindingString + "'. This may be caused because bindingString is incorrect or the form doesn't contains the defined DataHolder.");
-                        context.getBindingData().put(bindingString, mapToPersist.get(fieldName));
+                        if (!result.containsKey(fieldName)) result.put(fieldName, mapToPersist.get(fieldName));
                     }
+
+
 
                 }
             }
         }
+
+        context.setPersistedData(result);
     }
 
     public Map getMapRepresentationToPersist(Form form, String namespace) throws Exception {

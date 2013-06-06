@@ -31,7 +31,7 @@ import javax.inject.Inject;
 public class FormRendererWidget extends Composite {
 
     boolean canSubmit = false;
-    private FormRenderContextTO ctx;
+    private String ctxUID;
 
     @Inject
     private Frame frame;
@@ -47,11 +47,11 @@ public class FormRendererWidget extends Composite {
     }
 
     public void submitForm() {
-        if (canSubmit) submitForm(ctx.getCtxUID(), false);
+        if (canSubmit) submitForm(ctxUID, false);
     }
 
     public void submitFormAndPersist() {
-        if (canSubmit) submitForm(ctx.getCtxUID(), true);
+        if (canSubmit) submitForm(ctxUID, true);
     }
 
     private native void submitForm(String uid, boolean persist) /*-{
@@ -65,20 +65,21 @@ public class FormRendererWidget extends Composite {
     }-*/;
 
     public void loadContext(FormRenderContextTO ctx) {
+       loadContext(ctx.getCtxUID());
+    }
 
-        this.ctx = ctx;
-
-        String ctxUID = ctx.getCtxUID();
+    public void loadContext(String ctxUID) {
+        this.ctxUID = ctxUID;
 
         frame.getElement().setId("frame_" + ctxUID);
-        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=frc&_fp=Start&ctxUID=" + ctx.getCtxUID()).asString());
+        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=frc&_fp=Start&ctxUID=" + ctxUID).asString());
         canSubmit = true;
     }
 
     public void endContext() {
         canSubmit = false;
         frame.setUrl("");
-        ctx = null;
+        ctxUID = null;
     }
 }
 

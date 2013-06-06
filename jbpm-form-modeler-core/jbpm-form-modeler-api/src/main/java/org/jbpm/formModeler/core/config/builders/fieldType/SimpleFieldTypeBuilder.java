@@ -26,6 +26,7 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
 
     @Override
     public List<FieldType> buildList() {
+
         List<FieldType> result = new ArrayList<FieldType>();
 
         FieldType ft = new FieldType();
@@ -73,7 +74,7 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft.setCode("InputTextEmail");
         ft.setFieldClass("java.lang.String");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.InputTextFieldHandler");
-        ft.setPattern("[a-z0-9\\!\\#$%&'*+/\\=?^_`{|}~-]+(?\\:\\\\.[a-z0-9\\!\\#$%&'*+/\\=?^_`{|}~-]+)*@(?\\:[a-z0-9](?\\:[a-z0-9-]*[a-z0-9])?\\\\.)+[a-z0-9](?\\:[a-z0-9-]*[a-z0-9])?");
+        ft.setPattern("[a-zA-Z0-9.!#$%&'*+-/=?\\^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*");
         ft.setMaxlength(new Long(4000));
         ft.setSize("25");
         result.add(ft);

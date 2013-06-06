@@ -23,6 +23,7 @@ public class FormRenderContext {
     private String UID;
     private Form form;
     private Map<String, Object> bindingData;
+    private Map<String, Object> persistedData;
     private boolean submit = false;
     private int errors;
 
@@ -42,6 +43,14 @@ public class FormRenderContext {
 
     public Map<String, Object> getBindingData() {
         return bindingData;
+    }
+
+    public Map<String, Object> getPersistedData() {
+        return persistedData;
+    }
+
+    public void setPersistedData(Map<String, Object> persistedData) {
+        this.persistedData = persistedData;
     }
 
     public FormRenderContextTO getFormRenderingContextTO() {
