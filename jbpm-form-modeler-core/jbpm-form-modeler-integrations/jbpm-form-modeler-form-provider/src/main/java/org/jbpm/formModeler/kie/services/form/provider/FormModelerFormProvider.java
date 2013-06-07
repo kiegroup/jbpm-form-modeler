@@ -78,9 +78,7 @@ public class FormModelerFormProvider implements FormProvider {
 
             ctx.put("task", task);
 
-            String uid = "task_" + task.getId() + "_" + task.getTaskData().getActualOwner().getId();
-
-            result = formRenderContextManager.newContext(uid, form, ctx).getUID();
+            result = formRenderContextManager.newContext(form, ctx).getUID();
 
         } catch (Exception e) {
             log.warn("Error rendering form: ", e);

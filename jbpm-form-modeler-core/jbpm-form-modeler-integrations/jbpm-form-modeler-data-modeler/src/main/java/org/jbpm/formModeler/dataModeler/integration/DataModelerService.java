@@ -66,7 +66,9 @@ public class DataModelerService implements DataHolderBuilder {
         return Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL;
     }
 
-    public DataHolder createDataHolder (Object path, String id, String className, String renderColor){
+    public DataHolder createDataHolder (Object path, String id, String className, String renderColor) {
+        if (path == null) return new DataModelerDataHolder(id, className, renderColor);
+
         DataModelTO dataModelTO = dataModelerService.loadModel((Path)path);
         DataObjectTO dO = dataModelTO.getDataObjectByClassName(className);
 

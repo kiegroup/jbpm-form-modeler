@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.model;
 
+import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.api.model.Form;
@@ -31,17 +32,6 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
     protected FieldTypeManager fieldTypeManager;
 
     protected Set<DataFieldHolder> dataFieldHolders;
-
-
-    public Object createInstance() throws Exception {
-        Object result = null;
-        for (Constructor constructor : Class.forName(className).getConstructors()) {
-            if (constructor.getParameterTypes().length == 0) {
-                result = constructor.newInstance();
-            }
-        }
-        return result;
-    }
 
     public PojoDataHolder(){
     }
@@ -214,13 +204,19 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
         return propName;
     }
 
-//    @Override
-//    public String getRenderColor() {
-//        return renderColor;
-//    }
+    @Override
+    public boolean supportsType(String className) {
+        return StringUtils.equals(this.className, className);
+    }
 
-//    @Override
-//    public void setRenderColor(String renderColor) {
-//        this.renderColor = renderColor;
-//    }
+    @Override
+    public String buildInputBinding(String fieldName) {
+        if (StringUtils.isEmpty(fieldName)) return "";
+        return "{" + id + "/" + fieldName + "}";
+    }
+
+    @Override
+    public String buildOuputBinding(String fieldName) {
+        return buildInputBinding(fieldName);
+    }
 }

@@ -26,21 +26,6 @@ public abstract class DefaultDataHolder implements DataHolder {
     private String renderColor;
 
     @Override
-    public Map load(Map<String, Object> bindingData) throws Exception {
-        Map values = new HashMap();
-        Object value = bindingData.get(getId());
-        if (value != null) {
-            Set<DataFieldHolder> fieldHodlers = getFieldHolders();
-            for (DataFieldHolder fieldHolder : fieldHodlers) {
-                values.put(fieldHolder.getId(), readValue(value, fieldHolder.getId()));
-            }
-        } else {
-            bindingData.put(getId(), createInstance());
-        }
-        return values;
-    }
-
-    @Override
     public String getRenderColor() {
         return renderColor;
     }

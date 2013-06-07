@@ -21,7 +21,6 @@ import java.util.Set;
 public interface DataHolder extends Comparable{
 
     String getId();
-    Object createInstance() throws Exception;
     void writeValue(Object destination, String propName, Object value) throws Exception;
     Object readValue(Object destination, String propName) throws Exception;
     Set<DataFieldHolder> getFieldHolders();
@@ -30,5 +29,7 @@ public interface DataHolder extends Comparable{
     String getInfo();
     void setRenderColor(String renderColor);
     String getRenderColor();
-    Map load(Map<String, Object> bindingData) throws Exception;
+    String buildInputBinding(String fieldName);
+    String buildOuputBinding(String fieldName);
+    boolean supportsType(String className);
 }
