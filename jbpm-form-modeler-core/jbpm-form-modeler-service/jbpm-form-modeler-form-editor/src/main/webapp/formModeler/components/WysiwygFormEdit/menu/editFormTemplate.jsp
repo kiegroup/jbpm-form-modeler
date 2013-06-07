@@ -34,6 +34,7 @@
 <mvc:fragmentValue name="templateToLoad" id="templateToLoad">
 <mvc:fragmentValue name="formId" id="formId">
 <mvc:fragmentValue name="loadTemplate" id="loadTemplate">
+<mvc:fragmentValue name="genMode" id="genMode">
 
 <script defer>
     window.formTemplateEditorHandler = new Object();
@@ -178,14 +179,14 @@
                                         <mvc:formatterParam name="formId" value="<%=formId%>"/>
                                         <mvc:formatterParam name="renderMode"
                                                             value="<%=Form.RENDER_MODE_TEMPLATE_EDIT%>"/>
-                                        <mvc:formatterParam name="displayMode" value="<%=templateToLoad%>"/>
+                                        <mvc:formatterParam name="displayMode"
+                                                            value="<%=genMode%>"/>
                                         <mvc:formatterParam name="namespace"
                                                             value='<%="template_" + templateToLoad%>'/>
                                         <%@ include
                                                 file="defaultFormRenderingFormatterOptions.jsp" %>
                                     </mvc:formatter><% } else {%><%= (templateContent!= null ? templateContent:"") %><%}
                                     %></textarea>
-                                <b><%=templateContent%></b>
                                 <script language="Javascript" defer="true">
                                     var fieldTR='<factory:encode name="insertFieldTR"/>';
                                     var labelTR='<factory:encode name="insertLabelTR"/>';
@@ -239,21 +240,21 @@
                                 <hr>
                             </td>
                         </tr>
-                        <!--
+
                         <tr >
                             <td nowrap="nowrap" class="skn-even_row">
                                 <i18n:message key="loadTemplate">!!!Cargar plantilla equivalente a:</i18n:message>
                             </td>
                             <td width="65%">
                                 <select class="skn-input"
-                                        name="<%=templateToLoad%>">
-                                    <option value="default">
+                                        name="genModeTemplate">
+                                    <option value="<%=Form.DISPLAY_MODE_DEFAULT%>">
                                         <i18n:message key="displayMode.default">!!!Por defecto</i18n:message>
                                     </option>
-                                    <option value="aligned">
+                                    <option value="<%=Form.DISPLAY_MODE_ALIGNED%>">
                                         <i18n:message key="displayMode.aligned">!!!Campos alineados</i18n:message>
                                     </option>
-                                    <option value="none">
+                                    <option value="<%=Form.DISPLAY_MODE_NONE%>">
                                         <i18n:message key="displayMode.none">!!!Sin alineaci&oacute;n</i18n:message>
                                     </option>
                                 </select>
@@ -274,7 +275,7 @@
                                        value="false">
                             </td>
                         </tr >
-           -->
+
                         <tr>
                             <td colspan="2">
                                 <div style="width:100%; text-align:center; padding:5px;">
@@ -304,6 +305,7 @@
         </td>
     </tr>
 </table>
+</mvc:fragmentValue>
 </mvc:fragmentValue>
 </mvc:fragmentValue>
 </mvc:fragmentValue>

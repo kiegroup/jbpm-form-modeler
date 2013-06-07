@@ -894,20 +894,27 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public void actionSaveTemplate(CommandRequest request) throws Exception {
         String loadTemplate = request.getRequestObject().getParameter("loadTemplate");
         String templateContent = request.getRequestObject().getParameter("templateContent");
+        String genModeTemplate = request.getRequestObject().getParameter("genModeTemplate");
         getFormTemplateEditor().setTemplateContent(templateContent);
 
-        if(loadTemplate!=null && Boolean.valueOf(loadTemplate).booleanValue()) getFormTemplateEditor().setLoadTemplate(true);
 
-        else getFormTemplateEditor().setLoadTemplate(false);
         if (getFormTemplateEditor().isCancel()) {
             getFormTemplateEditor().setFormId(null);
         } else {
             //if (getFormTemplateEditor().isPersist()) {
                 FormCoreServices.lookup().getFormManager().saveTemplateForForm(getFormTemplateEditor().getFormId(), getFormTemplateEditor().getTemplateContent());
-                getFormTemplateEditor().setFormId(null);
+                //getFormTemplateEditor().setFormId(null);
             //}
         }
-        showTemplateEdition =false;
+        if(loadTemplate!=null && Boolean.valueOf(loadTemplate).booleanValue()){
+            getFormTemplateEditor().setLoadTemplate(true);
+            getFormTemplateEditor().setGenMode(genModeTemplate);
+            showTemplateEdition =true;
+        } else{
+            getFormTemplateEditor().setLoadTemplate(false);
+            getFormTemplateEditor().setFormId(null);
+            showTemplateEdition =false;
+        }
     }
 
 

@@ -39,6 +39,7 @@ public class FormTemplateEditor extends BeanHandler {
     private boolean persist;
     private boolean loadTemplate;
     private String templateToLoad;
+    private String genMode;
 
     public boolean isOn() {
         return formId != null;
@@ -85,6 +86,14 @@ public class FormTemplateEditor extends BeanHandler {
 
     public void setTemplateToLoad(String templateToLoad) {
         this.templateToLoad = templateToLoad;
+    }
+
+    public String getGenMode() {
+        return genMode;
+    }
+
+    public void setGenMode(String genMode) {
+        this.genMode = genMode;
     }
 
     public boolean isCancel() {
