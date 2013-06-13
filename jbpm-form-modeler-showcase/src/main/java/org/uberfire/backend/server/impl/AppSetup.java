@@ -1,14 +1,21 @@
 package org.uberfire.backend.server.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.kie.commons.services.cdi.Startup;
 import org.kie.commons.services.cdi.StartupType;
+import org.uberfire.backend.group.Group;
+import org.uberfire.backend.group.GroupService;
 import org.uberfire.backend.repositories.Repository;
 import org.uberfire.backend.repositories.RepositoryService;
+import org.uberfire.security.impl.authz.RuntimeAuthorizationManager;
+import org.uberfire.security.server.cdi.SecurityFactory;
 
 //This is a temporary solution when running in PROD-MODE as /webapp/.niogit/system.git folder
 //is not deployed to the Application Servers /bin folder. This will be remedied when an
@@ -26,6 +33,10 @@ public class AppSetup {
     @Inject
     private RepositoryService repositoryService;
 
+
+    @Inject
+    private GroupService groupService;
+
     @PostConstruct
     public void assertPlayground() {
         final Repository repository = repositoryService.getRepository( PLAYGROUND_ALIAS );
@@ -37,6 +48,17 @@ public class AppSetup {
                                                     put( "crypt:password", PLAYGROUND_PWD );
                                                 }} );
         }
+        // TODO in case groups are not defined
+        Collection<Group> groups = groupService.getGroups();
+        if ( groups == null || groups.isEmpty() ) {
+            List<Repository> repositories = new ArrayList<Repository>();
+            repositories.add( repository );
+            groupService.createGroup( "demo",
+                    "demo@jbpm.org",
+                    repositories );
+        }
+
+        SecurityFactory.setAuthzManager(new RuntimeAuthorizationManager());
     }
 
 }
