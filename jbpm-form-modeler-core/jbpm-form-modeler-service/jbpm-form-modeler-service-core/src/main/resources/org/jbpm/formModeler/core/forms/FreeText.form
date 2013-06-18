@@ -1,416 +1,369 @@
+
 <form id="734875528">
-    <property name="subject" value="org.jbpm.formModeler.api.model.Field"/>
-    <property name="name" value="FreeText"/>
-    <property name="displayMode" value="default"/>
-    <property name="labelMode" value="undefined"/>
-    <property name="showMode" value=""/>
-    <property name="status" value="0"/>
-    <field position="19" name="inputBinding" type="InputText" id="241879742">
-        <property name="fieldName" value="inputBinding"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Exp. enlla&#231; entrada:quot;quot;enquot;,quot;Input binding expression:quot;quot;esquot;,quot;Exp. enlace entrada:quot;"/>
-        <property name="title"
-                  value="quot;caquot;,quot;Exp. enlla&#231; entradaquot;quot;enquot;,quot;Input inding expressionquot;quot;esquot;,quot;Exp. enlace entradaquot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="55"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="20" name="outputBinding" type="InputText" id="413003545">
-        <property name="fieldName" value="outputBinding"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Exp. enlla&#231; sortida:quot;quot;enquot;,quot;Output binding expression:quot;quot;esquot;,quot;Exp. enlace salida:quot;"/>
-        <property name="title"
-                  value="quot;caquot;,quot;Exp. enlla&#231; sortidaquot;quot;enquot;,quot;Output binding expression:quot;quot;esquot;,quot;Exp. enlace salidaquot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="55"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="18" name="groupWithPrevious" type="CheckBox" id="855711392">
-        <property name="fieldName" value="groupWithPrevious"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Mantenir agrupat amb l&apos;anteriorquot;quot;enquot;,quot;Group with previousquot;quot;esquot;,quot;Mantener agrupado con el anteriorquot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value=""/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="8" name="maxlength" type="InputTextLong" id="1569154663">
-        <property name="fieldName" value="maxlength"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Longitud m&#224;xima:quot;quot;enquot;,quot;Max length:quot;quot;esquot;,quot;Longitud m&#225;xima:quot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="25"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="14" name="formula" type="InputTextArea" id="1521663104">
-        <property name="fieldName" value="formula"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value="4"/>
-        <property name="label"
-                  value="quot;caquot;,quot;F&#242;rmula:quot;quot;enquot;,quot;Formula:quot;quot;esquot;,quot;F&#243;rmula:quot;"/>
-        <property name="title"
-                  value="quot;caquot;,quot;Permet calcular autom&#224;ticament el valor del camp. Per exemple =Functions.String.upperCase({$this}) posaria el valor del camp a maj&#250;scules.quot;quot;enquot;,quot;Allows to calculate automatically the field value. For example =Functions.String.upperCase({$this}) sets the field value in capital letters.quot;quot;esquot;,quot;Permite calcular autom&#225;ticamente el valor del campo. Por ejemplo =Functions.String.upperCase({$this}) pondr&#237;a el valor del campo a may&#250;sculas.quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="55"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="13" name="hideContent" type="CheckBox" id="938438593">
-        <property name="fieldName" value="hideContent"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="true"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Contrasenyaquot;quot;enquot;,quot;Passwordquot;quot;esquot;,quot;Contrase&#241;aquot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value=""/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="1" name="errorMessage" type="I18nText" id="668922615">
-        <property name="fieldName" value="errorMessage"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Missatge d&apos;error:quot;quot;enquot;,quot;Error message:quot;quot;esquot;,quot;Mensaje de error:quot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="25"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="3" name="labelCSSStyle" type="InputText" id="476715346">
-        <property name="fieldName" value="labelCSSStyle"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="true"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Estil css de l&apos;etiqueta:quot;quot;enquot;,quot;Label css style:quot;quot;esquot;,quot;Estilo css de la etiqueta:quot;"/>
-        <property name="title"
-                  value="quot;caquot;,quot;Empri CSS directament, o una f&#242;rmula que calculi l&apos;estil CSS per a fer l&apos;estil depenent dels valors dels camps del formulari o qualsevol algorismequot;quot;enquot;,quot;Use CSS directly, or a formula that calculates the CSS style to make it dependant on the values of the form field or any algorythmquot;quot;esquot;,quot;Emplee CSS directamente, o una f&#242;rmula que calcule el estilo CSS para hacer el estilo dependiente de los valores de los campos del formulario o cualquier algoritmo.quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="25"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="16" name="pattern" type="InputText" id="1918081332">
-        <property name="fieldName" value="pattern"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Patr&#243;:quot;quot;enquot;,quot;Pattern:quot;quot;esquot;,quot;Patr&#243;n:quot;"/>
-        <property name="title"
-                  value="quot;caquot;,quot;Permet especificar una Expressi&#243; Regular o una funci&#243; per controlar el format per a la inserci&#243; del valor. Quan s&apos;utilitza una Expressi&#243; Regular, fins que el valor introdu&#239;t no la compleix no es dona per v&#224;lid. Quand s&apos;utilitza una funci&#243; (exemple: =!Functions.String.isNumeric({$this})), &#233;s aquesta la que decideix si el valor introdu&#239;t &#233;s correcte.quot;quot;enquot;,quot;Allows to specify a Regular Expression or a function to check the value insertion format. Using a Regular Expression, while the value doesn&apos;t accomplish it won&apos;t be stored. Using a function (example =!Functions.String.isNumeric({$this})) it checks that the introduced value is correct.quot;quot;esquot;,quot;Permite especificar una Expresi&#243;n Regular o una funci&#243;n para controlar el formato para la inserci&#243;n del valor. Cuando se usa una Expresi&#243;n Regular, hasta que el valor introducido no la cumple no se da por v&#225;lido. Cuando se usa una funci&#243;n (ejemplo: =!Functions.String.isNumeric({$this})), es esta la que decide si el valor introducido es correcto.quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="25"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="12" name="isHTML" type="CheckBox" id="630736332">
-        <property name="fieldName" value="isHTML"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="true"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Mostrar HTMLquot;quot;enquot;,quot;Show HTMLquot;quot;esquot;,quot;Mostrar HTMLquot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value=""/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="10" name="disabled" type="CheckBox" id="144747072">
-        <property name="fieldName" value="disabled"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="true"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Deshabilitatquot;quot;enquot;,quot;Disabledquot;quot;esquot;,quot;Deshabilitadoquot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value=""/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="7" name="size" type="InputText" id="117350626">
-        <property name="fieldName" value="size"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Grand&#224;ria:quot;quot;enquot;,quot;Size:quot;quot;esquot;,quot;Tama&#241;o:quot;"/>
-        <property name="title"
-                  value="quot;caquot;,quot;En car&#224;ctersquot;quot;enquot;,quot;Charactersquot;quot;esquot;,quot;En car&#225;cteresquot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="25"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="17" name="forceShowMode" type="CheckBox" id="1047286231">
-        <property name="fieldName" value="forceShowMode"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;For&#231;ar mostrar:quot;quot;enquot;,quot;Force show:quot;quot;esquot;,quot;Forzar mostrar:quot;"/>
-        <property name="title"
-                  value="quot;caquot;,quot;For&#231;a la visualitzaci&#243;, encara que el formulari serveixi per a la introducci&#243; de dades.quot;quot;enquot;,quot;Forces show mode, although the form may be used for data input.quot;quot;esquot;,quot;Fuerza la visualizaci&#243;n, aunque el formulario sirva para introducci&#243;n de datos.quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value=""/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="15" name="rangeFormula" type="InputTextArea" id="514924871">
-        <property name="fieldName" value="rangeFormula"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value="1"/>
-        <property name="label"
-                  value="quot;caquot;,quot;Rang de valors:quot;quot;enquot;,quot;Range value:quot;quot;esquot;,quot;Rango de valores:quot;"/>
-        <property name="title"
-                  value="quot;caquot;,quot;Permet especificar una funci&#243; que torni els valors entre els que poder escollir per aquest camp. Per exemple: =Functions.getDatasourceNames()quot;quot;enquot;,quot;Allows to specify a function that returns the values that we can select for this field. For example: =Functions.getDatasourceNames()quot;quot;esquot;,quot;Permite especificar una funci&#243;n que devuelva los valores entre los que poder elegir para este campo. Por ejemplo: =Functions.getDatasourceNames()quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="55"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="4" name="title" type="I18nText" id="367535305">
-        <property name="fieldName" value="title"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Texte d&apos;ajuda:quot;quot;enquot;,quot;Help text:quot;quot;esquot;,quot;Texto de ayuda:quot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="25"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="0" name="label" type="I18nText" id="1525260733">
-        <property name="fieldName" value="label"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Etiqueta:quot;quot;enquot;,quot;Label:quot;quot;esquot;,quot;Etiqueta:quot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="25"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="2" name="labelCSSClass" type="InputText" id="2129739190">
-        <property name="fieldName" value="labelCSSClass"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Classe css de l&apos;etiqueta:quot;quot;enquot;,quot;Label css class:quot;quot;esquot;,quot;Clase css de la etiqueta:quot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="25"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="9" name="fieldRequired" type="CheckBox" id="1787870523">
-        <property name="fieldName" value="fieldRequired"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Requeritquot;quot;enquot;,quot;Requiredquot;quot;esquot;,quot;Requeridoquot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value=""/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="5" name="styleclass" type="InputText" id="1825416816">
-        <property name="fieldName" value="styleclass"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Classe css:quot;quot;enquot;,quot;Style class:quot;quot;esquot;,quot;Clase css:quot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="25"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="6" name="cssStyle" type="InputText" id="674633108">
-        <property name="fieldName" value="cssStyle"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="true"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Estil css:quot;quot;enquot;,quot;Css style:quot;quot;esquot;,quot;Estilo css:quot;"/>
-        <property name="title"
-                  value="quot;caquot;,quot;Empri CSS directament, o una f&#242;rmula que calculi l&apos;estil CSS per a fer l&apos;estil depenent dels valors dels camps del formulari o qualsevol algorismequot;quot;enquot;,quot;Use CSS directly, or a formula that calculates the CSS style to make it dependant on the values of the form field or any algorythmquot;quot;esquot;,quot;Emplee CSS directamente, o una f&#242;rmula que calcule el estilo CSS para hacer el estilo dependiente de los valores de los campos del formulario o cualquier algoritmo.quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="25"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="11" name="readonly" type="CheckBox" id="1303236811">
-        <property name="fieldName" value="readonly"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="true"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Sols lecturaquot;quot;enquot;,quot;Read onlyquot;quot;esquot;,quot;S&#243;lo lecturaquot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value=""/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
+<property name="subject" value="org.jbpm.formModeler.api.model.Field"/>
+<property name="name" value="FreeText"/>
+<property name="displayMode" value="default"/>
+<property name="labelMode" value="undefined"/>
+<property name="showMode" value=""/>
+<property name="status" value="0"/>
+<field position="19" name="bindingStr" type="InputText" id="241879742">
+<property name="fieldName" value="bindingStr"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Exp. Enlla&#231;:quot;quot;enquot;,quot;Binding expression:quot;quot;esquot;,quot;Exp.enlace:quot;"/>
+<property name="title" value="quot;caquot;,quot;Exp. Enlla&#231;quot;quot;enquot;,quot;Binding expressionquot;quot;esquot;,quot;Exp.enlacequot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="55"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="18" name="groupWithPrevious" type="CheckBox" id="855711392">
+<property name="fieldName" value="groupWithPrevious"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Mantenir agrupat amb l&apos;anteriorquot;quot;enquot;,quot;Group with previousquot;quot;esquot;,quot;Mantener agrupado con el anteriorquot;"/>
+<property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value=""/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="8" name="maxlength" type="InputTextLong" id="1569154663">
+<property name="fieldName" value="maxlength"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Longitud m&#224;xima:quot;quot;enquot;,quot;Max length:quot;quot;esquot;,quot;Longitud m&#225;xima:quot;"/>
+<property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="14" name="formula" type="InputTextArea" id="1521663104">
+<property name="fieldName" value="formula"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value="4"/>
+<property name="label" value="quot;caquot;,quot;F&#242;rmula:quot;quot;enquot;,quot;Formula:quot;quot;esquot;,quot;F&#243;rmula:quot;"/>
+<property name="title" value="quot;caquot;,quot;Permet calcular autom&#224;ticament el valor del camp. Per exemple =Functions.String.upperCase({$this}) posaria el valor del camp a maj&#250;scules.quot;quot;enquot;,quot;Allows to calculate automatically the field value. For example =Functions.String.upperCase({$this}) sets the field value in capital letters.quot;quot;esquot;,quot;Permite calcular autom&#225;ticamente el valor del campo. Por ejemplo =Functions.String.upperCase({$this}) pondr&#237;a el valor del campo a may&#250;sculas.quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="55"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="13" name="hideContent" type="CheckBox" id="938438593">
+<property name="fieldName" value="hideContent"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Contrasenyaquot;quot;enquot;,quot;Passwordquot;quot;esquot;,quot;Contrase&#241;aquot;"/>
+<property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value=""/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="1" name="errorMessage" type="I18nText" id="668922615">
+<property name="fieldName" value="errorMessage"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Missatge d&apos;error:quot;quot;enquot;,quot;Error message:quot;quot;esquot;,quot;Mensaje de error:quot;"/>
+<property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="3" name="labelCSSStyle" type="InputText" id="476715346">
+<property name="fieldName" value="labelCSSStyle"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Estil css de l&apos;etiqueta:quot;quot;enquot;,quot;Label css style:quot;quot;esquot;,quot;Estilo css de la etiqueta:quot;"/>
+<property name="title" value="quot;caquot;,quot;Empri CSS directament, o una f&#242;rmula que calculi l&apos;estil CSS per a fer l&apos;estil depenent dels valors dels camps del formulari o qualsevol algorismequot;quot;enquot;,quot;Use CSS directly, or a formula that calculates the CSS style to make it dependant on the values of the form field or any algorythmquot;quot;esquot;,quot;Emplee CSS directamente, o una f&#242;rmula que calcule el estilo CSS para hacer el estilo dependiente de los valores de los campos del formulario o cualquier algoritmo.quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="16" name="pattern" type="InputText" id="1918081332">
+<property name="fieldName" value="pattern"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Patr&#243;:quot;quot;enquot;,quot;Pattern:quot;quot;esquot;,quot;Patr&#243;n:quot;"/>
+<property name="title" value="quot;caquot;,quot;Permet especificar una Expressi&#243; Regular o una funci&#243; per controlar el format per a la inserci&#243; del valor. Quan s&apos;utilitza una Expressi&#243; Regular, fins que el valor introdu&#239;t no la compleix no es dona per v&#224;lid. Quand s&apos;utilitza una funci&#243; (exemple: =!Functions.String.isNumeric({$this})), &#233;s aquesta la que decideix si el valor introdu&#239;t &#233;s correcte.quot;quot;enquot;,quot;Allows to specify a Regular Expression or a function to check the value insertion format. Using a Regular Expression, while the value doesn&apos;t accomplish it won&apos;t be stored. Using a function (example =!Functions.String.isNumeric({$this})) it checks that the introduced value is correct.quot;quot;esquot;,quot;Permite especificar una Expresi&#243;n Regular o una funci&#243;n para controlar el formato para la inserci&#243;n del valor. Cuando se usa una Expresi&#243;n Regular, hasta que el valor introducido no la cumple no se da por v&#225;lido. Cuando se usa una funci&#243;n (ejemplo: =!Functions.String.isNumeric({$this})), es esta la que decide si el valor introducido es correcto.quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="12" name="isHTML" type="CheckBox" id="630736332">
+<property name="fieldName" value="isHTML"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Mostrar HTMLquot;quot;enquot;,quot;Show HTMLquot;quot;esquot;,quot;Mostrar HTMLquot;"/>
+<property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value=""/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="10" name="disabled" type="CheckBox" id="144747072">
+<property name="fieldName" value="disabled"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Deshabilitatquot;quot;enquot;,quot;Disabledquot;quot;esquot;,quot;Deshabilitadoquot;"/>
+<property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value=""/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="7" name="size" type="InputText" id="117350626">
+<property name="fieldName" value="size"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Grand&#224;ria:quot;quot;enquot;,quot;Size:quot;quot;esquot;,quot;Tama&#241;o:quot;"/>
+<property name="title" value="quot;caquot;,quot;En car&#224;ctersquot;quot;enquot;,quot;Charactersquot;quot;esquot;,quot;En car&#225;cteresquot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="17" name="forceShowMode" type="CheckBox" id="1047286231">
+<property name="fieldName" value="forceShowMode"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;For&#231;ar mostrar:quot;quot;enquot;,quot;Force show:quot;quot;esquot;,quot;Forzar mostrar:quot;"/>
+<property name="title" value="quot;caquot;,quot;For&#231;a la visualitzaci&#243;, encara que el formulari serveixi per a la introducci&#243; de dades.quot;quot;enquot;,quot;Forces show mode, although the form may be used for data input.quot;quot;esquot;,quot;Fuerza la visualizaci&#243;n, aunque el formulario sirva para introducci&#243;n de datos.quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value=""/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="15" name="rangeFormula" type="InputTextArea" id="514924871">
+<property name="fieldName" value="rangeFormula"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value="1"/>
+<property name="label" value="quot;caquot;,quot;Rang de valors:quot;quot;enquot;,quot;Range value:quot;quot;esquot;,quot;Rango de valores:quot;"/>
+<property name="title" value="quot;caquot;,quot;Permet especificar una funci&#243; que torni els valors entre els que poder escollir per aquest camp. Per exemple: =Functions.getDatasourceNames()quot;quot;enquot;,quot;Allows to specify a function that returns the values that we can select for this field. For example: =Functions.getDatasourceNames()quot;quot;esquot;,quot;Permite especificar una funci&#243;n que devuelva los valores entre los que poder elegir para este campo. Por ejemplo: =Functions.getDatasourceNames()quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="55"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="4" name="title" type="I18nText" id="367535305">
+<property name="fieldName" value="title"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Texte d&apos;ajuda:quot;quot;enquot;,quot;Help text:quot;quot;esquot;,quot;Texto de ayuda:quot;"/>
+<property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="0" name="label" type="I18nText" id="1525260733">
+<property name="fieldName" value="label"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Etiqueta:quot;quot;enquot;,quot;Label:quot;quot;esquot;,quot;Etiqueta:quot;"/>
+<property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="2" name="labelCSSClass" type="InputText" id="2129739190">
+<property name="fieldName" value="labelCSSClass"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Classe css de l&apos;etiqueta:quot;quot;enquot;,quot;Label css class:quot;quot;esquot;,quot;Clase css de la etiqueta:quot;"/>
+<property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="9" name="fieldRequired" type="CheckBox" id="1787870523">
+<property name="fieldName" value="fieldRequired"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Requeritquot;quot;enquot;,quot;Requiredquot;quot;esquot;,quot;Requeridoquot;"/>
+<property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value=""/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="5" name="styleclass" type="InputText" id="1825416816">
+<property name="fieldName" value="styleclass"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Classe css:quot;quot;enquot;,quot;Style class:quot;quot;esquot;,quot;Clase css:quot;"/>
+<property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="6" name="cssStyle" type="InputText" id="674633108">
+<property name="fieldName" value="cssStyle"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Estil css:quot;quot;enquot;,quot;Css style:quot;quot;esquot;,quot;Estilo css:quot;"/>
+<property name="title" value="quot;caquot;,quot;Empri CSS directament, o una f&#242;rmula que calculi l&apos;estil CSS per a fer l&apos;estil depenent dels valors dels camps del formulari o qualsevol algorismequot;quot;enquot;,quot;Use CSS directly, or a formula that calculates the CSS style to make it dependant on the values of the form field or any algorythmquot;quot;esquot;,quot;Emplee CSS directamente, o una f&#242;rmula que calcule el estilo CSS para hacer el estilo dependiente de los valores de los campos del formulario o cualquier algoritmo.quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="11" name="readonly" type="CheckBox" id="1303236811">
+<property name="fieldName" value="readonly"/>
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="height" value=""/>
+<property name="label" value="quot;caquot;,quot;Sols lecturaquot;quot;enquot;,quot;Read onlyquot;quot;esquot;,quot;S&#243;lo lecturaquot;"/>
+<property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value=""/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
 </form>

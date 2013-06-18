@@ -280,28 +280,11 @@
                                         </mvc:fragment>
                                         <mvc:fragment name="afterFieldInTemplateMode"><div style="height:2px;"></div></div></mvc:fragment>
                                         <mvc:fragment name="beforeLabel">
-                                            <mvc:fragmentValue name="position" id="position">
-                                            <mvc:fragmentValue name="bindingColor" id="bindingColor">
-                                            <mvc:fragmentValue name="hasBinding" id="hasBinding">
-                                            <mvc:fragmentValue name="inputBinding" id="inputBinding">
-                                            <mvc:fragmentValue name="outputBinding" id="outputBinding">
-                                                    <td valign="top" nowrap width="1%">
-<%
-    if (Boolean.TRUE.equals(hasBinding) && !StringUtils.isEmpty((String) bindingColor)) {
-%>
-                                                        <div id='<%="binding_" + position%>' class='bulletBinding' style='background-color: <%=bindingColor%>;' title='in: <%=StringUtils.defaultIfEmpty((String)inputBinding, "-")%> <br/> out: <%=StringUtils.defaultIfEmpty((String)outputBinding, "-")%>'></div>
-                                                        <script type="text/javascript" defer="defer">
-                                                            $(function() {
-                                                                $('#<%="binding_" + position%>').tooltip();
-                                                            });
-                                                        </script>
-<%
-    }
-%>
-                                            </mvc:fragmentValue>
-                                            </mvc:fragmentValue>
-                                            </mvc:fragmentValue>
-                                            </mvc:fragmentValue>
+                                            <mvc:fragmentValue name="renderHolderColor" id="renderHolderColor">
+                                                <mvc:fragmentValue name="bindingStr" id="bindingStr">
+                                                    <td valign="top" nowrap width="1%"><%=
+                                                (((displayBindings!=null && !((Boolean)displayBindings).booleanValue() )|| (renderHolderColor==null) || (renderHolderColor!=null && ((String)renderHolderColor).trim().length()==0)) ? "": "<div class='bulletBinding' style='background-color: "+ renderHolderColor+";' title='"+bindingStr+"'></div>")
+                                                %></mvc:fragmentValue>
                                             </mvc:fragmentValue>
                                         </mvc:fragment>
                                         <mvc:fragment name="afterLabel"></td></mvc:fragment>

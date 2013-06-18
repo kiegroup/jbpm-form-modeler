@@ -76,8 +76,8 @@ public class DataHoldersFormFormatter extends Formatter {
 
             try {
                 dataObjects = dataModelerService.getDataModelObjectList(wysiwygFormEditor.getCurrentEditionContext().getPath());
-            } catch (Exception e) {
-                log.error("Error getting dataObjects from project!");
+            } catch (Throwable e) {
+                log.error("Error getting dataObjects from project! ", e);
             }
 
             renderSelectDataModel(dataObjects);

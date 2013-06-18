@@ -214,7 +214,7 @@ public class FormManagerImpl implements FormManager {
         sourceFields.addAll(sourceForm.getFormFields());
 
         for (Field field : sourceFields) {
-            Field addedField = addFieldToForm(destinationForm, field.getFieldName(), field.getFieldType(), field.getLabel(), field.getInputBinding(), field.getOutputBinding());
+            Field addedField = addFieldToForm(destinationForm, field.getFieldName(), field.getFieldType(), field.getLabel());
             addedField.putAll(field);
         }
 
@@ -292,7 +292,7 @@ public class FormManagerImpl implements FormManager {
 
     @Override
     public Field addFieldToForm(Form pForm, FieldType fieldType) throws Exception {
-        return addFieldToForm(pForm, "", fieldType, new I18nSet(), null);
+        return addFieldToForm(pForm, "", fieldType, new I18nSet());
     }
 
     /**
@@ -304,14 +304,9 @@ public class FormManagerImpl implements FormManager {
      * @throws Exception in case of error
      */
     @Override
-    public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label, String holderId) {
+    public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label) {
 
-        DataHolder holder = pForm.getDataHolderById(holderId);
-
-        String input = StringUtils.defaultString(holder.buildInputBinding(fieldName));
-        String output = StringUtils.defaultString(holder.buildOuputBinding(fieldName));
-
-        return addFieldToForm(pForm, fieldName, fieldType,label, input, output);
+        return addFieldToForm(pForm, fieldName, fieldType,label,"");
     }
 
 
@@ -324,7 +319,7 @@ public class FormManagerImpl implements FormManager {
      * @throws Exception in case of error
      */
     @Override
-    public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label,String inputBinding, String outputBinding) {
+    public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label, String bindingExpresion) {
         synchronized (pForm.getSynchronizationObject()) {
             Set<Field> fields = pForm.getFormFields();
 
@@ -345,8 +340,7 @@ public class FormManagerImpl implements FormManager {
             field.setFieldName(fieldName);
             field.setFieldRequired(Boolean.FALSE);
             field.setFieldType(fieldType);
-            field.setInputBinding(inputBinding);
-            field.setOutputBinding(outputBinding);
+            field.setBindingStr(bindingExpresion);
             field.setForm(pForm);
             field.setPosition(pForm.getFormFields().size());
 

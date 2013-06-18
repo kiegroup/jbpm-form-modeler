@@ -61,9 +61,9 @@ public interface FormManager extends Serializable {
 
     Field addFieldToForm(Form pForm, FieldType fieldType) throws Exception;
 
-    Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label, String holderId) throws Exception;
+    Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label) throws Exception;
 
-    Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label,String inputBinding, String outputBinding) throws Exception;
+    Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label,String bindingStr) throws Exception;
 
     void promoteField(Form pForm, int fieldPos, int destPos, boolean groupWithPrevious, boolean nextFieldGrouped) throws Exception;
 

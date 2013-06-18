@@ -589,7 +589,6 @@ public class FormRenderingFormatter extends Formatter {
         setAttribute("width", fieldWidth);
         setAttribute("index", index);
         boolean labelInSameLine = Form.LABEL_MODE_LEFT.equals(labelMode) || Form.LABEL_MODE_RIGHT.equals(labelMode);
-        boolean hasBinding = !(StringUtils.isEmpty(field.getInputBinding()) || StringUtils.isEmpty(field.getOutputBinding()));
         renderFragment("beforeInputElement");
 
         if(field.getFieldType().getCode().equals("CheckBox") && !Form.LABEL_MODE_LEFT.equals(labelMode)){
@@ -598,11 +597,10 @@ public class FormRenderingFormatter extends Formatter {
         }
 
         if (Form.LABEL_MODE_BEFORE.equals(labelMode) || Form.LABEL_MODE_LEFT.equals(labelMode)) {
-            setAttribute("position", field.getPosition());
             setAttribute("colspan", fieldColspan);
             setAttribute("width", fieldWidth);
-            setAttribute("bindingColor", formToPaint.getBindingColor(field));
-            setAttribute("hasBinding", hasBinding);
+            setAttribute("renderHolderColor", formToPaint.getBindingColor(field));
+            setAttribute("bindingStr", field.getBindingStr());
             renderFragment("beforeLabel");
 
             renderLabel(field, namespace, renderMode);
@@ -621,11 +619,10 @@ public class FormRenderingFormatter extends Formatter {
         if (Form.LABEL_MODE_AFTER.equals(labelMode) || Form.LABEL_MODE_RIGHT.equals(labelMode)) {
             if (!labelInSameLine)
                 renderFragment("lineBetweenLabelAndField");
-            setAttribute("position", field.getPosition());
             setAttribute("colspan", fieldColspan);
             setAttribute("width", fieldWidth);
-            setAttribute("bindingColor", formToPaint.getBindingColor(field));
-            setAttribute("hasBinding", hasBinding);
+            setAttribute("renderHolderColor", formToPaint.getBindingColor(field));
+            setAttribute("bindingStr", field.getBindingStr());
 
             renderFragment("beforeLabel");
             renderLabel(field, namespace, renderMode);

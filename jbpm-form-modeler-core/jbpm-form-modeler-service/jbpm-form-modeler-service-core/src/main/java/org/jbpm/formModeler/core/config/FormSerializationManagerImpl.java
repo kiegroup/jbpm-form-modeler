@@ -64,8 +64,8 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     public String generateFormXML(Form form) {
         XMLNode rootNode = new XMLNode(NODE_FORM, null);
 
-        TestFormSerialization test = new TestFormSerialization();
-        test.saveFormToLocalDrive(form);
+        //TestFormSerialization test = new TestFormSerialization();
+        //test.saveFormToLocalDrive(form);
 
         try {
             return generateFormXML(form, rootNode);
@@ -272,10 +272,8 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         field.setHideContent(Boolean.valueOf(value));
                     } else if ("defaultValueFormula".equals(propName)) {
                         field.setDefaultValueFormula(value);
-                    } else if ("inputBinding".equals(propName)) {
-                        field.setInputBinding(value);
-                    } else if ("outputBinding".equals(propName)) {
-                        field.setOutputBinding(value);
+                    } else if ("bindingStr".equals(propName)) {
+                        field.setBindingStr(value);
                     }
                 }
             }
@@ -316,8 +314,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         addXMLNode("hideContent", (field.getHideContent() != null ? String.valueOf(field.getHideContent()) : null), rootNode);
         addXMLNode("htmlContainer", field.getHtmlContainer(), rootNode);
         addXMLNode("defaultValueFormula", field.getDefaultValueFormula(), rootNode);
-        addXMLNode("inputBinding", field.getInputBinding(), rootNode);
-        addXMLNode("outputBinding", field.getOutputBinding(), rootNode);
+        addXMLNode("bindingStr", field.getBindingStr(), rootNode);
         addXMLNode("htmlContent", (field.getHtmlContent() != null ? serializeI18nSet(field.getHtmlContent()) : null), rootNode);
 
         parent.addChild(rootNode);
