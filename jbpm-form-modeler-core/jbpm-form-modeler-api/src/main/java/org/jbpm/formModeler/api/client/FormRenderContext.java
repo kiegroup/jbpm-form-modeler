@@ -22,6 +22,7 @@ import java.util.Map;
 public class FormRenderContext {
     private String UID;
     private Form form;
+    private boolean disabled = false;
     private Map<String, Object> bindingData;
     private Map<String, Object> persistedData;
     private boolean submit = false;
@@ -56,6 +57,14 @@ public class FormRenderContext {
     public FormRenderContextTO getFormRenderingContextTO() {
         FormRenderContextTO formRenderContextTO = new FormRenderContextTO(UID, form.getId(), submit, errors);
         return formRenderContextTO;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean readonly) {
+        this.disabled = readonly;
     }
 
     public boolean isSubmit() {

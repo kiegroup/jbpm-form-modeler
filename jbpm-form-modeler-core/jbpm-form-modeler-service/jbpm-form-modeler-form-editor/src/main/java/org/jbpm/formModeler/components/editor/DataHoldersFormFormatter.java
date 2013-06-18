@@ -72,7 +72,16 @@ public class DataHoldersFormFormatter extends Formatter {
             renderFragment("outputFormAddHolderStart");
 
             renderFragment("rowStart");
-            renderSelectDataModel(dataModelerService.getDataModelObjectList(wysiwygFormEditor.getCurrentEditionContext().getPath()));
+            List dataObjects = Collections.EMPTY_LIST;
+
+            try {
+                dataObjects = dataModelerService.getDataModelObjectList(wysiwygFormEditor.getCurrentEditionContext().getPath());
+            } catch (Exception e) {
+                log.error("Error getting dataObjects from project!");
+            }
+
+            renderSelectDataModel(dataObjects);
+
             renderFragment("rowEnd");
 
 

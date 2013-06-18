@@ -30,5 +30,4 @@ public interface DataHolder extends Comparable{
     String getInfo();
     void setRenderColor(String renderColor);
     String getRenderColor();
-    Map load(Map<String, Object> bindingData) throws Exception;
 }

@@ -62,12 +62,15 @@ public class FormRenderContextManagerImpl implements FormRenderContextManager {
 
     @Override
     public void removeContext(FormRenderContext context) {
-        formProcessor.clear(context);
+        if (context != null) {
+            formRenderContextMap.remove(context.getUID());
+            formProcessor.clear(context);
+        }
     }
 
     @Override
     public FormRenderContext newContext(Form form, Map<String, Object> bindingData) {
-        String uid = "formRenderCtx_" + form.getId() + "_" + System.currentTimeMillis();
+        String uid = CTX_PREFFIX + form.getId() + "_" + System.currentTimeMillis();
 
         return buildContext(uid, form, bindingData);
     }

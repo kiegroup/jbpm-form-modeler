@@ -1,6 +1,7 @@
 package org.jbpm.formModeler.kie.services.form.provider;
 
 import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
@@ -78,9 +79,11 @@ public class FormModelerFormProvider implements FormProvider {
 
             ctx.put("task", task);
 
-            String uid = "task_" + task.getId() + "_" + task.getTaskData().getActualOwner().getId();
-
-            result = formRenderContextManager.newContext(uid, form, ctx).getUID();
+            FormRenderContext context = formRenderContextManager.newContext(form, ctx);
+            String status = task.getTaskData().getStatus().name();
+            boolean disabled = "Reserved".equals(status) || "Ready".equals(status);
+            context.setDisabled(disabled);
+            result = context.getUID();
 
         } catch (Exception e) {
             log.warn("Error rendering form: ", e);
@@ -96,7 +99,6 @@ public class FormModelerFormProvider implements FormProvider {
 
             Map ctx = new HashMap();
 
-            ctx.putAll((Map) renderContext.get("outputs"));
             ctx.put("process", process);
 
             result = formRenderContextManager.newContext(form, ctx).getUID();

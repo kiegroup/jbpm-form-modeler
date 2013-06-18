@@ -20,10 +20,13 @@ import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.model.PojoDataHolder;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.kie.api.KieServices;
+import org.kie.api.runtime.KieContainer;
 import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
 import org.kie.workbench.common.screens.datamodeller.model.ObjectPropertyTO;
 
 
+import java.lang.reflect.Constructor;
 import java.util.*;
 
 public class DataModelerDataHolder extends PojoDataHolder implements Comparable {
@@ -31,11 +34,12 @@ public class DataModelerDataHolder extends PojoDataHolder implements Comparable 
     DataObjectTO dataObjectTO ;
 
     public DataModelerDataHolder(String id, String className, String renderColor, DataObjectTO dataObjectTO) {
-        super.setId(id);
-        super.setClassName(className);
-        fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
+        super(id, className, renderColor);
         this.dataObjectTO = dataObjectTO;
-        setRenderColor(renderColor);
+    }
+
+    public DataModelerDataHolder(String id, String className, String renderColor) {
+        super(id, className, renderColor);
     }
 
     private String capitalize(String string) {
@@ -81,6 +85,7 @@ public class DataModelerDataHolder extends PojoDataHolder implements Comparable 
     }
 
     private Set<DataFieldHolder> calculatePropertyNames() throws Exception{
+        if (dataObjectTO == null) return Collections.EMPTY_SET;
         List<ObjectPropertyTO> properties = dataObjectTO.getProperties();
 
         Set<DataFieldHolder> dataFieldHolders = new TreeSet<DataFieldHolder>();

@@ -24,6 +24,8 @@ import java.util.Map;
 
 @Remote
 public interface FormRenderContextManager {
+    public static final String CTX_PREFFIX = "formRenderCtx_";
+
     FormRenderContext newContext(Form form, Map<String, Object> bindingData);
     FormRenderContext newContext(String ctxPreffix, Form form, Map<String, Object> bindingData);
     FormRenderContext getFormRenderContext(String UID);

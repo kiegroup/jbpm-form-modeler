@@ -213,14 +213,4 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
         }
         return propName;
     }
-
-//    @Override
-//    public String getRenderColor() {
-//        return renderColor;
-//    }
-
-//    @Override
-//    public void setRenderColor(String renderColor) {
-//        this.renderColor = renderColor;
-//    }
 }

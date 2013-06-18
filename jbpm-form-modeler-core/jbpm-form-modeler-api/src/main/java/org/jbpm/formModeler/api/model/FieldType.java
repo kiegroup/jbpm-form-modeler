@@ -51,8 +51,6 @@ public class FieldType {
 
     private String accesskey;
 
-    private String bindingStr;
-
     public FieldType() {
     }
 
@@ -192,14 +190,6 @@ public class FieldType {
 
     public int hashCode() {
         return getCode().hashCode();
-    }
-
-    public String getBindingStr() {
-        return bindingStr;
-    }
-
-    public void setBindingStr(String bindingStr) {
-        this.bindingStr = bindingStr;
     }
 
     public String getUniqueIdentifier(String preffix, String namespace, Form form, Field field, String fieldName) {
