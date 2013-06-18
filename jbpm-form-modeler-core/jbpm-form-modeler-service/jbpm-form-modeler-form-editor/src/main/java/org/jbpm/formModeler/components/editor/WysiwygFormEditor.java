@@ -476,7 +476,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             I18nSet label = new I18nSet();
             String lang = LocaleManager.lookup().getDefaultLang();
             FieldType fType = getFieldTypesManager().getTypeByCode(fieldType);
-            Field formField = getFormManager().addFieldToForm(form, name, fType, label);
+            Field formField = getFormManager().addFieldToForm(form, name, fType, label, "");
 
             if ("HTMLLabel".equals(fType.getCode())) {
                 HTMLi18n val = new HTMLi18n();
@@ -880,7 +880,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         I18nSet label = new I18nSet();
         String defaultLang = LocaleManager.lookup().getDefaultLang();
         label.setValue(defaultLang, fieldName + " (" + dataHolderId + ")");
-        getFormManager().addFieldToForm(form, dataHolderId + "_" + fieldName, fieldType, label, form.generateBindingStr(dataHolderId, fieldName));
+        getFormManager().addFieldToForm(form, dataHolderId + "_" + fieldName, fieldType, label, dataHolderId);
         setLastDataHolderUsedId(dataHolderId);
     }
 

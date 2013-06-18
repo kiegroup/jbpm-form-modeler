@@ -16,10 +16,7 @@
 package org.jbpm.formModeler.core.config;
 
 import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.model.FormDisplayInfo;
+import org.jbpm.formModeler.api.model.*;
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.jbpm.formModeler.service.LocaleManager;
 
@@ -217,7 +214,7 @@ public class FormManagerImpl implements FormManager {
         sourceFields.addAll(sourceForm.getFormFields());
 
         for (Field field : sourceFields) {
-            Field addedField = addFieldToForm(destinationForm, field.getFieldName(), field.getFieldType(), field.getLabel());
+            Field addedField = addFieldToForm(destinationForm, field.getFieldName(), field.getFieldType(), field.getLabel(), field.getInputBinding(), field.getOutputBinding());
             addedField.putAll(field);
         }
 
@@ -293,8 +290,9 @@ public class FormManagerImpl implements FormManager {
         forms.remove(pForm);
     }
 
+    @Override
     public Field addFieldToForm(Form pForm, FieldType fieldType) throws Exception {
-        return addFieldToForm(pForm, "", fieldType, new I18nSet());
+        return addFieldToForm(pForm, "", fieldType, new I18nSet(), null);
     }
 
     /**
@@ -305,8 +303,15 @@ public class FormManagerImpl implements FormManager {
      * @param fieldType Field type
      * @throws Exception in case of error
      */
-    public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label) {
-        return addFieldToForm(pForm, fieldName, fieldType,label,"");
+    @Override
+    public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label, String holderId) {
+
+        DataHolder holder = pForm.getDataHolderById(holderId);
+
+        String input = StringUtils.defaultString(holder.buildInputBinding(fieldName));
+        String output = StringUtils.defaultString(holder.buildOuputBinding(fieldName));
+
+        return addFieldToForm(pForm, fieldName, fieldType,label, input, output);
     }
 
 
@@ -319,7 +324,7 @@ public class FormManagerImpl implements FormManager {
      * @throws Exception in case of error
      */
     @Override
-    public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label,String bindingExpresion) {
+    public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label,String inputBinding, String outputBinding) {
         synchronized (pForm.getSynchronizationObject()) {
             Set<Field> fields = pForm.getFormFields();
 
@@ -340,7 +345,8 @@ public class FormManagerImpl implements FormManager {
             field.setFieldName(fieldName);
             field.setFieldRequired(Boolean.FALSE);
             field.setFieldType(fieldType);
-            field.setBindingStr(bindingExpresion);
+            field.setInputBinding(inputBinding);
+            field.setOutputBinding(outputBinding);
             field.setForm(pForm);
             field.setPosition(pForm.getFormFields().size());
 

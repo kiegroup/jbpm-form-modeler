@@ -106,14 +106,4 @@ public class DataModelerDataHolder extends PojoDataHolder implements Comparable 
         }
         return dataFieldHolders;
     }
-
-    protected boolean isValidReturnType(String returnType) throws Exception{
-        if(returnType== null) return false;
-        if ("void".equals(returnType)) return true;
-        if (fieldTypeManager.getTypeByClass(returnType) != null) return true;
-            //else if ("boolean".equals(returnType)) return true;
-        else return false;
-
-    }
-
 }

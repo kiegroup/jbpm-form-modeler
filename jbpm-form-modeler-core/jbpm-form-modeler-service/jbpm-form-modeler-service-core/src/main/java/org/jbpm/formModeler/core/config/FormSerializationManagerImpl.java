@@ -64,8 +64,8 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     public String generateFormXML(Form form) {
         XMLNode rootNode = new XMLNode(NODE_FORM, null);
 
-        //TestFormSerialization test = new TestFormSerialization();
-        //test.saveFormToLocalDrive(form);
+        TestFormSerialization test = new TestFormSerialization();
+        test.saveFormToLocalDrive(form);
 
         try {
             return generateFormXML(form, rootNode);
@@ -155,8 +155,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                     config.put("id", holderId);
                     config.put("value", holderValue);
                     config.put("color", holderRenderColor);
-                    config.put("path", path) ;
-
+                    config.put("path", path);
                     DataHolder holder = dataHolderManager.createDataHolderByType(holderType, config);
 
                     if (holderId != null) form.setDataHolder(holder);
@@ -263,7 +262,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         field.setTabindex(Long.valueOf(value));
                     } else if ("accesskey".equals(propName)) {
                         field.setAccesskey(value);
-                    }  else if ("htmlContainer".equals(propName)) {
+                    } else if ("htmlContainer".equals(propName)) {
                         field.setHtmlContainer(value);
                     } else if ("isHTML".equals(propName)) {
                         field.setIsHTML(Boolean.valueOf(value));
@@ -271,10 +270,12 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         field.setHtmlContent(deserializeI18nEntrySet(value));
                     } else if ("hideContent".equals(propName)) {
                         field.setHideContent(Boolean.valueOf(value));
-                    }  else if ("defaultValueFormula".equals(propName)) {
+                    } else if ("defaultValueFormula".equals(propName)) {
                         field.setDefaultValueFormula(value);
-                    }  else if ("bindingStr".equals(propName)) {
-                        field.setBindingStr(value);
+                    } else if ("inputBinding".equals(propName)) {
+                        field.setInputBinding(value);
+                    } else if ("outputBinding".equals(propName)) {
+                        field.setOutputBinding(value);
                     }
                 }
             }
@@ -315,7 +316,8 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         addXMLNode("hideContent", (field.getHideContent() != null ? String.valueOf(field.getHideContent()) : null), rootNode);
         addXMLNode("htmlContainer", field.getHtmlContainer(), rootNode);
         addXMLNode("defaultValueFormula", field.getDefaultValueFormula(), rootNode);
-        addXMLNode("bindingStr", field.getBindingStr(), rootNode);
+        addXMLNode("inputBinding", field.getInputBinding(), rootNode);
+        addXMLNode("outputBinding", field.getOutputBinding(), rootNode);
         addXMLNode("htmlContent", (field.getHtmlContent() != null ? serializeI18nSet(field.getHtmlContent()) : null), rootNode);
 
         parent.addChild(rootNode);

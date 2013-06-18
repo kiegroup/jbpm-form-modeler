@@ -300,52 +300,28 @@ public class Form implements Serializable, Comparable{
     public boolean existBinding(DataHolder dataHolder,String fieldName){
         if (dataHolder==null || fieldName==null) return false;
 
-        String bindingStrToAdd = generateBindingStr( dataHolder, fieldName) ;
+        String input = dataHolder.buildInputBinding(fieldName);
+        String output = dataHolder.buildOuputBinding(fieldName);
 
         for (Field field : formFields) {
-            if (bindingStrToAdd.equals(field.getBindingStr()))
-                return true;
+            if (input.equals(field.getInputBinding()) || output.equals(field.getOutputBinding())) return true;
         }
 
         return false;
     }
 
-    public String getBindingColor(Field field){
+    public String getBindingColor(Field field) {
+        if (field!=null && field.getInputBinding()!=null && field.getInputBinding().trim().length()>0  ){
+            String bindingStr = field.getInputBinding();
 
-        if (field!=null && field.getBindingStr()!=null && field.getBindingStr().trim().length()>0  ){
-            String bindingStr = field.getBindingStr();
-            String bindedFieldName = getDataFieldHolderNameFromBindingStr(bindingStr);
-            if(bindingStr!=null && bindingStr.length()>0){
-                for (DataHolder holder : holders) {
-                    if (bindingStr.equals(generateBindingStr(holder, bindedFieldName)))
-                        return holder.getRenderColor();
-                }
-            }
+            bindingStr = bindingStr.substring(1, bindingStr.length() - 1);
+
+            if (bindingStr.indexOf("/") != -1) bindingStr = bindingStr.substring(0, bindingStr.indexOf("/"));
+
+            DataHolder holder = getDataHolderById(bindingStr);
+
+            if (holder != null) return holder.getRenderColor();
         }
         return "";
     }
-
-    public String generateBindingStr(String dataHolderId,String fieldName ){
-        try{
-            return generateBindingStr(getDataHolderById(dataHolderId),fieldName);
-        }catch (Exception e){
-
-        }
-        return "";
-    }
-
-    public String generateBindingStr(DataHolder dataHolder,String fieldName ){
-        if (dataHolder==null || fieldName==null) return "";
-        if(dataHolder.getDataFieldHolderById(fieldName)!=null) { //return a valid binding
-            return "{" + dataHolder.getId() + "/" + fieldName+"}" ;
-        }
-        return "";
-    }
-
-    public String getDataFieldHolderNameFromBindingStr(String bindingStr){
-        if(bindingStr!=null && bindingStr.indexOf('/')!=-1 && bindingStr.length()>1)
-            return bindingStr.substring(bindingStr.indexOf('/')+1,bindingStr.length()-1);
-        return "";
-    }
-
 }

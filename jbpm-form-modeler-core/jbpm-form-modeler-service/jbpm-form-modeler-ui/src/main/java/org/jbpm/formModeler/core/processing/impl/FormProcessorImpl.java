@@ -320,7 +320,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
             if (fields != null) {
                 for (Field field : form.getFormFields()) {
-                    String bindingString = field.getBindingStr();
+                    String bindingString = field.getInputBinding();
                     if (!StringUtils.isEmpty(bindingString)) {
                         bindingString = bindingString.substring(1, bindingString.length() - 1);
 
@@ -393,7 +393,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
             String fieldName = (String) it.next();
             Field field = form.getField(fieldName);
             if (field != null) {
-                String bindingString = field.getBindingStr();
+                String bindingString = field.getOutputBinding();
                 if (!StringUtils.isEmpty(bindingString)) {
                     bindingString = bindingString.substring(1, bindingString.length() - 1);
 
