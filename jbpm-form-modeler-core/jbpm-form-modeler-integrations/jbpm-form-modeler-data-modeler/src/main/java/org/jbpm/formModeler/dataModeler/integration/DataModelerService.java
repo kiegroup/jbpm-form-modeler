@@ -21,6 +21,7 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.dataModeler.model.DataModelerDataHolder;
 import org.kie.workbench.common.screens.datamodeller.model.DataModelTO;
 import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
+import org.kie.workbench.common.services.project.service.ProjectService;
 import org.uberfire.backend.vfs.Path;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -36,12 +37,14 @@ public class DataModelerService implements DataHolderBuilder {
     @Inject
     private org.kie.workbench.common.screens.datamodeller.service.DataModelerService dataModelerService;
 
+    @Inject
+    ProjectService projectService;
 
     public List getDataModelObjectList(Object path){
         List dataObjectsList = new ArrayList();
 
         try{
-        DataModelTO dataModelTO = dataModelerService.loadModel((Path)path);
+        DataModelTO dataModelTO = dataModelerService.loadModel(projectService.resolveProject((Path)path));
         HashMap dO;
         if (dataModelTO != null && dataModelTO.getDataObjects() != null) {
             String className = "";
@@ -74,7 +77,7 @@ public class DataModelerService implements DataHolderBuilder {
     }
 
     public DataHolder createDataHolder (Object path, String id, String className, String renderColor){
-        DataModelTO dataModelTO = dataModelerService.loadModel((Path)path);
+        DataModelTO dataModelTO = dataModelerService.loadModel(projectService.resolveProject((Path)path));
         DataObjectTO dO = dataModelTO.getDataObjectByClassName(className);
 
         return new DataModelerDataHolder(id, className, renderColor, dO);

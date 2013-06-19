@@ -15,8 +15,13 @@
  */
 package org.jbpm.formModeler.core.processing;
 
+import org.jbpm.formModeler.core.FieldHandlersManager;
+import org.jbpm.formModeler.core.FormCoreServices;
+import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.processing.formProcessing.FormulaReplacementManager;
 import org.jbpm.formModeler.core.processing.formProcessing.FunctionsProvider;
+import org.jbpm.formModeler.core.processing.formProcessing.NamespaceManager;
+import org.jbpm.formModeler.core.processing.formStatus.FormStatusManager;
 
 public abstract class DefaultFieldHandler extends AbstractFieldHandler {
 
@@ -31,4 +36,24 @@ public abstract class DefaultFieldHandler extends AbstractFieldHandler {
     public String getName() {
         return this.getClass().getName();
     }
+    public FormManager getFormManager() {
+        return FormCoreServices.lookup().getFormManager();
+    }
+
+    public NamespaceManager getNamespaceManager() {
+        return NamespaceManager.lookup();
+    }
+
+    public FormProcessor getFormProcessor() {
+        return FormProcessingServices.lookup().getFormProcessor();
+    }
+
+    public FormStatusManager getFormStatusManager() {
+        return FormStatusManager.lookup();
+    }
+    public FieldHandlersManager getFieldHandlersManager() {
+        return FormProcessingServices.lookup().getFieldHandlersManager();
+    }
+
+
 }

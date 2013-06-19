@@ -47,16 +47,17 @@ public class BeanDispatcher implements RequestChainProcessor {
         String beanName = request.getRequestObject().getParameter(FactoryURL.PARAMETER_BEAN);
         String beanAction = request.getRequestObject().getParameter(FactoryURL.PARAMETER_PROPERTY);
         if (!StringUtils.isEmpty(beanName) && !StringUtils.isEmpty(beanAction)) {
-            BeanHandler bean = null;
             try {
-                bean = (BeanHandler) CDIBeanLocator.getBeanByNameOrType(beanName);
+                BeanHandler bean = (BeanHandler) CDIBeanLocator.getBeanByNameOrType(beanName);
+                if (bean != null) {
+                    return bean.handle(request, beanAction);
+                } else {
+                    log.error("Unexistant bean specified for request handling: " + beanName);
+                }
             } catch (ClassCastException cce) {
                 log.error("Bean " + beanName + " is not a BeanHandler.");
-            }
-            if (bean != null) {
-                return bean.handle(request, beanAction);
-            } else {
-                log.error("Unexistant bean specified for request handling: " + beanName);
+            } catch (Exception e){
+                log.error("Exception ",e);
             }
         }
         return null;

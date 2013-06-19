@@ -48,7 +48,7 @@
     <tr style="display:none"><td>
         <input disabled type="hidden" name="<mvc:fragmentValue name="name"/>" id="<mvc:fragmentValue name="uid"/>">
         <script defer>
-            setTimeout('initialDDMFormCalculations(document.getElementById("<mvc:fragmentValue name="uid"/>"))',1);
+          //  setTimeout('initialDDMFormCalculations(document.getElementById("<!--mvc:fragmentValue name="uid"/ -->"))',1);
         </script>
     </td></tr>
 </mvc:fragment>

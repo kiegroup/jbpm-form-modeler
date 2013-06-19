@@ -17,6 +17,7 @@ package org.jbpm.formModeler.core.test;
 
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -43,6 +44,8 @@ public class Invoice {
 
     private Boolean enable;
     private I18nSet notes;
+
+    private ArrayList<InvoiceLine> invoiceLines;
 
     public String getId() {
         return id;
@@ -158,5 +161,13 @@ public class Invoice {
 
     public void setAccountBalance_counting(Double accountBalance_counting) {
         this.accountBalance_counting = accountBalance_counting;
+    }
+
+    public ArrayList<InvoiceLine> getInvoiceLines() {
+        return invoiceLines;
+    }
+
+    public void setInvoiceLines(ArrayList<InvoiceLine> invoiceLines) {
+        this.invoiceLines = invoiceLines;
     }
 }

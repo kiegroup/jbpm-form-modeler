@@ -48,7 +48,8 @@ public class FormRendererIncluderServiceImpl implements FormRendererIncluderServ
     public FormRenderContextTO launchTest() {
 
         try {
-            InputStreamReader is = new InputStreamReader(this.getClass().getResourceAsStream("test/testInvoice.form"));
+            //InputStreamReader is = new InputStreamReader(this.getClass().getResourceAsStream("test/testInvoice.form"));
+            InputStreamReader is = new InputStreamReader(this.getClass().getResourceAsStream("test/test1.form"));
             StringBuilder sb=new StringBuilder();
             BufferedReader br = new BufferedReader(is);
             String read = br.readLine();

@@ -271,11 +271,42 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         field.setHtmlContent(deserializeI18nEntrySet(value));
                     } else if ("hideContent".equals(propName)) {
                         field.setHideContent(Boolean.valueOf(value));
-                    }  else if ("defaultValueFormula".equals(propName)) {
+                    } else if ("defaultValueFormula".equals(propName)) {
                         field.setDefaultValueFormula(value);
-                    }  else if ("bindingStr".equals(propName)) {
+                    } else if ("bindingStr".equals(propName)) {
                         field.setBindingStr(value);
+                    } else if ("defaultSubform".equals(propName)) {
+                        field.setDefaultSubform(value);
+                    } else if ("creationSubform".equals(propName)) {
+                        field.setCreationSubform(value);
+                    } else if ("editionSubform".equals(propName)) {
+                        field.setEditionSubform(value);
+                    } else if ("previewSubform".equals(propName)) {
+                        field.setPreviewSubform(value);
+                    } else if ("tableSubform".equals(propName)) {
+                        field.setTableSubform(value);
+                    } else if ("newItemText".equals(propName)) {
+                        field.setNewItemText(deserializeI18nEntrySet(value));
+                    } else if ("addItemText".equals(propName)) {
+                        field.setAddItemText(deserializeI18nEntrySet(value));
+                    } else if ("cancelItemText".equals(propName)) {
+                        field.setCancelItemText(deserializeI18nEntrySet(value));
+                    } else if ("deleteItems".equals(propName)) {
+                        field.setDeleteItems(Boolean.valueOf(value));
+                    } else if ("updateItems".equals(propName)) {
+                        field.setUpdateItems(Boolean.valueOf(value));
+                    } else if ("previewItems".equals(propName)) {
+                        field.setPreviewItems(Boolean.valueOf(value));
+                    } else if ("hideCreateItem".equals(propName)) {
+                        field.setHideCreateItem(Boolean.valueOf(value));
+                    } else if ("expanded".equals(propName)) {
+                        field.setExpanded(Boolean.valueOf(value));
+                    } else if ("separator".equals(propName)) {
+                        field.setSeparator(value);
+                    } else if ("enableTableEnterData".equals(propName)) {
+                        field.setEnableTableEnterData(Boolean.valueOf(value));
                     }
+
                 }
             }
         }
@@ -317,6 +348,23 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         addXMLNode("defaultValueFormula", field.getDefaultValueFormula(), rootNode);
         addXMLNode("bindingStr", field.getBindingStr(), rootNode);
         addXMLNode("htmlContent", (field.getHtmlContent() != null ? serializeI18nSet(field.getHtmlContent()) : null), rootNode);
+
+        addXMLNode("defaultSubform", field.getDefaultSubform(), rootNode);
+        addXMLNode("creationSubform", field.getCreationSubform(), rootNode);
+        addXMLNode("editionSubform", field.getEditionSubform(), rootNode);
+        addXMLNode("previewSubform", field.getPreviewSubform(), rootNode);
+        addXMLNode("tableSubform", field.getTableSubform(), rootNode);
+        addXMLNode("newItemText", (field.getNewItemText() != null ? serializeI18nSet(field.getNewItemText()):null), rootNode);
+        addXMLNode("addItemText", (field.getAddItemText() != null ? serializeI18nSet(field.getAddItemText()):null), rootNode);
+        addXMLNode("cancelItemText", (field.getCancelItemText() != null ? serializeI18nSet(field.getCancelItemText()):null), rootNode);
+        addXMLNode("deleteItems", (field.getDeleteItems() != null ? String.valueOf(field.getDeleteItems()) : null), rootNode);
+        addXMLNode("updateItems", (field.getUpdateItems() != null ? String.valueOf(field.getUpdateItems()) : null), rootNode);
+        addXMLNode("previewItems", (field.getPreviewItems() != null ? String.valueOf(field.getPreviewItems()) : null), rootNode);
+        addXMLNode("hideCreateItem", (field.getHideCreateItem() != null ? String.valueOf(field.getHideCreateItem()) : null), rootNode);
+        addXMLNode("expanded", (field.getExpanded() != null ? String.valueOf(field.getExpanded()) : null), rootNode);
+        addXMLNode("separator", field.getSeparator(), rootNode);
+        addXMLNode("enableTableEnterData", (field.getEnableTableEnterData() != null ? String.valueOf(field.getEnableTableEnterData()) : null), rootNode);
+
 
         parent.addChild(rootNode);
     }

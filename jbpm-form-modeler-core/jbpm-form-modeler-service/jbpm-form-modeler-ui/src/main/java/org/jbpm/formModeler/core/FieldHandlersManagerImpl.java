@@ -52,6 +52,10 @@ public class FieldHandlersManagerImpl implements FieldHandlersManager {
         decorators = new ArrayList<FieldHandler>();
         decorators.add(new HTMLlabel());
         decorators.add(new Separator());
+
+        decorators.add(new SubformFieldHandler());
+        //decorators.add(new MultipleSubformFieldHandlerDumb());
+        decorators.add(new CreateDynamicObjectFieldHandler());
         //decorators.add(new FreeText());
         //decorators.add(new CustomJsp());
     }

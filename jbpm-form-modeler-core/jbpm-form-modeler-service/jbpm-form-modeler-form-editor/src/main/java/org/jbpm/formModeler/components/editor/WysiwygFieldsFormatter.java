@@ -116,7 +116,7 @@ public class WysiwygFieldsFormatter extends Formatter {
         }
              */
         //Render subforms
-        //renderComplexType(NestedSubformFieldHandler.class, false, entitySelectorsFieldHandlers.length, bundle, form, entity, availableEntityProperties, true);
+        //renderComplexType(SubformFieldHandler.class, false, entitySelectorsFieldHandlers.length, bundle, form, entity, availableEntityProperties, true);
         //renderComplexType(CreateDynamicObjectFieldHandler.class, true, entitySelectorsFieldHandlers.length + 1, bundle, form, entity, availableEntityProperties, true);
     }
 

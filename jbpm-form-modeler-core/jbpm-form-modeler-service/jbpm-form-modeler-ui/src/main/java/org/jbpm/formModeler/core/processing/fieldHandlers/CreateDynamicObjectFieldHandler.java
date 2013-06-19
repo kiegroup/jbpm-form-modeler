@@ -1,0 +1,198 @@
+/**
+ * Copyright (C) 2012 JBoss Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.jbpm.formModeler.core.processing.fieldHandlers;
+
+
+import org.apache.commons.lang.ArrayUtils;
+import org.jbpm.formModeler.api.model.Field;
+import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.core.processing.FieldHandler;
+import org.jbpm.formModeler.core.processing.FormProcessor;
+import org.jbpm.formModeler.core.processing.FormStatusData;
+
+import javax.inject.Named;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+@Named("org.jbpm.formModeler.core.processing.fieldHandlers.CreateDynamicObjectFieldHandler")
+public class CreateDynamicObjectFieldHandler extends SubformFieldHandler implements FieldHandler {
+    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CreateDynamicObjectFieldHandler.class.getName());
+
+    public static final String CODE = "subformMultiple";
+
+    public CreateDynamicObjectFieldHandler() {
+        setPageToIncludeForDisplaying("/formModeler/fieldHandlers/CreateDynamicObject/show.jsp");
+        setPageToIncludeForRendering("/formModeler/fieldHandlers/CreateDynamicObject/input.jsp");
+        setPageToIncludeForSearching("/formModeler/fieldHandlers/CreateDynamicObject/search.jsp");
+    }
+
+    /**
+     * Read a parameter value (normally from a request), and translate it to
+     * an object with desired class (that must be one of the returned by this handler)
+     *
+     * @return a object with desired class
+     * @throws Exception
+     */
+    public Object getValue(Field field, String inputName, Map parametersMap, Map filesMap, String desiredClassName, Object previousValue) throws Exception {
+        String[] tableEnterMode = (String[]) parametersMap.get(inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "tableEnterMode");
+        boolean doTableEnterMode = tableEnterMode != null && tableEnterMode.length == 1 && tableEnterMode[0].equals("true");
+
+        String[] sCount = (String[]) parametersMap.get(inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "count");
+        int count = sCount != null && sCount.length == 1 ? Integer.valueOf(sCount[0]) : 0;
+
+        Form form = getTableDataForm(field);
+
+        Map[] previousValuesMap = (Map[]) previousValue;
+
+        if (doTableEnterMode && count > 0) {
+            if (previousValuesMap == null) previousValuesMap = new Map[count];
+
+            for (int i = 0; i < count; i++) {
+                String namespace = inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + i;
+                getFormProcessor().setValues(form, namespace, parametersMap, filesMap);
+                FormStatusData status = getFormProcessor().read(form, namespace);
+                if (status.isValid()) {
+                    final Map objectCreated = getFormProcessor().getMapRepresentationToPersist(form, namespace);
+
+                    if (previousValuesMap[i] != null) previousValuesMap[i].putAll(objectCreated);
+                    else previousValuesMap[i] = objectCreated;
+                }
+            }
+        }
+
+        String[] createParams = (String[]) parametersMap.get(inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create");
+        boolean doCreate = createParams != null && createParams.length == 1 && createParams[0].equals("true");
+        if (doCreate) {
+            Form createForm = getCreateForm(field);
+            boolean addItemEnabled = Boolean.TRUE.equals(getFormProcessor().getAttribute(createForm, inputName, FormStatusData.DO_THE_ITEM_ADD));
+            if (addItemEnabled) {
+                getFormProcessor().setValues(createForm, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create", parametersMap, filesMap);
+                FormStatusData status = getFormProcessor().read(createForm, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create");
+                if (status.isValid()) {
+                    final Map objectCreated = getFormProcessor().getMapRepresentationToPersist(createForm, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create");
+                    if (previousValuesMap == null) previousValuesMap = new Map[0];
+                    previousValuesMap = (Map[]) ArrayUtils.add(previousValuesMap, objectCreated);
+                    // Not the correct place to do it !!!  form.getProcessor().clear(form.getDbid(), inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create");
+                    // Collapse form
+                    Form parentForm = field.getForm();
+                    String parentNamespace = getNamespaceManager().getParentNamespace(inputName);
+                    Set expandedFields = (Set) getFormProcessor().getAttribute(parentForm, parentNamespace, FormStatusData.EXPANDED_FIELDS);
+                    if (expandedFields != null) {
+                        expandedFields.remove(field.getFieldName());
+                        getFormProcessor().setAttribute(parentForm, parentNamespace, FormStatusData.EXPANDED_FIELDS, expandedFields);
+                    }
+                    getFormProcessor().clear(form, parentNamespace);
+                }
+            }
+        }
+
+        String[] editParams = (String[]) parametersMap.get(inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "saveEdited");
+        boolean doSaveEdited = editParams != null && editParams.length == 1 && editParams[0].equals("true");
+        if (doSaveEdited) {
+            // Collapse form
+            Form parentForm = field.getForm();
+            String parentNamespace = getNamespaceManager().getParentNamespace(inputName);
+            Map expandedFields = (Map) getFormProcessor().getAttribute(parentForm, parentNamespace, FormStatusData.EDIT_FIELD_POSITIONS);
+            if (expandedFields != null && !expandedFields.isEmpty()) {
+                Integer positionStr = (Integer) expandedFields.get(field.getFieldName());
+                int position = positionStr.intValue();
+                Form editForm = getEditForm(field);
+                getFormProcessor().setValues(editForm, inputName, parametersMap, filesMap);
+                FormStatusData status = getFormProcessor().read(editForm, inputName);
+                if (status.isValid()) {
+                    final Map objectCreated = getFormProcessor().getMapRepresentationToPersist(editForm, inputName);
+                    previousValuesMap[position].putAll(objectCreated);
+                    getFormProcessor().clear(editForm, inputName);
+                    //Collapse form
+                    expandedFields.remove(field.getFieldName());
+                    getFormProcessor().setAttribute(parentForm, parentNamespace, FormStatusData.EDIT_FIELD_POSITIONS, expandedFields);
+                }
+            }
+        }
+        return previousValuesMap;
+    }
+
+    public Form calculateFieldForm(Field field,String formName) {
+        try {
+            formName = field.getTableSubform();
+            if(formName==null || formName.trim().length()<1){
+                formName = field.getDefaultSubform();
+            }
+            List candidateForms =getFormManager().getFormsBySubjectAndName("",formName);
+            if(candidateForms!=null && candidateForms.size()>0) {
+                return (Form)candidateForms.get(0);
+            }
+        } catch (Exception e) {
+
+        }
+        return null;
+    }
+
+    public Object deleteElementInPosition(Form form, String namespace, String field, int position) {
+        synchronized (form) {
+            FormStatusData statusData = getFormProcessor().read(form, namespace);
+            Object previousValue = statusData.getCurrentValue(field);
+            if (previousValue != null) {
+                Object[] vals = (Object[]) previousValue;
+                if (position < vals.length) {
+                    previousValue = ArrayUtils.remove(vals, position);
+                } else {
+                    log.error("Cannot delete position " + position + " in array with size " + vals.length);
+                }
+            } else {
+                log.error("Cannot delete position " + position + " in null array.");
+            }
+            return previousValue;
+        }
+    }
+
+    public Form getCreateForm(Field field) {
+        try {
+            return calculateFieldForm(field,field.getCreationSubform());
+        } catch (Exception e) {
+            log.error("Error: ", e);
+        }
+        return null;
+    }
+
+    public Form getPreviewDataForm(Field field) {
+        try {
+            return calculateFieldForm(field,field.getPreviewSubform());
+        } catch (Exception e) {
+            log.error("Error: ", e);
+        }
+        return null;
+    }
+
+    public Form getTableDataForm(Field field) {
+        try {
+            return calculateFieldForm(field,field.getTableSubform());
+        } catch (Exception e) {
+            log.error("Error: ", e);
+        }
+        return null;
+    }
+
+    public Form getEditForm(Field field) {
+        try {
+            return calculateFieldForm(field,field.getEditionSubform());
+        } catch (Exception e) {
+            log.error("Error: ", e);
+        }
+        return null;
+    }
+}

@@ -77,6 +77,28 @@ public class Field implements Comparable<Field> {
 
     private int position;
 
+    //Subform data
+    private String defaultSubform;
+    private String creationSubform;
+    private String editionSubform;
+    private String previewSubform;
+    private String tableSubform;
+
+    private I18nSet newItemText;
+    private I18nSet addItemText;
+    private I18nSet cancelItemText;
+
+    private Boolean deleteItems;
+    private Boolean updateItems;
+    private Boolean previewItems;
+    private Boolean hideCreateItem;
+    private Boolean expanded;
+
+    private String separator;
+
+    private Boolean enableTableEnterData;
+
+
     private Form form;
 
     public Field() {
@@ -251,6 +273,129 @@ public class Field implements Comparable<Field> {
         this.defaultValueFormula = defaultValueFormula;
     }
 
+    //Subform data
+
+
+    public String getDefaultSubform() {
+        return defaultSubform;
+    }
+
+    public void setDefaultSubform(String defaultSubform) {
+        this.defaultSubform = defaultSubform;
+    }
+
+    public String getCreationSubform() {
+        return creationSubform;
+    }
+
+    public void setCreationSubform(String creationSubform) {
+        this.creationSubform = creationSubform;
+    }
+
+    public String getEditionSubform() {
+        return editionSubform;
+    }
+
+    public void setEditionSubform(String editionSubform) {
+        this.editionSubform = editionSubform;
+    }
+
+    public String getPreviewSubform() {
+        return previewSubform;
+    }
+
+    public void setPreviewSubform(String previewSubform) {
+        this.previewSubform = previewSubform;
+    }
+
+    public String getTableSubform() {
+        return tableSubform;
+    }
+
+    public void setTableSubform(String tableSubform) {
+        this.tableSubform = tableSubform;
+    }
+
+    public I18nSet getNewItemText() {
+        return newItemText;
+    }
+
+    public void setNewItemText(I18nSet newItemText) {
+        this.newItemText = newItemText;
+    }
+
+    public I18nSet getAddItemText() {
+        return addItemText;
+    }
+
+    public void setAddItemText(I18nSet addItemText) {
+        this.addItemText = addItemText;
+    }
+
+    public I18nSet getCancelItemText() {
+        return cancelItemText;
+    }
+
+    public void setCancelItemText(I18nSet cancelItemText) {
+        this.cancelItemText = cancelItemText;
+    }
+
+    public Boolean getDeleteItems() {
+        return deleteItems;
+    }
+
+    public void setDeleteItems(Boolean deleteItems) {
+        this.deleteItems = deleteItems;
+    }
+
+    public Boolean getUpdateItems() {
+        return updateItems;
+    }
+
+    public void setUpdateItems(Boolean updateItems) {
+        this.updateItems = updateItems;
+    }
+
+    public Boolean getPreviewItems() {
+        return previewItems;
+    }
+
+    public void setPreviewItems(Boolean previewItems) {
+        this.previewItems = previewItems;
+    }
+
+    public Boolean getHideCreateItem() {
+        return hideCreateItem;
+    }
+
+    public void setHideCreateItem(Boolean hideCreateItem) {
+        this.hideCreateItem = hideCreateItem;
+    }
+
+    public Boolean getExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(Boolean expanded) {
+        this.expanded = expanded;
+    }
+
+    public String getSeparator() {
+        return separator;
+    }
+
+    public void setSeparator(String separator) {
+        this.separator = separator;
+    }
+
+    public Boolean getEnableTableEnterData() {
+        return enableTableEnterData;
+    }
+
+    public void setEnableTableEnterData(Boolean enableTableEnterData) {
+        this.enableTableEnterData = enableTableEnterData;
+    }
+
     public String toString() {
         return getId().toString();
     }
@@ -337,6 +482,24 @@ public class Field implements Comparable<Field> {
         this.setHideContent(field.getHideContent());
         this.setDefaultValueFormula(field.getDefaultValueFormula());
 
+        //subforms
+        this.setDefaultSubform(field.getDefaultSubform());
+        this.setCreationSubform(field.getCreationSubform());
+        this.setEditionSubform(field.getEditionSubform());
+        this.setPreviewSubform(field.getPreviewSubform());
+        this.setTableSubform(field.getTableSubform());
+        this.setNewItemText(field.getNewItemText());
+        this.setAddItemText(field.getAddItemText());
+        this.setCancelItemText(field.getCancelItemText());
+
+        this.setDeleteItems(field.getDeleteItems());
+        this.setUpdateItems(field.getUpdateItems());
+        this.setPreviewItems(field.getPreviewItems());
+        this.setHideCreateItem(field.getHideCreateItem());
+        this.setExpanded(field.getExpanded());
+
+        this.setSeparator(field.getSeparator());
+        this.setEnableTableEnterData(field.getEnableTableEnterData());
     }
 
     public String getLabelCSSStyle() {
@@ -417,6 +580,26 @@ public class Field implements Comparable<Field> {
         names.add("htmlContent");
         names.add("bindingStr");
 
+        names.add("defaultSubform");
+        names.add("creationSubform");
+        names.add("editionSubform");
+        names.add("previewSubform");
+        names.add("tableSubform");
+
+        names.add("newItemText");
+        names.add("addItemText");
+        names.add("cancelItemText");
+
+        names.add("deleteItems");
+        names.add("updateItems");
+        names.add("previewItems");
+        names.add("hideCreateItem");
+        names.add("expanded");
+
+        names.add("separator");
+
+        names.add("enableTableEnterData");
+
         return names;
     }
 
@@ -449,6 +632,28 @@ public class Field implements Comparable<Field> {
         value.put("defaultValueFormula", getDefaultValueFormula());
         value.put("htmlContent", getHtmlContent());
         value.put("bindingStr", getBindingStr());
+
+        //SubForms
+        value.put("defaultSubform",getDefaultSubform());
+        value.put("creationSubform",getCreationSubform());
+        value.put("editionSubform",getEditionSubform());
+        value.put("previewSubform",getPreviewSubform());
+        value.put("tableSubform",getTableSubform());
+
+        value.put("newItemText",getNewItemText());
+        value.put("addItemText",getAddItemText());
+        value.put("cancelItemText",getCancelItemText());
+
+        value.put("deleteItems",getDeleteItems());
+        value.put("updateItems",getUpdateItems());
+        value.put("previewItems",getPreviewItems());
+        value.put("hideCreateItem",getHideCreateItem());
+        value.put("expanded",getExpanded());
+
+        value.put("separator",getSeparator());
+
+        value.put("enableTableEnterData",getEnableTableEnterData());
+
         return value;
     }
 

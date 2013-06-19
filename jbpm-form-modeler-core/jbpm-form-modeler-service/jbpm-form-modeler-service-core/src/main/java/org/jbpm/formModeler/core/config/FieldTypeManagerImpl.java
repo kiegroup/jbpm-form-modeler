@@ -18,6 +18,7 @@ package org.jbpm.formModeler.core.config;
 import org.jbpm.formModeler.core.config.builders.FieldTypeBuilder;
 import org.jbpm.formModeler.core.config.builders.fieldType.DecoratorFieldTypeBuilder;
 import org.jbpm.formModeler.core.config.builders.fieldType.SimpleFieldTypeBuilder;
+import org.jbpm.formModeler.core.config.builders.fieldType.ComplexFieldTypeBuilder;
 import org.jbpm.formModeler.core.processing.PropertyDefinition;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
@@ -38,11 +39,14 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
 
     private List<FieldType> fieldTypes;
     private List<FieldType> decoratorTypes;
+    private List<FieldType> complexTypes;
 
     @Inject
     protected Instance<SimpleFieldTypeBuilder> builders;
     @Inject
     protected Instance<DecoratorFieldTypeBuilder> decoratorBuilders;
+    @Inject
+    protected Instance<ComplexFieldTypeBuilder> complexBuilders;
 
     private Map<String, String> iconsMappings = new HashMap<String, String>();
     private String defaultIcon = "fieldTypes/button.gif";
@@ -52,6 +56,7 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
 
         fieldTypes = new ArrayList<FieldType>();
         decoratorTypes = new ArrayList<FieldType>();
+        complexTypes = new ArrayList<FieldType>();
 
         for (FieldTypeBuilder builder : builders) {
             fieldTypes.addAll(builder.buildList());
@@ -59,6 +64,11 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
 
         for (FieldTypeBuilder builder : decoratorBuilders) {
             decoratorTypes.addAll(builder.buildList());
+        }
+
+        for (FieldTypeBuilder builder : complexBuilders) {
+            decoratorTypes.addAll(builder.buildList());
+            //complexTypes.addAll(builder.buildList());
         }
 
         iconsMappings.put("InputTextInteger", "fieldTypes/box_number.png");
@@ -92,12 +102,12 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         iconsMappings.put("InputTextEmail", "fieldTypes/mailbox.png");
         iconsMappings.put("checkboxMultiple", "fieldTypes/listbox.png");
         iconsMappings.put("radio", "fieldTypes/radiobutton.gif");
-        iconsMappings.put("subform", "fieldTypes/master_details.gif");
+        iconsMappings.put("Subform", "fieldTypes/master_details.gif");
         iconsMappings.put("select", "fieldTypes/dropdown_listbox.gif");
         iconsMappings.put("selectMultiple", "fieldTypes/listsbox.gif");
         iconsMappings.put("versionSubform", "fieldTypes/master_details.gif");
         iconsMappings.put("editorVersionSubform", "fieldTypes/master_details.gif");
-        iconsMappings.put("subformMultiple", "fieldTypes/master_details.gif");
+        iconsMappings.put("MultipleSubform", "fieldTypes/master_details.gif");
         iconsMappings.put("FreeText", "fieldTypes/textbox.png");
     }
     
@@ -194,6 +204,9 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
     @Override
     public FieldType getTypeByClass(String className){
         for (FieldType fieldType : fieldTypes) {
+            if (fieldType.getFieldClass().equals(className)) return fieldType;
+        }
+        for (FieldType fieldType : decoratorTypes) {
             if (fieldType.getFieldClass().equals(className)) return fieldType;
         }
         return null;
