@@ -413,7 +413,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
                     if (!canBind) {
                         log.debug("Unable to bind DataHolder for field '" + fieldName + "' to '" + bindingString + "'. This may be caused because bindingString is incorrect or the form doesn't contains the defined DataHolder.");
-                        if (!result.containsKey(fieldName)) result.put(fieldName, mapToPersist.get(fieldName));
+                        if (!result.containsKey(bindingString)) result.put(bindingString, mapToPersist.get(fieldName));
                     }
 
 
