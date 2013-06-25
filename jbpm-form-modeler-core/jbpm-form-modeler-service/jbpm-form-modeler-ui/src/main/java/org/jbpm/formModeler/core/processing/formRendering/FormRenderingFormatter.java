@@ -133,7 +133,11 @@ public class FormRenderingFormatter extends Formatter {
         } else if (!Character.isJavaIdentifierStart(namespace.charAt(0))) {
             log.warn("Namespace "+namespace+" starts with an illegal character. It may cause unexpected behaviour of form under IE.");
         }
-
+        Object formValues = getParameter("formValues");
+        if(formValues!=null){
+            getFormProcessor().clear(formToPaint,namespace);
+            getFormProcessor().read(formToPaint,namespace,(Map)formValues);
+        }
         // Default render mode is FORM
         renderMode = renderMode == null ? Form.RENDER_MODE_FORM : renderMode;
 
@@ -157,7 +161,12 @@ public class FormRenderingFormatter extends Formatter {
                     labelMode = formLabelMode;
             }
 
-            formStatusData = getFormProcessor().read(formToPaint, namespace);
+            if(formValues!=null){
+                getFormProcessor().clear(formToPaint,namespace);
+                formStatusData = getFormProcessor().read(formToPaint,namespace,(Map)formValues);
+            } else{
+                formStatusData = getFormProcessor().read(formToPaint, namespace);
+            }
 
             String displayMode = formToPaint.getDisplayMode();
             if (displayModeParam != null)

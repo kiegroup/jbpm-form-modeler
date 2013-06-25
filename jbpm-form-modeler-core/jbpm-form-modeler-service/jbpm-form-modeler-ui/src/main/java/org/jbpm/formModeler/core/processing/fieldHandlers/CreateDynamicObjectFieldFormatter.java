@@ -32,7 +32,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 @Named("CreateDynamicObjectFieldFormatter")
-public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormatter  {
+public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormatter {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CreateDynamicObjectFieldFormatter.class.getName());
     public static final String PARAM_DISPLAYPAGE = "displayPage";
 
@@ -63,7 +63,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
         isDisabled = paramsReader.isFieldDisabled();
         isReadonly = paramsReader.isFieldReadonly();
 
-       // if (!isSubformDepthAllowed(form.getDbid(), currentNamespace)) return;
+        // if (!isSubformDepthAllowed(form.getDbid(), currentNamespace)) return;
 
         FieldHandler fHandler = getFieldHandlersManager().getHandler(field.getFieldType());
         if (!displayPage.booleanValue() && field != null && ((field.getReadonly() != null && field.getReadonly().booleanValue()) || (field.getDisabled() != null && field.getDisabled().booleanValue()))) {
@@ -92,7 +92,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
         int count = 0;
 
         if (value != null) {
-            count = ((Object[])value).length;
+            count = ((Object[]) value).length;
         }
 
         setAttribute("count", count);
@@ -103,9 +103,19 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
 
         if (previewIndex != null) {
             //Preview item
+            String rowNamespace = currentNamespace +
+                    FormProcessor.NAMESPACE_SEPARATOR + form.getId() +
+                    FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName() + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + previewIndex;
+            getFormProcessor().read(form, rowNamespace, ((Map[]) value)[previewIndex]);
+            editItemInPosition(form, currentNamespace, editIndex.intValue(), field, value, fieldName);
+
             previewItemInPosition(form, currentNamespace, previewIndex.intValue(), field, value);
         } else if (editIndex != null) {
             // Edit item
+            String rowNamespace = currentNamespace +
+                    FormProcessor.NAMESPACE_SEPARATOR + form.getId() +
+                    FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName() + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + editIndex;
+            getFormProcessor().read(form, rowNamespace, ((Map[]) value)[editIndex]);
             editItemInPosition(form, currentNamespace, editIndex.intValue(), field, value, fieldName);
         } else {
             //First render the table.
@@ -143,6 +153,16 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
                     // that contains it if they're set to true.
                     if (isDisabled) setAttribute("disabled", isDisabled);
                     if (isReadonly) setAttribute("readonly", isReadonly);
+
+                    //String rowNamespace = currentNamespace +
+                    //        FormProcessor.NAMESPACE_SEPARATOR + parentForm.getId() +
+                    //        FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName() + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + position;
+
+                    //setAttribute("namespace", rowNamespace);
+                    //setAttribute("parentNamespace", namespace);
+
+                    //getFormProcessor().read(formToPreview, rowNamespace, valueToPreview);
+
                     renderFragment("previewItem");
                 } else {
                     renderFragment("noShowDataForm");
@@ -165,13 +185,23 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
                     setAttribute("index", position);
                     setAttribute("parentFormId", parentForm.getId());
                     String namespace = currentNamespace + FormProcessor.NAMESPACE_SEPARATOR + parentForm.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName();
-                    setAttribute("namespace", namespace);
-                    setAttribute("parentNamespace", currentNamespace);
+                    //setAttribute("namespace", namespace);
+                    //setAttribute("parentNamespace", currentNamespace);
                     setAttribute("field", field.getFieldName());
                     // Override the field's own disabled and readonly values with the ones coming from a parent formatter
                     // that contains it if they're set to true.
                     if (isDisabled) setAttribute("disabled", isDisabled);
                     if (isReadonly) setAttribute("readonly", isReadonly);
+
+                    String rowNamespace = namespace + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + position;
+
+                    getFormProcessor().clear(formToEdit,rowNamespace);
+                    getFormProcessor().read(formToEdit, rowNamespace, valueToEdit);
+
+                    // setAttribute("namespace", rowNamespace);
+                    //setAttribute("parentNamespace", namespace);
+                    //getFormProcessor().read(formToEdit, rowNamespace, valueToEdit);
+
                     renderFragment("editItem");
                 } else {
                     renderFragment("noEnterDataForm");
@@ -216,7 +246,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
             setAttribute("addItemButtonText", addItemButtonText);
 
             String cancelButtonText = field.getCancelItemText().getValue(getLocaleManager().getCurrentLang());
-            if (StringUtils.isEmpty(cancelButtonText)) cancelButtonText ="cancel";
+            if (StringUtils.isEmpty(cancelButtonText)) cancelButtonText = "cancel";
             setAttribute("cancelButtonText", cancelButtonText);
 
             // Override the field's own disabled and readonly values with the ones coming from a parent formatter
@@ -231,12 +261,11 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
     protected void renderExistingItemsTable(Form parentForm, String currentNamespace, Field field, Object value) {
         Boolean displayPage = Boolean.valueOf((String) getParameter(PARAM_DISPLAYPAGE));
         boolean previewItems = Boolean.TRUE.equals(field.getPreviewItems());
-
         CreateDynamicObjectFieldHandler fieldHandler = (CreateDynamicObjectFieldHandler) getFieldHandlersManager().getHandler(field.getFieldType());
 
         Form form;
 
-        form = fieldHandler.calculateFieldForm(field,field.getTableSubform());
+        form = fieldHandler.calculateFieldForm(field, field.getTableSubform());
 
         if (form == null) {
             renderFragment("noShowDataForm");
@@ -252,6 +281,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
                 value = l;
             }
         }
+        //getFormProcessor().read(form, currentNamespace,value);
         List values = (List) value;
         if (values != null && !values.isEmpty()) {
             setAttribute("className", !previewItems ? "skn-table_border" : "");
@@ -260,7 +290,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
             renderFragment("tableStart");
             boolean modificable = Boolean.TRUE.equals(field.getUpdateItems());
             boolean deleteable = Boolean.TRUE.equals(field.getDeleteItems());
-            boolean visualizable = Boolean.TRUE.equals(field.getPreviewItems());
+            boolean visualizable = Boolean.TRUE.equals(field.getVisualizeItem());
             int colspan = 0;
             if (modificable) colspan++;
             if (deleteable) colspan++;
@@ -299,27 +329,34 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
                     Object o = values.get(i);
                     setAttribute("formValues", o);
                     setAttribute("formId", form.getId());
-                    setAttribute("namespace", currentNamespace +
+
+                    String rowNamespace = currentNamespace +
                             FormProcessor.NAMESPACE_SEPARATOR + parentForm.getId() +
-                            FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName() + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + i);
+                            FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName() + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + i;
+
+                    getFormProcessor().read(form, rowNamespace, (Map) o);
+
+                    setAttribute("namespace", rowNamespace);
 
                     if (previewItems) {
                         renderFragment("previewRow");
                         if (i < values.size() - 1) {
                             setAttribute("colspan", colspan + 1);
-                            setAttribute("separator", StringEscapeUtils.unescapeHtml(StringUtils.defaultString(field.getNewItemText().getValue(getLocaleManager().getCurrentLang()),"")));
+                            setAttribute("separator", StringEscapeUtils.unescapeHtml(StringUtils.defaultString(field.getNewItemText().getValue(getLocaleManager().getCurrentLang()), "")));
                             renderFragment("separator");
                         }
                     } else {
                         // Override the field's own disabled and readonly values with the ones coming from a parent formatter
                         // that contains it if they're set to true.
-                        if (Boolean.TRUE.equals(field.getEnableTableEnterData())) setAttribute("renderMode", renderMode);
+                        if (Boolean.TRUE.equals(field.getEnableTableEnterData()))
+                            setAttribute("renderMode", renderMode);
                         else setAttribute("renderMode", Form.RENDER_MODE_DISPLAY);
                         if (isDisabled) setAttribute("disabled", isDisabled);
                         if (isReadonly) setAttribute("readonly", isReadonly);
                         setAttribute("labelMode", Form.LABEL_MODE_HIDDEN);
                         renderFragment("tableRow");
                     }
+
                 }
             } catch (Exception e) {
                 log.error("Error: ", e);

@@ -17,6 +17,7 @@ package org.jbpm.formModeler.renderer.backend.service;
 
 import org.jboss.errai.bus.server.annotations.Service;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
+import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.client.FormRenderContextTO;
@@ -48,8 +49,24 @@ public class FormRendererIncluderServiceImpl implements FormRendererIncluderServ
     public FormRenderContextTO launchTest() {
 
         try {
-            InputStreamReader is = new InputStreamReader(this.getClass().getResourceAsStream("test/testInvoice.form"));
-  //          InputStreamReader is = new InputStreamReader(this.getClass().getResourceAsStream("test/test1.form"));
+            /*
+            //InputStreamReader is = new InputStreamReader(this.getClass().getResourceAsStream("test/testInvoice.form"));
+            InputStreamReader isSF = new InputStreamReader(this.getClass().getResourceAsStream("test/f1.form"));
+            StringBuilder sbSF =new StringBuilder();
+            BufferedReader brSF = new BufferedReader(isSF);
+            String readSF = brSF.readLine();
+
+            while(readSF != null) {
+                sbSF.append(readSF);
+                readSF = brSF.readLine();
+            }
+            Form formSF = formSerializationManager.loadFormFromXML(sbSF.toString());
+            FormManager formManager = FormCoreServices.lookup().getFormManager();
+
+            */
+
+            //InputStreamReader is = new InputStreamReader(this.getClass().getResourceAsStream("test/testInvoice.form"));
+            InputStreamReader is = new InputStreamReader(this.getClass().getResourceAsStream("test/test1.form"));
             StringBuilder sb=new StringBuilder();
             BufferedReader br = new BufferedReader(is);
             String read = br.readLine();

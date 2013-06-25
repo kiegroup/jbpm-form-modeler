@@ -26,6 +26,7 @@
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 
+
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages"
              locale="<%=LocaleManager.currentLocale()%>"/>
 <%try {%>
@@ -89,7 +90,7 @@
             <tr>
                 <td align="center" style="padding-top:10px">
                     <input type="button" class="skn-button"
-                           value="<i18n:message key="return">!!!Volver</i18n:message>"
+                           value="<i18n:message key="return">!!!Return</i18n:message>"
                            onclick="
                                    document.getElementById('<%=uid + "_child_uid_value"%>').value='<%=uid%>';
                                    document.getElementById('<%=uid + "_index"%>').value='<%=index%>';
@@ -151,10 +152,10 @@
             <tr>
                 <td align="center" style="padding-top:10px">
                     <input type="hidden" name="<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "saveEdited"%>" value="false">
-                    <input type="button" class="skn-button" value="<i18n:message key="save">!!!Guardar</i18n:message>"
+                    <input type="button" class="skn-button" value="<i18n:message key="save">!!!Save</i18n:message>"
                            onclick="this.form.elements['<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "saveEdited"%>'].value=true;clearChangeDDMTrigger();sendFormToHandler(this.form, 'org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler', 'saveEditedItem');"
                             >
-                    <input type="button" class="skn-button" value="<i18n:message key="return">!!!Volver</i18n:message>"
+                    <input type="button" class="skn-button" value="<i18n:message key="return">!!!Return</i18n:message>"
                            onclick="
                                    document.getElementById('<%=uid + "_child_uid_value"%>').value='<%=uid%>';
                                    document.getElementById('<%=uid + "_index"%>').value='<%=index%>';
@@ -199,7 +200,7 @@
     if(colspan!=null && ((Integer)colspan).intValue()>0) {
 %>
                             <th colspan="<%=colspan%>" width="1px">
-                                <i18n:message key="actions">Acciones!!!!!</i18n:message>
+                                <i18n:message key="actions">Actions!!!!!</i18n:message>
                             </th>
 <%
     }
@@ -241,7 +242,7 @@
     if (Boolean.TRUE.equals(deleteable)) {
 %>
                             <td align="center" style="width:13px">
-                                <a title="<i18n:message key="delete">!!!Borrar</i18n:message>"
+                                <a title="<i18n:message key="delete">!!!Delete</i18n:message>"
                                    href="#"
                                    onclick="
                                        if (confirm('<i18n:message key="delete.confirm">Sure?</i18n:message>')) {
@@ -264,7 +265,7 @@
     if (Boolean.TRUE.equals(visualizable)) {
 %>
                             <td align="center" style="width:13px">
-                                <a title="<i18n:message key="preview">!!!Previsualizar</i18n:message>"
+                                <a title="<i18n:message key="preview">!!!Preview</i18n:message>"
                                    href="#"
                                    onclick="
                                        document.getElementById('<%=uid + "_child_uid_value"%>').value='<%=uid%>';
@@ -284,7 +285,7 @@
     if (Boolean.TRUE.equals(modificable)) {
 %>
                             <td align="center" style="width:13px">
-                                <a title="<i18n:message key="edit">!!!Editar</i18n:message>"
+                                <a title="<i18n:message key="edit">!!!Edit</i18n:message>"
                                    href="#"
                                    onclick="
                                        document.getElementById('<%=uid + "_child_uid_value"%>').value='<%=uid%>';
@@ -475,7 +476,7 @@
                 <td>
                     <span class="skn-error">
                         <i18n:message key="noCreateForm">
-                        !!!No hay formulario por defecto para crear.
+                        !!!Undefined creation form
                         </i18n:message>
                     </span>
                 </td>

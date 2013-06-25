@@ -21,8 +21,11 @@
 
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
+
+
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages"
              locale="<%=LocaleManager.currentLocale()%>"/>
+
 <%try {%>
 <mvc:formatter name="CreateDynamicObjectFieldFormatter">
     <mvc:formatterParam name="<%=CreateDynamicObjectFieldFormatter.PARAM_DISPLAYPAGE%>" value="true"/>
@@ -125,7 +128,7 @@
 
         <span class="skn-error">
             <i18n:message key="noShowForm">
-            !!!No hay formulario por defecto para mostrar.
+            undefined form to show!
             </i18n:message>
         </span>
 

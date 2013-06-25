@@ -91,6 +91,7 @@ public class Field implements Comparable<Field> {
     private Boolean deleteItems;
     private Boolean updateItems;
     private Boolean previewItems;
+    private Boolean visualizeItem;
     private Boolean hideCreateItem;
     private Boolean expanded;
 
@@ -364,6 +365,14 @@ public class Field implements Comparable<Field> {
         this.previewItems = previewItems;
     }
 
+    public Boolean getVisualizeItem() {
+        return visualizeItem;
+    }
+
+    public void setVisualizeItem(Boolean visualizeItem) {
+        this.visualizeItem = visualizeItem;
+    }
+
     public Boolean getHideCreateItem() {
         return hideCreateItem;
     }
@@ -495,6 +504,7 @@ public class Field implements Comparable<Field> {
         this.setDeleteItems(field.getDeleteItems());
         this.setUpdateItems(field.getUpdateItems());
         this.setPreviewItems(field.getPreviewItems());
+        this.setVisualizeItem(field.getVisualizeItem());
         this.setHideCreateItem(field.getHideCreateItem());
         this.setExpanded(field.getExpanded());
 
@@ -593,6 +603,7 @@ public class Field implements Comparable<Field> {
         names.add("deleteItems");
         names.add("updateItems");
         names.add("previewItems");
+        names.add("visualizeItems");
         names.add("hideCreateItem");
         names.add("expanded");
 
@@ -647,6 +658,7 @@ public class Field implements Comparable<Field> {
         value.put("deleteItems",getDeleteItems());
         value.put("updateItems",getUpdateItems());
         value.put("previewItems",getPreviewItems());
+        value.put("visualizeItem",getVisualizeItem());
         value.put("hideCreateItem",getHideCreateItem());
         value.put("expanded",getExpanded());
 

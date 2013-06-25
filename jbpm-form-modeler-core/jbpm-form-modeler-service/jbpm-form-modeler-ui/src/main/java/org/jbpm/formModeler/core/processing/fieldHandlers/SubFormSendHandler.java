@@ -286,6 +286,9 @@ public class SubFormSendHandler extends BaseUIComponent {
             CreateDynamicObjectFieldHandler fieldHandler = (CreateDynamicObjectFieldHandler) getFieldHandlersManager().getHandler(fieldToErase.getFieldType());
 
             Form formToEdit = fieldHandler.getEditForm(fieldToErase);
+
+            //FormStatusData fsItem =getFormProcessor().read(formToEdit, parentNamespace + FormProcessor.NAMESPACE_SEPARATOR + parentFormId + FormProcessor.NAMESPACE_SEPARATOR + field+ FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + index);
+            getFormProcessor().clear(formToEdit, parentNamespace + FormProcessor.NAMESPACE_SEPARATOR + parentFormId + FormProcessor.NAMESPACE_SEPARATOR + field+ FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + index);
             getFormProcessor().clear(formToEdit, parentNamespace + FormProcessor.NAMESPACE_SEPARATOR + parentFormId + FormProcessor.NAMESPACE_SEPARATOR + field);
             editFields.put(field, Integer.decode(index));
         } else {
