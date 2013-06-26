@@ -107,7 +107,6 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
                     FormProcessor.NAMESPACE_SEPARATOR + form.getId() +
                     FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName() + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + previewIndex;
             getFormProcessor().read(form, rowNamespace, ((Map[]) value)[previewIndex]);
-            editItemInPosition(form, currentNamespace, editIndex.intValue(), field, value, fieldName);
 
             previewItemInPosition(form, currentNamespace, previewIndex.intValue(), field, value);
         } else if (editIndex != null) {
@@ -185,8 +184,8 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
                     setAttribute("index", position);
                     setAttribute("parentFormId", parentForm.getId());
                     String namespace = currentNamespace + FormProcessor.NAMESPACE_SEPARATOR + parentForm.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName();
-                    //setAttribute("namespace", namespace);
-                    //setAttribute("parentNamespace", currentNamespace);
+                    setAttribute("namespace", namespace);
+                    setAttribute("parentNamespace", currentNamespace);
                     setAttribute("field", field.getFieldName());
                     // Override the field's own disabled and readonly values with the ones coming from a parent formatter
                     // that contains it if they're set to true.
