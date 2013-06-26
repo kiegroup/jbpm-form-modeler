@@ -143,9 +143,9 @@ public class FormRenderingFormatter extends Formatter {
 
         //Default label mode depends on render mode
         labelMode = labelMode == null ? Form.LABEL_MODE_BEFORE : labelMode;
-        if (Form.RENDER_MODE_DISPLAY.equals(renderMode)) {
-            labelMode = Form.LABEL_MODE_HIDDEN;
-        }
+        //if (Form.RENDER_MODE_DISPLAY.equals(renderMode)) {
+        //    labelMode = Form.LABEL_MODE_HIDDEN;
+        //}
 
         boolean reuseStatus = reusingStatus == null || Boolean.valueOf(reusingStatus).booleanValue();
         boolean forceLabelMode = forceLabelModeParam != null && Boolean.valueOf(forceLabelModeParam).booleanValue();
