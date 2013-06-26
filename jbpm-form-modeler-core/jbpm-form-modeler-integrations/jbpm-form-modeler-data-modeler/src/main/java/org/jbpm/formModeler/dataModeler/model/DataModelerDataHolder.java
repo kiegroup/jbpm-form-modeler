@@ -15,31 +15,26 @@
  */
 package org.jbpm.formModeler.dataModeler.model;
 
-import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.model.PojoDataHolder;
-import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
-import org.kie.api.KieServices;
-import org.kie.api.runtime.KieContainer;
 import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
 import org.kie.workbench.common.screens.datamodeller.model.ObjectPropertyTO;
 
 
-import java.lang.reflect.Constructor;
 import java.util.*;
 
 public class DataModelerDataHolder extends PojoDataHolder implements Comparable {
 
     DataObjectTO dataObjectTO ;
 
-    public DataModelerDataHolder(String id, String className, String renderColor, DataObjectTO dataObjectTO) {
-        super(id, className, renderColor);
+    public DataModelerDataHolder(String id, String outId, String className, String renderColor, DataObjectTO dataObjectTO) {
+        super(id, outId, className, renderColor);
         this.dataObjectTO = dataObjectTO;
     }
 
-    public DataModelerDataHolder(String id, String className, String renderColor) {
-        super(id, className, renderColor);
+    public DataModelerDataHolder(String id, String outId, String className, String renderColor) {
+        super(id, outId, className, renderColor);
     }
 
     private String capitalize(String string) {
@@ -65,7 +60,7 @@ public class DataModelerDataHolder extends PojoDataHolder implements Comparable 
 
 
     public int compareTo(Object o) {
-        return super.getId().compareTo(((PojoDataHolder) o).getId());
+        return super.getInputId().compareTo(((PojoDataHolder) o).getInputId());
     }
 
     @Override

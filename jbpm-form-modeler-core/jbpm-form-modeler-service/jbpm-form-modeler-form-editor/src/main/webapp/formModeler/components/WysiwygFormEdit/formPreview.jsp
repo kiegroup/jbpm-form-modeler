@@ -280,11 +280,19 @@
                                         </mvc:fragment>
                                         <mvc:fragment name="afterFieldInTemplateMode"><div style="height:2px;"></div></div></mvc:fragment>
                                         <mvc:fragment name="beforeLabel">
+                                            <mvc:fragmentValue name="hasBinding" id="hasBinding">
                                             <mvc:fragmentValue name="renderHolderColor" id="renderHolderColor">
-                                                <mvc:fragmentValue name="bindingStr" id="bindingStr">
-                                                    <td valign="top" nowrap width="1%"><%=
-                                                (((displayBindings!=null && !((Boolean)displayBindings).booleanValue() )|| (renderHolderColor==null) || (renderHolderColor!=null && ((String)renderHolderColor).trim().length()==0)) ? "": "<div class='bulletBinding' style='background-color: "+ renderHolderColor+";' title='"+bindingStr+"'></div>")
-                                                %></mvc:fragmentValue>
+                                            <mvc:fragmentValue name="bindingTitle" id="bindingTitle">
+                                                <td valign="top" nowrap width="1%">
+                                                <%
+                                                    if (Boolean.TRUE.equals(displayBindings) && Boolean.TRUE.equals(hasBinding)) {
+                                                %>
+                                                    <div class='bulletBinding' style='background-color: <%=renderHolderColor%>;' title='<%=bindingTitle%>"'></div>
+                                                <%
+                                                    }
+                                                %>
+                                            </mvc:fragmentValue>
+                                            </mvc:fragmentValue>
                                             </mvc:fragmentValue>
                                         </mvc:fragment>
                                         <mvc:fragment name="afterLabel"></td></mvc:fragment>

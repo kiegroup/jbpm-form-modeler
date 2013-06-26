@@ -305,8 +305,7 @@ public class FormManagerImpl implements FormManager {
      */
     @Override
     public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label) {
-
-        return addFieldToForm(pForm, fieldName, fieldType,label,"");
+        return addFieldToForm(pForm, fieldName, fieldType,label, "", "");
     }
 
 
@@ -319,7 +318,7 @@ public class FormManagerImpl implements FormManager {
      * @throws Exception in case of error
      */
     @Override
-    public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label, String bindingExpresion) {
+    public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label, String inputBindingString, String outputBindingString) {
         synchronized (pForm.getSynchronizationObject()) {
             Set<Field> fields = pForm.getFormFields();
 
@@ -340,7 +339,8 @@ public class FormManagerImpl implements FormManager {
             field.setFieldName(fieldName);
             field.setFieldRequired(Boolean.FALSE);
             field.setFieldType(fieldType);
-            field.setBindingStr(bindingExpresion);
+            field.setInputBinding(inputBindingString);
+            field.setOutputBinding(outputBindingString);
             field.setForm(pForm);
             field.setPosition(pForm.getFormFields().size());
 

@@ -32,6 +32,6 @@ public class PojoDataHolderBuilder implements DataHolderBuilder {
 
     @Override
     public DataHolder buildDataHolder(Map<String, Object> config) {
-        return new PojoDataHolder((String)config.get("id"), (String)config.get("value"), (String)config.get("color"));
+        return new PojoDataHolder((String)config.get("id"), (String) config.get("outId"), (String)config.get("value"), (String)config.get("color"));
     }
 }

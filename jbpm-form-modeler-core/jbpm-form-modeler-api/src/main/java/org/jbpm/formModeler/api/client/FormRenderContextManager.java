@@ -26,8 +26,9 @@ import java.util.Map;
 public interface FormRenderContextManager {
     public static final String CTX_PREFFIX = "formRenderCtx_";
 
-    FormRenderContext newContext(Form form, Map<String, Object> bindingData);
-    FormRenderContext newContext(String ctxPreffix, Form form, Map<String, Object> bindingData);
+    FormRenderContext newContext(Form form, Map<String, Object> ctx);
+    FormRenderContext newContext(Form form, Map<String, Object> inputData, Map<String, Object> outputData);
+    FormRenderContext newContext(String ctxPreffix, Form form, Map<String, Object> inputData, Map<String, Object> outputData);
     FormRenderContext getFormRenderContext(String UID);
     Map getContextData(String UID);
 
@@ -39,4 +40,5 @@ public interface FormRenderContextManager {
 
     void persistContext(FormRenderContext ctx) throws Exception;
     void persistContext(String ctxUID) throws Exception;
+
 }

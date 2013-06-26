@@ -68,18 +68,14 @@ public class FormModelerFormProvider implements FormProvider {
 
             Map ctx = new HashMap();
 
-            Map m = (Map) renderContext.get("outputs");
-            if (m != null) ctx.putAll(m);
+            Map outputs = (Map) renderContext.get("outputs");
 
-            m = (Map) renderContext.get("inputs");
+            Map m = (Map) renderContext.get("inputs");
             if (m != null) ctx.putAll(m);
-
-            Object o = renderContext.get("input");
-            if (o != null) ctx.put("input", o);
 
             ctx.put("task", task);
 
-            FormRenderContext context = formRenderContextManager.newContext(form, ctx);
+            FormRenderContext context = formRenderContextManager.newContext(form, ctx, outputs);
             String status = task.getTaskData().getStatus().name();
             boolean disabled = "Reserved".equals(status) || "Ready".equals(status);
             context.setDisabled(disabled);

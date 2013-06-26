@@ -24,14 +24,15 @@ public class FormRenderContext {
     private Form form;
     private boolean disabled = false;
     private Map<String, Object> bindingData;
-    private Map<String, Object> persistedData;
+    private Map<String, Object> outputData;
     private boolean submit = false;
     private int errors;
 
-    public FormRenderContext(String uid, Form form, Map<String, Object> bindingData) {
+    public FormRenderContext(String uid, Form form, Map<String, Object> inputData, Map<String, Object> outputData) {
         this.UID = uid;
         this.form = form;
-        this.bindingData = bindingData;
+        this.bindingData = inputData;
+        this.outputData = outputData;
     }
 
     public String getUID() {
@@ -42,16 +43,12 @@ public class FormRenderContext {
         return form;
     }
 
-    public Map<String, Object> getBindingData() {
+    public Map<String, Object> getInputData() {
         return bindingData;
     }
 
-    public Map<String, Object> getPersistedData() {
-        return persistedData;
-    }
-
-    public void setPersistedData(Map<String, Object> persistedData) {
-        this.persistedData = persistedData;
+    public Map<String, Object> getOutputData() {
+        return outputData;
     }
 
     public FormRenderContextTO getFormRenderingContextTO() {

@@ -44,6 +44,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     public static final String NODE_DATA_HOLDER = "dataHolder";
 
     public static final String ATTR_ID = "id";
+    public static final String ATTR_OUT_ID = "outId";
     public static final String ATTR_POSITION = "position";
     public static final String ATTR_TYPE = "type";
     public static final String ATTR_NAME = "name";
@@ -145,6 +146,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                 fields.add(field);
             } else if (node.getNodeName().equals(NODE_DATA_HOLDER)) {
                 String holderId = node.getAttributes().getNamedItem(ATTR_ID).getNodeValue();
+                String holderOutId = node.getAttributes().getNamedItem(ATTR_OUT_ID).getNodeValue();
                 String holderType = node.getAttributes().getNamedItem(ATTR_TYPE).getNodeValue();
                 String holderValue = node.getAttributes().getNamedItem(ATTR_VALUE).getNodeValue();
                 String holderRenderColor = node.getAttributes().getNamedItem(ATTR_NAME).getNodeValue();
@@ -153,6 +155,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                     Map<String, Object> config = new HashMap<String, Object>();
 
                     config.put("id", holderId);
+                    config.put("outId", holderOutId);
                     config.put("value", holderValue);
                     config.put("color", holderRenderColor);
                     config.put("path", path);
@@ -272,8 +275,10 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         field.setHideContent(Boolean.valueOf(value));
                     } else if ("defaultValueFormula".equals(propName)) {
                         field.setDefaultValueFormula(value);
-                    } else if ("bindingStr".equals(propName)) {
-                        field.setBindingStr(value);
+                    } else if ("inputBinding".equals(propName)) {
+                        field.setInputBinding(value);
+                    } else if ("outputBinding".equals(propName)) {
+                        field.setOutputBinding(value);
                     }
                 }
             }
@@ -314,7 +319,8 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         addXMLNode("hideContent", (field.getHideContent() != null ? String.valueOf(field.getHideContent()) : null), rootNode);
         addXMLNode("htmlContainer", field.getHtmlContainer(), rootNode);
         addXMLNode("defaultValueFormula", field.getDefaultValueFormula(), rootNode);
-        addXMLNode("bindingStr", field.getBindingStr(), rootNode);
+        addXMLNode("inputBinding", field.getInputBinding(), rootNode);
+        addXMLNode("outputBinding", field.getOutputBinding(), rootNode);
         addXMLNode("htmlContent", (field.getHtmlContent() != null ? serializeI18nSet(field.getHtmlContent()) : null), rootNode);
 
         parent.addChild(rootNode);
@@ -322,10 +328,11 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
 
     public void generateDataHolderXML(DataHolder dataHolder, XMLNode parent) {
         XMLNode rootNode = new XMLNode(NODE_DATA_HOLDER, parent);
-        rootNode.addAttribute(ATTR_ID, String.valueOf(dataHolder.getId()));
-        rootNode.addAttribute(ATTR_TYPE, String.valueOf(dataHolder.getTypeCode()));
-        rootNode.addAttribute(ATTR_VALUE, String.valueOf(dataHolder.getInfo()));
-        rootNode.addAttribute(ATTR_NAME, String.valueOf(dataHolder.getRenderColor()));
+        rootNode.addAttribute(ATTR_ID, dataHolder.getInputId());
+        rootNode.addAttribute(ATTR_OUT_ID, dataHolder.getOuputId());
+        rootNode.addAttribute(ATTR_TYPE, dataHolder.getTypeCode());
+        rootNode.addAttribute(ATTR_VALUE, dataHolder.getInfo());
+        rootNode.addAttribute(ATTR_NAME, dataHolder.getRenderColor());
 
         parent.addChild(rootNode);
     }

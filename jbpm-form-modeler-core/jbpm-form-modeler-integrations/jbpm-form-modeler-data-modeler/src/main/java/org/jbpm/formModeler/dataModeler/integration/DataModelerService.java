@@ -64,7 +64,7 @@ public class DataModelerService implements DataHolderBuilder {
 
     @Override
     public DataHolder buildDataHolder(Map<String, Object> config) {
-        return createDataHolder(config.get("path"), (String)config.get("id"), (String)config.get("value"), (String)config.get("color"));
+        return createDataHolder(config.get("path"), (String)config.get("id"), (String)config.get("outId"), (String)config.get("value"), (String)config.get("color"));
     }
 
     @Override
@@ -72,15 +72,15 @@ public class DataModelerService implements DataHolderBuilder {
         return Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL;
     }
 
-    public DataHolder createDataHolder (Object path, String id, String className, String renderColor) {
-        if (path == null) return new DataModelerDataHolder(id, className, renderColor);
+    public DataHolder createDataHolder (Object path, String id, String outId, String className, String renderColor) {
+        if (path == null) return new DataModelerDataHolder(id, outId, className, renderColor);
 
         Project project = projectService.resolveProject(((Path) path));
 
         DataModelTO dataModelTO = dataModelerService.loadModel(project);
         DataObjectTO dO = dataModelTO.getDataObjectByClassName(className);
 
-        return new DataModelerDataHolder(id, className, renderColor, dO);
+        return new DataModelerDataHolder(id, outId, className, renderColor, dO);
     }
 
 

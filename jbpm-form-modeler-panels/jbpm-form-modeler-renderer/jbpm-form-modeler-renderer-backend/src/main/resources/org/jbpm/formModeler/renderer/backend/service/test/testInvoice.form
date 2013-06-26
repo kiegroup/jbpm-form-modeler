@@ -9,14 +9,16 @@
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="true"/>
 <property name="label" value="quot;enquot;,quot;accountBalance (invoice)quot;"/>
-<property name="bindingStr" value="{invoice/accountBalance}"/>
+<property name="inputBinding" value="{invoice/accountBalance}"/>
+<property name="outputBinding" value="{invoice/accountBalance}"/>
 </field>
 <field position="10" name="invoice_accountBalance_counting" type="InputTextDouble" id="1727571126">
 <property name="fieldName" value="invoice_accountBalance_counting"/>
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="true"/>
 <property name="label" value="quot;enquot;,quot;accountBalance_counting (invoice)quot;"/>
-<property name="bindingStr" value="{invoice/accountBalance_counting}"/>
+<property name="inputBinding" value="{invoice/accountBalance_counting}"/>
+<property name="outputBinding" value="{invoice/accountBalance_counting}"/>
 </field>
 <field position="3" name="invoice_address" type="InputText" id="251585218">
 <property name="fieldName" value="invoice_address"/>
@@ -39,42 +41,48 @@
 <property name="hideContent" value="false"/>
 <property name="htmlContainer" value=""/>
 <property name="defaultValueFormula" value=""/>
-<property name="bindingStr" value="{invoice/address}"/>
+<property name="inputBinding" value="{invoice/address}"/>
+<property name="outputBinding" value="{invoice/address}"/>
 </field>
 <field position="8" name="invoice_availableCredit" type="InputTextDouble" id="1728782379">
 <property name="fieldName" value="invoice_availableCredit"/>
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="label" value="quot;enquot;,quot;availableCredit (invoice)quot;"/>
-<property name="bindingStr" value="{invoice/availableCredit}"/>
+<property name="inputBinding" value="{invoice/availableCredit}"/>
+<property name="outputBinding" value="{invoice/availableCredit}"/>
 </field>
 <field position="5" name="invoice_city" type="InputText" id="1838744086">
 <property name="fieldName" value="invoice_city"/>
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="true"/>
 <property name="label" value="quot;enquot;,quot;city (invoice)quot;"/>
-<property name="bindingStr" value="{invoice/city}"/>
+<property name="inputBinding" value="{invoice/city}"/>
+<property name="outputBinding" value="{invoice/city}"/>
 </field>
 <field position="6" name="invoice_createdDate" type="InputDate" id="1733299261">
 <property name="fieldName" value="invoice_createdDate"/>
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="label" value="quot;enquot;,quot;createdDate (invoice)quot;"/>
-<property name="bindingStr" value="{invoice/createdDate}"/>
+<property name="inputBinding" value="{invoice/createdDate}"/>
+<property name="outputBinding" value="{invoice/createdDate}"/>
 </field>
 <field position="2" name="invoice_email" type="InputText" id="1511310648">
 <property name="fieldName" value="invoice_email"/>
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="true"/>
 <property name="label" value="quot;enquot;,quot;email (invoice)quot;"/>
-<property name="bindingStr" value="{invoice/email}"/>
+<property name="inputBinding" value="{invoice/email}"/>
+<property name="outputBinding" value="{invoice/email}"/>
 </field>
 <field position="12" name="invoice_enable" type="CheckBox" id="1333643723">
 <property name="fieldName" value="invoice_enable"/>
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="label" value="quot;enquot;,quot;enable (invoice)quot;"/>
-<property name="bindingStr" value="{invoice/enable}"/>
+<property name="inputBinding" value="{invoice/enable}"/>
+<property name="outputBinding" value="{invoice/enable}"/>
 </field>
 <field position="0" name="invoice_name" type="InputText" id="1070861485">
 <property name="fieldName" value="invoice_name"/>
@@ -97,34 +105,39 @@
 <property name="hideContent" value="false"/>
 <property name="htmlContainer" value=""/>
 <property name="defaultValueFormula" value=""/>
-<property name="bindingStr" value="{invoice/name}"/>
+<property name="inputBinding" value="{invoice/name}"/>
+<property name="outputBinding" value="{invoice/name}"/>
 </field>
 <field position="13" name="invoice_notes" type="I18nText" id="1002956741">
 <property name="fieldName" value="invoice_notes"/>
 <property name="fieldRequired" value="false"/>
 <property name="label" value="quot;enquot;,quot;notes (invoice)quot;"/>
-<property name="bindingStr" value="{invoice/notes}"/>
+<property name="inputBinding" value="{invoice/notes}"/>
+<property name="outputBinding" value="{invoice/notes}"/>
 </field>
 <field position="11" name="invoice_totalBalance" type="InputTextDouble" id="1536715552">
 <property name="fieldName" value="invoice_totalBalance"/>
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="true"/>
 <property name="label" value="quot;enquot;,quot;totalBalance (invoice)quot;"/>
-<property name="bindingStr" value="{invoice/totalBalance}"/>
+<property name="inputBinding" value="{invoice/totalBalance}"/>
+<property name="outputBinding" value="{invoice/totalBalance}"/>
 </field>
 <field position="7" name="invoice_updatedDate" type="InputDate" id="471501610">
 <property name="fieldName" value="invoice_updatedDate"/>
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="true"/>
 <property name="label" value="quot;enquot;,quot;updatedDate (invoice)quot;"/>
-<property name="bindingStr" value="{invoice/updatedDate}"/>
+<property name="inputBinding" value="{invoice/updatedDate}"/>
+<property name="outputBinding" value="{invoice/updatedDate}"/>
 </field>
 <field position="4" name="invoice_zip" type="InputText" id="1962642618">
 <property name="fieldName" value="invoice_zip"/>
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="label" value="quot;enquot;,quot;zip (invoice)quot;"/>
-<property name="bindingStr" value="{invoice/zip}"/>
+<property name="inputBinding" value="{invoice/zip}"/>
+<property name="outputBinding" value="{invoice/zip}"/>
 </field>
 <field position="1" name="invoice_phone" type="InputText" id="1691657815">
 <property name="fieldName" value="invoice_phone"/>
@@ -147,7 +160,8 @@
 <property name="hideContent" value="false"/>
 <property name="htmlContainer" value=""/>
 <property name="defaultValueFormula" value=""/>
-<property name="bindingStr" value="{invoice/phone}"/>
+<property name="inputBinding" value="{invoice/phone}"/>
+<property name="outputBinding" value="{invoice/phone}"/>
 </field>
 <field position="14" name="variable1" type="InputText" id="83921753">
 <property name="fieldName" value="variable1"/>
@@ -170,7 +184,8 @@
 <property name="hideContent" value="false"/>
 <property name="htmlContainer" value=""/>
 <property name="defaultValueFormula" value=""/>
-<property name="bindingStr" value="{variable1}"/>
+<property name="inputBinding" value="{variable1}"/>
+<property name="outputBinding" value="{variable1}"/>
 </field>
 <field position="15" name="variable2" type="InputText" id="13292153">
 <property name="fieldName" value="variable2"/>
@@ -193,7 +208,8 @@
 <property name="hideContent" value="false"/>
 <property name="htmlContainer" value=""/>
 <property name="defaultValueFormula" value=""/>
-<property name="bindingStr" value="{variable2}"/>
+<property name="inputBinding" value="{variable2}"/>
+<property name="outputBinding" value="{variable2}"/>
 </field>
 <dataHolder name="#A7E690" type="className" value="org.jbpm.formModeler.api.model.Invoice" id="invoice"/>
 </form>
