@@ -39,9 +39,9 @@ public class AppSetup {
 
     @PostConstruct
     public void assertPlayground() {
-        final Repository repository = repositoryService.getRepository( PLAYGROUND_ALIAS );
+        Repository repository = repositoryService.getRepository( PLAYGROUND_ALIAS );
         if ( repository == null ) {
-            repositoryService.createRepository( PLAYGROUND_SCHEME, PLAYGROUND_ALIAS,
+            repository = repositoryService.createRepository( PLAYGROUND_SCHEME, PLAYGROUND_ALIAS,
                                                 new HashMap<String, Object>() {{
                                                     put( "origin", PLAYGROUND_ORIGIN );
                                                     put( "username", PLAYGROUND_UID );

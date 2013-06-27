@@ -21,6 +21,7 @@ import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.api.model.Field;
 
+import javax.inject.Named;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
@@ -29,6 +30,7 @@ import java.util.*;
 /**
  * Handler for numeric text input
  */
+@Named("org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler")
 public class NumericFieldHandler extends DefaultFieldHandler {
 
     public static final String NUMERIC_FROM_SUFFIX = "_from";

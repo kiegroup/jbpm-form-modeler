@@ -49,21 +49,19 @@ public class FormRenderingComponent extends BaseUIComponent {
     @Inject
     private FormProcessor formProcessor;
 
-    private String ctxUID;
-    private Form form;
     private boolean submited = false;
+
+    private FormRenderContext ctx;
 
     public void doStart(CommandRequest commandRequest) {
 
-        this.ctxUID = commandRequest.getRequestObject().getParameter("ctxUID");
+        String ctxUID = commandRequest.getRequestObject().getParameter("ctxUID");
 
         if (StringUtils.isEmpty(ctxUID)) return;
 
-        FormRenderContext ctx = formRenderContextManager.getFormRenderContext(ctxUID);
+        ctx = formRenderContextManager.getFormRenderContext(ctxUID);
 
         submited = false;
-
-        this.form = ctx.getForm();
 
     }
 
@@ -95,19 +93,15 @@ public class FormRenderingComponent extends BaseUIComponent {
     }
 
     public String getCtxUID() {
-        return ctxUID;
-    }
-
-    public void setCtxUID(String ctxUID) {
-        this.ctxUID = ctxUID;
+        return ctx.getUID();
     }
 
     public Form getForm() {
-        return form;
+        return ctx.getForm();
     }
 
-    public void setForm(Form form) {
-        this.form = form;
+    public boolean isDisabled() {
+        return ctx.isDisabled();
     }
 
     public void setBaseComponentJSP(String baseComponentJSP) {

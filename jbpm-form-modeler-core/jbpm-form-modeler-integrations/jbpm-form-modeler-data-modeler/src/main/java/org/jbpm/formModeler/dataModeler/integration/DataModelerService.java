@@ -22,6 +22,7 @@ import org.jbpm.formModeler.dataModeler.model.DataModelerDataHolder;
 import org.kie.workbench.common.screens.datamodeller.model.DataModelTO;
 import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
 import org.kie.workbench.common.services.project.service.ProjectService;
+import org.kie.workbench.common.services.shared.context.Project;
 import org.uberfire.backend.vfs.Path;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -38,25 +39,26 @@ public class DataModelerService implements DataHolderBuilder {
     private org.kie.workbench.common.screens.datamodeller.service.DataModelerService dataModelerService;
 
     @Inject
-    ProjectService projectService;
+    private ProjectService projectService;
 
     public List getDataModelObjectList(Object path){
         List dataObjectsList = new ArrayList();
 
         try{
-        DataModelTO dataModelTO = dataModelerService.loadModel(projectService.resolveProject((Path)path));
-        HashMap dO;
-        if (dataModelTO != null && dataModelTO.getDataObjects() != null) {
-            String className = "";
-            for (DataObjectTO dataObjectTO : dataModelTO.getDataObjects()) {
-                dO = new HashMap();
-                className = dataObjectTO.getClassName();
-                dO.put("optionLabel", className);
-                dO.put("optionValue", className);
-                dataObjectsList.add(dO);
+            DataModelTO dataModelTO = dataModelerService.loadModel(projectService.resolveProject(((Path) path)));
+
+            HashMap dO;
+            if (dataModelTO != null && dataModelTO.getDataObjects() != null) {
+                String className = "";
+                for (DataObjectTO dataObjectTO : dataModelTO.getDataObjects()) {
+                    dO = new HashMap();
+                    className = dataObjectTO.getClassName();
+                    dO.put("optionLabel", className);
+                    dO.put("optionValue", className);
+                    dataObjectsList.add(dO);
+                }
             }
-        }
-        }catch (Exception e){
+        } catch (Exception e){
             HashMap dO =new HashMap();
             dO.put("optionLabel", "-");
             dO.put("optionValue", "-");
@@ -68,7 +70,7 @@ public class DataModelerService implements DataHolderBuilder {
 
     @Override
     public DataHolder buildDataHolder(Map<String, Object> config) {
-        return createDataHolder(config.get("path"), (String)config.get("id"), (String)config.get("value"), (String)config.get("color"));
+        return createDataHolder(config.get("path"), (String)config.get("id"), (String)config.get("outId"), (String)config.get("value"), (String)config.get("color"));
     }
 
     @Override
@@ -76,11 +78,15 @@ public class DataModelerService implements DataHolderBuilder {
         return Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL;
     }
 
-    public DataHolder createDataHolder (Object path, String id, String className, String renderColor){
-        DataModelTO dataModelTO = dataModelerService.loadModel(projectService.resolveProject((Path)path));
+    public DataHolder createDataHolder (Object path, String id, String outId, String className, String renderColor) {
+        if (path == null) return new DataModelerDataHolder(id, outId, className, renderColor);
+
+        Project project = projectService.resolveProject(((Path) path));
+
+        DataModelTO dataModelTO = dataModelerService.loadModel(project);
         DataObjectTO dO = dataModelTO.getDataObjectByClassName(className);
 
-        return new DataModelerDataHolder(id, className, renderColor, dO);
+        return new DataModelerDataHolder(id, outId, className, renderColor, dO);
     }
 
 

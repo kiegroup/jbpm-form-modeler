@@ -25,7 +25,8 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 public class PojoDataHolder extends DefaultDataHolder implements Comparable {
-    private String id;
+    private String inputId;
+    private String outputId;
     private String className;
 
     protected FieldTypeManager fieldTypeManager;
@@ -46,20 +47,30 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
     public PojoDataHolder(){
     }
 
-    public PojoDataHolder(String id, String className, String renderColor) {
-        this.id = id;
+    public PojoDataHolder(String inputId, String outputId, String className, String renderColor) {
+        this.inputId = inputId;
+        this.outputId = outputId;
+        this.className = className;
+        fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
+        setRenderColor(renderColor);
+    }
+
+    public PojoDataHolder(String inputId, String className, String renderColor) {
+        this.inputId = inputId;
+        this.outputId = inputId;
         this.className = className;
         fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
         setRenderColor(renderColor);
     }
 
     @Override
-    public String getId() {
-        return id;
+    public String getInputId() {
+        return inputId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    @Override
+    public String getOuputId() {
+        return outputId;
     }
 
     public String getClassName() {
@@ -111,7 +122,7 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
 
 
     public int compareTo(Object o) {
-        return id.compareTo(((PojoDataHolder) o).getId());
+        return inputId.compareTo(((PojoDataHolder) o).getInputId());
     }
 
     @Override
@@ -214,13 +225,9 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
         return propName;
     }
 
-//    @Override
-//    public String getRenderColor() {
-//        return renderColor;
-//    }
-
-//    @Override
-//    public void setRenderColor(String renderColor) {
-//        this.renderColor = renderColor;
-//    }
+    @Override
+    public boolean isAssignableValue(Object value) {
+        if (value == null) return true;
+        return value.getClass().getName().equals(this.getClassName());
+    }
 }

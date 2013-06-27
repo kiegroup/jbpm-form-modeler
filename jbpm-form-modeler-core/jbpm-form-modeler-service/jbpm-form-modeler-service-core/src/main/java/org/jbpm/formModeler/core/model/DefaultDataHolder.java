@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.model;
 
+import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.api.model.DataHolder;
 
@@ -26,21 +27,6 @@ public abstract class DefaultDataHolder implements DataHolder {
     private String renderColor;
 
     @Override
-    public Map load(Map<String, Object> bindingData) throws Exception {
-        Map values = new HashMap();
-        Object value = bindingData.get(getId());
-        if (value != null) {
-            Set<DataFieldHolder> fieldHodlers = getFieldHolders();
-            for (DataFieldHolder fieldHolder : fieldHodlers) {
-                values.put(fieldHolder.getId(), readValue(value, fieldHolder.getId()));
-            }
-        } else {
-            bindingData.put(getId(), createInstance());
-        }
-        return values;
-    }
-
-    @Override
     public String getRenderColor() {
         return renderColor;
     }
@@ -48,5 +34,34 @@ public abstract class DefaultDataHolder implements DataHolder {
     @Override
     public void setRenderColor(String renderColor) {
         this.renderColor = renderColor;
+    }
+
+    @Override
+    public String getInputBinding(String fieldName) {
+        if (StringUtils.isEmpty(getInputId()) || StringUtils.isEmpty(fieldName)) return "";
+        return "{" + getInputId() + "/" + fieldName+"}" ;
+    }
+
+    @Override
+    public String getOuputBinding(String fieldName) {
+        if (StringUtils.isEmpty(getOuputId()) || StringUtils.isEmpty(fieldName)) return "";
+        return "{" + getOuputId() + "/" + fieldName+"}" ;
+    }
+
+    @Override
+    public boolean containsBinding(String bindingString) {
+        if (StringUtils.isEmpty(bindingString)) return false;
+
+        String rawbingind = bindingString.substring(1, bindingString.length() - 1);
+
+        String[] parts = rawbingind.split("/");
+
+        if (parts == null || parts.length != 2 || StringUtils.isEmpty(parts[0])) return false;
+
+        if (getInputId().equals(parts[0]) || getOuputId().equals(parts[0])) {
+            return getDataFieldHolderById(parts[1]) != null;
+        }
+
+        return false;
     }
 }

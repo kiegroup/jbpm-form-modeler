@@ -16,10 +16,7 @@
 package org.jbpm.formModeler.core.config;
 
 import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.model.FormDisplayInfo;
+import org.jbpm.formModeler.api.model.*;
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.jbpm.formModeler.service.LocaleManager;
 
@@ -293,6 +290,7 @@ public class FormManagerImpl implements FormManager {
         forms.remove(pForm);
     }
 
+    @Override
     public Field addFieldToForm(Form pForm, FieldType fieldType) throws Exception {
         return addFieldToForm(pForm, "", fieldType, new I18nSet());
     }
@@ -305,8 +303,9 @@ public class FormManagerImpl implements FormManager {
      * @param fieldType Field type
      * @throws Exception in case of error
      */
+    @Override
     public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label) {
-        return addFieldToForm(pForm, fieldName, fieldType,label,"");
+        return addFieldToForm(pForm, fieldName, fieldType,label, "", "");
     }
 
 
@@ -319,7 +318,7 @@ public class FormManagerImpl implements FormManager {
      * @throws Exception in case of error
      */
     @Override
-    public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label,String bindingExpresion) {
+    public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label, String inputBindingString, String outputBindingString) {
         synchronized (pForm.getSynchronizationObject()) {
             Set<Field> fields = pForm.getFormFields();
 
@@ -340,7 +339,8 @@ public class FormManagerImpl implements FormManager {
             field.setFieldName(fieldName);
             field.setFieldRequired(Boolean.FALSE);
             field.setFieldType(fieldType);
-            field.setBindingStr(bindingExpresion);
+            field.setInputBinding(inputBindingString);
+            field.setOutputBinding(outputBindingString);
             field.setForm(pForm);
             field.setPosition(pForm.getFormFields().size());
 

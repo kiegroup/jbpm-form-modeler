@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 
 import org.jbpm.formModeler.core.config.FieldTypeManager;
@@ -22,7 +23,6 @@ import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.core.processing.BindingManager;
 import org.jbpm.formModeler.dataModeler.integration.DataModelerService;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
@@ -65,14 +65,24 @@ public class DataHoldersFormFormatter extends Formatter {
             Set<DataHolder> holders = form.getHolders();
             String existingIds ="\"\"";
             for (DataHolder holder : holders) {
-                existingIds+= ", \""+holder.getId()+"\" ";
+                if (StringUtils.isEmpty(holder.getInputId())) existingIds+= ", \""+holder.getInputId()+"\" ";
+                if (StringUtils.isEmpty(holder.getOuputId())) existingIds+= ", \""+holder.getOuputId()+"\" ";
             }
 
             setAttribute("existingIds", existingIds);
             renderFragment("outputFormAddHolderStart");
 
             renderFragment("rowStart");
-            renderSelectDataModel(dataModelerService.getDataModelObjectList(wysiwygFormEditor.getCurrentEditionContext().getPath()));
+            List dataObjects = Collections.EMPTY_LIST;
+
+            try {
+                dataObjects = dataModelerService.getDataModelObjectList(wysiwygFormEditor.getCurrentEditionContext().getPath());
+            } catch (Throwable e) {
+                log.error("Error getting dataObjects from project! ", e);
+            }
+
+            renderSelectDataModel(dataObjects);
+
             renderFragment("rowEnd");
 
 
@@ -82,10 +92,11 @@ public class DataHoldersFormFormatter extends Formatter {
 
             renderFragment("outputStartBindings");
 
-
             int i=0;
             for (DataHolder holder : holders) {
-                setAttribute("id", holder.getId());
+                setAttribute("id", StringUtils.defaultString(holder.getInputId()));
+                setAttribute("outId", StringUtils.defaultString(holder.getOuputId()));
+                setAttribute("deleteId", StringUtils.defaultIfEmpty(holder.getInputId(), holder.getOuputId()));
                 setAttribute("type", holder.getTypeCode());
                 setAttribute("renderColor", holder.getRenderColor());
                 setAttribute("value", holder.getInfo());
@@ -126,12 +137,12 @@ public class DataHoldersFormFormatter extends Formatter {
         WysiwygFormEditor wysiwygFormEditor = WysiwygFormEditor.lookup();
         Form form = wysiwygFormEditor.getCurrentForm();
         Set<DataHolder> holders = form.getHolders();
-        BindingManager bindingManager = wysiwygFormEditor.getBindingManager();
         FieldTypeManager fieldTypeManager = wysiwygFormEditor.getFieldTypesManager();
 
         renderFragment("outputStart");
 
         for (DataHolder dataHolder : holders) {
+            String holderId = StringUtils.defaultIfEmpty(dataHolder.getInputId(), dataHolder.getOuputId());
 
             Set<DataFieldHolder> dataFieldHolders = dataHolder.getFieldHolders();
 
@@ -140,24 +151,34 @@ public class DataHoldersFormFormatter extends Formatter {
             if (dataFieldHolders != null) {
                 for (DataFieldHolder dataFieldHolder : dataFieldHolders) {
                     fieldName = dataFieldHolder.getId();
-                    if (fieldName != null && !form.existBinding(dataHolder, fieldName)) {
+                    if (fieldName != null && !form.isFieldBinded(dataHolder, fieldName)) {
                         if (i == 0) {//first field
-                            setAttribute("id", dataHolder.getId());
+                            setAttribute("id", holderId);
                             setAttribute("type", dataHolder.getTypeCode());
                             setAttribute("renderColor", dataHolder.getRenderColor());
 
-                            if (dataHolder.getId() != null && dataHolder.getId().equals(wysiwygFormEditor.getLastDataHolderUsedId())) {
+                            if (dataHolder.getInputId() != null && dataHolder.getInputId().equals(wysiwygFormEditor.getLastDataHolderUsedId())) {
                                 setAttribute("open", Boolean.TRUE);
                             } else {
                                 setAttribute("open", Boolean.FALSE);
                             }
-                            setAttribute("showHolderName", ((dataHolder.getId() != null && dataHolder.getId().length() < 20) ? dataHolder.getId() : dataHolder.getId().substring(0, 19) + "..."));
+                            String holderName = "";
+
+                            if (!StringUtils.isEmpty(dataHolder.getInputId())) holderName += dataHolder.getInputId();
+                            if (!StringUtils.isEmpty(dataHolder.getOuputId())) {
+                                if(holderName.length() > 0) holderName += "/";
+                                holderName += dataHolder.getOuputId();
+                            }
+
+                            if (holderName.length() > 20) holderName = holderName.substring(0, 19) + "...";
+
+                            setAttribute("showHolderName", holderName);
 
                             renderFragment("outputBinding");
 
                         }
                         i++;
-                        renderAddField(fieldName, fieldTypeManager.getTypeByCode(dataFieldHolder.getType()), dataHolder.getId());
+                        renderAddField(fieldName, fieldTypeManager.getTypeByCode(dataFieldHolder.getType()), holderId);
                     }
                 }
                 if (i != 0) {//last field of list

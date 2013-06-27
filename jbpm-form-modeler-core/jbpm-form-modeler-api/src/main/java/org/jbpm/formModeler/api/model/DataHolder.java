@@ -20,7 +20,8 @@ import java.util.Set;
 
 public interface DataHolder extends Comparable{
 
-    String getId();
+    String getInputId();
+    String getOuputId();
     Object createInstance() throws Exception;
     void writeValue(Object destination, String propName, Object value) throws Exception;
     Object readValue(Object destination, String propName) throws Exception;
@@ -30,5 +31,10 @@ public interface DataHolder extends Comparable{
     String getInfo();
     void setRenderColor(String renderColor);
     String getRenderColor();
-    Map load(Map<String, Object> bindingData) throws Exception;
+
+    String getInputBinding(String fieldName);
+    String getOuputBinding(String fieldName);
+
+    boolean containsBinding(String bindingString);
+    boolean isAssignableValue(Object value);
 }

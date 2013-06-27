@@ -308,50 +308,94 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         return data;
     }
 
+    protected Object readSimpleBindingValue(Form form, String bindingExpression, Map<String, Object> bindingData) {
+        bindingExpression = bindingExpression.substring(1, bindingExpression.length() - 1);
+
+        String[] bindingParts = bindingExpression.split("/");
+
+        if (bindingParts.length == 2) {
+
+            String holderId = bindingParts[0];
+            String holderFieldId = bindingParts[1];
+
+            DataHolder holder = form.getDataHolderById(holderId);
+            if (holder != null && !StringUtils.isEmpty(holderFieldId)) {
+
+                Object bindingValue = bindingData.get(holder.getInputId());
+
+                try {
+                    if (bindingValue != null && holder.isAssignableValue(bindingValue)) return holder.readValue(bindingValue, holderFieldId);
+                } catch (Exception e) {
+                    log.warn("Unable to read value from expression '" + bindingExpression + "'. Error: ", e);
+                }
+
+                return null;
+            }
+        }
+
+        return bindingData.get(bindingExpression);
+    }
+
     protected FormStatus createContextFormStatus(FormRenderContext context) throws Exception {
         Map values = new HashMap();
 
-        Map<String, Object> bindingData = context.getBindingData();
+        Map<String, Object> inputData = context.getInputData();
+        Map<String, Object> outputData = context.getOutputData();
 
-        if (bindingData != null && !bindingData.isEmpty()) {
+        if (inputData != null && !inputData.isEmpty()) {
 
             Form form = context.getForm();
             Set<Field> fields = form.getFormFields();
 
             if (fields != null) {
                 for (Field field : form.getFormFields()) {
-                    String bindingString = field.getBindingStr();
-                    if (!StringUtils.isEmpty(bindingString)) {
-                        bindingString = bindingString.substring(1, bindingString.length() - 1);
+                    String inputBinding = field.getInputBinding();
+                    String outputBinding = field.getOutputBinding();
+                    boolean hasInput = !StringUtils.isEmpty(inputBinding);
+                    boolean hasOutput = !StringUtils.isEmpty(outputBinding);
 
-                        boolean canSetValue = bindingString.indexOf("/") > 0;
+                    if (!hasInput && !hasOutput) continue;
 
-                        Object value = null;
-                        if (canSetValue) {
-                            String holderId = bindingString.substring(0, bindingString.indexOf("/"));
-                            String holderFieldId = bindingString.substring(holderId.length() + 1);
+                    Object value = null;
 
-                            DataHolder holder = form.getDataHolderById(holderId);
-                            if (holder != null && !StringUtils.isEmpty(holderFieldId)) {
+                    if (!hasOutput) value = readSimpleBindingValue(form, inputBinding, inputData);
+                    else if (!hasInput) value = readSimpleBindingValue(form, outputBinding, outputData);
+                    else {
 
-                                Object holderValue = bindingData.get(holder.getId());
+                        inputBinding = inputBinding.substring(1, inputBinding.length() - 1);
+                        outputBinding = outputBinding.substring(1, outputBinding.length() - 1);
 
-                                if (holderValue == null) continue;
+                        String[] inputParts = inputBinding.split("/");
+                        String[] outputParts = outputBinding.split("/");
 
-                                value = holder.readValue(holderValue, holderFieldId);
+                        boolean complexBinding = inputParts.length == 2 && outputParts.length == 2;
+
+                        if (complexBinding) {
+                            DataHolder holder = form.getDataHolderByIds(inputParts[0], outputParts[0]);
+                            if (holder != null) {
+                                Object inputValue = inputData.get(holder.getInputId());
+                                Object outputValue = outputData.get(holder.getOuputId());
+
+                                if (inputValue == null && outputValue == null) continue;
+
+                                if (outputValue != null && holder.isAssignableValue(outputValue)) value = holder.readValue(outputValue, outputParts[1]);
+                                else if (inputValue != null && holder.isAssignableValue(inputValue)) value = holder.readValue(inputValue, inputParts[1]);
                             }
-                        } else {
-                            value = bindingData.get(bindingString);
-                        }
 
-                        values.put(field.getFieldName(), value);
+                        } else {
+                            value = (outputData.containsKey(outputBinding)) ? outputData.get(outputBinding) : inputData.get(inputBinding);
+                        }
                     }
+
+                    values.put(field.getFieldName(), value);
                 }
             }
         }
 
         return getFormStatus(context.getForm(), context.getUID(), values);
     }
+
+
 
     public FormStatusData read(Form form, String namespace, Map currentValues) {
         boolean exists = existsFormStatus(form.getId(), namespace);
@@ -387,42 +431,36 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
         Map mapToPersist = getFilteredMapRepresentationToPersist(form, context.getUID());
 
-        Map<String, Object> result = new HashMap<String, Object>();
+        Map<String, Object> result = context.getOutputData();
 
         for (Iterator it = mapToPersist.keySet().iterator(); it.hasNext();) {
             String fieldName = (String) it.next();
             Field field = form.getField(fieldName);
             if (field != null) {
-                String bindingString = field.getBindingStr();
+                String bindingString = field.getOutputBinding();
                 if (!StringUtils.isEmpty(bindingString)) {
                     bindingString = bindingString.substring(1, bindingString.length() - 1);
 
-                    boolean canBind = bindingString.indexOf("/") > 0;
+                    boolean complexBinding = bindingString.indexOf("/") > 0;
 
-                    if (canBind) {
+                    if (complexBinding) {
                         String holderId = bindingString.substring(0, bindingString.indexOf("/"));
                         String holderFieldId = bindingString.substring(holderId.length() + 1);
                         DataHolder holder = form.getDataHolderById(holderId);
                         if (holder != null && !StringUtils.isEmpty(holderFieldId)) {
-                            Object value = context.getBindingData().get(holderId);
+                            Object value = context.getInputData().get(holderId);
                             holder.writeValue(value, holderFieldId, mapToPersist.get(fieldName));
                             if (!result.containsKey(holderId)) result.put(holderId, value);
                         }
-                        else canBind = false;
+                        else complexBinding = false;
                     }
 
-                    if (!canBind) {
-                        log.debug("Unable to bind DataHolder for field '" + fieldName + "' to '" + bindingString + "'. This may be caused because bindingString is incorrect or the form doesn't contains the defined DataHolder.");
-                        if (!result.containsKey(fieldName)) result.put(fieldName, mapToPersist.get(fieldName));
+                    if (!complexBinding) {
+                        result.put(bindingString, mapToPersist.get(fieldName));
                     }
-
-
-
                 }
             }
         }
-
-        context.setPersistedData(result);
     }
 
     public Map getMapRepresentationToPersist(Form form, String namespace) throws Exception {

@@ -73,7 +73,8 @@ public class Field implements Comparable<Field> {
 
     private FieldType fieldType;
 
-    private String bindingStr;
+    private String inputBinding;
+    private String outputBinding;
 
     private int position;
 
@@ -544,12 +545,20 @@ public class Field implements Comparable<Field> {
         this.position = position;
     }
 
-    public String getBindingStr() {
-        return bindingStr;
+    public String getInputBinding() {
+        return inputBinding;
     }
 
-    public void setBindingStr(String bindingStr) {
-        this.bindingStr = bindingStr;
+    public void setInputBinding(String inputBinding) {
+        this.inputBinding = inputBinding;
+    }
+
+    public String getOutputBinding() {
+        return outputBinding;
+    }
+
+    public void setOutputBinding(String outputBinding) {
+        this.outputBinding = outputBinding;
     }
 
     public Form getForm() {
@@ -588,7 +597,9 @@ public class Field implements Comparable<Field> {
         names.add("hideContent");
         names.add("defaultValueFormula");
         names.add("htmlContent");
-        names.add("bindingStr");
+
+        names.add("inputBinding");
+        names.add("outputBinding");
 
         names.add("defaultSubform");
         names.add("creationSubform");
@@ -642,7 +653,9 @@ public class Field implements Comparable<Field> {
         value.put("hideContent", getHideContent());
         value.put("defaultValueFormula", getDefaultValueFormula());
         value.put("htmlContent", getHtmlContent());
-        value.put("bindingStr", getBindingStr());
+
+        value.put("inputBinding", getInputBinding());
+        value.put("outputBinding", getOutputBinding());
 
         //SubForms
         value.put("defaultSubform",getDefaultSubform());
@@ -665,7 +678,6 @@ public class Field implements Comparable<Field> {
         value.put("separator",getSeparator());
 
         value.put("enableTableEnterData",getEnableTableEnterData());
-
         return value;
     }
 

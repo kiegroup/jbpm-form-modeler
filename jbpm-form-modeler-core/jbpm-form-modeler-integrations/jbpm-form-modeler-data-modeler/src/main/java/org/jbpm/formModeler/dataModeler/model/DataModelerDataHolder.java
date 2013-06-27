@@ -15,11 +15,9 @@
  */
 package org.jbpm.formModeler.dataModeler.model;
 
-import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.model.PojoDataHolder;
-import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
 import org.kie.workbench.common.screens.datamodeller.model.ObjectPropertyTO;
 
@@ -30,12 +28,13 @@ public class DataModelerDataHolder extends PojoDataHolder implements Comparable 
 
     DataObjectTO dataObjectTO ;
 
-    public DataModelerDataHolder(String id, String className, String renderColor, DataObjectTO dataObjectTO) {
-        super.setId(id);
-        super.setClassName(className);
-        fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
+    public DataModelerDataHolder(String id, String outId, String className, String renderColor, DataObjectTO dataObjectTO) {
+        super(id, outId, className, renderColor);
         this.dataObjectTO = dataObjectTO;
-        setRenderColor(renderColor);
+    }
+
+    public DataModelerDataHolder(String id, String outId, String className, String renderColor) {
+        super(id, outId, className, renderColor);
     }
 
     private String capitalize(String string) {
@@ -61,7 +60,7 @@ public class DataModelerDataHolder extends PojoDataHolder implements Comparable 
 
 
     public int compareTo(Object o) {
-        return super.getId().compareTo(((PojoDataHolder) o).getId());
+        return super.getInputId().compareTo(((PojoDataHolder) o).getInputId());
     }
 
     @Override
@@ -81,6 +80,7 @@ public class DataModelerDataHolder extends PojoDataHolder implements Comparable 
     }
 
     private Set<DataFieldHolder> calculatePropertyNames() throws Exception{
+        if (dataObjectTO == null) return Collections.EMPTY_SET;
         List<ObjectPropertyTO> properties = dataObjectTO.getProperties();
 
         Set<DataFieldHolder> dataFieldHolders = new TreeSet<DataFieldHolder>();
@@ -101,14 +101,4 @@ public class DataModelerDataHolder extends PojoDataHolder implements Comparable 
         }
         return dataFieldHolders;
     }
-
-    protected boolean isValidReturnType(String returnType) throws Exception{
-        if(returnType== null) return false;
-        if ("void".equals(returnType)) return true;
-        if (fieldTypeManager.getTypeByClass(returnType) != null) return true;
-            //else if ("boolean".equals(returnType)) return true;
-        else return false;
-
-    }
-
 }

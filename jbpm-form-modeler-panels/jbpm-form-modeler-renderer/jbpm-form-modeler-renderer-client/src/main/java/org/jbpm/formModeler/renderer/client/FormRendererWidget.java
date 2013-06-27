@@ -21,6 +21,7 @@ import com.google.gwt.safehtml.shared.UriUtils;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.client.FormRenderContextTO;
 
 import javax.annotation.PostConstruct;
@@ -44,6 +45,20 @@ public class FormRendererWidget extends Composite {
         frame.setWidth("100%");
         frame.setHeight("600px");
         frame.getElement().getStyle().setBorderWidth(0, Style.Unit.PX);
+        publish(this);
+    }
+
+    // Set up the JS-callable signature as a global JS function.
+    private native void publish(FormRendererWidget widget) /*-{
+        $wnd.resizeRendererWidget = function (width, height) {
+            widget.@org.jbpm.formModeler.renderer.client.FormRendererWidget::resizeWidget(Ljava/lang/String;Ljava/lang/String;)(width,height)
+        }
+    }-*/;
+
+
+    protected void resizeWidget(String width, String height) {
+        frame.setWidth(width);
+        frame.setHeight(height);
     }
 
     public void submitForm() {
@@ -72,8 +87,13 @@ public class FormRendererWidget extends Composite {
         this.ctxUID = ctxUID;
 
         frame.getElement().setId("frame_" + ctxUID);
-        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=frc&_fp=Start&ctxUID=" + ctxUID).asString());
+        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=frc&_fp=Start&ctxUID=" + ctxUID ).asString());
         canSubmit = true;
+    }
+
+    public boolean isValidContextUID(String ctxUID) {
+        if (ctxUID != null && ctxUID.startsWith(FormRenderContextManager.CTX_PREFFIX)) return true;
+        return false;
     }
 
     public void endContext() {

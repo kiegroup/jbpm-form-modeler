@@ -20,7 +20,6 @@ import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
 import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +37,7 @@ public class FormRenderingComponentFormatter extends Formatter {
 
         setAttribute("ctxUID", formRenderingComponent.getCtxUID());
         setAttribute("errors", formRenderingComponent.getFieldErrors().size());
-        setAttribute("submitted", formRenderingComponent.isSubmited());
+        setAttribute("disabled", formRenderingComponent.isDisabled());
         setAttribute("form", formRenderingComponent.getForm());
         renderFragment("output");
     }

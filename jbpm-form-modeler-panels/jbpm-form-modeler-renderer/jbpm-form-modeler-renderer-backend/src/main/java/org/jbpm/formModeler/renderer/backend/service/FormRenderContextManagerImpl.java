@@ -62,28 +62,37 @@ public class FormRenderContextManagerImpl implements FormRenderContextManager {
 
     @Override
     public void removeContext(FormRenderContext context) {
-        formProcessor.clear(context);
+        if (context != null) {
+            formRenderContextMap.remove(context.getUID());
+            formProcessor.clear(context);
+        }
+    }
+
+
+    @Override
+    public FormRenderContext newContext(Form form, Map<String, Object> ctx) {
+        return newContext(form, ctx, new HashMap<String, Object>());
     }
 
     @Override
-    public FormRenderContext newContext(Form form, Map<String, Object> bindingData) {
-        String uid = "formRenderCtx_" + form.getId() + "_" + System.currentTimeMillis();
+    public FormRenderContext newContext(Form form, Map<String, Object> inputData, Map<String, Object> outputData) {
+        String uid = CTX_PREFFIX + form.getId() + "_" + System.currentTimeMillis();
 
-        return buildContext(uid, form, bindingData);
+        return buildContext(uid, form, inputData, outputData);
     }
 
     @Override
-    public FormRenderContext newContext(String ctxPreffix, Form form, Map<String, Object> bindingData) {
+    public FormRenderContext newContext(String ctxPreffix, Form form, Map<String, Object> inputData, Map<String, Object> outputData) {
         String uid = ctxPreffix + "_" + form.getId();
         FormRenderContext ctx = formRenderContextMap.get(uid);
 
-        if (ctx == null) ctx = buildContext(uid, form, bindingData);
+        if (ctx == null) ctx = buildContext(uid, form, inputData, outputData);
 
         return ctx;
     }
 
-    private FormRenderContext buildContext(String uid, Form form, Map<String, Object> bindingData) {
-        FormRenderContext ctx = new FormRenderContext(uid, form, bindingData);
+    private FormRenderContext buildContext(String uid, Form form, Map<String, Object> inputData, Map<String, Object> outputData) {
+        FormRenderContext ctx = new FormRenderContext(uid, form, inputData, outputData);
         formRenderContextMap.put(uid, ctx);
         formProcessor.read(ctx.getUID());
         return ctx;
@@ -96,7 +105,7 @@ public class FormRenderContextManagerImpl implements FormRenderContextManager {
 
     @Override
     public Map getContextData(String UID) {
-        return getFormRenderContext(UID).getBindingData();
+        return getFormRenderContext(UID).getInputData();
     }
 
     @Override

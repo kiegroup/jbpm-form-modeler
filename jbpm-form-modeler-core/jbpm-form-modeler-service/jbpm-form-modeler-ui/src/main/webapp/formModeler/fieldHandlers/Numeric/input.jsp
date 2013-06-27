@@ -103,7 +103,7 @@
                                                             <%=alt!=null ? " alt=\""+alt+"\"":""%>
                                                             <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
                                                             <%=height!=null ? " height=\""+height+"\"":""%>
-                                                            <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>
+                                                            <%=readonly!=null && ((Boolean)readonly).booleanValue()? " onfocus=\"this.blur();\" ":""%>
                                                             <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%> >
                                                     </mvc:fragmentValue>
                                                 </mvc:fragmentValue>

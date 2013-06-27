@@ -153,8 +153,11 @@ public class Form implements Serializable, Comparable{
     }
 
     public void setDataHolder(DataHolder holder) {
-        if (holder == null || holder.getId()==null || holder.getId().trim().length() == 0) return;
-        if(getDataHolderById(holder.getId())!=null){
+        if (holder == null) return;
+
+        if ((holder.getInputId() == null || holder.getInputId().trim().length() == 0) &&  (holder.getOuputId()==null || holder.getOuputId().trim().length() == 0)) return;
+
+        if(getDataHolderById(holder.getInputId()) != null || getDataHolderById(holder.getOuputId()) != null){
             holders.remove(holder);
         }
         holders.add(holder);
@@ -162,20 +165,32 @@ public class Form implements Serializable, Comparable{
 
     public void removeDataHolder(String id) {
         if (id == null || id.trim().length() == 0) return;
-        if(getDataHolderById(id)!=null){
+        if(getDataHolderById(id) != null){
             for (Iterator it = holders.iterator(); it.hasNext();) {
                 DataHolder holder = (DataHolder) it.next();
-                if (holder.getId().equals(id)) it.remove();
+                if (id.equals(holder.getInputId()) || id.equals(holder.getOuputId())) it.remove();
             }
         }
 
     }
 
-    public DataHolder getDataHolderById(String srcId ) {
+    public DataHolder getDataHolderByIds(String inputId, String outputId) {
+        if (inputId == null || inputId.trim().length() == 0) return null;
+        if (outputId == null || outputId.trim().length() == 0) return null;
+        if (getHolders() != null) {
+            for (DataHolder dataHolder : holders) {
+                if (inputId.equals(dataHolder.getInputId()) || outputId.equals(dataHolder.getOuputId()))
+                    return dataHolder;
+            }
+        }
+        return null;
+    }
+
+    public DataHolder getDataHolderById(String srcId) {
         if (srcId == null || srcId.trim().length() == 0) return null;
         if (getHolders() != null) {
             for (DataHolder dataHolder : holders) {
-                if (srcId.equals(dataHolder.getId()))
+                if (srcId.equals(dataHolder.getInputId()) || srcId.equals(dataHolder.getOuputId()))
                     return dataHolder;
             }
         }
@@ -297,47 +312,24 @@ public class Form implements Serializable, Comparable{
         return id.compareTo(((Form)o).getId());
     }
 
-    public boolean existBinding(DataHolder dataHolder,String fieldName){
+    public boolean isFieldBinded(DataHolder dataHolder, String fieldName){
         if (dataHolder==null || fieldName==null) return false;
 
-        String bindingStrToAdd = generateBindingStr( dataHolder, fieldName) ;
+        String inputBinding = dataHolder.getInputBinding(fieldName);
+        String outputBinding = dataHolder.getOuputBinding(fieldName);
 
         for (Field field : formFields) {
-            if (bindingStrToAdd.equals(field.getBindingStr()))
+            if ((!inputBinding.isEmpty() && inputBinding.equals(field.getInputBinding())) || (!outputBinding.isEmpty() && outputBinding.equals(field.getOutputBinding())))
                 return true;
         }
 
         return false;
     }
 
-    public String getBindingColor(Field field){
-
-        if (field!=null && field.getBindingStr()!=null && field.getBindingStr().trim().length()>0  ){
-            String bindingStr = field.getBindingStr();
-            String bindedFieldName = getDataFieldHolderNameFromBindingStr(bindingStr);
-            if(bindingStr!=null && bindingStr.length()>0){
-                for (DataHolder holder : holders) {
-                    if (bindingStr.equals(generateBindingStr(holder, bindedFieldName)))
-                        return holder.getRenderColor();
-                }
-            }
-        }
-        return "";
-    }
-
-    public String generateBindingStr(String dataHolderId,String fieldName ){
-        try{
-            return generateBindingStr(getDataHolderById(dataHolderId),fieldName);
-        }catch (Exception e){
-
-        }
-        return "";
-    }
-
     public String generateBindingStr(DataHolder dataHolder,String fieldName ){
         if (dataHolder==null || fieldName==null) return "";
         if(dataHolder.getDataFieldHolderById(fieldName)!=null) { //return a valid binding
-            return "{" + dataHolder.getId() + "/" + fieldName+"}" ;
+            return "{" + dataHolder.getInputId() + "/" + fieldName+"}" ;
         }
         return "";
     }
@@ -348,4 +340,12 @@ public class Form implements Serializable, Comparable{
         return "";
     }
 
+    public DataHolder getHolderByField(Field field) {
+        if (field == null || field.getInputBinding() == null || field.getOutputBinding() == null) return null;
+
+        for (DataHolder holder : holders) {
+            if (holder.containsBinding(field.getInputBinding()) || holder.containsBinding(field.getOutputBinding())) return holder;
+        }
+        return null;
+    }
 }

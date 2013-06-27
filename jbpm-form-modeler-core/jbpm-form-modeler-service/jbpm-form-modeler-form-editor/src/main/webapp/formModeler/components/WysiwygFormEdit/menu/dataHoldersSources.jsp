@@ -57,7 +57,9 @@
 
             function confirmAdd(){
                 var existingIds = [<%=existingIds%>];
-                if (jQuery.inArray($("#<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>").val(), existingIds)!=-1)
+                var inVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>").val();
+                var outVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>").val();
+                if ((inVal && jQuery.inArray(inVal, existingIds)!=-1) || (outVal && jQuery.inArray(outVal, existingIds)!=-1))
                     return confirm('<i18n:message key="dataHolder_add.confirm">Sure?</i18n:message>');
             }
         </script>
@@ -68,6 +70,13 @@
         <tr>
             <td><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" type="text" class="skn-input" value=""
                        size="20" maxlength="64" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>"></td>
+        </tr>
+        <tr>
+            <td><b><i18n:message key="dataHolder_outputI">!!!dataHolder_outputid</i18n:message>:</b></td>
+        </tr>
+        <tr>
+            <td><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>" type="text" class="skn-input" value=""
+                       size="20" maxlength="64" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>"></td>
         </tr>
         <tr>
             <td><b><i18n:message key="dataHolder_renderColor">!!!dataHolder_renderColor</i18n:message>:</b></td>
@@ -126,7 +135,8 @@
 <mvc:fragment name="selectOption">
     <mvc:fragmentValue name="optionLabel" id="optionLabel">
         <mvc:fragmentValue name="optionValue" id="optionValue">
-            <option value="<%=optionValue%>"><%=optionLabel%>
+            <option value="<%=optionValue%>">
+                <%=optionLabel%>
             </option>
         </mvc:fragmentValue>
     </mvc:fragmentValue>
@@ -174,6 +184,7 @@
     <tr class="skn-table_header">
         <td style="width:16px;">&nbsp;</td>
         <td><i18n:message key="dataHolder_id">!!!dataHolder_id</i18n:message></td>
+        <td><i18n:message key="dataHolder_outputI">!!!dataHolder_outid</i18n:message></td>
         <td><i18n:message key="dataHolder_type">!!!dataHolder_type</i18n:message></td>
         <td><i18n:message key="dataHolder_info">!!!!!!dataHolder_info</i18n:message></td>
         <td style="width: 100px;"><i18n:message key="dataHolder_renderColor">!!!!!!dataHolder_renderColor</i18n:message></td>
@@ -183,6 +194,8 @@
 
 <mvc:fragment name="outputBindings">
     <mvc:fragmentValue name="id" id="id">
+    <mvc:fragmentValue name="outId" id="outId">
+    <mvc:fragmentValue name="deleteId" id="deleteId">
         <mvc:fragmentValue name="type" id="type">
             <mvc:fragmentValue name="value" id="value">
                 <mvc:fragmentValue name="renderColor" id="renderColor">
@@ -191,7 +204,7 @@
                             <td align="center" style="width:16px;"><a
                                     title="<i18n:message key="delete">!!!Borrar</i18n:message>"
                                     href="<factory:url  action="formDataHolders">
-                                         <factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=id%>"/>
+                                         <factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=deleteId%>"/>
                                          <factory:param name="<%=WysiwygFormEditor.ACTION_TO_DO%>" value="<%=WysiwygFormEditor.ACTION_REMOVE_DATA_HOLDER%>"/>
                                       </factory:url>"
                                     onclick="return confirm('<i18n:message
@@ -199,11 +212,17 @@
                                 <img src="<static:image relativePath="actions/delete.png"/>" border="0"
                                      title="<i18n:message key="delete">!!!Clear</i18n:message>"/>
                             </a></td>
-                            <td><%=StringEscapeUtils.escapeHtml((String)id) %>
+                            <td>
+                                <%=StringEscapeUtils.escapeHtml((String)id) %>
                             </td>
-                            <td><%=type%>
+                            <td>
+                                <%=StringEscapeUtils.escapeHtml((String)outId) %>
                             </td>
-                            <td><%=value%>
+                            <td>
+                                <%=type%>
+                            </td>
+                            <td>
+                                <%=value%>
                             </td>
                             <td style="width: 100px;">
                                 <div style="background-color: <%=renderColor%> ">&nbsp;</div>
@@ -213,6 +232,8 @@
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragmentValue>
+    </mvc:fragmentValue>
+    </mvc:fragmentValue>
     </mvc:fragmentValue>
 </mvc:fragment>
 

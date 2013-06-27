@@ -16,6 +16,7 @@
 package org.jbpm.formModeler.core.processing.formRendering;
 
 import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.FormCoreServices;
@@ -117,7 +118,7 @@ public class FormRenderingFormatter extends Formatter {
         String multiple = (String) getParameter("isMultiple");
 
         Boolean disabled = (Boolean) getParameter("isDisabled");
-        Boolean readonly = (Boolean) getParameter("isReadonly");
+        Boolean readonly = (Boolean) getParameter("isDisabled");
 
         if (disabled != null) isDisabled = disabled;    // These params can be null, this has to be evaluated
         if (readonly != null) isReadonly = readonly;
@@ -608,8 +609,9 @@ public class FormRenderingFormatter extends Formatter {
         if (Form.LABEL_MODE_BEFORE.equals(labelMode) || Form.LABEL_MODE_LEFT.equals(labelMode)) {
             setAttribute("colspan", fieldColspan);
             setAttribute("width", fieldWidth);
-            setAttribute("renderHolderColor", formToPaint.getBindingColor(field));
-            setAttribute("bindingStr", field.getBindingStr());
+
+            setBindingAttributes(field);
+
             renderFragment("beforeLabel");
 
             renderLabel(field, namespace, renderMode);
@@ -630,8 +632,8 @@ public class FormRenderingFormatter extends Formatter {
                 renderFragment("lineBetweenLabelAndField");
             setAttribute("colspan", fieldColspan);
             setAttribute("width", fieldWidth);
-            setAttribute("renderHolderColor", formToPaint.getBindingColor(field));
-            setAttribute("bindingStr", field.getBindingStr());
+
+            setBindingAttributes(field);
 
             renderFragment("beforeLabel");
             renderLabel(field, namespace, renderMode);
@@ -639,6 +641,35 @@ public class FormRenderingFormatter extends Formatter {
         }
         setAttribute("field", field);
         renderFragment("afterInputElement");
+    }
+
+    private void setBindingAttributes(Field field) {
+        String bindingTitle = "";
+
+        if (!StringUtils.isEmpty(field.getInputBinding())) {
+            bindingTitle = "Input: " + field.getInputBinding();
+        }
+
+        if (!StringUtils.isEmpty(field.getOutputBinding())) {
+            if (!StringUtils.isEmpty(bindingTitle)) bindingTitle += "\n";
+            bindingTitle += "Output: " + field.getOutputBinding();
+        }
+
+        boolean hasBinding = !StringUtils.isEmpty(bindingTitle);
+
+        setAttribute("hasBinding", hasBinding);
+        if (hasBinding) {
+            DataHolder holder = formToPaint.getHolderByField(field);
+
+            String color = null;
+
+            if (holder != null) color = holder.getRenderColor();
+
+            if (StringUtils.isEmpty(color)) color = "#444444";
+
+            setAttribute("renderHolderColor", color);
+            setAttribute("bindingTitle", bindingTitle);
+        }
     }
 
     protected BigInteger calculateMCM(List colspans) {
