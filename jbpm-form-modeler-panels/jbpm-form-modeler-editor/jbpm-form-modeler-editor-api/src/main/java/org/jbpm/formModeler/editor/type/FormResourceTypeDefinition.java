@@ -11,12 +11,12 @@ public class FormResourceTypeDefinition implements ResourceTypeDefinition {
 
     @Override
     public String getShortName() {
-        return "form definition";
+        return "Form Definition";
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return "Form Definition";
     }
 
     @Override
@@ -26,7 +26,6 @@ public class FormResourceTypeDefinition implements ResourceTypeDefinition {
 
     @Override
     public String getSuffix() {
-        //return "model.mdl";
         return "form";
     }
 
