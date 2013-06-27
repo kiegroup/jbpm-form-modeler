@@ -27,7 +27,7 @@ public class FormModelerFormProvider implements FormProvider {
 
     @Override
     public int getPriority() {
-        return 3;
+        return 2;
     }
 
     @Override

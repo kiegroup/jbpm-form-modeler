@@ -28,7 +28,7 @@
     <mvc:fragment name="outputStart">
         <mvc:fragmentValue name="image" id="image">
         <mvc:fragmentValue name="bundle" id="bundle">
-        <div style="background-color: #f5f5dc; margin: 0px; width:100%; padding-left: 5px; padding-top: 5px; padding-bottom: 5px">
+        <div style="background-color: #f5f5dc; margin: 0px; width:100%;">
 <%
     if (!StringUtils.isEmpty((String)bundle)) {
 %>
@@ -38,7 +38,7 @@
 %>
             <table border="0">
                 <tr>
-                    <td valign="top">
+                    <td valign="top" style="padding-left:5px; padding-top: 5px; padding-bottom:5px;">
                         <img src="<mvc:context uri="<%= (String)image%>"/>" border="0"/>
                     </td>
                     <td>

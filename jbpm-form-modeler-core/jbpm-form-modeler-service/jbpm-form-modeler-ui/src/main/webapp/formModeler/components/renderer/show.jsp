@@ -6,7 +6,7 @@
         <mvc:fragmentValue name="ctxUID" id="ctxUID">
         <mvc:fragmentValue name="form" id="form">
         <mvc:fragmentValue name="disabled" id="disabled">
-<form action="<factory:formUrl/>" method="post" id="formRendering<%=ctxUID%>">
+<form action="<factory:formUrl/>" method="post" id="formRendering<%=ctxUID%>" style="margin:0px; padding:0px;">
     <factory:handler action="submitForm"/>
     <input type="hidden" name="ctxUID" id="ctxUID" value="<%=ctxUID%>"/>
     <input type="hidden" id="persist_<%=ctxUID%>" name="persistForm" value="false"/>
@@ -20,11 +20,11 @@
     </mvc:formatter>
 </form>
 <script type="text/javascript"defer="defer">
-        var width = $(document).width() + "px";
-        var pDiv = $("#formRendering<%=ctxUID%>").parent();
-        var height = (pDiv.height() + 20) + "px";
+    var width = ($(document).width() + 20) + "px";
+    var pDiv = $("#formRendering<%=ctxUID%>").parent();
+    var height = (pDiv.height() + 20) + "px";
 
-        window.parent.resizeRendererWidget(width, height);
+    window.parent.resizeRendererWidget(width, height);
 
     setAjax("formRendering<%=ctxUID%>");
 </script>
