@@ -19,6 +19,7 @@ import au.com.bytecode.opencsv.CSVParser;
 import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.core.FieldHandlersManager;
+import org.jbpm.formModeler.core.config.DefaultRangeProviderManager;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
@@ -54,13 +55,14 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     private FormChangeProcessor formChangeProcessor;
 
     @Inject
+    private DefaultRangeProviderManager defaultRangeProviderManager;
+
+
+    @Inject
     private FieldHandlersManager fieldHandlersManager;
 
     @Inject
     FormRenderContextManager formRenderContextManager;
-
-    private CSVParser rangeParser = new CSVParser(';');
-    private CSVParser optionParser = new CSVParser(',');
 
     protected FormStatus getContextFormStatus(FormRenderContext context) {
         return FormStatusManager.lookup().getFormStatus(context.getForm().getId(), context.getUID());
@@ -112,44 +114,34 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
                     // Init ranges for simple combos
                     String rangeFormula = field.getRangeFormula();
-                    if (!StringUtils.isEmpty(rangeFormula) && rangeFormula.startsWith("{") && rangeFormula.endsWith("}")) {
-                        rangeFormula = rangeFormula.substring(1, rangeFormula.length() - 1);
 
-                        String[] options = rangeParser.parseLine(rangeFormula);
-                        if (options != null) {
-                            Map rangeValues = new TreeMap();
-                            for (String option : options) {
-                                String[] values = optionParser.parseLine(option);
-                                if (values != null && values.length == 2) {
-                                    rangeValues.put(values[0], values[1]);
-                                }
-                            }
-                            rangeFormulas.put(field.getFieldName(), rangeValues);
-                        }
+                    if (rangeFormula!=null && rangeFormula.trim().length()>0) {
+                        rangeFormulas.put(field.getFieldName(), defaultRangeProviderManager.getRangeValues(rangeFormula));
                     }
 
-                /*
-                TODO: implement again formulas for default values
 
-                Object defaultValue = pField.get("defaultValueFormula");
-                String inputName = getPrefix(pf, namespace) + pField.getFieldName();
-                try {
-                    String pattern = (String) pField.get("pattern");
-                    Object value = currentValues.get(pField.getFieldName());
-                    FieldHandler handler = pField.getFieldType().getManager();
-                    if (value == null) {
-                        if (defaultValue != null) {
-                            if (!defaultValue.toString().startsWith("=")) {
-                                log.error("Incorrect formula specified for field " + pField.getFieldName());
-                                continue;
-                            }
-                            if (handler instanceof DefaultFieldHandler)
-                                value = ((DefaultFieldHandler) handler).evaluateFormula(pField, defaultValue.toString().substring(1), "", new HashMap(0), "", namespace, new Date());
-                        }
-                    }
-                    if ((value instanceof Map && !((Map)value).containsKey(FormProcessor.FORM_MODE)) && !(value instanceof I18nSet) && !(value instanceof I18nObject)) ((Map)value).put(FormProcessor.FORM_MODE, currentValues.get(FormProcessor.FORM_MODE));
-                    Map paramValue = handler.getParamValue(inputName, value, pattern);
-                    if (paramValue != null && !paramValue.isEmpty()) params.putAll(paramValue); */
+                    /*
+         TODO: implement again formulas for default values
+
+         Object defaultValue = pField.get("defaultValueFormula");
+         String inputName = getPrefix(pf, namespace) + pField.getFieldName();
+         try {
+             String pattern = (String) pField.get("pattern");
+             Object value = currentValues.get(pField.getFieldName());
+             FieldHandler handler = pField.getFieldType().getManager();
+             if (value == null) {
+                 if (defaultValue != null) {
+                     if (!defaultValue.toString().startsWith("=")) {
+                         log.error("Incorrect formula specified for field " + pField.getFieldName());
+                         continue;
+                     }
+                     if (handler instanceof DefaultFieldHandler)
+                         value = ((DefaultFieldHandler) handler).evaluateFormula(pField, defaultValue.toString().substring(1), "", new HashMap(0), "", namespace, new Date());
+                 }
+             }
+             if ((value instanceof Map && !((Map)value).containsKey(FormProcessor.FORM_MODE)) && !(value instanceof I18nSet) && !(value instanceof I18nObject)) ((Map)value).put(FormProcessor.FORM_MODE, currentValues.get(FormProcessor.FORM_MODE));
+             Map paramValue = handler.getParamValue(inputName, value, pattern);
+             if (paramValue != null && !paramValue.isEmpty()) params.putAll(paramValue); */
                 } catch (Exception e) {
                     log.error("Error obtaining default values for " + inputName, e);
                 }

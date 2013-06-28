@@ -231,7 +231,7 @@
         <property name="readonly" value="false"/>
         <property name="size" value="55"/>
         <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
+        <property name="rangeFormula" value="{1,1 - Poor;2,2;3,3 - Well;4,4;5,5 - Excellent}"/>
         <property name="pattern" value=""/>
         <property name="maxlength" value="512"/>
         <property name="styleclass" value=""/>

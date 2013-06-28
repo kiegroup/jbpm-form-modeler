@@ -45,6 +45,8 @@ public class Form implements Serializable, Comparable{
     public static final String HOLDER_TYPE_CODE_POJO_DATA_MODEL = "dataModelerEntry";
     public static final String HOLDER_TYPE_CODE_BPM_PROCESS = "bpm_process";
 
+    public static final String RANGE_PROVIDER_FORM = "${range_provider_form}";
+
     private Long id;
 
     private String subject;

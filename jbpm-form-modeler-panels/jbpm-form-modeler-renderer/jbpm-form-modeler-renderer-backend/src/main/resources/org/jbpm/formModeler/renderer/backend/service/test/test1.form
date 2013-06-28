@@ -1,0 +1,47 @@
+
+<form id="1180805809">
+    <property name="subject" value=""/>
+    <property name="name" value="CreateProposal-taskform"/>
+    <property name="displayMode" value="aligned"/>
+    <property name="labelMode" value="undefined"/>
+    <property name="status" value="0"/>
+    <field position="1" name="var1InvoiceLines" type="MultipleSubform" id="1488774585">
+        <property name="fieldName" value="var1InvoiceLines"/>
+        <property name="fieldRequired" value="false"/>
+        <property name="groupWithPrevious" value="false"/>
+        <property name="labelCSSClass" value=""/>
+        <property name="labelCSSStyle" value=""/>
+        <property name="label" value="quot;SSClassquot;,quot;quot;quot;SSStylequot;,quot;quot;quot;enquot;,quot;invoiceLines (var1)quot;quot;esquot;,quot;quot;"/>
+        <property name="errorMessage" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+        <property name="title" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+        <property name="disabled" value="false"/>
+        <property name="readonly" value="false"/>
+        <property name="styleclass" value=""/>
+        <property name="cssStyle" value=""/>
+        <property name="bindingStr" value="{var1/invoiceLines}"/>
+        <property name="defaultSubform" value="TechInterview-taskform"/>
+        <property name="creationSubform" value=""/>
+        <property name="editionSubform" value=""/>
+        <property name="previewSubform" value=""/>
+        <property name="tableSubform" value=""/>
+        <property name="newItemText" value="quot;NewItemquot;,quot;quot;quot;NewItemquot;,quot;quot;quot;enquot;,quot;NewItemquot;quot;esquot;,quot;quot;"/>
+        <property name="addItemText" value="quot;NewItemquot;,quot;quot;quot;AddItemquot;,quot;quot;quot;enquot;,quot;AddItemquot;quot;esquot;,quot;quot;"/>
+        <property name="cancelItemText" value="quot;Cancelquot;,quot;quot;quot;Cancelquot;,quot;quot;quot;enquot;,quot;Cancelquot;quot;esquot;,quot;quot;"/>
+        <property name="deleteItems" value="true"/>
+        <property name="updateItems" value="true"/>
+        <property name="previewItems" value="false"/>
+        <property name="visualizeItems" value="true"/>
+        <property name="hideCreateItem" value="false"/>
+        <property name="expanded" value="false"/>
+        <property name="separator" value=""/>
+        <property name="enableTableEnterData" value="false"/>
+    </field>
+    <field position="2" name="invoice_accountBalance" type="InputTextDouble" id="679740599">
+        <property name="fieldName" value="invoice_accountBalance"/>
+        <property name="fieldRequired" value="false"/>
+        <property name="groupWithPrevious" value="true"/>
+        <property name="label" value="quot;enquot;,quot;accountBalance (invoice)quot;"/>
+        <property name="bindingStr" value="{invoice/accountBalance}"/>
+    </field>
+    <dataHolder name="#FF8881" type="className" value="org.jbpm.formModeler.core.test.Invoice" id="var1"/>
+</form>
