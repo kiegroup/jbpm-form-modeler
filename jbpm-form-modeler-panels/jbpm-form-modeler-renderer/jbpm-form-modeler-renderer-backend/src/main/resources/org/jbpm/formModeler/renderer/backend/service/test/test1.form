@@ -43,5 +43,5 @@
         <property name="label" value="quot;enquot;,quot;accountBalance (invoice)quot;"/>
         <property name="bindingStr" value="{invoice/accountBalance}"/>
     </field>
-    <dataHolder name="#FF8881" type="className" value="org.jbpm.formModeler.core.test.Invoice" id="var1"/>
+    <dataHolder name="#FF8881" type="className" value="org.jbpm.formModeler.core.test.Invoice" id="var1" outId="var1"/>
 </form>
