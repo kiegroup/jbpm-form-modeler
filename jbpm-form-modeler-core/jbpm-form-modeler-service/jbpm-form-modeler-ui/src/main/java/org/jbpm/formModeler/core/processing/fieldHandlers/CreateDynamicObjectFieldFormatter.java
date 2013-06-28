@@ -237,15 +237,15 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
 
 
             String newItemButtonText = field.getNewItemText().getValue(getLocaleManager().getCurrentLang());
-            if (StringUtils.isEmpty(newItemButtonText)) newItemButtonText = "create";
+            if (StringUtils.isEmpty(newItemButtonText)) newItemButtonText = "Create";
             setAttribute("newItemButtonText", newItemButtonText);
 
             String addItemButtonText = field.getAddItemText().getValue(getLocaleManager().getCurrentLang());
-            if (StringUtils.isEmpty(addItemButtonText)) addItemButtonText = "subformAdd";
+            if (StringUtils.isEmpty(addItemButtonText)) addItemButtonText = "Add new item";
             setAttribute("addItemButtonText", addItemButtonText);
 
             String cancelButtonText = field.getCancelItemText().getValue(getLocaleManager().getCurrentLang());
-            if (StringUtils.isEmpty(cancelButtonText)) cancelButtonText = "cancel";
+            if (StringUtils.isEmpty(cancelButtonText)) cancelButtonText = "Cancel";
             setAttribute("cancelButtonText", cancelButtonText);
 
             // Override the field's own disabled and readonly values with the ones coming from a parent formatter
