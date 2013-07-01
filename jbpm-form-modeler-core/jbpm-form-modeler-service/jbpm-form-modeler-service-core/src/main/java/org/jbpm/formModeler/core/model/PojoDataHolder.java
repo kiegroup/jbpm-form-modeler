@@ -15,10 +15,12 @@
  */
 package org.jbpm.formModeler.core.model;
 
+import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.kie.internal.task.api.ContentMarshallerContext;
 
 import java.lang.reflect.*;
 import java.lang.reflect.Field;
@@ -34,9 +36,18 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
     protected Set<DataFieldHolder> dataFieldHolders;
 
 
-    public Object createInstance() throws Exception {
+    public Object createInstance(FormRenderContext context) throws Exception {
         Object result = null;
-        for (Constructor constructor : Class.forName(className).getConstructors()) {
+        ContentMarshallerContext contextMarshaller = (ContentMarshallerContext)context.getInputData().get("marshallerContext");
+        ClassLoader classLoader = contextMarshaller.getClassloader();
+        Class pojoClass = null;
+        if (classLoader != null) {
+            pojoClass = classLoader.loadClass(className);            
+        } else {
+            pojoClass = Class.forName(className);
+        }
+
+        for (Constructor constructor : pojoClass.getConstructors()) {
             if (constructor.getParameterTypes().length == 0) {
                 result = constructor.newInstance();
             }

@@ -440,14 +440,15 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                         String holderFieldId = bindingString.substring(holderId.length() + 1);
                         DataHolder holder = form.getDataHolderById(holderId);
                         if (holder != null && !StringUtils.isEmpty(holderFieldId)) {
-                            Object value = context.getInputData().get(holderId);
-                            holder.writeValue(value, holderFieldId, mapToPersist.get(fieldName));
-                            if (!result.containsKey(holderId)) result.put(holderId, value);
-                        }
-                        else complexBinding = false;
-                    }
 
-                    if (!complexBinding) {
+                            Object holderOutputValue = context.getOutputData().get(holderId);
+                            if (holderOutputValue == null) {
+                                holderOutputValue = holder.createInstance(context);
+                                context.getOutputData().put(holderId, holderOutputValue);
+                            }
+                            holder.writeValue(holderOutputValue, holderFieldId, mapToPersist.get(fieldName));
+                        }
+                    } else {
                         result.put(bindingString, mapToPersist.get(fieldName));
                     }
                 }

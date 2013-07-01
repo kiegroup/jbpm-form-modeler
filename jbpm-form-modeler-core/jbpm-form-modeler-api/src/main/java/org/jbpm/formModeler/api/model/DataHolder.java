@@ -15,14 +15,15 @@
  */
 package org.jbpm.formModeler.api.model;
 
-import java.util.Map;
+import org.jbpm.formModeler.api.client.FormRenderContext;
+
 import java.util.Set;
 
 public interface DataHolder extends Comparable{
 
     String getInputId();
     String getOuputId();
-    Object createInstance() throws Exception;
+    Object createInstance(FormRenderContext context) throws Exception;
     void writeValue(Object destination, String propName, Object value) throws Exception;
     Object readValue(Object destination, String propName) throws Exception;
     Set<DataFieldHolder> getFieldHolders();

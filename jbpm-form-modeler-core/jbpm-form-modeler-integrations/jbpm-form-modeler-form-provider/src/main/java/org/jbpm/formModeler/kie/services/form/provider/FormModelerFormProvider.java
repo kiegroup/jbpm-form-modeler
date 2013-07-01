@@ -74,6 +74,7 @@ public class FormModelerFormProvider implements FormProvider {
             if (m != null) ctx.putAll(m);
 
             ctx.put("task", task);
+            ctx.put("marshallerContext", renderContext.get("marshallerContext"));
 
             FormRenderContext context = formRenderContextManager.newContext(form, ctx, outputs);
             String status = task.getTaskData().getStatus().name();
@@ -96,6 +97,7 @@ public class FormModelerFormProvider implements FormProvider {
             Map ctx = new HashMap();
 
             ctx.put("process", process);
+            ctx.put("marshallerContext", renderContext.get("marshallerContext"));
 
             result = formRenderContextManager.newContext(form, ctx).getUID();
 
