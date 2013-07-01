@@ -102,12 +102,12 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         iconsMappings.put("InputTextEmail", "fieldTypes/mailbox.png");
         iconsMappings.put("checkboxMultiple", "fieldTypes/listbox.png");
         iconsMappings.put("radio", "fieldTypes/radiobutton.gif");
-        iconsMappings.put("Subform", "fieldTypes/master_details.gif");
+        iconsMappings.put("Subform", "fieldTypes/master_details.png");
         iconsMappings.put("select", "fieldTypes/dropdown_listbox.gif");
         iconsMappings.put("selectMultiple", "fieldTypes/listsbox.gif");
-        iconsMappings.put("versionSubform", "fieldTypes/master_details.gif");
-        iconsMappings.put("editorVersionSubform", "fieldTypes/master_details.gif");
-        iconsMappings.put("MultipleSubform", "fieldTypes/master_details.gif");
+        iconsMappings.put("versionSubform", "fieldTypes/master_details.png");
+        iconsMappings.put("editorVersionSubform", "fieldTypes/master_details.png");
+        iconsMappings.put("MultipleSubform", "fieldTypes/master_details.png");
         iconsMappings.put("FreeText", "fieldTypes/textbox.png");
     }
     
