@@ -199,9 +199,9 @@
 <%
     if(colspan!=null && ((Integer)colspan).intValue()>0) {
 %>
-                            <th colspan="<%=colspan%>" width="1px">
+                            <td colspan="<%=colspan%>" width="1px">
                                 <i18n:message key="actions">Actions!!!!!</i18n:message>
-                            </th>
+                            </td>
 <%
     }
 %>
@@ -209,9 +209,9 @@
     </mvc:fragment>
     <%----------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputColumnName">
-                            <th>
+                            <td style="white-space: nowrap">
                                 <mvc:fragmentValue name="colLabel"/>
-                            </th>
+                            </td>
     </mvc:fragment>
     <%----------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="headerEnd">
