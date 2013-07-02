@@ -18,10 +18,18 @@ package org.jbpm.formModeler.core.model;
 
 import java.util.Map;
 import java.util.TreeMap;
+
+import org.guvnor.common.services.project.model.Project;
+import org.guvnor.common.services.project.service.ProjectService;
 import org.jbpm.formModeler.api.client.FormEditorContext;
 import org.jbpm.formModeler.api.client.FormEditorContextManager;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.RangeProvider;
+import org.jbpm.formModeler.editor.service.FormModelerService;
+import org.kie.commons.io.IOService;
+import org.kie.workbench.common.services.datamodeller.util.FileUtils;
+import org.uberfire.backend.server.util.Paths;
+import org.uberfire.backend.vfs.Path;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -48,7 +56,7 @@ public class RangeProviderForm implements RangeProvider {
     protected FormEditorContextManager formEditorContextManager;
 
     @Override
-    public String getId() {
+    public String getType() {
         return Form.RANGE_PROVIDER_FORM;
     }
 

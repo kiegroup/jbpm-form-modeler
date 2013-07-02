@@ -15,14 +15,14 @@
  */
 package org.jbpm.formModeler.core.config;
 
-import org.jbpm.formModeler.core.config.builders.RangeProviderBuilder;
+import org.jbpm.formModeler.api.model.RangeProvider;
 
 import java.io.Serializable;
 import java.util.Map;
 
-public interface DefaultRangeProviderManager extends Serializable {
+public interface RangeProviderManager extends Serializable {
 
-    RangeProviderBuilder getBuilderByType(String builderId);
+    RangeProvider getRangeProviderByType(String builderId);
 
-    Map getRangeValues(String providerCode);
+    Map getRangeValues(String providerCode, String namespace);
 }

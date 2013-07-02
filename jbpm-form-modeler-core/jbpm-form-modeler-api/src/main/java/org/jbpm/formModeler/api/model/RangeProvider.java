@@ -17,9 +17,9 @@ package org.jbpm.formModeler.api.model;
 
 import java.util.Map;
 
-public interface RangeProvider extends Comparable{
+public interface RangeProvider {
 
-    String getId();
+    String getType();
 
-    Map getValuesMap(String code);
+    Map getRangesMap(String code);
 }
