@@ -110,7 +110,7 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         iconsMappings.put("MultipleSubform", "fieldTypes/master_details.gif");
         iconsMappings.put("FreeText", "fieldTypes/textbox.png");
     }
-    
+
     @Override
     public String getDefaultIcon() {
         return defaultIcon;
@@ -170,8 +170,9 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         final List<FieldType> validFieldTypes = new ArrayList<FieldType>();
         if (propDefinition != null) {
 
-            for (FieldType fieldType: fieldTypes) {
-                if (fieldType.getFieldClass().equals(propDefinition.getPropertyClassName())) validFieldTypes.add(fieldType);
+            for (FieldType fieldType : fieldTypes) {
+                if (fieldType.getFieldClass().equals(propDefinition.getPropertyClassName()))
+                    validFieldTypes.add(fieldType);
             }
         }
         return validFieldTypes;
@@ -202,12 +203,18 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
     }
 
     @Override
-    public FieldType getTypeByClass(String className){
-        for (FieldType fieldType : fieldTypes) {
-            if (fieldType.getFieldClass().equals(className)) return fieldType;
-        }
-        for (FieldType fieldType : decoratorTypes) {
-            if (fieldType.getFieldClass().equals(className)) return fieldType;
+    public FieldType getTypeByClass(String className) {
+        try {
+            for (FieldType fieldType : fieldTypes) {
+                if (fieldType.getFieldClass().equals(className)) return fieldType;
+            }
+            for (FieldType fieldType : decoratorTypes) {
+                if (fieldType.getFieldClass().equals(className)) return fieldType;
+            }
+
+            return getTypeByCode("Subform");// If there are no valid return type consider Object one
+        } catch (Exception e) {
+
         }
         return null;
     }
