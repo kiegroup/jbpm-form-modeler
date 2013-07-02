@@ -16,7 +16,7 @@ public class FormResourceTypeDefinition implements ResourceTypeDefinition {
 
     @Override
     public String getDescription() {
-        return "Form Definition";
+        return "Form Definitions";
     }
 
     @Override

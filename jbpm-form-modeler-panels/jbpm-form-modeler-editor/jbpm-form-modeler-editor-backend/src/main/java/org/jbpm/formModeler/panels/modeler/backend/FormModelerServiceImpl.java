@@ -17,6 +17,7 @@ package org.jbpm.formModeler.panels.modeler.backend;
 
 import org.apache.commons.lang.StringUtils;
 import org.jboss.errai.bus.server.annotations.Service;
+import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.api.client.FormEditorContextTO;
@@ -24,6 +25,7 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.client.FormEditorContext;
+import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
 import org.uberfire.backend.server.util.Paths;
@@ -40,6 +42,7 @@ import java.util.logging.Logger;
 @Service
 @ApplicationScoped
 public class FormModelerServiceImpl implements FormModelerService {
+    public static final String EDIT_FIELD_LITERAL = "editingFormFieldId";
 
     @Inject
     @Named("ioStrategy")
@@ -100,6 +103,21 @@ public class FormModelerServiceImpl implements FormModelerService {
     @Override
     public FormEditorContext getFormEditorContext(String UID) {
         return formEditorContextMap.get(UID);
+    }
+
+    @Override
+    public String generateFieldEditionNamespace(String UID, Field field) {
+        return UID + FormProcessor.NAMESPACE_SEPARATOR + EDIT_FIELD_LITERAL + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + field.getId();
+    }
+
+    @Override
+    public FormEditorContext getRootEditorContext(String UID) {
+        if (StringUtils.isEmpty(UID)) return null;
+
+        int index = UID.lastIndexOf(FormProcessor.NAMESPACE_SEPARATOR + EDIT_FIELD_LITERAL);
+
+        if (index == -1) return null;
+        return formEditorContextMap.get(UID.substring(0, index));
     }
 
     @Override

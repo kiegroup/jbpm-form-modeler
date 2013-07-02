@@ -21,7 +21,6 @@ import org.jboss.errai.bus.client.api.RemoteCallback;
 import org.jboss.errai.ioc.client.api.Caller;
 import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
 import org.jbpm.formModeler.editor.service.FormModelerService;
-import org.kie.workbench.common.services.shared.context.*;
 import org.kie.workbench.common.widgets.client.handlers.DefaultNewResourceHandler;
 import org.kie.workbench.common.widgets.client.handlers.NewResourcePresenter;
 import org.uberfire.backend.vfs.Path;
@@ -57,7 +56,7 @@ public class NewFormDefinitionlHandler extends DefaultNewResourceHandler {
     }
 
     @Override
-    public void create(org.kie.workbench.common.services.shared.context.Package pkg, String baseFileName, final NewResourcePresenter presenter) {
+    public void create(org.guvnor.common.services.project.model.Package pkg, String baseFileName, final NewResourcePresenter presenter) {
         BusyPopup.showMessage("Creating New Form");
 
         modelerService.call( new RemoteCallback<Path>() {

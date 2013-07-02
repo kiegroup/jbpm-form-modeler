@@ -130,7 +130,8 @@
 
     <mvc:fragment name="outputWithFormEditionPage">
         <mvc:fragmentValue name="editionPage" id="editionPage">
-            <mvc:fragmentValue name="displayGrid" id="displayGrid"><!-- component:outputWithFormEditionPage -->
+            <mvc:fragmentValue name="displayGrid" id="displayGrid">
+                <mvc:fragmentValue name="editionNamespace" id="editionNamespace">
                 <tr>
                     <td>
 
@@ -144,19 +145,26 @@
                                     <jsp:include page="formPreview.jsp"/>
                                 </td>
                                 <td class="CompRightColumn">
+                                    <%
+                                        request.setAttribute("editionNamespace", editionNamespace);
+                                    %>
                                     <jsp:include page="editFieldProperties.jsp"/>
+                                    <%
+                                        request.removeAttribute("editionNamespace");
+                                    %>
                                 </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
+                </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
     <mvc:fragment name="outputWithEditionZone">
         <mvc:fragmentValue name="editionPage" id="editionPage">
             <mvc:fragmentValue name="editionZone" id="editionZone">
-                <tr> <!-- component:outputWithEditionzone -->
+                <tr>
                     <td>
                         <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
                             <tr>

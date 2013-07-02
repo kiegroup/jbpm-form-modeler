@@ -219,8 +219,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-
-    <field position="12" name="defaultSubform" type="InputTextArea" id="1301952242">
+    <field position="12" name="defaultSubform" type="InputText" id="1301952242">
         <property name="fieldName" value="defaultSubform"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>

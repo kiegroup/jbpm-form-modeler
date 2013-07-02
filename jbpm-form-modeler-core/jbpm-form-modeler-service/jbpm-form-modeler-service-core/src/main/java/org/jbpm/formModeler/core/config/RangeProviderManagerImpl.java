@@ -19,7 +19,6 @@ package org.jbpm.formModeler.core.config;
 import au.com.bytecode.opencsv.CSVParser;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.RangeProvider;
-import org.jbpm.formModeler.core.config.builders.RangeProviderBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
@@ -28,27 +27,26 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @ApplicationScoped
-public class DefaultRangeProviderManagerImpl implements DefaultRangeProviderManager {
+public class RangeProviderManagerImpl implements RangeProviderManager {
 
     @Inject
-    protected Instance<RangeProviderBuilder> rangeProviderBuilders;
+    protected Instance<RangeProvider> defaultRangeProviders;
 
-    @Override
-    public RangeProviderBuilder getBuilderByType(String builderId) {
-        for (RangeProviderBuilder builder : rangeProviderBuilders) {
-            if (builder.getId().equals(builderId)) return builder;
+    public RangeProvider getRangeProviderByType(String providerCode) {
+        for (RangeProvider provider : defaultRangeProviders) {
+            if(provider.getType().equals(providerCode)) return provider;
         }
+
         return null;
     }
 
     @Override
-    public Map getRangeValues(String providerCode) {
-        RangeProviderBuilder rangeProviderBuilder = getBuilderByType(providerCode);
-        if (rangeProviderBuilder != null) {
-            RangeProvider rangeProvider = rangeProviderBuilder.buildRangeProvider(null);
-            return rangeProvider.getValuesMap(null);
+    public Map getRangeValues(String type, String namespace) {
+        RangeProvider rangeProvider = getRangeProviderByType(type);
+        if (rangeProvider != null) {
+            return rangeProvider.getRangesMap(namespace);
         }
-        return generateMapFromExpresion(providerCode);  //To change body of implemented methods use File | Settings | File Templates.
+        return generateMapFromExpresion(type);
     }
 
     private Map generateMapFromExpresion(String rangeFormula) {

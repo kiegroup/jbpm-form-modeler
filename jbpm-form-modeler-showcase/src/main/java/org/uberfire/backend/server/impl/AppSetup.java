@@ -26,7 +26,7 @@ public class AppSetup {
 
     private static final String PLAYGROUND_SCHEME = "git";
     private static final String PLAYGROUND_ALIAS = "uf-playground";
-    private static final String PLAYGROUND_ORIGIN = "https://github.com/guvnorngtestuser1/jbpm-console-ng-playground-kjar.git";
+    private static final String PLAYGROUND_ORIGIN = "https://github.com/pefernan/jbpm-console-ng-playground-kjar.git";
     private static final String PLAYGROUND_UID = "guvnorngtestuser1";
     private static final String PLAYGROUND_PWD = "test1234";
 

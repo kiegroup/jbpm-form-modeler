@@ -15,9 +15,11 @@
  */
 package org.jbpm.formModeler.dataModeler.model;
 
+import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.model.PojoDataHolder;
+import org.kie.internal.task.api.ContentMarshallerContext;
 import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
 import org.kie.workbench.common.screens.datamodeller.model.ObjectPropertyTO;
 
@@ -27,6 +29,13 @@ import java.util.*;
 public class DataModelerDataHolder extends PojoDataHolder implements Comparable {
 
     DataObjectTO dataObjectTO ;
+
+    @Override
+    public Object createInstance(FormRenderContext context) throws Exception {
+        ContentMarshallerContext contextMarshaller = (ContentMarshallerContext) context.getMarshaller();
+        ClassLoader classLoader = contextMarshaller.getClassloader();
+        return createInstance(classLoader.loadClass(getClassName()));
+    }
 
     public DataModelerDataHolder(String id, String outId, String className, String renderColor, DataObjectTO dataObjectTO) {
         super(id, outId, className, renderColor);
