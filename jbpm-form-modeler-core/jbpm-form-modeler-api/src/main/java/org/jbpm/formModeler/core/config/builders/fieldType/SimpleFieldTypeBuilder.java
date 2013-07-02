@@ -79,7 +79,7 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft.setSize("25");
         result.add(ft);
 
-        ft = new FieldType();
+/*        ft = new FieldType();
         ft.setCode("InputTextCP");
         ft.setFieldClass("java.lang.String");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.InputTextFieldHandler");
@@ -87,7 +87,7 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft.setMaxlength(new Long(5));
         ft.setSize("5");
         result.add(ft);
-
+*/
         ft = new FieldType();
         ft.setCode("CheckBox");
         ft.setFieldClass("java.lang.Boolean");
@@ -102,7 +102,7 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft.setSize("50");
         result.add(ft);
 
-        ft = new FieldType();
+  /*      ft = new FieldType();
         ft.setCode("I18nHTMLText");
         ft.setFieldClass("org.jbpm.formModeler.core.wrappers.HTMLi18n");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.HTMLi18nFieldHandler");
@@ -112,7 +112,7 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
 
         ft = new FieldType();
         ft.setCode("I18nText");
-        ft.setFieldClass("org.jbpm.formModeler.api.model.i18n.I18nSet");
+        ft.setFieldClass("org.jbpm.formModeler.api.model.wrappers.I18nSet");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.I18nSetFieldHandler");
         ft.setMaxlength(new Long(4000));
         ft.setSize("16");
@@ -120,13 +120,13 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
 
         ft = new FieldType();
         ft.setCode("I18nTextArea");
-        ft.setFieldClass("org.jbpm.formModeler.api.model.i18n.I18nSet");
+        ft.setFieldClass("org.jbpm.formModeler.api.model.wrappers.I18nSet");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.I18nTextAreaFieldHandler");
         ft.setHeight("5");
         ft.setMaxlength(new Long(4000));
         ft.setSize("25");
         result.add(ft);
-
+ */
         ft = new FieldType();
         ft.setCode("InputDate");
         ft.setFieldClass("java.util.Date");
@@ -153,7 +153,7 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft.setSize("30");
         result.add(ft);
 
-        ft = new FieldType();
+ /*       ft = new FieldType();
         ft.setCode("InputTextCCC");
         ft.setFieldClass("java.lang.String");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.InputTextFieldHandler");
@@ -181,7 +181,7 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft.setMaxlength(new Long(9));
         ft.setSize("13");
         result.add(ft);
-
+*/
         return result;
     }
 }
