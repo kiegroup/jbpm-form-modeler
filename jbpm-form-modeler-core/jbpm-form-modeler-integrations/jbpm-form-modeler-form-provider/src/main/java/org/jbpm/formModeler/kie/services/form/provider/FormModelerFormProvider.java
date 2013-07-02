@@ -74,9 +74,10 @@ public class FormModelerFormProvider implements FormProvider {
             if (m != null) ctx.putAll(m);
 
             ctx.put("task", task);
-            ctx.put("marshallerContext", renderContext.get("marshallerContext"));
 
             FormRenderContext context = formRenderContextManager.newContext(form, ctx, outputs);
+            context.setMarshaller(renderContext.get("marshallerContext"));
+
             String status = task.getTaskData().getStatus().name();
             boolean disabled = "Reserved".equals(status) || "Ready".equals(status);
             context.setDisabled(disabled);

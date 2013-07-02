@@ -22,8 +22,6 @@ import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.processing.*;
 import org.jbpm.formModeler.core.wrappers.HTMLi18n;
-import org.jbpm.formModeler.dataModeler.integration.DataModelerService;
-import org.jbpm.formModeler.core.model.PojoDataHolder;
 import org.jbpm.formModeler.api.client.FormEditorContext;
 import org.jbpm.formModeler.api.client.FormEditorContextManager;
 import org.jbpm.formModeler.service.LocaleManager;
@@ -329,6 +327,18 @@ public class WysiwygFormEditor extends BaseUIComponent {
             getFormProcessor().read(formToEdit, "edit_" + editField.getId(), editField.asMap());
         }
         originalFieldType = editField.getFieldType();
+    }
+
+    protected String getFieldEditionNamespace(Field field) {
+        if (field == null) return "";
+
+        String editionNamespace = formEditorContextManager.generateFieldEditionNamespace(editionContext.getRenderContext().getUID(), field);
+
+        return editionNamespace;
+    }
+
+    public String getCurrentFieldEditionNamespace() {
+        return getFieldEditionNamespace(getCurrentEditField());
     }
 
     public void actionSwapUp(CommandRequest request) throws Exception {
@@ -925,6 +935,4 @@ public class WysiwygFormEditor extends BaseUIComponent {
             showTemplateEdition =false;
         }
     }
-
-
 }

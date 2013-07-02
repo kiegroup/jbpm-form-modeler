@@ -126,13 +126,13 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
         return previousValuesMap;
     }
 
-    public Form calculateFieldForm(Field field,String formName) {
+    public Form calculateFieldForm(Field field, String form) {
         try {
-            formName = field.getTableSubform();
-            if(formName==null || formName.trim().length()<1){
-                formName = field.getDefaultSubform();
+            form = field.getTableSubform();
+            if(form==null || form.trim().length()<1){
+                form = field.getDefaultSubform();
             }
-            List candidateForms =getFormManager().getFormsBySubjectAndName("",formName);
+            List candidateForms = getFormManager().getFormsBySubjectAndName("",form);
             if(candidateForms!=null && candidateForms.size()>0) {
                 return (Form)candidateForms.get(0);
             }
@@ -162,7 +162,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
 
     public Form getCreateForm(Field field) {
         try {
-            return calculateFieldForm(field,field.getCreationSubform());
+            return calculateFieldForm(field, field.getCreationSubform());
         } catch (Exception e) {
             log.error("Error: ", e);
         }
@@ -171,7 +171,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
 
     public Form getPreviewDataForm(Field field) {
         try {
-            return calculateFieldForm(field,field.getPreviewSubform());
+            return calculateFieldForm(field, field.getPreviewSubform());
         } catch (Exception e) {
             log.error("Error: ", e);
         }
@@ -180,7 +180,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
 
     public Form getTableDataForm(Field field) {
         try {
-            return calculateFieldForm(field,field.getTableSubform());
+            return calculateFieldForm(field, field.getTableSubform());
         } catch (Exception e) {
             log.error("Error: ", e);
         }
@@ -189,7 +189,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
 
     public Form getEditForm(Field field) {
         try {
-            return calculateFieldForm(field,field.getEditionSubform());
+            return calculateFieldForm(field, field.getEditionSubform());
         } catch (Exception e) {
             log.error("Error: ", e);
         }

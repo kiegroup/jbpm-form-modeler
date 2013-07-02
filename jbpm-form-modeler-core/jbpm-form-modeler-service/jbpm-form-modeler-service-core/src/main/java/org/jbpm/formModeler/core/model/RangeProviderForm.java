@@ -15,19 +15,37 @@
  */
 package org.jbpm.formModeler.core.model;
 
-import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.model.RangeProvider;
-import org.jbpm.formModeler.core.FormCoreServices;
-import org.jbpm.formModeler.core.config.FormManager;
 
 import java.util.Map;
 import java.util.TreeMap;
+import org.jbpm.formModeler.api.client.FormEditorContext;
+import org.jbpm.formModeler.api.client.FormEditorContextManager;
+import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.api.model.RangeProvider;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.*;
 
 public class RangeProviderForm implements RangeProvider {
 
-    private FormManager getFormManager(){
-        return FormCoreServices.lookup().getFormManager();
-    }
+    private static final String MAIN_RESOURCES_PATH = "src/main/resources";
+
+    @Inject
+    @Named("ioStrategy")
+    IOService ioService;
+
+    @Inject
+    private Paths paths;
+
+    @Inject
+    private ProjectService projectService;
+
+    @Inject
+    protected FormModelerService formModelerService;
+
+    @Inject
+    protected FormEditorContextManager formEditorContextManager;
 
     @Override
     public String getId() {
@@ -35,20 +53,33 @@ public class RangeProviderForm implements RangeProvider {
     }
 
     @Override
-    public Map getValuesMap(String code) {
-
-        Form[] allForms = getFormManager().getAllForms();
+    public Map getRangesMap(String namespace) {
         TreeMap treeMap = new TreeMap<String,String> ();
 
-        for(Form form: allForms){
-            treeMap.put(form.getName(),form.getName());
+        FormEditorContext context = formEditorContextManager.getRootEditorContext(namespace);
+
+        if (context == null) return treeMap;
+
+        Path currentForm = (Path) context.getPath();
+
+        Project project = projectService.resolveProject(currentForm);
+
+        FileUtils utils  = FileUtils.getInstance();
+
+        List<org.kie.commons.java.nio.file.Path> nioPaths = new ArrayList<org.kie.commons.java.nio.file.Path>();
+        nioPaths.add(paths.convert(project.getRootPath()));
+
+        Collection<FileUtils.ScanResult> forms = utils.scan(ioService, nioPaths, "form", true);
+
+        String resourcesPath = paths.convert(projectService.resolveProject(currentForm).getRootPath()).resolve(MAIN_RESOURCES_PATH).toUri().getPath();
+
+        for (FileUtils.ScanResult form : forms) {
+            if (form.getFile().getFileName().startsWith(".") || form.getFile().getFileName().toUri().equals(currentForm.toURI())) continue;
+
+            String formPath = form.getFile().toUri().getPath().substring(resourcesPath.length() + 1);
+            treeMap.put(formPath, formPath);
         }
 
         return treeMap;
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        return 0;
     }
 }
