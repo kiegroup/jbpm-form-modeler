@@ -15,11 +15,14 @@
  */
 package org.jbpm.formModeler.api.client;
 
+import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 
 
 public interface FormEditorContextManager {
     FormEditorContext newContext(Form form, Object path);
     FormEditorContext getFormEditorContext(String UID);
+    String generateFieldEditionNamespace(String UID, Field field);
+    FormEditorContext getRootEditorContext(String UID);
     void saveContext(String UID);
 }

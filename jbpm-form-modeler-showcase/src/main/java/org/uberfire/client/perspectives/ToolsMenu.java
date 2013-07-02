@@ -1,8 +1,9 @@
 package org.uberfire.client.perspectives;
 
+import org.guvnor.common.services.project.model.Project;
+import org.guvnor.common.services.project.service.ProjectService;
 import org.jboss.errai.bus.client.api.RemoteCallback;
 import org.jboss.errai.ioc.client.api.Caller;
-import org.kie.workbench.common.services.project.service.ProjectService;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.mvp.Command;
@@ -42,10 +43,10 @@ public class ToolsMenu {
     }
 
     public void selectedPathChanged(@Observes final PathChangeEvent event) {
-        projectService.call(new RemoteCallback<Path>() {
+        projectService.call(new RemoteCallback<Project>() {
             @Override
-            public void callback(Path path) {
-                projectScreen.setEnabled(path != null);
+            public void callback(Project project) {
+                projectScreen.setEnabled(project != null);
             }
         }).resolveProject(event.getPath());
     }

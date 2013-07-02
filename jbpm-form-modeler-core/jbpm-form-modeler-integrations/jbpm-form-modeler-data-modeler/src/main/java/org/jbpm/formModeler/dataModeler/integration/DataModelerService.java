@@ -15,14 +15,14 @@
  */
 package org.jbpm.formModeler.dataModeler.integration;
 
+import org.guvnor.common.services.project.model.Project;
+import org.guvnor.common.services.project.service.ProjectService;
 import org.jbpm.formModeler.core.config.builders.DataHolderBuilder;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.dataModeler.model.DataModelerDataHolder;
 import org.kie.workbench.common.screens.datamodeller.model.DataModelTO;
 import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
-import org.kie.workbench.common.services.project.service.ProjectService;
-import org.kie.workbench.common.services.shared.context.Project;
 import org.uberfire.backend.vfs.Path;
 
 import javax.enterprise.context.ApplicationScoped;

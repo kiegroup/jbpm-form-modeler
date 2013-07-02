@@ -98,6 +98,7 @@ public class WysiwygMenuFormatter extends Formatter {
                     renderFragment("outputWithEditionZone");
                 } else {
                     setAttribute("displayGrid", editor.getDisplayGrid());
+                    setAttribute("editionNamespace", editor.getCurrentFieldEditionNamespace());
                     renderFragment("outputWithFormEditionPage");
                 }
             }

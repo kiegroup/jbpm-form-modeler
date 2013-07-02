@@ -27,6 +27,7 @@ public class FormRenderContext {
     private Map<String, Object> outputData;
     private boolean submit = false;
     private int errors;
+    private Object marshaller;
 
     public FormRenderContext(String uid, Form form, Map<String, Object> inputData, Map<String, Object> outputData) {
         this.UID = uid;
@@ -78,5 +79,13 @@ public class FormRenderContext {
 
     public int getErrors() {
         return errors;
+    }
+
+    public Object getMarshaller() {
+        return marshaller;
+    }
+
+    public void setMarshaller(Object marshaller) {
+        this.marshaller = marshaller;
     }
 }

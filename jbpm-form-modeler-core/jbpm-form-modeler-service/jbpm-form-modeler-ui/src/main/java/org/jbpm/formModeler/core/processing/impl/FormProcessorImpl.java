@@ -15,11 +15,10 @@
  */
 package org.jbpm.formModeler.core.processing.impl;
 
-import au.com.bytecode.opencsv.CSVParser;
 import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.core.FieldHandlersManager;
-import org.jbpm.formModeler.core.config.DefaultRangeProviderManager;
+import org.jbpm.formModeler.core.config.RangeProviderManager;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
@@ -55,7 +54,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     private FormChangeProcessor formChangeProcessor;
 
     @Inject
-    private DefaultRangeProviderManager defaultRangeProviderManager;
+    private RangeProviderManager rangeProviderManager;
 
 
     @Inject
@@ -116,7 +115,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                     String rangeFormula = field.getRangeFormula();
 
                     if (rangeFormula!=null && rangeFormula.trim().length()>0) {
-                        rangeFormulas.put(field.getFieldName(), defaultRangeProviderManager.getRangeValues(rangeFormula));
+                        rangeFormulas.put(field.getFieldName(), rangeProviderManager.getRangeValues(rangeFormula, namespace));
                     }
 
 

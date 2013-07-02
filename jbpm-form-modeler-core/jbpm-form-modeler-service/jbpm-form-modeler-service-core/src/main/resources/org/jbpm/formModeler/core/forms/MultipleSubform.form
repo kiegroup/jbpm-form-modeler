@@ -219,8 +219,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-
-    <field position="12" name="defaultSubform" type="InputTextArea" id="1301952242">
+    <field position="12" name="defaultSubform" type="InputText" id="1301952242">
         <property name="fieldName" value="defaultSubform"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -231,14 +230,14 @@
         <property name="readonly" value="false"/>
         <property name="size" value="55"/>
         <property name="formula" value=""/>
-        <property name="rangeFormula" value="{1,1 - Poor;2,2;3,3 - Well;4,4;5,5 - Excellent}"/>
+        <property name="rangeFormula" value="${range_provider_form}"/>
         <property name="pattern" value=""/>
         <property name="maxlength" value="512"/>
         <property name="styleclass" value=""/>
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="13" name="creationSubform" type="InputTextArea" id="1301952243">
+    <field position="13" name="creationSubform" type="InputText" id="1301952243">
         <property name="fieldName" value="creationSubform"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -249,14 +248,14 @@
         <property name="readonly" value="false"/>
         <property name="size" value="55"/>
         <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
+        <property name="rangeFormula" value="${range_provider_form}"/>
         <property name="pattern" value=""/>
         <property name="maxlength" value="512"/>
         <property name="styleclass" value=""/>
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="14" name="editionSubform" type="InputTextArea" id="1301952244">
+    <field position="14" name="editionSubform" type="InputText" id="1301952244">
         <property name="fieldName" value="editionSubform"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -267,14 +266,14 @@
         <property name="readonly" value="false"/>
         <property name="size" value="55"/>
         <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
+        <property name="rangeFormula" value="${range_provider_form}"/>
         <property name="pattern" value=""/>
         <property name="maxlength" value="512"/>
         <property name="styleclass" value=""/>
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="15" name="previewSubform" type="InputTextArea" id="1301952245">
+    <field position="15" name="previewSubform" type="InputText" id="1301952245">
         <property name="fieldName" value="previewSubform"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -285,14 +284,14 @@
         <property name="readonly" value="false"/>
         <property name="size" value="55"/>
         <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
+        <property name="rangeFormula" value="${range_provider_form}"/>
         <property name="pattern" value=""/>
         <property name="maxlength" value="512"/>
         <property name="styleclass" value=""/>
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="16" name="tableSubform" type="InputTextArea" id="1301952246">
+    <field position="16" name="tableSubform" type="InputText" id="1301952246">
         <property name="fieldName" value="tableSubform"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -303,7 +302,7 @@
         <property name="readonly" value="false"/>
         <property name="size" value="55"/>
         <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
+        <property name="rangeFormula" value="${range_provider_form}"/>
         <property name="pattern" value=""/>
         <property name="maxlength" value="512"/>
         <property name="styleclass" value=""/>

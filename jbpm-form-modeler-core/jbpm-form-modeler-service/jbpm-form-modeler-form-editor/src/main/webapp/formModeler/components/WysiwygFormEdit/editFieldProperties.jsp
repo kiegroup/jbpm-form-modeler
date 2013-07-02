@@ -26,8 +26,12 @@
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages"
              locale="<%=LocaleManager.currentLocale()%>"/>
 
-
+<%
+    String editionNamespace = (String)request.getAttribute("editionNamespace");
+%>
 <mvc:formatter name="FieldEditionFormatter">
+
+    <mvc:formatterParam name="namespace" value="<%=editionNamespace%>"/>
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputStart">
         <mvc:fragmentValue name="fieldName" id="fieldName">
