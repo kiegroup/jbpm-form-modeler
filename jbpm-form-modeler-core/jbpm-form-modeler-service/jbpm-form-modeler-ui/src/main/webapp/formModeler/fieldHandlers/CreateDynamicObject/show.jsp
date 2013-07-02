@@ -128,7 +128,7 @@
 
         <span class="skn-error">
             <i18n:message key="noShowForm">
-            undefined form to show!
+            !!Undefined form to show!
             </i18n:message>
         </span>
 

@@ -41,16 +41,16 @@
                     <mvc:fragmentValue name="count" id="count">
                         <mvc:fragmentValue name="tableEnterMode" id="tableEnterMode">
                             <mvc:fragmentValue name="name" id="name">
-        <input type="hidden" id="<%=uid + "_index"%>" name="<%=uid + "_index"%>" value="">
-        <input type="hidden" id="<%=uid + "_child_uid_value"%>" name="child_uid_value" value="">
-        <input type="hidden" id="<%=uid + "_parentFormId"%>" name="<%=uid + "_parentFormId"%>" value="">
-        <input type="hidden" id="<%=uid + "_parentNamespace"%>" name="<%=uid + "_parentNamespace"%>" value="">
-        <input type="hidden" id="<%=uid + "_field"%>" name="<%=uid + "_field"%>" value="">
+        <input type="hidden" id='<%=uid + "_index"%>' name='<%=uid + "_index"%>' value="">
+        <input type="hidden" id='<%=uid + "_child_uid_value"%>' name="child_uid_value" value="">
+        <input type="hidden" id='<%=uid + "_parentFormId"%>' name="<%=uid + "_parentFormId"%>" value="">
+        <input type="hidden" id='<%=uid + "_parentNamespace"%>' name="<%=uid + "_parentNamespace"%>" value="">
+        <input type="hidden" id='<%=uid + "_field"%>' name='<%=uid + "_field"%>' value="">
 
-        <input type="hidden" id="<%=uid%>_tableEnterMode" name="<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "tableEnterMode"%>" value="<%=tableEnterMode%>">
-        <input type="hidden" id="<%=uid%>_count" name="<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "count"%>" value="<%=count%>">
+        <input type="hidden" id="<%=uid%>_tableEnterMode" name='<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "tableEnterMode"%>' value="<%=tableEnterMode%>">
+        <input type="hidden" id="<%=uid%>_count" name='<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "count"%>' value="<%=count%>">
 
-        <table cellpadding="0" cellspacing="0" class="dynInputStyle <%=StringUtils.defaultString((String) styleclass)%>" style="width:100%; <%=cssStyle!=null ? cssStyle:""%>">
+        <table cellpadding="0" cellspacing="0" class="dynInputStyle <%=StringUtils.defaultString((String) styleclass)%>" style='width:100%; <%=cssStyle!=null ? cssStyle:""%>'>
                                 </mvc:fragmentValue>
                             </mvc:fragmentValue>
                     </mvc:fragmentValue>
@@ -151,8 +151,8 @@
             </tr>
             <tr>
                 <td align="center" style="padding-top:10px">
-                    <input type="hidden" name="<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "saveEdited"%>" value="false">
-                    <input type="button" class="skn-button" value="<i18n:message key="save">!!!Save</i18n:message>"
+                    <input type="hidden" name='<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "saveEdited"%>' value="false">
+                    <input type="button" class="skn-button" value='<i18n:message key="save">!!!Save</i18n:message>'
                            onclick="this.form.elements['<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "saveEdited"%>'].value=true;clearChangeDDMTrigger();sendFormToHandler(this.form, 'org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler', 'saveEditedItem');"
                             >
                     <input type="button" class="skn-button" value="<i18n:message key="return">!!!Return</i18n:message>"
@@ -233,7 +233,7 @@
 <%
     if (Boolean.FALSE.equals(isPreview) ) {
 %>
-                            class="<%=((Integer) index).intValue() % 2 == 1 ? "skn-even_row" : "skn-odd_row"%>"
+                            class='<%=((Integer) index).intValue() % 2 == 1 ? "skn-even_row" : "skn-odd_row"%>'
 <%
     }
 %>
@@ -242,7 +242,7 @@
     if (Boolean.TRUE.equals(deleteable)) {
 %>
                             <td align="center" style="width:13px">
-                                <a title="<i18n:message key="delete">!!!Delete</i18n:message>"
+                                <a title='<i18n:message key="delete">!!!Delete</i18n:message>'
                                    href="#"
                                    onclick="
                                        if (confirm('<i18n:message key="delete.confirm">Sure?</i18n:message>')) {
@@ -265,7 +265,7 @@
     if (Boolean.TRUE.equals(visualizable)) {
 %>
                             <td align="center" style="width:13px">
-                                <a title="<i18n:message key="preview">!!!Preview</i18n:message>"
+                                <a title='<i18n:message key="preview">!!!Preview</i18n:message>'
                                    href="#"
                                    onclick="
                                        document.getElementById('<%=uid + "_child_uid_value"%>').value='<%=uid%>';
@@ -277,7 +277,7 @@
                                        sendFormToHandler(document.getElementById('<%=uid + "_child_uid_value"%>').form, 'org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler', 'previewItem');
                                        return false;"
                                    id="<%=uid%>_preview_<%=index%>">
-                                    <img src="<static:image relativePath="general/16x16/preview.png"/>" border="0">
+                                    <img src='<static:image relativePath="general/16x16/preview.png"/>' border="0">
                                 </a>
                             </td>
 <%
@@ -379,7 +379,7 @@
     <%----------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="separator">
                         <tr align="center">
-                            <td colspan="<mvc:fragmentValue name="colspan"/>">
+                            <td colspan='<mvc:fragmentValue name="colspan"/>'>
                                  <mvc:fragmentValue name="separator"/>
                             </td>
                         </tr>
@@ -405,8 +405,8 @@
         <mvc:fragmentValue name="renderMode" id="renderMode">
             <tr>
                 <td>
-                    <input type="hidden" id="<%=uid%>_expand" name="<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "expand"%>" value="leaveItAlone">
-                    <input type="hidden" id="<%=uid%>_create" name="<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create"%>" value="leaveItAlone">
+                    <input type="hidden" id="<%=uid%>_expand" name='<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "expand"%>' value="leaveItAlone">
+                    <input type="hidden" id="<%=uid%>_create" name='<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create"%>' value="leaveItAlone">
 <%
     if (Boolean.TRUE.equals(expanded)) {
 %>
@@ -431,7 +431,7 @@
                                     <tr>
                                         <td align="center" nowrap="nowrap" style="padding-top:10px">
                                             <input type="button" class="skn-button"
-                                                   value="<mvc:fragmentValue name="newItemButtonText"/>"
+                                                   value='<mvc:fragmentValue name="newItemButtonText"/>'
                                                    onclick="this.disabled=true; document.getElementById('<%=uid%>_create').value=true;clearChangeDDMTrigger();sendFormToHandler(this.form, 'org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler', 'addItem');">
                                         <% if (!Boolean.TRUE.equals(noCancelButton)) { %>
                                             <input type="button" class="skn-button"
@@ -450,7 +450,7 @@
 %>
 
                 <div style="text-align:center; padding-top:10px; width:100%;">
-                    <input type="button" class="skn-button" value="<mvc:fragmentValue name="addItemButtonText"/>"
+                    <input type="button" class="skn-button" value='<mvc:fragmentValue name="addItemButtonText"/>'
                            onclick="this.disabled=true; document.getElementById('<%=uid%>_expand').value=true;clearChangeDDMTrigger();sendFormToHandler(this.form, 'org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler', 'expandSubform');"/>
                 </div>
 <%

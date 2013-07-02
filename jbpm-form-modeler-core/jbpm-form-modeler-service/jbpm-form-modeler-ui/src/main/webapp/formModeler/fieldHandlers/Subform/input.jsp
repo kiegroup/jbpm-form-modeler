@@ -26,7 +26,7 @@
              locale="<%=LocaleManager.currentLocale()%>"/>
 <%try {%>
 <mvc:formatter name="SubformFormatter">
-    <mvc:formatterParam name="formMode" value="<%=request.getAttribute("formMode")%>"/>
+    <mvc:formatterParam name="formMode" value='<%=request.getAttribute("formMode")%>'/>
     <%----------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputStart">
         <mvc:fragmentValue name="styleclass" id="styleclass">
@@ -60,7 +60,7 @@
                                         <mvc:formatterParam name="isSubForm" value="true"/>
                                         <%@ include file="/formModeler/components/WysiwygFormEdit/menu/defaultFormRenderingFormatterOptions.jsp" %>
                                     </mvc:formatter>
-                                    <input type="hidden"  name="<%=name+"_formMode"%>" value="<%=formMode%>">
+                                    <input type="hidden"  name='<%=name+"_formMode"%>' value="<%=formMode%>">
                                             </mvc:fragmentValue>
                                         </mvc:fragmentValue>
                                 </mvc:fragmentValue>
@@ -78,7 +78,7 @@
         <tr><td>
         <span class="skn-error">
             <i18n:message key="<%=(String)errorMsg%>">
-            !!!No hay formulario. <%=errorMsg%>
+            !!!Undefined form <%=errorMsg%>
             </i18n:message>
         </span>
         </td></tr>
