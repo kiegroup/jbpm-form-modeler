@@ -33,12 +33,11 @@
         <mvc:fragmentValue name="styleclass" id="styleclass">
         <mvc:fragmentValue name="cssStyle" id="cssStyle">
         <mvc:fragmentValue name="isHTML" id="isHTML">
-        <mvc:fragmentValue name="htmlContainer" id="htmlContainer">
-            <<%=htmlContainer!=null ? htmlContainer : "span"%> <%=styleclass != null && ((String) styleclass).trim().length() > 0 ? " class=\"" + styleclass + "\"" : ""%> <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
+            <span <%=styleclass != null && ((String) styleclass).trim().length() > 0 ? " class=\"" + styleclass + "\"" : ""%> <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
                   <%=title != null ? ("title=\"" + title + "\"") : ""%>>
                   <%= (isHTML!=null && ((Boolean)isHTML).booleanValue()) ? StringUtils.defaultString((String)((LocaleManager) localeManager).localize(((I18nSet) val).asMap())) :
                   StringEscapeUtils.escapeHtml((val != null && !"".equals(val)) ? StringUtils.defaultString(((LocaleManager) localeManager).localize(((I18nSet) val).asMap())==null ? "" : ((LocaleManager) localeManager).localize(((I18nSet) val).asMap()).toString()) : "")%>
-            </<%=htmlContainer!=null ? htmlContainer : "span"%>>
+            </span>
             <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
                 <mvc:formatterParam name="bean" value="org.jbpm.formModeler.service.LocaleManager"/>
                     <mvc:formatterParam name="property" value="platformAvailableLocales"/>
@@ -51,7 +50,6 @@
                         </mvc:fragmentValue>
                     </mvc:fragment>
             </mvc:formatter>
-        </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>

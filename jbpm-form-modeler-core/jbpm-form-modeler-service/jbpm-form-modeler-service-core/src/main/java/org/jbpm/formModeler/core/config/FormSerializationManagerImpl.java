@@ -265,8 +265,6 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         field.setTabindex(Long.valueOf(value));
                     } else if ("accesskey".equals(propName)) {
                         field.setAccesskey(value);
-                    } else if ("htmlContainer".equals(propName)) {
-                        field.setHtmlContainer(value);
                     } else if ("isHTML".equals(propName)) {
                         field.setIsHTML(Boolean.valueOf(value));
                     } else if ("htmlContent".equals(propName)) {
@@ -350,7 +348,6 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         addXMLNode("accesskey", field.getAccesskey(), rootNode);
         addXMLNode("isHTML", (field.getIsHTML() != null ? String.valueOf(field.getIsHTML()) : null), rootNode);
         addXMLNode("hideContent", (field.getHideContent() != null ? String.valueOf(field.getHideContent()) : null), rootNode);
-        addXMLNode("htmlContainer", field.getHtmlContainer(), rootNode);
         addXMLNode("defaultValueFormula", field.getDefaultValueFormula(), rootNode);
         addXMLNode("inputBinding", field.getInputBinding(), rootNode);
         addXMLNode("outputBinding", field.getOutputBinding(), rootNode);

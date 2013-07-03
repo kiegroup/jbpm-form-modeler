@@ -26,7 +26,6 @@
             <mvc:fragmentValue name="wrong" id="wrong">
                 <mvc:fragmentValue name="inputValue" id="inputValue">
                     <mvc:fragmentValue name="value" id="value">
-                        <mvc:fragmentValue name="htmlContainer" id="htmlContainer">
                             <mvc:fragmentValue name="title" id="title">
                             <mvc:fragmentValue name="styleclass" id="styleclass">
                             <mvc:fragmentValue name="cssStyle" id="cssStyle">
@@ -40,17 +39,17 @@
                     (StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":String.valueOf(value))))
                     %>'>
 
-                    <<%=htmlContainer!=null ? htmlContainer : "span"%>
+                    <span
                             <%=styleclass!=null && ((String)styleclass).trim().length()>0 ? " class=\""+styleclass+"\"":""%>
                             id="<mvc:fragmentValue name="uid"/>_showContainer"
                             name="<%=name%>_showContainer"
                             <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
                             <%=title!=null?("title=\""+title+"\""):""%>
-                            ><%= (isHTML != null && ((Boolean)isHTML).booleanValue()) ? value : StringEscapeUtils.escapeHtml( value!=null?value.toString():"" )%></<%=htmlContainer!=null ? htmlContainer : "span"%>>
+                            ><%= (isHTML != null && ((Boolean)isHTML).booleanValue()) ? value : StringEscapeUtils.escapeHtml( value!=null?value.toString():"" )%></span>
 
                             </mvc:fragmentValue>
                         </mvc:fragmentValue>
-                    </mvc:fragmentValue>
+
                 </mvc:fragmentValue>
                         </mvc:fragmentValue>
                     </mvc:fragmentValue>
