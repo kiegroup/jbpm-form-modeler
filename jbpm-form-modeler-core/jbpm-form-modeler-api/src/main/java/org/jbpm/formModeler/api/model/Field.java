@@ -64,7 +64,6 @@ public class Field implements Comparable<Field> {
     private String labelCSSStyle;
     private String labelCSSClass;
 
-    private String htmlContainer;
     private Boolean isHTML;
     private Boolean hideContent;
     private String defaultValueFormula;
@@ -241,14 +240,6 @@ public class Field implements Comparable<Field> {
 
     public void setRangeFormula(String rangeFormula) {
         this.rangeFormula = rangeFormula;
-    }
-
-    public String getHtmlContainer() {
-        return htmlContainer;
-    }
-
-    public void setHtmlContainer(String htmlContainer) {
-        this.htmlContainer = htmlContainer;
     }
 
     public Boolean getIsHTML() {
@@ -487,7 +478,6 @@ public class Field implements Comparable<Field> {
         this.setMaxlength(field.getMaxlength());
         this.setStyleclass(field.getStyleclass());
         this.setTabindex(field.getTabindex());
-        this.setHtmlContainer(field.getHtmlContainer());
         this.setIsHTML(field.getIsHTML());
         this.setHideContent(field.getHideContent());
         this.setDefaultValueFormula(field.getDefaultValueFormula());
@@ -592,7 +582,6 @@ public class Field implements Comparable<Field> {
         names.add("cssStyle");
         names.add("tabindex");
         names.add("accesskey");
-        names.add("htmlContainer");
         names.add("isHTML");
         names.add("hideContent");
         names.add("defaultValueFormula");
@@ -648,7 +637,6 @@ public class Field implements Comparable<Field> {
         value.put("cssStyle", getCssStyle());
         value.put("tabindex", getTabindex());
         value.put("accesskey", getAccesskey());
-        value.put("htmlContainer", getHtmlContainer());
         value.put("isHTML", getIsHTML());
         value.put("hideContent", getHideContent());
         value.put("defaultValueFormula", getDefaultValueFormula());

@@ -39,7 +39,6 @@
 <property name="cssStyle" value=""/>
 <property name="isHTML" value="false"/>
 <property name="hideContent" value="false"/>
-<property name="htmlContainer" value=""/>
 <property name="defaultValueFormula" value=""/>
 <property name="inputBinding" value="{invoice/address}"/>
 <property name="outputBinding" value="{invoice/address}"/>
@@ -103,7 +102,6 @@
 <property name="cssStyle" value=""/>
 <property name="isHTML" value="false"/>
 <property name="hideContent" value="false"/>
-<property name="htmlContainer" value=""/>
 <property name="defaultValueFormula" value=""/>
 <property name="inputBinding" value="{invoice/name}"/>
 <property name="outputBinding" value="{invoice/name}"/>
@@ -158,7 +156,6 @@
 <property name="cssStyle" value=""/>
 <property name="isHTML" value="false"/>
 <property name="hideContent" value="false"/>
-<property name="htmlContainer" value=""/>
 <property name="defaultValueFormula" value=""/>
 <property name="inputBinding" value="{invoice/phone}"/>
 <property name="outputBinding" value="{invoice/phone}"/>
@@ -182,7 +179,6 @@
 <property name="cssStyle" value=""/>
 <property name="isHTML" value="false"/>
 <property name="hideContent" value="false"/>
-<property name="htmlContainer" value=""/>
 <property name="defaultValueFormula" value=""/>
 <property name="inputBinding" value="{variable1}"/>
 <property name="outputBinding" value="{variable1}"/>
@@ -206,7 +202,6 @@
 <property name="cssStyle" value=""/>
 <property name="isHTML" value="false"/>
 <property name="hideContent" value="false"/>
-<property name="htmlContainer" value=""/>
 <property name="defaultValueFormula" value=""/>
 <property name="inputBinding" value="{variable2}"/>
 <property name="outputBinding" value="{variable2}"/>

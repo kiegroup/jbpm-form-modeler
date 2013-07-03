@@ -26,13 +26,11 @@
         <mvc:fragmentValue name="title" id="title">
         <mvc:fragmentValue name="styleclass" id="styleclass">
         <mvc:fragmentValue name="cssStyle" id="cssStyle">
-        <mvc:fragmentValue name="htmlContainer" id="htmlContainer">
-                    <<%=htmlContainer!=null ? htmlContainer : "span"%>
+                    <span
                             <%=styleclass!=null && ((String)styleclass).trim().length()>0 ? " class=\""+styleclass+"\"":""%>
                             <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
                             <%=title!=null?("title=\""+title+"\""):""%>
-                            ><%=StringEscapeUtils.escapeHtml(StringUtils.defaultString((String)value))%></<%=htmlContainer!=null ? htmlContainer : "span"%>>
-        </mvc:fragmentValue>
+                            ><%=StringEscapeUtils.escapeHtml(StringUtils.defaultString((String)value))%></span>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
