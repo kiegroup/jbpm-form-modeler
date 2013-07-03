@@ -33,7 +33,7 @@
                             id="<mvc:fragmentValue name="uid"/>_showContainer"
                             <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
                             <%=title!=null?("title=\""+title+"\""):""%>
-                            ><%= (isHTML != null && ((Boolean)isHTML).booleanValue()) ? value : StringEscapeUtils.escapeHtml( value!=null?value.toString():"" )%></span>
+                            ><%= (isHTML != null && ((Boolean)isHTML).booleanValue()&& value!=null) ? value : StringEscapeUtils.escapeHtml( value!=null?value.toString():"" )%></span>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
