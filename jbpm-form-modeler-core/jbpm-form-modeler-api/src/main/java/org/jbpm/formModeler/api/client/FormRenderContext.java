@@ -17,22 +17,24 @@ package org.jbpm.formModeler.api.client;
 
 import org.jbpm.formModeler.api.model.Form;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class FormRenderContext {
     private String UID;
     private Form form;
     private boolean disabled = false;
-    private Map<String, Object> bindingData;
+    private Map<String, Object> inputData;
     private Map<String, Object> outputData;
     private boolean submit = false;
     private int errors;
     private Object marshaller;
+    private Map<String, Object> contextForms = new HashMap<String, Object>();
 
     public FormRenderContext(String uid, Form form, Map<String, Object> inputData, Map<String, Object> outputData) {
         this.UID = uid;
         this.form = form;
-        this.bindingData = inputData;
+        this.inputData = inputData;
         this.outputData = outputData;
     }
 
@@ -45,7 +47,7 @@ public class FormRenderContext {
     }
 
     public Map<String, Object> getInputData() {
-        return bindingData;
+        return inputData;
     }
 
     public Map<String, Object> getOutputData() {
@@ -87,5 +89,13 @@ public class FormRenderContext {
 
     public void setMarshaller(Object marshaller) {
         this.marshaller = marshaller;
+    }
+
+    public Map<String, Object> getContextForms() {
+        return contextForms;
+    }
+
+    public void setContextForms(Map<String, Object> contextForms) {
+        this.contextForms = contextForms;
     }
 }

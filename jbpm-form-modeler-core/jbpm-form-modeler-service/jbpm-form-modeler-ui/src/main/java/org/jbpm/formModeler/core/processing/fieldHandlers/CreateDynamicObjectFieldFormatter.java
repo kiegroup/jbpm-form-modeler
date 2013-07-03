@@ -134,7 +134,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
         if (value != null) {
             if (value.getClass().isArray()) {
                 CreateDynamicObjectFieldHandler fieldHandler = (CreateDynamicObjectFieldHandler) getFieldHandlersManager().getHandler(field.getFieldType());
-                Form formToPreview = fieldHandler.getPreviewDataForm(field);
+                Form formToPreview = fieldHandler.getPreviewDataForm(field, currentNamespace);
                 Map valueToPreview = (Map) Array.get(value, position);
                 if (formToPreview != null) {
                     setAttribute("valueToPreview", valueToPreview);
@@ -174,7 +174,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
         if (value != null) {
             if (value.getClass().isArray()) {
                 CreateDynamicObjectFieldHandler fieldHandler = (CreateDynamicObjectFieldHandler) getFieldHandlersManager().getHandler(field.getFieldType());
-                Form formToEdit = fieldHandler.getEditForm(field);
+                Form formToEdit = fieldHandler.getEditForm(field, currentNamespace);
                 Map valueToEdit = (Map) Array.get(value, position);
                 if (formToEdit != null) {
                     setAttribute("valueToEdit", valueToEdit);
@@ -211,7 +211,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
 
     protected void renderNewItemForm(Form form, Field field, String currentNamespace, String fieldName, String renderMode) {
         CreateDynamicObjectFieldHandler fieldHandler = (CreateDynamicObjectFieldHandler) getFieldHandlersManager().getHandler(field.getFieldType());
-        Form enterDataForm = fieldHandler.getCreateForm(field);
+        Form enterDataForm = fieldHandler.getCreateForm(field, currentNamespace);
         boolean disallowCreateNew = Boolean.TRUE.equals(field.getHideCreateItem());
         if (enterDataForm == null) {
             renderFragment("noEnterDataForm");
@@ -264,7 +264,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
 
         Form form;
 
-        form = fieldHandler.calculateFieldForm(field, field.getTableSubform());
+        form = fieldHandler.calculateFieldForm(field, field.getTableSubform(), currentNamespace);
 
         if (form == null) {
             renderFragment("noShowDataForm");

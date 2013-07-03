@@ -123,7 +123,7 @@ public class SubFormSendHandler extends BaseUIComponent {
                     FieldHandler handler = getFieldHandlersManager().getHandler(field.getFieldType());
                     if (handler instanceof CreateDynamicObjectFieldHandler) {
                         CreateDynamicObjectFieldHandler fHandler = (CreateDynamicObjectFieldHandler) handler;
-                        Form createForm = fHandler.getCreateForm(field);
+                        Form createForm = fHandler.getCreateForm(field, fsd.getNamespace());
                         String createFormNamespace = fsd.getNamespace() + FormProcessor.NAMESPACE_SEPARATOR + fsd.getForm().getId() + FormProcessor.NAMESPACE_SEPARATOR + fieldName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create";
                         getFormProcessor().clear(createForm, createFormNamespace);
                         log.debug("Cleared subform status");
@@ -150,7 +150,7 @@ public class SubFormSendHandler extends BaseUIComponent {
             FieldHandler handler = getFieldHandlersManager().getHandler(field.getFieldType());
             if (handler instanceof CreateDynamicObjectFieldHandler) {
                 CreateDynamicObjectFieldHandler fHandler = (CreateDynamicObjectFieldHandler) handler;
-                Form createForm = fHandler.getCreateForm(field);
+                Form createForm = fHandler.getCreateForm(field, formData.getNamespace());
                 String createFormNamespace = formData.getNamespace() + FormProcessor.NAMESPACE_SEPARATOR + formData.getForm().getId() + FormProcessor.NAMESPACE_SEPARATOR + fieldName;
                 getFormProcessor().setAttribute(createForm, createFormNamespace, FormStatusData.DO_THE_ITEM_ADD, Boolean.TRUE);
                 getFormProcessor().setValues(formData.getForm(), formData.getNamespace(), request.getRequestObject().getParameterMap(), request.getFilesByParamName());
@@ -285,7 +285,7 @@ public class SubFormSendHandler extends BaseUIComponent {
             editFieldPreviousValues.put(field, previousValue);
             CreateDynamicObjectFieldHandler fieldHandler = (CreateDynamicObjectFieldHandler) getFieldHandlersManager().getHandler(fieldToErase.getFieldType());
 
-            Form formToEdit = fieldHandler.getEditForm(fieldToErase);
+            Form formToEdit = fieldHandler.getEditForm(fieldToErase, parentNamespace);
 
             //FormStatusData fsItem =getFormProcessor().read(formToEdit, parentNamespace + FormProcessor.NAMESPACE_SEPARATOR + parentFormId + FormProcessor.NAMESPACE_SEPARATOR + field+ FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + index);
             getFormProcessor().clear(formToEdit, parentNamespace + FormProcessor.NAMESPACE_SEPARATOR + parentFormId + FormProcessor.NAMESPACE_SEPARATOR + field+ FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + index);

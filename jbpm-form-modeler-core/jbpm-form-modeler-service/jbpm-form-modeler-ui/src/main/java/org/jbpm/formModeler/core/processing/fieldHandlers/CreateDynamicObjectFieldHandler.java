@@ -17,12 +17,15 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
+import org.jbpm.formModeler.core.rendering.SubformFinderService;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +36,9 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CreateDynamicObjectFieldHandler.class.getName());
 
     public static final String CODE = "subformMultiple";
+
+    @Inject
+    private SubformFinderService subformFinderService;
 
     public CreateDynamicObjectFieldHandler() {
         setPageToIncludeForDisplaying("/formModeler/fieldHandlers/CreateDynamicObject/show.jsp");
@@ -54,7 +60,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
         String[] sCount = (String[]) parametersMap.get(inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "count");
         int count = sCount != null && sCount.length == 1 ? Integer.valueOf(sCount[0]) : 0;
 
-        Form form = getTableDataForm(field);
+        Form form = getTableDataForm(field, inputName);
 
         Map[] previousValuesMap = (Map[]) previousValue;
 
@@ -77,7 +83,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
         String[] createParams = (String[]) parametersMap.get(inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create");
         boolean doCreate = createParams != null && createParams.length == 1 && createParams[0].equals("true");
         if (doCreate) {
-            Form createForm = getCreateForm(field);
+            Form createForm = getCreateForm(field, inputName);
             boolean addItemEnabled = Boolean.TRUE.equals(getFormProcessor().getAttribute(createForm, inputName, FormStatusData.DO_THE_ITEM_ADD));
             if (addItemEnabled) {
                 getFormProcessor().setValues(createForm, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create", parametersMap, filesMap);
@@ -110,7 +116,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
             if (expandedFields != null && !expandedFields.isEmpty()) {
                 Integer positionStr = (Integer) expandedFields.get(field.getFieldName());
                 int position = positionStr.intValue();
-                Form editForm = getEditForm(field);
+                Form editForm = getEditForm(field, inputName);
                 getFormProcessor().setValues(editForm, inputName, parametersMap, filesMap);
                 FormStatusData status = getFormProcessor().read(editForm, inputName);
                 if (status.isValid()) {
@@ -126,20 +132,10 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
         return previousValuesMap;
     }
 
-    public Form calculateFieldForm(Field field, String form) {
-        try {
-            form = field.getTableSubform();
-            if(form==null || form.trim().length()<1){
-                form = field.getDefaultSubform();
-            }
-            List candidateForms = getFormManager().getFormsBySubjectAndName("",form);
-            if(candidateForms!=null && candidateForms.size()>0) {
-                return (Form)candidateForms.get(0);
-            }
-        } catch (Exception e) {
+    public Form calculateFieldForm(Field field, String formPath, String namespace) {
+        if (StringUtils.isEmpty(formPath)) formPath = field.getDefaultSubform();
 
-        }
-        return null;
+        return subformFinderService.getFormFromPath(formPath, namespace);
     }
 
     public Object deleteElementInPosition(Form form, String namespace, String field, int position) {
@@ -160,36 +156,36 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
         }
     }
 
-    public Form getCreateForm(Field field) {
+    public Form getCreateForm(Field field, String namespace) {
         try {
-            return calculateFieldForm(field, field.getCreationSubform());
+            return calculateFieldForm(field, field.getCreationSubform(), namespace);
         } catch (Exception e) {
             log.error("Error: ", e);
         }
         return null;
     }
 
-    public Form getPreviewDataForm(Field field) {
+    public Form getPreviewDataForm(Field field, String namespace) {
         try {
-            return calculateFieldForm(field, field.getPreviewSubform());
+            return calculateFieldForm(field, field.getPreviewSubform(), namespace);
         } catch (Exception e) {
             log.error("Error: ", e);
         }
         return null;
     }
 
-    public Form getTableDataForm(Field field) {
+    public Form getTableDataForm(Field field, String namespace) {
         try {
-            return calculateFieldForm(field, field.getTableSubform());
+            return calculateFieldForm(field, field.getTableSubform(), namespace);
         } catch (Exception e) {
             log.error("Error: ", e);
         }
         return null;
     }
 
-    public Form getEditForm(Field field) {
+    public Form getEditForm(Field field, String namespace) {
         try {
-            return calculateFieldForm(field, field.getEditionSubform());
+            return calculateFieldForm(field, field.getEditionSubform(), namespace);
         } catch (Exception e) {
             log.error("Error: ", e);
         }
