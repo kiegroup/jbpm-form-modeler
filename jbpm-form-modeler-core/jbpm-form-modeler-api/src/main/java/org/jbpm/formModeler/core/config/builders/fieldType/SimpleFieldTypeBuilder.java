@@ -64,6 +64,15 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         result.add(ft);
 
         ft = new FieldType();
+        ft.setCode("InputTextBigDecimal");
+        ft.setFieldClass("java.math.BigDecimal");
+        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler");
+        ft.setMaxlength(new Long(100));
+        ft.setSize("25");
+        ft.setPattern("#.##");
+        result.add(ft);
+
+        ft = new FieldType();
         ft.setCode("InputTextShort");
         ft.setFieldClass("java.lang.Short");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler");
