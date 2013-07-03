@@ -23,6 +23,7 @@
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
 
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages"
              locale="<%=LocaleManager.currentLocale()%>"/>
@@ -157,7 +158,7 @@
     </mvc:fragment>
 </mvc:formatter>
 
-<table width="100%" class="skn-table_border" style="border-top: 0;" bgcolor="#FFFFFF" cellpadding="4" cellspacing="1" border="0">
+<table width="100%" class="skn-table_border" bgcolor="#FFFFFF" cellpadding="4" cellspacing="1" border="0">
         <%--  Edit form template --%>
     <tr>
         <td>
@@ -167,14 +168,14 @@
                 </legend>
 
                 <form action="<factory:formUrl/>" id="<factory:encode name="editTemplateForm"/>" method="POST">
-                    <table id="<factory:encode name="editorTable"/>" cellpadding="4" cellspacing="0" border="0">
+                    <table id="<factory:encode name="editorTable"/>" cellpadding="4" cellspacing="0" border="0"  class="skn-table_border" >
                         <tr>
                             <td colspan="2">
                                 <factory:handler action="saveTemplate"/>
                                 <textarea id="<factory:encode name="templateTextArea"/>"
                                           name="templateContent"
                                           rows="20"
-                                          cols="80"><% if (Boolean.TRUE.equals(loadTemplate)) {%>
+                                          cols="100%"><% if (Boolean.TRUE.equals(loadTemplate)) {%>
                                     <mvc:formatter name="FormRenderingFormatter">
                                         <mvc:formatterParam name="formId" value="<%=formId%>"/>
                                         <mvc:formatterParam name="renderMode"
@@ -207,7 +208,7 @@
                                 <i18n:message key="field">!!!Campo:</i18n:message>
                             </td>
                             <td>
-                                <select class="skn-input"
+                                <select style="width: 100%" class="skn-input"
                                         id="<factory:encode name="fieldsSelect"/>"
                                         onchange="if(window.formTemplateEditorHandler)window.formTemplateEditorHandler.processSelectChange( this , window.formTemplateEditorHandler.fieldOptionsArray );"
                                         onmouseover="if(window.formTemplateEditorHandler && this.length == 1)window.formTemplateEditorHandler.evalAvailableFields(window.formTemplateEditorHandler.fieldOptionsArray, this );"
@@ -223,7 +224,7 @@
                                 <i18n:message key="fieldLabel">!!!Etiqueta de campo:</i18n:message>
                             </td>
                             <td>
-                                <select class="skn-input"
+                                <select style="width: 100%" class="skn-input"
                                         id="<factory:encode name="labelsSelect"/>"
                                         onchange="if(window.formTemplateEditorHandler)window.formTemplateEditorHandler.processSelectChange( this , window.formTemplateEditorHandler.labelOptionsArray );"
                                         onmouseover="if(window.formTemplateEditorHandler && this.length == 1)window.formTemplateEditorHandler.evalAvailableFields(window.formTemplateEditorHandler.labelOptionsArray, this);"
@@ -291,7 +292,7 @@
                                     <input type="button" class="skn-button"
                                            onclick="document.getElementById('<factory:encode name="persistHidden"/>').value='true' ;this.form.submit();"
                                            value="<i18n:message key="save"/>">
-                                    &nbsp;&nbsp;<input type="button" class="skn-button"
+                                    &nbsp;&nbsp;<input type="button" class="skn-button_alt"
                                                        onclick="document.getElementById('<factory:encode name="cancelHidden"/>').value='true' ;this.form.submit();"
                                                        value="<i18n:message key="cancel"/>">
                                 </div>
