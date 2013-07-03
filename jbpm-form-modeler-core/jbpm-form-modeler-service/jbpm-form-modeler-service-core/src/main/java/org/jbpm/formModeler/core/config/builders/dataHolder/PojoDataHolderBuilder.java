@@ -34,4 +34,9 @@ public class PojoDataHolderBuilder implements DataHolderBuilder {
     public DataHolder buildDataHolder(Map<String, Object> config) {
         return new PojoDataHolder((String)config.get("id"), (String) config.get("outId"), (String)config.get("value"), (String)config.get("color"));
     }
+
+    @Override
+    public Map getOptions(Object path) {
+        return null;
+    }
 }

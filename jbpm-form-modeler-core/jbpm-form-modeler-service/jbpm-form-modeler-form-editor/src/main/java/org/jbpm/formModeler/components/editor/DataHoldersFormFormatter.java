@@ -18,12 +18,13 @@ package org.jbpm.formModeler.components.editor;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 
+import org.jbpm.formModeler.core.config.DataHolderManager;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.dataModeler.integration.DataModelerService;
+import org.jbpm.formModeler.core.config.builders.DataHolderBuilder;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
@@ -41,7 +42,7 @@ public class DataHoldersFormFormatter extends Formatter {
     private Log log;
 
     @Inject
-    private DataModelerService dataModelerService;
+    private DataHolderManager dataHolderManager;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
@@ -75,13 +76,10 @@ public class DataHoldersFormFormatter extends Formatter {
             renderFragment("rowStart");
             List dataObjects = Collections.EMPTY_LIST;
 
-            try {
-                dataObjects = dataModelerService.getDataModelObjectList(wysiwygFormEditor.getCurrentEditionContext().getPath());
-            } catch (Throwable e) {
-                log.error("Error getting dataObjects from project! ", e);
-            }
+            DataHolderBuilder holderBuilder = dataHolderManager.getBuilderByType(Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL);
+            Map values = holderBuilder.getOptions(wysiwygFormEditor.getCurrentEditionContext().getPath());
 
-            renderSelectDataModel(dataObjects);
+            renderSelectDataModel(values);
 
             renderFragment("rowEnd");
 
@@ -112,19 +110,18 @@ public class DataHoldersFormFormatter extends Formatter {
         }
     }
 
-    public void renderSelectDataModel(List dataObjectList) throws Exception {
-
-
+    public void renderSelectDataModel(Map values) throws Exception {
         setAttribute("id", Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL);
         setAttribute("name", WysiwygFormEditor.PARAMETER_HOLDER_DM_INFO);
         renderFragment("selectStart");
 
-        if (dataObjectList!= null ) {
+        if (values!= null ) {
             HashMap map ;
-            for (Iterator it = dataObjectList.iterator();it.hasNext();) {
-                map=(HashMap) it.next();
-                setAttribute("optionLabel", map.get("optionLabel"));
-                setAttribute("optionValue", map.get("optionValue"));
+            for (Iterator it = values.keySet().iterator(); it.hasNext();) {
+                String key = (String) it.next();
+                String value = (String) values.get(key);
+                setAttribute("optionLabel", key);
+                setAttribute("optionValue", value);
                 renderFragment("selectOption");
             }
         }

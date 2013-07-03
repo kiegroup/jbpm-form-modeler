@@ -16,6 +16,7 @@
 
     <modules>
         <module>jbpm-form-modeler-core</module>
+        <module>jbpm-form-modeler-integrations</module>
         <module>jbpm-form-modeler-panels</module>
         <module>jbpm-form-modeler-showcase</module>
     </modules>

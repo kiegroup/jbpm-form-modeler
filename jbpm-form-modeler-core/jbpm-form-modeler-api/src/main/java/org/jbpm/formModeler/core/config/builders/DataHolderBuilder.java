@@ -22,4 +22,5 @@ import java.util.Map;
 public interface DataHolderBuilder {
     String getId();
     DataHolder buildDataHolder(Map<String, Object> config);
+    Map getOptions(Object path);
 }
