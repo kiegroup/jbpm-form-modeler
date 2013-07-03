@@ -24,6 +24,7 @@
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
+<%@ page import="org.apache.commons.lang.StringUtils" %>
 
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages"
              locale="<%=LocaleManager.currentLocale()%>"/>
@@ -136,7 +137,9 @@
         window.formTemplateEditorHandler.fieldOptionsArray = [ ["",""]
     </mvc:fragment>
     <mvc:fragment name="outputItemToAdd">
-        ,["<mvc:fragmentValue name="key"/>","<mvc:fragmentValue name="val"/>"]
+        <mvc:fragmentValue name="val" id="val">
+            ,["<mvc:fragmentValue name="key"/>","<%=StringEscapeUtils.escapeJava((String) val) %>"  ]
+        </mvc:fragmentValue>
     </mvc:fragment>
     <mvc:fragment name="outputEndItemsToAdd">
         ];
@@ -150,7 +153,9 @@
         window.formTemplateEditorHandler.labelOptionsArray = [ ["",""]
     </mvc:fragment>
     <mvc:fragment name="outputItemToAdd">
-        ,["<mvc:fragmentValue name="key"/>","<mvc:fragmentValue name="val"/>"]
+        <mvc:fragmentValue name="val" id="val">
+            ,["<mvc:fragmentValue name="key"/>","<%=StringEscapeUtils.escapeJava((String) val) %>"]
+        </mvc:fragmentValue>
     </mvc:fragment>
     <mvc:fragment name="outputEndItemsToAdd">
         ];
@@ -164,7 +169,7 @@
         <td>
             <fieldset style="margin:10px">
                 <legend class="skn-title3">
-                    <i18n:message key="editingFormTemplate">!!!Plantilla del formulario</i18n:message>&nbsp;
+                    <i18n:message key="editingFormTemplate">!!!Form template</i18n:message>&nbsp;
                 </legend>
 
                 <form action="<factory:formUrl/>" id="<factory:encode name="editTemplateForm"/>" method="POST">
@@ -199,7 +204,7 @@
                         <tr>
                             <td colspan="2" class="skn-table_header">
                                 <i18n:message
-                                        key="insertFormElements">!!!Insertar elementos del formulario</i18n:message>
+                                        key="insertFormElements">!!!Insert form elements</i18n:message>
                             </td>
                         </tr>
                         <tr style="display:true" id="<factory:encode name="insertFieldTR"/>">
@@ -221,7 +226,7 @@
                         </tr>
                         <tr style="display:true" id="<factory:encode name="insertLabelTR"/>">
                             <td nowrap="nowrap" class="skn-even_row">
-                                <i18n:message key="fieldLabel">!!!Etiqueta de campo:</i18n:message>
+                                <i18n:message key="fieldLabel">!!!Field Label:</i18n:message>
                             </td>
                             <td>
                                 <select style="width: 100%" class="skn-input"
@@ -244,19 +249,19 @@
 
                         <tr >
                             <td nowrap="nowrap" class="skn-even_row">
-                                <i18n:message key="loadTemplate">!!!Cargar plantilla equivalente a:</i18n:message>
+                                <i18n:message key="loadTemplate">!!!Load template:</i18n:message>
                             </td>
                             <td width="65%">
                                 <select class="skn-input"
                                         name="genModeTemplate">
                                     <option value="<%=Form.DISPLAY_MODE_DEFAULT%>">
-                                        <i18n:message key="displayMode.default">!!!Por defecto</i18n:message>
+                                        <i18n:message key="displayMode.default">!!!Default</i18n:message>
                                     </option>
                                     <option value="<%=Form.DISPLAY_MODE_ALIGNED%>">
-                                        <i18n:message key="displayMode.aligned">!!!Campos alineados</i18n:message>
+                                        <i18n:message key="displayMode.aligned">!!!Aligned fields</i18n:message>
                                     </option>
                                     <option value="<%=Form.DISPLAY_MODE_NONE%>">
-                                        <i18n:message key="displayMode.none">!!!Sin alineaci&oacute;n</i18n:message>
+                                        <i18n:message key="displayMode.none">!!!Without alignment</i18n:message>
                                     </option>
                                 </select>
                                 <input type="button" class="skn-button"
