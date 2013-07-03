@@ -71,6 +71,8 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
             //complexTypes.addAll(builder.buildList());
         }
 
+        iconsMappings.put("InputTextShort", "fieldTypes/box_number.png");
+
         iconsMappings.put("InputTextInteger", "fieldTypes/box_number.png");
         iconsMappings.put("InputTextIBAN", "fieldTypes/box_number.png");
         iconsMappings.put("Currency", "fieldTypes/currency.gif");
@@ -95,6 +97,8 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         iconsMappings.put("InputTextNIF", "fieldTypes/box_number.png");
         iconsMappings.put("InputTextCCC", "fieldTypes/box_number.png");
         iconsMappings.put("I18nText", "fieldTypes/textbox.png");
+        iconsMappings.put("InputTextFloat", "fieldTypes/box_number.png");
+
         iconsMappings.put("InputTextDouble", "fieldTypes/box_number.png");
         iconsMappings.put("HTMLLabel", "fieldTypes/rich_text_box.png");
         iconsMappings.put("InputText", "fieldTypes/textbox.png");
