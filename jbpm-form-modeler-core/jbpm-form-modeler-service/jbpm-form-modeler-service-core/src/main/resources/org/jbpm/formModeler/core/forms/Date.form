@@ -91,7 +91,7 @@
         <property name="label"
                   value="quot;caquot;,quot;F&#242;rmula:quot;quot;enquot;,quot;Formula:quot;quot;esquot;,quot;F&#243;rmula:quot;"/>
         <property name="title"
-                  value="quot;caquot;,quot;Permet calcular autom&#224;ticament el valor del camp. Per exemple =Functions.String.upperCase({$this}) posaria el valor del camp a maj&#250;scules.quot;quot;enquot;,quot;Allows to calculate automatically the field value. For example =Functions.String.upperCase({$this}) sets the field value in capital letters.quot;quot;esquot;,quot;Permite calcular autom&#225;ticamente el valor del campo. Por ejemplo =Functions.String.upperCase({$this}) pondr&#237;a el valor del campo a may&#250;sculas.quot;"/>
+                  value="quot;caquot;,quot;Permet calcular autom&#224;ticament el valor del camp.quot;quot;enquot;,quot;Allows to calculate automatically the field value.quot;quot;esquot;,quot;Permite calcular autom&#225;ticamente el valor del campo.quot;"/>
         <property name="disabled" value="false"/>
         <property name="readonly" value="false"/>
         <property name="size" value="55"/>
