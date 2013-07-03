@@ -80,7 +80,7 @@ public class SubformFormatter extends DefaultFieldHandlerFormatter {
     protected void renderItemForm(Form form, Field field, String currentNamespace, String fieldName, Map value, String mode, String renderMode) {
         SubformFieldHandler fieldHandler = (SubformFieldHandler) getFieldHandlersManager().getHandler(field.getFieldType());
 
-        Form enterDataForm = fieldHandler.getEnterDataForm(mode, field);
+        Form enterDataForm = fieldHandler.getEnterDataForm(mode, currentNamespace, field);
         if (enterDataForm == null) {
             setAttribute("errorMsg", "no" + StringUtils.capitalize(mode) + "Form");
             renderFragment("noFormError");

@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.impl;
 
+import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.core.FieldHandlersManager;
@@ -321,6 +322,14 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                 }
 
                 return null;
+            } else {
+                try {
+                    Object object = bindingData.get(bindingParts[0]);
+                    JXPathContext ctx = JXPathContext.newContext(object);
+                    return ctx.getValue(bindingParts[1]);
+                } catch (Exception e) {
+                    log.warn("Error getting value for xpath xpression '" + bindingExpression + "' :", e);
+                }
             }
         }
 
@@ -371,6 +380,14 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
                                 if (outputValue != null && holder.isAssignableValue(outputValue)) value = holder.readValue(outputValue, outputParts[1]);
                                 else if (inputValue != null && holder.isAssignableValue(inputValue)) value = holder.readValue(inputValue, inputParts[1]);
+                            } else {
+                                try {
+                                    Object object = inputData.get(inputParts[0]);
+                                    JXPathContext ctx = JXPathContext.newContext(object);
+                                    value = ctx.getValue(inputParts[2]);
+                                } catch (Exception e) {
+                                    log.warn("Error getting value for xpath xpression '" + inputBinding + "' :", e);
+                                }
                             }
 
                         } else {

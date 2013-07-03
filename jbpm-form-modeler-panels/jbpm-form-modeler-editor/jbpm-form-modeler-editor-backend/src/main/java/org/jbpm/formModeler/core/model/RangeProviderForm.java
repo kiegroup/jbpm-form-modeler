@@ -25,6 +25,7 @@ import org.jbpm.formModeler.api.client.FormEditorContext;
 import org.jbpm.formModeler.api.client.FormEditorContextManager;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.RangeProvider;
+import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
 import org.kie.workbench.common.services.datamodeller.util.FileUtils;
@@ -36,8 +37,6 @@ import javax.inject.Named;
 import java.util.*;
 
 public class RangeProviderForm implements RangeProvider {
-
-    private static final String MAIN_RESOURCES_PATH = "src/main/resources";
 
     @Inject
     @Named("ioStrategy")
@@ -79,13 +78,14 @@ public class RangeProviderForm implements RangeProvider {
 
         Collection<FileUtils.ScanResult> forms = utils.scan(ioService, nioPaths, "form", true);
 
-        String resourcesPath = paths.convert(projectService.resolveProject(currentForm).getRootPath()).resolve(MAIN_RESOURCES_PATH).toUri().getPath();
+        String resourcesPath = paths.convert(projectService.resolveProject(currentForm).getRootPath()).resolve(SubformFinderService.MAIN_RESOURCES_PATH).toUri().getPath();
 
         for (FileUtils.ScanResult form : forms) {
-            if (form.getFile().getFileName().startsWith(".") || form.getFile().getFileName().toUri().equals(currentForm.toURI())) continue;
+            org.kie.commons.java.nio.file.Path formPath = form.getFile();
+            if (formPath.getName(formPath.getNameCount() - 1).startsWith(".") || formPath.toUri().toString().equals(currentForm.toURI())) continue;
 
-            String formPath = form.getFile().toUri().getPath().substring(resourcesPath.length() + 1);
-            treeMap.put(formPath, formPath);
+            String path = form.getFile().toUri().getPath().substring(resourcesPath.length() + 1);
+            treeMap.put(path, path);
         }
 
         return treeMap;

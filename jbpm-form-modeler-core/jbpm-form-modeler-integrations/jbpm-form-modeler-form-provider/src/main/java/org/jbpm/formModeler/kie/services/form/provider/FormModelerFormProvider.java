@@ -5,6 +5,7 @@ import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
+import org.jbpm.kie.services.api.RuntimeDataService;
 import org.jbpm.kie.services.impl.form.FormProvider;
 import org.jbpm.kie.services.impl.model.ProcessDesc;
 import org.kie.api.task.model.Task;
@@ -13,6 +14,7 @@ import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class FormModelerFormProvider implements FormProvider {
@@ -20,10 +22,13 @@ public class FormModelerFormProvider implements FormProvider {
     protected Log log;
 
     @Inject
-    FormSerializationManager formSerializationManager;
+    private RuntimeDataService dataService;
 
     @Inject
-    FormRenderContextManager formRenderContextManager;
+    private FormSerializationManager formSerializationManager;
+
+    @Inject
+    private FormRenderContextManager formRenderContextManager;
 
     @Override
     public int getPriority() {
@@ -78,6 +83,9 @@ public class FormModelerFormProvider implements FormProvider {
             FormRenderContext context = formRenderContextManager.newContext(form, ctx, outputs);
             context.setMarshaller(renderContext.get("marshallerContext"));
 
+            // Adding forms to context while forms are'nt available on marshaller classloader
+            addContextForms(task, context);
+
             String status = task.getTaskData().getStatus().name();
             boolean disabled = "Reserved".equals(status) || "Ready".equals(status);
             context.setDisabled(disabled);
@@ -98,14 +106,38 @@ public class FormModelerFormProvider implements FormProvider {
             Map ctx = new HashMap();
 
             ctx.put("process", process);
-            ctx.put("marshallerContext", renderContext.get("marshallerContext"));
 
-            result = formRenderContextManager.newContext(form, ctx).getUID();
+            FormRenderContext context = formRenderContextManager.newContext(form, ctx);
+            context.setMarshaller(renderContext.get("marshallerContext"));
 
+            // Adding forms to context while forms are'nt available on marshaller classloader
+            addContextForms(process, context);
+
+            result = context.getUID();
         } catch (Exception e) {
             log.warn("Error rendering form: ", e);
         }
 
         return result;
+    }
+
+    protected void addContextForms(Task task, FormRenderContext context) {
+        ProcessDesc processDesc = dataService.getProcessById(task.getTaskData().getProcessId());
+        addContextForms(processDesc, context);
+    }
+
+    protected void addContextForms(ProcessDesc process, FormRenderContext context) {
+        Map<String, String> forms = process.getForms();
+
+        Map<String, Object> ctxForms = new HashMap<String, Object>();
+
+
+        for (Iterator it = forms.keySet().iterator(); it.hasNext();) {
+            String key = (String) it.next();
+            if (!key.endsWith(".form")) continue;
+            String value = forms.get(key);
+            ctxForms.put(key, value);
+        }
+        context.setContextForms(ctxForms);
     }
 }

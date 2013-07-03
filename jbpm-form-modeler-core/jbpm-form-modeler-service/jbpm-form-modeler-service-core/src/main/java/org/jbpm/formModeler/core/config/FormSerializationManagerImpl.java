@@ -145,11 +145,11 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                 field.setForm(form);
                 fields.add(field);
             } else if (node.getNodeName().equals(NODE_DATA_HOLDER)) {
-                String holderId = node.getAttributes().getNamedItem(ATTR_ID).getNodeValue();
-                String holderOutId = node.getAttributes().getNamedItem(ATTR_OUT_ID).getNodeValue();
-                String holderType = node.getAttributes().getNamedItem(ATTR_TYPE).getNodeValue();
-                String holderValue = node.getAttributes().getNamedItem(ATTR_VALUE).getNodeValue();
-                String holderRenderColor = node.getAttributes().getNamedItem(ATTR_NAME).getNodeValue();
+                String holderId = getNodeAttributeValue(node, ATTR_ID);
+                String holderOutId = getNodeAttributeValue(node, ATTR_OUT_ID);
+                String holderType = getNodeAttributeValue(node, ATTR_TYPE);
+                String holderValue = getNodeAttributeValue(node, ATTR_VALUE);
+                String holderRenderColor = getNodeAttributeValue(node, ATTR_NAME);
 
                 if(holderId!=null && holderType!=null && holderValue != null) {
                     Map<String, Object> config = new HashMap<String, Object>();
@@ -169,6 +169,10 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         return form;
     }
 
+    protected String getNodeAttributeValue(Node node, String attributeName)  {
+        Node attribute = node.getAttributes().getNamedItem(attributeName);
+        return attribute != null ? attribute.getNodeValue() : "";
+    }
 
     private void addXMLNode(String propName, String value, XMLNode parent) {
         if (value != null) {
