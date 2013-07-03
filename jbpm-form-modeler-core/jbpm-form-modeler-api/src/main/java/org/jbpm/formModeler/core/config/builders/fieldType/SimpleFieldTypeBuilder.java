@@ -102,7 +102,7 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft.setSize("50");
         result.add(ft);
 
-  /*      ft = new FieldType();
+        ft = new FieldType();
         ft.setCode("I18nHTMLText");
         ft.setFieldClass("org.jbpm.formModeler.core.wrappers.HTMLi18n");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.HTMLi18nFieldHandler");
@@ -126,7 +126,7 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft.setMaxlength(new Long(4000));
         ft.setSize("25");
         result.add(ft);
- */
+
         ft = new FieldType();
         ft.setCode("InputDate");
         ft.setFieldClass("java.util.Date");
