@@ -13,7 +13,7 @@
         <property name="label"
                   value="quot;caquot;,quot;Rang de valors:quot;quot;enquot;,quot;Range value:quot;quot;esquot;,quot;Rango de valores:quot;"/>
         <property name="title"
-                  value="quot;caquot;,quot;Permet especificar una funci&#243; que torni els valors entre els que poder escollir per aquest camp. Per exemple: =Functions.getDatasourceNames()quot;quot;enquot;,quot;Allows to specify a function that returns the values that we can select for this field. For example: =Functions.getDatasourceNames()quot;quot;esquot;,quot;Permite especificar una funci&#243;n que devuelva los valores entre los que poder elegir para este campo. Por ejemplo: =Functions.getDatasourceNames()quot;"/>
+                  value="quot;caquot;,quot;Permet especificar una funci&#243; que torni els valors entre els que poder escollir per aquest camp.quot;quot;enquot;,quot;Allows to specify a function that returns the values that we can select for this field.quot;quot;esquot;,quot;Permite especificar una funci&#243;n que devuelva los valores entre los que poder elegir para este campo.quot;"/>
         <property name="disabled" value="false"/>
         <property name="readonly" value="false"/>
         <property name="size" value="55"/>
@@ -33,7 +33,7 @@
         <property name="label"
                   value="quot;caquot;,quot;F&#242;rmula:quot;quot;enquot;,quot;Formula:quot;quot;esquot;,quot;F&#243;rmula:quot;"/>
         <property name="title"
-                  value="quot;caquot;,quot;Permet calcular autom&#224;ticament el valor del camp. Per exemple =Functions.String.upperCase({$this}) posaria el valor del camp a maj&#250;scules.quot;quot;enquot;,quot;Allows to calculate automatically the field value. For example =Functions.String.upperCase({$this}) sets the field value in capital letters.quot;quot;esquot;,quot;Permite calcular autom&#225;ticamente el valor del campo. Por ejemplo =Functions.String.upperCase({$this}) pondr&#237;a el valor del campo a may&#250;sculas.quot;"/>
+                  value="quot;caquot;,quot;Permet calcular autom&#224;ticament el valor del camp. quot;quot;enquot;,quot;Allows to calculate automatically the field value.quot;quot;esquot;,quot;Permite calcular autom&#225;ticamente el valor del campo.quot;"/>
         <property name="disabled" value="false"/>
         <property name="readonly" value="false"/>
         <property name="size" value="55"/>
