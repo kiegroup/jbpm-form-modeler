@@ -63,7 +63,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="16" name="outputBinding" type="InputText" id="413003545">
+    <field position="17" name="outputBinding" type="InputText" id="413003545">
         <property name="fieldName" value="outputBinding"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
