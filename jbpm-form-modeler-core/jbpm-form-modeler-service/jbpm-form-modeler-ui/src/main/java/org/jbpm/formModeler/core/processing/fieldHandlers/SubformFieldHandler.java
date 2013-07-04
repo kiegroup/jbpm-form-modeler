@@ -15,11 +15,12 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
-
-
+import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.*;
+import org.jbpm.formModeler.core.processing.formRendering.FormErrorMessageBuilder;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 
 import javax.inject.Inject;
@@ -27,15 +28,21 @@ import javax.inject.Named;
 import java.util.*;
 
 @Named("org.jbpm.formModeler.core.processing.fieldHandlers.SubformFieldHandler")
-public class SubformFieldHandler extends DefaultFieldHandler {
+public class SubformFieldHandler extends PersistentFieldHandler {
+    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SubformFieldHandler.class.getName());
+
     @Inject
     private SubformFinderService subformFinderService;
+
+    @Inject
+    private FormErrorMessageBuilder formErrorMessageBuilder;
 
     private String pageToIncludeForRendering = "/formModeler/fieldHandlers/Subform/input.jsp";
     private String pageToIncludeForDisplaying = "/formModeler/fieldHandlers/Subform/show.jsp";
     private String pageToIncludeForSearching = "/formModeler/fieldHandlers/Subform/search.jsp";
 
-    private static int maxDepth=2;
+    private static int maxDepth = 2;
+
     /**
      * Determine the list of class types this field can generate. That is, normally,
      * a field can generate multiple outputs (an input text can generate Strings,
@@ -48,48 +55,56 @@ public class SubformFieldHandler extends DefaultFieldHandler {
     }
 
 
-    public synchronized Object getValue(Field field, String inputName, Map parametersMap, Map filesMap, String desiredClassName, Object previousValue) throws Exception {
-        String[] formModeParams = (String[]) parametersMap.get(inputName + "_formMode");
-        String formMode = formModeParams[0];
-        Form form = getEnterDataForm(formMode, inputName, field);
+    public Object getValue(Field field, String inputName, Map parametersMap, Map filesMap, String desiredClassName, Object previousValue) throws Exception {
+        Form form = getEnterDataForm(inputName, field);
         if (!checkSubformDepthAllowed(form.getId(), inputName)) return null;
         getFormProcessor().setValues(form, inputName, parametersMap, filesMap);
         FormStatusData status = getFormProcessor().read(form, inputName);
         if (status.isValid()) {
             // Check if form status is empty & if the object already exists to avoid null objects creation.
-            if (status.getLoadedItemId() == null && status.isEmpty()) return null;
+            if (status.isEmpty()) return null;
             Map m = getFormProcessor().getMapRepresentationToPersist(form, inputName);
-            m.put(FormProcessor.FORM_MODE, formMode);
             return m;
         } else {
-            throw new IllegalArgumentException("Cannot create subEntity. Subform status is invalid.");
+            throw new IllegalArgumentException("Subform status is invalid.");
         }
     }
 
+    @Override
+    public Object persist(Field field, String inputName, String desiredClass) throws Exception {
+        Form form = getEnterDataForm(inputName, field);
+        Map representation = getFormProcessor().getMapRepresentationToPersist(form, inputName);
 
+        return getFormProcessor().persistFormHolder(form, inputName, representation, form.getDataHolderByInfo(field.getSubformClass()));
+    }
 
-    public Map getParamValue(String inputName, Object objectValue, String pattern) {
-        if (objectValue == null)
+    public Map getParamValue(String inputName, Object value, String pattern) {
+        if (value == null)
             return Collections.EMPTY_MAP;
         Map m = new HashMap();
-        Map value = (Map) objectValue;
-        String formMode = (String) value.get(FormProcessor.FORM_MODE);
 
-        FormNamespaceData fnsdt = getNamespaceManager().getNamespace(inputName);
-        Field field = fnsdt.getForm().getField(fnsdt.getFieldNameInParent());
-        Form form = getEnterDataForm(formMode, inputName, field);
-        for (Iterator it = form.getFormFields().iterator(); it.hasNext();) {
-            Field fieldInChildren = (Field) it.next();
-            Object val = value.get(fieldInChildren.getFieldName());
-            if (val instanceof Map)
-                try {
-                    ((Map) val).put(FormProcessor.FORM_MODE, formMode);
-                } catch (UnsupportedOperationException uoe) {/*Ignore read-only maps*/}
-            FieldHandler fieldManager = getFieldHandlersManager().getHandler(fieldInChildren.getFieldType());
-            Map childrenMap = fieldManager.getParamValue(inputName + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + fieldInChildren.getFieldName(), val, field.getFieldPattern());
-            if (childrenMap != null) m.putAll(childrenMap);
+        FormNamespaceData data = getNamespaceManager().getNamespace(inputName);
+        Field parentField = data.getForm().getField(data.getFieldNameInParent());
+        Form childForm = getEnterDataForm(inputName, parentField);
+        DataHolder holder = childForm.getDataHolderByInfo(parentField.getSubformClass());
+        for (Iterator it = childForm.getFormFields().iterator(); it.hasNext();) {
+            Field childField = (Field) it.next();
+            String bindingExpression = StringUtils.defaultIfEmpty(childField.getInputBinding(), childField.getOutputBinding());
+            if (!holder.isAssignableForField(childField)) continue;
+            try {
+                Object val = holder.readFromBindingExperssion(value, bindingExpression);
+                FieldHandler fieldManager = getFieldHandlersManager().getHandler(childField.getFieldType());
+                Map childrenMap = fieldManager.getParamValue(inputName + FormProcessor.NAMESPACE_SEPARATOR + childForm.getId() + FormProcessor.NAMESPACE_SEPARATOR + childField.getFieldName(), val, childField.getFieldPattern());
+                if (childrenMap != null) m.putAll(childrenMap);
+            } catch (Exception e) {
+                log.warn("Error reading value from field '" + childField.getFieldName() + "': ", e);
+            }
         }
         return m;
+    }
+
+    public List getWrongChildFieldErrors(String namespace, Field field) {
+        return formErrorMessageBuilder.getWrongFormErrors(namespace, getEnterDataForm(namespace, field));
     }
 
 
@@ -136,19 +151,11 @@ public class SubformFieldHandler extends DefaultFieldHandler {
     public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
         this.pageToIncludeForSearching = pageToIncludeForSearching;
     }
-    protected Form getEnterDataForm(String formPath, String namespace, Field field) {
-        String formName="";
-        if ("create".equals(formPath)) {
-            formName=field.getCreationSubform();
-        } else if ("edit".equals(formPath)) {
-            formName = field.getEditionSubform();
-        } else if ("display".equals(formPath)) {
-            formName = field.getPreviewSubform();
-        }
-        if(formName==null || formName.trim().length()<1)
-            formName = field.getDefaultSubform();
-        return getForm(formName, namespace);
 
+    protected Form getEnterDataForm(String namespace, Field field) {
+        String formName = field.getDefaultSubform();
+
+        return getForm(formName, namespace);
     }
 
     private Form getForm(String formPath, String namespace) {

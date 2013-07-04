@@ -82,20 +82,21 @@ public class FormRenderContextManagerImpl implements FormRenderContextManager {
     }
 
     @Override
-    public FormRenderContext newContext(String ctxPreffix, Form form, Map<String, Object> inputData, Map<String, Object> outputData) {
-        String uid = ctxPreffix + "_" + form.getId();
-        FormRenderContext ctx = formRenderContextMap.get(uid);
+    public FormRenderContext newContext(Form form, Map<String, Object> inputData, Map<String, Object> outputData, Map<String, Object> forms) {
+        String uid = CTX_PREFFIX + form.getId() + "_" + System.currentTimeMillis();
+        return buildContext(uid, form, inputData, outputData, forms);
+    }
 
-        if (ctx == null) ctx = buildContext(uid, form, inputData, outputData);
-
+    private FormRenderContext buildContext(String uid, Form form, Map<String,Object> inputData, Map<String,Object> outputData, Map<String,Object> forms) {
+        FormRenderContext ctx = new FormRenderContext(uid, form, inputData, outputData);
+        ctx.setContextForms(forms);
+        formRenderContextMap.put(uid, ctx);
+        formProcessor.read(ctx.getUID());
         return ctx;
     }
 
     private FormRenderContext buildContext(String uid, Form form, Map<String, Object> inputData, Map<String, Object> outputData) {
-        FormRenderContext ctx = new FormRenderContext(uid, form, inputData, outputData);
-        formRenderContextMap.put(uid, ctx);
-        formProcessor.read(ctx.getUID());
-        return ctx;
+        return buildContext(uid, form, inputData, outputData, new HashMap<String, Object>());
     }
 
     @Override
@@ -104,8 +105,10 @@ public class FormRenderContextManagerImpl implements FormRenderContextManager {
     }
 
     @Override
-    public Map getContextData(String UID) {
-        return getFormRenderContext(UID).getInputData();
+    public FormRenderContext getRootContext(String UID) {
+        int separatorIndex = UID.indexOf(FormProcessor.NAMESPACE_SEPARATOR);
+        if (separatorIndex != -1) UID = UID.substring(0, separatorIndex);
+        return formRenderContextMap.get(UID);
     }
 
     @Override

@@ -28,9 +28,9 @@ public interface FormRenderContextManager {
 
     FormRenderContext newContext(Form form, Map<String, Object> ctx);
     FormRenderContext newContext(Form form, Map<String, Object> inputData, Map<String, Object> outputData);
-    FormRenderContext newContext(String ctxPreffix, Form form, Map<String, Object> inputData, Map<String, Object> outputData);
+    FormRenderContext newContext(Form form, Map<String, Object> inputData, Map<String, Object> outputData, Map<String, Object> forms);
     FormRenderContext getFormRenderContext(String UID);
-    Map getContextData(String UID);
+    FormRenderContext getRootContext(String UID);
 
     void removeContext(String ctxUID);
     void removeContext(FormRenderContext context);

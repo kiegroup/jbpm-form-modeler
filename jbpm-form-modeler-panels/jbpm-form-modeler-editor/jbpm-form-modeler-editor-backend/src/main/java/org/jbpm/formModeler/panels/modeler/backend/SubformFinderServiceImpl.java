@@ -55,10 +55,7 @@ public class SubformFinderServiceImpl implements SubformFinderService {
             if (editorContext != null) return getForm(formPath, editorContext);
 
             // find root context in order to load the subform
-            int separatorIndex = ctxUID.indexOf(FormProcessor.NAMESPACE_SEPARATOR);
-            if (separatorIndex != -1) ctxUID = ctxUID.substring(0, separatorIndex);
-
-            FormRenderContext renderContext = formRenderContextManager.getFormRenderContext(ctxUID);
+            FormRenderContext renderContext = formRenderContextManager.getRootContext(ctxUID);
 
             if (renderContext != null) {
                 // at the moment forms aren't available on marshaller classloader

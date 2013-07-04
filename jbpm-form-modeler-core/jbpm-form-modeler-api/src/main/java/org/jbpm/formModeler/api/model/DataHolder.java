@@ -25,7 +25,8 @@ public interface DataHolder extends Comparable{
     String getOuputId();
     Object createInstance(FormRenderContext context) throws Exception;
     void writeValue(Object destination, String propName, Object value) throws Exception;
-    Object readValue(Object destination, String propName) throws Exception;
+    Object readFromBindingExperssion(Object source, String bindingExpression) throws Exception;
+    Object readValue(Object source, String propName) throws Exception;
     Set<DataFieldHolder> getFieldHolders();
     DataFieldHolder getDataFieldHolderById(String id);
     String getTypeCode();
@@ -38,4 +39,5 @@ public interface DataHolder extends Comparable{
 
     boolean containsBinding(String bindingString);
     boolean isAssignableValue(Object value);
+    boolean isAssignableForField(Field field);
 }

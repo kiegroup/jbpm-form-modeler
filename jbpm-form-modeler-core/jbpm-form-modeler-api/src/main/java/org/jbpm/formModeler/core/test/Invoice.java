@@ -17,13 +17,14 @@ package org.jbpm.formModeler.core.test;
 
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Sample class for demo purposes.
  */
-public class Invoice {
+public class Invoice implements Serializable {
 
     private String id;
     private String name;
@@ -38,12 +39,13 @@ public class Invoice {
     private Double availableCredit;
     private Double totalBalance;
 
-
     private Date createdDate;
     private Date updatedDate;
 
     private Boolean enable;
     private I18nSet notes;
+
+    private Client client;
 
     private ArrayList<InvoiceLine> invoiceLines;
 
@@ -169,5 +171,13 @@ public class Invoice {
 
     public void setInvoiceLines(ArrayList<InvoiceLine> invoiceLines) {
         this.invoiceLines = invoiceLines;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

@@ -46,4 +46,8 @@ public abstract class FormDecorator extends AbstractFieldHandler {
         return propName.startsWith(":");
     }
 
+    @Override
+    public boolean shouldPersist() {
+        return false;
+    }
 }

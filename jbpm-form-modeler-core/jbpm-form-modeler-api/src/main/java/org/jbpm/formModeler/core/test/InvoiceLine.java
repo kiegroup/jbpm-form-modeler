@@ -1,5 +1,7 @@
 package org.jbpm.formModeler.core.test;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: nmirasch
@@ -7,7 +9,7 @@ package org.jbpm.formModeler.core.test;
  * Time: 6:43 PM
  * To change this template use File | Settings | File Templates.
  */
-public class InvoiceLine {
+public class InvoiceLine implements Serializable {
     public static String idLine;
     public static String description;
     public static Double amount;

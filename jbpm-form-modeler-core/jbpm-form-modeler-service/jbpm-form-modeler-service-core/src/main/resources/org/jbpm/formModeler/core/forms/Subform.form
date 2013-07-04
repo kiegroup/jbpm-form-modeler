@@ -237,6 +237,4 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-
-
 </form>

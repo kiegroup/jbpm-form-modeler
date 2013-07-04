@@ -50,8 +50,6 @@ public interface FormStatusData {
 
     public Map getCurrentInputValues();
 
-    Serializable getLoadedItemId();
-
     public Map getAttributes();
 
     public boolean hasErrorMessage(String fieldName);

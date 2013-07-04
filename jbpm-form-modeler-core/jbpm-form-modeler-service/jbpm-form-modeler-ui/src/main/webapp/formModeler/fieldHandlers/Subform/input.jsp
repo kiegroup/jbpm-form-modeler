@@ -46,7 +46,6 @@
                 <mvc:fragmentValue name="name" id="name">
                     <mvc:fragmentValue name="formValues" id="formValues">
                         <mvc:fragmentValue name="renderMode" id="renderMode">
-                                <mvc:fragmentValue name="formMode" id="formMode">
                                     <mvc:fragmentValue name="disabled" id="disabled">
                                         <mvc:fragmentValue name="readonly" id="readonly">
                                     <mvc:formatter name="FormRenderingFormatter">
@@ -60,8 +59,6 @@
                                         <mvc:formatterParam name="isSubForm" value="true"/>
                                         <%@ include file="/formModeler/components/WysiwygFormEdit/menu/defaultFormRenderingFormatterOptions.jsp" %>
                                     </mvc:formatter>
-                                    <input type="hidden"  name='<%=name+"_formMode"%>' value="<%=formMode%>">
-                                            </mvc:fragmentValue>
                                         </mvc:fragmentValue>
                                 </mvc:fragmentValue>
                             </mvc:fragmentValue>

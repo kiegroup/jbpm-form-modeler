@@ -42,7 +42,6 @@ public class FormStatusDataImpl implements FormStatusData {
     private Map currentValues;
     private Map currentInputValues;
     private boolean isNew;
-    private Serializable loadedItemId;
     private Map attributes = new HashMap();
 
     public FormStatusDataImpl(FormStatus status, boolean isNew) {
@@ -70,7 +69,6 @@ public class FormStatusDataImpl implements FormStatusData {
             log.error("Error: ", e);
         }
         setAttributes(status.getAttributes() != null ? Collections.unmodifiableMap(status.getAttributes()) : null);
-        setLoadedItemId(status.getLoadedItemId());
     }
 
     public void setAttributes(Map map) {
@@ -95,14 +93,6 @@ public class FormStatusDataImpl implements FormStatusData {
 
     public boolean isEmpty() {
         return empty;
-    }
-
-    public Serializable getLoadedItemId() {
-        return loadedItemId;
-    }
-
-    public void setLoadedItemId(Serializable loadedItemId) {
-        this.loadedItemId = loadedItemId;
     }
 
     public Object getCurrentValue(String fieldName) {
@@ -164,7 +154,6 @@ public class FormStatusDataImpl implements FormStatusData {
         sb.append(" valid=").append(valid);
         if (!valid)
             sb.append(" wrongFields=").append(wrongFields);
-        sb.append(" loadedItemId=").append(loadedItemId);
         sb.append(" currentValues=").append(currentValues);
         sb.append(" currentInputValues=").append(currentInputValues);
         return sb.toString();

@@ -16,7 +16,9 @@
 package org.jbpm.formModeler.core.processing.formRendering;
 
 import org.apache.commons.logging.Log;
+import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
+import org.jbpm.formModeler.core.processing.fieldHandlers.SubformFieldHandler;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -24,6 +26,7 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -58,16 +61,21 @@ public class FormErrorMessageBuilder {
 
                 for (int i = 0; i < statusData.getWrongFields().size(); i++) {
                     Field field = form.getField((String) statusData.getWrongFields().get(i));
+                    FieldHandler fieldHanlder = (FieldHandler) CDIBeanLocator.getBeanByNameOrType(field.getFieldType().getManagerClass());
+                    boolean isSubform = fieldHanlder instanceof SubformFieldHandler;
                     Boolean fieldIsRequired = field.getFieldRequired();
                     boolean fieldRequired = fieldIsRequired != null && fieldIsRequired.booleanValue() && !Form.RENDER_MODE_DISPLAY.equals(fieldIsRequired);
                     String currentNamespace = namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId().intValue() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName();
                     String currentValue = statusData.getCurrentInputValue(currentNamespace);
-                    if (!statusData.hasErrorMessage(field.getFieldName())) {
-                        if (fieldRequired && StringUtils.isEmpty(currentValue)) {
-                            if (!errors.contains(requiredMessage)) errors.add(0, requiredMessage);
-                        }
-                    } else errors.addAll(getErrorMessages(statusData.getErrorMessages(field.getFieldName()), field));
-
+                    if (isSubform) {
+                        errors.addAll(((SubformFieldHandler) fieldHanlder).getWrongChildFieldErrors(currentNamespace, field));
+                    } else {
+                        if (!statusData.hasErrorMessage(field.getFieldName())) {
+                            if (fieldRequired && StringUtils.isEmpty(currentValue)) {
+                                if (!errors.contains(requiredMessage)) errors.add(0, requiredMessage);
+                            }
+                        } else errors.addAll(getErrorMessages(statusData.getErrorMessages(field.getFieldName()), field));
+                    }
                 }
             } catch (Exception e) {
                 log.error("Error getting error messages for form " + form.getId() + ": ", e);

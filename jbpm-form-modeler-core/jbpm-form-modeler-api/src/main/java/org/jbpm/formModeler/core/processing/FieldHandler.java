@@ -107,4 +107,6 @@ public interface FieldHandler {
     public void initialize(Field field, String namespace);
 
     public boolean isEvaluable(String inputName, Map parameterMap, Map filesMap);
+
+    public boolean shouldPersist();
 }

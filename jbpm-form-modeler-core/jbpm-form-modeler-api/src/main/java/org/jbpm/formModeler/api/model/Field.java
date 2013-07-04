@@ -78,6 +78,7 @@ public class Field implements Comparable<Field> {
     private int position;
 
     //Subform data
+    private String subformClass;
     private String defaultSubform;
     private String creationSubform;
     private String editionSubform;
@@ -267,7 +268,13 @@ public class Field implements Comparable<Field> {
     }
 
     //Subform data
+    public String getSubformClass() {
+        return subformClass;
+    }
 
+    public void setSubformClass(String subformClass) {
+        this.subformClass = subformClass;
+    }
 
     public String getDefaultSubform() {
         return defaultSubform;
@@ -483,6 +490,7 @@ public class Field implements Comparable<Field> {
         this.setDefaultValueFormula(field.getDefaultValueFormula());
 
         //subforms
+        this.setSubformClass(field.getSubformClass());
         this.setDefaultSubform(field.getDefaultSubform());
         this.setCreationSubform(field.getCreationSubform());
         this.setEditionSubform(field.getEditionSubform());
@@ -590,6 +598,7 @@ public class Field implements Comparable<Field> {
         names.add("inputBinding");
         names.add("outputBinding");
 
+        names.add("subformClass");
         names.add("defaultSubform");
         names.add("creationSubform");
         names.add("editionSubform");
@@ -646,6 +655,7 @@ public class Field implements Comparable<Field> {
         value.put("outputBinding", getOutputBinding());
 
         //SubForms
+        value.put("subformClass", getSubformClass());
         value.put("defaultSubform",getDefaultSubform());
         value.put("creationSubform",getCreationSubform());
         value.put("editionSubform",getEditionSubform());

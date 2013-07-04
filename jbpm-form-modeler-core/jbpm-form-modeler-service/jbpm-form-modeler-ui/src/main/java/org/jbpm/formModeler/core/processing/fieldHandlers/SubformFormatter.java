@@ -51,8 +51,6 @@ public class SubformFormatter extends DefaultFieldHandlerFormatter {
 
         //if (!isSubformDepthAllowed(form.getDbid(), namespace)) return;
 
-        String formMode = (String) getParameter("formMode");
-        formMode = formMode == null ? Form.RENDER_MODE_FORM : formMode;
         boolean valueIsNull = value == null;
 
         setDefaultAttributes(field, form, namespace);
@@ -64,32 +62,25 @@ public class SubformFormatter extends DefaultFieldHandlerFormatter {
         setAttribute("heightDesired", height);
         renderFragment("outputStart");
 
-        if (Form.RENDER_MODE_FORM.equals(formMode)) {
-            formMode = valueIsNull ? "create" : "edit";
-        }
-
         String renderMode = paramsReader.getCurrentRenderMode();
-        if (StringUtils.isEmpty(renderMode))
-            renderMode = Form.RENDER_MODE_DISPLAY.equals(formMode) ? formMode : (Form.RENDER_MODE_SEARCH.equals(formMode) ? formMode : Form.RENDER_MODE_FORM);
-        renderItemForm(form, field, namespace, fieldName, (Map) value, formMode, renderMode);
+        renderItemForm(form, field, namespace, fieldName, (Map) value, renderMode);
 
         renderFragment("outputEnd");
 
     }
 
-    protected void renderItemForm(Form form, Field field, String currentNamespace, String fieldName, Map value, String mode, String renderMode) {
+    protected void renderItemForm(Form form, Field field, String currentNamespace, String fieldName, Map value, String renderMode) {
         SubformFieldHandler fieldHandler = (SubformFieldHandler) getFieldHandlersManager().getHandler(field.getFieldType());
 
-        Form enterDataForm = fieldHandler.getEnterDataForm(mode, currentNamespace, field);
+        Form enterDataForm = fieldHandler.getEnterDataForm(currentNamespace, field);
         if (enterDataForm == null) {
-            setAttribute("errorMsg", "no" + StringUtils.capitalize(mode) + "Form");
+            setAttribute("errorMsg", "nonoCreateFormForm");
             renderFragment("noFormError");
         } else {
             setAttribute("formId", enterDataForm.getId());
             setAttribute("namespace", currentNamespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName());
             setAttribute("uid", getFormManager().getUniqueIdentifier(form, currentNamespace, field, fieldName));
             setAttribute("name", fieldName);
-            setAttribute("formMode", mode);
             setAttribute("renderMode", renderMode);
             // Override the field's own disabled and readonly values with the ones coming from a parent formatter
             // that contains it if they're set to true.

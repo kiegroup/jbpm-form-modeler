@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing;
 
+import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 
@@ -107,6 +108,8 @@ public interface FormProcessor {
      * @param ctxUid Form render context UID
      */
     void persist(String ctxUid) throws Exception;
+
+    Object persistFormHolder(Form form, String namespace, Map<String, Object> mapToPersist, DataHolder holder) throws Exception;
 
     /**
      * Read status for given form id.

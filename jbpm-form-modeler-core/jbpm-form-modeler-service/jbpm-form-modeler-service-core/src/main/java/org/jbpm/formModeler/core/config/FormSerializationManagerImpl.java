@@ -277,6 +277,8 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         field.setHideContent(Boolean.valueOf(value));
                     } else if ("defaultValueFormula".equals(propName)) {
                         field.setDefaultValueFormula(value);
+                    } else if("subformClass".equals(propName)) {
+                        field.setSubformClass(value);
                     } else if ("defaultSubform".equals(propName)) {
                         field.setDefaultSubform(value);
                     } else if ("creationSubform".equals(propName)) {
@@ -357,6 +359,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         addXMLNode("outputBinding", field.getOutputBinding(), rootNode);
         addXMLNode("htmlContent", (field.getHtmlContent() != null ? serializeI18nSet(field.getHtmlContent()) : null), rootNode);
 
+        addXMLNode("subformClass", field.getSubformClass(), rootNode);
         addXMLNode("defaultSubform", field.getDefaultSubform(), rootNode);
         addXMLNode("creationSubform", field.getCreationSubform(), rootNode);
         addXMLNode("editionSubform", field.getEditionSubform(), rootNode);
@@ -373,7 +376,6 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         addXMLNode("expanded", (field.getExpanded() != null ? String.valueOf(field.getExpanded()) : null), rootNode);
         addXMLNode("separator", field.getSeparator(), rootNode);
         addXMLNode("enableTableEnterData", (field.getEnableTableEnterData() != null ? String.valueOf(field.getEnableTableEnterData()) : null), rootNode);
-
 
         parent.addChild(rootNode);
     }

@@ -74,10 +74,10 @@ public class DataHoldersFormFormatter extends Formatter {
             renderFragment("outputFormAddHolderStart");
 
             renderFragment("rowStart");
-            List dataObjects = Collections.EMPTY_LIST;
 
             DataHolderBuilder holderBuilder = dataHolderManager.getBuilderByType(Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL);
-            Map values = holderBuilder.getOptions(wysiwygFormEditor.getCurrentEditionContext().getPath());
+            Map values = null;
+            if (holderBuilder != null) values = holderBuilder.getOptions(wysiwygFormEditor.getCurrentEditionContext().getPath());
 
             renderSelectDataModel(values);
 
@@ -116,7 +116,6 @@ public class DataHoldersFormFormatter extends Formatter {
         renderFragment("selectStart");
 
         if (values!= null ) {
-            HashMap map ;
             for (Iterator it = values.keySet().iterator(); it.hasNext();) {
                 String key = (String) it.next();
                 String value = (String) values.get(key);

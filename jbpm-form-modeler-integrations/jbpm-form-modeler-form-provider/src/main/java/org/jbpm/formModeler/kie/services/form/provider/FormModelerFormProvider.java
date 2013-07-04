@@ -71,20 +71,18 @@ public class FormModelerFormProvider implements FormProvider {
         try {
             Form form = formSerializationManager.loadFormFromXML(template);
 
-            Map ctx = new HashMap();
+            Map inputs = new HashMap();
 
             Map outputs = (Map) renderContext.get("outputs");
 
             Map m = (Map) renderContext.get("inputs");
-            if (m != null) ctx.putAll(m);
+            if (m != null) inputs.putAll(m);
 
-            ctx.put("task", task);
-
-            FormRenderContext context = formRenderContextManager.newContext(form, ctx, outputs);
-            context.setMarshaller(renderContext.get("marshallerContext"));
+            inputs.put("task", task);
 
             // Adding forms to context while forms are'nt available on marshaller classloader
-            addContextForms(task, context);
+            FormRenderContext context = formRenderContextManager.newContext(form, inputs, outputs, buildContextForms(task));
+            context.setMarshaller(renderContext.get("marshallerContext"));
 
             String status = task.getTaskData().getStatus().name();
             boolean disabled = "Reserved".equals(status) || "Ready".equals(status);
@@ -107,11 +105,9 @@ public class FormModelerFormProvider implements FormProvider {
 
             ctx.put("process", process);
 
-            FormRenderContext context = formRenderContextManager.newContext(form, ctx);
-            context.setMarshaller(renderContext.get("marshallerContext"));
-
             // Adding forms to context while forms are'nt available on marshaller classloader
-            addContextForms(process, context);
+            FormRenderContext context = formRenderContextManager.newContext(form, ctx, new HashMap<String, Object>(), buildContextForms(process));
+            context.setMarshaller(renderContext.get("marshallerContext"));
 
             result = context.getUID();
         } catch (Exception e) {
@@ -121,12 +117,12 @@ public class FormModelerFormProvider implements FormProvider {
         return result;
     }
 
-    protected void addContextForms(Task task, FormRenderContext context) {
+    protected Map<String, Object> buildContextForms(Task task) {
         ProcessDesc processDesc = dataService.getProcessById(task.getTaskData().getProcessId());
-        addContextForms(processDesc, context);
+        return buildContextForms(processDesc);
     }
 
-    protected void addContextForms(ProcessDesc process, FormRenderContext context) {
+    protected Map<String, Object> buildContextForms(ProcessDesc process) {
         Map<String, String> forms = process.getForms();
 
         Map<String, Object> ctxForms = new HashMap<String, Object>();
@@ -138,6 +134,6 @@ public class FormModelerFormProvider implements FormProvider {
             String value = forms.get(key);
             ctxForms.put(key, value);
         }
-        context.setContextForms(ctxForms);
+        return ctxForms;
     }
 }

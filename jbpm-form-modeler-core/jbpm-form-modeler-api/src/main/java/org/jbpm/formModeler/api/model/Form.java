@@ -342,11 +342,18 @@ public class Form implements Serializable, Comparable{
         return "";
     }
 
-    public DataHolder getHolderByField(Field field) {
+    public DataHolder getDataHolderByField(Field field) {
         if (field == null || field.getInputBinding() == null || field.getOutputBinding() == null) return null;
 
         for (DataHolder holder : holders) {
             if (holder.containsBinding(field.getInputBinding()) || holder.containsBinding(field.getOutputBinding())) return holder;
+        }
+        return null;
+    }
+
+    public DataHolder getDataHolderByInfo(String info) {
+        for (DataHolder holder : holders) {
+            if (holder.getInfo().equals(info)) return holder;
         }
         return null;
     }

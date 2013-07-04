@@ -15,15 +15,13 @@
  */
 package org.jbpm.formModeler.core.processing.impl;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.config.RangeProviderManager;
-import org.jbpm.formModeler.core.processing.FieldHandler;
-import org.jbpm.formModeler.core.processing.FormProcessor;
-import org.jbpm.formModeler.core.processing.FormStatusData;
-import org.jbpm.formModeler.core.processing.ProcessingMessagedException;
+import org.jbpm.formModeler.core.processing.*;
 import org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler;
 import org.jbpm.formModeler.core.processing.formProcessing.FormChangeProcessor;
 import org.jbpm.formModeler.core.processing.formProcessing.FormChangeResponse;
@@ -62,7 +60,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     private FieldHandlersManager fieldHandlersManager;
 
     @Inject
-    FormRenderContextManager formRenderContextManager;
+    private FormRenderContextManager formRenderContextManager;
 
     protected FormStatus getContextFormStatus(FormRenderContext context) {
         return FormStatusManager.lookup().getFormStatus(context.getForm().getId(), context.getUID());
@@ -300,39 +298,35 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         return data;
     }
 
-    protected Object readSimpleBindingValue(Form form, String bindingExpression, Map<String, Object> bindingData) {
-        bindingExpression = bindingExpression.substring(1, bindingExpression.length() - 1);
+    protected Object readSimpleBindingValue(Form form, Field field, String bindingExpression, Map<String, Object> bindingData) {
 
-        String[] bindingParts = bindingExpression.split("/");
+        DataHolder holder = form.getDataHolderByField(field);
+        if (holder != null) {
+            Object bindingValue = bindingData.get(holder.getInputId());
 
-        if (bindingParts.length == 2) {
+            try {
+                if (bindingValue != null && holder.isAssignableValue(bindingValue)) return holder.readFromBindingExperssion(bindingValue, bindingExpression);
+            } catch (Exception e) {
+                log.warn("Unable to read value from expression '" + bindingExpression + "'. Error: ", e);
+            }
+        } else {
+            bindingExpression = bindingExpression.substring(1, bindingExpression.length() - 1);
 
-            String holderId = bindingParts[0];
-            String holderFieldId = bindingParts[1];
-
-            DataHolder holder = form.getDataHolderById(holderId);
-            if (holder != null && !StringUtils.isEmpty(holderFieldId)) {
-
-                Object bindingValue = bindingData.get(holder.getInputId());
-
+            if (bindingExpression.indexOf("/") != -1) {
                 try {
-                    if (bindingValue != null && holder.isAssignableValue(bindingValue)) return holder.readValue(bindingValue, holderFieldId);
-                } catch (Exception e) {
-                    log.warn("Unable to read value from expression '" + bindingExpression + "'. Error: ", e);
-                }
 
-                return null;
-            } else {
-                try {
-                    Object object = bindingData.get(bindingParts[0]);
+                    String root = bindingExpression.substring(0, bindingExpression.indexOf("/"));
+                    String expression = bindingExpression.substring(root.length() + 1);
+
+                    Object object = bindingData.get(root);
                     JXPathContext ctx = JXPathContext.newContext(object);
-                    return ctx.getValue(bindingParts[1]);
+                    return ctx.getValue(expression);
                 } catch (Exception e) {
                     log.warn("Error getting value for xpath xpression '" + bindingExpression + "' :", e);
                 }
             }
-        }
 
+        }
         return bindingData.get(bindingExpression);
     }
 
@@ -358,8 +352,8 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
                     Object value = null;
 
-                    if (!hasOutput) value = readSimpleBindingValue(form, inputBinding, inputData);
-                    else if (!hasInput) value = readSimpleBindingValue(form, outputBinding, outputData);
+                    if (!hasOutput) value = readSimpleBindingValue(form, field, inputBinding, inputData);
+                    else if (!hasInput) value = readSimpleBindingValue(form, field, outputBinding, outputData);
                     else {
 
                         inputBinding = inputBinding.substring(1, inputBinding.length() - 1);
@@ -444,32 +438,92 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         for (Iterator it = mapToPersist.keySet().iterator(); it.hasNext();) {
             String fieldName = (String) it.next();
             Field field = form.getField(fieldName);
+
             if (field != null) {
+
+                DataHolder holder = form.getDataHolderByField(field);
+
                 String bindingString = field.getOutputBinding();
-                if (!StringUtils.isEmpty(bindingString)) {
-                    bindingString = bindingString.substring(1, bindingString.length() - 1);
 
-                    boolean complexBinding = bindingString.indexOf("/") > 0;
+                if (StringUtils.isEmpty(bindingString)) continue;
 
-                    if (complexBinding) {
-                        String holderId = bindingString.substring(0, bindingString.indexOf("/"));
-                        String holderFieldId = bindingString.substring(holderId.length() + 1);
-                        DataHolder holder = form.getDataHolderById(holderId);
-                        if (holder != null && !StringUtils.isEmpty(holderFieldId)) {
+                Object value = persistField(field, mapToPersist, holder, context.getUID());
 
-                            Object holderOutputValue = context.getOutputData().get(holderId);
-                            if (holderOutputValue == null) {
-                                holderOutputValue = holder.createInstance(context);
-                                context.getOutputData().put(holderId, holderOutputValue);
-                            }
-                            holder.writeValue(holderOutputValue, holderFieldId, mapToPersist.get(fieldName));
-                        }
-                    } else {
-                        result.put(bindingString, mapToPersist.get(fieldName));
+
+                bindingString = bindingString.substring(1, bindingString.length() - 1);
+
+                boolean simpleBinding = StringUtils.isEmpty(bindingString) || bindingString.indexOf("/") == -1;
+
+                if (holder == null || simpleBinding) result.put(bindingString, value);
+                else {
+                    String holderFieldId = bindingString.substring((holder.getOuputId() + "/").length());
+
+                    Object holderOutputValue = result.get(holder.getOuputId());
+                    if (holderOutputValue == null) {
+                        holderOutputValue = holder.createInstance(context);
+                        result.put(holder.getOuputId(), holderOutputValue);
                     }
+
+                    holder.writeValue(holderOutputValue, holderFieldId, value);
                 }
             }
         }
+    }
+
+    @Override
+    public Object persistFormHolder(Form form, String namespace, Map<String, Object> mapToPersist, DataHolder holder) throws Exception {
+        if (holder == null) return null;
+        FormRenderContext context = formRenderContextManager.getRootContext(namespace);
+
+        Object result = holder.createInstance(context);
+
+        for (Iterator it = mapToPersist.keySet().iterator(); it.hasNext();) {
+            String fieldName = (String) it.next();
+            Field field = form.getField(fieldName);
+
+            if (field != null && holder.isAssignableForField(field)) {
+                String bindingString = field.getOutputBinding();
+
+                if (StringUtils.isEmpty(bindingString)) continue;
+
+                bindingString = bindingString.substring(1, bindingString.length() - 1);
+                String holderFieldId = bindingString.substring(holder.getOuputId().length() + 1);
+
+                Object value = persistField(field, mapToPersist, holder, namespace);
+
+                holder.writeValue(result, holderFieldId, value);
+            }
+        }
+        return result;
+    }
+
+    protected Object persistField(Field field, Map<String, Object> mapToPersist, DataHolder holder, String namespace) throws Exception{
+        String bindingString = field.getOutputBinding();
+
+        if (holder == null && !StringUtils.isEmpty(bindingString)) return mapToPersist.get(field.getFieldName());
+
+        bindingString = bindingString.substring(1, bindingString.length() - 1);
+
+        boolean complexBinding = bindingString.indexOf("/") > 0;
+
+        if (complexBinding) {
+            String holderId = bindingString.substring(0, bindingString.indexOf("/"));
+            String holderFieldId = bindingString.substring(holderId.length() + 1);
+            if (holder != null && !StringUtils.isEmpty(holderFieldId)) {
+
+                FieldHandler handler = (FieldHandler) CDIBeanLocator.getBeanByNameOrType(field.getFieldType().getManagerClass());
+
+                if (handler instanceof PersistentFieldHandler) {
+
+                    String inputName = getPrefix(field.getForm(), namespace) + field.getFieldName();
+
+                    return ((PersistentFieldHandler) handler).persist(field, inputName, holder.getInfo());
+
+                } else
+                    return mapToPersist.get(field.getFieldName());
+            }
+        }
+        return mapToPersist.get(field.getFieldName());
     }
 
     public Map getMapRepresentationToPersist(Form form, String namespace) throws Exception {

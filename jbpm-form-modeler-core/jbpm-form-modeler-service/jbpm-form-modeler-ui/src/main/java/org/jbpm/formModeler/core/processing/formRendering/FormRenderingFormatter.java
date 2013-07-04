@@ -659,7 +659,7 @@ public class FormRenderingFormatter extends Formatter {
 
         setAttribute("hasBinding", hasBinding);
         if (hasBinding) {
-            DataHolder holder = formToPaint.getHolderByField(field);
+            DataHolder holder = formToPaint.getDataHolderByField(field);
 
             String color = null;
 

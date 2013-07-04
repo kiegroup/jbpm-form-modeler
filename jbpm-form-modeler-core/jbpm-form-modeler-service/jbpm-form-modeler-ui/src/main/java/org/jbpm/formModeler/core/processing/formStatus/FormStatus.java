@@ -29,8 +29,6 @@ public class FormStatus implements Serializable {
     private Long relatedFormId;
     private Set wrongFields = new TreeSet();
     private Map<String, List> wrongFieldsMessages = new HashMap<String, List>();
-    private Long loadedItemId;
-    private String loadedItemClass;
     private String namespace;
     private Map attributes = new HashMap();
 
@@ -61,22 +59,6 @@ public class FormStatus implements Serializable {
 
     public Long getRelatedFormId() {
         return relatedFormId;
-    }
-
-    public Long getLoadedItemId() {
-        return loadedItemId;
-    }
-
-    public void setLoadedItemId(Long loadedItemId) {
-        this.loadedItemId = loadedItemId;
-    }
-
-    public String getLoadedItemClass() {
-        return loadedItemClass;
-    }
-
-    public void setLoadedItemClass(String loadedItemClass) {
-        this.loadedItemClass = loadedItemClass;
     }
 
     public String getNamespace() {

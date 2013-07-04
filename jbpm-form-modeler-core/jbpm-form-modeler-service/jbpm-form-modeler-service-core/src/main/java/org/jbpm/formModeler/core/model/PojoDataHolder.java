@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.model;
 
+import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
@@ -87,6 +88,7 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
 
     @Override
     public void writeValue(Object destination, String propName, Object value) throws Exception {
+        if (destination == null) return;
         Field field = destination.getClass().getDeclaredField(propName);
 
         Method setterMethod = destination.getClass().getMethod("set" + capitalize(propName), new Class[]{field.getType()});
@@ -94,11 +96,25 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
     }
 
     @Override
-    public Object readValue(Object destination, String propName) throws Exception {
-        Object value = null;
+    public Object readFromBindingExperssion(Object source, String bindingExpression) throws Exception {
+        if (source == null || StringUtils.isEmpty(bindingExpression) || bindingExpression.indexOf("/") == -1) return null;
 
-        Method getter = destination.getClass().getMethod("get" + capitalize(propName));
-        value = getter.invoke(destination);
+        bindingExpression = bindingExpression.substring(1, bindingExpression.length() - 1);
+
+        String[] bindingParts = bindingExpression.split("/");
+
+        if (bindingParts.length == 2) {
+            return readValue(source, bindingParts[1]);
+        }
+        return null;
+    }
+
+    @Override
+    public Object readValue(Object source, String propName) throws Exception {
+        if (source == null) return null;
+
+        Method getter = source.getClass().getMethod("get" + capitalize(propName));
+        Object value = getter.invoke(source);
 
         return value;
     }
@@ -147,21 +163,21 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
 
     private Set<DataFieldHolder> calculatePropertyNames() throws Exception{
 
-        Class clase = null;
+        Class clazz = null;
         try {
-            clase = Class.forName(className);
+            clazz = Class.forName(className);
         } catch (ClassNotFoundException e) {
             return null;
         }
 
-        if (clase == null) {
+        if (clazz == null) {
             return null;
         }
 
         Set<DataFieldHolder> dataFieldHolders = new TreeSet<DataFieldHolder>();
 
         Map propertiesDescriptors = new HashMap();
-        Method[] methods = clase.getMethods();
+        Method[] methods = clazz.getMethods();
         for (int i = 0; i < methods.length; i++) {
             Method method = methods[i];
             String methodName = method.getName();
@@ -173,11 +189,11 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
                     Map values = (Map) propertiesDescriptors.get(propertyName);
                     if (values == null)
                         propertiesDescriptors.put(propertyName, values = new HashMap());
-                    Class clazz = parameterTypes.length == 0 ? returnType : parameterTypes[0]; // Relevant
+                    Class paramClazz = parameterTypes.length == 0 ? returnType : parameterTypes[0]; // Relevant
                     // class
-                    Boolean[] clazzValues = (Boolean[]) values.get(clazz);
+                    Boolean[] clazzValues = (Boolean[]) values.get(paramClazz);
                     if (clazzValues == null)
-                        values.put(clazz, clazzValues = new Boolean[]{Boolean.FALSE, Boolean.FALSE});
+                        values.put(paramClazz, clazzValues = new Boolean[]{Boolean.FALSE, Boolean.FALSE});
                     clazzValues[parameterTypes.length] = Boolean.TRUE;// 0 ->
                     // getter,
                     // 1->
@@ -190,11 +206,11 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
             String propertyName = (String) it.next();
             Map propertyValue = (Map) propertiesDescriptors.get(propertyName);
             for (Iterator itMethods = propertyValue.keySet().iterator(); itMethods.hasNext(); ) {
-                Class clazz = (Class) itMethods.next();
-                Boolean[] clazzValues = (Boolean[]) propertyValue.get(clazz);
+                Class methodClazz = (Class) itMethods.next();
+                Boolean[] clazzValues = (Boolean[]) propertyValue.get(methodClazz);
                 if (clazzValues[0].booleanValue() && clazzValues[1].booleanValue()) {
                     try{
-                        fieldHolder =  new DataFieldHolder(this,propertyName, fieldTypeManager.getTypeByClass(clazz.getName()).getCode());
+                        fieldHolder =  new DataFieldHolder(this,propertyName, fieldTypeManager.getTypeByClass(methodClazz.getName()).getCode());
                         dataFieldHolders.add(fieldHolder);
                     } catch (Exception e){
                         //The

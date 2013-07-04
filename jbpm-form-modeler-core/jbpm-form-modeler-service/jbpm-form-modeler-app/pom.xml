@@ -95,30 +95,23 @@
               application it will not be overwrited -->
 
                     <overlays>
-
-
                         <overlay>
                             <groupId>org.jbpm</groupId>
                             <artifactId>jbpm-form-modeler-request-dispatcher</artifactId>
                         </overlay>
-
                         <overlay>
                             <groupId>org.jbpm</groupId>
                             <artifactId>jbpm-form-modeler-ui</artifactId>
                         </overlay>
-
                         <overlay>
                             <groupId>org.jbpm</groupId>
                             <artifactId>jbpm-form-modeler-form-editor</artifactId>
                         </overlay>
-
                         <overlay>
                             <groupId>org.jbpm</groupId>
                             <artifactId>jbpm-form-modeler-static-resources</artifactId>
                         </overlay>
-
                     </overlays>
-
                 </configuration>
             </plugin>
         </plugins>

@@ -18,6 +18,7 @@ package org.jbpm.formModeler.core.model;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.api.model.DataHolder;
+import org.jbpm.formModeler.api.model.Field;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,5 +64,12 @@ public abstract class DefaultDataHolder implements DataHolder {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean isAssignableForField(Field field) {
+        if (field == null || field.getInputBinding() == null || field.getOutputBinding() == null) return false;
+
+        return (containsBinding(field.getInputBinding()) || containsBinding(field.getOutputBinding()));
     }
 }
