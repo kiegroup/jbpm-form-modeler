@@ -306,7 +306,7 @@
         <property name="label"
                   value="quot;caquot;,quot;Rang de valors:quot;quot;enquot;,quot;Range value:quot;quot;esquot;,quot;Rango de valores:quot;"/>
         <property name="title"
-                  value="quot;caquot;,quot;&#201;s una Expressi&#243; Regular que permet la validaci&#243; del valor del camp. Per exemple amb el rang [5;9] es validaria que el valor introdu&#239;t est&#224; entre 5 i 9.quot;quot;enquot;,quot;Is a Regular Expression that allows to validate the field value. For example, using the [5;9] range will validate that the new value is between 5 and 9.quot;quot;esquot;,quot;Es una Expresi&#243;n Regular que permite la validaci&#243;n del valor del campo. Por ejemplo con el rango [5;9] se validar&#237;a que el valor introducido est&#225; entre 5 y 9.quot;"/>
+                  value="quot;caquot;,quot;&#201;s una Expressi&#243; Regular que permet la validaci&#243; del valor del camp.quot;quot;enquot;,quot;Is a Regular Expression that allows to validate the field value.quot;quot;esquot;,quot;Es una Expresi&#243;n Regular que permite la validaci&#243;n del valor del campo.quot;"/>
         <property name="disabled" value="false"/>
         <property name="readonly" value="false"/>
         <property name="size" value="55"/>
