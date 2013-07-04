@@ -303,6 +303,12 @@
 <%
     }
 %>        </mvc:fragmentValue>
+                                </mvc:fragmentValue>
+                            </mvc:fragmentValue>
+                        </mvc:fragmentValue>
+                    </mvc:fragmentValue>
+                </mvc:fragmentValue>
+            </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragmentValue>
 </mvc:fragment>
@@ -452,6 +458,15 @@
 %>
                 </td>
             </tr>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragmentValue>
 </mvc:fragment>
