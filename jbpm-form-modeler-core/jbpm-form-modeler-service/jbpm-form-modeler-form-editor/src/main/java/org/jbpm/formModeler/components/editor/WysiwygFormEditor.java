@@ -110,6 +110,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public static final String PARAMETER_HOLDER_PR_INFO = "holderPRInfo";
     public static final String PARAMETER_FIELD_NAME = "fieldName";
     public static final String PARAMETER_FIELD_TYPECODE = "typeCode";
+    public static final String PARAMETER_FIELD_CLASS = "className";
     public static final String PARAMETER_HOLDER_RENDERCOLOR = "holderRenderColor";
 
     private int currentEditFieldPosition = -1;
@@ -863,7 +864,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
             Set<DataFieldHolder> holderFields = holder.getFieldHolders();
             for (DataFieldHolder dataFieldHolder : holderFields) {
-                addDataFieldHolder(form, holder, dataFieldHolder.getId(), getFieldTypesManager().getTypeByCode(dataFieldHolder.getType()));
+                addDataFieldHolder(form, holder, dataFieldHolder.getId(), dataFieldHolder.getClassName());
             }
 
         }
@@ -873,7 +874,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
         String[] holderIdArray = (String[]) parameterMap.get(PARAMETER_HOLDER_ID);
         String[] fieldNameArray = (String[]) parameterMap.get(PARAMETER_FIELD_NAME);
-        String[] fieldTypeCodeArray = (String[]) parameterMap.get(PARAMETER_FIELD_TYPECODE);
+        String[] fieldClassArray = (String[]) parameterMap.get(PARAMETER_FIELD_CLASS);
 
         String bindingId = null;
         if (holderIdArray != null && holderIdArray.length > 0) bindingId = holderIdArray[0];
@@ -881,18 +882,17 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String fieldName = null;
         if (fieldNameArray != null && fieldNameArray.length > 0) fieldName = fieldNameArray[0];
 
-        String fieldTypeCode = null;
-        if (fieldTypeCodeArray != null && fieldTypeCodeArray.length > 0) fieldTypeCode = fieldTypeCodeArray[0];
-
+        String fieldClass = null;
+        if (fieldClassArray != null && fieldClassArray.length > 0) fieldClass = fieldClassArray[0];
 
         if (bindingId != null) {
             Form form = getCurrentForm();
             DataHolder holder = form.getDataHolderById(bindingId);
-            addDataFieldHolder(form, holder, fieldName, getFieldTypesManager().getTypeByCode(fieldTypeCode));
+            addDataFieldHolder(form, holder, fieldName, fieldClass);
         }
     }
 
-    private void addDataFieldHolder(Form form, DataHolder holder, String fieldName, FieldType fieldType) throws Exception {
+    private void addDataFieldHolder(Form form, DataHolder holder, String fieldName, String fieldClass) throws Exception {
         I18nSet label = new I18nSet();
         String defaultLang = LocaleManager.lookup().getDefaultLang();
         String dataHolderId = StringUtils.defaultIfEmpty(holder.getInputId(), holder.getOuputId());
@@ -901,7 +901,9 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String inputBinging = holder.getInputBinding(fieldName);
         String outputBinding = holder.getOuputBinding(fieldName);
 
-        getFormManager().addFieldToForm(form, dataHolderId + "_" + fieldName, fieldType, label, inputBinging, outputBinding);
+        FieldType fieldType = getFieldTypesManager().getTypeByClass(fieldClass);
+
+        getFormManager().addFieldToForm(form, dataHolderId + "_" + fieldName, fieldType, fieldClass, label, inputBinging, outputBinding);
         setLastDataHolderUsedId(dataHolderId);
     }
 

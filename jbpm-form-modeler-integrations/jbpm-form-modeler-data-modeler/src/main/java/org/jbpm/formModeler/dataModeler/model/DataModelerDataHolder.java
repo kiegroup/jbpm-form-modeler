@@ -101,7 +101,8 @@ public class DataModelerDataHolder extends PojoDataHolder implements Comparable 
             Class returnType = propertyTO.getClass();
             if (isValidReturnType(propertyTO.getClassName())) {
                 try{
-                    fieldHolder =  new DataFieldHolder(this,propertyTO.getName(), fieldTypeManager.getTypeByClass(propertyTO.getClassName()).getCode());
+                    String className = propertyTO.getClassName();
+                    fieldHolder =  new DataFieldHolder(this,propertyTO.getName(), className);
                     dataFieldHolders.add(fieldHolder);
                 } catch (Exception e){
 

@@ -319,8 +319,13 @@ public class FormManagerImpl implements FormManager {
      */
     @Override
     public Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label, String inputBindingString, String outputBindingString) {
-        synchronized (pForm.getSynchronizationObject()) {
-            Set<Field> fields = pForm.getFormFields();
+        return addFieldToForm(pForm, fieldName, fieldType, null, label, inputBindingString, outputBindingString);
+    }
+
+    @Override
+    public Field addFieldToForm(Form form, String fieldName, FieldType fieldType, String fieldClass, I18nSet label, String inputBinding, String outputBinding) {
+        synchronized (form.getSynchronizationObject()) {
+            Set<Field> fields = form.getFormFields();
 
             if (fieldName != null && !fieldName.isEmpty()) {
                 for (Field field : fields) {
@@ -339,10 +344,10 @@ public class FormManagerImpl implements FormManager {
             field.setFieldName(fieldName);
             field.setFieldRequired(Boolean.FALSE);
             field.setFieldType(fieldType);
-            field.setInputBinding(inputBindingString);
-            field.setOutputBinding(outputBindingString);
-            field.setForm(pForm);
-            field.setPosition(pForm.getFormFields().size());
+            field.setInputBinding(inputBinding);
+            field.setOutputBinding(outputBinding);
+            field.setForm(form);
+            field.setPosition(form.getFormFields().size());
 
             if (label != null) field.setLabel(label);
 
@@ -354,7 +359,9 @@ public class FormManagerImpl implements FormManager {
                 field.setLabel(label);
             }
 
-            pForm.getFormFields().add(field);
+            if (!StringUtils.isEmpty(fieldClass)) field.setSubformClass(fieldClass);
+
+            form.getFormFields().add(field);
 
             return field;
         }

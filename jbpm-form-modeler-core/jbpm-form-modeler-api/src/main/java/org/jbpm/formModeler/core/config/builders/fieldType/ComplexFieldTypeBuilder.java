@@ -40,7 +40,6 @@ public class ComplexFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft = new FieldType();
         ft.setCode("MultipleSubform");
         ft.setFieldClass("java.util.List");
-        //ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.MultipleSubformFieldHandler");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.CreateDynamicObjectFieldHandler");
         ft.setMaxlength(new Long(4000));
         ft.setSize("25");

@@ -20,6 +20,7 @@ import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Sample class for demo purposes.
@@ -47,7 +48,7 @@ public class Invoice implements Serializable {
 
     private Client client;
 
-    private ArrayList<InvoiceLine> invoiceLines;
+    private List<InvoiceLine> invoiceLines;
 
     public String getId() {
         return id;
@@ -165,11 +166,11 @@ public class Invoice implements Serializable {
         this.accountBalance_counting = accountBalance_counting;
     }
 
-    public ArrayList<InvoiceLine> getInvoiceLines() {
+    public List<InvoiceLine> getInvoiceLines() {
         return invoiceLines;
     }
 
-    public void setInvoiceLines(ArrayList<InvoiceLine> invoiceLines) {
+    public void setInvoiceLines(List<InvoiceLine> invoiceLines) {
         this.invoiceLines = invoiceLines;
     }
 

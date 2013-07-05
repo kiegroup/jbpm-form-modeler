@@ -63,9 +63,10 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
         isDisabled = paramsReader.isFieldDisabled();
         isReadonly = paramsReader.isFieldReadonly();
 
-        // if (!isSubformDepthAllowed(form.getDbid(), currentNamespace)) return;
+        CreateDynamicObjectFieldHandler fHandler = (CreateDynamicObjectFieldHandler) getFieldHandlersManager().getHandler(field.getFieldType());
 
-        FieldHandler fHandler = getFieldHandlersManager().getHandler(field.getFieldType());
+        if (!fHandler.checkSubformDepthAllowed(form, currentNamespace)) return;
+
         if (!displayPage.booleanValue() && field != null && ((field.getReadonly() != null && field.getReadonly().booleanValue()) || (field.getDisabled() != null && field.getDisabled().booleanValue()))) {
             includePage(fHandler.getPageToIncludeForDisplaying());
             return;

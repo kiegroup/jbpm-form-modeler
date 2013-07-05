@@ -27,6 +27,7 @@ import org.jbpm.formModeler.core.rendering.SubformFinderService;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -130,6 +131,23 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
             }
         }
         return previousValuesMap;
+    }
+
+    @Override
+    public Object persist(Field field, String inputName, String desiredClass) throws Exception {
+        FormStatusData data = getFormProcessor().read(field.getForm(), inputName);
+        Object objectValue = data.getCurrentValue(field.getFieldName());
+        if (objectValue == null) return null;
+
+        Map[] values = (Map[]) objectValue;
+        List result = new ArrayList();
+        Form form = getEnterDataForm(inputName, field);
+
+        for (int i = 0; i < values.length; i++) {
+            result.add(getFormProcessor().persistFormHolder(form, inputName, values[i], form.getDataHolderByInfo(field.getSubformClass())));
+        }
+
+        return result;
     }
 
     public Form calculateFieldForm(Field field, String formPath, String namespace) {

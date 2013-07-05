@@ -210,7 +210,8 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
                 Boolean[] clazzValues = (Boolean[]) propertyValue.get(methodClazz);
                 if (clazzValues[0].booleanValue() && clazzValues[1].booleanValue()) {
                     try{
-                        fieldHolder =  new DataFieldHolder(this,propertyName, fieldTypeManager.getTypeByClass(methodClazz.getName()).getCode());
+                        String className = methodClazz.getName();
+                        fieldHolder =  new DataFieldHolder(this, propertyName, className);
                         dataFieldHolders.add(fieldHolder);
                     } catch (Exception e){
                         //The

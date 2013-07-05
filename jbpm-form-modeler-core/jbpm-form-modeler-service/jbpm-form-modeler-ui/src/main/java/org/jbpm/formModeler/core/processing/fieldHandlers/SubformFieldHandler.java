@@ -57,7 +57,7 @@ public class SubformFieldHandler extends PersistentFieldHandler {
 
     public Object getValue(Field field, String inputName, Map parametersMap, Map filesMap, String desiredClassName, Object previousValue) throws Exception {
         Form form = getEnterDataForm(inputName, field);
-        if (!checkSubformDepthAllowed(form.getId(), inputName)) return null;
+        if (!checkSubformDepthAllowed(form, inputName)) return null;
         getFormProcessor().setValues(form, inputName, parametersMap, filesMap);
         FormStatusData status = getFormProcessor().read(form, inputName);
         if (status.isValid()) {
@@ -162,9 +162,9 @@ public class SubformFieldHandler extends PersistentFieldHandler {
         return subformFinderService.getFormFromPath(formPath, namespace);
     }
 
-    public static boolean checkSubformDepthAllowed(Long id, String namesapce) {
+    public static boolean checkSubformDepthAllowed(Form form, String namesapce) {
         StringTokenizer token = new StringTokenizer(namesapce, FormProcessor.NAMESPACE_SEPARATOR, false);
-        String _id = id.toString();
+        String _id = form.getId().toString();
         int count = 0;
         while (token.hasMoreElements()) {
             String idToCompare = (String) token.nextElement();

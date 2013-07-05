@@ -189,12 +189,12 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
     }
 
     @Override
-    public FieldType getTypeByCode(String typeCode) throws Exception {
+    public FieldType getTypeByCode(String typeCode) {
         return getTypeByCode(typeCode, true);
     }
 
     @Override
-    public FieldType getTypeByCode(String typeCode, boolean tryToCreateTypes) throws Exception {
+    public FieldType getTypeByCode(String typeCode, boolean tryToCreateTypes) {
 
         for (FieldType fieldType : fieldTypes) {
             if (fieldType.getCode().equals(typeCode)) return fieldType;

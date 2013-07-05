@@ -44,6 +44,9 @@ public class DataHoldersFormFormatter extends Formatter {
     @Inject
     private DataHolderManager dataHolderManager;
 
+    @Inject
+    private FieldTypeManager fieldTypeManager;
+
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
             WysiwygFormEditor wysiwygFormEditor = WysiwygFormEditor.lookup();
@@ -133,7 +136,6 @@ public class DataHoldersFormFormatter extends Formatter {
         WysiwygFormEditor wysiwygFormEditor = WysiwygFormEditor.lookup();
         Form form = wysiwygFormEditor.getCurrentForm();
         Set<DataHolder> holders = form.getHolders();
-        FieldTypeManager fieldTypeManager = wysiwygFormEditor.getFieldTypesManager();
 
         renderFragment("outputStart");
 
@@ -174,7 +176,7 @@ public class DataHoldersFormFormatter extends Formatter {
 
                         }
                         i++;
-                        renderAddField(fieldName, fieldTypeManager.getTypeByCode(dataFieldHolder.getType()), holderId);
+                        renderAddField(fieldName, dataFieldHolder, holderId);
                     }
                 }
                 if (i != 0) {//last field of list
@@ -187,14 +189,17 @@ public class DataHoldersFormFormatter extends Formatter {
         renderFragment("outputEnd");
     }
 
-    public void renderAddField(String fieldName, FieldType type, String bindingId) {
-        WysiwygFormEditor wysiwygFormEditor = WysiwygFormEditor.lookup();
+    public void renderAddField(String fieldName, DataFieldHolder dataFieldHolder, String bindingId) {
+        FieldType type = fieldTypeManager.getTypeByClass(dataFieldHolder.getClassName());
 
+        if (type == null) return;
+
+        setAttribute("className", dataFieldHolder.getClassName());
         setAttribute("typeName", type.getCode());
         setAttribute("bindingId", bindingId);
         setAttribute("showFieldName", ((fieldName != null && fieldName.length() < 17) ? fieldName : fieldName.substring(0, 13) + "..."));
 
-        setAttribute("iconUri", wysiwygFormEditor.getFieldTypesManager().getIconPathForCode(type.getCode()));
+        setAttribute("iconUri", fieldTypeManager.getIconPathForCode(type.getCode()));
         setAttribute("fieldName", fieldName);
         renderFragment("outputField");
     }

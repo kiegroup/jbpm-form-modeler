@@ -16,7 +16,6 @@
 
 --%>
 <%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
-<%@ page import="org.jbpm.formModeler.api.model.Form" %>
 <%@ page import="org.jbpm.formModeler.components.editor.WysiwygFormEditor" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 
@@ -75,15 +74,17 @@
                 <mvc:fragmentValue name="typeName" id="typeName">
                     <mvc:fragmentValue name="fieldName" id="fieldName">
                         <mvc:fragmentValue name="showFieldName" id="showFieldName">
+                            <mvc:fragmentValue name="className" id="className">
                             <li><span title="<%=fieldName%>" style="vertical-align: top"><img src="<static:image relativePath="<%=(String)iconUri%>"/>"
                                                                                               align="absmiddle">
                                         <%=StringEscapeUtils.escapeHtml((String) showFieldName)%>
                                             <a href="<factory:url  action="addFieldFromDataHolder">
                                                          <factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=bindingId%>"/>
                                                          <factory:param name="<%=WysiwygFormEditor.PARAMETER_FIELD_NAME%>" value="<%=fieldName%>"/>
-                                                         <factory:param name="<%=WysiwygFormEditor.PARAMETER_FIELD_TYPECODE%>" value="<%=typeName%>"/>
+                                                         <factory:param name="<%=WysiwygFormEditor.PARAMETER_FIELD_CLASS%>" value="<%=className%>"/>
                                                          </factory:url>"><img style="float: right; position: relative; top: 0px;" src="<static:image relativePath="actions/triang_right.png"/>"></a>
                             </span></li>
+                            </mvc:fragmentValue>
                         </mvc:fragmentValue>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>

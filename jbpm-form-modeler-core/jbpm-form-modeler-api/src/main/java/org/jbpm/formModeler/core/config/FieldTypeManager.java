@@ -41,11 +41,11 @@ public interface FieldTypeManager extends Serializable {
 
     List getFormDecoratorTypes() throws Exception;
 
-    FieldType getTypeByCode(String typeCode) throws Exception;
+    FieldType getTypeByCode(String typeCode);
 
-    FieldType getTypeByClass(String classType) throws Exception;
+    FieldType getTypeByClass(String classType);
 
-    FieldType getTypeByCode(String typeCode, boolean tryToCreateTypes) throws Exception;
+    FieldType getTypeByCode(String typeCode, boolean tryToCreateTypes);
 
     String getIconPathForCode(String code);
 }

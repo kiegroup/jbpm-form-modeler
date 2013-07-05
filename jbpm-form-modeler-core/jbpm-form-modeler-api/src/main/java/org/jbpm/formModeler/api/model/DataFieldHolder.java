@@ -18,12 +18,12 @@ package org.jbpm.formModeler.api.model;
 public class DataFieldHolder implements Comparable {
     DataHolder holder;
     String id;
-    String type;
+    String className;
 
-    public DataFieldHolder(DataHolder holder, String id, String type) {
+    public DataFieldHolder(DataHolder holder, String id, String className) {
         this.holder = holder;
         this.id = id;
-        this.type = type;
+        this.className = className;
     }
 
     public DataHolder getHolder() {
@@ -42,12 +42,12 @@ public class DataFieldHolder implements Comparable {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getClassName() {
+        return className;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     @Override
