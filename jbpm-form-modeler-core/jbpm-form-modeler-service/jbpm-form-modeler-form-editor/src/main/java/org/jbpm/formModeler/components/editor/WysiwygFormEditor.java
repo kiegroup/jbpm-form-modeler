@@ -904,8 +904,12 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String inputBinging = holder.getInputBinding(fieldName);
         String outputBinding = holder.getOuputBinding(fieldName);
 
-        FieldType fieldType = getFieldTypesManager().getTypeByClass(fieldClass);
-
+        FieldType fieldType = null;
+        if (Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(holder.getTypeCode())){
+            fieldType = getFieldTypesManager().getTypeByCode(holder.getInfo());
+        } else {
+            fieldType = getFieldTypesManager().getTypeByClass(fieldClass);
+        }
         getFormManager().addFieldToForm(form, dataHolderId + "_" + fieldName, fieldType, fieldClass, label, inputBinging, outputBinding);
         setLastDataHolderUsedId(dataHolderId);
     }
