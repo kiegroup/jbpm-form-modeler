@@ -190,7 +190,7 @@ public class DataHoldersFormFormatter extends Formatter {
                         }
                         i++;
                         if (!Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(dataHolder.getTypeCode())){
-                            renderAddField(fieldName, fieldTypeManager.getTypeByCode(dataFieldHolder.getType()), holderId);
+                            renderAddField(fieldName, dataFieldHolder, holderId);
                         }
                     }
                 }
