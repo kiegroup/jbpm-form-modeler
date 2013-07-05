@@ -112,6 +112,11 @@
                             <artifactId>jbpm-form-modeler-static-resources</artifactId>
                         </overlay>
                     </overlays>
+
+                    <packagingExcludes>
+                        WEB-INF/lib/jbpm-form-modeler-api*.jar,WEB-INF/lib/jbpm-form-service-core*.jar,WEB-INF/lib/jbpm-form-modeler-app*.jar
+                    </packagingExcludes>
+
                 </configuration>
             </plugin>
         </plugins>
