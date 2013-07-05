@@ -46,6 +46,7 @@
             supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>');
             supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>');
             supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>');
+            supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_BASIC_TYPE%>');
 
             function show_dataholderInfo(divStr) {
                 jQuery.each( supportedHolders, function( index, value ) {
@@ -110,7 +111,11 @@
                 <input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
                        value="<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>"
                        onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>')">&nbsp;<i18n:message
-                    key="dataHolder_info_javaClass">!!!dataHolder_info_javaClass</i18n:message>
+                    key="dataHolder_info_javaClass">!!!dataHolder_info_javaClass</i18n:message><br>
+                <input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
+                       value="<%=Form.HOLDER_TYPE_CODE_BASIC_TYPE%>"
+                       onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_BASIC_TYPE%>')">&nbsp;<i18n:message
+                    key="dataHolder_basicType">!!!Basic type source</i18n:message><br>
             </td>
         </tr>
         <tr>

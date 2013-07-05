@@ -82,10 +82,19 @@ public class DataHoldersFormFormatter extends Formatter {
             Map values = null;
             if (holderBuilder != null) values = holderBuilder.getOptions(wysiwygFormEditor.getCurrentEditionContext().getPath());
 
-            renderSelectDataModel(values);
+            renderSelectDataModel(Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL,WysiwygFormEditor.PARAMETER_HOLDER_DM_INFO, values);
 
             renderFragment("rowEnd");
 
+            renderFragment("rowStart");
+
+            holderBuilder = dataHolderManager.getBuilderByType(Form.HOLDER_TYPE_CODE_BASIC_TYPE);
+            values = null;
+            if (holderBuilder != null) values = holderBuilder.getOptions(wysiwygFormEditor.getCurrentEditionContext().getPath());
+
+            renderSelectDataModel(Form.HOLDER_TYPE_CODE_BASIC_TYPE,WysiwygFormEditor.PARAMETER_HOLDER_BT_INFO, values);
+
+            renderFragment("rowEnd");
 
             renderFragment("outputFormAddHolderEnd");
 
@@ -113,9 +122,9 @@ public class DataHoldersFormFormatter extends Formatter {
         }
     }
 
-    public void renderSelectDataModel(Map values) throws Exception {
-        setAttribute("id", Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL);
-        setAttribute("name", WysiwygFormEditor.PARAMETER_HOLDER_DM_INFO);
+    public void renderSelectDataModel(String id, String name, Map values) throws Exception {
+        setAttribute("id", id);
+        setAttribute("name", name);
         renderFragment("selectStart");
 
         if (values!= null ) {
@@ -171,12 +180,18 @@ public class DataHoldersFormFormatter extends Formatter {
                             if (holderName.length() > 20) holderName = holderName.substring(0, 19) + "...";
 
                             setAttribute("showHolderName", holderName);
-
+                            if (Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(dataHolder.getTypeCode())){
+                                setAttribute("noConfirm", Boolean.TRUE);
+                            } else {
+                                setAttribute("noConfirm", Boolean.FALSE);
+                            }
                             renderFragment("outputBinding");
 
                         }
                         i++;
-                        renderAddField(fieldName, dataFieldHolder, holderId);
+                        if (!Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(dataHolder.getTypeCode())){
+                            renderAddField(fieldName, fieldTypeManager.getTypeByCode(dataFieldHolder.getType()), holderId);
+                        }
                     }
                 }
                 if (i != 0) {//last field of list

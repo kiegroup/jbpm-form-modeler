@@ -107,6 +107,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public static final String PARAMETER_HOLDER_INFO = "holderInfo";
     public static final String PARAMETER_HOLDER_TYPE = "holderType";
     public static final String PARAMETER_HOLDER_DM_INFO = "holderDMInfo";
+    public static final String PARAMETER_HOLDER_BT_INFO = "holderBasicTypeInfo";
     public static final String PARAMETER_HOLDER_PR_INFO = "holderPRInfo";
     public static final String PARAMETER_FIELD_NAME = "fieldName";
     public static final String PARAMETER_FIELD_TYPECODE = "typeCode";
@@ -824,7 +825,9 @@ public class WysiwygFormEditor extends BaseUIComponent {
         config.put("id", holderId);
         config.put("outId", holderOutId);
         config.put("color", holderRenderColor);
-        if (Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL.equals(holderType)) {
+        if (Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(holderType)) {
+            holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_BT_INFO);
+        }else  if (Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL.equals(holderType)) {
             config.put("path", getCurrentEditionContext().getPath());
             holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_DM_INFO);
         } else if (Form.HOLDER_TYPE_CODE_POJO_CLASSNAME.equals(holderType)) holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_INFO);

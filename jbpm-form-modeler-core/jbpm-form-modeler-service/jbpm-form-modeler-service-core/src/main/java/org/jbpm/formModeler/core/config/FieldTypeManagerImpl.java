@@ -51,6 +51,9 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
     private Map<String, String> iconsMappings = new HashMap<String, String>();
     private String defaultIcon = "fieldTypes/button.gif";
 
+    private ArrayList<String> hiddenFieldTypesCodes= new ArrayList<String>();
+
+
     @PostConstruct
     protected void init() {
 
@@ -114,6 +117,11 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         iconsMappings.put("editorVersionSubform", "fieldTypes/master_details.png");
         iconsMappings.put("MultipleSubform", "fieldTypes/master_details.png");
         iconsMappings.put("FreeText", "fieldTypes/textbox.png");
+
+        hiddenFieldTypesCodes.add("I18nHTMLText");
+        hiddenFieldTypesCodes.add("I18nText");
+        hiddenFieldTypesCodes.add("I18nTextArea");
+
     }
 
     @Override
@@ -239,6 +247,14 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
 
     public static FieldTypeManagerImpl lookup() {
         return (FieldTypeManagerImpl) CDIBeanLocator.getBeanByType(FieldTypeManagerImpl.class);
+    }
+
+    public boolean isDisplayableType(String typeCode){
+        if (typeCode==null) return false;
+        for(String code: hiddenFieldTypesCodes){
+            if(typeCode.equals(code)) return false;
+        }
+        return true;
     }
 
 }

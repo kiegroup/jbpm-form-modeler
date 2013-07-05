@@ -48,4 +48,6 @@ public interface FieldTypeManager extends Serializable {
     FieldType getTypeByCode(String typeCode, boolean tryToCreateTypes);
 
     String getIconPathForCode(String code);
+
+    boolean isDisplayableType(String code);
 }

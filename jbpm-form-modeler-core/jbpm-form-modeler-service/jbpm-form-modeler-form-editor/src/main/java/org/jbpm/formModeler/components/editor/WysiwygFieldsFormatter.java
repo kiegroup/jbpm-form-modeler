@@ -40,13 +40,6 @@ public class WysiwygFieldsFormatter extends Formatter {
     @Inject
     private Log log;
 
-    private ArrayList<String> hiddenFieldTypesCodes= new ArrayList<String>();
-
-    public WysiwygFieldsFormatter() {
-        hiddenFieldTypesCodes.add("I18nHTMLText");
-        hiddenFieldTypesCodes.add("I18nText");
-        hiddenFieldTypesCodes.add("I18nTextArea");
-    }
 
     public FieldHandlersManager getFieldHandlersManager() {
         return FormProcessingServices.lookup().getFieldHandlersManager();
@@ -204,7 +197,7 @@ public class WysiwygFieldsFormatter extends Formatter {
                 renderFragment("typeStart");
                 for (int j = 0; j < fieldTypes.size(); j++) {
                     FieldType type = (FieldType) fieldTypes.get(j);
-                    if(displayType(type.getCode())){
+                    if(getFieldTypesManager().isDisplayableType(type.getCode())){
                     setAttribute("typeName", type.getCode());
                     setAttribute("iconUri", getFieldTypesManager().getIconPathForCode(type.getCode()));
                     setAttribute("uid", "primitive" + i + "_" + j);
@@ -276,7 +269,7 @@ public class WysiwygFieldsFormatter extends Formatter {
         */
         return props;
     }
-
+ /*
     private boolean displayType(String typeCode){
         if (typeCode==null) return false;
         for(String code: hiddenFieldTypesCodes){
@@ -284,4 +277,5 @@ public class WysiwygFieldsFormatter extends Formatter {
         }
         return true;
     }
+    */
 }
