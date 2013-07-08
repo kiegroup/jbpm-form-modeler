@@ -36,6 +36,12 @@ public class FormChangeHandler extends BeanHandler {
     @Inject
     private FormProcessor formProcessor;
 
+    @Override
+    public boolean isEnabledForActionHandling() {
+        //WM
+        return true;
+    }
+
     public CommandResponse actionProcess(CommandRequest request) throws Exception {
         String modifiedFieldName = request.getParameter("modifiedFieldName");
         FormNamespaceData formNamespaceData = NamespaceManager.lookup().getNamespace(modifiedFieldName);
