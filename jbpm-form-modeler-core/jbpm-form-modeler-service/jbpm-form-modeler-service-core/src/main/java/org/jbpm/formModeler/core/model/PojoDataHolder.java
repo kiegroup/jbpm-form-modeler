@@ -26,7 +26,7 @@ import java.lang.reflect.*;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class PojoDataHolder extends DefaultDataHolder implements Comparable {
+public class PojoDataHolder extends DefaultDataHolder  {
     private String inputId;
     private String outputId;
     private String className;
@@ -140,10 +140,6 @@ public class PojoDataHolder extends DefaultDataHolder implements Comparable {
         return Form.HOLDER_TYPE_CODE_POJO_CLASSNAME;
     }
 
-
-    public int compareTo(Object o) {
-        return inputId.compareTo(((PojoDataHolder) o).getInputId());
-    }
 
     @Override
     public String getInfo() {

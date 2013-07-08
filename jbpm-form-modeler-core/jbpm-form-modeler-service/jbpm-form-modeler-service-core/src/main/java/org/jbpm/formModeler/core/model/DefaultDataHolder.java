@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class DefaultDataHolder implements DataHolder {
+public abstract class DefaultDataHolder implements DataHolder, Comparable {
     private String renderColor;
 
     @Override
@@ -69,7 +69,11 @@ public abstract class DefaultDataHolder implements DataHolder {
     @Override
     public boolean isAssignableForField(Field field) {
         if (field == null || field.getInputBinding() == null || field.getOutputBinding() == null) return false;
-
         return (containsBinding(field.getInputBinding()) || containsBinding(field.getOutputBinding()));
+    }
+
+    public int compareTo(Object o) {
+        String holderId = StringUtils.defaultIfEmpty(getInputId(), getOuputId());
+        return holderId.compareTo( StringUtils.defaultIfEmpty(((DataHolder) o).getInputId(), ((DataHolder) o).getOuputId()));
     }
 }

@@ -16,6 +16,7 @@
 package org.jbpm.formModeler.core.config;
 
 
+import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
@@ -23,6 +24,7 @@ import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Manager interface form Forms.
@@ -90,4 +92,12 @@ public interface FormManager extends Serializable {
     String getUniqueIdentifiersPreffix();
 
     String getUniqueIdentifier(Form form, String namespace, Field field, String fieldName);
+
+    public void addDataHolderToForm(Form form, String holderType,String id, String outId, String color, String value,Object path)throws Exception;
+
+    public void removeDataHolderFromForm(Form form, String holderId);
+
+    public void addAllDataHolderFieldsToForm(Form form, String holderId) throws Exception;
+
+    public void addDataFieldHolder(Form form, String holderId, String fieldName, String fieldClass) throws Exception;
 }

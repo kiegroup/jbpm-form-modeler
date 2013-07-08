@@ -18,6 +18,7 @@ package org.jbpm.formModeler.core.model;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
+import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
@@ -29,7 +30,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-public class BasicTypeDataHolder extends DefaultDataHolder implements Comparable {
+public class BasicTypeDataHolder extends DefaultDataHolder  {
     private String inputId;
     private String outputId;
     private FieldType basicFieldType;
@@ -151,11 +152,6 @@ public class BasicTypeDataHolder extends DefaultDataHolder implements Comparable
     @Override
     public String getTypeCode() {
         return Form.HOLDER_TYPE_CODE_BASIC_TYPE;
-    }
-
-
-    public int compareTo(Object o) {
-        return inputId.compareTo(((BasicTypeDataHolder) o).getInputId());
     }
 
     @Override

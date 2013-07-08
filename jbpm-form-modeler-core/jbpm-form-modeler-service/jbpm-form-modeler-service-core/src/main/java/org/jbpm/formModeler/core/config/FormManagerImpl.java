@@ -21,12 +21,19 @@ import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.jbpm.formModeler.service.LocaleManager;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @ApplicationScoped
 public class FormManagerImpl implements FormManager {
+
+    @Inject
+    private DataHolderManager dataHolderManager;
+
+    @Inject
+    protected FieldTypeManager fieldTypeManager;
 
     private HashSet<Form> forms = new HashSet<Form>();
 
@@ -640,4 +647,58 @@ public class FormManagerImpl implements FormManager {
     protected void logError(String message) {
         Logger.getLogger(FormManagerImpl.class.getName()).log(Level.SEVERE, message);
     }
+
+    @Override
+    public void addDataHolderToForm(Form form, String holderType, String id, String outId, String color, String value, Object path) throws Exception {
+        Map<String, Object> config = new HashMap<String, Object>();
+
+        config.put("id", id);
+        config.put("outId", outId);
+        config.put("color", color);
+        config.put("value", value);
+        config.put("path", path);
+
+        DataHolder holder = dataHolderManager.createDataHolderByType(holderType, config);
+        if (holder != null) form.setDataHolder(holder);
+    }
+
+    @Override
+    public void removeDataHolderFromForm(Form form, String holderId) {
+        if ((holderId != null)) {
+            form.removeDataHolder(holderId);
+        }
+    }
+
+    @Override
+    public void addAllDataHolderFieldsToForm(Form form, String holderId) throws Exception{
+        if (holderId != null) {
+
+            DataHolder holder = form.getDataHolderById(holderId);
+
+            Set<DataFieldHolder> holderFields = holder.getFieldHolders();
+            for (DataFieldHolder dataFieldHolder : holderFields) {
+                addDataFieldHolder(form, holderId, dataFieldHolder.getId(), dataFieldHolder.getClassName());
+            }
+
+        }
+    }
+    public void addDataFieldHolder(Form form, String bindingId, String fieldName, String fieldClass) throws Exception {
+        I18nSet label = new I18nSet();
+        String defaultLang = LocaleManager.lookup().getDefaultLang();
+        DataHolder holder = form.getDataHolderById(bindingId);
+        String dataHolderId = StringUtils.defaultIfEmpty(holder.getInputId(), holder.getOuputId());
+        label.setValue(defaultLang, fieldName + " (" + dataHolderId + ")");
+
+        String inputBinging = holder.getInputBinding(fieldName);
+        String outputBinding = holder.getOuputBinding(fieldName);
+
+        FieldType fieldType = null;
+        if (Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(holder.getTypeCode())){
+            fieldType = fieldTypeManager.getTypeByCode(holder.getInfo());
+        } else {
+            fieldType = fieldTypeManager.getTypeByClass(fieldClass);
+        }
+        addFieldToForm(form, dataHolderId + "_" + fieldName, fieldType, fieldClass, label, inputBinging, outputBinding);
+    }
+
 }

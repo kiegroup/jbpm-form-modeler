@@ -805,40 +805,26 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String[] holderRenderColorArray = (String[]) parameterMap.get(PARAMETER_HOLDER_RENDERCOLOR);
 
         String holderType = null;
-        if (holderTypeArray != null && holderTypeArray.length > 0) holderType = holderTypeArray[0];
-
         String holderId = null;
-        if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
-
         String holderOutId = null;
-        if (holderOutIdArray != null && holderOutIdArray.length > 0) holderOutId = holderOutIdArray[0];
-
         String holderRenderColor = null;
-        if (holderRenderColorArray != null && holderRenderColorArray.length > 0)
-            holderRenderColor = holderRenderColorArray[0];
-
         String holderInfo = null;
+
+        if (holderTypeArray != null && holderTypeArray.length > 0) holderType = holderTypeArray[0];
+        if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
+        if (holderOutIdArray != null && holderOutIdArray.length > 0) holderOutId = holderOutIdArray[0];
+        if (holderRenderColorArray != null && holderRenderColorArray.length > 0) holderRenderColor = holderRenderColorArray[0];
+
         String[] holderInfoArray = null;
-
-        Map<String, Object> config = new HashMap<String, Object>();
-
-        config.put("id", holderId);
-        config.put("outId", holderOutId);
-        config.put("color", holderRenderColor);
         if (Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(holderType)) {
             holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_BT_INFO);
         }else  if (Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL.equals(holderType)) {
-            config.put("path", getCurrentEditionContext().getPath());
             holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_DM_INFO);
         } else if (Form.HOLDER_TYPE_CODE_POJO_CLASSNAME.equals(holderType)) holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_INFO);
         if (holderInfoArray != null && holderInfoArray.length > 0) holderInfo = holderInfoArray[0];
 
-        config.put("value", holderInfo);
+        getFormManager().addDataHolderToForm(getCurrentForm(),holderType,holderId,holderOutId,holderRenderColor,holderInfo,getCurrentEditionContext().getPath());
 
-        DataHolder holder = dataHolderManager.createDataHolderByType(holderType, config);
-
-        Form form = getCurrentForm();
-        if (holder != null) form.setDataHolder(holder);
     }
 
 
@@ -848,10 +834,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String holderId = null;
         if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
 
-        if ((holderId != null)) {
-            Form form = getCurrentForm();
-            form.removeDataHolder(holderId);
-        }
+        getFormManager().removeDataHolderFromForm(getCurrentForm(),holderId);
     }
 
     public void addAllDataHolderFieldsToForm(Map parameterMap) throws Exception {
@@ -862,14 +845,8 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
 
         if (holderId != null) {
-            Form form = getCurrentForm();
-            DataHolder holder = form.getDataHolderById(holderId);
-
-            Set<DataFieldHolder> holderFields = holder.getFieldHolders();
-            for (DataFieldHolder dataFieldHolder : holderFields) {
-                addDataFieldHolder(form, holder, dataFieldHolder.getId(), dataFieldHolder.getClassName());
-            }
-
+            getFormManager().addAllDataHolderFieldsToForm(getCurrentForm(),holderId);
+            setLastDataHolderUsedId(holderId);
         }
     }
 
@@ -880,39 +857,19 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String[] fieldClassArray = (String[]) parameterMap.get(PARAMETER_FIELD_CLASS);
 
         String bindingId = null;
-        if (holderIdArray != null && holderIdArray.length > 0) bindingId = holderIdArray[0];
-
         String fieldName = null;
-        if (fieldNameArray != null && fieldNameArray.length > 0) fieldName = fieldNameArray[0];
-
         String fieldClass = null;
+
+        if (holderIdArray != null && holderIdArray.length > 0) bindingId = holderIdArray[0];
+        if (fieldNameArray != null && fieldNameArray.length > 0) fieldName = fieldNameArray[0];
         if (fieldClassArray != null && fieldClassArray.length > 0) fieldClass = fieldClassArray[0];
 
         if (bindingId != null) {
-            Form form = getCurrentForm();
-            DataHolder holder = form.getDataHolderById(bindingId);
-            addDataFieldHolder(form, holder, fieldName, fieldClass);
+            getFormManager().addDataFieldHolder(getCurrentForm(),bindingId,fieldName,fieldClass);
+            setLastDataHolderUsedId(bindingId);
         }
     }
 
-    private void addDataFieldHolder(Form form, DataHolder holder, String fieldName, String fieldClass) throws Exception {
-        I18nSet label = new I18nSet();
-        String defaultLang = LocaleManager.lookup().getDefaultLang();
-        String dataHolderId = StringUtils.defaultIfEmpty(holder.getInputId(), holder.getOuputId());
-        label.setValue(defaultLang, fieldName + " (" + dataHolderId + ")");
-
-        String inputBinging = holder.getInputBinding(fieldName);
-        String outputBinding = holder.getOuputBinding(fieldName);
-
-        FieldType fieldType = null;
-        if (Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(holder.getTypeCode())){
-            fieldType = getFieldTypesManager().getTypeByCode(holder.getInfo());
-        } else {
-            fieldType = getFieldTypesManager().getTypeByClass(fieldClass);
-        }
-        getFormManager().addFieldToForm(form, dataHolderId + "_" + fieldName, fieldType, fieldClass, label, inputBinging, outputBinding);
-        setLastDataHolderUsedId(dataHolderId);
-    }
 
     public boolean isShowingTemplateEdition() {
         if (getFormTemplateEditor() != null) {

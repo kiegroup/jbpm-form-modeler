@@ -50,4 +50,6 @@ public interface FieldTypeManager extends Serializable {
     String getIconPathForCode(String code);
 
     boolean isDisplayableType(String code);
+
+    boolean isbaseType(String code);
 }
