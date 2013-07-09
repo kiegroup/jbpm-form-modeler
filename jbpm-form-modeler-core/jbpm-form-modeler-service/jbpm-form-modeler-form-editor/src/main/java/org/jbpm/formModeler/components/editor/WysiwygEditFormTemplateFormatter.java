@@ -30,10 +30,13 @@ public class WysiwygEditFormTemplateFormatter extends Formatter {
     @Inject
     private Log log;
 
+    @Inject
+    private FormTemplateEditor formTemplateEditor;
+
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
             WysiwygFormEditor editor = WysiwygFormEditor.lookup();
-            FormTemplateEditor templateEditor = editor.getFormTemplateEditor();
+            FormTemplateEditor templateEditor = formTemplateEditor;
             setAttribute("templateContent", templateEditor.getTemplateContent());
             setAttribute("templateToLoad", templateEditor.getTemplateToLoad());
             setAttribute("loadTemplate", Boolean.valueOf(templateEditor.isLoadTemplate()));

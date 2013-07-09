@@ -22,6 +22,7 @@ import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,9 +35,11 @@ import java.util.Set;
 public class AvailableTemplateElementsFormatter extends Formatter {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(AvailableTemplateElementsFormatter.class.getName());
 
+    @Inject
+    private FormTemplateEditor formTemplateEditor;
 
     public FormTemplateEditor getFormTemplateEditor() {
-        return WysiwygFormEditor.lookup().getFormTemplateEditor();
+        return formTemplateEditor;
     }
 
 

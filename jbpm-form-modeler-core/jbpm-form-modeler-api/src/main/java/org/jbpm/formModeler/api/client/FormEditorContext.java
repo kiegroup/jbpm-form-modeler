@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.api.client;
 
+import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
 
 
@@ -22,6 +23,21 @@ public class FormEditorContext {
     private FormRenderContext renderContext;
     private Form originalForm;
     private Object path;
+
+    private int currentEditFieldPosition = -1;
+    private boolean swapFields = true;
+    private String fieldTypeToView = null;
+    private String currentEditionOption;
+    private int lastMovedFieldPosition = -1;
+    private boolean showReturnButton = false;
+    private String renderMode = Form.RENDER_MODE_WYSIWYG_FORM;
+    private Boolean displayBindings = Boolean.TRUE;
+    private Boolean displayGrid = Boolean.TRUE;
+    private Boolean showTemplateEdition = Boolean.FALSE;
+    private FieldType originalFieldType;
+    private String lastDataHolderUsedId = "";
+    private FormEditorContext editionContext;
+
 
     public FormEditorContext(FormRenderContext ctx, Object path) {
         this.renderContext = ctx;
@@ -54,5 +70,111 @@ public class FormEditorContext {
 
     public FormEditorContextTO getFormEditorContextTO() {
         return new FormEditorContextTO(renderContext.getUID(), renderContext.getForm().getId(), renderContext.getForm().getName(), path);
+    }
+
+    /*--Form edition status ----------------------------------*/
+
+    public int getCurrentEditFieldPosition() {
+        return currentEditFieldPosition;
+    }
+
+    public void setCurrentEditFieldPosition(int currentEditFieldPosition) {
+        this.currentEditFieldPosition = currentEditFieldPosition;
+    }
+
+    public boolean isSwapFields() {
+        return swapFields;
+    }
+
+    public void setSwapFields(boolean swapFields) {
+        this.swapFields = swapFields;
+    }
+
+    public String getFieldTypeToView() {
+        return fieldTypeToView;
+    }
+
+    public void setFieldTypeToView(String fieldTypeToView) {
+        this.fieldTypeToView = fieldTypeToView;
+    }
+
+    public String getCurrentEditionOption() {
+        return currentEditionOption;
+    }
+
+    public void setCurrentEditionOption(String currentEditionOption) {
+        this.currentEditionOption = currentEditionOption;
+    }
+
+    public int getLastMovedFieldPosition() {
+        return lastMovedFieldPosition;
+    }
+
+    public void setLastMovedFieldPosition(int lastMovedFieldPosition) {
+        this.lastMovedFieldPosition = lastMovedFieldPosition;
+    }
+
+    public boolean isShowReturnButton() {
+        return showReturnButton;
+    }
+
+    public void setShowReturnButton(boolean showReturnButton) {
+        this.showReturnButton = showReturnButton;
+    }
+
+    public String getRenderMode() {
+        return renderMode;
+    }
+
+    public void setRenderMode(String renderMode) {
+        this.renderMode = renderMode;
+    }
+
+    public Boolean getDisplayBindings() {
+        return displayBindings;
+    }
+
+    public void setDisplayBindings(Boolean displayBindings) {
+        this.displayBindings = displayBindings;
+    }
+
+    public Boolean getDisplayGrid() {
+        return displayGrid;
+    }
+
+    public void setDisplayGrid(Boolean displayGrid) {
+        this.displayGrid = displayGrid;
+    }
+
+    public Boolean getShowTemplateEdition() {
+        return showTemplateEdition;
+    }
+
+    public void setShowTemplateEdition(Boolean showTemplateEdition) {
+        this.showTemplateEdition = showTemplateEdition;
+    }
+
+    public FieldType getOriginalFieldType() {
+        return originalFieldType;
+    }
+
+    public void setOriginalFieldType(FieldType originalFieldType) {
+        this.originalFieldType = originalFieldType;
+    }
+
+    public String getLastDataHolderUsedId() {
+        return lastDataHolderUsedId;
+    }
+
+    public void setLastDataHolderUsedId(String lastDataHolderUsedId) {
+        this.lastDataHolderUsedId = lastDataHolderUsedId;
+    }
+
+    public FormEditorContext getEditionContext() {
+        return editionContext;
+    }
+
+    public void setEditionContext(FormEditorContext editionContext) {
+        this.editionContext = editionContext;
     }
 }
