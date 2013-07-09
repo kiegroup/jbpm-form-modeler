@@ -45,32 +45,11 @@
         </tr>
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
-    <mvc:fragment name="outputStatusInputStart">
-        <tr>
-        <td>
-        <br><b><i18n:message key="status">!!!Status</i18n:message>:</b><br>
-        <select  name="status" class="skn-input" >
-    </mvc:fragment>
-    <%------------------------------------------------------------------------------------------------------------%>
-    <mvc:fragment name="outputStatusInputOption">
-        <mvc:fragmentValue name="optionValue" id="optionValue">
-            <option <mvc:fragmentValue name="selected"/> value="<%=optionValue%>">
-                <i18n:message key='<%="formStatus."+optionValue%>'><%=optionValue%></i18n:message>
-            </option>
-        </mvc:fragmentValue>
-    </mvc:fragment>
-    <%------------------------------------------------------------------------------------------------------------%>
-    <mvc:fragment name="outputStatusInputEnd">
-        </select>
-        </td>
-        </tr>
-    </mvc:fragment>
-    <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputDisplayModeStart">
         <tr>
         <td>
         <br><b><i18n:message key="displayMode">
-        !!! Modo de visualizacion:
+        !!! show mode
     </i18n:message>:</b><br>
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
@@ -78,7 +57,7 @@
         <input
             <mvc:fragmentValue name="checked"/> type="radio"
                                                 name="displayMode" value="default">
-        <i18n:message key="displayMode.default">!!!Por defecto</i18n:message>
+        <i18n:message key="displayMode.default">!!!Default</i18n:message>
         <br>
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
@@ -86,7 +65,7 @@
         <input
             <mvc:fragmentValue name="checked"/> type="radio"
                                                 name="displayMode" value="aligned">
-        <i18n:message key="displayMode.aligned">!!!Campos alineados</i18n:message>
+        <i18n:message key="displayMode.aligned">!!!Aligned </i18n:message>
         <br>
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
@@ -94,14 +73,14 @@
         <input
             <mvc:fragmentValue name="checked"/> type="radio"
                                                 name="displayMode" value="none">
-        <i18n:message key="displayMode.none">!!!Sin alineaci&oacute;n</i18n:message>
+        <i18n:message key="displayMode.none">!!!Without alignment</i18n:message>
         <br>
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputTemplateDisplayMode">
         <input <mvc:fragmentValue name="checked"/> type="radio"  id='<factory:encode name="editTemplateCheckbox"/>'
                                                    name="displayMode" value="template">
-        <i18n:message key="displayMode.template">!!!Plantilla</i18n:message>
+        <i18n:message key="displayMode.template">!!!Template</i18n:message>
         <%--a href="<panel:link action="startEditTemplate"/>" id="<panel:encode name="editTemplateLnk"/>">
             <i18n:message key="edit">!!!Edit</i18n:message>
         </a--%>
@@ -125,7 +104,7 @@
         <tr>
         <td>
         <br><b><i18n:message key="labelMode">
-        !!! Modo de visualizacion:
+        !!! Show Mode:
     </i18n:message>:</b><br>
         <select class="skn-input" name="labelMode">
     </mvc:fragment>
@@ -159,7 +138,7 @@
                     <tr>
                         <td align="center" style="height:30px" nowrap><br>
                             <input id="<factory:encode name="saveFormSubmit"/>" type="submit"
-                                   class="skn-button" value="<i18n:message key="save">!!!Aceptar</i18n:message>"/>
+                                   class="skn-button" value="<i18n:message key="save">!!!Save</i18n:message>"/>
                         </td>
                     </tr>
                 </table>

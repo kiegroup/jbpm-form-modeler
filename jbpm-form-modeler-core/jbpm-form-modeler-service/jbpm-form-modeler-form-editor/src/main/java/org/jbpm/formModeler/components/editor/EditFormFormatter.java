@@ -43,18 +43,6 @@ public class EditFormFormatter extends Formatter {
             setFormAttributes(form);
             renderFragment("outputNameInput");
 
-            renderFragment("outputStatusInputStart");
-
-            int[] statuses = new int[]{FormManager.FORMSTATUS_NORMAL, FormManager.FORMSTATUS_HIDDEN};
-            for (int i = 0; i < statuses.length; i++) {
-                int status = statuses[i];
-                setAttribute("optionValue", status);
-                setAttribute("selected", form.getStatus().intValue() == status ? "selected" : "");
-                renderFragment("outputStatusInputOption");
-            }
-            renderFragment("outputStatusInputEnd");
-
-
             setFormAttributes(form);
             renderFragment("outputProcessorInput");
 
