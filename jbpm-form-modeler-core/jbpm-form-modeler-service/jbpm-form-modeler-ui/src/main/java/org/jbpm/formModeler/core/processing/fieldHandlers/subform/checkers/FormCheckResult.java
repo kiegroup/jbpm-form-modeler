@@ -13,11 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbpm.formModeler.core.processing;
+package org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers;
 
-import org.jbpm.formModeler.api.model.Field;
+public class FormCheckResult {
+    private boolean valid;
+    private String messageKey;
 
-public abstract class PersistentFieldHandler extends DefaultFieldHandler {
-    public abstract Object persist(Field field, String inputName) throws Exception;
-    public abstract Object getStatusValue(Field field, String inputName, Object value);
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+
+    public String getMessageKey() {
+        return messageKey;
+    }
+
+    public void setMessageKey(String messageKey) {
+        this.messageKey = messageKey;
+    }
 }

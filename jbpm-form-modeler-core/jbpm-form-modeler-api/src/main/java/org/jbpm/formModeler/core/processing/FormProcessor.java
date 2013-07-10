@@ -103,13 +103,24 @@ public interface FormProcessor {
     void persist(FormRenderContext context) throws Exception;
 
     /**
+     * Persists the form fields that match the given holder
+     *
+     * @param form
+     * @param namespace
+     * @param mapToPersist
+     * @param holder
+     * @return The persisted object
+     * @throws Exception
+     */
+
+    Object persistFormHolder(Form form, String namespace, Map<String, Object> mapToPersist, DataHolder holder) throws Exception;
+
+    /**
      * Persists the status for given FormRenderContext id.
      *
      * @param ctxUid Form render context UID
      */
     void persist(String ctxUid) throws Exception;
-
-    Object persistFormHolder(Form form, String namespace, Map<String, Object> mapToPersist, DataHolder holder) throws Exception;
 
     /**
      * Read status for given form id.
@@ -125,10 +136,21 @@ public interface FormProcessor {
      *
      * @param form    Form to read
      * @param namespace Form namespace
-     * @param bindingData Values to load into the status
+     * @param formValues Values to load into the status
      * @return a FormStatusData object representing the form status
      */
-    public FormStatusData read(Form form, String namespace, Map<String, Object> bindingData);
+    public FormStatusData read(Form form, String namespace, Map<String, Object> formValues);
+
+    /**
+     * Read status for given form id.
+     *
+     * @param form    Form to read
+     * @param namespace Form namespace
+     * @param formValues Values to load into the status
+     * @param loadedObjects Map containing the objects loaded on the form
+     * @return a FormStatusData object representing the form status
+     */
+    public FormStatusData read(Form form, String namespace, Map<String, Object> formValues, Map<String, Object> loadedObjects);
 
     /**
      * Calculates all formulas for given form. Should be called before reading status, otherwise, some
@@ -197,4 +219,6 @@ public interface FormProcessor {
      * @param fieldName field name to mark as wrong
      */
     void forceWrongField(Form form, String namespace, String fieldName);
+
+    Map createFieldContextValueFromHolder(Form form, String namespace, Map<String, Object> inputData, Map<String, Object> outputData, Map<String, Object> loadedObjects, DataHolder holder) throws Exception;
 }

@@ -57,4 +57,6 @@ public interface FormStatusData {
     public List getErrorMessages(String fieldName);
 
     public Map getWrongFieldsMessages();
+
+    public Object getLoadedObject(String id);
 }

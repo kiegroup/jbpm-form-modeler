@@ -19,14 +19,20 @@ import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormProcessor;
+import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.FormCheckResult;
+import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.SubformChecker;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @ApplicationScoped
 @Named("SubformFormatter")
@@ -49,9 +55,21 @@ public class SubformFormatter extends DefaultFieldHandlerFormatter {
         isDisabled = paramsReader.isFieldDisabled();
         isReadonly = paramsReader.isFieldReadonly();
 
-        //if (!isSubformDepthAllowed(form.getDbid(), namespace)) return;
+        SubformFieldHandler fieldHandler = (SubformFieldHandler) getFieldHandlersManager().getHandler(field.getFieldType());
 
-        boolean valueIsNull = value == null;
+        Form enterDataForm = fieldHandler.getEnterDataForm(namespace, field);
+        Set checkers = fieldHandler.getSubformCheckers();
+        for(Iterator it = checkers.iterator(); it.hasNext();) {
+            SubformChecker checker = (SubformChecker) it.next();
+            FormCheckResult result = checker.checkForm(enterDataForm);
+            if (!result.isValid()) {
+                setAttribute("error", result.getMessageKey());
+                renderFragment("renderError");
+                return;
+            }
+        }
+
+        if (!fieldHandler.checkSubformDepthAllowed(form, namespace)) return;
 
         setDefaultAttributes(field, form, namespace);
         setAttribute("valueObject", value);
@@ -63,34 +81,22 @@ public class SubformFormatter extends DefaultFieldHandlerFormatter {
         renderFragment("outputStart");
 
         String renderMode = paramsReader.getCurrentRenderMode();
-        renderItemForm(form, field, namespace, fieldName, (Map) value, renderMode);
+        setAttribute("formId", enterDataForm.getId());
+        setAttribute("namespace", namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName());
+        setAttribute("uid", getFormManager().getUniqueIdentifier(form, namespace, field, fieldName));
+        setAttribute("name", fieldName);
+        setAttribute("renderMode", renderMode);
+        // Override the field's own disabled and readonly values with the ones coming from a parent formatter
+        // that contains it if they're set to true.
+        if (isDisabled) setAttribute("disabled", isDisabled);
+        if (isReadonly) setAttribute("readonly", isReadonly);
+        if (value != null) {
+            setAttribute("formValues", value);
+        }
+        renderFragment("outputForm");
 
         renderFragment("outputEnd");
 
-    }
-
-    protected void renderItemForm(Form form, Field field, String currentNamespace, String fieldName, Map value, String renderMode) {
-        SubformFieldHandler fieldHandler = (SubformFieldHandler) getFieldHandlersManager().getHandler(field.getFieldType());
-
-        Form enterDataForm = fieldHandler.getEnterDataForm(currentNamespace, field);
-        if (enterDataForm == null) {
-            setAttribute("errorMsg", "nonoCreateFormForm");
-            renderFragment("noFormError");
-        } else {
-            setAttribute("formId", enterDataForm.getId());
-            setAttribute("namespace", currentNamespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName());
-            setAttribute("uid", getFormManager().getUniqueIdentifier(form, currentNamespace, field, fieldName));
-            setAttribute("name", fieldName);
-            setAttribute("renderMode", renderMode);
-            // Override the field's own disabled and readonly values with the ones coming from a parent formatter
-            // that contains it if they're set to true.
-            if (isDisabled) setAttribute("disabled", isDisabled);
-            if (isReadonly) setAttribute("readonly", isReadonly);
-            if (value != null) {
-                setAttribute("formValues", value);
-            }
-            renderFragment("outputForm");
-        }
     }
 
 }

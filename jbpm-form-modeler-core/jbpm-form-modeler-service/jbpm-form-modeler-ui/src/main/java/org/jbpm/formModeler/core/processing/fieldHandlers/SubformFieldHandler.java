@@ -20,9 +20,12 @@ import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.*;
+import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.SubformChecker;
 import org.jbpm.formModeler.core.processing.formRendering.FormErrorMessageBuilder;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.*;
@@ -30,6 +33,10 @@ import java.util.*;
 @Named("org.jbpm.formModeler.core.processing.fieldHandlers.SubformFieldHandler")
 public class SubformFieldHandler extends PersistentFieldHandler {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SubformFieldHandler.class.getName());
+
+    @Inject
+    private Instance<SubformChecker> checkers;
+    private Set<SubformChecker> subformCheckers;
 
     @Inject
     private SubformFinderService subformFinderService;
@@ -42,6 +49,20 @@ public class SubformFieldHandler extends PersistentFieldHandler {
     private String pageToIncludeForSearching = "/formModeler/fieldHandlers/Subform/search.jsp";
 
     private static int maxDepth = 2;
+
+
+    @PostConstruct
+    public void prepare() {
+        subformCheckers = new TreeSet<SubformChecker>(new Comparator<SubformChecker>() {
+            @Override
+            public int compare(SubformChecker o1, SubformChecker o2) {
+                return o1.getPriority() - o2.getPriority();
+            }
+        });
+        for (SubformChecker p : checkers) {
+            subformCheckers.add(p);
+        }
+    }
 
     /**
      * Determine the list of class types this field can generate. That is, normally,
@@ -71,22 +92,51 @@ public class SubformFieldHandler extends PersistentFieldHandler {
     }
 
     @Override
-    public Object persist(Field field, String inputName, String desiredClass) throws Exception {
+    public Object persist(Field field, String inputName) throws Exception {
         Form form = getEnterDataForm(inputName, field);
         Map representation = getFormProcessor().getMapRepresentationToPersist(form, inputName);
 
-        return getFormProcessor().persistFormHolder(form, inputName, representation, form.getDataHolderByInfo(field.getSubformClass()));
+        return getFormProcessor().persistFormHolder(form, inputName, representation, form.getHolders().iterator().next());
+    }
+
+    @Override
+    public Object getStatusValue(Field field, String inputName, Object value) {
+        if (value == null) return Collections.EMPTY_MAP;
+        Form form = getEnterDataForm(inputName, field);
+        DataHolder holder = form.getHolders().iterator().next();
+
+        Map<String, Object> inputData = new HashMap();
+
+        if (!StringUtils.isEmpty(holder.getInputId())) inputData.put(holder.getInputId(), value);
+
+        Map<String, Object> outputData = new HashMap();
+
+        if (!StringUtils.isEmpty(holder.getInputId())) outputData.put(holder.getOuputId(), value);
+
+        Map<String, Object> loadedObjects = new HashMap();
+
+        Map result = null;
+        try {
+            result = getFormProcessor().createFieldContextValueFromHolder(form, inputName, inputData, outputData, loadedObjects, holder);
+        } catch (Exception e) {
+            log.error("Error getting status value for field: " + inputName, e);
+        }
+
+        getFormProcessor().read(form, inputName, result, loadedObjects);
+
+        return result;
     }
 
     public Map getParamValue(String inputName, Object value, String pattern) {
         if (value == null)
             return Collections.EMPTY_MAP;
-        Map m = new HashMap();
 
         FormNamespaceData data = getNamespaceManager().getNamespace(inputName);
         Field parentField = data.getForm().getField(data.getFieldNameInParent());
         Form childForm = getEnterDataForm(inputName, parentField);
-        DataHolder holder = childForm.getDataHolderByInfo(parentField.getSubformClass());
+
+        Map result = new HashMap();
+        DataHolder holder = childForm.getHolders().iterator().next();
         for (Iterator it = childForm.getFormFields().iterator(); it.hasNext();) {
             Field childField = (Field) it.next();
             String bindingExpression = StringUtils.defaultIfEmpty(childField.getInputBinding(), childField.getOutputBinding());
@@ -94,19 +144,20 @@ public class SubformFieldHandler extends PersistentFieldHandler {
             try {
                 Object val = holder.readFromBindingExperssion(value, bindingExpression);
                 FieldHandler fieldManager = getFieldHandlersManager().getHandler(childField.getFieldType());
-                Map childrenMap = fieldManager.getParamValue(inputName + FormProcessor.NAMESPACE_SEPARATOR + childForm.getId() + FormProcessor.NAMESPACE_SEPARATOR + childField.getFieldName(), val, childField.getFieldPattern());
-                if (childrenMap != null) m.putAll(childrenMap);
+                Map childrenMap = fieldManager.getParamValue(childField.getFieldName(), val, childField.getFieldPattern());
+                if (childrenMap != null) result.putAll(childrenMap);
             } catch (Exception e) {
                 log.warn("Error reading value from field '" + childField.getFieldName() + "': ", e);
             }
         }
-        return m;
+
+        return result;
     }
+
 
     public List getWrongChildFieldErrors(String namespace, Field field) {
         return formErrorMessageBuilder.getWrongFormErrors(namespace, getEnterDataForm(namespace, field));
     }
-
 
     /**
      * When rendering a form, if field is handled by this handler, determine the
@@ -178,5 +229,9 @@ public class SubformFieldHandler extends PersistentFieldHandler {
         }
         return true;
 
+    }
+
+    public Set<SubformChecker> getSubformCheckers() {
+        return subformCheckers;
     }
 }

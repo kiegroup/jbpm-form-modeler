@@ -70,9 +70,9 @@ public class FormStatusManager implements Serializable {
      * @param namespace namespace
      * @return the form status associated with given form id and namespace
      */
-    public FormStatus createFormStatus(Long formId, String namespace) {
+    public FormStatus createFormStatus(Long formId, String namespace, Map<String, Object> currentValues) {
         namespace = StringUtils.defaultIfEmpty(namespace, FormProcessor.DEFAULT_NAMESPACE);
-        FormStatus fs = new FormStatus(formId, namespace);
+        FormStatus fs = new FormStatus(formId, namespace, currentValues);
         formStatuses.put(namespace + FormProcessor.NAMESPACE_SEPARATOR + formId, fs);
         try {
             Form form = FormCoreServices.lookup().getFormManager().getFormById(formId);

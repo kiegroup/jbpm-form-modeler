@@ -36,7 +36,7 @@ import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.*;
@@ -44,7 +44,7 @@ import java.util.*;
 /**
  * Component to edit forms in a WYSIWYG way
  */
-@ApplicationScoped
+@SessionScoped
 @Named("wysiwygfe")
 public class WysiwygFormEditor extends BaseUIComponent {
 

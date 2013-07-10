@@ -36,18 +36,32 @@ public class FormChangeHandler extends BeanHandler {
     @Inject
     private FormProcessor formProcessor;
 
+    @Inject
+    private FormChangeProcessor changeProcessor;
+
+    @Override
+    public boolean isEnabledForActionHandling() {
+        //WM
+        return true;
+    }
+
+    public FormChangeProcessor getChangeProcessor() {
+        //TODO ver de inyectar tal vez por nombre para el caso donde hubiera mas de un change processor
+        return changeProcessor;
+    }
+
     public CommandResponse actionProcess(CommandRequest request) throws Exception {
         String modifiedFieldName = request.getParameter("modifiedFieldName");
         FormNamespaceData formNamespaceData = NamespaceManager.lookup().getNamespace(modifiedFieldName);
         FormChangeResponse changeResponse = new FormChangeResponse();
 
         while (formNamespaceData != null) {
-            //if (getChangeProcessor() != null) {
-            formProcessor.setValues(formNamespaceData.getForm(), formNamespaceData.getNamespace(), request.getRequestObject().getParameterMap(), request.getFilesByParamName(), false);
-            //    getChangeProcessor().process(formNamespaceData.getForm(), formNamespaceData.getNamespace(), changeResponse);
+            if (getChangeProcessor() != null) {
+                formProcessor.setValues(formNamespaceData.getForm(), formNamespaceData.getNamespace(), request.getRequestObject().getParameterMap(), request.getFilesByParamName(), false);
+                getChangeProcessor().process(formNamespaceData.getForm(), formNamespaceData.getNamespace(), changeResponse);
                 // Clear errors that might be stored in formStatuses
-            formProcessor.clearFieldErrors(formNamespaceData.getForm(), formNamespaceData.getNamespace());
-            //}
+                formProcessor.clearFieldErrors(formNamespaceData.getForm(), formNamespaceData.getNamespace());
+            }
             // Evaluate parent's formulas
             formNamespaceData = NamespaceManager.lookup().getNamespace(formNamespaceData.getNamespace());
         }

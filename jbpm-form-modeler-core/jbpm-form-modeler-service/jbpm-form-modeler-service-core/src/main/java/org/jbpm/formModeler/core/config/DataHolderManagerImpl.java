@@ -19,10 +19,12 @@ package org.jbpm.formModeler.core.config;
 import org.jbpm.formModeler.core.config.builders.DataHolderBuilder;
 import org.jbpm.formModeler.api.model.DataHolder;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.util.Map;
 
+@ApplicationScoped
 public class DataHolderManagerImpl implements DataHolderManager {
 
     @Inject

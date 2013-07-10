@@ -18,7 +18,10 @@ package org.jbpm.formModeler.core.processing.formProcessing;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.core.FieldHandlersManager;
+import org.jbpm.formModeler.core.processing.FormProcessor;
 
+import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -31,6 +34,18 @@ public abstract class FormChangeProcessor {
 
     protected String[] supportedFormModes;
     protected String[] sizeRestrictedFormModes;
+
+    @Inject
+    protected FieldHandlersManager fieldHandlersManager;
+
+    @Inject
+    protected FormProcessor formProcessor;
+
+    @Inject
+    protected FormulaReplacementManager replacementManager;
+
+    @Inject
+    protected FunctionsProvider functionsProvider;
 
     public FormChangeProcessor getNextProcessor() {
         return nextProcessor;

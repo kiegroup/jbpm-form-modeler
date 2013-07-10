@@ -277,14 +277,8 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         field.setHideContent(Boolean.valueOf(value));
                     } else if ("defaultValueFormula".equals(propName)) {
                         field.setDefaultValueFormula(value);
-                    } else if("subformClass".equals(propName)) {
-                        field.setSubformClass(value);
                     } else if ("defaultSubform".equals(propName)) {
                         field.setDefaultSubform(value);
-                    } else if ("creationSubform".equals(propName)) {
-                        field.setCreationSubform(value);
-                    } else if ("editionSubform".equals(propName)) {
-                        field.setEditionSubform(value);
                     } else if ("previewSubform".equals(propName)) {
                         field.setPreviewSubform(value);
                     } else if ("tableSubform".equals(propName)) {
@@ -359,10 +353,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         addXMLNode("outputBinding", field.getOutputBinding(), rootNode);
         addXMLNode("htmlContent", (field.getHtmlContent() != null ? serializeI18nSet(field.getHtmlContent()) : null), rootNode);
 
-        addXMLNode("subformClass", field.getSubformClass(), rootNode);
         addXMLNode("defaultSubform", field.getDefaultSubform(), rootNode);
-        addXMLNode("creationSubform", field.getCreationSubform(), rootNode);
-        addXMLNode("editionSubform", field.getEditionSubform(), rootNode);
         addXMLNode("previewSubform", field.getPreviewSubform(), rootNode);
         addXMLNode("tableSubform", field.getTableSubform(), rootNode);
         addXMLNode("newItemText", (field.getNewItemText() != null ? serializeI18nSet(field.getNewItemText()):null), rootNode);

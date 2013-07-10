@@ -82,7 +82,7 @@ public class RangeProviderForm implements RangeProvider {
 
         for (FileUtils.ScanResult form : forms) {
             org.kie.commons.java.nio.file.Path formPath = form.getFile();
-            if (formPath.getName(formPath.getNameCount() - 1).startsWith(".") || formPath.toUri().toString().equals(currentForm.toURI())) continue;
+            if (formPath.getName(formPath.getNameCount() - 1).toString().startsWith(".") || formPath.toUri().toString().equals(currentForm.toURI())) continue;
 
             String path = form.getFile().toUri().getPath().substring(resourcesPath.length() + 1);
             treeMap.put(path, path);

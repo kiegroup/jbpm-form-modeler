@@ -43,6 +43,7 @@ public class FormStatusDataImpl implements FormStatusData {
     private Map currentInputValues;
     private boolean isNew;
     private Map attributes = new HashMap();
+    private Map<String, Object> loadedObjects = new HashMap<String, Object>();
 
     public FormStatusDataImpl(FormStatus status, boolean isNew) {
         setCurrentValues(status.getInputValues() != null ? Collections.unmodifiableMap(status.getInputValues()) : null);
@@ -51,6 +52,7 @@ public class FormStatusDataImpl implements FormStatusData {
         setWrongFields(status.getWrongFields() != null ? Collections.unmodifiableList(new ArrayList(status.getWrongFields())) : null);
         setWrongFieldsMessages(status.getWrongFieldsMessages() != null ? Collections.unmodifiableMap(new HashMap(status.getWrongFieldsMessages())) : null);
         setValid(wrongFields == null || wrongFields.isEmpty());
+        loadedObjects.putAll(status.getLoadedObjects());
 
         Map inputValues = status.getInputValues();
         setEmpty(true);
@@ -173,5 +175,10 @@ public class FormStatusDataImpl implements FormStatusData {
 
     public void setWrongFieldsMessages(Map<String, String> wrongFieldsMessages) {
         this.wrongFieldsMessages = wrongFieldsMessages;
+    }
+
+    @Override
+    public Object getLoadedObject(String id) {
+        return loadedObjects.get(id);
     }
 }
