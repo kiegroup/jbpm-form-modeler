@@ -23,8 +23,11 @@ import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
+import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.FormCheckResult;
+import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.SubformChecker;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
+import javax.enterprise.inject.Instance;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -64,6 +67,19 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
         isReadonly = paramsReader.isFieldReadonly();
 
         CreateDynamicObjectFieldHandler fHandler = (CreateDynamicObjectFieldHandler) getFieldHandlersManager().getHandler(field.getFieldType());
+
+        Form createForm = fHandler.getCreateForm(field, currentNamespace);
+
+        Set checkers = fHandler.getSubformCheckers();
+        for(Iterator it = checkers.iterator(); it.hasNext();) {
+            SubformChecker checker = (SubformChecker) it.next();
+            FormCheckResult result = checker.checkForm(createForm);
+            if (!result.isValid()) {
+                setAttribute("error", result.getMessageKey());
+                renderFragment("renderError");
+                return;
+            }
+        }
 
         if (!fHandler.checkSubformDepthAllowed(form, currentNamespace)) return;
 
@@ -203,8 +219,6 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
                     //getFormProcessor().read(formToEdit, rowNamespace, valueToEdit);
 
                     renderFragment("editItem");
-                } else {
-                    renderFragment("noEnterDataForm");
                 }
             }
         }
@@ -214,9 +228,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
         CreateDynamicObjectFieldHandler fieldHandler = (CreateDynamicObjectFieldHandler) getFieldHandlersManager().getHandler(field.getFieldType());
         Form enterDataForm = fieldHandler.getCreateForm(field, currentNamespace);
         boolean disallowCreateNew = Boolean.TRUE.equals(field.getHideCreateItem());
-        if (enterDataForm == null) {
-            renderFragment("noEnterDataForm");
-        } else if (!disallowCreateNew) {
+        if (enterDataForm != null && !disallowCreateNew) {
             setAttribute("formId", enterDataForm.getId());
             String namespace = currentNamespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName();
             setAttribute("namespace", namespace + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create");
@@ -266,11 +278,6 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
         Form form;
 
         form = fieldHandler.calculateFieldForm(field, field.getTableSubform(), currentNamespace);
-
-        if (form == null) {
-            renderFragment("noShowDataForm");
-            return;
-        }
 
         if (value != null) { //If it is an array, convert it to a List.
             if (value.getClass().isArray()) {

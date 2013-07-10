@@ -237,43 +237,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="13" name="creationSubform" type="InputText" id="1301952243">
-        <property name="fieldName" value="creationSubform"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value="2"/>
-        <property name="label" value="quot;caquot;,quot;Formulari creaci&#243;:quot;quot;enquot;,quot;Creation form:quot;quot;esquot;,quot;Formulario de creaci&#243;n:quot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="55"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value="${range_provider_form}"/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="14" name="editionSubform" type="InputText" id="1301952244">
-        <property name="fieldName" value="editionSubform"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value="2"/>
-        <property name="label" value="quot;caquot;,quot;Formulari edici&#242;:quot;quot;enquot;,quot;Edit form:quot;quot;esquot;,quot;Formulario de edici&#243;n:quot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="55"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value="${range_provider_form}"/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="15" name="previewSubform" type="InputText" id="1301952245">
+    <field position="13" name="previewSubform" type="InputText" id="1301952245">
         <property name="fieldName" value="previewSubform"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -291,7 +255,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="16" name="tableSubform" type="InputText" id="1301952246">
+    <field position="14" name="tableSubform" type="InputText" id="1301952246">
         <property name="fieldName" value="tableSubform"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -309,7 +273,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="17" name="newItemText" type="I18nText" id="1301952247">
+    <field position="15" name="newItemText" type="I18nText" id="1301952247">
         <property name="fieldName" value="newItemText"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -327,7 +291,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="18" name="addItemText" type="I18nText" id="1301952248">
+    <field position="16" name="addItemText" type="I18nText" id="1301952248">
         <property name="fieldName" value="addItemText"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -345,7 +309,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="19" name="cancelItemText" type="I18nText" id="1301952249">
+    <field position="17" name="cancelItemText" type="I18nText" id="1301952249">
         <property name="fieldName" value="cancelItemText"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -363,7 +327,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="20" name="deleteItems" type="CheckBox" id="1504888915">
+    <field position="18" name="deleteItems" type="CheckBox" id="1504888915">
         <property name="fieldName" value="deleteItems"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -381,7 +345,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="21" name="updateItems" type="CheckBox" id="1504888916">
+    <field position="19" name="updateItems" type="CheckBox" id="1504888916">
         <property name="fieldName" value="updateItems"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -399,7 +363,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="22" name="previewItems" type="CheckBox" id="1504888917">
+    <field position="20" name="previewItems" type="CheckBox" id="1504888917">
         <property name="fieldName" value="previewItems"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -417,7 +381,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="23" name="hideCreateItem" type="CheckBox" id="1504888918">
+    <field position="21" name="hideCreateItem" type="CheckBox" id="1504888918">
         <property name="fieldName" value="hideCreateItem"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -435,7 +399,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="24" name="expanded" type="CheckBox" id="1504888919">
+    <field position="22" name="expanded" type="CheckBox" id="1504888919">
         <property name="fieldName" value="expanded"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -454,7 +418,7 @@
         <property name="accesskey" value=""/>
     </field>
 
-    <field position="25" name="separator" type="InputTextArea" id="2003753528">
+    <field position="23" name="separator" type="InputTextArea" id="2003753528">
         <property name="fieldName" value="separator"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -472,7 +436,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="26" name="enableTableEnterData" type="CheckBox" id="1504888920">
+    <field position="24" name="enableTableEnterData" type="CheckBox" id="1504888920">
         <property name="fieldName" value="enableTableEnterData"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -490,5 +454,4 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-
 </form>

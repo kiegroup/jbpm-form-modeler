@@ -13,11 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbpm.formModeler.core.processing;
+package org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers;
 
-import org.jbpm.formModeler.api.model.Field;
+import org.jbpm.formModeler.api.model.Form;
 
-public abstract class PersistentFieldHandler extends DefaultFieldHandler {
-    public abstract Object persist(Field field, String inputName) throws Exception;
-    public abstract Object getStatusValue(Field field, String inputName, Object value);
+public class NullFormChecker extends  SubformChecker {
+
+    @Override
+    public FormCheckResult checkForm(Form form) {
+        FormCheckResult result = new FormCheckResult();
+        if (form == null) {
+            result.setValid(false);
+            result.setMessageKey("noDefinedForm");
+        } else {
+            result.setValid(true);
+        }
+        return result;
+    }
+
+    @Override
+    public int getPriority() {
+        return 1;
+    }
 }

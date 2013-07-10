@@ -28,11 +28,11 @@ import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@ApplicationScoped
+@SessionScoped
 @Named("frc")
 public class FormRenderingComponent extends BaseUIComponent {
     @Inject

@@ -25,7 +25,11 @@ import java.util.Map;
 import java.util.Set;
 
 public abstract class DefaultDataHolder implements DataHolder {
-    private String renderColor;
+    protected String renderColor;
+
+    public String getUniqeId() {
+        return StringUtils.defaultString(getInputId()) + "/" + StringUtils.defaultString(getOuputId());
+    }
 
     @Override
     public String getRenderColor() {

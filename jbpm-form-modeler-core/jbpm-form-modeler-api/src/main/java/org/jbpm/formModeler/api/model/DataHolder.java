@@ -20,7 +20,7 @@ import org.jbpm.formModeler.api.client.FormRenderContext;
 import java.util.Set;
 
 public interface DataHolder extends Comparable{
-
+    String getUniqeId();
     String getInputId();
     String getOuputId();
     Object createInstance(FormRenderContext context) throws Exception;

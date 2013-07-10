@@ -359,8 +359,6 @@ public class FormManagerImpl implements FormManager {
                 field.setLabel(label);
             }
 
-            if (!StringUtils.isEmpty(fieldClass)) field.setSubformClass(fieldClass);
-
             form.getFormFields().add(field);
 
             return field;

@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbpm.formModeler.core.processing;
+package org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers;
 
-import org.jbpm.formModeler.api.model.Field;
+import org.jbpm.formModeler.api.model.Form;
 
-public abstract class PersistentFieldHandler extends DefaultFieldHandler {
-    public abstract Object persist(Field field, String inputName) throws Exception;
-    public abstract Object getStatusValue(Field field, String inputName, Object value);
+public abstract class SubformChecker {
+
+    public abstract FormCheckResult checkForm(Form form);
+    public abstract int getPriority();
 }

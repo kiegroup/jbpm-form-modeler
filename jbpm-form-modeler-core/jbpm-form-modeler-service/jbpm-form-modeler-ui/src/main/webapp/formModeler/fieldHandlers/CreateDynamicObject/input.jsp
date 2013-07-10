@@ -27,8 +27,7 @@
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 
 
-<i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages"
-             locale="<%=LocaleManager.currentLocale()%>"/>
+<i18n:bundle id="bundle" baseName="org.jbpm.formModeler.core.processing.fieldHandlers.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%try {%>
 
 <mvc:formatter name="CreateDynamicObjectFieldFormatter">
@@ -472,16 +471,16 @@
     </mvc:fragmentValue>
 </mvc:fragment>
 <%----------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="noEnterDataForm">
-    <tr>
-        <td>
-                    <span class="skn-error">
-                        <i18n:message key="noCreateForm">
-                            !!!Undefined creation form
-                        </i18n:message>
-                    </span>
-        </td>
-    </tr>
+<mvc:fragment name="renderError">
+    <mvc:fragmentValue name="error" id="error">
+        <tr>
+            <td>
+                <span class="skn-error">
+                    <i18n:message key="<%=(String)error%>">!!!<%=error%></i18n:message>
+                </span>
+            </td>
+        </tr>
+    </mvc:fragmentValue>
 </mvc:fragment>
 <%----------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="outputEnd">

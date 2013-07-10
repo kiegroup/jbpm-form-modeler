@@ -78,7 +78,6 @@ public class Field implements Comparable<Field> {
     private int position;
 
     //Subform data
-    private String subformClass;
     private String defaultSubform;
     private String creationSubform;
     private String editionSubform;
@@ -268,36 +267,12 @@ public class Field implements Comparable<Field> {
     }
 
     //Subform data
-    public String getSubformClass() {
-        return subformClass;
-    }
-
-    public void setSubformClass(String subformClass) {
-        this.subformClass = subformClass;
-    }
-
     public String getDefaultSubform() {
         return defaultSubform;
     }
 
     public void setDefaultSubform(String defaultSubform) {
         this.defaultSubform = defaultSubform;
-    }
-
-    public String getCreationSubform() {
-        return creationSubform;
-    }
-
-    public void setCreationSubform(String creationSubform) {
-        this.creationSubform = creationSubform;
-    }
-
-    public String getEditionSubform() {
-        return editionSubform;
-    }
-
-    public void setEditionSubform(String editionSubform) {
-        this.editionSubform = editionSubform;
     }
 
     public String getPreviewSubform() {
@@ -490,10 +465,7 @@ public class Field implements Comparable<Field> {
         this.setDefaultValueFormula(field.getDefaultValueFormula());
 
         //subforms
-        this.setSubformClass(field.getSubformClass());
         this.setDefaultSubform(field.getDefaultSubform());
-        this.setCreationSubform(field.getCreationSubform());
-        this.setEditionSubform(field.getEditionSubform());
         this.setPreviewSubform(field.getPreviewSubform());
         this.setTableSubform(field.getTableSubform());
         this.setNewItemText(field.getNewItemText());
@@ -655,10 +627,7 @@ public class Field implements Comparable<Field> {
         value.put("outputBinding", getOutputBinding());
 
         //SubForms
-        value.put("subformClass", getSubformClass());
         value.put("defaultSubform",getDefaultSubform());
-        value.put("creationSubform",getCreationSubform());
-        value.put("editionSubform",getEditionSubform());
         value.put("previewSubform",getPreviewSubform());
         value.put("tableSubform",getTableSubform());
 

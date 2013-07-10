@@ -24,24 +24,22 @@ import java.util.*;
 public class FormStatus implements Serializable {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormStatus.class.getName());
 
-    private Map inputValues = new InputValuesMap();
+    private Map<String, Object> inputValues = new HashMap<String, Object>();
     private Map lastParameterMap;
     private Long relatedFormId;
     private Set wrongFields = new TreeSet();
     private Map<String, List> wrongFieldsMessages = new HashMap<String, List>();
     private String namespace;
     private Map attributes = new HashMap();
+    private Map<String, Object> loadedObjects = new HashMap<String, Object>();
 
-    public FormStatus(Long relatedFormId, String namespace) {
+    public FormStatus(Long relatedFormId, String namespace, Map currentValues) {
         this.relatedFormId = relatedFormId;
         this.namespace = namespace;
+        if (currentValues != null) inputValues.putAll(currentValues);
     }
 
     public Map getInputValues() {
-        // Security Check. May be uncommented for debug purposes.
-        /* if (inputValues != null) {
-            checkThatThereAreNoDynObjectsInStatus(inputValues);
-        } */
         return inputValues;
     }
 
@@ -83,18 +81,6 @@ public class FormStatus implements Serializable {
         this.attributes = attributes;
     }
 
-    class InputValuesMap extends HashMap { //Permits proxying calls to input values map
-
-        public Object put(Object key, Object value) {
-            Object obj = super.put(key, value);
-            return obj;
-        }
-
-        public void putAll(Map m) {
-            super.putAll(m);
-        }
-    }
-
     public void clearFormErrors() {
         wrongFields.clear();
         wrongFieldsMessages.clear();
@@ -120,5 +106,21 @@ public class FormStatus implements Serializable {
 
     public void setWrongFieldsMessages(Map wrongFieldsMessages) {
         this.wrongFieldsMessages = wrongFieldsMessages;
+    }
+
+    public Map<String, Object> getLoadedObjects() {
+        return loadedObjects;
+    }
+
+    public void setLoadedObjects(Map<String, Object> loadedObjects) {
+        this.loadedObjects = loadedObjects;
+    }
+
+    public void addLoadedObject(String id, Object obj) {
+        loadedObjects.put(id, obj);
+    }
+
+    public Object getLoadedObject(String id) {
+        return loadedObjects.get(id);
     }
 }

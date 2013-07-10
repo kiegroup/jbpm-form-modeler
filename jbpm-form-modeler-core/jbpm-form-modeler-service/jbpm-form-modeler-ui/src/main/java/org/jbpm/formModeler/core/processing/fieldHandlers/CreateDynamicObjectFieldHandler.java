@@ -18,6 +18,7 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FieldHandler;
@@ -27,13 +28,10 @@ import org.jbpm.formModeler.core.rendering.SubformFinderService;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Named("org.jbpm.formModeler.core.processing.fieldHandlers.CreateDynamicObjectFieldHandler")
-public class CreateDynamicObjectFieldHandler extends SubformFieldHandler implements FieldHandler {
+public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CreateDynamicObjectFieldHandler.class.getName());
 
     public static final String CODE = "subformMultiple";
@@ -134,8 +132,47 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
     }
 
     @Override
-    public Object persist(Field field, String inputName, String desiredClass) throws Exception {
-        FormStatusData data = getFormProcessor().read(field.getForm(), inputName);
+    public Map getParamValue(String inputName, Object value, String pattern) {
+        return Collections.EMPTY_MAP;
+    }
+
+    @Override
+    public Object getStatusValue(Field field, String inputName, Object value) {
+        if (value == null) return new Map[0];
+        Form form = getEnterDataForm(inputName, field);
+        DataHolder holder = form.getHolders().iterator().next();
+
+        List values = (List) value;
+        Map[] result = new Map[values.size()];
+
+        for (int i = 0; i < values.size(); i++) {
+            try {
+                Object val = values.get(i);
+                Map<String, Object> inputData = new HashMap();
+                if (!StringUtils.isEmpty(holder.getInputId())) inputData.put(holder.getInputId(), val);
+
+                Map<String, Object> outputData = new HashMap();
+
+                if (!StringUtils.isEmpty(holder.getOuputId())) outputData.put(holder.getOuputId(), val);
+
+                result[i] = getFormProcessor().createFieldContextValueFromHolder(form, inputName, inputData, outputData, new HashMap<String, Object>(), holder);
+            } catch (Exception e) {
+                log.error("Error getting status value for field: " + inputName, e);
+            }
+        }
+
+        Map<String, Object> loadedObjects = new HashMap();
+        loadedObjects.put(holder.getUniqeId(), result);
+
+        getFormProcessor().read(form, inputName, null, loadedObjects);
+
+        return result;
+    }
+
+    @Override
+    public Object persist(Field field, String inputName) throws Exception {
+        FormStatusData data = getFormProcessor().read(field.getForm(), getNamespaceManager().getParentNamespace(inputName));
+
         Object objectValue = data.getCurrentValue(field.getFieldName());
         if (objectValue == null) return null;
 
@@ -144,7 +181,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
         Form form = getEnterDataForm(inputName, field);
 
         for (int i = 0; i < values.length; i++) {
-            result.add(getFormProcessor().persistFormHolder(form, inputName, values[i], form.getDataHolderByInfo(field.getSubformClass())));
+            result.add(getFormProcessor().persistFormHolder(form, inputName, values[i], form.getHolders().iterator().next()));
         }
 
         return result;
@@ -176,7 +213,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
 
     public Form getCreateForm(Field field, String namespace) {
         try {
-            return calculateFieldForm(field, field.getCreationSubform(), namespace);
+            return calculateFieldForm(field, field.getDefaultSubform(), namespace);
         } catch (Exception e) {
             log.error("Error: ", e);
         }
@@ -203,7 +240,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler impleme
 
     public Form getEditForm(Field field, String namespace) {
         try {
-            return calculateFieldForm(field, field.getEditionSubform(), namespace);
+            return calculateFieldForm(field, field.getDefaultSubform(), namespace);
         } catch (Exception e) {
             log.error("Error: ", e);
         }

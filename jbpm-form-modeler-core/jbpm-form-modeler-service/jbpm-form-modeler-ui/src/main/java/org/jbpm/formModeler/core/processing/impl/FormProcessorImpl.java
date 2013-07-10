@@ -15,7 +15,6 @@
  */
 package org.jbpm.formModeler.core.processing.impl;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.api.model.DataHolder;
@@ -30,9 +29,7 @@ import org.jbpm.formModeler.core.processing.formStatus.FormStatus;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatusManager;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.core.config.FormManagerImpl;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
@@ -67,12 +64,12 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     }
 
     protected FormStatus getFormStatus(Form form, String namespace) {
-        return getFormStatus(form, namespace, new HashMap());
+        return getFormStatus(form, namespace, new HashMap(), new HashMap<String, Object>());
     }
 
-    protected FormStatus getFormStatus(Form form, String namespace, Map currentValues) {
+    protected FormStatus getFormStatus(Form form, String namespace, Map<String, Object> currentValues, Map<String, Object> loadedObjects) {
         FormStatus formStatus = FormStatusManager.lookup().getFormStatus(form.getId(), namespace);
-        return formStatus != null ? formStatus : createFormStatus(form, namespace, currentValues);
+        return formStatus != null ? formStatus : createFormStatus(form, namespace, currentValues, loadedObjects);
     }
 
     protected boolean existsFormStatus(Long formId, String namespace) {
@@ -80,8 +77,9 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         return formStatus != null;
     }
 
-    protected FormStatus createFormStatus(Form form, String namespace, Map currentValues) {
-        FormStatus fStatus = FormStatusManager.lookup().createFormStatus(form.getId(), namespace);
+    protected FormStatus createFormStatus(Form form, String namespace, Map currentValues, Map<String, Object> loadedObjects) {
+        FormStatus fStatus = FormStatusManager.lookup().createFormStatus(form.getId(), namespace, currentValues);
+        fStatus.setLoadedObjects(loadedObjects);
         setDefaultValues(form, namespace, currentValues);
         return fStatus;
     }
@@ -90,7 +88,6 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
         if (form != null) {
             Set formFields = form.getFormFields();
-            Map params = new HashMap(5);
 
             Map rangeFormulas = (Map) getAttribute(form, namespace, FormStatusData.CALCULATED_RANGE_FORMULAS);
 
@@ -101,50 +98,19 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
             for (Iterator iterator = formFields.iterator(); iterator.hasNext();) {
                 Field field = (Field) iterator.next();
-                Object value = currentValues.get(field.getFieldName());
                 String inputName = getPrefix(form, namespace) + field.getFieldName();
 
                 try {
-                    FieldHandler handler = fieldHandlersManager.getHandler(field.getFieldType());
-                    if ((value instanceof Map && !((Map)value).containsKey(FORM_MODE)) && !(value instanceof I18nSet)) ((Map)value).put(FORM_MODE, currentValues.get(FORM_MODE));
-                    Map paramValue = handler.getParamValue(inputName, value, field.getFieldPattern());
-                    if (paramValue != null && !paramValue.isEmpty()) params.putAll(paramValue);
-
                     // Init ranges for simple combos
                     String rangeFormula = field.getRangeFormula();
 
-                    if (rangeFormula!=null && rangeFormula.trim().length()>0) {
+                    if (rangeFormula!=null && rangeFormula.trim().length() > 0) {
                         rangeFormulas.put(field.getFieldName(), rangeProviderManager.getRangeValues(rangeFormula, namespace));
                     }
-
-
-                    /*
-         TODO: implement again formulas for default values
-
-         Object defaultValue = pField.get("defaultValueFormula");
-         String inputName = getPrefix(pf, namespace) + pField.getFieldName();
-         try {
-             String pattern = (String) pField.get("pattern");
-             Object value = currentValues.get(pField.getFieldName());
-             FieldHandler handler = pField.getFieldType().getManager();
-             if (value == null) {
-                 if (defaultValue != null) {
-                     if (!defaultValue.toString().startsWith("=")) {
-                         log.error("Incorrect formula specified for field " + pField.getFieldName());
-                         continue;
-                     }
-                     if (handler instanceof DefaultFieldHandler)
-                         value = ((DefaultFieldHandler) handler).evaluateFormula(pField, defaultValue.toString().substring(1), "", new HashMap(0), "", namespace, new Date());
-                 }
-             }
-             if ((value instanceof Map && !((Map)value).containsKey(FormProcessor.FORM_MODE)) && !(value instanceof I18nSet) && !(value instanceof I18nObject)) ((Map)value).put(FormProcessor.FORM_MODE, currentValues.get(FormProcessor.FORM_MODE));
-             Map paramValue = handler.getParamValue(inputName, value, pattern);
-             if (paramValue != null && !paramValue.isEmpty()) params.putAll(paramValue); */
                 } catch (Exception e) {
                     log.error("Error obtaining default values for " + inputName, e);
                 }
             }
-            setValues(form, namespace, params, null, true);
         }
     }
 
@@ -160,7 +126,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         if (form != null) {
             namespace = StringUtils.defaultIfEmpty(namespace, DEFAULT_NAMESPACE);
             FormStatus formStatus = getFormStatus(form, namespace);
-            //  if (!incremental) formStatus.getWrongFields().clear();
+
             if (incremental) {
                 Map mergedParameterMap = new HashMap();
                 if (formStatus.getLastParameterMap() != null)
@@ -335,6 +301,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
         Map<String, Object> inputData = context.getInputData();
         Map<String, Object> outputData = context.getOutputData();
+        Map<String, Object> loadedObjects = new HashMap<String, Object>();
 
         if (inputData != null && !inputData.isEmpty()) {
 
@@ -343,66 +310,116 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
             if (fields != null) {
                 for (Field field : form.getFormFields()) {
-                    String inputBinding = field.getInputBinding();
-                    String outputBinding = field.getOutputBinding();
-                    boolean hasInput = !StringUtils.isEmpty(inputBinding);
-                    boolean hasOutput = !StringUtils.isEmpty(outputBinding);
 
-                    if (!hasInput && !hasOutput) continue;
+                    try {
+                        Object value = getFieldContextValue(field, context.getUID(), form, inputData, outputData, loadedObjects);
 
-                    Object value = null;
-
-                    if (!hasOutput) value = readSimpleBindingValue(form, field, inputBinding, inputData);
-                    else if (!hasInput) value = readSimpleBindingValue(form, field, outputBinding, outputData);
-                    else {
-
-                        inputBinding = inputBinding.substring(1, inputBinding.length() - 1);
-                        outputBinding = outputBinding.substring(1, outputBinding.length() - 1);
-
-                        String[] inputParts = inputBinding.split("/");
-                        String[] outputParts = outputBinding.split("/");
-
-                        boolean complexBinding = inputParts.length == 2 && outputParts.length == 2;
-
-                        if (complexBinding) {
-                            DataHolder holder = form.getDataHolderByIds(inputParts[0], outputParts[0]);
-                            if (holder != null) {
-                                Object inputValue = inputData.get(holder.getInputId());
-                                Object outputValue = outputData.get(holder.getOuputId());
-
-                                if (inputValue == null && outputValue == null) continue;
-
-                                if (outputValue != null && holder.isAssignableValue(outputValue)) value = holder.readValue(outputValue, outputParts[1]);
-                                else if (inputValue != null && holder.isAssignableValue(inputValue)) value = holder.readValue(inputValue, inputParts[1]);
-                            } else {
-                                try {
-                                    Object object = inputData.get(inputParts[0]);
-                                    JXPathContext ctx = JXPathContext.newContext(object);
-                                    value = ctx.getValue(inputParts[2]);
-                                } catch (Exception e) {
-                                    log.warn("Error getting value for xpath xpression '" + inputBinding + "' :", e);
-                                }
-                            }
-
-                        } else {
-                            value = (outputData.containsKey(outputBinding)) ? outputData.get(outputBinding) : inputData.get(inputBinding);
-                        }
+                        values.put(field.getFieldName(), value);
+                    } catch (IllegalArgumentException e) {
+                        //Non bindable field
                     }
-
-                    values.put(field.getFieldName(), value);
                 }
             }
         }
 
-        return getFormStatus(context.getForm(), context.getUID(), values);
+        return getFormStatus(context.getForm(), context.getUID(), values, loadedObjects);
     }
 
+    @Override
+    public Map createFieldContextValueFromHolder(Form form, String namespace, Map<String, Object> inputData, Map<String, Object> outputData, Map<String, Object> loadedObjects, DataHolder holder) throws Exception {
+        if (holder == null) return null;
+
+        Map values = new HashMap();
+
+        Set<Field> fields = form.getFormFields();
+
+        if (fields != null) {
+            for (Field field : form.getFormFields()) {
+
+                if (field != null && holder.isAssignableForField(field)) {
+
+                    try {
+                        Object value = getFieldContextValue(field, namespace, form, inputData, outputData, loadedObjects);
+                        values.put(field.getFieldName(), value);
+                    } catch (IllegalArgumentException e) {
+                        //Non bindable field
+                    }
+                }
+            }
+        }
+        return values;
+    }
+
+    public Object getFieldContextValue(Field field, String namespace, Form form, Map<String, Object> inputData, Map<String, Object> outputData, Map<String, Object> loadedObjects) throws Exception {
+
+        String inputBinding = field.getInputBinding();
+        String outputBinding = field.getOutputBinding();
+        boolean hasInput = !StringUtils.isEmpty(inputBinding);
+        boolean hasOutput = !StringUtils.isEmpty(outputBinding);
+
+        if (!hasInput && !hasOutput) throw new IllegalArgumentException("Unable to bind field: " + field.getFieldName());
+        if (!hasOutput) return readSimpleBindingValue(form, field, inputBinding, inputData);
+        else if (!hasInput) return readSimpleBindingValue(form, field, outputBinding, outputData);
+        else {
+
+            inputBinding = inputBinding.substring(1, inputBinding.length() - 1);
+            outputBinding = outputBinding.substring(1, outputBinding.length() - 1);
+
+            String[] inputParts = inputBinding.split("/");
+            String[] outputParts = outputBinding.split("/");
+
+            boolean complexBinding = inputParts.length == 2 && outputParts.length == 2;
+
+            Object value = null;
+
+            if (complexBinding) {
+                DataHolder holder = form.getDataHolderByIds(inputParts[0], outputParts[0]);
+                if (holder != null) {
+                    Object inputValue = inputData.get(holder.getInputId());
+                    Object outputValue = outputData.get(holder.getOuputId());
+
+                    if (inputValue == null && outputValue == null) return null;
 
 
-    public FormStatusData read(Form form, String namespace, Map currentValues) {
+                    if (outputValue != null && holder.isAssignableValue(outputValue)) {
+                        loadedObjects.put(holder.getUniqeId(), outputValue);
+                        value = holder.readValue(outputValue, outputParts[1]);
+
+                    }
+                    else if (inputValue != null && holder.isAssignableValue(inputValue)) {
+                        loadedObjects.put(holder.getUniqeId(), inputValue);
+                        value = holder.readValue(inputValue, inputParts[1]);
+
+                    }
+                    FieldHandler handler = (FieldHandler) CDIBeanLocator.getBeanByNameOrType(field.getFieldType().getManagerClass());
+                    if (handler instanceof PersistentFieldHandler) {
+                        String inputName = getPrefix(field.getForm(), namespace) + field.getFieldName();
+                        value = ((PersistentFieldHandler) handler).getStatusValue(field, inputName, value);
+                    }
+                } else {
+                    try {
+                        Object object = inputData.get(inputParts[0]);
+                        JXPathContext ctx = JXPathContext.newContext(object);
+                        value = ctx.getValue(inputParts[2]);
+                    } catch (Exception e) {
+                        log.warn("Error getting value for xpath xpression '" + inputBinding + "' :", e);
+                    }
+                }
+                return value;
+            }
+            return (outputData.containsKey(outputBinding)) ? outputData.get(outputBinding) : inputData.get(inputBinding);
+        }
+    }
+
+    public FormStatusData read(Form form, String namespace, Map formValues) {
+        return read(form, namespace, formValues, new HashMap());
+    }
+
+    @Override
+    public FormStatusData read(Form form, String namespace, Map<String, Object> formValues, Map<String, Object> loadedObjects) {
         boolean exists = existsFormStatus(form.getId(), namespace);
-        if (currentValues == null) currentValues = new HashMap();
-        FormStatus formStatus = getFormStatus(form, namespace, currentValues);
+        if (formValues == null) formValues = new HashMap();
+        FormStatus formStatus = getFormStatus(form, namespace, formValues, loadedObjects);
         FormStatusDataImpl data = null;
         try {
             data = new FormStatusDataImpl(formStatus, !exists);
@@ -517,7 +534,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
                     String inputName = getPrefix(field.getForm(), namespace) + field.getFieldName();
 
-                    return ((PersistentFieldHandler) handler).persist(field, inputName, holder.getInfo());
+                    return ((PersistentFieldHandler) handler).persist(field, inputName);
 
                 } else
                     return mapToPersist.get(field.getFieldName());
@@ -576,10 +593,6 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
             valuesToSet.put(propertyName, propertyValue);
         }
         obj.putAll(valuesToSet);
-    }
-
-    protected FormManagerImpl getFormsManager() {
-        return (FormManagerImpl) CDIBeanLocator.getBeanByType(FormManagerImpl.class);
     }
 
     @Override

@@ -2,39 +2,41 @@ package org.jbpm.formModeler.core.test;
 
 import java.io.Serializable;
 
-/**
- * Created with IntelliJ IDEA.
- * User: nmirasch
- * Date: 6/13/13
- * Time: 6:43 PM
- * To change this template use File | Settings | File Templates.
- */
 public class InvoiceLine implements Serializable {
-    public static String idLine;
-    public static String description;
-    public static Double amount;
+    private String idLine;
+    private String description;
+    private Double amount;
 
-    public static String getIdLine() {
+    public String getIdLine() {
         return idLine;
     }
 
-    public static void setIdLine(String idLine) {
-        InvoiceLine.idLine = idLine;
+    public void setIdLine(String idLine) {
+        this.idLine = idLine;
     }
 
-    public static String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public static void setDescription(String description) {
-        InvoiceLine.description = description;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public static Double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public static void setAmount(Double amount) {
-        InvoiceLine.amount = amount;
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        String response = "Invoice Line:";
+        response += "\nid: " + idLine;
+        response += "\ndescription: " + description;
+        response += "\namount: " + amount;
+        return response;
     }
 }
