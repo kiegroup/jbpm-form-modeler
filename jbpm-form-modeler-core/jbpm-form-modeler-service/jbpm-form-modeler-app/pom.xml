@@ -19,42 +19,42 @@
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-common</artifactId>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>${jbpm.form.modeler.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-request-dispatcher</artifactId>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>${jbpm.form.modeler.version}</version>
             <type>war</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-service-core</artifactId>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>${jbpm.form.modeler.version}</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-ui</artifactId>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>${jbpm.form.modeler.version}</version>
             <type>war</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-form-editor</artifactId>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>${jbpm.form.modeler.version}</version>
             <type>war</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-static-resources</artifactId>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>${jbpm.form.modeler.version}</version>
             <scope>compile</scope>
             <type>war</type>
         </dependency>

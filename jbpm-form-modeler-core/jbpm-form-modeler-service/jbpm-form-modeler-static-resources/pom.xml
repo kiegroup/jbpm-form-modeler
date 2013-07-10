@@ -11,7 +11,7 @@
 
     <artifactId>jbpm-form-modeler-static-resources</artifactId>
     <packaging>war</packaging>
-    <version>6.0.0-SNAPSHOT</version>
+    <version>${jbpm.form.modeler.version}</version>
     <name>jbpm-form-modeler-static-resources</name>
 
     <dependencies>
@@ -19,7 +19,7 @@
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-common</artifactId>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>${jbpm.form.modeler.version}</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
@@ -27,7 +27,7 @@
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-request-dispatcher</artifactId>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>${jbpm.form.modeler.version}</version>
             <classifier>classes</classifier>
             <scope>compile</scope>
         </dependency>
