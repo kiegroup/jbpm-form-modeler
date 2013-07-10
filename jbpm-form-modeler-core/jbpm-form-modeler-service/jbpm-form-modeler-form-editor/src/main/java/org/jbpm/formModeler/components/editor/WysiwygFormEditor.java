@@ -114,7 +114,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public static final String PARAMETER_FIELD_CLASS = "className";
     public static final String PARAMETER_HOLDER_RENDERCOLOR = "holderRenderColor";
 
-    private int currentEditFieldPosition = -1;
+/*  private int currentEditFieldPosition = -1;
     private boolean swapFields = true;
     private String fieldTypeToView = null;
     private String currentEditionOption = EDITION_OPTION_BINDINGS_SOURCES;
@@ -126,14 +126,27 @@ public class WysiwygFormEditor extends BaseUIComponent {
     private Boolean showTemplateEdition = Boolean.FALSE;
     private FieldType originalFieldType;
     private String lastDataHolderUsedId = "";
+*/
     private FormEditorContext editionContext;
 
+    private int currentEditFieldPosition = -1;
+    private int lastMovedFieldPosition = -1;
+
+    public FormEditorContext getEditionContext() {
+
+        return editionContext;
+    }
+
+    public void setEditionContext(FormEditorContext editionContext) {
+        this.editionContext = editionContext;
+    }
+
     public String getRenderMode() {
-        return renderMode;
+        return getEditionContext().getRenderMode();
     }
 
     public void setRenderMode(String renderMode) {
-        this.renderMode = renderMode;
+        getEditionContext().setRenderMode(renderMode);
     }
 
     public FormManager getFormManager() {
@@ -153,43 +166,35 @@ public class WysiwygFormEditor extends BaseUIComponent {
     }
 
     public String getLastDataHolderUsedId() {
-        return lastDataHolderUsedId;
+        return editionContext.getLastDataHolderUsedId();
     }
 
     public void setLastDataHolderUsedId(String lastDataHolderUsedId) {
-        this.lastDataHolderUsedId = lastDataHolderUsedId;
+        getEditionContext().setLastDataHolderUsedId(lastDataHolderUsedId);
     }
 
     public Boolean getDisplayBindings() {
-        return displayBindings;
+        return getEditionContext().getDisplayBindings();
     }
 
     public void setDisplayBindings(Boolean displayBindings) {
-        this.displayBindings = displayBindings;
+        getEditionContext().setDisplayBindings( displayBindings);
     }
 
     public Boolean getDisplayGrid() {
-        return displayGrid;
+        return getEditionContext().getDisplayGrid();
     }
 
     public void setDisplayGrid(Boolean displayGrid) {
-        this.displayGrid = displayGrid;
-    }
-
-    public boolean isShowReturnButton() {
-        return showReturnButton;
-    }
-
-    public void setShowReturnButton(boolean showReturnButton) {
-        this.showReturnButton = showReturnButton;
+        getEditionContext().setDisplayGrid(displayGrid);
     }
 
     public Form getCurrentForm() {
-        return editionContext.getForm();
+        return getEditionContext().getForm();
     }
 
     public String getNamespace() {
-        return editionContext.getRenderContext().getUID();
+        return getEditionContext().getRenderContext().getUID();
     }
 
     public FormTemplateEditor getFormTemplateEditor() {
@@ -201,23 +206,30 @@ public class WysiwygFormEditor extends BaseUIComponent {
     }
 
     public FormEditorContext getCurrentEditionContext() {
-        return editionContext;
+        return getEditionContext();
     }
 
     public String getCurrentEditionOption() {
-        return currentEditionOption;
+        if(getEditionContext().getCurrentEditionOption() == null){
+            if(getCurrentForm().getFormFields() !=null && getCurrentForm().getFormFields().size()>0){
+                setCurrentEditionOption(EDITION_OPTION_FIELDTYPES);
+            }else{
+                setCurrentEditionOption(EDITION_OPTION_BINDINGS_SOURCES);
+            }
+        }
+        return getEditionContext().getCurrentEditionOption();
     }
 
     public void setCurrentEditionOption(String currentEditionOption) {
-        this.currentEditionOption = currentEditionOption;
+        getEditionContext().setCurrentEditionOption(currentEditionOption);
     }
 
     public int getCurrentEditFieldPosition() {
-        return currentEditFieldPosition;
+        return getEditionContext().getCurrentEditFieldPosition();
     }
 
     public void setCurrentEditFieldPosition(int currentEditFieldPosition) {
-        this.currentEditFieldPosition = currentEditFieldPosition;
+        getEditionContext().setCurrentEditFieldPosition(currentEditFieldPosition);
         Field field = getCurrentEditField();
         if (field != null) setFieldTypeToView(field.getFieldType().getCode());
     }
@@ -239,31 +251,30 @@ public class WysiwygFormEditor extends BaseUIComponent {
     }
 
     public boolean isSwapFields() {
-        return swapFields;
+        return getEditionContext().isSwapFields();
     }
 
     public void setSwapFields(boolean swapFields) {
-        this.swapFields = swapFields;
+        getEditionContext().setSwapFields(swapFields);
     }
 
     public String getFieldTypeToView() {
-        return fieldTypeToView;
+        return getEditionContext().getFieldTypeToView();
     }
 
     public void setFieldTypeToView(String fieldTypeToView) {
-        this.fieldTypeToView = fieldTypeToView;
+        getEditionContext().setFieldTypeToView(fieldTypeToView);
     }
 
     public int getLastMovedFieldPosition() {
-        return lastMovedFieldPosition;
+            return getEditionContext().getLastMovedFieldPosition();
     }
 
     public void setLastMovedFieldPosition(int lastMovedFieldPosition) {
-        this.lastMovedFieldPosition = lastMovedFieldPosition;
+            getEditionContext().setLastMovedFieldPosition(lastMovedFieldPosition);
     }
 
     public CommandResponse handle(CommandRequest commandRequest, String string) throws Exception {
-        setLastMovedFieldPosition(-1);
         return super.handle(commandRequest, string);
     }
 
@@ -291,10 +302,10 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String ctxUID = commandRequest.getRequestObject().getParameter("ctxUID");
 
         if (!StringUtils.isEmpty(ctxUID)) {
-            lastMovedFieldPosition = -1;
+            editionContext = formEditorContextManager.getFormEditorContext(ctxUID);
+            setLastMovedFieldPosition(-1);
             setCurrentEditFieldPosition(-1);
             setFieldTypeToView(null);
-            editionContext = formEditorContextManager.getFormEditorContext(ctxUID);
         }
     }
 
@@ -312,8 +323,8 @@ public class WysiwygFormEditor extends BaseUIComponent {
                 }
             }
             getFormManager().deleteField(form, pos.intValue());
-            if (currentEditFieldPosition == pos.intValue()) currentEditFieldPosition = -1;
-            else if (currentEditFieldPosition > pos.intValue()) currentEditFieldPosition--;
+            if (getCurrentEditFieldPosition() == pos.intValue()) setCurrentEditFieldPosition(-1);
+            else if (getCurrentEditFieldPosition() > pos.intValue()) setCurrentEditFieldPosition( getCurrentEditFieldPosition() - 1);
         }
     }
 
@@ -329,7 +340,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             getFormProcessor().clear(formToEdit, editNamespace);
             getFormProcessor().read(formToEdit, editNamespace, editField.asMap());
         }
-        originalFieldType = editField.getFieldType();
+        getEditionContext().setOriginalFieldType(editField.getFieldType());
     }
 
     protected String getFieldEditionNamespace(Field field) {
@@ -345,23 +356,23 @@ public class WysiwygFormEditor extends BaseUIComponent {
     }
 
     public void actionSwapUp(CommandRequest request) throws Exception {
-        lastMovedFieldPosition = Integer.decode(request.getParameter("position")).intValue();
+        setLastMovedFieldPosition( Integer.decode(request.getParameter("position")).intValue());
         Form form = getCurrentForm();
         if (form == null) {
             log.error("Cannot modify unexistant form.");
         } else {
-            Field fieldToMove = getFieldInPosition(lastMovedFieldPosition);
+            Field fieldToMove = getFieldInPosition(getLastMovedFieldPosition());
             if (fieldToMove != null) {
-                Field previousField = getFieldInPosition(lastMovedFieldPosition - 1);
+                Field previousField = getFieldInPosition(getLastMovedFieldPosition() - 1);
                 if (previousField != null) {
                     Boolean b = previousField.getGroupWithPrevious();
                     previousField.setGroupWithPrevious(fieldToMove.getGroupWithPrevious());
                     fieldToMove.setGroupWithPrevious(b);
-                    getFormManager().moveUp(form, lastMovedFieldPosition);
+                    getFormManager().moveUp(form, getLastMovedFieldPosition());
                 } else {
                     fieldToMove.setGroupWithPrevious(Boolean.FALSE);
                 }
-                lastMovedFieldPosition--;
+                setLastMovedFieldPosition(getLastMovedFieldPosition() -1);
             } else {
                 log.error("Cannot swap up unexistant field");
             }
@@ -369,23 +380,23 @@ public class WysiwygFormEditor extends BaseUIComponent {
     }
 
     public void actionSwapDown(CommandRequest request) throws Exception {
-        lastMovedFieldPosition = Integer.decode(request.getParameter("position")).intValue();
+        setLastMovedFieldPosition( Integer.decode(request.getParameter("position")).intValue());
         Form form = getCurrentForm();
         if (form == null) {
             log.error("Cannot modify unexistant form.");
         } else {
-            Field fieldToMove = getFieldInPosition(lastMovedFieldPosition);
+            Field fieldToMove = getFieldInPosition(getLastMovedFieldPosition());
             if (fieldToMove != null) {
-                Field nextField = getFieldInPosition(lastMovedFieldPosition + 1);
+                Field nextField = getFieldInPosition(getLastMovedFieldPosition() + 1);
                 if (nextField == null) {
                     fieldToMove.setGroupWithPrevious(Boolean.FALSE);
                 } else {
                     Boolean b = nextField.getGroupWithPrevious();
                     nextField.setGroupWithPrevious(fieldToMove.getGroupWithPrevious());
                     fieldToMove.setGroupWithPrevious(b);
-                    getFormManager().moveDown(form, lastMovedFieldPosition);
+                    getFormManager().moveDown(form, getLastMovedFieldPosition());
                 }
-                lastMovedFieldPosition++;
+                setLastMovedFieldPosition(getLastMovedFieldPosition() + 1);
             } else {
                 log.error("Cannot swap down unexistant field");
             }
@@ -394,26 +405,26 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
 
     public synchronized void actionMoveUp(CommandRequest request) throws Exception {
-        lastMovedFieldPosition = Integer.decode(request.getParameter("position")).intValue();
+        setLastMovedFieldPosition( Integer.decode(request.getParameter("position")).intValue());
         Form form = getCurrentForm();
         if (form == null) {
             log.error("Cannot modify unexistant form.");
         } else {
-            Field fieldToMove = getFieldInPosition(lastMovedFieldPosition);
+            Field fieldToMove = getFieldInPosition(getLastMovedFieldPosition());
             if (fieldToMove != null) {
                 if (Boolean.TRUE.equals(fieldToMove.getGroupWithPrevious())) {
-                    Field previousField = getFieldInPosition(lastMovedFieldPosition - 1);
+                    Field previousField = getFieldInPosition(getLastMovedFieldPosition() - 1);
                     fieldToMove.setGroupWithPrevious(previousField.getGroupWithPrevious());
                     previousField.setGroupWithPrevious(Boolean.TRUE);
-                    getFormManager().moveUp(form, lastMovedFieldPosition);
+                    getFormManager().moveUp(form, getLastMovedFieldPosition());
                 } else {
-                    Field nextField = getFieldInPosition(lastMovedFieldPosition + 1);
+                    Field nextField = getFieldInPosition(getLastMovedFieldPosition() + 1);
                     if (nextField != null) {
                         nextField.setGroupWithPrevious(Boolean.FALSE);
                     }
                     fieldToMove.setGroupWithPrevious(Boolean.TRUE);
                 }
-                lastMovedFieldPosition--;
+                setLastMovedFieldPosition(getLastMovedFieldPosition() -1);
             } else {
                 log.error("Cannot move up unexistant field");
             }
@@ -421,25 +432,25 @@ public class WysiwygFormEditor extends BaseUIComponent {
     }
 
     public synchronized void actionMoveDown(CommandRequest request) throws Exception {
-        lastMovedFieldPosition = Integer.decode(request.getParameter("position")).intValue();
+        setLastMovedFieldPosition( Integer.decode(request.getParameter("position")).intValue());
         Form form = getCurrentForm();
         if (form == null) {
             log.error("Cannot modify unexistant form.");
         } else {
-            Field fieldToMove = getFieldInPosition(lastMovedFieldPosition);
+            Field fieldToMove = getFieldInPosition(getLastMovedFieldPosition());
             if (fieldToMove != null) {
-                Field nextField = getFieldInPosition(lastMovedFieldPosition + 1);
+                Field nextField = getFieldInPosition(getLastMovedFieldPosition() + 1);
                 if (nextField == null) {
                     fieldToMove.setGroupWithPrevious(Boolean.FALSE);
                 } else if (Boolean.TRUE.equals(nextField.getGroupWithPrevious())) {
                     nextField.setGroupWithPrevious(fieldToMove.getGroupWithPrevious());
                     fieldToMove.setGroupWithPrevious(Boolean.TRUE);
-                    getFormManager().moveDown(form, lastMovedFieldPosition);
+                    getFormManager().moveDown(form, getLastMovedFieldPosition());
                 } else {
                     nextField.setGroupWithPrevious(Boolean.TRUE);
                     fieldToMove.setGroupWithPrevious(Boolean.FALSE);
                 }
-                lastMovedFieldPosition++;
+                setLastMovedFieldPosition(getLastMovedFieldPosition()+1);
             } else {
                 log.error("Cannot move down unexistant field");
             }
@@ -532,10 +543,10 @@ public class WysiwygFormEditor extends BaseUIComponent {
             String editNamespace = getFieldEditionNamespace(editField);
             if (ACTION_CANCEL_FIELD_EDITION.equals(action)) {
                 Form editForm = getFormForFieldEdition(editField);
-                editField.setFieldType(originalFieldType);
+                editField.setFieldType(getEditionContext().getOriginalFieldType());
                 getFormProcessor().clear(editForm, editNamespace);
-                originalFieldType = null;
-                currentEditFieldPosition = -1;
+                getEditionContext().setOriginalFieldType( null);
+                setCurrentEditFieldPosition(-1);
             } else {
                 //Use custom edit form
                 Form editForm = getFormForFieldEdition(editField);
@@ -543,7 +554,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
                 FormStatusData data = getFormProcessor().read(editForm, editNamespace);
 
                 if (ACTION_CHANGE_FIELD_TYPE.equals(action)) {
-                    fieldTypeToView = ((String[]) parameterMap.get("fieldType"))[0];
+                    setFieldTypeToView( ((String[]) parameterMap.get("fieldType"))[0]);
                     editField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView()));
                     Form formToEdit = getFormForFieldEdition(editField);
                     if (formToEdit != null) {
@@ -572,7 +583,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
                             }
                         }
 
-                        currentEditFieldPosition = -1;
+                        setCurrentEditFieldPosition( -1);
                         editField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView()));
                         getFormProcessor().clear(editForm, editNamespace);
                         getFormProcessor().read(editForm, editNamespace, data.getCurrentValues());
@@ -605,18 +616,18 @@ public class WysiwygFormEditor extends BaseUIComponent {
             boolean groupWithPrevious = RIGHT_FIELD_MODIFIER.equals(modifier);
             boolean nextGrouped = LEFT_FIELD_MODIFIER.equals(modifier);
 
-            lastMovedFieldPosition = destPosition;
+            setLastMovedFieldPosition(destPosition);
 
-            if (currentEditFieldPosition == origPosition) currentEditFieldPosition = lastMovedFieldPosition;
+            if (getCurrentEditFieldPosition() == origPosition) setCurrentEditFieldPosition( getLastMovedFieldPosition());
 
             if (Boolean.parseBoolean(promote)) {
                 getFormManager().promoteField(form, origPosition, destPosition, groupWithPrevious, nextGrouped);
-                if (currentEditFieldPosition < origPosition && destPosition <= currentEditFieldPosition)
-                    currentEditFieldPosition++;
+                if (getCurrentEditFieldPosition()< origPosition && destPosition <= getCurrentEditFieldPosition())
+                    setCurrentEditFieldPosition(getCurrentEditFieldPosition() +1);
             } else {
                 getFormManager().degradeField(form, origPosition, destPosition, groupWithPrevious, nextGrouped);
-                if (currentEditFieldPosition > origPosition && destPosition >= currentEditFieldPosition)
-                    currentEditFieldPosition--;
+                if (getCurrentEditFieldPosition()> origPosition && destPosition >= getCurrentEditFieldPosition())
+                    setCurrentEditFieldPosition(getCurrentEditFieldPosition()-1);
             }
         }
     }
@@ -628,10 +639,10 @@ public class WysiwygFormEditor extends BaseUIComponent {
             log.error("Cannot modify unexistant form.");
         } else {
             getFormManager().moveTop(form, fieldPosition);
-            lastMovedFieldPosition = 0;
-            if (currentEditFieldPosition == fieldPosition) currentEditFieldPosition = lastMovedFieldPosition;
-            else if (currentEditFieldPosition > -1 && fieldPosition > currentEditFieldPosition)
-                currentEditFieldPosition++;
+            setLastMovedFieldPosition(0);
+            if (getCurrentEditFieldPosition() == fieldPosition) setCurrentEditFieldPosition(getLastMovedFieldPosition());
+            else if (getCurrentEditFieldPosition()> -1 && fieldPosition > getCurrentEditFieldPosition())
+                setCurrentEditFieldPosition(getCurrentEditFieldPosition()+1);
         }
     }
 
@@ -642,9 +653,9 @@ public class WysiwygFormEditor extends BaseUIComponent {
             log.error("Cannot modify unexistant form.");
         } else {
             getFormManager().moveBottom(form, fieldPosition);
-            lastMovedFieldPosition = form.getFormFields().size() - 1;
-            if (currentEditFieldPosition == fieldPosition) currentEditFieldPosition = lastMovedFieldPosition;
-            else if (fieldPosition < currentEditFieldPosition) currentEditFieldPosition--;
+            setLastMovedFieldPosition( form.getFormFields().size() - 1);
+            if (getCurrentEditFieldPosition() == fieldPosition) setCurrentEditFieldPosition(getLastMovedFieldPosition());
+            else if (fieldPosition < getCurrentEditFieldPosition()) setCurrentEditFieldPosition(getCurrentEditFieldPosition()-1);
         }
 
     }
@@ -726,7 +737,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
             getFormTemplateEditor().setTemplateContent(form.getFormTemplate());
             Long formId = form.getId();
             if (formId != null) getFormTemplateEditor().setFormId(formId);
-            showTemplateEdition = true;
+            getEditionContext().setShowTemplateEdition( true);
         }
     }
 
@@ -768,12 +779,12 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
 
     protected void groupField(CommandRequest request, final boolean groupIt) throws Exception {
-        lastMovedFieldPosition = Integer.decode(request.getParameter("position")).intValue();
+        setLastMovedFieldPosition( Integer.decode(request.getParameter("position")).intValue());
         Form form = getCurrentForm();
         if (form == null) {
             log.error("Cannot modify unexistant form.");
         } else {
-            Field fieldToMove = getFieldInPosition(lastMovedFieldPosition);
+            Field fieldToMove = getFieldInPosition(getLastMovedFieldPosition());
             if (fieldToMove != null) {
                 fieldToMove.setGroupWithPrevious(Boolean.valueOf(groupIt));
             } else {
@@ -805,40 +816,26 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String[] holderRenderColorArray = (String[]) parameterMap.get(PARAMETER_HOLDER_RENDERCOLOR);
 
         String holderType = null;
-        if (holderTypeArray != null && holderTypeArray.length > 0) holderType = holderTypeArray[0];
-
         String holderId = null;
-        if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
-
         String holderOutId = null;
-        if (holderOutIdArray != null && holderOutIdArray.length > 0) holderOutId = holderOutIdArray[0];
-
         String holderRenderColor = null;
-        if (holderRenderColorArray != null && holderRenderColorArray.length > 0)
-            holderRenderColor = holderRenderColorArray[0];
-
         String holderInfo = null;
+
+        if (holderTypeArray != null && holderTypeArray.length > 0) holderType = holderTypeArray[0];
+        if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
+        if (holderOutIdArray != null && holderOutIdArray.length > 0) holderOutId = holderOutIdArray[0];
+        if (holderRenderColorArray != null && holderRenderColorArray.length > 0) holderRenderColor = holderRenderColorArray[0];
+
         String[] holderInfoArray = null;
-
-        Map<String, Object> config = new HashMap<String, Object>();
-
-        config.put("id", holderId);
-        config.put("outId", holderOutId);
-        config.put("color", holderRenderColor);
         if (Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(holderType)) {
             holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_BT_INFO);
         }else  if (Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL.equals(holderType)) {
-            config.put("path", getCurrentEditionContext().getPath());
             holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_DM_INFO);
         } else if (Form.HOLDER_TYPE_CODE_POJO_CLASSNAME.equals(holderType)) holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_INFO);
         if (holderInfoArray != null && holderInfoArray.length > 0) holderInfo = holderInfoArray[0];
 
-        config.put("value", holderInfo);
+        getFormManager().addDataHolderToForm(getCurrentForm(),holderType,holderId,holderOutId,holderRenderColor,holderInfo,getCurrentEditionContext().getPath());
 
-        DataHolder holder = dataHolderManager.createDataHolderByType(holderType, config);
-
-        Form form = getCurrentForm();
-        if (holder != null) form.setDataHolder(holder);
     }
 
 
@@ -848,10 +845,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String holderId = null;
         if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
 
-        if ((holderId != null)) {
-            Form form = getCurrentForm();
-            form.removeDataHolder(holderId);
-        }
+        getFormManager().removeDataHolderFromForm(getCurrentForm(),holderId);
     }
 
     public void addAllDataHolderFieldsToForm(Map parameterMap) throws Exception {
@@ -862,14 +856,8 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
 
         if (holderId != null) {
-            Form form = getCurrentForm();
-            DataHolder holder = form.getDataHolderById(holderId);
-
-            Set<DataFieldHolder> holderFields = holder.getFieldHolders();
-            for (DataFieldHolder dataFieldHolder : holderFields) {
-                addDataFieldHolder(form, holder, dataFieldHolder.getId(), dataFieldHolder.getClassName());
-            }
-
+            getFormManager().addAllDataHolderFieldsToForm(getCurrentForm(),holderId);
+            setLastDataHolderUsedId(holderId);
         }
     }
 
@@ -880,43 +868,23 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String[] fieldClassArray = (String[]) parameterMap.get(PARAMETER_FIELD_CLASS);
 
         String bindingId = null;
-        if (holderIdArray != null && holderIdArray.length > 0) bindingId = holderIdArray[0];
-
         String fieldName = null;
-        if (fieldNameArray != null && fieldNameArray.length > 0) fieldName = fieldNameArray[0];
-
         String fieldClass = null;
+
+        if (holderIdArray != null && holderIdArray.length > 0) bindingId = holderIdArray[0];
+        if (fieldNameArray != null && fieldNameArray.length > 0) fieldName = fieldNameArray[0];
         if (fieldClassArray != null && fieldClassArray.length > 0) fieldClass = fieldClassArray[0];
 
         if (bindingId != null) {
-            Form form = getCurrentForm();
-            DataHolder holder = form.getDataHolderById(bindingId);
-            addDataFieldHolder(form, holder, fieldName, fieldClass);
+            getFormManager().addDataFieldHolder(getCurrentForm(),bindingId,fieldName,fieldClass);
+            setLastDataHolderUsedId(bindingId);
         }
     }
 
-    private void addDataFieldHolder(Form form, DataHolder holder, String fieldName, String fieldClass) throws Exception {
-        I18nSet label = new I18nSet();
-        String defaultLang = LocaleManager.lookup().getDefaultLang();
-        String dataHolderId = StringUtils.defaultIfEmpty(holder.getInputId(), holder.getOuputId());
-        label.setValue(defaultLang, fieldName + " (" + dataHolderId + ")");
-
-        String inputBinging = holder.getInputBinding(fieldName);
-        String outputBinding = holder.getOuputBinding(fieldName);
-
-        FieldType fieldType = null;
-        if (Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(holder.getTypeCode())){
-            fieldType = getFieldTypesManager().getTypeByCode(holder.getInfo());
-        } else {
-            fieldType = getFieldTypesManager().getTypeByClass(fieldClass);
-        }
-        getFormManager().addFieldToForm(form, dataHolderId + "_" + fieldName, fieldType, fieldClass, label, inputBinging, outputBinding);
-        setLastDataHolderUsedId(dataHolderId);
-    }
 
     public boolean isShowingTemplateEdition() {
         if (getFormTemplateEditor() != null) {
-            return getFormTemplateEditor().isOn() && showTemplateEdition;
+            return getFormTemplateEditor().isOn() && getEditionContext().getShowTemplateEdition();
         }
         return false;
     }
@@ -939,11 +907,11 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if(loadTemplate!=null && Boolean.valueOf(loadTemplate).booleanValue()){
             getFormTemplateEditor().setLoadTemplate(true);
             getFormTemplateEditor().setGenMode(genModeTemplate);
-            showTemplateEdition =true;
+            getEditionContext().setShowTemplateEdition(true);
         } else{
             getFormTemplateEditor().setLoadTemplate(false);
             getFormTemplateEditor().setFormId(null);
-            showTemplateEdition =false;
+            getEditionContext().setShowTemplateEdition(false);
         }
     }
 }

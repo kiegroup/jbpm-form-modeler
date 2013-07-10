@@ -53,6 +53,8 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
 
     private ArrayList<String> hiddenFieldTypesCodes= new ArrayList<String>();
 
+    private ArrayList<String> baseTypes= new ArrayList<String>();
+
 
     @PostConstruct
     protected void init() {
@@ -121,6 +123,17 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         hiddenFieldTypesCodes.add("I18nHTMLText");
         hiddenFieldTypesCodes.add("I18nText");
         hiddenFieldTypesCodes.add("I18nTextArea");
+
+        baseTypes.add("InputTextInteger");
+        baseTypes.add("InputText");
+        baseTypes.add("InputDate");
+        baseTypes.add("CheckBox");
+        baseTypes.add("InputTextLong");
+        baseTypes.add("InputTextInteger");
+        baseTypes.add("InputTextShort");
+        baseTypes.add("InputTextBigDecimal");
+        baseTypes.add("InputTextDouble");
+        baseTypes.add("InputTextFloat");
 
     }
 
@@ -257,4 +270,12 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         return true;
     }
 
+    @Override
+    public boolean isbaseType(String code) {
+        if (code==null) return false;
+        for(String codeId: baseTypes){
+            if(code.equals(codeId)) return true;
+        }
+        return false;
+    }
 }

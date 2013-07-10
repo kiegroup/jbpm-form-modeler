@@ -55,10 +55,10 @@
                     <mvc:fragmentValue name="open" id="open">
                         <mvc:fragmentValue name="showHolderName" id="showHolderName">
                             <mvc:fragmentValue name="noConfirm" id="noConfirm">
-                            <li <%= (open!=null && (Boolean.TRUE.equals((Boolean)open)) ? "class=\"open\"":"" )%> ><span title="<%=showHolderName%>"><div style="margin-top: -3px; padding: 2px 1px 2px 5px;background-color: <%=rColor%>"><b><%=StringEscapeUtils.escapeHtml((String) showHolderName) %></b><a title="<i18n:message key="dataHolder_addAllFields">!!!dataHolder_addAllFields</i18n:message>"
+                            <li <%= (open!=null && (Boolean.TRUE.equals((Boolean)open)) ? "class=\"open\"":"" )%> ><span title="<%=showHolderName%>"><div style="margin-top: -3px; padding: 2px 1px 2px 5px;background-color: <%=rColor%>"><b><%=StringEscapeUtils.escapeHtml((String) showHolderName) %></b><a
                             href="<factory:url  action="formDataHolders"><factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=id%>"/><factory:param name="<%=WysiwygFormEditor.ACTION_TO_DO%>" value="<%=WysiwygFormEditor.ACTION_ADD_DATA_HOLDER_FIELDS%>"/></factory:url>"
-                            <%if ( noConfirm!=null && (Boolean.FALSE.equals((Boolean)noConfirm))) { %>onclick="return confirm('<i18n:message key="dataHolder_addAll_comfirm">!!!dataHolder_addAll_comfirm</i18n:message>');" <%}%> >
-                            <img style="float: right; position: relative; top: 0px;" src="<static:image relativePath="actions/triang_right.png"/>">
+                            <%if ( noConfirm!=null && (Boolean.FALSE.equals((Boolean)noConfirm))) { %> title='<i18n:message key="dataHolder_addAllFields">!!!dataHolder_addAllFields</i18n:message>' onclick="return confirm('<i18n:message key="dataHolder_addAll_comfirm">!!!dataHolder_addAll_comfirm</i18n:message>');" <%} else {%> title='<i18n:message key="dataHolder_addField">!!!add as new form field</i18n:message>' <%}  %> >
+                            <img style="float: right; position: relative; top: 0px;" src='<static:image relativePath="actions/triang_right.png"/>'>
                             </a></div></span>
                             <ul>
                             </mvc:fragmentValue>
@@ -84,7 +84,7 @@
                                                          <factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=bindingId%>"/>
                                                          <factory:param name="<%=WysiwygFormEditor.PARAMETER_FIELD_NAME%>" value="<%=fieldName%>"/>
                                                          <factory:param name="<%=WysiwygFormEditor.PARAMETER_FIELD_CLASS%>" value="<%=className%>"/>
-                                                         </factory:url>"><img style="float: right; position: relative; top: 0px;" src="<static:image relativePath="actions/triang_right.png"/>"></a>
+                                                         </factory:url>"><img style="float: right; position: relative; top: 0px;" src='<static:image relativePath="actions/triang_right.png"/>'></a>
                             </span></li>
                             </mvc:fragmentValue>
                         </mvc:fragmentValue>

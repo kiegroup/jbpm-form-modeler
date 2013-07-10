@@ -26,7 +26,7 @@ import org.kie.workbench.common.screens.datamodeller.model.ObjectPropertyTO;
 
 import java.util.*;
 
-public class DataModelerDataHolder extends PojoDataHolder implements Comparable {
+public class DataModelerDataHolder extends PojoDataHolder {
 
     DataObjectTO dataObjectTO ;
 
@@ -65,11 +65,6 @@ public class DataModelerDataHolder extends PojoDataHolder implements Comparable 
     @Override
     public String getTypeCode() {
         return Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL;
-    }
-
-
-    public int compareTo(Object o) {
-        return super.getInputId().compareTo(((PojoDataHolder) o).getInputId());
     }
 
     @Override

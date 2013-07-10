@@ -48,7 +48,7 @@ public class BasicTypeHolderBuilder implements DataHolderBuilder {
             FieldTypeManager fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
             List<FieldType> allFieldTypes = fieldTypeManager.getFieldTypes();
             for (FieldType fieldType: allFieldTypes){
-                if(fieldTypeManager.isDisplayableType(fieldType.getCode())) {
+                if(fieldTypeManager.isbaseType(fieldType.getCode())) {
                     result.put(fieldType.getCode(), fieldType.getCode());
                 }
             }
