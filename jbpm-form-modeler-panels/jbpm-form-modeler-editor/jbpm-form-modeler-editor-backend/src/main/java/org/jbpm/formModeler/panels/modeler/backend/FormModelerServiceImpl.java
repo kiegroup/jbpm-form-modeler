@@ -113,11 +113,9 @@ public class FormModelerServiceImpl implements FormModelerService {
     @Override
     public FormEditorContext getRootEditorContext(String UID) {
         if (StringUtils.isEmpty(UID)) return null;
-
-        int index = UID.lastIndexOf(FormProcessor.NAMESPACE_SEPARATOR + EDIT_FIELD_LITERAL);
-
-        if (index == -1) return null;
-        return formEditorContextMap.get(UID.substring(0, index));
+        int separatorIndex = UID.indexOf(FormProcessor.NAMESPACE_SEPARATOR);
+        if (separatorIndex != -1) UID = UID.substring(0, separatorIndex);
+        return formEditorContextMap.get(UID);
     }
 
     @Override
