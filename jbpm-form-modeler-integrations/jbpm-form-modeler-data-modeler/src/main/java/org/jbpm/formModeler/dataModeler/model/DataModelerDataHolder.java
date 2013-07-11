@@ -96,7 +96,9 @@ public class DataModelerDataHolder extends PojoDataHolder {
             Class returnType = propertyTO.getClass();
             if (isValidReturnType(propertyTO.getClassName())) {
                 try{
-                    String className = propertyTO.getClassName();
+                    String className;
+                    if (propertyTO.isMultiple()) className = propertyTO.getBag();
+                    else className = propertyTO.getClassName();
                     fieldHolder =  new DataFieldHolder(this,propertyTO.getName(), className);
                     dataFieldHolders.add(fieldHolder);
                 } catch (Exception e){
