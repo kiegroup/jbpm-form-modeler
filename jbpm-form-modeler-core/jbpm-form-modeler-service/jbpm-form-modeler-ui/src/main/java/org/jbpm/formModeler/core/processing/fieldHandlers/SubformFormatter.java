@@ -81,7 +81,7 @@ public class SubformFormatter extends DefaultFieldHandlerFormatter {
         renderFragment("outputStart");
 
         String renderMode = paramsReader.getCurrentRenderMode();
-        setAttribute("formId", enterDataForm.getId());
+        setAttribute("form", enterDataForm);
         setAttribute("namespace", namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName());
         setAttribute("uid", getFormManager().getUniqueIdentifier(form, namespace, field, fieldName));
         setAttribute("name", fieldName);

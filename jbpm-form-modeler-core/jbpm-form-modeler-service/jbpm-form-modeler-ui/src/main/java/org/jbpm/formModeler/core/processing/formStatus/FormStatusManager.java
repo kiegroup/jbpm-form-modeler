@@ -54,28 +54,27 @@ public class FormStatusManager implements Serializable {
     /**
      * Get form status associated with given form id and namespace
      *
-     * @param formId    form
+     * @param form    form
      * @param namespace namespace
      * @return the form status associated with given form id and namespace
      */
-    public FormStatus getFormStatus(Long formId, String namespace) {
+    public FormStatus getFormStatus(Form form, String namespace) {
         namespace = StringUtils.defaultIfEmpty(namespace, FormProcessor.DEFAULT_NAMESPACE);
-        return (FormStatus) formStatuses.get(namespace + FormProcessor.NAMESPACE_SEPARATOR + formId);
+        return (FormStatus) formStatuses.get(namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId());
     }
 
     /**
      * Create and store a new form status associated with given form id and namespace
      *
-     * @param formId    form
+     * @param form    form
      * @param namespace namespace
      * @return the form status associated with given form id and namespace
      */
-    public FormStatus createFormStatus(Long formId, String namespace, Map<String, Object> currentValues) {
+    public FormStatus createFormStatus(Form form, String namespace, Map<String, Object> currentValues) {
         namespace = StringUtils.defaultIfEmpty(namespace, FormProcessor.DEFAULT_NAMESPACE);
-        FormStatus fs = new FormStatus(formId, namespace, currentValues);
-        formStatuses.put(namespace + FormProcessor.NAMESPACE_SEPARATOR + formId, fs);
+        FormStatus fs = new FormStatus(form, namespace, currentValues);
+        formStatuses.put(namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId(), fs);
         try {
-            Form form = FormCoreServices.lookup().getFormManager().getFormById(formId);
             FieldHandlersManager fieldHandlersManager = FormProcessingServices.lookup().getFieldHandlersManager();
             for (Field pff : form.getFormFields()) {
                 FieldHandler handler = fieldHandlersManager.getHandler(pff.getFieldType());
@@ -135,6 +134,6 @@ public class FormStatusManager implements Serializable {
         FormNamespaceData fsd = NamespaceManager.lookup().getNamespace(namespace);
         if (fsd == null) return null;
 
-        return getFormStatus(fsd.getForm().getId(), fsd.getNamespace());
+        return getFormStatus(fsd.getForm(), fsd.getNamespace());
     }
 }

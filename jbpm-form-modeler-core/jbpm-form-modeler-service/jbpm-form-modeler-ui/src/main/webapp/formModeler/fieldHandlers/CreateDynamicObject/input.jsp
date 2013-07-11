@@ -59,7 +59,7 @@
 </mvc:fragment>
 <%----------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="previewItem">
-    <mvc:fragmentValue name="formId" id="formId">
+    <mvc:fragmentValue name="form" id="form">
         <mvc:fragmentValue name="valueToPreview" id="valueToPreview">
             <mvc:fragmentValue name="index" id="index">
                 <mvc:fragmentValue name="parentFormId" id="parentFormId">
@@ -75,7 +75,7 @@
                                                         <tr>
                                                             <td>
                                                                 <mvc:formatter name="FormRenderingFormatter">
-                                                                    <mvc:formatterParam name="formId" value="<%=formId%>"/>
+                                                                    <mvc:formatterParam name="form" value="<%=form%>"/>
                                                                     <mvc:formatterParam name="renderMode" value="<%=Form.RENDER_MODE_DISPLAY%>"/>
                                                                     <mvc:formatterParam name="reuseStatus" value="false"/>
                                                                     <mvc:formatterParam name="namespace" value="showItemPreview"/>
@@ -117,7 +117,7 @@
 </mvc:fragment>
 <%----------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="editItem">
-    <mvc:fragmentValue name="formId" id="formId">
+    <mvc:fragmentValue name="form" id="form">
         <mvc:fragmentValue name="valueToEdit" id="valueToEdit">
             <mvc:fragmentValue name="index" id="index">
                 <mvc:fragmentValue name="parentFormId" id="parentFormId">
@@ -131,41 +131,48 @@
 
             <tr>
                 <td>
-            <table class="skn-table_border" width="100%" cellspacing="1" cellpadding="1">
-            <tr>
-                <td>
-                    <mvc:formatter name="FormRenderingFormatter">
-                        <mvc:formatterParam name="formId" value="<%=formId%>"/>
-                        <mvc:formatterParam name="formValues" value="<%=valueToEdit%>"/>
-                        <mvc:formatterParam name="namespace" value="<%=namespace%>"/>
-                        <mvc:formatterParam name="isMultipleSubForm" value="true"/>
-                        <mvc:formatterParam name="isSubForm" value="true"/>
-                        <mvc:formatterParam name="isMultiple" value="true"/>
-                        <mvc:formatterParam name="renderMode" value="<%=Form.RENDER_MODE_FORM%>"/>
-                        <mvc:formatterParam name="isDisabled" value="<%=disabled%>"/>
-                        <mvc:formatterParam name="isReadonly" value="<%=readonly%>"/>
-                        <%@ include file="/formModeler/components/WysiwygFormEdit/menu/defaultFormRenderingFormatterOptions.jsp" %>
-                    </mvc:formatter>
-                </td>
-            </tr>
-            <tr>
-                <td align="center" style="padding-top:10px">
-                    <input type="hidden" name="<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "saveEdited"%>" value="false">
-                    <input type="button" class="skn-button" value="<i18n:message key="save">!!!Save</i18n:message>"
-                           onclick="this.form.elements['<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "saveEdited"%>'].value=true;clearChangeDDMTrigger();sendFormToHandler(this.form, 'org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler', 'saveEditedItem');"
-                            >
-                    <input type="button" class="skn-button alt" value='<i18n:message key="return">!!!Return</i18n:message>'
-                           onclick="
-                                   document.getElementById('<%=uid + "_child_uid_value"%>').value='<%=uid%>';
-                                   document.getElementById('<%=uid + "_index"%>').value='<%=index%>';
-                                   document.getElementById('<%=uid + "_parentFormId"%>').value='<%=parentFormId%>';
-                                   document.getElementById('<%=uid + "_parentNamespace"%>').value='<%=parentNamespace%>';
-                                   document.getElementById('<%=uid + "_field"%>').value='<%=field%>';
-                                   clearChangeDDMTrigger();
-                                   sendFormToHandler(this.form, 'org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler', 'cancelEditItem');">
-                </td>
-            </tr>
-            </table>
+                    <table width="100%" cellspacing="1" cellpadding="1">
+                        <tr>
+                            <td>
+                                <mvc:formatter name="FormRenderingFormatter">
+                                    <mvc:formatterParam name="form" value="<%=form%>"/>
+                                    <mvc:formatterParam name="formValues" value="<%=valueToEdit%>"/>
+                                    <mvc:formatterParam name="namespace" value="<%=namespace%>"/>
+                                    <mvc:formatterParam name="isMultipleSubForm" value="true"/>
+                                    <mvc:formatterParam name="isSubForm" value="true"/>
+                                    <mvc:formatterParam name="isMultiple" value="true"/>
+                                    <mvc:formatterParam name="renderMode" value="<%=Form.RENDER_MODE_FORM%>"/>
+                                    <mvc:formatterParam name="isDisabled" value="<%=disabled%>"/>
+                                    <mvc:formatterParam name="isReadonly" value="<%=readonly%>"/>
+                                    <%@ include file="/formModeler/components/WysiwygFormEdit/menu/defaultFormRenderingFormatterOptions.jsp" %>
+                                </mvc:formatter>
+                            </td>
+                        </tr>
+                        <%
+                            if(!Boolean.TRUE.equals(readonly) && !Boolean.TRUE.equals(disabled)) {
+                        %>
+
+                        <tr>
+                            <td align="center" style="padding-top:10px">
+                                <input type="hidden" name="<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "saveEdited"%>" value="false">
+                                <input type="button" class="skn-button" value="<i18n:message key="save">!!!Save</i18n:message>"
+                                       onclick="this.form.elements['<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "saveEdited"%>'].value=true;clearChangeDDMTrigger();sendFormToHandler(this.form, 'org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler', 'saveEditedItem');"
+                                        >
+                                <input type="button" class="skn-button_alt" value='<i18n:message key="return">!!!Return</i18n:message>'
+                                       onclick="
+                                               document.getElementById('<%=uid + "_child_uid_value"%>').value='<%=uid%>';
+                                               document.getElementById('<%=uid + "_index"%>').value='<%=index%>';
+                                               document.getElementById('<%=uid + "_parentFormId"%>').value='<%=parentFormId%>';
+                                               document.getElementById('<%=uid + "_parentNamespace"%>').value='<%=parentNamespace%>';
+                                               document.getElementById('<%=uid + "_field"%>').value='<%=field%>';
+                                               clearChangeDDMTrigger();
+                                               sendFormToHandler(this.form, 'org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler', 'cancelEditItem');">
+                            </td>
+                        </tr>
+                        <%
+                            }
+                        %>
+                    </table>
                 </td>
             </tr>
 
@@ -223,20 +230,11 @@
             <mvc:fragmentValue name="deleteable" id="deleteable">
                 <mvc:fragmentValue name="uid" id="uid">
                     <mvc:fragmentValue name="index" id="index">
-                        <mvc:fragmentValue name="isPreview" id="isPreview">
-                            <mvc:fragmentValue name="parentFormId" id="parentFormId">
-                                <mvc:fragmentValue name="parentNamespace" id="parentNamespace">
-                                    <mvc:fragmentValue name="field" id="field">
+                        <mvc:fragmentValue name="parentFormId" id="parentFormId">
+                            <mvc:fragmentValue name="parentNamespace" id="parentNamespace">
+                                <mvc:fragmentValue name="field" id="field">
 
-                        <tr valign="top"
-<%
-    if (Boolean.FALSE.equals(isPreview) ) {
-%>
-                            class='<%=((Integer) index).intValue() % 2 == 1 ? "skn-even_row" : "skn-odd_row"%>'
-<%
-    }
-%>
-                            >
+                        <tr valign="top" class='<%=((Integer) index).intValue() % 2 == 1 ? "skn-even_row" : "skn-odd_row"%>'>
 <%
     if (Boolean.TRUE.equals(deleteable)) {
 %>
@@ -302,7 +300,6 @@
 <%
     }
 %>        </mvc:fragmentValue>
-                                </mvc:fragmentValue>
                             </mvc:fragmentValue>
                         </mvc:fragmentValue>
                     </mvc:fragmentValue>
@@ -314,7 +311,7 @@
 <%----------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="tableRow">
     <mvc:fragmentValue name="namespace" id="namespace">
-        <mvc:fragmentValue name="formId" id="formId">
+        <mvc:fragmentValue name="form" id="form">
             <mvc:fragmentValue name="formValues" id="formValues">
                 <mvc:fragmentValue name="disabled" id="disabled">
                     <mvc:fragmentValue name="readonly" id="readonly">
@@ -323,7 +320,7 @@
                                 <mvc:formatter
                                         name="FormRenderingFormatter">
                                     <%-- Formatter for table row, cannot use default rendering options --%>
-                                    <mvc:formatterParam name="formId" value="<%=formId%>"/>
+                                    <mvc:formatterParam name="form" value="<%=form%>"/>
                                     <mvc:formatterParam name="renderMode" value="<%=renderMode%>"/>
                                     <mvc:formatterParam name="displayMode" value="default"/>
                                     <mvc:formatterParam name="formValues" value="<%=formValues%>"/>
@@ -345,37 +342,6 @@
     </mvc:fragmentValue>
 </mvc:fragment>
 <%----------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="previewRow">
-    <mvc:fragmentValue name="formId" id="formId">
-        <mvc:fragmentValue name="namespace" id="namespace">
-        <mvc:fragmentValue name="formValues" id="formValues">
-        <mvc:fragmentValue name="disabled" id="disabled">
-        <mvc:fragmentValue name="readonly" id="readonly">
-                            <td valign="top">
-                                <table align="left" border="0"  width="100%" cellspacing="0" cellpadding="0">
-                                    <tr>
-                                        <td>
-            <mvc:formatter name="FormRenderingFormatter">
-                <mvc:formatterParam name="formId" value="<%=formId%>"/>
-                <mvc:formatterParam name="renderMode" value="<%=Form.RENDER_MODE_DISPLAY%>"/>
-                <mvc:formatterParam name="formValues" value="<%=formValues%>"/>
-                <mvc:formatterParam name="namespace" value="<%=namespace%>"/>
-                <mvc:formatterParam name="reuseStatus" value="false"/>
-                <mvc:formatterParam name="isDisabled" value="<%=disabled%>"/>
-                <mvc:formatterParam name="isReadonly" value="<%=readonly%>"/>
-                <%@ include file="/formModeler/components/WysiwygFormEdit/menu/defaultFormRenderingFormatterOptions.jsp" %>
-            </mvc:formatter>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-        </mvc:fragmentValue>
-        </mvc:fragmentValue>
-        </mvc:fragmentValue>
-        </mvc:fragmentValue>
-        </mvc:fragmentValue>
-    </mvc:fragment>
-<%----------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="separator">
     <tr align="center">
         <td colspan="<mvc:fragmentValue name="colspan"/>">
@@ -391,7 +357,7 @@
 </mvc:fragment>
 <%----------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="outputEnterDataForm">
-    <mvc:fragmentValue name="formId" id="formId">
+    <mvc:fragmentValue name="form" id="form">
         <mvc:fragmentValue name="namespace" id="namespace">
             <mvc:fragmentValue name="uid" id="uid">
                 <mvc:fragmentValue name="name" id="name">
@@ -413,7 +379,7 @@
                                                             <tr>
                                                                 <td>
                                                                     <mvc:formatter name="FormRenderingFormatter">
-                                                                        <mvc:formatterParam name="formId" value="<%=formId%>"/>
+                                                                        <mvc:formatterParam name="form" value="<%=form%>"/>
                                                                         <mvc:formatterParam name="namespace" value="<%=namespace%>"/>
                                                                         <mvc:formatterParam name="isMultiple" value="true"/>
                                                                         <mvc:formatterParam name="isSubForm" value="true"/>
@@ -446,7 +412,7 @@
 
                                                         <%
                                                             }
-                                                            if (!Boolean.TRUE.equals(expanded)) {
+                                                            if (!Boolean.TRUE.equals(expanded) && !Boolean.TRUE.equals(readonly) && !Boolean.TRUE.equals(disabled)) {
                                                         %>
 
                                                         <div style="text-align:center; padding-top:0px; width:100%;">

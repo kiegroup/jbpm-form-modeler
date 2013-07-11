@@ -348,7 +348,7 @@
     <field position="19" name="updateItems" type="CheckBox" id="1504888916">
         <property name="fieldName" value="updateItems"/>
         <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
+        <property name="groupWithPrevious" value="true"/>
         <property name="height" value=""/>
         <property name="label" value="quot;caquot;,quot;Permetre editar itemsquot;quot;enquot;,quot;Allow edit itemsquot;quot;esquot;,quot;Permitir editar itemsquot;"/>
         <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
@@ -363,10 +363,10 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="20" name="previewItems" type="CheckBox" id="1504888917">
-        <property name="fieldName" value="previewItems"/>
+    <field position="20" name="visualizeItem" type="CheckBox" id="1504888917">
+        <property name="fieldName" value="visualizeItem"/>
         <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
+        <property name="groupWithPrevious" value="true"/>
         <property name="height" value=""/>
         <property name="label" value="quot;caquot;,quot;Permetre visualitzarquot;quot;enquot;,quot;Allow preview itemsquot;quot;esquot;,quot;Permitir visualizar itemsquot;"/>
         <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
@@ -402,7 +402,7 @@
     <field position="22" name="expanded" type="CheckBox" id="1504888919">
         <property name="fieldName" value="expanded"/>
         <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
+        <property name="groupWithPrevious" value="true"/>
         <property name="height" value=""/>
         <property name="label" value="quot;caquot;,quot;Expanditquot;quot;enquot;,quot;Expandedquot;quot;esquot;,quot;Expandidoquot;"/>
         <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
@@ -417,14 +417,33 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-
-    <field position="23" name="separator" type="InputTextArea" id="2003753528">
-        <property name="fieldName" value="separator"/>
+    <field position="23" name="enableTableEnterData" type="CheckBox" id="1504888920">
+        <property name="fieldName" value="enableTableEnterData"/>
+        <property name="fieldRequired" value="false"/>
+        <property name="groupWithPrevious" value="true"/>
+        <property name="height" value=""/>
+        <property name="label" value="quot;caquot;,quot;Permetre entrada dades mode taulaquot;quot;enquot;,quot;Allow data enter in table modequot;quot;esquot;,quot;Permitir entrada datos en modo tablaquot;"/>
+        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+        <property name="disabled" value="false"/>
+        <property name="readonly" value="false"/>
+        <property name="size" value=""/>
+        <property name="formula" value=""/>
+        <property name="rangeFormula" value=""/>
+        <property name="pattern" value=""/>
+        <property name="maxlength" value="512"/>
+        <property name="styleclass" value=""/>
+        <property name="cssStyle" value=""/>
+        <property name="accesskey" value=""/>
+    </field>
+    <field position="24" name="inputBinding" type="InputText" id="438472783">
+        <property name="fieldName" value="inputBinding"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
-        <property name="height" value="2"/>
-        <property name="label" value="quot;caquot;,quot;Separador:quot;quot;enquot;,quot;Separator:quot;quot;esquot;,quot;Separador:quot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+        <property name="height" value=""/>
+        <property name="label"
+                  value="quot;caquot;,quot;Exp. enlla&#231; entrada:quot;quot;enquot;,quot;Input binding expression:quot;quot;esquot;,quot;Exp. enlace entrada:quot;"/>
+        <property name="title"
+                  value="quot;caquot;,quot;Exp. enlla&#231; entradaquot;quot;enquot;,quot;Input inding expressionquot;quot;esquot;,quot;Exp. enlace entradaquot;"/>
         <property name="disabled" value="false"/>
         <property name="readonly" value="false"/>
         <property name="size" value="55"/>
@@ -436,16 +455,18 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="24" name="enableTableEnterData" type="CheckBox" id="1504888920">
-        <property name="fieldName" value="enableTableEnterData"/>
+    <field position="25" name="outputBinding" type="InputText" id="413003545">
+        <property name="fieldName" value="outputBinding"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
         <property name="height" value=""/>
-        <property name="label" value="quot;caquot;,quot;Permetre entrada dades mode taulaquot;quot;enquot;,quot;Allow data enter in table modequot;quot;esquot;,quot;Permitir entrada datos en modo tablaquot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
+        <property name="label"
+                  value="quot;caquot;,quot;Exp. enlla&#231; sortida:quot;quot;enquot;,quot;Output binding expression:quot;quot;esquot;,quot;Exp. enlace salida:quot;"/>
+        <property name="title"
+                  value="quot;caquot;,quot;Exp. enlla&#231; sortidaquot;quot;enquot;,quot;Output binding expressionquot;quot;esquot;,quot;Exp. enlace salidaquot;"/>
         <property name="disabled" value="false"/>
         <property name="readonly" value="false"/>
-        <property name="size" value=""/>
+        <property name="size" value="55"/>
         <property name="formula" value=""/>
         <property name="rangeFormula" value=""/>
         <property name="pattern" value=""/>

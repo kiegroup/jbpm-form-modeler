@@ -15,8 +15,6 @@
  */
 package org.jbpm.formModeler.core.processing.impl;
 
-import org.jbpm.formModeler.core.config.FormManager;
-import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatus;
 import org.apache.commons.collections.CollectionUtils;
@@ -25,7 +23,6 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.FormStatusData;
 
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -56,10 +53,9 @@ public class FormStatusDataImpl implements FormStatusData {
 
         Map inputValues = status.getInputValues();
         setEmpty(true);
-        FormManager formsManager = FormCoreServices.lookup().getFormManager();
         Form form = null;
         try {
-            form = formsManager.getFormById(status.getRelatedFormId());
+            form = status.getRelatedForm();
             for (Field field : form.getFormFields() ) {
                 Object value = inputValues.get(field.getFieldName());
                 if (value != null) {

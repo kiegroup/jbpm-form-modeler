@@ -77,7 +77,6 @@ public abstract class DefaultDataHolder implements DataHolder {
     }
 
     public int compareTo(Object o) {
-        String holderId = StringUtils.defaultIfEmpty(getInputId(), getOuputId());
-        return holderId.compareTo( StringUtils.defaultIfEmpty(((DataHolder) o).getInputId(), ((DataHolder) o).getOuputId()));
+        return getUniqeId().compareTo(((DataHolder) o).getUniqeId());
     }
 }

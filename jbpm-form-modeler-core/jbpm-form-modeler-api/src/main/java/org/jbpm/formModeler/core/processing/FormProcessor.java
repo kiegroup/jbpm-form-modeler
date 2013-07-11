@@ -113,7 +113,7 @@ public interface FormProcessor {
      * @throws Exception
      */
 
-    Object persistFormHolder(Form form, String namespace, Map<String, Object> mapToPersist, DataHolder holder) throws Exception;
+    Object persistFormHolder(Form form, String namespace, Map<String, Object> mapToPersist, DataHolder holder, Object loadedObject) throws Exception;
 
     /**
      * Persists the status for given FormRenderContext id.

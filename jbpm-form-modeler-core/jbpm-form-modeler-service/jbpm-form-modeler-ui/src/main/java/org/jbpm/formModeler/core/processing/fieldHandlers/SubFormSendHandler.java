@@ -22,13 +22,12 @@ import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.jbpm.formModeler.core.FieldHandlersManager;
-import org.jbpm.formModeler.core.FormCoreServices;
-import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.processing.*;
 import org.jbpm.formModeler.core.processing.formProcessing.NamespaceManager;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatus;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatusManager;
 
+import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
 
@@ -53,9 +52,8 @@ public class SubFormSendHandler extends BaseUIComponent {
     @Config("/formModeler/components/renderer/show.jsp")
     private String componentIncludeJSP;
 
-    public FormManager getFormManager() {
-        return FormCoreServices.lookup().getFormManager();
-    }
+    @Inject
+    private SubformFinderService subformFinderService;
 
     public NamespaceManager getNamespaceManager() {
         return NamespaceManager.lookup();
@@ -115,7 +113,7 @@ public class SubFormSendHandler extends BaseUIComponent {
                     fieldName = fieldName.substring(0, fieldName.length() - (FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create").length());
                     // PFP : cleared error when the subform to expand is a required field.
                     if (expand) {
-                        FormStatus formStatus = getFormStatusManager().getFormStatus(fsd.getForm().getId(), fsd.getNamespace());
+                        FormStatus formStatus = getFormStatusManager().getFormStatus(fsd.getForm(), fsd.getNamespace());
                         if (formStatus != null)
                             formStatus.removeWrongField(fieldName);
                     }
@@ -183,18 +181,26 @@ public class SubFormSendHandler extends BaseUIComponent {
                 if (uids[i] != null && !"".equals(uids[i])) uid = uids[i];
             }
         }
-        String index = request.getParameter(uid + "_index");
+        String sIndex = request.getParameter(uid + "_index");
         String parentFormId = request.getParameter(uid + "_parentFormId");
         String parentNamespace = request.getParameter(uid + "_parentNamespace");
         String fieldName = request.getParameter(uid + "_field");
-        Form parentForm = getFormManager().getFormById(Long.decode(parentFormId));
+
+        Form parentForm = subformFinderService.getFormById(Long.decode(parentFormId), parentNamespace);
 
         getFormProcessor().setValues(parentForm, parentNamespace, request.getRequestObject().getParameterMap(), request.getFilesByParamName());
         Field field = parentForm.getField(fieldName);
         FieldHandler handler = getFieldHandlersManager().getHandler(field.getFieldType());
         if (handler instanceof CreateDynamicObjectFieldHandler) {
             CreateDynamicObjectFieldHandler fHandler = (CreateDynamicObjectFieldHandler) handler;
-            Object deletedResultValue = fHandler.deleteElementInPosition(parentForm, parentNamespace, fieldName, Integer.decode(index).intValue());
+            int index =  Integer.decode(sIndex).intValue();
+            Object deletedResultValue = fHandler.deleteElementInPosition(parentForm, parentNamespace, fieldName, index);
+            List removedValues = (List) getFormProcessor().getAttribute(parentForm, parentNamespace, FormStatusData.REMOVED_ELEMENTS);
+            if (removedValues == null) {
+                removedValues = new ArrayList();
+                getFormProcessor().setAttribute(parentForm, parentNamespace, FormStatusData.REMOVED_ELEMENTS, removedValues);
+            }
+            removedValues.add(index);
             getFormProcessor().modify(parentForm, parentNamespace, fieldName, deletedResultValue);
         } else {
             log.error("Cannot delete value in a field which is not a CreateDynamicObjectFieldHandler.");
@@ -240,7 +246,7 @@ public class SubFormSendHandler extends BaseUIComponent {
         String parentFormId = request.getParameter(uid + "_parentFormId");
         String parentNamespace = request.getParameter(uid + "_parentNamespace");
         String field = request.getParameter(uid + "_field");
-        Form form = getFormManager().getFormById(Long.decode(parentFormId));
+        Form form = subformFinderService.getFormById(Long.decode(parentFormId), parentNamespace);;
         getFormProcessor().setValues(form, parentNamespace, request.getRequestObject().getParameterMap(), request.getFilesByParamName());
         Map previewFields = (Map) getFormProcessor().getAttribute(form, parentNamespace, FormStatusData.PREVIEW_FIELD_POSITIONS);
         if (previewFields == null) {
@@ -266,7 +272,7 @@ public class SubFormSendHandler extends BaseUIComponent {
         String parentFormId = request.getParameter(uid + "_parentFormId");
         String parentNamespace = request.getParameter(uid + "_parentNamespace");
         String field = request.getParameter(uid + "_field");
-        Form form = getFormManager().getFormById(Long.decode(parentFormId));
+        Form form = subformFinderService.getFormById(Long.decode(parentFormId), parentNamespace);;
         getFormProcessor().setValues(form, parentNamespace, request.getRequestObject().getParameterMap(), request.getFilesByParamName());
         Map editFields = (Map) getFormProcessor().getAttribute(form, parentNamespace, FormStatusData.EDIT_FIELD_POSITIONS);
         if (editFields == null) {

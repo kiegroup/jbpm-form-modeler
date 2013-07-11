@@ -60,7 +60,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     private FormRenderContextManager formRenderContextManager;
 
     protected FormStatus getContextFormStatus(FormRenderContext context) {
-        return FormStatusManager.lookup().getFormStatus(context.getForm().getId(), context.getUID());
+        return FormStatusManager.lookup().getFormStatus(context.getForm(), context.getUID());
     }
 
     protected FormStatus getFormStatus(Form form, String namespace) {
@@ -68,17 +68,17 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     }
 
     protected FormStatus getFormStatus(Form form, String namespace, Map<String, Object> currentValues, Map<String, Object> loadedObjects) {
-        FormStatus formStatus = FormStatusManager.lookup().getFormStatus(form.getId(), namespace);
+        FormStatus formStatus = FormStatusManager.lookup().getFormStatus(form, namespace);
         return formStatus != null ? formStatus : createFormStatus(form, namespace, currentValues, loadedObjects);
     }
 
-    protected boolean existsFormStatus(Long formId, String namespace) {
-        FormStatus formStatus = FormStatusManager.lookup().getFormStatus(formId, namespace);
+    protected boolean existsFormStatus(Form form, String namespace) {
+        FormStatus formStatus = FormStatusManager.lookup().getFormStatus(form, namespace);
         return formStatus != null;
     }
 
     protected FormStatus createFormStatus(Form form, String namespace, Map currentValues, Map<String, Object> loadedObjects) {
-        FormStatus fStatus = FormStatusManager.lookup().createFormStatus(form.getId(), namespace, currentValues);
+        FormStatus fStatus = FormStatusManager.lookup().createFormStatus(form, namespace, currentValues);
         fStatus.setLoadedObjects(loadedObjects);
         setDefaultValues(form, namespace, currentValues);
         return fStatus;
@@ -417,7 +417,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
     @Override
     public FormStatusData read(Form form, String namespace, Map<String, Object> formValues, Map<String, Object> loadedObjects) {
-        boolean exists = existsFormStatus(form.getId(), namespace);
+        boolean exists = existsFormStatus(form, namespace);
         if (formValues == null) formValues = new HashMap();
         FormStatus formStatus = getFormStatus(form, namespace, formValues, loadedObjects);
         FormStatusDataImpl data = null;
@@ -488,11 +488,13 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     }
 
     @Override
-    public Object persistFormHolder(Form form, String namespace, Map<String, Object> mapToPersist, DataHolder holder) throws Exception {
+    public Object persistFormHolder(Form form, String namespace, Map<String, Object> mapToPersist, DataHolder holder, Object loadedObject) throws Exception {
         if (holder == null) return null;
-        FormRenderContext context = formRenderContextManager.getRootContext(namespace);
 
-        Object result = holder.createInstance(context);
+        if (loadedObject == null) {
+            FormRenderContext context = formRenderContextManager.getRootContext(namespace);
+            loadedObject = holder.createInstance(context);
+        }
 
         for (Iterator it = mapToPersist.keySet().iterator(); it.hasNext();) {
             String fieldName = (String) it.next();
@@ -508,10 +510,10 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
                 Object value = persistField(field, mapToPersist, holder, namespace);
 
-                holder.writeValue(result, holderFieldId, value);
+                holder.writeValue(loadedObject, holderFieldId, value);
             }
         }
-        return result;
+        return loadedObject;
     }
 
     protected Object persistField(Field field, Map<String, Object> mapToPersist, DataHolder holder, String namespace) throws Exception{
@@ -621,7 +623,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     }
 
     public void forceWrongField(Form form, String namespace, String fieldName) {
-        FormStatusManager.lookup().getFormStatus(form.getId(), namespace).getWrongFields().add(fieldName);
+        FormStatusManager.lookup().getFormStatus(form, namespace).getWrongFields().add(fieldName);
     }
 
     protected String getPrefix(Form form, String namespace) {

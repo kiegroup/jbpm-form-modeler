@@ -176,12 +176,31 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
         Object objectValue = data.getCurrentValue(field.getFieldName());
         if (objectValue == null) return null;
 
+        Form form = getEnterDataForm(inputName, field);
+        DataHolder holder = form.getHolders().iterator().next();
+
+        List loadedObjects = (List) data.getLoadedObject(holder.getUniqeId());
+        if (loadedObjects == null) loadedObjects = Collections.EMPTY_LIST;
+
         Map[] values = (Map[]) objectValue;
         List result = new ArrayList();
-        Form form = getEnterDataForm(inputName, field);
+
+        List removedValues = (List) data.getAttributes().get(FormStatusData.REMOVED_ELEMENTS);
+        if (removedValues == null) removedValues = Collections.EMPTY_LIST;
+
+        // Check if any value has been removed from the parent form
+        for (int i=0; i<removedValues.size(); i++) {
+            Integer removed = (Integer) removedValues.get(i);
+            if (removed < loadedObjects.size()) loadedObjects.remove(removed.intValue());
+        }
 
         for (int i = 0; i < values.length; i++) {
-            result.add(getFormProcessor().persistFormHolder(form, inputName, values[i], form.getHolders().iterator().next()));
+            Object loadedObject = null;
+            if (loadedObjects != null && loadedObjects.size() > i) {
+                loadedObject = loadedObjects.get(i);
+            }
+
+            result.add(getFormProcessor().persistFormHolder(form, inputName, values[i], holder, loadedObject));
         }
 
         return result;

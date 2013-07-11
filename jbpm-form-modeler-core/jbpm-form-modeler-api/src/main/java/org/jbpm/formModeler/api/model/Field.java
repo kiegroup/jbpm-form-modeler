@@ -79,8 +79,6 @@ public class Field implements Comparable<Field> {
 
     //Subform data
     private String defaultSubform;
-    private String creationSubform;
-    private String editionSubform;
     private String previewSubform;
     private String tableSubform;
 
@@ -90,12 +88,9 @@ public class Field implements Comparable<Field> {
 
     private Boolean deleteItems;
     private Boolean updateItems;
-    private Boolean previewItems;
     private Boolean visualizeItem;
     private Boolean hideCreateItem;
     private Boolean expanded;
-
-    private String separator;
 
     private Boolean enableTableEnterData;
 
@@ -331,14 +326,6 @@ public class Field implements Comparable<Field> {
         this.updateItems = updateItems;
     }
 
-    public Boolean getPreviewItems() {
-        return previewItems;
-    }
-
-    public void setPreviewItems(Boolean previewItems) {
-        this.previewItems = previewItems;
-    }
-
     public Boolean getVisualizeItem() {
         return visualizeItem;
     }
@@ -361,14 +348,6 @@ public class Field implements Comparable<Field> {
 
     public void setExpanded(Boolean expanded) {
         this.expanded = expanded;
-    }
-
-    public String getSeparator() {
-        return separator;
-    }
-
-    public void setSeparator(String separator) {
-        this.separator = separator;
     }
 
     public Boolean getEnableTableEnterData() {
@@ -474,12 +453,9 @@ public class Field implements Comparable<Field> {
 
         this.setDeleteItems(field.getDeleteItems());
         this.setUpdateItems(field.getUpdateItems());
-        this.setPreviewItems(field.getPreviewItems());
         this.setVisualizeItem(field.getVisualizeItem());
         this.setHideCreateItem(field.getHideCreateItem());
         this.setExpanded(field.getExpanded());
-
-        this.setSeparator(field.getSeparator());
         this.setEnableTableEnterData(field.getEnableTableEnterData());
     }
 
@@ -583,8 +559,7 @@ public class Field implements Comparable<Field> {
 
         names.add("deleteItems");
         names.add("updateItems");
-        names.add("previewItems");
-        names.add("visualizeItems");
+        names.add("visualizeItem");
         names.add("hideCreateItem");
         names.add("expanded");
 
@@ -637,12 +612,9 @@ public class Field implements Comparable<Field> {
 
         value.put("deleteItems",getDeleteItems());
         value.put("updateItems",getUpdateItems());
-        value.put("previewItems",getPreviewItems());
         value.put("visualizeItem",getVisualizeItem());
         value.put("hideCreateItem",getHideCreateItem());
         value.put("expanded",getExpanded());
-
-        value.put("separator",getSeparator());
 
         value.put("enableTableEnterData",getEnableTableEnterData());
         return value;

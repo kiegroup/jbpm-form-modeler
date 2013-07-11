@@ -155,7 +155,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
                 Map valueToPreview = (Map) Array.get(value, position);
                 if (formToPreview != null) {
                     setAttribute("valueToPreview", valueToPreview);
-                    setAttribute("formId", formToPreview.getId());
+                    setAttribute("form", formToPreview);
                     setAttribute("uid", getFormManager().getUniqueIdentifier(parentForm, currentNamespace, field, null));
                     setAttribute("index", position);
                     setAttribute("parentFormId", parentForm.getId());
@@ -196,7 +196,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
                 if (formToEdit != null) {
                     setAttribute("valueToEdit", valueToEdit);
                     setAttribute("name", fieldName);
-                    setAttribute("formId", formToEdit.getId());
+                    setAttribute("form", formToEdit);
                     setAttribute("uid", getFormManager().getUniqueIdentifier(parentForm, currentNamespace, field, null));
                     setAttribute("index", position);
                     setAttribute("parentFormId", parentForm.getId());
@@ -229,7 +229,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
         Form enterDataForm = fieldHandler.getCreateForm(field, currentNamespace);
         boolean disallowCreateNew = Boolean.TRUE.equals(field.getHideCreateItem());
         if (enterDataForm != null && !disallowCreateNew) {
-            setAttribute("formId", enterDataForm.getId());
+            setAttribute("form", enterDataForm);
             String namespace = currentNamespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName();
             setAttribute("namespace", namespace + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create");
             String uid = getFormManager().getUniqueIdentifier(form, currentNamespace, field, fieldName);
@@ -272,7 +272,6 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
 
     protected void renderExistingItemsTable(Form parentForm, String currentNamespace, Field field, Object value) {
         Boolean displayPage = Boolean.valueOf((String) getParameter(PARAM_DISPLAYPAGE));
-        boolean previewItems = Boolean.TRUE.equals(field.getPreviewItems());
         CreateDynamicObjectFieldHandler fieldHandler = (CreateDynamicObjectFieldHandler) getFieldHandlersManager().getHandler(field.getFieldType());
 
         Form form;
@@ -291,35 +290,35 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
         //getFormProcessor().read(form, currentNamespace,value);
         List values = (List) value;
         if (values != null && !values.isEmpty()) {
-            setAttribute("className", !previewItems ? "skn-table_border" : "");
+            setAttribute("className", "skn-table_border");
             String uid = getFormManager().getUniqueIdentifier(parentForm, currentNamespace, field, field.getFieldName());
             setAttribute("uid", uid);
             renderFragment("tableStart");
             boolean modificable = Boolean.TRUE.equals(field.getUpdateItems());
             boolean deleteable = Boolean.TRUE.equals(field.getDeleteItems());
             boolean visualizable = Boolean.TRUE.equals(field.getVisualizeItem());
+
             int colspan = 0;
             if (modificable) colspan++;
             if (deleteable) colspan++;
             if (visualizable) colspan++;
 
-            if (!previewItems) {
-                setAttribute("colspan", colspan);
-                renderFragment("headerStart");
-                Set formFields = form.getFormFields();
-                List sortedFields = new ArrayList(formFields);
-                Collections.sort(sortedFields, new Field.Comparator());
-                for (int i = 0; i < sortedFields.size(); i++) {
-                    Field formularyField = (Field) sortedFields.get(i);
+            setAttribute("colspan", colspan);
+            renderFragment("headerStart");
+            Set formFields = form.getFormFields();
+            List sortedFields = new ArrayList(formFields);
+            Collections.sort(sortedFields, new Field.Comparator());
+            for (int i = 0; i < sortedFields.size(); i++) {
+                Field formularyField = (Field) sortedFields.get(i);
 
-                    String colLabel = StringEscapeUtils.escapeHtml(formularyField.getLabel().getValue(getLang()));
-                    setAttribute("colLabel", StringUtils.defaultString(colLabel, formularyField.getFieldName()));
-                    String colName = formularyField.getFieldName();
-                    setAttribute("colName", colName);
-                    renderFragment("outputColumnName");
-                }
-                renderFragment("headerEnd");
+                String colLabel = StringEscapeUtils.escapeHtml(formularyField.getLabel().getValue(getLang()));
+                setAttribute("colLabel", StringUtils.defaultString(colLabel, formularyField.getFieldName()));
+                String colName = formularyField.getFieldName();
+                setAttribute("colName", colName);
+                renderFragment("outputColumnName");
             }
+            renderFragment("headerEnd");
+
             try {
                 for (int i = 0; i < values.size(); i++) {
                     setAttribute("index", i);
@@ -327,7 +326,6 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
                     setAttribute("modificable", modificable);
                     setAttribute("visualizable", visualizable);
                     setAttribute("uid", uid);
-                    setAttribute("isPreview", previewItems);
                     setAttribute("parentFormId", parentForm.getId());
                     setAttribute("parentNamespace", currentNamespace);
                     setAttribute("field", field.getFieldName());
@@ -335,7 +333,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
 
                     Object o = values.get(i);
                     setAttribute("formValues", o);
-                    setAttribute("formId", form.getId());
+                    setAttribute("form", form);
 
                     String rowNamespace = currentNamespace +
                             FormProcessor.NAMESPACE_SEPARATOR + parentForm.getId() +
@@ -345,24 +343,13 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
 
                     setAttribute("namespace", rowNamespace);
 
-                    if (previewItems) {
-                        renderFragment("previewRow");
-                        if (i < values.size() - 1) {
-                            setAttribute("colspan", colspan + 1);
-                            setAttribute("separator", StringEscapeUtils.unescapeHtml(StringUtils.defaultString(field.getNewItemText().getValue(getLocaleManager().getCurrentLang()), "")));
-                            renderFragment("separator");
-                        }
-                    } else {
-                        // Override the field's own disabled and readonly values with the ones coming from a parent formatter
-                        // that contains it if they're set to true.
-                        if (Boolean.TRUE.equals(field.getEnableTableEnterData()))
-                            setAttribute("renderMode", renderMode);
-                        else setAttribute("renderMode", Form.RENDER_MODE_DISPLAY);
-                        if (isDisabled) setAttribute("disabled", isDisabled);
-                        if (isReadonly) setAttribute("readonly", isReadonly);
-                        setAttribute("labelMode", Form.LABEL_MODE_HIDDEN);
-                        renderFragment("tableRow");
-                    }
+                    if (Boolean.TRUE.equals(field.getEnableTableEnterData()))
+                        setAttribute("renderMode", renderMode);
+                    else setAttribute("renderMode", Form.RENDER_MODE_DISPLAY);
+                    if (isDisabled) setAttribute("disabled", isDisabled);
+                    if (isReadonly) setAttribute("readonly", isReadonly);
+                    setAttribute("labelMode", Form.LABEL_MODE_HIDDEN);
+                    renderFragment("tableRow");
 
                 }
             } catch (Exception e) {

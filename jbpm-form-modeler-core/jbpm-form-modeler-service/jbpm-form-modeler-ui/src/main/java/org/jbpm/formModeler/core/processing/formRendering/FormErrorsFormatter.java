@@ -18,6 +18,7 @@ package org.jbpm.formModeler.core.processing.formRendering;
 import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
+import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
@@ -46,6 +47,9 @@ public class FormErrorsFormatter extends Formatter {
 
     @Inject @Config("5")
     private int maxVisibleErrors;
+
+    @Inject
+    private SubformFinderService subformFinderService;
 
     public int getMaxVisibleErrors() {
         return maxVisibleErrors;
@@ -89,7 +93,7 @@ public class FormErrorsFormatter extends Formatter {
         List errorsToShow = new ArrayList();
         if (formId != null && namespace != null) {
             try {
-                Form form = FormCoreServices.lookup().getFormManager().getFormById(formId);
+                Form form = subformFinderService.getFormById(formId, namespace);
                 FormStatusData statusData = FormProcessingServices.lookup().getFormProcessor().read(form, namespace);
                 for (int i = 0; i < statusData.getWrongFields().size(); i++) {
                     Field field = form.getField((String) statusData.getWrongFields().get(i));

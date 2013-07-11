@@ -251,25 +251,6 @@ public class FormManagerImpl implements FormManager {
         return  result;
     }
 
-    protected boolean validateFieldsOrder(final Form pForm) throws Exception {
-        boolean anyErrorsFound = false;
-        Set<Field> fields = pForm.getFormFields();
-        if (fields != null) {
-            TreeSet<Field> sortedFields = new TreeSet(new Field.Comparator());
-            sortedFields.addAll(fields);
-            int index = 0;
-            for (Field field : sortedFields) {
-                if (field.getPosition() != index) {
-                    logWarn("Field in position " + index + " has position " + field.getPosition() + ". Fixing it.");
-                    field.setPosition(index);
-                    anyErrorsFound = true;
-                }
-                index++;
-            }
-        }
-        return anyErrorsFound;
-    }
-
     public void replaceForm(Long sourceId, Form dest) {
         replaceForm(getFormById(sourceId), dest);
     }

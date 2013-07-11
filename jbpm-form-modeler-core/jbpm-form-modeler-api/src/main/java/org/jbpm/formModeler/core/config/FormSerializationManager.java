@@ -18,6 +18,7 @@ package org.jbpm.formModeler.core.config;
 import org.jbpm.formModeler.api.model.Form;
 import org.xml.sax.InputSource;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 
@@ -25,6 +26,7 @@ import java.io.Serializable;
 public interface FormSerializationManager extends Serializable {
 
     String generateFormXML(Form form);
+    String generateHeaderFormFormId(long formId) throws IOException;
 
     Form loadFormFromXML(String xml,Object path) throws Exception;
     Form loadFormFromXML(String xml) throws Exception;

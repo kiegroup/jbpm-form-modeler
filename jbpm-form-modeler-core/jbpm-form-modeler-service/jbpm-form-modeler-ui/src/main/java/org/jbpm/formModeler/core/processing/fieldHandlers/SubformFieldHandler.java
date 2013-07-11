@@ -22,6 +22,7 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.*;
 import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.SubformChecker;
 import org.jbpm.formModeler.core.processing.formRendering.FormErrorMessageBuilder;
+import org.jbpm.formModeler.core.processing.formStatus.FormStatus;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 
 import javax.annotation.PostConstruct;
@@ -96,7 +97,12 @@ public class SubformFieldHandler extends PersistentFieldHandler {
         Form form = getEnterDataForm(inputName, field);
         Map representation = getFormProcessor().getMapRepresentationToPersist(form, inputName);
 
-        return getFormProcessor().persistFormHolder(form, inputName, representation, form.getHolders().iterator().next());
+        DataHolder holder = form.getHolders().iterator().next();
+
+        FormStatus fs = getFormStatusManager().getFormStatus(form, inputName);
+        Object locadedObject = fs.getLoadedObject(holder.getUniqeId());
+
+        return getFormProcessor().persistFormHolder(form, inputName, representation, holder, locadedObject);
     }
 
     @Override

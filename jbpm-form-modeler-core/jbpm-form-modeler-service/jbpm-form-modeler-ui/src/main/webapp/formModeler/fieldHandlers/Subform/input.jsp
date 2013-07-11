@@ -39,7 +39,7 @@
     <%----------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputForm">
         <tr><td>
-        <mvc:fragmentValue name="formId" id="formId">
+        <mvc:fragmentValue name="form" id="form">
         <mvc:fragmentValue name="namespace" id="namespace">
             <mvc:fragmentValue name="uid" id="uid">
                 <mvc:fragmentValue name="name" id="name">
@@ -48,7 +48,7 @@
                                     <mvc:fragmentValue name="disabled" id="disabled">
                                         <mvc:fragmentValue name="readonly" id="readonly">
                                     <mvc:formatter name="FormRenderingFormatter">
-                                        <mvc:formatterParam name="formId" value="<%=formId%>"/>
+                                        <mvc:formatterParam name="form" value="<%=form%>"/>
                                         <mvc:formatterParam name="namespace" value="<%=namespace%>"/>
                                         <mvc:formatterParam name="renderMode" value="<%=renderMode%>"/>
                                         <mvc:formatterParam name="formValues" value="<%=formValues%>"/>

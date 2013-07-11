@@ -18,6 +18,7 @@ package org.jbpm.formModeler.core.processing.formProcessing;
 import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.processing.FormNamespaceData;
+import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormProcessor;
@@ -31,6 +32,9 @@ public class NamespaceManager {
     public static NamespaceManager lookup() {
         return (NamespaceManager) CDIBeanLocator.getBeanByType(NamespaceManager.class);
     }
+
+    @Inject
+    private SubformFinderService subformFinderService;
 
     @Inject
     private Log log;
@@ -62,7 +66,7 @@ public class NamespaceManager {
                 if (!"_".equals(formIdString)) {
                     Long formId = Long.decode(formIdString);
                     try {
-                        Form form = FormCoreServices.lookup().getFormManager().getFormById(formId);
+                        Form form = subformFinderService.getFormById(formId, namespace);
                         return new FormNamespaceData(form, namespace, fieldNameInParent);
                     } catch (Exception e) {
                         log.error("Error: ", e);

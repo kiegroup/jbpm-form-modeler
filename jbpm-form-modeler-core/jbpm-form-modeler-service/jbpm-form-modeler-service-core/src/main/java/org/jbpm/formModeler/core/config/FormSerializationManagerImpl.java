@@ -77,6 +77,16 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     }
 
     @Override
+    public String generateHeaderFormFormId(long formId) throws IOException {
+        XMLNode rootNode = new XMLNode(NODE_FORM, null);
+        rootNode.addAttribute(ATTR_ID, String.valueOf(formId));
+        StringWriter sw = new StringWriter();
+        rootNode.writeXML(sw, true);
+
+        return sw.toString().replace("/","");
+    }
+
+    @Override
     public Form loadFormFromXML(String xml,Object path) throws Exception {
         if (StringUtils.isBlank(xml)) return null;
         return loadFormFromXML(new InputSource(new StringReader(xml)),path);
@@ -293,16 +303,12 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         field.setDeleteItems(Boolean.valueOf(value));
                     } else if ("updateItems".equals(propName)) {
                         field.setUpdateItems(Boolean.valueOf(value));
-                    } else if ("previewItems".equals(propName)) {
-                        field.setPreviewItems(Boolean.valueOf(value));
                     } else if ("visualizeItems".equals(propName)) {
                         field.setVisualizeItem(Boolean.valueOf(value));
                     } else if ("hideCreateItem".equals(propName)) {
                         field.setHideCreateItem(Boolean.valueOf(value));
                     } else if ("expanded".equals(propName)) {
                         field.setExpanded(Boolean.valueOf(value));
-                    } else if ("separator".equals(propName)) {
-                        field.setSeparator(value);
                     } else if ("enableTableEnterData".equals(propName)) {
                         field.setEnableTableEnterData(Boolean.valueOf(value));
                     } else if ("inputBinding".equals(propName)) {
@@ -361,11 +367,9 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         addXMLNode("cancelItemText", (field.getCancelItemText() != null ? serializeI18nSet(field.getCancelItemText()):null), rootNode);
         addXMLNode("deleteItems", (field.getDeleteItems() != null ? String.valueOf(field.getDeleteItems()) : null), rootNode);
         addXMLNode("updateItems", (field.getUpdateItems() != null ? String.valueOf(field.getUpdateItems()) : null), rootNode);
-        addXMLNode("previewItems", (field.getPreviewItems() != null ? String.valueOf(field.getPreviewItems()) : null), rootNode);
         addXMLNode("visualizeItems", (field.getVisualizeItem() != null ? String.valueOf(field.getVisualizeItem()) : null), rootNode);
         addXMLNode("hideCreateItem", (field.getHideCreateItem() != null ? String.valueOf(field.getHideCreateItem()) : null), rootNode);
         addXMLNode("expanded", (field.getExpanded() != null ? String.valueOf(field.getExpanded()) : null), rootNode);
-        addXMLNode("separator", field.getSeparator(), rootNode);
         addXMLNode("enableTableEnterData", (field.getEnableTableEnterData() != null ? String.valueOf(field.getEnableTableEnterData()) : null), rootNode);
 
         parent.addChild(rootNode);

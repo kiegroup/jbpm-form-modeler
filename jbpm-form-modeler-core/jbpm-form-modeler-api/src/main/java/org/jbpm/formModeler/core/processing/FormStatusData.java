@@ -24,13 +24,14 @@ import java.util.Map;
  */
 public interface FormStatusData {
 
-    public static final String EXPANDED_FIELDS = "-pot-expandedFields";
-    public static final String PREVIEW_FIELD_POSITIONS = "-pot-previewFieldPositions";
-    public static final String EDIT_FIELD_POSITIONS = "-pot-editFieldPositions";
-    public static final String EDIT_FIELD_PREVIOUS_VALUES = "-pot-editFieldPreviousValue";
-    public static final String DO_THE_ITEM_ADD = "-pot-doTheItemAdd";
-    public static final String CALCULATED_RANGE_FORMULAS="-pot-rangeFormulas";
-    public static final String CALCULATED_RANGE_FORMULAS_LANG ="-pot-rangeFormulasLang";
+    public static final String EXPANDED_FIELDS = "-jbpm-expandedFields";
+    public static final String PREVIEW_FIELD_POSITIONS = "-jbpm-previewFieldPositions";
+    public static final String EDIT_FIELD_POSITIONS = "-jbpm-editFieldPositions";
+    public static final String EDIT_FIELD_PREVIOUS_VALUES = "-jbpm-editFieldPreviousValue";
+    public static final String DO_THE_ITEM_ADD = "-jbpm-doTheItemAdd";
+    public static final String CALCULATED_RANGE_FORMULAS="-jbpm-rangeFormulas";
+    public static final String CALCULATED_RANGE_FORMULAS_LANG ="-jbpm-rangeFormulasLang";
+    public static final String REMOVED_ELEMENTS = "-jbpm-removed-array-elements";
 
     public List getWrongFields();
 

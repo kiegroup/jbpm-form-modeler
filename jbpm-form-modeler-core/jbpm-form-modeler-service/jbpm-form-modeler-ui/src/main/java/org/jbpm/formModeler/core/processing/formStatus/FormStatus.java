@@ -15,6 +15,8 @@
  */
 package org.jbpm.formModeler.core.processing.formStatus;
 
+import org.jbpm.formModeler.api.model.Form;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -26,15 +28,15 @@ public class FormStatus implements Serializable {
 
     private Map<String, Object> inputValues = new HashMap<String, Object>();
     private Map lastParameterMap;
-    private Long relatedFormId;
+    private Form relatedForm;
     private Set wrongFields = new TreeSet();
     private Map<String, List> wrongFieldsMessages = new HashMap<String, List>();
     private String namespace;
     private Map attributes = new HashMap();
     private Map<String, Object> loadedObjects = new HashMap<String, Object>();
 
-    public FormStatus(Long relatedFormId, String namespace, Map currentValues) {
-        this.relatedFormId = relatedFormId;
+    public FormStatus(Form relatedForm, String namespace, Map currentValues) {
+        this.relatedForm = relatedForm;
         this.namespace = namespace;
         if (currentValues != null) inputValues.putAll(currentValues);
     }
@@ -55,8 +57,8 @@ public class FormStatus implements Serializable {
         return wrongFields;
     }
 
-    public Long getRelatedFormId() {
-        return relatedFormId;
+    public Form getRelatedForm() {
+        return relatedForm;
     }
 
     public String getNamespace() {

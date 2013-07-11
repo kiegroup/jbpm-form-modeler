@@ -237,4 +237,44 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
+    <field position="13" name="inputBinding" type="InputText" id="438472783">
+        <property name="fieldName" value="inputBinding"/>
+        <property name="fieldRequired" value="false"/>
+        <property name="groupWithPrevious" value="false"/>
+        <property name="height" value=""/>
+        <property name="label"
+                  value="quot;caquot;,quot;Exp. enlla&#231; entrada:quot;quot;enquot;,quot;Input binding expression:quot;quot;esquot;,quot;Exp. enlace entrada:quot;"/>
+        <property name="title"
+                  value="quot;caquot;,quot;Exp. enlla&#231; entradaquot;quot;enquot;,quot;Input inding expressionquot;quot;esquot;,quot;Exp. enlace entradaquot;"/>
+        <property name="disabled" value="false"/>
+        <property name="readonly" value="false"/>
+        <property name="size" value="55"/>
+        <property name="formula" value=""/>
+        <property name="rangeFormula" value=""/>
+        <property name="pattern" value=""/>
+        <property name="maxlength" value="512"/>
+        <property name="styleclass" value=""/>
+        <property name="cssStyle" value=""/>
+        <property name="accesskey" value=""/>
+    </field>
+    <field position="14" name="outputBinding" type="InputText" id="413003545">
+        <property name="fieldName" value="outputBinding"/>
+        <property name="fieldRequired" value="false"/>
+        <property name="groupWithPrevious" value="false"/>
+        <property name="height" value=""/>
+        <property name="label"
+                  value="quot;caquot;,quot;Exp. enlla&#231; sortida:quot;quot;enquot;,quot;Output binding expression:quot;quot;esquot;,quot;Exp. enlace salida:quot;"/>
+        <property name="title"
+                  value="quot;caquot;,quot;Exp. enlla&#231; sortidaquot;quot;enquot;,quot;Output binding expressionquot;quot;esquot;,quot;Exp. enlace salidaquot;"/>
+        <property name="disabled" value="false"/>
+        <property name="readonly" value="false"/>
+        <property name="size" value="55"/>
+        <property name="formula" value=""/>
+        <property name="rangeFormula" value=""/>
+        <property name="pattern" value=""/>
+        <property name="maxlength" value="512"/>
+        <property name="styleclass" value=""/>
+        <property name="cssStyle" value=""/>
+        <property name="accesskey" value=""/>
+    </field>
 </form>
