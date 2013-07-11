@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import org.kie.internal.task.api.model.InternalTask;
 
 public class FormModelerFormProvider implements FormProvider {
     @Inject
@@ -53,11 +54,18 @@ public class FormModelerFormProvider implements FormProvider {
     public String render(String name, Task task, ProcessDesc process, Map<String, Object> renderContext) {
         InputStream template = null;
         if(task != null && process != null){
-            String taskName = task.getNames().get(0).getText();
-            if (process.getForms().containsKey(taskName)) {
-                template = new ByteArrayInputStream(process.getForms().get(taskName).getBytes());
-            } else if (process.getForms().containsKey(taskName.replace(" ", "")+ "-taskform.form")) {
-                template = new ByteArrayInputStream(process.getForms().get(taskName.replace(" ", "") + "-taskform.form").getBytes());
+            String lookupName = "";
+            String formName = ((InternalTask)task).getFormName();
+            if(formName != null && !formName.equals("")){
+                lookupName = formName;
+            }else{
+                lookupName = task.getNames().get(0).getText();
+                
+            }
+            if (process.getForms().containsKey(lookupName)) {
+                template = new ByteArrayInputStream(process.getForms().get(lookupName).getBytes());
+            } else if (process.getForms().containsKey(lookupName.replace(" ", "")+ "-taskform.form")) {
+                template = new ByteArrayInputStream(process.getForms().get(lookupName.replace(" ", "") + "-taskform.form").getBytes());
             }
         }
 
