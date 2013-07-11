@@ -3,10 +3,24 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <title>UberFire Showcase</title>
-    <link rel="stylesheet" href="css/uberfire-workbench.css">
-    <link rel="stylesheet" href="css/uberfire-showcase.css">
-    <link rel="stylesheet" href="css/ruleflow.css">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <title>jBPM Form Modeler</title>
+
+     <!--[if lt IE 9]>
+     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+     <![endif]-->    
+    <link rel="stylesheet" href="css/Forms.css">
+    <link rel="stylesheet" href="css/HumanTasks.css">
+    <link rel="stylesheet" href="css/ProcessList.css">
+    <link rel="shortcut icon" href="images/drools.gif" type="image/gif"/>
+    <link rel="icon" href="images/drools.gif" type="image/gif"/>
+    
+   
+            
+    
+    
 </head>
 <body>
 <iframe id="__gwt_historyFrame" style="width: 0; height: 0; border: 0"></iframe>
@@ -22,7 +36,7 @@
 </div>
 
 <!-- The GWT js file generated at run time -->
-<script type="text/javascript" src='org.uberfire.UberfireShowcase.nocache.js'></script>
+            <script type="text/javascript" src='org.jbpm.formModeler.jBPMShowcase.nocache.js'></script>
 
 </body>
 </html>

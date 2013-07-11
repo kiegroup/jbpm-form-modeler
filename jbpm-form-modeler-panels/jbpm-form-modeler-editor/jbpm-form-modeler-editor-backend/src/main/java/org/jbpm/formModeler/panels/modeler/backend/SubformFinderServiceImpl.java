@@ -51,7 +51,7 @@ public class SubformFinderServiceImpl implements SubformFinderService {
         try {
             if (StringUtils.isEmpty(formPath)) return null;
 
-            FormEditorContext editorContext = formEditorContextManager.getFormEditorContext(ctxUID);
+            FormEditorContext editorContext = formEditorContextManager.getRootEditorContext(ctxUID);
             if (editorContext != null) return getForm(formPath, editorContext);
 
             // find root context in order to load the subform
