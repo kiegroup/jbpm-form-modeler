@@ -49,7 +49,7 @@ public class BasicTypeHolderBuilder implements DataHolderBuilder {
             List<FieldType> allFieldTypes = fieldTypeManager.getFieldTypes();
             for (FieldType fieldType: allFieldTypes){
                 if(fieldTypeManager.isbaseType(fieldType.getCode())) {
-                    result.put(fieldType.getCode(), fieldType.getCode());
+                    result.put(fieldType.getFieldClass(), fieldType.getCode());
                 }
             }
 
