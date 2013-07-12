@@ -239,9 +239,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                 String propName = nodeFieldProp.getAttributes().getNamedItem(ATTR_NAME).getNodeValue();
                 String value = StringEscapeUtils.unescapeXml(nodeFieldProp.getAttributes().getNamedItem(ATTR_VALUE).getNodeValue());
                 if (propName != null && value != null) {
-                    if ("fieldName".equals(propName)) {
-                        field.setFieldName(value);
-                    } else if ("fieldRequired".equals(propName)) {
+                    if ("fieldRequired".equals(propName)) {
                         field.setFieldRequired(Boolean.valueOf(value));
                     } else if ("groupWithPrevious".equals(propName)) {
                         field.setGroupWithPrevious(Boolean.valueOf(value));
@@ -332,7 +330,6 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
             rootNode.addAttribute(ATTR_TYPE, field.getFieldType().getCode());
         }
 
-        addXMLNode("fieldName", field.getFieldName(), rootNode);
         addXMLNode("fieldRequired", (field.getFieldRequired() != null ? String.valueOf(field.getFieldRequired()) : null), rootNode);
         addXMLNode("groupWithPrevious", (field.getGroupWithPrevious() != null ? String.valueOf(field.getGroupWithPrevious()) : null), rootNode);
         addXMLNode("height", field.getHeight(), rootNode);
