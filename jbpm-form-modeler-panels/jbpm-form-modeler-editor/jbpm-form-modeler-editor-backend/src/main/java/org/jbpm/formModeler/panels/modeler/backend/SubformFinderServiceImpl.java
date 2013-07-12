@@ -57,6 +57,7 @@ public class SubformFinderServiceImpl implements SubformFinderService {
             // find root context in order to load the subform
             FormRenderContext renderContext = formRenderContextManager.getRootContext(ctxUID);
             if (renderContext != null) {
+                if (renderContext.getForm().getId().equals(new Long(formId))) return renderContext.getForm();
                 // at the moment forms aren't available on marshaller classloader
                 /*
                 ContentMarshallerContext contextMarshaller = (ContentMarshallerContext) renderContext.getMarshaller();
@@ -71,7 +72,7 @@ public class SubformFinderServiceImpl implements SubformFinderService {
                     if (form instanceof Form) {
                         if (((Form) form).getId().equals(formId)) return (Form) form;
                     }
-                    else if (form instanceof String && form.toString().startsWith(header)) {
+                    else if (form instanceof String && form.toString().trim().startsWith(header)) {
                         Form result = formSerializationManager.loadFormFromXML((String) form);
                         renderContext.getContextForms().put(key, result);
                         return result;
@@ -119,6 +120,8 @@ public class SubformFinderServiceImpl implements SubformFinderService {
     }
 
     protected Form getForm(long formId, FormEditorContext editorContext) throws Exception {
+        if (editorContext.getForm().getId().equals(new Long(formId))) return editorContext.getForm();
+
         Path currentForm = (Path) editorContext.getPath();
 
         Project project = projectService.resolveProject(currentForm);
