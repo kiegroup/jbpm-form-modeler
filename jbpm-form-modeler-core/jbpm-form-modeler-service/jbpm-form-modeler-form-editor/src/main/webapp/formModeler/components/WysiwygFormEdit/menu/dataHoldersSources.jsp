@@ -38,7 +38,8 @@
 </mvc:fragment>
 <%------------------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="outputFormAddHolderStart">
-    <mvc:fragmentValue name="existingIds" id="existingIds">
+    <mvc:fragmentValue name="existingIds" id="existingInputIds">
+    <mvc:fragmentValue name="existingIds" id="existingOutputIds">
         <tr>
         <td class="LeftColumnProperties" align="center">
         <script type="text/javascript">
@@ -57,10 +58,11 @@
             show_dataholderInfo("none");
 
             function confirmAdd(){
-                var existingIds = [<%=existingIds%>];
+                var existingInputIds = [<%=existingInputIds%>];
+                var existingOutputIds = [<%=existingOutputIds%>];
                 var inVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>").val();
                 var outVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>").val();
-                if ((inVal && jQuery.inArray(inVal, existingIds)!=-1) || (outVal && jQuery.inArray(outVal, existingIds)!=-1))
+                if ((inVal && jQuery.inArray(inVal, existingInputIds)!=-1) || (outVal && jQuery.inArray(outVal, existingOutIds)!=-1))
                     return confirm('<i18n:message key="dataHolder_add.confirm">Sure?</i18n:message>');
             }
         </script>
@@ -123,6 +125,7 @@
         </tr>
         <td valign="top">
         <table cellpadding="0" cellspacing="0" border="0" width="100%" >
+    </mvc:fragmentValue>
     </mvc:fragmentValue>
 </mvc:fragment>
 <mvc:fragment name="rowStart">

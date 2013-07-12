@@ -86,6 +86,14 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
         return outputId;
     }
 
+    public void setInputId(String inputId) {
+        this.inputId = inputId;
+    }
+
+    public void setOutputId(String outputId) {
+        this.outputId = outputId;
+    }
+
     public FieldType geBasicFieldType() {
         return basicFieldType;
     }
