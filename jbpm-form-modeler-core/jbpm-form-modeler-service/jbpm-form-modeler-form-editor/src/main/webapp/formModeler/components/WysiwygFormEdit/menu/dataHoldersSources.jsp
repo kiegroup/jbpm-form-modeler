@@ -66,14 +66,14 @@
         </script>
         <table>
         <tr>
-            <td><b><i18n:message key="dataHolder_id">!!!dataHolder_id</i18n:message>:</b></td>
+            <td><b><i18n:message key="dataHolder_inputId">!!!dataHolder_id</i18n:message>:</b></td>
         </tr>
         <tr>
             <td><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" type="text" class="skn-input" value=""
                        size="20" maxlength="64" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>"></td>
         </tr>
         <tr>
-            <td><b><i18n:message key="dataHolder_outputI">!!!dataHolder_outputid</i18n:message>:</b></td>
+            <td><b><i18n:message key="dataHolder_outputId">!!!dataHolder_outputid</i18n:message>:</b></td>
         </tr>
         <tr>
             <td><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>" type="text" class="skn-input" value=""
@@ -181,15 +181,15 @@
 
     <td class="RightMainColumn">
 
-    <h1>Manage form data origins</h1>
+    <h1><i18n:message key="dataHolder_sources_title_list">Manage form data origins</i18n:message></h1>
 
-    <p>List of data sources that will be binded to form fields.</p>
+    <p><i18n:message key="dataHolder_sources_subtitle_list">!!!List of data sources that will be binded to form fields.</i18n:message></p>
     <br><br>
     <table width="100%" class="skn-table_border">
     <tr class="skn-table_header">
         <td style="width:16px;">&nbsp;</td>
-        <td><i18n:message key="dataHolder_id">!!!dataHolder_id</i18n:message></td>
-        <td><i18n:message key="dataHolder_outputI">!!!dataHolder_outid</i18n:message></td>
+        <td><i18n:message key="dataHolder_inputId">!!!dataHolder_id</i18n:message></td>
+        <td><i18n:message key="dataHolder_outputId">!!!dataHolder_outid</i18n:message></td>
         <td><i18n:message key="dataHolder_type">!!!dataHolder_type</i18n:message></td>
         <td><i18n:message key="dataHolder_info">!!!!!!dataHolder_info</i18n:message></td>
         <td style="width: 100px;"><i18n:message key="dataHolder_renderColor">!!!!!!dataHolder_renderColor</i18n:message></td>
