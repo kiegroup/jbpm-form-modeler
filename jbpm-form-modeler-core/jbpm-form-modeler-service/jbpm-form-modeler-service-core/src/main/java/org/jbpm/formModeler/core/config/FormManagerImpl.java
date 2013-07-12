@@ -672,12 +672,14 @@ public class FormManagerImpl implements FormManager {
         String outputBinding = holder.getOuputBinding(fieldName);
 
         FieldType fieldType = null;
+        String fName=fieldName;
         if (Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(holder.getTypeCode())){
             fieldType = fieldTypeManager.getTypeByCode(holder.getInfo());
         } else {
             fieldType = fieldTypeManager.getTypeByClass(fieldClass);
+            fieldName=dataHolderId + "_" + fieldName;
         }
-        addFieldToForm(form, dataHolderId + "_" + fieldName, fieldType, fieldClass, label, inputBinging, outputBinding);
+        addFieldToForm(form, fName, fieldType, fieldClass, label, inputBinging, outputBinding);
     }
 
 }
