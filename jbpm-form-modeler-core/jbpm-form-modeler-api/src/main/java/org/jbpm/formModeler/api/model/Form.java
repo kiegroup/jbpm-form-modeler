@@ -15,10 +15,8 @@
  */
 package org.jbpm.formModeler.api.model;
 
-import org.jbpm.formModeler.core.config.DataHolderManager;
 import org.jbpm.formModeler.core.config.FormManager;
 
-import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.*;
 
@@ -71,9 +69,6 @@ public class Form implements Serializable, Comparable{
     private Set<DataHolder> holders;
 
     private HashMap dataHolderRenderInfo = new HashMap();
-
-    @Inject
-    private DataHolderManager dataHolderManager;
 
     public Form() {
         formDisplayInfos = new TreeSet<FormDisplayInfo>();
@@ -164,28 +159,10 @@ public class Form implements Serializable, Comparable{
         if (holder == null) return;
 
         if ((holder.getInputId() == null || holder.getInputId().trim().length() == 0) &&  (holder.getOuputId()==null || holder.getOuputId().trim().length() == 0)) return;
-        boolean holderHasInValue = (holder.getInputId() != null && holder.getInputId().trim().length()>0);
-        boolean holderHasOutValue = (holder.getOuputId() != null && holder.getOuputId().trim().length()>0);
 
-        if(getDataHolderById(holder.getInputId()) != null || getDataHolderById(holder.getOuputId()) != null) {
-            for(DataHolder dataHolder : holders){
-                if(holderHasInValue && holder.getInputId().equals(dataHolder.getInputId())){
-                    if(dataHolder.getOuputId()!=null && "".equals(dataHolder.getOuputId().trim())){
-                        holders.remove(dataHolder);
-                    } else{
-                        dataHolder.setInputId("");
-                    }
-                } else if(holderHasOutValue && holder.getOuputId().equals(dataHolder.getOuputId())){
-                    if (dataHolder.getInputId()!=null && "".equals(dataHolder.getInputId().trim())){
-                        holders.remove(dataHolder);
-                    } else{
-                        dataHolder.setOutputId("");
-                    }
-                }
-            }
-
+        if(getDataHolderById(holder.getInputId()) != null || getDataHolderById(holder.getOuputId()) != null){
+            holders.remove(holder);
         }
-
         holders.add(holder);
     }
 
