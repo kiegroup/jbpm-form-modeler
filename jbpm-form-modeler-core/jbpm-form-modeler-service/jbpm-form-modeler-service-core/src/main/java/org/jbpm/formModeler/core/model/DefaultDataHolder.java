@@ -63,11 +63,8 @@ public abstract class DefaultDataHolder implements DataHolder {
 
         if (parts == null || parts.length != 2 || StringUtils.isEmpty(parts[0])) return false;
 
-        if (getInputId().equals(parts[0]) || getOuputId().equals(parts[0])) {
-            return getDataFieldHolderById(parts[1]) != null;
-        }
+        return getInputId().equals(parts[0]) || getOuputId().equals(parts[0]);
 
-        return false;
     }
 
     @Override
