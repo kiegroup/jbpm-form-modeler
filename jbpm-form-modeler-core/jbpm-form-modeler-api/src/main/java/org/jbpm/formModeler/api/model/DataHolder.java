@@ -23,6 +23,10 @@ public interface DataHolder extends Comparable{
     String getUniqeId();
     String getInputId();
     String getOuputId();
+
+    void setInputId(String inputId);
+    void setOutputId(String outputId);
+
     Object createInstance(FormRenderContext context) throws Exception;
     void writeValue(Object destination, String propName, Object value) throws Exception;
     Object readFromBindingExperssion(Object source, String bindingExpression) throws Exception;

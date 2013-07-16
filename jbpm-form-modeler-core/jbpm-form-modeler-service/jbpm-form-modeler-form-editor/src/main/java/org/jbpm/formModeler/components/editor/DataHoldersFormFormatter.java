@@ -67,13 +67,15 @@ public class DataHoldersFormFormatter extends Formatter {
 
             Form form = wysiwygFormEditor.getCurrentForm();
             Set<DataHolder> holders = form.getHolders();
-            String existingIds ="\"\"";
+            String existingInputIds ="\"\"";
+            String existingOutputIds ="\"\"";
             for (DataHolder holder : holders) {
-                if (StringUtils.isEmpty(holder.getInputId())) existingIds+= ", \""+holder.getInputId()+"\" ";
-                if (StringUtils.isEmpty(holder.getOuputId())) existingIds+= ", \""+holder.getOuputId()+"\" ";
+                if (!StringUtils.isEmpty(holder.getInputId())) existingInputIds+= ", \""+holder.getInputId()+"\" ";
+                if (!StringUtils.isEmpty(holder.getOuputId())) existingOutputIds+= ", \""+holder.getOuputId()+"\" ";
             }
 
-            setAttribute("existingIds", existingIds);
+            setAttribute("existingInputIds", existingInputIds);
+            setAttribute("existingOutputIds", existingOutputIds);
             renderFragment("outputFormAddHolderStart");
 
             Map<String, String> colors = dataHolderManager.getHolderColors();

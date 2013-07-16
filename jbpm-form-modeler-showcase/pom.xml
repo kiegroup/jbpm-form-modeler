@@ -25,11 +25,10 @@
         <version>6.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jbpm-form.modeler-showcase</artifactId>
-    <version>6.0.0-SNAPSHOT</version>
+    <artifactId>jbpm-form-modeler-showcase</artifactId>
     <packaging>war</packaging>
 
-  <name>jBPM Form Modeler - Complete Showcase</name>
+  <name>jbpm-form-modeler-showcase</name>
   <description>jBPM Form Modeler - Complete Showcase</description>
 
   <dependencies>
@@ -56,6 +55,7 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
+      <scope>runtime</scope>
     </dependency>
 
     <!-- Manstis hackathon -->
@@ -129,6 +129,16 @@
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-designer-client</artifactId>
+        <exclusions>
+            <exclusion>
+                <artifactId>slf4j-jdk14</artifactId>
+                <groupId>org.slf4j</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>log4j-over-slf4j</artifactId>
+                <groupId>org.slf4j</groupId>
+            </exclusion>
+        </exclusions>
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
@@ -137,6 +147,16 @@
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-designer-backend</artifactId>
+        <exclusions>
+            <exclusion>
+                <artifactId>log4j-over-slf4j</artifactId>
+                <groupId>org.slf4j</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>slf4j-jdk14</artifactId>
+                <groupId>org.slf4j</groupId>
+            </exclusion>
+        </exclusions>
     </dependency>
 
     <!-- UberFire -->
@@ -336,6 +356,11 @@
       <artifactId>btm</artifactId>
     </dependency>
 
+      <dependency>
+          <groupId>org.codehaus.btm</groupId>
+          <artifactId>btm</artifactId>
+      </dependency>
+
     <!--Miscellaneous -->
     <dependency>
       <groupId>org.opensymphony.quartz</groupId>
@@ -353,7 +378,6 @@
     <dependency>
       <groupId>org.kie.remote</groupId>
       <artifactId>kie-services-remote</artifactId>
-      <version>6.0.0-SNAPSHOT</version>
     </dependency>
 
     <!-- Guvnor --> 
@@ -530,6 +554,7 @@
           <groupId>org.jbpm</groupId>
           <artifactId>jbpm-form-modeler-data-modeler</artifactId>
       </dependency>
+
   </dependencies>
 
   <build>

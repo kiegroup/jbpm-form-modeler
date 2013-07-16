@@ -38,15 +38,16 @@
 </mvc:fragment>
 <%------------------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="outputFormAddHolderStart">
-    <mvc:fragmentValue name="existingIds" id="existingIds">
-        <tr>
-        <td class="LeftColumnProperties" align="center">
-        <script type="text/javascript">
-            var supportedHolders = new Array();
-            supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>');
-            supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>');
-            supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>');
-            supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_BASIC_TYPE%>');
+    <mvc:fragmentValue name="existingInputIds" id="existingInputIds">
+        <mvc:fragmentValue name="existingOutputIds" id="existingOutputIds">
+            <tr>
+            <td class="LeftColumnProperties" align="center">
+            <script type="text/javascript">
+                var supportedHolders = new Array();
+                supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>');
+                supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>');
+                supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>');
+                supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_BASIC_TYPE%>');
 
             function show_dataholderInfo(divStr) {
                 jQuery.each( supportedHolders, function( index, value ) {
@@ -56,13 +57,17 @@
             }
             show_dataholderInfo("none");
 
-            function confirmAdd(){
-                var existingIds = [<%=existingIds%>];
-                var inVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>").val();
-                var outVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>").val();
-                if ((inVal && jQuery.inArray(inVal, existingIds)!=-1) || (outVal && jQuery.inArray(outVal, existingIds)!=-1))
-                    return confirm('<i18n:message key="dataHolder_add.confirm">Sure?</i18n:message>');
-            }
+                function confirmAdd(){
+                    var existingInputIds = [<%=existingInputIds%>];
+                    var existingOutputIds = [<%=existingOutputIds%>];
+                    var inVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>").val();
+                    var outVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>").val();
+                    if ((inVal && jQuery.inArray(inVal, existingInputIds)!=-1) ||
+                            (outVal && jQuery.inArray(outVal, existingOutputIds)!=-1)){
+                        alert("<i18n:message key="dataHolder_add_confirm">Sure?</i18n:message>")
+                        return false;
+                    }
+                }
         </script>
         <table>
         <tr>
@@ -202,46 +207,46 @@
 
 <mvc:fragment name="outputBindings">
     <mvc:fragmentValue name="id" id="id">
-    <mvc:fragmentValue name="outId" id="outId">
-    <mvc:fragmentValue name="deleteId" id="deleteId">
-        <mvc:fragmentValue name="type" id="type">
-            <mvc:fragmentValue name="value" id="value">
-                <mvc:fragmentValue name="renderColor" id="renderColor">
-                    <mvc:fragmentValue name="rowStyle" id="rowStyle">
-                        <tr class="<%=rowStyle%>">
-                            <td align="center" style="width:16px;"><a
-                                    title="<i18n:message key="delete">!!!Borrar</i18n:message>"
-                                    href="<factory:url  action="formDataHolders">
+        <mvc:fragmentValue name="outId" id="outId">
+            <mvc:fragmentValue name="deleteId" id="deleteId">
+                <mvc:fragmentValue name="type" id="type">
+                    <mvc:fragmentValue name="value" id="value">
+                        <mvc:fragmentValue name="renderColor" id="renderColor">
+                            <mvc:fragmentValue name="rowStyle" id="rowStyle">
+                                <tr class="<%=rowStyle%>">
+                                    <td align="center" style="width:16px;"><a
+                                            title="<i18n:message key="delete">!!!Borrar</i18n:message>"
+                                            href="<factory:url  action="formDataHolders">
                                          <factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=deleteId%>"/>
                                          <factory:param name="<%=WysiwygFormEditor.ACTION_TO_DO%>" value="<%=WysiwygFormEditor.ACTION_REMOVE_DATA_HOLDER%>"/>
                                       </factory:url>"
-                                    onclick="return confirm('<i18n:message
+                                            onclick="return confirm('<i18n:message
                                             key="dataHolder_delete.confirm">Sure?</i18n:message>');">
-                                <img src="<static:image relativePath="actions/delete.png"/>" border="0"
-                                     title="<i18n:message key="delete">!!!Clear</i18n:message>"/>
-                            </a></td>
-                            <td>
-                                <%=StringEscapeUtils.escapeHtml((String)id) %>
-                            </td>
-                            <td>
-                                <%=StringEscapeUtils.escapeHtml((String)outId) %>
-                            </td>
-                            <td>
-                                <%=type%>
-                            </td>
-                            <td>
-                                <%=value%>
-                            </td>
-                            <td style="width: 100px;">
-                                <div style="background-color: <%=renderColor%> ">&nbsp;</div>
-                            </td>
-                        </tr>
+                                        <img src="<static:image relativePath="actions/delete.png"/>" border="0"
+                                             title="<i18n:message key="delete">!!!Clear</i18n:message>"/>
+                                    </a></td>
+                                    <td>
+                                        <%=StringEscapeUtils.escapeHtml((String)id) %>
+                                    </td>
+                                    <td>
+                                        <%=StringEscapeUtils.escapeHtml((String)outId) %>
+                                    </td>
+                                    <td>
+                                        <%=type%>
+                                    </td>
+                                    <td>
+                                        <%=value%>
+                                    </td>
+                                    <td style="width: 100px;">
+                                        <div style="background-color: <%=renderColor%> ">&nbsp;</div>
+                                    </td>
+                                </tr>
+                            </mvc:fragmentValue>
+                        </mvc:fragmentValue>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragmentValue>
-    </mvc:fragmentValue>
-    </mvc:fragmentValue>
     </mvc:fragmentValue>
 </mvc:fragment>
 
