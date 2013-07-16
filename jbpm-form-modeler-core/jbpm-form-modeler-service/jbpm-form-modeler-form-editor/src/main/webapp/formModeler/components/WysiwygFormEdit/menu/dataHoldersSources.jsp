@@ -64,7 +64,7 @@
                     var outVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>").val();
                     if ((inVal && jQuery.inArray(inVal, existingInputIds)!=-1) ||
                             (outVal && jQuery.inArray(outVal, existingOutputIds)!=-1)){
-                        alert("<i18n:message key="dataHolder_add.confirm">Sure?</i18n:message>")
+                        alert("<i18n:message key="dataHolder_add_confirm">Sure?</i18n:message>")
                         return false;
                     }
                 }
