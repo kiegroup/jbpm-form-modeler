@@ -11,7 +11,6 @@
 
     <artifactId>jbpm-form-modeler-ui</artifactId>
     <packaging>war</packaging>
-    <version>${jbpm.form.modeler.version}</version>
     <name>jbpm-form-modeler-ui</name>
 
     <dependencies>

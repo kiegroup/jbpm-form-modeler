@@ -85,8 +85,4 @@ public class ApplicationScopedProvider {
         return ioService;
     }
 
-    @Produces
-    public Logger createLogger( InjectionPoint injectionPoint ) {
-        return Logger.getLogger( injectionPoint.getMember().getDeclaringClass().getName() );
-    }
 }

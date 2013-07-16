@@ -11,7 +11,6 @@
 
     <artifactId>jbpm-form-modeler-static-resources</artifactId>
     <packaging>war</packaging>
-    <version>${jbpm.form.modeler.version}</version>
     <name>jbpm-form-modeler-static-resources</name>
 
     <dependencies>
