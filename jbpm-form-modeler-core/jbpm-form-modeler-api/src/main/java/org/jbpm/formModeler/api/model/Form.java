@@ -352,10 +352,10 @@ public class Form implements Serializable, Comparable{
         return null;
     }
 
-    public DataHolder getDataHolderByInfo(String info) {
+    public boolean containsHolder(DataHolder aholder) {
         for (DataHolder holder : holders) {
-            if (holder.getInfo().equals(info)) return holder;
+            if (holder.equals(aholder)) return true;
         }
-        return null;
+        return false;
     }
 }

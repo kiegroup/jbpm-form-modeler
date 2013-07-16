@@ -654,13 +654,22 @@ public class FormManagerImpl implements FormManager {
 
             DataHolder holder = form.getDataHolderById(holderId);
 
-            Set<DataFieldHolder> holderFields = holder.getFieldHolders();
-            for (DataFieldHolder dataFieldHolder : holderFields) {
-                addDataFieldHolder(form, holderId, dataFieldHolder.getId(), dataFieldHolder.getClassName());
-            }
-
+            addAllDataHolderFieldsToForm(form, holder);
         }
     }
+
+    @Override
+    public void addAllDataHolderFieldsToForm(Form form, DataHolder holder) throws Exception {
+       if (holder != null) {
+           if (!form.containsHolder(holder)) form.setDataHolder(holder);
+           Set<DataFieldHolder> holderFields = holder.getFieldHolders();
+           for (DataFieldHolder dataFieldHolder : holderFields) {
+               String holderId = StringUtils.defaultIfEmpty(holder.getInputId(), holder.getOuputId());
+               addDataFieldHolder(form, holderId, dataFieldHolder.getId(), dataFieldHolder.getClassName());
+           }
+       }
+    }
+
     public void addDataFieldHolder(Form form, String bindingId, String fieldName, String fieldClass) throws Exception {
         I18nSet label = new I18nSet();
         String defaultLang = LocaleManager.lookup().getDefaultLang();

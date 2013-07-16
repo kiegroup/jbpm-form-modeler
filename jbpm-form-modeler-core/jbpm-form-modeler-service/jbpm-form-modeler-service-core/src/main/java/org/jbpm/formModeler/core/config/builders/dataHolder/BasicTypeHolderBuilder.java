@@ -25,12 +25,16 @@ import org.jbpm.formModeler.core.model.PojoDataHolder;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @ApplicationScoped
 public class BasicTypeHolderBuilder implements DataHolderBuilder {
+    @Inject
+    private FieldTypeManager fieldTypeManager;
+
     @Override
     public String getId() {
         return Form.HOLDER_TYPE_CODE_BASIC_TYPE;
@@ -57,5 +61,23 @@ public class BasicTypeHolderBuilder implements DataHolderBuilder {
             result.put("-", "-");
         }
         return result;
+    }
+
+    @Override
+    public boolean supportsPropertyType(String typeClass, Object path) {
+        List<FieldType> types = fieldTypeManager.getFieldTypes();
+
+        for (FieldType type : types) {
+            String className = type.getFieldClass();
+            if (className.equals(typeClass)) return true;
+            if (typeClass.indexOf(".") == -1 && className.endsWith("." + typeClass)) return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public int getPriority() {
+        return 1;
     }
 }

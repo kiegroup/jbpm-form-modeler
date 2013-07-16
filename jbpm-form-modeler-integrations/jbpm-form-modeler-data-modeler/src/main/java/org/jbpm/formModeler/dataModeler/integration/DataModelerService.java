@@ -69,14 +69,24 @@ public class DataModelerService implements DataHolderBuilder {
 
     public DataHolder createDataHolder(Object path, String id, String outId, String className, String renderColor) {
         if (path == null) return new DataModelerDataHolder(id, outId, className, renderColor);
-
-        Project project = projectService.resolveProject(((Path) path));
-
-        DataModelTO dataModelTO = dataModelerService.loadModel(project);
-        DataObjectTO dO = dataModelTO.getDataObjectByClassName(className);
-
+        DataObjectTO dO = getDataObject(className, (Path) path);
         return new DataModelerDataHolder(id, outId, className, renderColor, dO);
     }
 
+    @Override
+    public boolean supportsPropertyType(String className, Object path) {
+        return getDataObject(className, (Path) path) != null;
+    }
 
+    protected DataObjectTO getDataObject(String className, Path path) {
+        Project project = projectService.resolveProject(((Path) path));
+
+        DataModelTO dataModelTO = dataModelerService.loadModel(project);
+        return dataModelTO.getDataObjectByClassName(className);
+    }
+
+    @Override
+    public int getPriority() {
+        return 2;
+    }
 }

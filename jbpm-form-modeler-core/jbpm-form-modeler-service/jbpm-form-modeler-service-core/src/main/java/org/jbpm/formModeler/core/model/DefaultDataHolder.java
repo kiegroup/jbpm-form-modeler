@@ -76,4 +76,15 @@ public abstract class DefaultDataHolder implements DataHolder {
     public int compareTo(Object o) {
         return getUniqeId().compareTo(((DataHolder) o).getUniqeId());
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+
+        if (!(obj instanceof DataHolder)) return false;
+
+        DataHolder holder = (DataHolder) obj;
+
+        return (holder.getUniqeId().equals(getUniqeId()));
+    }
 }

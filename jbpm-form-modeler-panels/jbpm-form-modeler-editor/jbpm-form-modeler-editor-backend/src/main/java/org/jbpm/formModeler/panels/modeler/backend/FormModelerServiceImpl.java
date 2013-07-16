@@ -17,6 +17,7 @@ package org.jbpm.formModeler.panels.modeler.backend;
 
 import org.apache.commons.lang.StringUtils;
 import org.jboss.errai.bus.server.annotations.Service;
+import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
@@ -29,7 +30,9 @@ import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
 import org.uberfire.backend.server.util.Paths;
+import org.uberfire.backend.vfs.FileSystem;
 import org.uberfire.backend.vfs.Path;
+import org.uberfire.backend.vfs.PathFactory;
 import org.uberfire.workbench.events.ResourceAddedEvent;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;

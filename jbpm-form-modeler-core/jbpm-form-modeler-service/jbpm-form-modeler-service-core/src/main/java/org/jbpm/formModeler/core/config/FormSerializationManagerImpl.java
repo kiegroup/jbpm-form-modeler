@@ -83,7 +83,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         StringWriter sw = new StringWriter();
         rootNode.writeXML(sw, true);
 
-        return sw.toString().replace("/","");
+        return sw.toString().replace("/","").trim();
     }
 
     @Override

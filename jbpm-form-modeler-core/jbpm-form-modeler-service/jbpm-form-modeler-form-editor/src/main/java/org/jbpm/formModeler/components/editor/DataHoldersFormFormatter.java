@@ -76,9 +76,21 @@ public class DataHoldersFormFormatter extends Formatter {
             setAttribute("existingIds", existingIds);
             renderFragment("outputFormAddHolderStart");
 
+            Map<String, String> colors = dataHolderManager.getHolderColors();
+
+            for (Iterator it = colors.keySet().iterator(); it.hasNext();) {
+                String color = (String) it.next();
+                String name = colors.get(color);
+                setAttribute("color", color);
+                setAttribute("name", name);
+                renderFragment("color");
+            }
+
+            renderFragment("outputFormHolderTypes");
+
             renderFragment("rowStart");
 
-            DataHolderBuilder holderBuilder = dataHolderManager.getBuilderByType(Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL);
+            DataHolderBuilder holderBuilder = dataHolderManager.getBuilderByBuilderType(Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL);
             Map values = null;
             if (holderBuilder != null) values = holderBuilder.getOptions(wysiwygFormEditor.getCurrentEditionContext().getPath());
 
@@ -88,7 +100,7 @@ public class DataHoldersFormFormatter extends Formatter {
 
             renderFragment("rowStart");
 
-            holderBuilder = dataHolderManager.getBuilderByType(Form.HOLDER_TYPE_CODE_BASIC_TYPE);
+            holderBuilder = dataHolderManager.getBuilderByBuilderType(Form.HOLDER_TYPE_CODE_BASIC_TYPE);
             values = null;
             if (holderBuilder != null) values = holderBuilder.getOptions(wysiwygFormEditor.getCurrentEditionContext().getPath());
 

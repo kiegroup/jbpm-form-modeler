@@ -85,13 +85,16 @@
         <tr>
             <td>
                 <select class="skn-input" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_RENDERCOLOR%>">
-                    <option value="#FF8881"><i18n:message key="holder_color_red">Red</i18n:message></option>
-                    <option value="#FBB767"><i18n:message key="holder_color_orange">Orange</i18n:message></option>
-                    <option value="#E9E371"><i18n:message key="holder_color_yellow">Yellow</i18n:message></option>
-                    <option value="#A7E690"><i18n:message key="holder_color_green">Green</i18n:message></option>
-                    <option value="#9BCAFA"><i18n:message key="holder_color_blue">Blue</i18n:message></option>
-                    <option value="#B29FE4"><i18n:message key="holder_color_violet">Violet</i18n:message></option>
-                    <option value="#BBBBBB"><i18n:message key="holder_color_grey">Grey</i18n:message></option>
+    </mvc:fragmentValue>
+</mvc:fragment>
+<mvc:fragment name="color">
+    <mvc:fragmentValue name="color" id="color">
+    <mvc:fragmentValue name="name" id="name">
+        <option value="<%=color%>"><i18n:message key="<%=(String)name%>"><%=color%></i18n:message></option>
+    </mvc:fragmentValue>
+    </mvc:fragmentValue>
+</mvc:fragment>
+<mvc:fragment name="outputFormHolderTypes">
                 </select>
             </td>
         </tr>
@@ -123,7 +126,7 @@
         </tr>
         <td valign="top">
         <table cellpadding="0" cellspacing="0" border="0" width="100%" >
-    </mvc:fragmentValue>
+
 </mvc:fragment>
 <mvc:fragment name="rowStart">
     <td>
