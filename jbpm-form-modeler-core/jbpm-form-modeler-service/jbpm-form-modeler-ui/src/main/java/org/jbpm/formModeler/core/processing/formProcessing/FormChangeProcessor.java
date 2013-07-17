@@ -17,6 +17,7 @@ package org.jbpm.formModeler.core.processing.formProcessing;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.processing.FormProcessor;
@@ -46,6 +47,9 @@ public abstract class FormChangeProcessor {
 
     @Inject
     protected FunctionsProvider functionsProvider;
+
+    @Inject
+    FormRenderContextManager formRenderContextManager;
 
     public FormChangeProcessor getNextProcessor() {
         return nextProcessor;
@@ -79,6 +83,9 @@ public abstract class FormChangeProcessor {
     public abstract int getSupportedContextType();
 
     public boolean canProcess(FormProcessingContext context) {
+
+        //WM workaround to avoid formulas calculation null pointer when the task has been closed
+        if (formRenderContextManager.getRootContext(context.getNamespace()) == null) return false;
 
         if (!context.isFull() && context.getType() != getSupportedContextType()) return false;
 
@@ -117,15 +124,15 @@ public abstract class FormChangeProcessor {
         if (!restrictCombosSize(formMode)) return items.size();
         return items.size() < MAX_ELEMENTS_TO_SHOW ? items.size() : MAX_ELEMENTS_TO_SHOW;
     }
-    
+
     protected Collection getEvaluableFields() {
         Collection fields = getContextEvaluableFields();
-        
+
         if (CollectionUtils.isEmpty(fields)) fields = context.getForm().getFieldNames();
 
         return fields;
     }
-    
+
     protected Collection getContextEvaluableFields() {
         switch (getSupportedContextType()) {
             case FormProcessingContext.TYPE_FORMULA: return context.getFieldsToEvaluateFormula();

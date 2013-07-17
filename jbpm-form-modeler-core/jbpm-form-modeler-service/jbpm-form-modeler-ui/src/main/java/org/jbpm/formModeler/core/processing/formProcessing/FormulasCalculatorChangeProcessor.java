@@ -17,15 +17,16 @@ public class FormulasCalculatorChangeProcessor extends BasicFormChangeProcessor 
     public FormChangeResponse doProcess(FormChangeResponse response) {
         try {
             Form form = context.getForm();
+            if (form == null) {
+                //TODO evaluate if this control should be removed
+                log.warn("Form object is not present in current FormProcessingContext, formula evaluation will be canceled. context: " + context);
+                return response;
+            }
 
-            //WM antiguamente se cargaba el objeto que estaba siendo pintado por el formulario.
-            //de momento esa nocion ya no la tenemos, pues el formulario puede pintar mas de un objeto y tampoco
-            //esta al PotterManager, etc.
-            //Object loadedObject = formProcessor.getLoadedObject(form.getDbid(), context.getNamespace());
-            //TODO revisar esto pues pere esta viendo de guardar los objetos que se estan pintando en el form
-            //status, etc. De momento esto lo dejo asi temporalmente.
+            //Current forms implementation supports more than one object, so the loaded objects is not loaded
+            //at this moment any more.
+            //TODO change the evaluateFormulaForField signature to remove this parameter
             Object loadedObject = null;
-
 
             FormStatusData statusData = formProcessor.read(form, context.getNamespace());
 
