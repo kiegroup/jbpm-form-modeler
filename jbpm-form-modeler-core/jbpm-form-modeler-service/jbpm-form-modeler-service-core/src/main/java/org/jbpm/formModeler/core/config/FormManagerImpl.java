@@ -686,7 +686,7 @@ public class FormManagerImpl implements FormManager {
             fieldType = fieldTypeManager.getTypeByCode(holder.getInfo());
         } else {
             fieldType = fieldTypeManager.getTypeByClass(fieldClass);
-            fieldName=dataHolderId + "_" + fieldName;
+            fName=dataHolderId + "_" + fieldName;
         }
         addFieldToForm(form, fName, fieldType, fieldClass, label, inputBinging, outputBinding);
     }
