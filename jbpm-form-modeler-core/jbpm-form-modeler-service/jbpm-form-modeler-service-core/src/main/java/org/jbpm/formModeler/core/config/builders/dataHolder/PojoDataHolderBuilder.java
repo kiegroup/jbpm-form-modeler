@@ -39,4 +39,19 @@ public class PojoDataHolderBuilder implements DataHolderBuilder {
     public Map getOptions(Object path) {
         return null;
     }
+
+    @Override
+    public boolean supportsPropertyType(String type, Object path) {
+        try {
+            Class clazz = Class.forName(type);
+            return clazz != null;
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    @Override
+    public int getPriority() {
+        return 100000;
+    }
 }

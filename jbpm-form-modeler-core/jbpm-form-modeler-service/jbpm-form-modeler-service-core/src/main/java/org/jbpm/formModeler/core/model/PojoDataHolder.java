@@ -78,6 +78,14 @@ public class PojoDataHolder extends DefaultDataHolder  {
         return outputId;
     }
 
+    public void setInputId(String inputId) {
+        this.inputId = inputId;
+    }
+
+    public void setOutputId(String outputId) {
+        this.outputId = outputId;
+    }
+
     public String getClassName() {
         return className;
     }

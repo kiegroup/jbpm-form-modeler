@@ -63,11 +63,8 @@ public abstract class DefaultDataHolder implements DataHolder {
 
         if (parts == null || parts.length != 2 || StringUtils.isEmpty(parts[0])) return false;
 
-        if (getInputId().equals(parts[0]) || getOuputId().equals(parts[0])) {
-            return getDataFieldHolderById(parts[1]) != null;
-        }
+        return getInputId().equals(parts[0]) || getOuputId().equals(parts[0]);
 
-        return false;
     }
 
     @Override
@@ -78,5 +75,16 @@ public abstract class DefaultDataHolder implements DataHolder {
 
     public int compareTo(Object o) {
         return getUniqeId().compareTo(((DataHolder) o).getUniqeId());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+
+        if (!(obj instanceof DataHolder)) return false;
+
+        DataHolder holder = (DataHolder) obj;
+
+        return (holder.getUniqeId().equals(getUniqeId()));
     }
 }

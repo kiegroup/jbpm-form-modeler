@@ -19,20 +19,63 @@ package org.jbpm.formModeler.core.config;
 import org.jbpm.formModeler.core.config.builders.DataHolderBuilder;
 import org.jbpm.formModeler.api.model.DataHolder;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import java.util.Map;
+import java.util.*;
 
 @ApplicationScoped
 public class DataHolderManagerImpl implements DataHolderManager {
 
     @Inject
-    protected Instance<DataHolderBuilder> holderBuilders;
+    private Instance<DataHolderBuilder> holderBuilders;
+    private Set<DataHolderBuilder> builders;
+    private Map<String, String> colors;
+
+    @PostConstruct
+    protected void initializeHolders() {
+        colors = new HashMap<String, String>();
+
+        colors.put("#FF8881", "holder_color_red");
+        colors.put("#FF54A7", "holder_color_pink");
+        colors.put("#FBB767", "holder_color_orange");
+        colors.put("#E9E371", "holder_color_yellow");
+        colors.put("#A7E690", "holder_color_green");
+        colors.put("#9BCAFA", "holder_color_blue");
+        colors.put("#0000A0", "holder_color_dark_blue");
+        colors.put("#B29FE4", "holder_color_violet");
+        colors.put("#BBBBBB", "holder_color_grey");
+        colors.put("#000000", "holder_color_black");
+
+        builders = new TreeSet<DataHolderBuilder>(new Comparator<DataHolderBuilder>() {
+            @Override
+            public int compare(DataHolderBuilder o1, DataHolderBuilder o2) {
+                return o1.getPriority() - o2.getPriority();
+            }
+        });
+
+        for (DataHolderBuilder holderBuilder : holderBuilders) {
+            builders.add(holderBuilder);
+        }
+    }
 
     @Override
-    public DataHolderBuilder getBuilderByType(String builderId) {
-        for(DataHolderBuilder builder : holderBuilders) {
+    public Map<String, String> getHolderColors() {
+        return colors;
+    }
+
+    @Override
+    public DataHolderBuilder getBuilderByHolderValueType(String valueType, Object context) {
+        for(DataHolderBuilder builder : builders) {
+            if(builder.supportsPropertyType(valueType, context)) return builder;
+        }
+        return null;
+    }
+
+    @Override
+    public DataHolderBuilder getBuilderByBuilderType(String builderId) {
+        for(DataHolderBuilder builder : builders) {
             if (builder.getId().equals(builderId)) return builder;
         }
         return null;
@@ -40,7 +83,7 @@ public class DataHolderManagerImpl implements DataHolderManager {
 
     @Override
     public DataHolder createDataHolderByType(String type, Map<String, Object> config) {
-        DataHolderBuilder builder = getBuilderByType(type);
+        DataHolderBuilder builder = getBuilderByBuilderType(type);
         if (builder == null) return null;
 
         return builder.buildDataHolder(config);

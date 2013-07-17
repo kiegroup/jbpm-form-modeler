@@ -13,16 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbpm.formModeler.core.config.builders;
+package org.jbpm.formModeler.designer.integration;
 
-import org.jbpm.formModeler.api.model.DataHolder;
 
-import java.util.Map;
+import org.eclipse.bpmn2.Definitions;
+import org.uberfire.backend.vfs.FileSystem;
 
-public interface DataHolderBuilder {
-    String getId();
-    DataHolder buildDataHolder(Map<String, Object> config);
-    Map getOptions(Object path);
-    boolean supportsPropertyType(String type, Object path);
-    public int getPriority();
+public interface BPMNFormBuilderService {
+    String buildFormXML(FileSystem fs, String fileName, String uri, Definitions source, String id) throws Exception;
 }
