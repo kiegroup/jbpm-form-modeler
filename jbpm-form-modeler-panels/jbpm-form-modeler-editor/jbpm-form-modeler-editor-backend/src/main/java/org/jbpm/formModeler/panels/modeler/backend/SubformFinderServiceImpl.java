@@ -149,12 +149,14 @@ public class SubformFinderServiceImpl implements SubformFinderService {
     protected Form getForm(String formPath, FormEditorContext editorContext) throws Exception{
         Path currentForm = (Path) editorContext.getPath();
 
+        org.kie.commons.java.nio.file.Path subFormPath = paths.convert(currentForm).getParent().resolve(formPath);
+
         Project project = projectService.resolveProject(currentForm);
 
-        org.kie.commons.java.nio.file.Path path = paths.convert(project.getRootPath()).resolve(MAIN_RESOURCES_PATH).resolve(formPath);
+        //org.kie.commons.java.nio.file.Path path = paths.convert(project.getRootPath()).resolve(MAIN_RESOURCES_PATH).resolve(formPath);
 
-        String xml = ioService.readAllString(path).trim();
+        String xml = ioService.readAllString(subFormPath).trim();
 
-        return formSerializationManager.loadFormFromXML(xml, paths.convert(path));
+        return formSerializationManager.loadFormFromXML(xml, paths.convert(subFormPath));
     }
 }

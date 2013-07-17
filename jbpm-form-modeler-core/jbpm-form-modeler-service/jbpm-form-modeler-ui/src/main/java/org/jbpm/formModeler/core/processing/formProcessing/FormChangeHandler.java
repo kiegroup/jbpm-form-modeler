@@ -46,7 +46,6 @@ public class FormChangeHandler extends BeanHandler {
     }
 
     public FormChangeProcessor getChangeProcessor() {
-        //TODO ver de inyectar tal vez por nombre para el caso donde hubiera mas de un change processor
         return changeProcessor;
     }
 
