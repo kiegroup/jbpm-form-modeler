@@ -68,6 +68,8 @@ public class RangeProviderForm implements RangeProvider {
         if (context == null) return treeMap;
 
         Path currentForm = (Path) context.getPath();
+        String currentFormDirUri = getFormDirUri(currentForm);
+        String currentFormName = currentForm.getFileName();
 
         Project project = projectService.resolveProject(currentForm);
 
@@ -80,14 +82,22 @@ public class RangeProviderForm implements RangeProvider {
 
         String resourcesPath = paths.convert(projectService.resolveProject(currentForm).getRootPath()).resolve(SubformFinderService.MAIN_RESOURCES_PATH).toUri().getPath();
 
+        Path formPath;
+        String formDirUri;
+        String formName;
         for (FileUtils.ScanResult form : forms) {
-            org.kie.commons.java.nio.file.Path formPath = form.getFile();
-            if (formPath.getName(formPath.getNameCount() - 1).toString().startsWith(".") || formPath.toUri().toString().equals(currentForm.toURI())) continue;
+            formPath = paths.convert(form.getFile());
+            formDirUri = getFormDirUri(formPath);
+            formName = formPath.getFileName();
 
-            String path = form.getFile().toUri().getPath().substring(resourcesPath.length() + 1);
-            treeMap.put(path, path);
+            if (currentFormDirUri.equals(formDirUri) && !formName.startsWith(".") && !currentFormName.equals(formName)) {
+                treeMap.put(formPath.getFileName(), formPath.getFileName());
+            }
         }
-
         return treeMap;
+    }
+
+    private String getFormDirUri(Path formPath) {
+        return formPath.toURI().substring(0, formPath.toURI().lastIndexOf(formPath.getFileName()) - 1);
     }
 }
