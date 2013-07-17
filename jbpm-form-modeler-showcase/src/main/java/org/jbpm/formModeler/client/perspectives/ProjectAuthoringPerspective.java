@@ -26,11 +26,10 @@ import org.uberfire.client.annotations.WorkbenchMenu;
 import org.uberfire.client.annotations.WorkbenchPerspective;
 import org.uberfire.client.annotations.WorkbenchToolBar;
 import org.uberfire.client.mvp.PlaceManager;
-import org.uberfire.mvp.Command;
-import org.uberfire.mvp.impl.DefaultPlaceRequest;
+
+
 import org.uberfire.workbench.model.PanelDefinition;
 import org.uberfire.workbench.model.PerspectiveDefinition;
-import org.uberfire.workbench.model.Position;
 import org.uberfire.workbench.model.impl.PanelDefinitionImpl;
 import org.uberfire.workbench.model.impl.PartDefinitionImpl;
 import org.uberfire.workbench.model.impl.PerspectiveDefinitionImpl;
@@ -40,6 +39,12 @@ import org.uberfire.workbench.model.toolbar.IconType;
 import org.uberfire.workbench.model.toolbar.ToolBar;
 import org.uberfire.workbench.model.toolbar.impl.DefaultToolBar;
 import org.uberfire.workbench.model.toolbar.impl.DefaultToolBarItem;
+
+import org.uberfire.mvp.Command;
+import org.uberfire.mvp.PlaceRequest;
+import org.uberfire.mvp.impl.DefaultPlaceRequest;
+import org.uberfire.workbench.model.PanelType;
+import org.uberfire.workbench.model.Position;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -92,10 +97,10 @@ public class ProjectAuthoringPerspective {
 
     @Perspective
     public PerspectiveDefinition getPerspective() {
-        final PerspectiveDefinition p = new PerspectiveDefinitionImpl();
+        final PerspectiveDefinition p = new PerspectiveDefinitionImpl(PanelType.ROOT_LIST );
         p.setName( "Project Authoring Perspective" );
 
-        final PanelDefinition west = new PanelDefinitionImpl();
+        final PanelDefinition west = new PanelDefinitionImpl( PanelType.MULTI_LIST);
         west.setWidth( 300 );
         west.setMinWidth( 200 );
         west.addPart( new PartDefinitionImpl( new DefaultPlaceRequest( "org.kie.guvnor.explorer" ) ) );
