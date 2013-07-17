@@ -91,6 +91,7 @@
             <td>
                 <select class="skn-input" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_RENDERCOLOR%>">
     </mvc:fragmentValue>
+    </mvc:fragmentValue>
 </mvc:fragment>
 <mvc:fragment name="color">
     <mvc:fragmentValue name="color" id="color">
