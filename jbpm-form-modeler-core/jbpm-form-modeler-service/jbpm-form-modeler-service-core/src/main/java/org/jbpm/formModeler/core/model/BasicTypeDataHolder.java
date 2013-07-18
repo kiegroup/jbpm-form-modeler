@@ -48,13 +48,13 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
     public BasicTypeDataHolder(){
     }
 
-    public BasicTypeDataHolder(String inputId, String outputId, String typeCode, String renderColor) {
+    public BasicTypeDataHolder(String inputId, String outputId, String className, String renderColor) {
         this.inputId = inputId;
         this.outputId = outputId;
         fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
 
         try{
-            this.basicFieldType = fieldTypeManager.getTypeByCode(typeCode);
+            this.basicFieldType = fieldTypeManager.getTypeByClass(className);
         }catch (Exception e){
 
         }
