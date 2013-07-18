@@ -19,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.bpmn2.*;
 import org.eclipse.bpmn2.Process;
 import org.jbpm.formModeler.api.model.DataHolder;
-import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.DataHolderManager;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
@@ -211,16 +210,11 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
     private DataHolder createDataHolder(Map<String, Object> config) {
 
         String type = (String) config.get("value");
-        String className;
         if (isBaseType(type)) type = normalizeBaseType(type);
 
         DataHolderBuilder builder = dataHolderManager.getBuilderByHolderValueType(type, config.get("path"));
-        FieldType fieldType = fieldTypeManager.getTypeByClass(type);
-        if (fieldType != null && builder != null) {
-            className = "Subform".equals(fieldType.getCode()) || "MultipleSubform".equals(fieldType.getCode()) ? type : fieldType.getCode();
-            config.put("value", className);
-            return builder.buildDataHolder(config);
-        }
+        config.put("value", type);
+        if (builder != null) return builder.buildDataHolder(config);
 
         return null;
     }
