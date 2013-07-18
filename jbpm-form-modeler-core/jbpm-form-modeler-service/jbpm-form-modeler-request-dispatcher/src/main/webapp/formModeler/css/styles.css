@@ -544,6 +544,5 @@ div.GlobalBreadCrump {
 
 .expandable b, .collapsable b {
     color: white !important;
-    letter-spacing: -0.1px;
-    text-shadow: 0.5px 0.5px 0.5px #333333;
+    text-shadow: 0.2px 0.2px 1px #000000;
 }
