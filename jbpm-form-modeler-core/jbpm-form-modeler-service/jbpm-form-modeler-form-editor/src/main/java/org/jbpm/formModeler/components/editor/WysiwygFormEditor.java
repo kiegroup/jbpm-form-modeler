@@ -563,6 +563,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
                     }
 
                 } else {
+
                     if (data.isValid()) {
 
                         /*
@@ -575,6 +576,11 @@ public class WysiwygFormEditor extends BaseUIComponent {
                             if (names.contains(propertyName)) {
                                 Object value = data.getCurrentValue(propertyName);
                                 try {
+                                    if("fieldName".equals(propertyName)){
+                                        if(!editField.getFieldName().equals((String)value)){
+                                            if(getCurrentForm().getField((String)value) !=null) return;
+                                        }
+                                    }
                                     getBindingManager().setPropertyValue(editField, propertyName, value);
                                 } catch (Exception e) {
                                     log.error("Error setting property '" + propertyName + "' on field " + editField.getFieldName(), e);
@@ -583,10 +589,11 @@ public class WysiwygFormEditor extends BaseUIComponent {
                             }
                         }
 
-                        setCurrentEditFieldPosition( -1);
-                        editField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView()));
-                        getFormProcessor().clear(editForm, editNamespace);
-                        getFormProcessor().read(editForm, editNamespace, data.getCurrentValues());
+                            setCurrentEditFieldPosition( -1);
+                            editField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView()));
+                            getFormProcessor().clear(editForm, editNamespace);
+                            getFormProcessor().read(editForm, editNamespace, data.getCurrentValues());
+
                     }
                 }
 
