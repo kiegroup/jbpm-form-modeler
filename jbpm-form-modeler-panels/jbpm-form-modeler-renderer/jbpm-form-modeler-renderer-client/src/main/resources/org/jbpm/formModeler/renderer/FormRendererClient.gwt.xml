@@ -33,6 +33,7 @@
     <inherits name="org.uberfire.UberfireWorkbench"/>
     <inherits name="org.uberfire.UberfireWidgetsCommons"/>
 
+    <inherits name="org.uberfire.UberfireJS"/>
    <inherits name="org.jbpm.formModeler.renderer.FormRendererAPI"/>
 
    <source path='client'/>
