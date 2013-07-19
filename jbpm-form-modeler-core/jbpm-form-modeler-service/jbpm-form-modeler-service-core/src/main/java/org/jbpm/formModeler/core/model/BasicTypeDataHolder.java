@@ -199,4 +199,16 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
         if (StringUtils.isEmpty(getOuputId()) || StringUtils.isEmpty(fieldName)) return "";
         return "{" + getOuputId() + "}" ;
     }
+
+    @Override
+    public boolean containsBinding(String bindingString) {
+        if (StringUtils.isEmpty(bindingString)) return false;
+
+        String rawbingind = bindingString.substring(1, bindingString.length() - 1);
+
+        if (StringUtils.isEmpty(rawbingind)) return false;
+
+        return getInputId().equals(rawbingind) || getOuputId().equals(rawbingind);
+
+    }
 }
