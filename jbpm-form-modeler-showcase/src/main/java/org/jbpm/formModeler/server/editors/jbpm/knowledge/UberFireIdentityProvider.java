@@ -1,8 +1,10 @@
 package org.jbpm.formModeler.server.editors.jbpm.knowledge;
 
 import org.jbpm.kie.services.api.IdentityProvider;
-import org.uberfire.security.Identity;
-import org.uberfire.security.Role;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -10,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.uberfire.security.Identity;
+import org.uberfire.security.Role;
 
 @SessionScoped
 public class UberFireIdentityProvider implements IdentityProvider, Serializable {
@@ -44,6 +49,22 @@ public class UberFireIdentityProvider implements IdentityProvider, Serializable 
         }
 
         return roles;
+    }
+
+    public Map<String, String> getProperties() {
+        return Collections.emptyMap();
+    }
+
+    public void aggregateProperty(String name,
+                                  String value) {
+    }
+
+    public void removeProperty(String name) {
+    }
+
+    public String getProperty(String name,
+                              String defaultValue) {
+        return null;
     }
 
 }
