@@ -264,14 +264,17 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         return data;
     }
 
-    protected Object readSimpleBindingValue(Form form, Field field, String bindingExpression, Map<String, Object> bindingData) {
+    protected Object readSimpleBindingValue(Form form, Field field, String bindingExpression, Map<String, Object> bindingData, Map<String, Object> loadedObjects) {
 
         DataHolder holder = form.getDataHolderByField(field);
         if (holder != null) {
             Object bindingValue = bindingData.get(holder.getInputId());
 
             try {
-                if (bindingValue != null && holder.isAssignableValue(bindingValue)) return holder.readFromBindingExperssion(bindingValue, bindingExpression);
+                if (bindingValue != null && holder.isAssignableValue(bindingValue)) {
+                    loadedObjects.put(holder.getUniqeId(), bindingValue);
+                    return holder.readFromBindingExperssion(bindingValue, bindingExpression);
+                }
             } catch (Exception e) {
                 log.warn("Unable to read value from expression '" + bindingExpression + "'. Error: ", e);
             }
@@ -358,8 +361,8 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         boolean hasOutput = !StringUtils.isEmpty(outputBinding);
 
         if (!hasInput && !hasOutput) throw new IllegalArgumentException("Unable to bind field: " + field.getFieldName());
-        if (!hasOutput) return readSimpleBindingValue(form, field, inputBinding, inputData);
-        else if (!hasInput) return readSimpleBindingValue(form, field, outputBinding, outputData);
+        if (!hasOutput) return readSimpleBindingValue(form, field, inputBinding, inputData,loadedObjects);
+        else if (!hasInput) return readSimpleBindingValue(form, field, outputBinding, outputData,loadedObjects);
         else {
 
             inputBinding = inputBinding.substring(1, inputBinding.length() - 1);
