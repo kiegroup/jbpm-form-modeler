@@ -114,7 +114,8 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
 
     @Override
     public Object readFromBindingExperssion(Object source, String bindingExpression) throws Exception {
-        if (source == null || StringUtils.isEmpty(bindingExpression) || bindingExpression.indexOf("/") == -1) return null;
+
+        if (source == null || StringUtils.isEmpty(bindingExpression) ) return null;
 
         bindingExpression = bindingExpression.substring(1, bindingExpression.length() - 1);
 
