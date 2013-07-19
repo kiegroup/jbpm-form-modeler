@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.api.model;
 
+
 import org.jbpm.formModeler.core.config.FormManager;
 
 import java.io.Serializable;
@@ -193,7 +194,8 @@ public class Form implements Serializable, Comparable{
         if (srcId == null || srcId.trim().length() == 0) return null;
         if (getHolders() != null) {
             for (DataHolder dataHolder : holders) {
-                if (srcId.equals(dataHolder.getInputId()) || srcId.equals(dataHolder.getOuputId()))
+                if (srcId.equals(dataHolder.getUniqeId()))
+                //if (srcId.equals(dataHolder.getInputId()) || srcId.equals(dataHolder.getOuputId()))
                     return dataHolder;
             }
         }
@@ -322,8 +324,16 @@ public class Form implements Serializable, Comparable{
         String outputBinding = dataHolder.getOuputBinding(fieldName);
 
         for (Field field : formFields) {
-            if ((!inputBinding.isEmpty() && inputBinding.equals(field.getInputBinding())) || (!outputBinding.isEmpty() && outputBinding.equals(field.getOutputBinding())))
+            if(dataHolder.getInputId()!=null && dataHolder.getInputId().trim().length()>0){
+            if (!inputBinding.isEmpty() && inputBinding.equals(field.getInputBinding())){
+                    return true;
+             }
+            }
+            if(dataHolder.getOuputId()!=null && dataHolder.getOuputId().trim().length()>0){
+             if (!outputBinding.isEmpty() && outputBinding.equals(field.getOutputBinding())){
                 return true;
+             }
+            }
         }
 
         return false;

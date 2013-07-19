@@ -664,7 +664,7 @@ public class FormManagerImpl implements FormManager {
            if (!form.containsHolder(holder)) form.setDataHolder(holder);
            Set<DataFieldHolder> holderFields = holder.getFieldHolders();
            for (DataFieldHolder dataFieldHolder : holderFields) {
-               String holderId = StringUtils.defaultIfEmpty(holder.getInputId(), holder.getOuputId());
+               String holderId = holder.getUniqeId();//StringUtils.defaultIfEmpty(holder.getInputId(), holder.getOuputId());
                addDataFieldHolder(form, holderId, dataFieldHolder.getId(), dataFieldHolder.getClassName());
            }
        }
@@ -674,19 +674,19 @@ public class FormManagerImpl implements FormManager {
         I18nSet label = new I18nSet();
         String defaultLang = LocaleManager.lookup().getDefaultLang();
         DataHolder holder = form.getDataHolderById(bindingId);
-        String dataHolderId = StringUtils.defaultIfEmpty(holder.getInputId(), holder.getOuputId());
+        String dataHolderId = holder.getUniqeId();//StringUtils.defaultIfEmpty(holder.getInputId(), holder.getOuputId());
         label.setValue(defaultLang, fieldName + " (" + dataHolderId + ")");
 
         String inputBinging = holder.getInputBinding(fieldName);
         String outputBinding = holder.getOuputBinding(fieldName);
 
         FieldType fieldType = null;
+        fieldType = fieldTypeManager.getTypeByClass(fieldClass);
         String fName=fieldName;
         if (Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(holder.getTypeCode())){
-            fieldType = fieldTypeManager.getTypeByCode(holder.getInfo());
-        } else {
-            fieldType = fieldTypeManager.getTypeByClass(fieldClass);
-            fName=dataHolderId + "_" + fieldName;
+             fName=holder.getUniqeId();
+        }else{
+            fName=holder.getUniqeId() + "_" + fieldName;
         }
         addFieldToForm(form, fName, fieldType, fieldClass, label, inputBinging, outputBinding);
     }

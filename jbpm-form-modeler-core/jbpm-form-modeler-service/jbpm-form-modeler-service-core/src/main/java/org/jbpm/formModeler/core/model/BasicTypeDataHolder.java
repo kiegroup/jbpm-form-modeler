@@ -118,12 +118,13 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
 
         bindingExpression = bindingExpression.substring(1, bindingExpression.length() - 1);
 
-        String[] bindingParts = bindingExpression.split("/");
+        return readValue(source, bindingExpression);
+        //String[] bindingParts = bindingExpression.split("/");
 
-        if (bindingParts.length == 2) {
-            return readValue(source, bindingParts[1]);
-        }
-        return null;
+        //if (bindingParts.length == 2) {
+        //    return readValue(source, bindingParts[1]);
+        //}
+        //return null;
     }
 
     @Override
@@ -147,7 +148,7 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
         try{
             if(dataFieldHolders == null || dataFieldHolders.size()==0){
                 dataFieldHolders = new TreeSet<DataFieldHolder>();
-                DataFieldHolder datafieldHolder =  new DataFieldHolder(this,inputId, basicFieldType.getCode());
+                DataFieldHolder datafieldHolder =  new DataFieldHolder(this,StringUtils.defaultIfEmpty(inputId, outputId), basicFieldType.getFieldClass());
                 dataFieldHolders.add(datafieldHolder);
 
             }
@@ -164,7 +165,7 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
 
     @Override
     public String getInfo() {
-        return basicFieldType.getCode();
+        return basicFieldType.getFieldClass();
     }
 
     @Override
@@ -184,5 +185,17 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
         //TODO verify
         if (value == null) return true;
         return value.getClass().getName().equals(this.basicFieldType.getFieldClass());
+    }
+
+    @Override
+    public String getInputBinding(String fieldName) {
+        if (StringUtils.isEmpty(getInputId()) || StringUtils.isEmpty(fieldName)) return "";
+        return "{" + getInputId() +"}" ;
+    }
+
+    @Override
+    public String getOuputBinding(String fieldName) {
+        if (StringUtils.isEmpty(getOuputId()) || StringUtils.isEmpty(fieldName)) return "";
+        return "{" + getOuputId() + "}" ;
     }
 }

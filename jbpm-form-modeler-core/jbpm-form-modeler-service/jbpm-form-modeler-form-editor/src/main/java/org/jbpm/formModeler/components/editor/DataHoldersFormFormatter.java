@@ -163,7 +163,7 @@ public class DataHoldersFormFormatter extends Formatter {
         renderFragment("outputStart");
 
         for (DataHolder dataHolder : holders) {
-            String holderId = StringUtils.defaultIfEmpty(dataHolder.getInputId(), dataHolder.getOuputId());
+            String holderId = dataHolder.getUniqeId();//StringUtils.defaultIfEmpty(dataHolder.getInputId(), dataHolder.getOuputId());
 
             Set<DataFieldHolder> dataFieldHolders = dataHolder.getFieldHolders();
 
@@ -174,7 +174,7 @@ public class DataHoldersFormFormatter extends Formatter {
                     fieldName = dataFieldHolder.getId();
                     if (fieldName != null && !form.isFieldBinded(dataHolder, fieldName)) {
                         if (i == 0) {//first field
-                            setAttribute("id", holderId);
+                            setAttribute("id", dataHolder.getUniqeId());
                             setAttribute("type", dataHolder.getTypeCode());
                             setAttribute("renderColor", dataHolder.getRenderColor());
 
@@ -190,7 +190,7 @@ public class DataHoldersFormFormatter extends Formatter {
                                 if(holderName.length() > 0) holderName += "/";
                                 holderName += dataHolder.getOuputId();
                             }
-
+                            holderName=dataHolder.getUniqeId();
                             if (holderName.length() > 20) holderName = holderName.substring(0, 19) + "...";
 
                             setAttribute("showHolderName", holderName);
