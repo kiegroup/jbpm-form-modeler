@@ -410,7 +410,8 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                 }
                 return value;
             }
-            return (outputData.containsKey(outputBinding)) ? outputData.get(outputBinding) : inputData.get(inputBinding);
+
+            return (outputData.containsKey(outputBinding) && outputData.get(outputBinding) != null) ? outputData.get(outputBinding) : inputData.get(inputBinding);
         }
     }
 
