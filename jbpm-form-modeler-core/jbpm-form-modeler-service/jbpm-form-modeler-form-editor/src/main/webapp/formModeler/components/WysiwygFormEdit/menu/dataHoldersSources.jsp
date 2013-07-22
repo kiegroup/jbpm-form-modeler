@@ -40,6 +40,7 @@
 <mvc:fragment name="outputFormAddHolderStart">
     <mvc:fragmentValue name="existingInputIds" id="existingInputIds">
         <mvc:fragmentValue name="existingOutputIds" id="existingOutputIds">
+            <mvc:fragmentValue name="existingIds" id="existingIds">
             <tr>
             <td class="LeftColumnProperties" align="center">
             <script type="text/javascript">
@@ -60,22 +61,36 @@
                 function confirmAdd(){
                     var existingInputIds = [<%=existingInputIds%>];
                     var existingOutputIds = [<%=existingOutputIds%>];
-                    var inVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>").val();
+                    var existingIds = [<%=existingIds%>];
+
+                    var inVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_ID%>").val();
+                    var idVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>").val();
                     var outVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>").val();
                     if ((inVal && jQuery.inArray(inVal, existingInputIds)!=-1) ||
                             (outVal && jQuery.inArray(outVal, existingOutputIds)!=-1)){
                         alert("<i18n:message key="dataHolder_add_confirm">Sure?</i18n:message>")
                         return false;
                     }
+                    if ((idVal && jQuery.inArray(idVal, existingIds)!=-1)){
+                        alert("<i18n:message key="dataHolder_existingId_Message">Sure?</i18n:message>")
+                        return false;
+                    }
                 }
         </script>
         <table>
         <tr>
-            <td><b><i18n:message key="dataHolder_inputId">!!!dataHolder_id</i18n:message>:</b></td>
+            <td><b><i18n:message key="dataHolder_Id">!!!dataHolder_id</i18n:message>:</b></td>
         </tr>
         <tr>
             <td><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" type="text" class="skn-input" value=""
                        size="20" maxlength="64" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>"></td>
+        </tr>
+        <tr>
+            <td><b><i18n:message key="dataHolder_inputId">!!!dataHolder_input</i18n:message>:</b></td>
+        </tr>
+        <tr>
+            <td><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_ID%>" type="text" class="skn-input" value=""
+                       size="20" maxlength="64" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_ID%>"></td>
         </tr>
         <tr>
             <td><b><i18n:message key="dataHolder_outputId">!!!dataHolder_outputid</i18n:message>:</b></td>
@@ -90,6 +105,7 @@
         <tr>
             <td>
                 <select class="skn-input" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_RENDERCOLOR%>">
+            </mvc:fragmentValue>
     </mvc:fragmentValue>
     </mvc:fragmentValue>
 </mvc:fragment>
@@ -197,7 +213,8 @@
     <table width="100%" class="skn-table_border">
     <tr class="skn-table_header">
         <td style="width:16px;">&nbsp;</td>
-        <td><i18n:message key="dataHolder_inputId">!!!dataHolder_id</i18n:message></td>
+        <td><i18n:message key="dataHolder_Id">!!!dataHolder_id</i18n:message></td>
+        <td><i18n:message key="dataHolder_inputId">!!!dataHolder_InputId</i18n:message></td>
         <td><i18n:message key="dataHolder_outputId">!!!dataHolder_outid</i18n:message></td>
         <td><i18n:message key="dataHolder_type">!!!dataHolder_type</i18n:message></td>
         <td><i18n:message key="dataHolder_info">!!!!!!dataHolder_info</i18n:message></td>
@@ -208,6 +225,7 @@
 
 <mvc:fragment name="outputBindings">
     <mvc:fragmentValue name="id" id="id">
+    <mvc:fragmentValue name="input_id" id="input_id">
         <mvc:fragmentValue name="outId" id="outId">
             <mvc:fragmentValue name="deleteId" id="deleteId">
                 <mvc:fragmentValue name="type" id="type">
@@ -230,6 +248,9 @@
                                         <%=StringEscapeUtils.escapeHtml((String)id) %>
                                     </td>
                                     <td>
+                                        <%=StringEscapeUtils.escapeHtml((String)input_id) %>
+                                    </td>
+                                    <td>
                                         <%=StringEscapeUtils.escapeHtml((String)outId) %>
                                     </td>
                                     <td>
@@ -246,6 +267,7 @@
                         </mvc:fragmentValue>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>
+            </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragmentValue>

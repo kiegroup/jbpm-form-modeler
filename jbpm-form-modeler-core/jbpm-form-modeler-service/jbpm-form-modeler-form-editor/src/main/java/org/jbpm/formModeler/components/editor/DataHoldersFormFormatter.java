@@ -67,13 +67,16 @@ public class DataHoldersFormFormatter extends Formatter {
 
             Form form = wysiwygFormEditor.getCurrentForm();
             Set<DataHolder> holders = form.getHolders();
+            String existingIds ="\"\"";
             String existingInputIds ="\"\"";
             String existingOutputIds ="\"\"";
             for (DataHolder holder : holders) {
                 if (!StringUtils.isEmpty(holder.getInputId())) existingInputIds+= ", \""+holder.getInputId()+"\" ";
                 if (!StringUtils.isEmpty(holder.getOuputId())) existingOutputIds+= ", \""+holder.getOuputId()+"\" ";
+                if (!StringUtils.isEmpty(holder.getUniqeId())) existingIds+= ", \""+holder.getUniqeId()+"\" ";
             }
 
+            setAttribute("existingIds", existingIds);
             setAttribute("existingInputIds", existingInputIds);
             setAttribute("existingOutputIds", existingOutputIds);
             renderFragment("outputFormAddHolderStart");
@@ -118,9 +121,10 @@ public class DataHoldersFormFormatter extends Formatter {
 
             int i=0;
             for (DataHolder holder : holders) {
-                setAttribute("id", StringUtils.defaultString(holder.getInputId()));
+                setAttribute("id", StringUtils.defaultString(holder.getUniqeId()));
+                setAttribute("input_id", StringUtils.defaultString(holder.getInputId()));
                 setAttribute("outId", StringUtils.defaultString(holder.getOuputId()));
-                setAttribute("deleteId", StringUtils.defaultIfEmpty(holder.getInputId(), holder.getOuputId()));
+                setAttribute("deleteId", StringUtils.defaultString(holder.getUniqeId()));
                 setAttribute("type", holder.getTypeCode());
                 setAttribute("renderColor", holder.getRenderColor());
                 setAttribute("value", holder.getInfo());

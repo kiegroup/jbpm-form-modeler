@@ -103,6 +103,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public static final String ACTION_ADD_DATA_HOLDER_FIELDS = "addDataHolderFields";
 
     public static final String PARAMETER_HOLDER_ID = "holderId";
+    public static final String PARAMETER_HOLDER_INPUT_ID = "holderInputId";
     public static final String PARAMETER_HOLDER_OUTPUT_ID = "holderOutputId";
     public static final String PARAMETER_HOLDER_INFO = "holderInfo";
     public static final String PARAMETER_HOLDER_TYPE = "holderType";
