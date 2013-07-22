@@ -37,13 +37,25 @@ public class DataModelerDataHolder extends PojoDataHolder {
         return createInstance(classLoader.loadClass(getClassName()));
     }
 
+    public DataModelerDataHolder(String uniqueId, String inputId, String outId, String className, String renderColor, DataObjectTO dataObjectTO) {
+        super(uniqueId, inputId, outId, className, renderColor);
+        this.dataObjectTO = dataObjectTO;
+    }
+
+    //TODO remove this constructor
     public DataModelerDataHolder(String id, String outId, String className, String renderColor, DataObjectTO dataObjectTO) {
         super(id, outId, className, renderColor);
         this.dataObjectTO = dataObjectTO;
     }
 
+    //TODO remove this constructor.
     public DataModelerDataHolder(String id, String outId, String className, String renderColor) {
         super(id, outId, className, renderColor);
+    }
+    
+    //TODO remove this constructor
+    public DataModelerDataHolder(String uniqueId, String inputId, String outId, String className, String renderColor) {
+        super(uniqueId, inputId, outId, className, renderColor);
     }
 
     private String capitalize(String string) {

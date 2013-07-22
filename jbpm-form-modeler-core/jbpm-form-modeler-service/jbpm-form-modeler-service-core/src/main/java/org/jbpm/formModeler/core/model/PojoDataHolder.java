@@ -52,7 +52,8 @@ public class PojoDataHolder extends DefaultDataHolder  {
     public PojoDataHolder(){
     }
 
-    public PojoDataHolder(String inputId, String outputId, String className, String renderColor) {
+    public PojoDataHolder(String uniqueId, String inputId, String outputId, String className, String renderColor) {
+        this.uniqueId = uniqueId;
         this.inputId = inputId;
         this.outputId = outputId;
         this.className = className;
@@ -60,9 +61,10 @@ public class PojoDataHolder extends DefaultDataHolder  {
         setRenderColor(renderColor);
     }
 
-    public PojoDataHolder(String inputId, String className, String renderColor) {
+    //TODO remove this constructor
+    public PojoDataHolder(String inputId, String outputId, String className, String renderColor) {
         this.inputId = inputId;
-        this.outputId = inputId;
+        this.outputId = outputId;
         this.className = className;
         fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
         setRenderColor(renderColor);
@@ -107,7 +109,7 @@ public class PojoDataHolder extends DefaultDataHolder  {
     public Object readFromBindingExperssion(Object source, String bindingExpression) throws Exception {
         if (source == null || StringUtils.isEmpty(bindingExpression) || bindingExpression.indexOf("/") == -1) return null;
 
-        bindingExpression = bindingExpression.substring(1, bindingExpression.length() - 1);
+        bindingExpression = bindingExpressionUtil.extractBindingExpression(bindingExpression);
 
         String[] bindingParts = bindingExpression.split("/");
 

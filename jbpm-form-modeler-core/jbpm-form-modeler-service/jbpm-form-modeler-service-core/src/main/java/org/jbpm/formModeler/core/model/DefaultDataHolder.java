@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;
+import org.jbpm.formModeler.core.util.BindingExpressionUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,9 +27,14 @@ import java.util.Set;
 
 public abstract class DefaultDataHolder implements DataHolder {
     protected String renderColor;
+    
+    protected String uniqueId;
+
+    protected BindingExpressionUtil bindingExpressionUtil = BindingExpressionUtil.getInstance();
 
     public String getUniqeId() {
-        return StringUtils.defaultString(getInputId()) + "/" + StringUtils.defaultString(getOuputId());
+        //return StringUtils.defaultString(getInputId()) + "/" + StringUtils.defaultString(getOuputId());
+        return uniqueId;
     }
 
     @Override
@@ -44,26 +50,28 @@ public abstract class DefaultDataHolder implements DataHolder {
     @Override
     public String getInputBinding(String fieldName) {
         if (StringUtils.isEmpty(getInputId()) || StringUtils.isEmpty(fieldName)) return "";
-        return "{" + getInputId() + "/" + fieldName+"}" ;
+        return bindingExpressionUtil.generateBindingExpression(getInputId(), fieldName);
+        //return "{" + getInputId() + "/" + fieldName+"}" ;
     }
 
     @Override
     public String getOuputBinding(String fieldName) {
         if (StringUtils.isEmpty(getOuputId()) || StringUtils.isEmpty(fieldName)) return "";
-        return "{" + getOuputId() + "/" + fieldName+"}" ;
+        return bindingExpressionUtil.generateBindingExpression(getOuputId(), fieldName);
+        //return "{" + getOuputId() + "/" + fieldName+"}" ;
     }
 
     @Override
     public boolean containsBinding(String bindingString) {
         if (StringUtils.isEmpty(bindingString)) return false;
 
-        String rawbingind = bindingString.substring(1, bindingString.length() - 1);
+        String rawbinding = bindingExpressionUtil.extractBindingExpression(bindingString);
 
-        String[] parts = rawbingind.split("/");
+        String[] parts = rawbinding.split("/");
 
         if (parts == null || parts.length != 2 || StringUtils.isEmpty(parts[0])) return false;
 
-        return getInputId().equals(parts[0]) || getOuputId().equals(parts[0]);
+        return (getInputId() != null && getInputId().equals(parts[0])) || (getOuputId() != null && getOuputId().equals(parts[0]));
 
     }
 

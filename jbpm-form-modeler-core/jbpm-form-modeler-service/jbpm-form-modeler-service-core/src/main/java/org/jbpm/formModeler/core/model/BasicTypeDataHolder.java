@@ -22,6 +22,7 @@ import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
+import org.jbpm.formModeler.core.util.BindingExpressionUtil;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import java.lang.reflect.Constructor;
@@ -48,7 +49,9 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
     public BasicTypeDataHolder(){
     }
 
-    public BasicTypeDataHolder(String inputId, String outputId, String className, String renderColor) {
+
+    public BasicTypeDataHolder(String uniqueId, String inputId, String outputId, String className, String renderColor) {
+        this.uniqueId = uniqueId;
         this.inputId = inputId;
         this.outputId = outputId;
         fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
@@ -62,13 +65,14 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
         setRenderColor(renderColor);
     }
 
-    public BasicTypeDataHolder(String inputId, String typeCode, String renderColor) {
+    //TODO remove this constructor.
+    public BasicTypeDataHolder(String inputId, String outputId, String className, String renderColor) {
         this.inputId = inputId;
-        this.outputId = inputId;
-
+        this.outputId = outputId;
         fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
+
         try{
-            this.basicFieldType = fieldTypeManager.getTypeByCode(typeCode);
+            this.basicFieldType = fieldTypeManager.getTypeByClass(className);
         }catch (Exception e){
 
         }
@@ -117,7 +121,7 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
 
         if (source == null || StringUtils.isEmpty(bindingExpression) ) return null;
 
-        bindingExpression = bindingExpression.substring(1, bindingExpression.length() - 1);
+        bindingExpression = bindingExpressionUtil.extractBindingExpression(bindingExpression);
 
         return readValue(source, bindingExpression);
         //String[] bindingParts = bindingExpression.split("/");
@@ -191,24 +195,26 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
     @Override
     public String getInputBinding(String fieldName) {
         if (StringUtils.isEmpty(getInputId()) || StringUtils.isEmpty(fieldName)) return "";
-        return "{" + getInputId() +"}" ;
+        return bindingExpressionUtil.generateBindingExpression(getInputId());
+        //return "{" + getInputId() +"}" ;
     }
 
     @Override
     public String getOuputBinding(String fieldName) {
         if (StringUtils.isEmpty(getOuputId()) || StringUtils.isEmpty(fieldName)) return "";
-        return "{" + getOuputId() + "}" ;
+        return bindingExpressionUtil.generateBindingExpression(getOuputId());
+        //return "{" + getOuputId() + "}" ;
     }
 
     @Override
     public boolean containsBinding(String bindingString) {
         if (StringUtils.isEmpty(bindingString)) return false;
 
-        String rawbingind = bindingString.substring(1, bindingString.length() - 1);
+        String rawbinding = bindingExpressionUtil.extractBindingExpression(bindingString);
 
-        if (StringUtils.isEmpty(rawbingind)) return false;
+        if (StringUtils.isEmpty(rawbinding)) return false;
 
-        return getInputId().equals(rawbingind) || getOuputId().equals(rawbingind);
+        return (getInputId() != null && getInputId().equals(rawbinding)) || (getOuputId() != null && getOuputId().equals(rawbinding));
 
     }
 }
