@@ -820,17 +820,20 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public void addDataHolder(Map parameterMap) throws Exception {
         String[] holderTypeArray = (String[]) parameterMap.get(PARAMETER_HOLDER_TYPE);
         String[] holderIdArray = (String[]) parameterMap.get(PARAMETER_HOLDER_ID);
+        String[] holderInputIdArray = (String[]) parameterMap.get(PARAMETER_HOLDER_INPUT_ID);
         String[] holderOutIdArray = (String[]) parameterMap.get(PARAMETER_HOLDER_OUTPUT_ID);
         String[] holderRenderColorArray = (String[]) parameterMap.get(PARAMETER_HOLDER_RENDERCOLOR);
 
         String holderType = null;
         String holderId = null;
+        String holderInputId = null;
         String holderOutId = null;
         String holderRenderColor = null;
         String holderInfo = null;
 
         if (holderTypeArray != null && holderTypeArray.length > 0) holderType = holderTypeArray[0];
         if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
+        if (holderInputIdArray != null && holderInputIdArray.length > 0) holderInputId = holderInputIdArray[0];
         if (holderOutIdArray != null && holderOutIdArray.length > 0) holderOutId = holderOutIdArray[0];
         if (holderRenderColorArray != null && holderRenderColorArray.length > 0) holderRenderColor = holderRenderColorArray[0];
 
@@ -842,7 +845,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         } else if (Form.HOLDER_TYPE_CODE_POJO_CLASSNAME.equals(holderType)) holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_INFO);
         if (holderInfoArray != null && holderInfoArray.length > 0) holderInfo = holderInfoArray[0];
 
-        getFormManager().addDataHolderToForm(getCurrentForm(),holderType,holderId,holderOutId,holderRenderColor,holderInfo,getCurrentEditionContext().getPath());
+        getFormManager().addDataHolderToForm(getCurrentForm(),holderType,holderId,holderInputId,holderOutId,holderRenderColor,holderInfo,getCurrentEditionContext().getPath());
 
     }
 

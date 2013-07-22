@@ -44,6 +44,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     public static final String NODE_DATA_HOLDER = "dataHolder";
 
     public static final String ATTR_ID = "id";
+    public static final String ATTR_INPUT_ID = "inputId";
     public static final String ATTR_OUT_ID = "outId";
     public static final String ATTR_POSITION = "position";
     public static final String ATTR_TYPE = "type";
@@ -156,6 +157,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                 fields.add(field);
             } else if (node.getNodeName().equals(NODE_DATA_HOLDER)) {
                 String holderId = getNodeAttributeValue(node, ATTR_ID);
+                String holderInputId = getNodeAttributeValue(node, ATTR_INPUT_ID);
                 String holderOutId = getNodeAttributeValue(node, ATTR_OUT_ID);
                 String holderType = getNodeAttributeValue(node, ATTR_TYPE);
                 String holderValue = getNodeAttributeValue(node, ATTR_VALUE);
@@ -165,6 +167,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                     Map<String, Object> config = new HashMap<String, Object>();
 
                     config.put("id", holderId);
+                    config.put("inputId", holderInputId);
                     config.put("outId", holderOutId);
                     config.put("value", holderValue);
                     config.put("color", holderRenderColor);
@@ -374,7 +377,8 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
 
     public void generateDataHolderXML(DataHolder dataHolder, XMLNode parent) {
         XMLNode rootNode = new XMLNode(NODE_DATA_HOLDER, parent);
-        rootNode.addAttribute(ATTR_ID, dataHolder.getInputId());
+        rootNode.addAttribute(ATTR_ID, dataHolder.getUniqeId());
+        rootNode.addAttribute(ATTR_INPUT_ID, dataHolder.getInputId());
         rootNode.addAttribute(ATTR_OUT_ID, dataHolder.getOuputId());
         rootNode.addAttribute(ATTR_TYPE, dataHolder.getTypeCode());
         rootNode.addAttribute(ATTR_VALUE, dataHolder.getInfo());
