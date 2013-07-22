@@ -32,6 +32,7 @@ import org.jbpm.formModeler.api.model.Form;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
+import org.jbpm.formModeler.core.util.BindingExpressionUtil;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -58,6 +59,8 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
     @Inject
     private FormRenderContextManager formRenderContextManager;
+    
+    private BindingExpressionUtil bindingExpressionUtil = BindingExpressionUtil.getInstance();
 
     protected FormStatus getContextFormStatus(FormRenderContext context) {
         return FormStatusManager.lookup().getFormStatus(context.getForm(), context.getUID());
@@ -279,7 +282,8 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                 log.warn("Unable to read value from expression '" + bindingExpression + "'. Error: ", e);
             }
         } else {
-            bindingExpression = bindingExpression.substring(1, bindingExpression.length() - 1);
+            //bindingExpression = bindingExpression.substring(1, bindingExpression.length() - 1);
+            bindingExpression = bindingExpressionUtil.extractBindingExpression(bindingExpression);
 
             if (bindingExpression.indexOf("/") != -1) {
                 try {
@@ -365,8 +369,10 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         else if (!hasInput) return readSimpleBindingValue(form, field, outputBinding, outputData,loadedObjects);
         else {
 
-            inputBinding = inputBinding.substring(1, inputBinding.length() - 1);
-            outputBinding = outputBinding.substring(1, outputBinding.length() - 1);
+            //inputBinding = inputBinding.substring(1, inputBinding.length() - 1);
+            inputBinding = bindingExpressionUtil.extractBindingExpression(inputBinding);
+            //outputBinding = outputBinding.substring(1, outputBinding.length() - 1);
+            outputBinding = bindingExpressionUtil.extractBindingExpression(outputBinding);
 
             String[] inputParts = inputBinding.split("/");
             String[] outputParts = outputBinding.split("/");
@@ -470,8 +476,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
                 Object value = persistField(field, mapToPersist, holder, context.getUID());
 
-
-                bindingString = bindingString.substring(1, bindingString.length() - 1);
+                bindingString = bindingExpressionUtil.extractBindingExpression(bindingString);
 
                 boolean simpleBinding = StringUtils.isEmpty(bindingString) || bindingString.indexOf("/") == -1;
 
@@ -509,7 +514,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
                 if (StringUtils.isEmpty(bindingString)) continue;
 
-                bindingString = bindingString.substring(1, bindingString.length() - 1);
+                bindingString = bindingExpressionUtil.extractBindingExpression(bindingString);
                 String holderFieldId = bindingString.substring(holder.getOuputId().length() + 1);
 
                 Object value = persistField(field, mapToPersist, holder, namespace);
@@ -524,8 +529,8 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         String bindingString = field.getOutputBinding();
 
         if (holder == null && !StringUtils.isEmpty(bindingString)) return mapToPersist.get(field.getFieldName());
-
-        bindingString = bindingString.substring(1, bindingString.length() - 1);
+        
+        bindingString = bindingExpressionUtil.extractBindingExpression(bindingString);
 
         boolean complexBinding = bindingString.indexOf("/") > 0;
 

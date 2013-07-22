@@ -195,7 +195,7 @@ public class Form implements Serializable, Comparable{
         if (getHolders() != null) {
             for (DataHolder dataHolder : holders) {
                 if (srcId.equals(dataHolder.getUniqeId()))
-                //if (srcId.equals(dataHolder.getInputId()) || srcId.equals(dataHolder.getOuputId()))
+                    //if (srcId.equals(dataHolder.getInputId()) || srcId.equals(dataHolder.getOuputId()))
                     return dataHolder;
             }
         }
@@ -325,14 +325,14 @@ public class Form implements Serializable, Comparable{
 
         for (Field field : formFields) {
             if(dataHolder.getInputId()!=null && dataHolder.getInputId().trim().length()>0){
-            if (!inputBinding.isEmpty() && inputBinding.equals(field.getInputBinding())){
+                if (!inputBinding.isEmpty() && inputBinding.equals(field.getInputBinding())){
                     return true;
-             }
+                }
             }
             if(dataHolder.getOuputId()!=null && dataHolder.getOuputId().trim().length()>0){
-             if (!outputBinding.isEmpty() && outputBinding.equals(field.getOutputBinding())){
-                return true;
-             }
+                if (!outputBinding.isEmpty() && outputBinding.equals(field.getOutputBinding())){
+                    return true;
+                }
             }
         }
 

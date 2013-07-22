@@ -118,6 +118,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
                         config.put("value", prop.getItemSubjectRef().getStructureRef());
                         config.put("path", context);
                         config.put("color", colors[index]);
+                        config.put("id", process.getId());
                         associations.put(prop.getId(), config);
                         if (index == colors.length - 1) index = 0;
                         else index++;
@@ -138,7 +139,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
                                         String id = input != null ? input.getName() : null;
                                         Map config = ((variableId != null) && (id != null)) ? associations.get(variableId) : null;
 
-                                        if (config != null) config.put("id", id);
+                                        if (config != null) config.put("inputId", id);
                                     }
                                 }
                             }
@@ -192,6 +193,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
             DataHolder dataHolder = null;
 
             Map<String, Object> config = new HashMap<String, Object>();
+            config.put("id", propertyName);
             config.put("outId", propertyName);
             config.put("color", colors[index]);
             config.put("value", propertyType);

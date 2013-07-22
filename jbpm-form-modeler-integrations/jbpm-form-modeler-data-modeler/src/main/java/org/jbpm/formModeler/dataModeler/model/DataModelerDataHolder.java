@@ -53,6 +53,7 @@ public class DataModelerDataHolder extends PojoDataHolder {
         super(id, outId, className, renderColor);
     }
 
+
     //TODO remove this constructor
     public DataModelerDataHolder(String uniqueId, String inputId, String outId, String className, String renderColor) {
         super(uniqueId, inputId, outId, className, renderColor);
