@@ -20,5 +20,9 @@ import org.eclipse.bpmn2.Definitions;
 import org.uberfire.backend.vfs.FileSystem;
 
 public interface BPMNFormBuilderService {
+
     String buildFormXML(FileSystem fs, String fileName, String uri, Definitions source, String id) throws Exception;
+
+    String buildEmptyFormXML(String fileName) throws Exception;
+
 }

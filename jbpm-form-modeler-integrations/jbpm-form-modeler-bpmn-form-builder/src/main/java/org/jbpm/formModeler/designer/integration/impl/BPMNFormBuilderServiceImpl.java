@@ -59,6 +59,13 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
     @Inject
     private FieldTypeManager fieldTypeManager;
 
+    public String buildEmptyFormXML(String fileName) {
+        Form form = formManager.createForm(fileName);
+        String xmlForm = formSerializationManager.generateFormXML(form);
+        return xmlForm;
+    }
+    
+    
     public String buildFormXML(FileSystem fs, String fileName, String uri, Definitions source, String id) throws Exception {
             Path formPath = PathFactory.newPath(fs, fileName, uri);
             org.kie.commons.java.nio.file.Path kiePath = paths.convert(formPath);
@@ -118,7 +125,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
                         config.put("value", prop.getItemSubjectRef().getStructureRef());
                         config.put("path", context);
                         config.put("color", colors[index]);
-                        config.put("id", process.getId());
+                        config.put("id", prop.getId());
                         associations.put(prop.getId(), config);
                         if (index == colors.length - 1) index = 0;
                         else index++;
