@@ -172,7 +172,7 @@ public class Form implements Serializable, Comparable{
         if(getDataHolderById(id) != null){
             for (Iterator it = holders.iterator(); it.hasNext();) {
                 DataHolder holder = (DataHolder) it.next();
-                if (id.equals(holder.getInputId()) || id.equals(holder.getOuputId())) it.remove();
+                if (id.equals(holder.getUniqeId())) it.remove();
             }
         }
 

@@ -66,7 +66,7 @@
                     var inVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_ID%>").val();
                     var idVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>").val();
                     var outVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>").val();
-                    if ((idVal && jQuery.inArray(idVal, existingIds)!=-1)){
+                    if ((idVal && jQuery.inArray(idVal, existingIds)!=-1) ){
                         alert("<i18n:message key="dataHolder_existingId_Message">Sure?</i18n:message>")
                         return false;
                     }
@@ -75,11 +75,16 @@
                         alert("<i18n:message key="dataHolder_add_confirm">Sure?</i18n:message>")
                         return false;
                     }
-                    if (inVal || outVal){
-                        return true;
+                    if (!(inVal || outVal)){
+                        alert("<i18n:message key="dataHolder_requiredInOut">required input output!</i18n:message>")
+                        return false;
                     }
-                    alert("<i18n:message key="dataHolder_requiredInOut">required input output!</i18n:message>")
-                    return false;
+                    if(!idVal){
+                        alert("<i18n:message key="dataHolder_requiredId">required id!</i18n:message>")
+                        return false;
+                    }
+
+
                 }
         </script>
         <table>
