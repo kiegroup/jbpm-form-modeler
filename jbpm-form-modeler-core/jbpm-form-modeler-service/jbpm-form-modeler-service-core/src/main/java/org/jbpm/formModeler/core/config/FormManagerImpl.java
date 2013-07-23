@@ -632,7 +632,7 @@ public class FormManagerImpl implements FormManager {
         Map<String, Object> config = new HashMap<String, Object>();
 
         config.put("id", id);
-        config.put("inputId", id);
+        config.put("inputId", inputId);
         config.put("outId", outId);
         config.put("color", color);
         config.put("value", value);
