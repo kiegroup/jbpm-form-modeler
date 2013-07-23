@@ -178,7 +178,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
             Map config = associations.get(it.next());
             DataHolder dataHolder;
 
-            if (config.size() > 3) {
+            if (config.size() > 4) {
                 dataHolder = createDataHolder(config);
                 if (dataHolder != null) result.add(dataHolder);
             }
