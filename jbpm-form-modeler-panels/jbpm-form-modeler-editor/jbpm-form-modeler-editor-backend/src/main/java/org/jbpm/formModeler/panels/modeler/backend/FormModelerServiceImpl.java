@@ -34,6 +34,8 @@ import org.uberfire.backend.vfs.FileSystem;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.backend.vfs.PathFactory;
 import org.uberfire.workbench.events.ResourceAddedEvent;
+import org.uberfire.workbench.events.ResourceUpdatedEvent;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -56,6 +58,10 @@ public class FormModelerServiceImpl implements FormModelerService {
 
     @Inject
     private Event<ResourceAddedEvent> resourceAddedEvent;
+
+    @Inject
+    private Event<ResourceUpdatedEvent> resourceUpdatedEvent;
+
 
     @Inject
     private FormManager formManager;
@@ -132,6 +138,7 @@ public class FormModelerServiceImpl implements FormModelerService {
         formManager.replaceForm(ctx.getOriginalForm(), ctx.getForm());
         org.kie.commons.java.nio.file.Path kiePath = paths.convert((Path)ctx.getPath());
         ioService.write(kiePath, formSerializationManager.generateFormXML(ctx.getForm()));
+        resourceUpdatedEvent.fire(new ResourceUpdatedEvent((Path)ctx.getPath()));
     }
 
     @Override
@@ -144,9 +151,8 @@ public class FormModelerServiceImpl implements FormModelerService {
 
         ioService.write(kiePath, formSerializationManager.generateFormXML(form));
 
-        resourceAddedEvent.fire(new ResourceAddedEvent(context));
-
         final Path path = paths.convert(kiePath, false);
+        resourceAddedEvent.fire(new ResourceAddedEvent(path));
 
         return path;
     }
