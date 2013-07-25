@@ -37,6 +37,8 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery.treeview.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery.treeview.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/ckeditor/ckeditor_handler.js"></script>
 <body>
 <%@ include file="index.jsp" %>
 <div id="ajaxLoadingDiv" style="position:absolute;position: absolute; left: 50%; top: 50%; z-index: 6000; opacity: 0.6; display: none;">
