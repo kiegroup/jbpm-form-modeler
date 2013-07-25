@@ -32,6 +32,9 @@ import java.util.Map;
 public class HTMLTextAreaFieldHandler extends DefaultFieldHandler {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(HTMLTextAreaFieldHandler.class.getName());
 
+    /** The suffix for the value <code>div</code> element. */
+    public static final String VALUE_SUFFIX = "_value";
+
     public String[] getCompatibleClassNames() {
         return new String[]{HTMLString.class.getName()};
     }
@@ -44,7 +47,7 @@ public class HTMLTextAreaFieldHandler extends DefaultFieldHandler {
      * @throws Exception
      */
     public Object getValue(Field field, String inputName, Map parametersMap, Map filesMap, String desiredClassName, Object previousValue) throws Exception {
-        String[] pValues = (String[]) parametersMap.get(inputName);
+        String[] pValues = (String[]) parametersMap.get(inputName + VALUE_SUFFIX);
         return pValues != null ? new HTMLString(pValues[0]) : null;
     }
 
