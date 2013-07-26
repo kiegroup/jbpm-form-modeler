@@ -689,6 +689,14 @@ public class FormManagerImpl implements FormManager {
         }else{
             fName=holder.getUniqeId() + "_" + fieldName;
         }
+
+        int i = 0;
+        String tmpFName = fName;
+        while(form.getField(tmpFName)!=null){
+            tmpFName = fName + "_" + i;
+        }
+        fName=tmpFName;
+
         addFieldToForm(form, fName, fieldType, fieldClass, label, inputBinging, outputBinding);
     }
 
