@@ -16,8 +16,11 @@
 package org.jbpm.formModeler.core.model;
 
 
+
 import java.util.Map;
 import java.util.TreeMap;
+
+import org.apache.commons.httpclient.util.URIUtil;
 
 import org.guvnor.common.services.project.model.Project;
 import org.guvnor.common.services.project.service.ProjectService;
@@ -98,6 +101,13 @@ public class RangeProviderForm implements RangeProvider {
     }
 
     private String getFormDirUri(Path formPath) {
-        return formPath.toURI().substring(0, formPath.toURI().lastIndexOf(formPath.getFileName()) - 1);
+        String fileName=formPath.getFileName();
+        try{
+            fileName= URIUtil.encodeQuery(fileName);
+        } catch (Exception e){
+
+        }
+        return formPath.toURI().substring(0, formPath.toURI().lastIndexOf(fileName) - 1);
     }
+
 }
