@@ -124,8 +124,8 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft.setCode("HTMLEditor");
         ft.setFieldClass("org.jbpm.formModeler.core.wrappers.HTMLString");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.HTMLTextAreaFieldHandler");
-        ft.setHeight("30");
-        ft.setSize("50");
+        ft.setHeight("200");
+        ft.setSize("350");
         result.add(ft);
 
         ft = new FieldType();

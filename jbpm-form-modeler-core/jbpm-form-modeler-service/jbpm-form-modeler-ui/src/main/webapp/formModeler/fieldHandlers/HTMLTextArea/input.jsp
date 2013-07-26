@@ -18,6 +18,7 @@
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="org.jbpm.formModeler.core.wrappers.HTMLString" %>
+<%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.HTMLTextAreaFieldHandler" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
@@ -38,48 +39,32 @@
                                                     <mvc:fragmentValue name="height" id="height">
                                                         <mvc:fragmentValue name="readonly" id="readonly">
                                                             <mvc:fragmentValue name="uid" id="uid">
-                                                                    <%
-                                                                        readonly= readonly==null ? Boolean.FALSE : readonly;
-                                                                        disabled= disabled==null ? Boolean.FALSE : disabled;
-                                                                    %>
-                                                                    <%if ((readonly != null && !((Boolean) readonly).booleanValue()) && ((disabled != null) && !(((Boolean) disabled).booleanValue()))) { %>
-                                                            <table border="0" cellpadding="0" cellspacing="0" >
-                                                                <tr valign="top">
-                                                                    <td>
-                                                                        <div style=" width:<%=size!=null?size:"250"%>px; height:<%=height!=null?height:"170"%>px;<%=StringUtils.defaultString((String) cssStyle)%>"
-                                                                             id="<%=uid%>_divcontainer" class="dynInputStyle">
-                                                                            <textarea name="<%=name%>" rows="4" cols="50"
-                                                                                      id="_<%=uid%>"
-                                                                                    <%=title != null ? ("title=\"" + title + "\"") : ""%>
-                                                                                    class="skn-input"
-                                                                                    <%=maxlength != null ? " maxlength=\"" + maxlength + "\"" : ""%>
-                                                                                    <%=tabindex != null ? " tabindex=\"" + tabindex + "\"" : ""%>
-                                                                                    <%=accesskey != null ? " accesskey=\"" + accesskey + "\"" : ""%>
-                                                                                    <%=alt != null ? " alt=\"" + alt + "\"" : ""%>
-                                                                                    <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
-                                                                                    <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly " : ""%>
-                                                                                    <%=disabled != null && ((Boolean) disabled).booleanValue() ? " disabled " : ""%>><%=StringEscapeUtils.escapeHtml(value == null ? "" : ((HTMLString) value).getValue())%></textarea>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                                    <% } else {%>
-                                                            <table border="0" cellpadding="0" cellspacing="0" >
-                                                                <tr valign="top">
-                                                                    <td>
-                                                                        <div style="width:<%=size!=null?size:"250"%>px; height:<%=height!=null?height:"170"%>px"
-                                                                            class="dynInputStyle <%=StringUtils.defaultString((String) styleclass)%>"
-                                                                            <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
-                                                                            <%=title != null ? ("title=\"" + title + "\"") : ""%>
-                                                                            >
-                                                                                <%=StringUtils.defaultString(value == null ? "" : ((HTMLString) value).getValue())%>
-                                                                        </div>
-                                                                        <input type="hidden" name="<%=name%>" value="<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":((HTMLString)value).getValue()))%>"/>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                                    <% } %>
-
+                                                                <mvc:fragmentValue name="lang" id="lang">
+                                                                    <table border="0" cellpadding="0" cellspacing="0" >
+                                                                        <tr valign="top">
+                                                                            <td style="padding-bottom: 200px;">
+                                                                                <div style=" width:<%=size!=null?size:"250"%>px; height:<%=height!=null?height:"170"%>px;<%=StringUtils.defaultString((String) cssStyle)%>"
+                                                                                     id="<%=uid%>_divcontainer" class="dynInputStyle">
+                                                                                    <textarea name="<%=name%>" rows="4" cols="50"
+                                                                                              id="<%=uid%>"
+                                                                                            <%=title != null ? ("title=\"" + title + "\"") : ""%>
+                                                                                              class="skn-input"
+                                                                                            <%=maxlength != null ? " maxlength=\"" + maxlength + "\"" : ""%>
+                                                                                            <%=tabindex != null ? " tabindex=\"" + tabindex + "\"" : ""%>
+                                                                                            <%=accesskey != null ? " accesskey=\"" + accesskey + "\"" : ""%>
+                                                                                            <%=alt != null ? " alt=\"" + alt + "\"" : ""%>
+                                                                                            <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
+                                                                                            <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly " : ""%>
+                                                                                            <%=disabled != null && ((Boolean) disabled).booleanValue() ? " disabled " : ""%>><%=StringEscapeUtils.escapeHtml(value == null ? "" : ((HTMLString) value).getValue())%></textarea>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                    <input name="<%=name + HTMLTextAreaFieldHandler.VALUE_SUFFIX%>" id="<%=uid + HTMLTextAreaFieldHandler.VALUE_SUFFIX%>" type="hidden"/>
+                                                                    <script>
+                                                                        CKEditorHandler.create('<%=uid%>', '<%=uid + HTMLTextAreaFieldHandler.VALUE_SUFFIX%>', '<%=title%>',<%=readonly%>,<%=tabindex%>,<%=height%>,<%=size%>,'<%=lang%>', '<%=maxlength%>');
+                                                                    </script>
+                                                                </mvc:fragmentValue>
                                                             </mvc:fragmentValue>
                                                         </mvc:fragmentValue>
                                                     </mvc:fragmentValue>
