@@ -78,7 +78,7 @@
                                                                                             </mvc:fragment>
                                                                                         </mvc:formatter>
                                                                                     </td>
-                                                                                    <td>
+                                                                             <!--       <td>
                                                                                         <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
                                                                                             <mvc:formatterParam name="bean" value="org.jbpm.formModeler.service.LocaleManager"/>
                                                                                             <mvc:formatterParam name="property" value="platformAvailableLocales"/>
@@ -108,7 +108,7 @@
                                                                                                 </select>
                                                                                             </mvc:fragment>
                                                                                         </mvc:formatter>
-                                                                                    </td>
+                                                                                    </td> -->
                                                                                 </tr>
                                                                             </table>
                                                                         </mvc:fragmentValue>
