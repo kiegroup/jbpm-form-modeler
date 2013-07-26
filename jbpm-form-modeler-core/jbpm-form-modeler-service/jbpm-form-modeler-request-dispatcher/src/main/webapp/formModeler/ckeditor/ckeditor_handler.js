@@ -61,12 +61,19 @@ if (!window.CKEditorHandler) {
             // alert('Create instance. defaultText: ' + defaultText + ' // maxlength:' + maxlength);
             var config = this.configure(title, readonly,tabIndex, height,size, lang);
             var editor = CKEDITOR.replace( uid, config);
+
             // Add the change event handler.
             editor.on( 'change', function(e) {
                 var valueDiv = document.getElementById(valueDivId);
                 valueDiv.value = e.editor.getData();
                 window.CKEditorHandler.checkMaxLength(e.editor, maxlength);
             });
+
+            // Add the char counter
+            setTimeout(function() {
+                window.CKEditorHandler.CKEditorCharCounter.createCharCounter(editor, maxlength);
+            }, 200);
+
             return editor;
         },
 
@@ -83,6 +90,7 @@ if (!window.CKEditorHandler) {
                     var l = window.CKEditorHandler.getLength(e);
                     if (l == maxLength)  e.fire("saveSnapshot");
                     else if (l > maxLength) e.execCommand("undo");
+                    window.CKEditorHandler.CKEditorCharCounter.handleCharCounterMsg(e, l, maxLength);
                 }
             }, 100);
         },
@@ -108,6 +116,62 @@ if (!window.CKEditorHandler) {
                 return e.document.getBody().getText().length;
             } catch (e) {}
             return 0;
+
+        },
+
+        /**
+         * This object handles the custom char counter displayed in the bottom part of CKEditor screen.
+         * The char counter is only shown if the attribute maxlength is set.
+         */
+        CKEditorCharCounter : {
+
+            /**
+             * Creates a new span element inside CKEditor that shows the char counter.
+             *
+             * @param e The CKEditor instance.
+             * @param maxLength Tha maximum length allowed.
+             */
+            createCharCounter: function(e, maxLength) {
+                if (maxLength >= 0) {
+                    try {
+                        // Add char count message
+                        var id = e.element.getId();
+                        var elem = document.getElementById('cke_' + id);
+                        var bSpam = elem.getElementsByClassName('cke_bottom').item(0);
+                        var charCountSpan = document.createElement('span');
+                        charCountSpan.setAttribute("id",id + '_charCountSpan');
+                        charCountSpan.innerHTML = this.getCharCounterText(0,maxLength);
+                        bSpam.appendChild(charCountSpan);
+                    }catch (ex) {}
+                }
+            },
+
+            /**
+             * Updates the char counter message..
+             *
+             * @param e The CKEditor instance.
+             * @param current Tha current editor content length..
+             * @param max Tha maximum length allowed.
+             */
+            handleCharCounterMsg: function(e, current, max) {
+                if (max >= 0) {
+                    try {
+                        var id = e.element.getId();
+                        var charCounter = document.getElementById(id + '_charCountSpan');
+                        charCounter.innerHTML = this.getCharCounterText(current,max);
+                    } catch (ex) {}
+                }
+            },
+
+            /**
+             * Get the char counter messag to show..
+             *
+             * @param current Tha current editor content length..
+             * @param max Tha maximum length allowed.
+             */
+            getCharCounterText: function(current, max) {
+                return '<p> ' + current + '/' + max + '</p>';
+            }
 
         }
     }
