@@ -43,7 +43,7 @@
 <mvc:fragmentValue name="height" id="height">
 <mvc:fragmentValue name="readonly" id="readonly">
 <table border="0" cellpadding="0" cellspacing="0" >
-    <tr valign="top">
+    <!--<tr valign="top">
         <td>
                         <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
                             <mvc:formatterParam name="bean" value="org.jbpm.formModeler.service.LocaleManager"/>
@@ -93,7 +93,7 @@
                             </mvc:fragment>
                         </mvc:formatter>
         </td>
-    </tr>
+    </tr> -->
     <tr>
         <td>
                         <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
