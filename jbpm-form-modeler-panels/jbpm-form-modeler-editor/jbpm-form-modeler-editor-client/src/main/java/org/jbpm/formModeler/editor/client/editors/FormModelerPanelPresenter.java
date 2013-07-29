@@ -107,6 +107,22 @@ public class FormModelerPanelPresenter {
 
     @OnFocus
     public void onFocus() {
+/*        makeMenuBar();
+
+        if(context==null) return;
+
+        modelerService.call(new RemoteCallback<FormEditorContextTO>() {
+            @Override
+            public void callback(FormEditorContextTO context) {
+//                loadContext(context);
+            }
+
+        }).setFormFocus((context!=null? context.getCtxUID():null));
+*/
+    }
+
+    @OnReveal
+    public void onReveal() {
         makeMenuBar();
 
         if(context==null) return;
