@@ -54,7 +54,9 @@ public class FormChangeHandler extends BeanHandler {
         FormNamespaceData formNamespaceData = NamespaceManager.lookup().getNamespace(modifiedFieldName);
         FormChangeResponse changeResponse = new FormChangeResponse();
 
-        while (formNamespaceData != null) {
+        //the formNamespaceData.getForm() != null control was added in order to prevent cases where the
+        //forms has already been closed. TODO check this extra control with sr_pere
+        while (formNamespaceData != null && formNamespaceData.getForm() != null) {
             if (getChangeProcessor() != null) {
                 formProcessor.setValues(formNamespaceData.getForm(), formNamespaceData.getNamespace(), request.getRequestObject().getParameterMap(), request.getFilesByParamName(), false);
                 getChangeProcessor().process(formNamespaceData.getForm(), formNamespaceData.getNamespace(), changeResponse);
