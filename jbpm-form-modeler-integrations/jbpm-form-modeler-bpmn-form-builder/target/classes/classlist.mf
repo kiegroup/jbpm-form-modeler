@@ -1,2 +1,0 @@
-org.jbpm.formModeler.designer.integration.BPMNFormBuilderService
-org.jbpm.formModeler.designer.integration.impl.BPMNFormBuilderServiceImpl
