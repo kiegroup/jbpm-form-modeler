@@ -42,9 +42,6 @@ public class WysiwygMenuFormatter extends Formatter {
 
             renderFragment("optionsOutputStart");
 
-            //<input type="image" onclick="setFormInputValue(this.form,'<factory:bean property="currentEditionOption"/>','<%=WysiwygFormEditor.EDITION_OPTION_FIELDTYPES%>');"
-            //style="cursor:hand; margin-right: 15px;" title="Add Fields By Type" src="<static:image relativePath="general/AddFieldsByType.png"/>">
-
             String[] options = {
                     WysiwygFormEditor.EDITION_OPTION_BINDINGS_SOURCES,
                     WysiwygFormEditor.EDITION_OPTION_BINDINGS_FIELDS,

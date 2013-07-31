@@ -74,10 +74,16 @@ public class URLMarkupGenerator {
             sb.append(base).append("?");
             params.put(FactoryURL.PARAMETER_BEAN, bean);
             params.put(FactoryURL.PARAMETER_PROPERTY, action);
-            sb.append(getParamsMarkup(params));
-            BeanHandler element = (BeanHandler) CDIBeanLocator.getBeanByNameOrType(bean);
-            if (element != null) element.setEnabledForActionHandling(true);
+
+            BeanHandler component = (BeanHandler) CDIBeanLocator.getBeanByNameOrType(bean);
+            if (component != null) {
+                component.setEnabledForActionHandling(true);
+                if (component.getExtraActionParams() != null) params.putAll(component.getExtraActionParams());
+            }
             else log.debug("Bean @Named as '" + bean + "' not found.");
+
+            sb.append(getParamsMarkup(params));
+
             return sb.toString();
         } catch (ClassCastException cce) {
             log.error("Bean " + bean + " is not a BeanHandler.");
@@ -115,6 +121,7 @@ public class URLMarkupGenerator {
             params.put(FactoryURL.PARAMETER_BEAN, bean);
             params.put(FactoryURL.PARAMETER_PROPERTY, component.getActionName(action));
             sb.append(getServletMapping()).append("?");
+            if (component.getExtraActionParams() != null) params.putAll(component.getExtraActionParams());
             sb.append(getParamsMarkup(params));
             component.setEnabledForActionHandling(true);
             return sb.toString();
