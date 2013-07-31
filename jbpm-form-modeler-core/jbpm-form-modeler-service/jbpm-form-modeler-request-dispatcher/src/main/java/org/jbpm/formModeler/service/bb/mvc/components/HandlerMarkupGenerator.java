@@ -22,6 +22,7 @@ import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.Map;
 
 @ApplicationScoped
 public class HandlerMarkupGenerator {
@@ -40,9 +41,15 @@ public class HandlerMarkupGenerator {
         try {
             BeanHandler element = (BeanHandler) CDIBeanLocator.getBeanByNameOrType(bean);
             element.setEnabledForActionHandling(true);
+            Map<String, String> params = element.getExtraActionParams();
+            if (params != null && !params.isEmpty()) {
+                for (String key : params.keySet()) {
+                    sb.append(getHiddenMarkup(key, params.get(key)));
+                }
+            }
         } catch (ClassCastException cce) {
             log.error("Bean " + bean + " is not a BeanHandler.");
-        }        
+        }
         return sb.toString();
     }
 

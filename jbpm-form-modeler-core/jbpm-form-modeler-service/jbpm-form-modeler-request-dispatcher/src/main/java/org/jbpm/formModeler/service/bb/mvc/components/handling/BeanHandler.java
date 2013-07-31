@@ -42,6 +42,7 @@ public abstract class BeanHandler implements Serializable {
     private boolean useActionShortcuts = true;
     private boolean enableDoubleClickControl = true;
     private boolean enabledForActionHandling = false;
+    private Map<String, String> extraActionParams = new HashMap<String, String>();
 
     public String getBeanName() {
         return this.getClass().getName();
@@ -188,5 +189,9 @@ public abstract class BeanHandler implements Serializable {
     }
 
     public void actionVoid(CommandRequest request) {
+    }
+
+    public Map<String, String> getExtraActionParams() {
+        return extraActionParams;
     }
 }

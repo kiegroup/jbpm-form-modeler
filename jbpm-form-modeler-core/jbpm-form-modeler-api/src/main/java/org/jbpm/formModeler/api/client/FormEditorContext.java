@@ -36,12 +36,15 @@ public class FormEditorContext {
     private Boolean showTemplateEdition = Boolean.FALSE;
     private FieldType originalFieldType;
     private String lastDataHolderUsedId = "";
-    private FormEditorContext editionContext;
 
 
     public FormEditorContext(FormRenderContext ctx, Object path) {
         this.renderContext = ctx;
         this.path = path;
+    }
+
+    public String getUID() {
+        return renderContext.getUID();
     }
 
     public Object getPath() {
@@ -168,13 +171,5 @@ public class FormEditorContext {
 
     public void setLastDataHolderUsedId(String lastDataHolderUsedId) {
         this.lastDataHolderUsedId = lastDataHolderUsedId;
-    }
-
-    public FormEditorContext getEditionContext() {
-        return editionContext;
-    }
-
-    public void setEditionContext(FormEditorContext editionContext) {
-        this.editionContext = editionContext;
     }
 }
