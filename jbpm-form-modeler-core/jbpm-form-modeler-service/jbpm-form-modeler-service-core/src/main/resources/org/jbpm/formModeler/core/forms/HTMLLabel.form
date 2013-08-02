@@ -15,7 +15,7 @@
         <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
         <property name="disabled" value="false"/>
         <property name="readonly" value="false"/>
-        <property name="size" value="55"/>
+        <property name="size" value="250"/>
         <property name="formula" value=""/>
         <property name="rangeFormula" value=""/>
         <property name="pattern" value=""/>

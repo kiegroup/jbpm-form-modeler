@@ -179,8 +179,7 @@
                                 <factory:handler action="saveTemplate"/>
                                 <textarea id="<factory:encode name="templateTextArea"/>"
                                           name="templateContent"
-                                          rows="20"
-                                          cols="100%"><% if (Boolean.TRUE.equals(loadTemplate)) {%>
+                                          rows="4" cols="50"><% if (Boolean.TRUE.equals(loadTemplate)) {%>
                                     <mvc:formatter name="FormRenderingFormatter">
                                         <mvc:formatterParam name="formId" value="<%=formId%>"/>
                                         <mvc:formatterParam name="renderMode"
@@ -199,6 +198,14 @@
                                     setTimeout('document.getElementById(fieldTR).style.display="";', 1500);
                                     setTimeout('document.getElementById(labelTR).style.display="";', 1500);
                                 </script>
+
+
+
+                                <input name='<%="templateTextArea_aux" %>' id='<factory:encode name="templateTextArea_aux"/>' type="hidden"/>
+                                <script>
+                                    CKEditorHandler.create('<factory:encode name="templateTextArea"/>', '<factory:encode name="templateTextArea_aux"/>', 'title',false,1,<%=100%>,<%=600%>,'<%=LocaleManager.currentLang()%>');
+                                </script>
+
                             </td>
                         </tr>
                         <tr>
