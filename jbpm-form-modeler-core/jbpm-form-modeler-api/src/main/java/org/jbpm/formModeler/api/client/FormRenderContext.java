@@ -15,12 +15,14 @@
  */
 package org.jbpm.formModeler.api.client;
 
+import org.jbpm.formModeler.api.client.FormRenderContextTO;
 import org.jbpm.formModeler.api.model.Form;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FormRenderContext {
+public class FormRenderContext implements Serializable {
     private String UID;
     private Form form;
     private boolean disabled = false;

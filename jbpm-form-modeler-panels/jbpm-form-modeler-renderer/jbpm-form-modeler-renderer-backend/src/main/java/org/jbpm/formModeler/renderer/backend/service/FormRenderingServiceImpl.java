@@ -19,19 +19,13 @@ import org.jboss.errai.bus.server.annotations.Service;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextTO;
-import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
-import org.jbpm.formModeler.api.events.FormSubmittedEvent;
 import org.jbpm.formModeler.renderer.service.FormRenderingService;
 import org.apache.commons.logging.Log;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import javax.inject.Named;
-import java.util.HashMap;
 import java.util.Map;
 
 @Service

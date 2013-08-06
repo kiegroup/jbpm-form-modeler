@@ -93,7 +93,7 @@ public interface FormManager extends Serializable {
 
     String getUniqueIdentifier(Form form, String namespace, Field field, String fieldName);
 
-    public void addDataHolderToForm(Form form, String holderType,String id,String inputId, String outId, String color, String value,Object path)throws Exception;
+    public void addDataHolderToForm(Form form, String holderType,String id,String inputId, String outId, String color, String value, String path)throws Exception;
 
     public void removeDataHolderFromForm(Form form, String holderId);
 

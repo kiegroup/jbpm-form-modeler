@@ -15,23 +15,31 @@
  */
 package org.jbpm.formModeler.dataModeler.integration;
 
+import org.apache.commons.logging.Log;
 import org.guvnor.common.services.project.model.Project;
 import org.guvnor.common.services.project.service.ProjectService;
 import org.jbpm.formModeler.core.config.builders.DataHolderBuilder;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.dataModeler.model.DataModelerDataHolder;
+import org.kie.commons.io.IOService;
 import org.kie.workbench.common.screens.datamodeller.model.DataModelTO;
 import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
+import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
 @ApplicationScoped
 public class DataModelerService implements DataHolderBuilder {
+    @Inject
+    private Log log;
 
     @Inject
     private org.kie.workbench.common.screens.datamodeller.service.DataModelerService dataModelerService;
@@ -39,11 +47,18 @@ public class DataModelerService implements DataHolderBuilder {
     @Inject
     private ProjectService projectService;
 
+    @Inject
+    @Named("ioStrategy")
+    private IOService ioService;
+
+    @Inject
+    private Paths paths;
+
     @Override
-    public Map getOptions(Object path) {
+    public Map getOptions(String path) {
         Map result = new HashMap();
         try {
-            DataModelTO dataModelTO = dataModelerService.loadModel(projectService.resolveProject(((Path) path)));
+            DataModelTO dataModelTO = dataModelerService.loadModel(projectService.resolveProject(getPath(path)));
             if (dataModelTO != null && dataModelTO.getDataObjects() != null) {
                 String className = "";
                 for (DataObjectTO dataObjectTO : dataModelTO.getDataObjects()) {
@@ -58,9 +73,9 @@ public class DataModelerService implements DataHolderBuilder {
     }
 
     @Override
-    public DataHolder buildDataHolder(Map<String, Object> config) {
+    public DataHolder buildDataHolder(Map<String, String> config) {
 
-        return createDataHolder(config.get("path"), (String) config.get("id"),(String) config.get("inputId"), (String) config.get("outId"), (String) config.get("value"), (String) config.get("color"));
+        return createDataHolder(config.get("path"), config.get("id"), config.get("inputId"), config.get("outId"), config.get("value"), config.get("color"));
     }
 
     @Override
@@ -69,19 +84,28 @@ public class DataModelerService implements DataHolderBuilder {
     }
 
 
-    public DataHolder createDataHolder(Object path, String id, String inputId, String outId, String className, String renderColor) {
+    public DataHolder createDataHolder(String path, String id, String inputId, String outId, String className, String renderColor) {
         if (path == null) return new DataModelerDataHolder(id, inputId, outId, className, renderColor);
-        DataObjectTO dO = getDataObject(className, (Path) path);
+        DataObjectTO dO = getDataObject(className, getPath(path));
         return new DataModelerDataHolder(id, inputId, outId, className, renderColor, dO);
     }
 
+    protected Path getPath(String path) {
+        try {
+            return paths.convert(ioService.get(new URI(path)));
+        } catch (Exception e) {
+            log.error("Unable to build Path for '" + path + "': ", e);
+        }
+        return null;
+    }
+
     @Override
-    public boolean supportsPropertyType(String className, Object path) {
-        return getDataObject(className, (Path) path) != null;
+    public boolean supportsPropertyType(String className, String path) {
+        return getDataObject(className, getPath(path)) != null;
     }
 
     protected DataObjectTO getDataObject(String className, Path path) {
-        Project project = projectService.resolveProject(((Path) path));
+        Project project = projectService.resolveProject(path);
 
         DataModelTO dataModelTO = dataModelerService.loadModel(project);
         return dataModelTO.getDataObjectByClassName(className);

@@ -108,6 +108,8 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
         Map<String, Map> associations = new HashMap<String, Map>();
         List<RootElement> rootElements = source.getRootElements();
 
+        String contextUri = paths.convert(context).toUri().toString();
+
         for(RootElement re : rootElements) {
             if(re instanceof org.eclipse.bpmn2.Process) {
                 Process process = (Process) re;
@@ -115,15 +117,15 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
                     List<Property> processProperties = process.getProperties();
 
                     // if resourceId is null we want to create the process starting form, so we only check process vars.
-                    if (StringUtils.isEmpty(resourceId)) return getProcessDataHolders(processProperties, context);
+                    if (StringUtils.isEmpty(resourceId)) return getProcessDataHolders(processProperties, contextUri);
 
                     String[] colors = dataHolderManager.getHolderColors().keySet().toArray(new String[0]);
                     int index = 0;
 
                     for (Property prop : processProperties) {
-                        Map<String, Object> config = new HashMap<String, Object>();
+                        Map<String, String> config = new HashMap<String, String>();
                         config.put("value", prop.getItemSubjectRef().getStructureRef());
-                        config.put("path", context);
+                        config.put("path", contextUri);
                         config.put("color", colors[index]);
                         config.put("id", prop.getId());
                         associations.put(prop.getId(), config);
@@ -187,7 +189,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
         return result;
     }
 
-    private Set<DataHolder> getProcessDataHolders(List<Property> processProperties, Path path) {
+    private Set<DataHolder> getProcessDataHolders(List<Property> processProperties, String path) {
         Set<DataHolder> result = new TreeSet<DataHolder>();
 
         String[] colors = dataHolderManager.getHolderColors().keySet().toArray(new String[0]);
@@ -199,7 +201,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
             String propertyType = prop.getItemSubjectRef().getStructureRef();
             DataHolder dataHolder = null;
 
-            Map<String, Object> config = new HashMap<String, Object>();
+            Map<String, String> config = new HashMap<String, String>();
             config.put("id", propertyName);
             config.put("outId", propertyName);
             config.put("color", colors[index]);
@@ -216,7 +218,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
         return result;
     }
     
-    private DataHolder createDataHolder(Map<String, Object> config) {
+    private DataHolder createDataHolder(Map<String, String> config) {
 
         String type = (String) config.get("value");
         if (isBaseType(type)) type = normalizeBaseType(type);

@@ -15,7 +15,9 @@
  */
 package org.jbpm.formModeler.components.editor;
 
-import org.jbpm.formModeler.api.model.*;
+import org.jbpm.formModeler.api.model.Field;
+import org.jbpm.formModeler.api.model.FieldType;
+import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.config.DataHolderManager;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
@@ -699,7 +701,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         } else if (Form.HOLDER_TYPE_CODE_POJO_CLASSNAME.equals(holderType)) holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_INFO);
         if (holderInfoArray != null && holderInfoArray.length > 0) holderInfo = holderInfoArray[0];
 
-        getFormManager().addDataHolderToForm(getCurrentForm(),holderType,holderId,holderInputId,holderOutId,holderRenderColor,holderInfo,getCurrentEditionContext().getPath());
+        getFormManager().addDataHolderToForm(getCurrentForm(), holderType, holderId, holderInputId, holderOutId, holderRenderColor, holderInfo, getCurrentEditionContext().getPath());
 
     }
 

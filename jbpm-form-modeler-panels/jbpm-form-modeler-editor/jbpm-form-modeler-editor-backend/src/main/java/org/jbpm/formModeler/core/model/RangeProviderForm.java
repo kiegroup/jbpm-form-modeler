@@ -17,17 +17,20 @@ package org.jbpm.formModeler.core.model;
 
 
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.httpclient.util.URIUtil;
 
+import org.apache.commons.logging.Log;
 import org.guvnor.common.services.project.model.Project;
 import org.guvnor.common.services.project.service.ProjectService;
-import org.jbpm.formModeler.api.client.FormEditorContext;
-import org.jbpm.formModeler.api.client.FormEditorContextManager;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.RangeProvider;
+import org.jbpm.formModeler.api.client.FormEditorContext;
+import org.jbpm.formModeler.api.client.FormEditorContextManager;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
@@ -40,10 +43,12 @@ import javax.inject.Named;
 import java.util.*;
 
 public class RangeProviderForm implements RangeProvider {
+    @Inject
+    private Log log;
 
     @Inject
     @Named("ioStrategy")
-    IOService ioService;
+    private IOService ioService;
 
     @Inject
     private Paths paths;
@@ -70,7 +75,13 @@ public class RangeProviderForm implements RangeProvider {
 
         if (context == null) return treeMap;
 
-        Path currentForm = (Path) context.getPath();
+        Path currentForm = null;
+        try {
+            currentForm = paths.convert(ioService.get(new URI(context.getPath())));
+        } catch (Exception e) {
+            log.warn("Unable to load asset on '" + context.getPath() + "': ", e);
+            return  treeMap;
+        }
         String currentFormDirUri = getFormDirUri(currentForm);
         String currentFormName = currentForm.getFileName();
 

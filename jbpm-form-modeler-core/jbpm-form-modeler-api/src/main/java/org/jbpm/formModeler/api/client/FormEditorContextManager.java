@@ -24,5 +24,5 @@ public interface FormEditorContextManager {
     FormEditorContext getFormEditorContext(String UID);
     String generateFieldEditionNamespace(String UID, Field field);
     FormEditorContext getRootEditorContext(String UID);
-    void saveContext(String UID);
+    void saveContext(String UID) throws Exception;
 }

@@ -31,17 +31,17 @@ public class PojoDataHolderBuilder implements DataHolderBuilder {
     }
 
     @Override
-    public DataHolder buildDataHolder(Map<String, Object> config) {
-        return new PojoDataHolder((String)config.get("id"), (String)config.get("inputId"), (String) config.get("outId"), (String)config.get("value"), (String)config.get("color"));
+    public DataHolder buildDataHolder(Map<String, String> config) {
+        return new PojoDataHolder(config.get("id"), config.get("inputId"), config.get("outId"), config.get("value"), config.get("color"));
     }
 
     @Override
-    public Map getOptions(Object path) {
+    public Map getOptions(String path) {
         return null;
     }
 
     @Override
-    public boolean supportsPropertyType(String type, Object path) {
+    public boolean supportsPropertyType(String type, String path) {
         try {
             Class clazz = Class.forName(type);
             return clazz != null;

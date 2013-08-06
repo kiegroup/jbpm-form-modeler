@@ -17,7 +17,6 @@ package org.jbpm.formModeler.core.processing.formStatus;
 
 import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.core.FieldHandlersManager;
-import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.processing.FormNamespaceData;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.core.processing.formProcessing.NamespaceManager;

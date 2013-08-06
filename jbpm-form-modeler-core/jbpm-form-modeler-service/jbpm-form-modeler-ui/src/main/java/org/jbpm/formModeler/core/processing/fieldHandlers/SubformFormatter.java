@@ -15,7 +15,6 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
-import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormProcessor;
@@ -24,14 +23,10 @@ import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.Subfo
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @ApplicationScoped
