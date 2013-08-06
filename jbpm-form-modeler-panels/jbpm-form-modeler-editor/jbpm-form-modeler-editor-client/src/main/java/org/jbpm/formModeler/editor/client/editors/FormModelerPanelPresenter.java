@@ -102,11 +102,15 @@ public class FormModelerPanelPresenter {
 
     @OnSave
     public void onSave() {
-        modelerService.call(new RemoteCallback<Long>() {
-            @Override
-            public void callback(Long formId) {
-            }
-        }).saveForm(context.getCtxUID());
+        try {
+            modelerService.call(new RemoteCallback<Long>() {
+                @Override
+                public void callback(Long formId) {
+                }
+            }).saveForm(context.getCtxUID());
+        } catch (Exception e) {
+            notification.fire(new NotificationEvent("Cannot save form."));
+        }
 
     }
 
