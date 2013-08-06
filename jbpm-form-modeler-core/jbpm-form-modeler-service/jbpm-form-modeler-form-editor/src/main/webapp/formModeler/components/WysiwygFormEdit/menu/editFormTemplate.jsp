@@ -115,10 +115,12 @@
             //if (!editor) return;
             //var isTextArea = (editor == null) || (editor.EditorDocument == null) || (editor.EditMode != FCK_EDITMODE_WYSIWYG);
             //if (isTextArea) {
-            var editorFrame = document.getElementById("<factory:encode name="templateTextArea"/>").value;
-            //var editorFrame  = editorFrame.contentWindow.document.getElementsByTagName("textarea")[0];
             var eSourceField = document.getElementsByTagName("textarea")[0]
             window.formTemplateEditorHandler.insertAtCaret(eSourceField, selectElement.options[selectElement.selectedIndex].value);
+
+            var editor = CKEDITOR.instances.<factory:encode name="templateTextArea"/>;
+            editor.setData(eSourceField);
+
             //}
             //else {
             //    editor.InsertHtml(selectElement.options[selectElement.selectedIndex].value);
@@ -175,12 +177,11 @@
                 <form action="<factory:formUrl/>" id="<factory:encode name="editTemplateForm"/>" method="POST">
                     <table id="<factory:encode name="editorTable"/>" cellpadding="4" cellspacing="0" border="0"  class="skn-table_border" >
                         <tr>
-                            <td colspan="2">
+                            <td colspan="2" >
                                 <factory:handler action="saveTemplate"/>
                                 <textarea id="<factory:encode name="templateTextArea"/>"
                                           name="templateContent"
-                                          rows="20"
-                                          cols="100%"><% if (Boolean.TRUE.equals(loadTemplate)) {%>
+                                          rows="4" cols="50"><% if (Boolean.TRUE.equals(loadTemplate)) {%>
                                     <mvc:formatter name="FormRenderingFormatter">
                                         <mvc:formatterParam name="formId" value="<%=formId%>"/>
                                         <mvc:formatterParam name="renderMode"
@@ -199,6 +200,14 @@
                                     setTimeout('document.getElementById(fieldTR).style.display="";', 1500);
                                     setTimeout('document.getElementById(labelTR).style.display="";', 1500);
                                 </script>
+
+
+
+                                <input name='<%="templateTextArea_aux" %>' id='<factory:encode name="templateTextArea_aux"/>' type="hidden"/>
+                                <script>
+                                    CKEditorHandler.create('<factory:encode name="templateTextArea"/>', '<factory:encode name="templateTextArea_aux"/>', 'title',false,1,<%=320%>,<%=600%>,'<%=LocaleManager.currentLang()%>');
+                                </script>
+
                             </td>
                         </tr>
                         <tr>

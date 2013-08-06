@@ -26,6 +26,11 @@ import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.annotations.*;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.mvp.UberView;
+import org.uberfire.lifecycle.OnClose;
+import org.uberfire.lifecycle.OnFocus;
+import org.uberfire.lifecycle.OnOpen;
+import org.uberfire.lifecycle.OnSave;
+import org.uberfire.lifecycle.OnStartup;
 import org.uberfire.mvp.Command;
 import org.uberfire.mvp.PlaceRequest;
 import org.uberfire.workbench.events.NotificationEvent;
@@ -76,8 +81,8 @@ public class FormModelerPanelPresenter {
 
     private Path path;
 
-    @OnStart
-    public void onStart(Path path, PlaceRequest placeRequest) {
+    @OnStartup
+    public void onStartup(Path path, PlaceRequest placeRequest) {
 
         this.path = path;
 
@@ -121,8 +126,8 @@ public class FormModelerPanelPresenter {
 */
     }
 
-    @OnReveal
-    public void onReveal() {
+    @OnOpen
+    public void onOpen() {
         makeMenuBar();
 
         if(context==null) return;

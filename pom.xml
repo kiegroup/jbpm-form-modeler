@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.drools</groupId>
-        <artifactId>droolsjbpm-parent</artifactId>
+        <groupId>org.kie</groupId>
+        <artifactId>kie-parent-with-dependencies</artifactId>
         <version>6.1.0-SNAPSHOT</version>
     </parent>
 
@@ -19,21 +19,6 @@
         <module>jbpm-form-modeler-panels</module>
         <!-- module>jbpm-form-modeler-showcase</module -->
     </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.jboss.errai</groupId>
-                <artifactId>errai-ui</artifactId>
-                <version>${errai.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.errai</groupId>
-                <artifactId>errai-data-binding</artifactId>
-                <version>${errai.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
