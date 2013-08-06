@@ -1,15 +1,14 @@
 package org.jbpm.formModeler.editor.service;
 
 import org.jboss.errai.bus.server.annotations.Remote;
-import org.jbpm.formModeler.api.client.FormEditorContextManager;
 import org.jbpm.formModeler.api.client.FormEditorContextTO;
 import org.uberfire.backend.vfs.Path;
 
 import java.io.Serializable;
 
 @Remote
-public interface FormModelerService extends FormEditorContextManager, Serializable {
-    void saveForm(String ctxUID);
+public interface FormModelerService extends Serializable {
+    void saveForm(String ctxUID) throws Exception;
 
     FormEditorContextTO loadForm(Path context);
 

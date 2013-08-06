@@ -21,8 +21,8 @@ import java.util.Map;
 
 public interface DataHolderBuilder {
     String getId();
-    DataHolder buildDataHolder(Map<String, Object> config);
-    Map getOptions(Object path);
-    boolean supportsPropertyType(String type, Object path);
+    DataHolder buildDataHolder(Map<String, String> config);
+    Map getOptions(String path);
+    boolean supportsPropertyType(String type, String path);
     public int getPriority();
 }

@@ -18,11 +18,13 @@ package org.jbpm.formModeler.api.client;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
 
+import java.io.Serializable;
 
-public class FormEditorContext {
+
+public class FormEditorContext implements Serializable {
     private FormRenderContext renderContext;
     private Form originalForm;
-    private Object path;
+    private String path;
 
     private int currentEditFieldPosition = -1;
     private boolean swapFields = true;
@@ -38,7 +40,7 @@ public class FormEditorContext {
     private String lastDataHolderUsedId = "";
 
 
-    public FormEditorContext(FormRenderContext ctx, Object path) {
+    public FormEditorContext(FormRenderContext ctx, String path) {
         this.renderContext = ctx;
         this.path = path;
     }
@@ -47,11 +49,11 @@ public class FormEditorContext {
         return renderContext.getUID();
     }
 
-    public Object getPath() {
+    public String getPath() {
         return path;
     }
 
-    public void setPath(Object path) {
+    public void setPath(String path) {
         this.path = path;
     }
 

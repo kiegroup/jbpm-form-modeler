@@ -66,7 +66,7 @@ public class DataHolderManagerImpl implements DataHolderManager {
     }
 
     @Override
-    public DataHolderBuilder getBuilderByHolderValueType(String valueType, Object context) {
+    public DataHolderBuilder getBuilderByHolderValueType(String valueType, String context) {
         for(DataHolderBuilder builder : builders) {
             if(builder.supportsPropertyType(valueType, context)) return builder;
         }
@@ -82,7 +82,7 @@ public class DataHolderManagerImpl implements DataHolderManager {
     }
 
     @Override
-    public DataHolder createDataHolderByType(String type, Map<String, Object> config) {
+    public DataHolder createDataHolderByType(String type, Map<String, String> config) {
         DataHolderBuilder builder = getBuilderByBuilderType(type);
         if (builder == null) return null;
 

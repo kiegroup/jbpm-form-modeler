@@ -18,7 +18,6 @@ package org.jbpm.formModeler.renderer.service;
 import org.jboss.errai.bus.server.annotations.Remote;
 
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.client.FormRenderContextTO;
 
 import java.io.Serializable;

@@ -88,9 +88,9 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     }
 
     @Override
-    public Form loadFormFromXML(String xml,Object path) throws Exception {
+    public Form loadFormFromXML(String xml, String path) throws Exception {
         if (StringUtils.isBlank(xml)) return null;
-        return loadFormFromXML(new InputSource(new StringReader(xml)),path);
+        return loadFormFromXML(new InputSource(new StringReader(xml)), path);
     }
 
     @Override
@@ -114,16 +114,16 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         return deserializeForm(rootNode,null);
     }
 
-    public Form loadFormFromXML(InputSource source, Object path) throws Exception {
+    public Form loadFormFromXML(InputSource source, String path) throws Exception {
         DOMParser parser = new DOMParser();
         parser.parse(source);
         Document doc = parser.getDocument();
         NodeList nodes = doc.getElementsByTagName(NODE_FORM);
         Node rootNode = nodes.item(0); // only comes a form
-        return deserializeForm(rootNode,path);
+        return deserializeForm(rootNode, path);
     }
 
-    public Form deserializeForm(Node nodeForm, Object path) throws Exception {
+    public Form deserializeForm(Node nodeForm, String path) throws Exception {
         if (!nodeForm.getNodeName().equals(NODE_FORM)) return null;
 
         Form form = formManager.createForm("");
@@ -164,7 +164,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                 String holderRenderColor = getNodeAttributeValue(node, ATTR_NAME);
 
                 if(holderId!=null && holderType!=null && holderValue != null) {
-                    Map<String, Object> config = new HashMap<String, Object>();
+                    Map<String, String> config = new HashMap<String, String>();
 
                     config.put("id", holderId);
                     config.put("inputId", holderInputId);

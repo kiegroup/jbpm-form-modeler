@@ -10,10 +10,8 @@ import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
-import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.kie.commons.io.IOService;
-import org.kie.internal.task.api.ContentMarshallerContext;
 import org.kie.workbench.common.services.datamodeller.util.FileUtils;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
@@ -21,6 +19,7 @@ import org.uberfire.backend.vfs.Path;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.net.URI;
 import java.util.*;
 
 @ApplicationScoped
@@ -122,7 +121,7 @@ public class SubformFinderServiceImpl implements SubformFinderService {
     protected Form getForm(long formId, FormEditorContext editorContext) throws Exception {
         if (editorContext.getForm().getId().equals(new Long(formId))) return editorContext.getForm();
 
-        Path currentForm = (Path) editorContext.getPath();
+        Path currentForm = paths.convert(ioService.get(new URI(editorContext.getPath())));
 
         Project project = projectService.resolveProject(currentForm);
 
@@ -147,16 +146,13 @@ public class SubformFinderServiceImpl implements SubformFinderService {
     }
 
     protected Form getForm(String formPath, FormEditorContext editorContext) throws Exception{
-        Path currentForm = (Path) editorContext.getPath();
+
+        Path currentForm = paths.convert(ioService.get(new URI(editorContext.getPath())));
 
         org.kie.commons.java.nio.file.Path subFormPath = paths.convert(currentForm).getParent().resolve(formPath);
 
-        Project project = projectService.resolveProject(currentForm);
-
-        //org.kie.commons.java.nio.file.Path path = paths.convert(project.getRootPath()).resolve(MAIN_RESOURCES_PATH).resolve(formPath);
-
         String xml = ioService.readAllString(subFormPath).trim();
 
-        return formSerializationManager.loadFormFromXML(xml, paths.convert(subFormPath));
+        return formSerializationManager.loadFormFromXML(xml,subFormPath.toUri().toString());
     }
 }
