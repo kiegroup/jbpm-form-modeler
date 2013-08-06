@@ -16,7 +16,6 @@
 package org.jbpm.formModeler.core.processing.formProcessing;
 
 import org.apache.commons.logging.Log;
-import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.processing.FormNamespaceData;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;

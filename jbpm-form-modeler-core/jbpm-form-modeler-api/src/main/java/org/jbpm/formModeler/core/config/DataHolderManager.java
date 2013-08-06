@@ -13,7 +13,7 @@ public interface DataHolderManager extends Serializable {
 
     DataHolderBuilder getBuilderByBuilderType(String builderId);
 
-    DataHolder createDataHolderByType(String type, Map<String, Object> config);
+    DataHolder createDataHolderByType(String type, Map<String, String> config);
 
-    DataHolderBuilder getBuilderByHolderValueType(String valueType, Object context);
+    DataHolderBuilder getBuilderByHolderValueType(String valueType, String context);
 }

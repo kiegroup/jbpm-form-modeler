@@ -17,12 +17,12 @@ package org.jbpm.formModeler.panels.modeler.backend;
 
 import org.apache.commons.lang.StringUtils;
 import org.jboss.errai.bus.server.annotations.Service;
-import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.api.client.FormEditorContextTO;
 import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.api.client.FormEditorContextManager;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.client.FormEditorContext;
@@ -30,9 +30,7 @@ import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
 import org.uberfire.backend.server.util.Paths;
-import org.uberfire.backend.vfs.FileSystem;
 import org.uberfire.backend.vfs.Path;
-import org.uberfire.backend.vfs.PathFactory;
 import org.uberfire.workbench.events.ResourceAddedEvent;
 import org.uberfire.workbench.events.ResourceUpdatedEvent;
 
@@ -40,18 +38,19 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.net.URI;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
 @ApplicationScoped
-public class FormModelerServiceImpl implements FormModelerService {
+public class FormModelerServiceImpl implements FormModelerService, FormEditorContextManager {
     public static final String EDIT_FIELD_LITERAL = "editingFormFieldId";
 
     @Inject
     @Named("ioStrategy")
-    IOService ioService;
+    private IOService ioService;
 
     @Inject
     private Paths paths;
@@ -92,7 +91,7 @@ public class FormModelerServiceImpl implements FormModelerService {
             org.kie.commons.java.nio.file.Path kiePath = paths.convert( context );
 
             String xml = ioService.readAllString(kiePath).trim();
-            Form form = formSerializationManager.loadFormFromXML(xml, context);
+            Form form = formSerializationManager.loadFormFromXML(xml, kiePath.toUri().toString());
 
             return newContext(form, context).getFormEditorContextTO();
         } catch (Exception e) {
@@ -104,7 +103,9 @@ public class FormModelerServiceImpl implements FormModelerService {
     @Override
     public FormEditorContext newContext(Form form, Object path) {
         FormRenderContext ctx = formRenderContextManager.newContext(form, new HashMap<String, Object>());
-        FormEditorContext formEditorContext = new FormEditorContext(ctx, path);
+        org.kie.commons.java.nio.file.Path kpath = paths.convert((Path)path);
+
+        FormEditorContext formEditorContext = new FormEditorContext(ctx, kpath.toUri().toString());
         formEditorContextMap.put(ctx.getUID(), formEditorContext);
         return formEditorContext;
     }
@@ -128,17 +129,18 @@ public class FormModelerServiceImpl implements FormModelerService {
     }
 
     @Override
-    public void saveForm(String ctxUID) {
+    public void saveForm(String ctxUID) throws Exception {
         saveContext(ctxUID);
     }
 
     @Override
-    public void saveContext(String ctxUID) {
+    public void saveContext(String ctxUID) throws Exception {
         FormEditorContext ctx = getFormEditorContext(ctxUID);
         formManager.replaceForm(ctx.getOriginalForm(), ctx.getForm());
-        org.kie.commons.java.nio.file.Path kiePath = paths.convert((Path)ctx.getPath());
+
+        org.kie.commons.java.nio.file.Path kiePath = ioService.get(new URI(ctx.getPath()));
         ioService.write(kiePath, formSerializationManager.generateFormXML(ctx.getForm()));
-        resourceUpdatedEvent.fire(new ResourceUpdatedEvent((Path)ctx.getPath()));
+        resourceUpdatedEvent.fire(new ResourceUpdatedEvent(paths.convert(kiePath)));
     }
 
     @Override

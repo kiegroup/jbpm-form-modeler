@@ -628,8 +628,8 @@ public class FormManagerImpl implements FormManager {
     }
 
     @Override
-    public void addDataHolderToForm(Form form, String holderType, String id,String inputId, String outId, String color, String value, Object path) throws Exception {
-        Map<String, Object> config = new HashMap<String, Object>();
+    public void addDataHolderToForm(Form form, String holderType, String id,String inputId, String outId, String color, String value, String path) throws Exception {
+        Map<String, String> config = new HashMap<String, String>();
 
         config.put("id", id);
         config.put("inputId", inputId);

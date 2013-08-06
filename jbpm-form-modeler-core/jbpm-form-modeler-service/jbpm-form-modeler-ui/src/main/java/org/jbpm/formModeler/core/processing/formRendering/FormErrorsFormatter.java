@@ -16,7 +16,6 @@
 package org.jbpm.formModeler.core.processing.formRendering;
 
 import org.apache.commons.logging.Log;
-import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.service.LocaleManager;
