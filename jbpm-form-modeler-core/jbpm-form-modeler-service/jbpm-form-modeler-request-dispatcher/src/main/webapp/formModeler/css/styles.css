@@ -431,7 +431,7 @@ div.GlobalBreadCrump {
     margin-top: -40px;
     *margin-top: -25px;
     position: relative;
-    z-index: 999;
+    z-index: 9999;
     border-collapse: collapse;
     border-top: #D1D1D1 1px solid;
     border-right: #DCDCDC 1px solid;
@@ -534,12 +534,15 @@ div.GlobalBreadCrump {
 }
 
 .CompCenterColumn {
+    clear: both;
     vertical-align: top;
+    z-index: 998;
 }
 
 .CompRightColumn {
     vertical-align: top;
-    width: 1px;
+    max-width: 1px;
+    z-index: 999;
 }
 
 .expandable b, .collapsable b {
