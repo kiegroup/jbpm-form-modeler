@@ -38,6 +38,7 @@
     }
 
     function showAreas(divName, position, grouped) {
+        divName = "#" + divName;
         $.each(dropableAreas, function(index, item) {
             var previous = position - 1;
             if ((item.indexOf(divName + position)==-1) && !(grouped && item == divName + (previous) + "_right") ) $(item).show();
@@ -52,29 +53,24 @@
     }
 
     function selectField(position, divName, grouped) {
-        var divId = divName+position;
-
-        hideAreas();
-
-        var unselect = divId == selectedDiv;
+        var divId = divName + position;
 
         if (selectedDiv) {
-            var div = $(selectedDiv);
-            selectedDiv = '';
-            div.backgroundColor = '';
-            disableMenuForItem(div);
-        }
+            var mustReturn = selectedDiv == divId;
 
-        if (unselect) {
-            position = -1;
+            hideAreas();
+            var div = $("#" + selectedDiv).get(0);
             selectedDiv = '';
-            return;
+            selectedField = -1;
+            selectedDiv = '';
+
+            disableMenuForItem(div);
+
+            if (mustReturn) return;
         }
 
         selectedDiv = divId;
         selectedField = position;
-        var div = $(selectedDiv);
-        div.backgroundColor = '#FEE48B';
 
         showAreas(divName, position, grouped);
     }
@@ -201,7 +197,7 @@
                                                     <td>
                                                         <div id='<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_top'
                                                              colspan='<mvc:fragmentValue name="colspan"/>' width="<mvc:fragmentValue name="width"/>" class="horizontal_drop_area"
-                                                             onclick='moveField(<mvc:fragmentValue name="field/position"/>, '<%=WysiwygFormEditor.TOP_FIELD_MODIFIER%>');'
+                                                             onclick='moveField(0, "<%=WysiwygFormEditor.TOP_FIELD_MODIFIER%>");'
                                                              onmouseover="overDestinationArea(this);"
                                                              onmouseout="outDestinationArea(this);">
                                                             &nbsp;
