@@ -26,13 +26,11 @@
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-api</artifactId>
-            <version>${jbpm.form.modeler.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-renderer-api</artifactId>
-            <version>${jbpm.form.modeler.version}</version>
         </dependency>
 
         <dependency>

@@ -18,19 +18,17 @@
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-service-core</artifactId>
-            <version>${jbpm.form.modeler.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-request-dispatcher</artifactId>
-            <version>${jbpm.form.modeler.version}</version>
+            <type>jar</type>
             <classifier>classes</classifier>
         </dependency>
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-static-resources</artifactId>
-            <version>${jbpm.form.modeler.version}</version>
-            <scope>compile</scope>
+            <type>jar</type>
             <classifier>classes</classifier>
         </dependency>
 
