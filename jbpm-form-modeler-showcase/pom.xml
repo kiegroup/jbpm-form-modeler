@@ -68,13 +68,11 @@
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-console-ng-human-tasks-client</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-console-ng-human-tasks-backend</artifactId>
-      <version>${project.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>jboss-transaction-api_1.1_spec</artifactId>
@@ -86,43 +84,36 @@
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-console-ng-business-domain-client</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-console-ng-business-domain-backend</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-console-ng-process-runtime-client</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-console-ng-process-runtime-backend</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-console-ng-executor-service-client</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-console-ng-executor-service-backend</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-console-ng-bpm-home-client</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <!-- jBPM Designer -->
@@ -264,13 +255,11 @@
     <dependency>
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-ui</artifactId>
-      <version>${errai.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-data-binding</artifactId>
-      <version>${errai.version}</version>
     </dependency>
 
     <!-- CDI Development Utils -->
@@ -480,19 +469,16 @@
       <dependency>
           <groupId>org.jbpm</groupId>
           <artifactId>jbpm-console-ng-dashboard-client</artifactId>
-          <version>${project.version}</version>
       </dependency>
 
       <dependency>
           <groupId>org.jbpm</groupId>
           <artifactId>jbpm-console-ng-dashboard-backend</artifactId>
-          <version>${project.version}</version>
       </dependency>
 
       <dependency>
           <groupId>org.jbpm</groupId>
           <artifactId>jbpm-console-ng-dashboard-api</artifactId>
-          <version>${project.version}</version>
       </dependency>
 
     <!-- formModeler dependencies -->
