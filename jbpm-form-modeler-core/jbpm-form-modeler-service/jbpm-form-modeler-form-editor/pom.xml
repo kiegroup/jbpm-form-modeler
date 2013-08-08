@@ -17,15 +17,12 @@
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-request-dispatcher</artifactId>
-            <version>${jbpm.form.modeler.version}</version>
             <type>jar</type>
             <classifier>classes</classifier>
         </dependency>
-
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-ui</artifactId>
-            <version>${jbpm.form.modeler.version}</version>
             <type>jar</type>
             <classifier>classes</classifier>
         </dependency>

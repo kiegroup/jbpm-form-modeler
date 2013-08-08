@@ -33,12 +33,10 @@
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-api</artifactId>
-            <version>${jbpm.form.modeler.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-service-core</artifactId>
-            <version>${jbpm.form.modeler.version}</version>
         </dependency>
     </dependencies>
     <build>
