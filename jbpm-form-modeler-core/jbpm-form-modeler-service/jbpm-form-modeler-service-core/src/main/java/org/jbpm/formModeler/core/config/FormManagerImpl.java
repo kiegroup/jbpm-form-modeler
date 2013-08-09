@@ -662,11 +662,13 @@ public class FormManagerImpl implements FormManager {
     @Override
     public void addAllDataHolderFieldsToForm(Form form, DataHolder holder) throws Exception {
        if (holder != null) {
-           if (!form.containsHolder(holder)) form.setDataHolder(holder);
-           Set<DataFieldHolder> holderFields = holder.getFieldHolders();
-           for (DataFieldHolder dataFieldHolder : holderFields) {
-               String holderId = holder.getUniqeId();//StringUtils.defaultIfEmpty(holder.getInputId(), holder.getOuputId());
-               addDataFieldHolder(form, holderId, dataFieldHolder.getId(), dataFieldHolder.getClassName());
+           if (!form.containsHolder(holder)) {
+               form.setDataHolder(holder);
+               Set<DataFieldHolder> holderFields = holder.getFieldHolders();
+               for (DataFieldHolder dataFieldHolder : holderFields) {
+                   String holderId = holder.getUniqeId();
+                   addDataFieldHolder(form, holderId, dataFieldHolder.getId(), dataFieldHolder.getClassName());
+               }
            }
        }
     }
@@ -675,7 +677,7 @@ public class FormManagerImpl implements FormManager {
         I18nSet label = new I18nSet();
         String defaultLang = LocaleManager.lookup().getDefaultLang();
         DataHolder holder = form.getDataHolderById(bindingId);
-        String dataHolderId = holder.getUniqeId();//StringUtils.defaultIfEmpty(holder.getInputId(), holder.getOuputId());
+        String dataHolderId = holder.getUniqeId();
         label.setValue(defaultLang, fieldName + " (" + dataHolderId + ")");
 
         String inputBinging = holder.getInputBinding(fieldName);

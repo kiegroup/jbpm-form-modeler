@@ -92,7 +92,7 @@ public class DataModelerService implements DataHolderBuilder {
 
     protected Path getPath(String path) {
         try {
-            return paths.convert(ioService.get(new URI(path)));
+            return paths.convert(ioService.get(new URI(path)), false);
         } catch (Exception e) {
             log.error("Unable to build Path for '" + path + "': ", e);
         }

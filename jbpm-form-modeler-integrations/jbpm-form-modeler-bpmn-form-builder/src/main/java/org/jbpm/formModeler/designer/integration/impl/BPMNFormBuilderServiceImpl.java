@@ -67,39 +67,32 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
     
     
     public String buildFormXML(FileSystem fs, String fileName, String uri, Definitions source, String id) throws Exception {
-            Path formPath = PathFactory.newPath(fs, fileName, uri);
-            org.kie.commons.java.nio.file.Path kiePath = paths.convert(formPath);
-        
-            String xml = null;
-            String xmlForm = null;
+        Path formPath = PathFactory.newPath(fs, fileName, uri);
+        org.kie.commons.java.nio.file.Path kiePath = paths.convert(formPath);
 
-            Set holders = getDataHolders(source, formPath, id);
-            //TODO check this criteria. By the moment if we don't have data holders there's no data to enter.
-            if (holders == null || holders.size() == 0) return null;
 
-            if (ioService.exists(kiePath)) {
-                xml = ioService.readAllString(kiePath).trim();
-            }
+        Form form;
+        Set<DataHolder> holders;
 
-            if (StringUtils.isEmpty(xml)) {
-                Form form = formManager.createForm(fileName);
-                for(Iterator it = holders.iterator(); it.hasNext();) {
-                    DataHolder holder = (DataHolder) it.next();
-                    formManager.addAllDataHolderFieldsToForm(form, holder);
-                }
-                xmlForm = formSerializationManager.generateFormXML(form);
-            } else {
-                Form form = formSerializationManager.loadFormFromXML(xml);
-                for(Iterator it = holders.iterator(); it.hasNext();) {
-                    DataHolder holder = (DataHolder) it.next();
-                    if (!form.containsHolder(holder)) {
-                        //Version 1 merge algorithm.
-                        formManager.addAllDataHolderFieldsToForm(form, holder);
-                    }
-                }
-                xmlForm = formSerializationManager.generateFormXML(form);
-            }
-        return xmlForm;
+        if (!ioService.exists(kiePath)) {
+            form = formManager.createForm(fileName);
+            holders = getDataHolders(source, paths.convert(kiePath.getParent()), id);
+        } else {
+            form = formSerializationManager.loadFormFromXML(ioService.readAllString(kiePath).trim());
+            holders = getDataHolders(source, formPath, id);
+        }
+
+        addHoldersToForm(form, holders);
+
+        return formSerializationManager.generateFormXML(form);
+    }
+
+    protected void addHoldersToForm(Form form, Set<DataHolder> holders) throws Exception {
+        if (holders == null) return;
+        for(Iterator it = holders.iterator(); it.hasNext();) {
+            DataHolder holder = (DataHolder) it.next();
+            formManager.addAllDataHolderFieldsToForm(form, holder);
+        }
     }
 
     public Set<DataHolder> getDataHolders(Definitions source, Path context, String resourceId) {
