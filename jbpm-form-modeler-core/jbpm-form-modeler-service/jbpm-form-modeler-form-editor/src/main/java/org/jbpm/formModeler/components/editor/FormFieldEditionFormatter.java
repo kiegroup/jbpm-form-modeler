@@ -24,7 +24,6 @@ import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FieldHandler;
-import org.jbpm.formModeler.core.processing.PropertyDefinition;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -164,23 +163,12 @@ public class FormFieldEditionFormatter extends FormRenderingFormatter {
             int index = 0;
             for (Iterator iterator = parametersNames.iterator(); iterator.hasNext(); index++) {
                 String paramName = (String) iterator.next();
-                PropertyDefinition propertyType = null;
                 boolean canShowInput = false;
-                boolean hasDefaultValue = false;
-
-                /*type.hasProperty(paramName);
-                if (field.hasProperty(paramName)) {
-                    propertyType = field.getPropertyType(paramName);
-                    canShowInput = true;
-                } else {
-                    propertyType = type.getPropertyType(paramName);
-                }
-                                                   */
                 setAttribute("index", index);
                 setAttribute("name", paramName);
                 renderFragment("outputName");
 
-                List suitableTypes = getFieldTypesManager().getSuitableFieldTypes(paramName, propertyType);
+                List suitableTypes = getFieldTypesManager().getSuitableFieldTypes(paramName, "");
                 if (suitableTypes != null && suitableTypes.size() > 0) {
                     FieldType pFtype = (FieldType) suitableTypes.get(0);
                     FieldHandler fieldHandler = getFieldHandlersManager().getHandler(pFtype);

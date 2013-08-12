@@ -46,15 +46,10 @@ public class FieldAvailableTypesFormatter extends Formatter {
             Form form = getEditor().getCurrentForm();
             String propertyName = field.getFieldName();
 
-
-            // TODO: fix that to load properties from pojos!
-            List suitableFieldTypes = null;
-            if (!"void".equals(field.getFieldType().getFieldClass())) {
-                BindingManager bindingManager = FormCoreServices.lookup().getBindingManager();
-                if (!StringUtils.isEmpty(form.getSubject())) suitableFieldTypes = getEditor().getFieldTypesManager().getSuitableFieldTypes(propertyName, bindingManager.getPropertyDefinition(propertyName, form.getSubject()));
-                else suitableFieldTypes = getEditor().getFieldTypesManager().getSuitableFieldTypes(propertyName, bindingManager.getPropertyDefinition(field.getFieldType()));
-            }
-
+            List suitableFieldTypes;
+            BindingManager bindingManager = FormCoreServices.lookup().getBindingManager();
+            if (!StringUtils.isEmpty(form.getSubject())) suitableFieldTypes = getEditor().getFieldTypesManager().getSuitableFieldTypes(propertyName, bindingManager.getPropertyDefinition(propertyName, form.getSubject()).getPropertyClassName());
+            else suitableFieldTypes = getEditor().getFieldTypesManager().getSuitableFieldTypes(propertyName, field.getFieldType().getFieldClass());
 
             if (suitableFieldTypes != null && !suitableFieldTypes.isEmpty()) {
                 renderFragment("outputStart");

@@ -50,36 +50,18 @@ public class WysiwygFieldsFormatter extends Formatter {
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
-            Form form = WysiwygFormEditor.lookup().getCurrentForm();
-            renderAvailableFields(form);
+            renderAvailableFields();
         } catch (Exception e) {
             log.error("Error: ", e);
         }
     }
 
-    protected void renderAvailableFields(Form form) throws Exception {
-        HashSet availableEntityProperties = new HashSet();
-        /*
-        TODO: fix that
-        availableEntityProperties.addAll(getEditor().getDdmManager().getPropertyNames(entity.getItemClass()));
-        for (Iterator it = form.getFormFields().iterator(); it.hasNext();) {
-            FormField formField = (FormField) it.next();
-            availableEntityProperties.remove(formField.getField().getFieldName());
-        }
-        DDMManager ddmManager = entity.getDdmManager();
-        HashMap availableEntityPropertiesMap = new HashMap();
-        for (Iterator iterator = availableEntityProperties.iterator(); iterator.hasNext();) {
-            String propName = (String) iterator.next();
-            availableEntityPropertiesMap.put(propName, ddmManager.getPropertyType(propName, entity.getItemClass()));
-        }
+    protected void renderAvailableFields() throws Exception {
 
-        */
-
-        HashMap availableEntityPropertiesMap = new HashMap();
-
-        renderDecorators(form);
+        renderDecorators();
+        renderComplexTypes();
         renderSeparator();
-        renderPrimitiveTypes(form, availableEntityPropertiesMap);
+        renderPrimitiveTypes();
         renderSeparator();
     }
 
@@ -88,7 +70,23 @@ public class WysiwygFieldsFormatter extends Formatter {
         renderFragment("separator");
     }
 
-    protected void renderDecorators(Form form) throws Exception {
+    protected void renderComplexTypes() {
+        List<FieldType> complexTypes = getFieldTypesManager().getFormComplexTypes();
+        if (complexTypes.size() > 0) {
+            renderFragment("complexStart");
+            for (int i = 0; i < complexTypes.size(); i++) {
+                FieldType type = (FieldType) complexTypes.get(i);
+                setAttribute("complex", type);
+                setAttribute("complexId", type.getCode());
+                setAttribute("iconUri", getFieldTypesManager().getIconPathForCode(type.getCode()));
+                setAttribute("position", i);
+                renderFragment("outputComplex");
+            }
+            renderFragment("complexEnd");
+        }
+    }
+
+    protected void renderDecorators() throws Exception {
         List decorators = getFieldTypesManager().getFormDecoratorTypes();
         if (decorators.size() > 0) {
             renderFragment("decoratorsStart");
@@ -104,49 +102,23 @@ public class WysiwygFieldsFormatter extends Formatter {
         }
     }
 
-    protected void renderPrimitiveTypes(Form form, HashMap availableEntityProperties) throws Exception {
-        List<FieldHandler> handlers = getFieldHandlersManager().getHandlers();
-        for (int i = 0; i < handlers.size(); i++) {
-            FieldHandler handler = handlers.get(i);
-            String managerId = handler.getName();
-            String managerName = handler.getHumanName(getLocale());
-            List fieldTypes = getTypesForManager(managerId);
-            if (!fieldTypes.isEmpty()) {
-                setAttribute("managerName", managerName);
-                setAttribute("managerId", managerId);
-                setAttribute("position", i);
-                setAttribute("type", "primitive");
-                renderFragment("typeStart");
-                for (int j = 0; j < fieldTypes.size(); j++) {
-                    FieldType type = (FieldType) fieldTypes.get(j);
-                    if(getFieldTypesManager().isDisplayableType(type.getCode())){
-                        setAttribute("typeName", type.getCode());
-                        setAttribute("iconUri", getFieldTypesManager().getIconPathForCode(type.getCode()));
-                        setAttribute("uid", "primitive" + i + "_" + j);
-                        setAttribute("typeId", type.getCode());
-                        renderFragment("outputType");
-                    }
-                }
-                renderFragment("typeEnd");
+    protected void renderPrimitiveTypes() throws Exception {
+
+        List fieldTypes = getFieldTypesManager().getFieldTypes();
+
+        for (int j = 0; j < fieldTypes.size(); j++) {
+            FieldType type = (FieldType) fieldTypes.get(j);
+            if(getFieldTypesManager().isDisplayableType(type.getCode())){
+                setAttribute("typeName", type.getCode());
+                setAttribute("iconUri", getFieldTypesManager().getIconPathForCode(type.getCode()));
+                setAttribute("uid", "primitive_" + j);
+                setAttribute("typeId", type.getCode());
+                renderFragment("outputType");
             }
         }
     }
 
     protected List<FieldType> getTypesForManager(String managerClass) throws Exception {
         return getFieldTypesManager().getSuitableFieldTypes(managerClass);
-    }
-
-    protected List getAvailablePropertiesForType(FieldType type, Form form,Map availableEntityProperties) throws Exception {
-        List props = new ArrayList();
-        for (Iterator iterator = availableEntityProperties.keySet().iterator(); iterator.hasNext();) {
-            String propertyName = (String) iterator.next();
-            if (!getFieldHandlersManager().getHandler(type).acceptsPropertyName(propertyName)) continue;
-            PropertyDefinition def = (PropertyDefinition) availableEntityProperties.get(propertyName);
-            String typeDescription = def.getId();
-            if (type.getFieldClass().equals(typeDescription)) {
-                props.add(propertyName);
-            }
-        }
-        return props;
     }
 }

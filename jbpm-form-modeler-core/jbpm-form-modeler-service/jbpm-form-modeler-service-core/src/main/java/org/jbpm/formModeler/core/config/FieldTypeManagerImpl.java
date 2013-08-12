@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.config;
 
+import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.core.config.builders.FieldTypeBuilder;
 import org.jbpm.formModeler.core.config.builders.fieldType.DecoratorFieldTypeBuilder;
 import org.jbpm.formModeler.core.config.builders.fieldType.SimpleFieldTypeBuilder;
@@ -72,8 +73,7 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         }
 
         for (FieldTypeBuilder builder : complexBuilders) {
-            decoratorTypes.addAll(builder.buildList());
-            //complexTypes.addAll(builder.buildList());
+            complexTypes.addAll(builder.buildList());
         }
 
         iconsMappings.put("InputTextShort", "fieldTypes/box_number.png");
@@ -181,6 +181,17 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         for (FieldType fType : fieldTypes) {
             if (fType.getManagerClass().equals(managerClass)) validFieldTypes.add(fType);
         }
+
+        for (FieldType fType : complexTypes) {
+            if (fType.getManagerClass().equals(managerClass)) validFieldTypes.add(fType);
+                validFieldTypes.add(fType);
+        }
+
+        for (FieldType fType : decoratorTypes) {
+            if (fType.getManagerClass().equals(managerClass)) validFieldTypes.add(fType);
+            validFieldTypes.add(fType);
+        }
+
         return validFieldTypes;
     }
 
@@ -188,25 +199,40 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
      * Get all fieldtypes suitable to generate a value of the given class.
      *
      * @param propertyName   Property name
-     * @param propDefinition Expected property definition that the field type should generate.
+     * @param propertyType Expected property definition that the field type should generate.
      * @return A list of FieldType objects suitable to generate a value of the given class.
      * @throws Exception in case of error
      */
-    public List<FieldType> getSuitableFieldTypes(String propertyName, PropertyDefinition propDefinition) throws Exception {
+    public List<FieldType> getSuitableFieldTypes(String propertyName, String propertyType) throws Exception {
         final List<FieldType> validFieldTypes = new ArrayList<FieldType>();
-        if (propDefinition != null) {
+        if (!StringUtils.isEmpty(propertyType)) {
 
             for (FieldType fieldType : fieldTypes) {
-                if (fieldType.getFieldClass().equals(propDefinition.getPropertyClassName()))
+                if (fieldType.getFieldClass().equals(propertyType))
                     validFieldTypes.add(fieldType);
+            }
+
+            for (FieldType fieldType : complexTypes) {
+                if (fieldType.getFieldClass().equals(propertyType))
+                    validFieldTypes.add(fieldType);
+            }
+
+            for (FieldType fieldType : decoratorTypes) {
+                if (fieldType.getFieldClass().equals(propertyType))
+                validFieldTypes.add(fieldType);
             }
         }
         return validFieldTypes;
     }
 
     @Override
-    public List getFormDecoratorTypes() throws Exception {
+    public List<FieldType> getFormDecoratorTypes() {
         return decoratorTypes;
+    }
+
+    @Override
+    public List<FieldType> getFormComplexTypes() {
+        return complexTypes;
     }
 
     @Override
@@ -225,6 +251,9 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
             if (decorator.getCode().equals(typeCode)) return decorator;
         }
 
+        for (FieldType complexType : complexTypes) {
+            if (complexType.getCode().equals(typeCode)) return complexType;
+        }
         return null;
     }
 
@@ -236,6 +265,10 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
             }
             for (FieldType fieldType : decoratorTypes) {
                 if (fieldType.getFieldClass().equals(className)) return fieldType;
+            }
+
+            for (FieldType complexType : complexTypes) {
+                if (complexType.getFieldClass().equals(className)) return complexType;
             }
 
             return getTypeByCode("Subform");// If there are no valid return type consider Object one
