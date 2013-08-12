@@ -32,16 +32,6 @@ import java.lang.reflect.Method;
 @ApplicationScoped
 public class BindingManagerImpl implements BindingManager {
 
-
-    @Override
-    public PropertyDefinition getPropertyDefinition(FieldType type) throws Exception {
-        PropertyDefinitionImpl def = new PropertyDefinitionImpl();
-
-        def.setPropertyClass(Class.forName(type.getFieldClass()));
-
-        return def;
-    }
-
     @Override
     public PropertyDefinition getPropertyDefinition(String propertyName, String className) throws Exception{
         return getPropertyDefinition(propertyName, Class.forName(className));

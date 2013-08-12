@@ -124,38 +124,46 @@
             </div>
             </td></tr>
         </mvc:fragment>
-
-
         <%------------------ Complex types -----------------%>
-        <mvc:fragment name="disabledComplexTypeStart">
-            <tr class="fieldTypes">
-                <td nowrap="nowrap" width="10px">
-                    <mvc:fragmentValue name="iconUri" id="iconUri">
-                        <img src="<static:image relativePath="<%=(String)iconUri%>"/>" align="absmiddle">
-                    </mvc:fragmentValue>
-                    <span class="skn-disabled"><mvc:fragmentValue name="managerName"/></span>
-                </td>
-            </tr>
-        </mvc:fragment>
-        <mvc:fragment name="complexTypeStart">
-            <tr onclick="className='skn-even_row_alt'" onmouseout="className=''">
-            <td nowrap="nowrap" width="10px">
-            <mvc:fragmentValue name="position" id="position">
-                <mvc:fragmentValue name="type" id="type">
-                    <mvc:fragmentValue name="iconUri" id="iconUri">
-                        <img src="<static:image relativePath="<%=(String)iconUri%>"/>" align="absmiddle">
-                    </mvc:fragmentValue>
-                    <a href="fieldTypes.jsp#"
-                       onclick="var divElement = document.getElementById('<%="type_"+type+position%>');
-                               divElement.style.display = divElement.style.display == 'block' ? 'none' : 'block';
-                               return false;">
-                        <mvc:fragmentValue name="managerName"/>
-                    </a>
-                    </td>
+        <mvc:fragment name="complexStart"></mvc:fragment>
+        <mvc:fragment name="outputComplex">
+            <mvc:fragmentValue name="complexId" id="complexId">
+                <mvc:fragmentValue name="position" id="position">
+                    <tr>
+                        <td nowrap="nowrap" width="10px">
+                            <form method="POST" style="margin:0px;" action="<factory:formUrl/>"
+                                  id='<%="addComplexForm"+position%>' >
+                                <factory:handler action="addFieldToForm"/>
+
+                                <input type="hidden" name="fieldType" value="<%=complexId%>">
+                                <table cellspacing="0" cellpadding="0" width="100%">
+                                    <tr>
+                                        <td style="width:10px; padding-right: 5px;">
+                                            <mvc:fragmentValue name="iconUri" id="iconUri">
+                                                <img src="<static:image relativePath="<%=(String)iconUri%>"/>"
+                                                     align="absmiddle">
+                                            </mvc:fragmentValue>
+                                        </td>
+                                        <td>
+                                            <i18n:message key='<%="fieldType." + complexId%>'/>
+                                        </td>
+                                        <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
+                                            <input type="image" style="cursor:hand"
+                                                   title="<mvc:fragmentValue name="complexName"/>"
+                                                   src="<static:image relativePath="actions/triang_right.png"/>">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                            <script defer>
+                                setAjax('<%="addComplexForm"+position%>');
+                            </script>
+                        </td>
                     </tr>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragment>
+        <mvc:fragment name="complexEnd"></mvc:fragment>
         <%------------------ Decorators -----------------%>
         <mvc:fragment name="decoratorsStart"></mvc:fragment>
         <mvc:fragment name="outputDecorator">

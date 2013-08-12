@@ -35,11 +35,13 @@ public interface FieldTypeManager extends Serializable {
 
     void setFieldTypes(List<FieldType> fieldTypes);
 
-    List getSuitableFieldTypes(String propertyName, PropertyDefinition propDefinition) throws Exception;
+    List getSuitableFieldTypes(String propertyName, String propertyType) throws Exception;
 
     List getSuitableFieldTypes(String managerClass) throws Exception;
 
-    List getFormDecoratorTypes() throws Exception;
+    List<FieldType> getFormDecoratorTypes();
+
+    List<FieldType> getFormComplexTypes();
 
     FieldType getTypeByCode(String typeCode);
 
