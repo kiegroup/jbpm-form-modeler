@@ -35,13 +35,13 @@ public class DecoratorFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
 */
         ft = new FieldType();
         ft.setCode("HTMLLabel");
-        ft.setFieldClass("void");
+        ft.setFieldClass("HTMLlabel");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.formDecorators.HTMLlabel");
         result.add(ft);
 
         ft = new FieldType();
         ft.setCode("Separator");
-        ft.setFieldClass("void");
+        ft.setFieldClass("Separator");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.formDecorators.Separator");
         result.add(ft);
 
