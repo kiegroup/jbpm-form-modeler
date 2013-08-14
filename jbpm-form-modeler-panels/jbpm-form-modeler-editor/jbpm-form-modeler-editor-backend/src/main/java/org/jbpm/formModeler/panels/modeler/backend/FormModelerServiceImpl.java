@@ -29,6 +29,8 @@ import org.jbpm.formModeler.api.client.FormEditorContext;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.workbench.events.ResourceAddedEvent;
@@ -40,13 +42,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.net.URI;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Service
 @ApplicationScoped
 public class FormModelerServiceImpl implements FormModelerService, FormEditorContextManager {
     public static final String EDIT_FIELD_LITERAL = "editingFormFieldId";
+
+    private Logger log = LoggerFactory.getLogger(FormModelerServiceImpl.class);
 
     @Inject
     @Named("ioStrategy")
@@ -95,7 +97,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
 
             return newContext(form, context).getFormEditorContextTO();
         } catch (Exception e) {
-            Logger.getLogger(FormModelerServiceImpl.class.getName()).log(Level.WARNING, null, e);
+            log.warn("Error loading form " + context.toURI(), e);
             return null;
         }
     }

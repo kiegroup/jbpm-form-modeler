@@ -23,14 +23,14 @@ import org.jbpm.formModeler.core.config.builders.fieldType.ComplexFieldTypeBuild
 import org.jbpm.formModeler.core.processing.PropertyDefinition;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -41,6 +41,8 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
     private List<FieldType> fieldTypes;
     private List<FieldType> decoratorTypes;
     private List<FieldType> complexTypes;
+
+    private Logger log = LoggerFactory.getLogger(FieldTypeManager.class);
 
     @Inject
     protected Instance<SimpleFieldTypeBuilder> builders;
@@ -281,7 +283,7 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
     @Override
     public String getIconPathForCode(String code) {
         if (code == null) {
-            Logger.getLogger(FormManagerImpl.class.getName()).log(Level.SEVERE, "Retrieving icon for field type with code null. All types must have a code.");
+            log.warn("Retrieving icon for field type with code null. All types must have a code.");
             return defaultIcon;
         }
         String s = getIconsMappings().get(code);
