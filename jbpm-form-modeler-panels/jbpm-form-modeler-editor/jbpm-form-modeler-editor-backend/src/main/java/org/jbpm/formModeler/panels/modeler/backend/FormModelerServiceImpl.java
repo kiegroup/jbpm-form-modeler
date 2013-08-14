@@ -147,6 +147,10 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     public Path createForm(Path context, String formName) {
         org.kie.commons.java.nio.file.Path kiePath = paths.convert(context ).resolve(formName);
 
+        if (ioService.exists(kiePath)) {
+            return context;
+        }
+
         ioService.createFile(kiePath);
 
         Form form = formManager.createForm(formName);

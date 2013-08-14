@@ -16,6 +16,8 @@
 package org.jbpm.formModeler.core.wrappers;
 
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
@@ -23,7 +25,7 @@ import java.util.Set;
  * Wrapper class for Multilanguage HTML field type.
  */
 public class HTMLi18n extends I18nSet {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(HTMLi18n.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(HTMLi18n.class);
 
     public HTMLi18n(Set s) {
         super(s);

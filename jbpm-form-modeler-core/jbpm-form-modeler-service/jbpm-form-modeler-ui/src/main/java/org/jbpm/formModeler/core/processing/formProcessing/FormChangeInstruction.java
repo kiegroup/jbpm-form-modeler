@@ -15,8 +15,11 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class FormChangeInstruction {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormChangeInstruction.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(FormChangeInstruction.class);
 
     public abstract String getXML();
 }

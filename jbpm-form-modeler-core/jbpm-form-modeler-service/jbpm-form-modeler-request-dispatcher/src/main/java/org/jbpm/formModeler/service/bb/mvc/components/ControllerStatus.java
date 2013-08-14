@@ -15,13 +15,14 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.components;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.RedirectToURLResponse;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.ShowScreenResponse;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -38,8 +39,7 @@ public class ControllerStatus {
         return (ControllerStatus) CDIBeanLocator.getBeanByType(ControllerStatus.class);
     }
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(ControllerStatus.class);
 
     private CommandResponse response;
     private Throwable exception;

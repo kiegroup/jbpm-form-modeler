@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.components.editor;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.core.processing.BindingManager;
 import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
@@ -24,6 +24,7 @@ import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,8 +35,7 @@ import java.util.List;
 @Named("FieldAvailableTypesFormatter")
 public class FieldAvailableTypesFormatter extends Formatter {
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(FieldAvailableTypesFormatter.class);
 
     public WysiwygFormEditor getEditor() {
         return WysiwygFormEditor.lookup();

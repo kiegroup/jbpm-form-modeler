@@ -15,6 +15,9 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib.formatter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
@@ -22,7 +25,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  *
  */
 public class FormatterParamTag extends TagSupport {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormatterParamTag.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(FormatterParamTag.class);
 
     protected String name;
     protected Object value;

@@ -16,13 +16,16 @@
 package org.jbpm.formModeler.core.validators;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.*;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
 
 public class NumericRangeValidator {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(NumericRangeValidator.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(NumericRangeValidator.class);
 
     private static final char RANGE_SYMBOL_EXCLUDE_START = '(';
     private static final char RANGE_SYMBOL_EXCLUDE_END = ')';

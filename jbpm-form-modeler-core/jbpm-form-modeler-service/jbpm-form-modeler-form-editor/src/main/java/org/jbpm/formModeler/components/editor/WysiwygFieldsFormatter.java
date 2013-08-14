@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.components.editor;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.FormCoreServices;
@@ -26,6 +26,7 @@ import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.PropertyDefinition;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,9 +37,7 @@ import java.util.*;
 @Named("WysiwygFieldsFormatter")
 public class WysiwygFieldsFormatter extends Formatter {
 
-    @Inject
-    private Log log;
-
+    private Logger log = LoggerFactory.getLogger(WysiwygFieldsFormatter.class);
 
     public FieldHandlersManager getFieldHandlersManager() {
         return FormProcessingServices.lookup().getFieldHandlersManager();

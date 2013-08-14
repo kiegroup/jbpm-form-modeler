@@ -16,11 +16,13 @@
 package org.jbpm.formModeler.core.processing.formProcessing;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class SetListValuesInstruction extends FormChangeInstruction {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SetListValuesInstruction.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(SetListValuesInstruction.class.getName());
 
     private String XMLrepresentation;
     private String fieldName;

@@ -28,6 +28,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -40,7 +42,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MultipartProcessor implements RequestChainProcessor {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(MultipartProcessor.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(MultipartProcessor.class);
 
     private String errorRedirectPage = "/formModeler/fileTooBig.jsp";
 

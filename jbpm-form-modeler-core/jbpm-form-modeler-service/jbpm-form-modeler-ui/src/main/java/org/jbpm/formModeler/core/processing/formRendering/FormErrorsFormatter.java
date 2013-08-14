@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.formRendering;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.service.LocaleManager;
@@ -26,6 +26,7 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -41,8 +42,7 @@ import java.util.ResourceBundle;
 @Named("FormErrorsFormatter")
 public class FormErrorsFormatter extends Formatter {
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(FormErrorsFormatter.class);
 
     @Inject @Config("5")
     private int maxVisibleErrors;

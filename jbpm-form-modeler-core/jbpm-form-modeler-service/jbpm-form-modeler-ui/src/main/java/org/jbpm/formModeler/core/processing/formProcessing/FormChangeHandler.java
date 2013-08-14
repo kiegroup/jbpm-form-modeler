@@ -15,13 +15,14 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.core.processing.FormNamespaceData;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.DoNothingResponse;
 import org.jbpm.formModeler.core.processing.FormProcessor;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -30,8 +31,7 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class FormChangeHandler extends BeanHandler {
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(FormChangeHandler.class);
 
     @Inject
     private FormProcessor formProcessor;

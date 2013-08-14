@@ -18,8 +18,8 @@ package org.jbpm.formModeler.service.bb.mvc.taglib;
 import org.jbpm.formModeler.service.error.ErrorManager;
 import org.jbpm.formModeler.service.error.ErrorReport;
 import org.jbpm.formModeler.service.error.ErrorReportHandler;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -30,7 +30,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 public class JSPIncludeTag extends TagSupport {
 
     /** Logger */
-    private static transient Log log = LogFactory.getLog(JSPIncludeTag.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(JSPIncludeTag.class.getName());
 
     /** The JSP to include. */
     protected String page = null;

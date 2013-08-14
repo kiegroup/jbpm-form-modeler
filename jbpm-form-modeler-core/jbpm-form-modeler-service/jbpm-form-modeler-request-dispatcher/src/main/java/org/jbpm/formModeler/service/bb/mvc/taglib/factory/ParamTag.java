@@ -15,11 +15,14 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib.factory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.Tag;
 
 public class ParamTag extends javax.servlet.jsp.tagext.TagSupport {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ParamTag.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(ParamTag.class.getName());
 
     private String name;
     private Object value;

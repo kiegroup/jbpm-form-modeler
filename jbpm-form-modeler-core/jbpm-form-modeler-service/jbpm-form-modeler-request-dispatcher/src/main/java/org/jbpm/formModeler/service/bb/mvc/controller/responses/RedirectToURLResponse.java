@@ -18,6 +18,8 @@ package org.jbpm.formModeler.service.bb.mvc.controller.responses;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 import org.jbpm.formModeler.service.bb.mvc.taglib.ContextTag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +39,7 @@ public class RedirectToURLResponse implements CommandResponse {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(RedirectToURLResponse.class.getName());
+    private static Logger log = LoggerFactory.getLogger(RedirectToURLResponse.class);
 
 
     public RedirectToURLResponse(String newURL, boolean relative) {

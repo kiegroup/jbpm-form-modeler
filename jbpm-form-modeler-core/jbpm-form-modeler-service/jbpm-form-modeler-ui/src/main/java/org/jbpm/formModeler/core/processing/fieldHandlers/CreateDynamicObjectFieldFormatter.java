@@ -24,6 +24,8 @@ import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.FormCheckResult;
 import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.SubformChecker;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +35,7 @@ import java.util.*;
 
 @Named("CreateDynamicObjectFieldFormatter")
 public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CreateDynamicObjectFieldFormatter.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(CreateDynamicObjectFieldFormatter.class);
     public static final String PARAM_DISPLAYPAGE = "displayPage";
 
     public static final String PROPERTY_DISALLOW_CREATE_NEW = "disallowCreateNew";

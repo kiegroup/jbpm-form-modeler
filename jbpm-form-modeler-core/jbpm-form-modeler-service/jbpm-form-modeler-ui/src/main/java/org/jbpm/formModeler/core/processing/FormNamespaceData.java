@@ -16,9 +16,11 @@
 package org.jbpm.formModeler.core.processing;
 
 import org.jbpm.formModeler.api.model.Form;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FormNamespaceData {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormNamespaceData.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(FormNamespaceData.class);
 
     private Form form;
     private String namespace;

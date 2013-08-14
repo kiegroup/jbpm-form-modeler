@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.core.processing.impl;
 
 import org.apache.commons.jxpath.JXPathContext;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.config.RangeProviderManager;
@@ -34,6 +34,7 @@ import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.core.util.BindingExpressionUtil;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -43,8 +44,7 @@ import java.util.*;
 @ApplicationScoped
 public class FormProcessorImpl implements FormProcessor, Serializable {
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(FormProcessor.class);
 
     // TODO: fix formulas
     //@Inject

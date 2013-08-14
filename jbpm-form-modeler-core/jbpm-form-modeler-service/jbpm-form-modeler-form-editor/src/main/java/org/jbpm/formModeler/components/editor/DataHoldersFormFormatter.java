@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.components.editor;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 
 import org.jbpm.formModeler.core.config.DataHolderManager;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
@@ -27,6 +27,7 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.builders.DataHolderBuilder;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
+import org.slf4j.LoggerFactory;
 
 
 import javax.inject.Inject;
@@ -38,8 +39,7 @@ import java.util.*;
 @Named("DataHoldersFormFormatter")
 public class DataHoldersFormFormatter extends Formatter {
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(DataHoldersFormFormatter.class);
 
     @Inject
     private DataHolderManager dataHolderManager;

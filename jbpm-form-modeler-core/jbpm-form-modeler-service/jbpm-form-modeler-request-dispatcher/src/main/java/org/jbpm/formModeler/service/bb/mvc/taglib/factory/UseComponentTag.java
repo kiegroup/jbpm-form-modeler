@@ -17,12 +17,14 @@ package org.jbpm.formModeler.service.bb.mvc.taglib.factory;
 
 import org.jbpm.formModeler.service.bb.mvc.components.handling.UIBeanHandler;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.jsp.JspTagException;
 
 public class UseComponentTag extends GenericFactoryTag {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(UseComponentTag.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(UseComponentTag.class.getName());
 
     public static final String COMPONENT_ATTR_NAME = "currentComponentBeingRendered";
 

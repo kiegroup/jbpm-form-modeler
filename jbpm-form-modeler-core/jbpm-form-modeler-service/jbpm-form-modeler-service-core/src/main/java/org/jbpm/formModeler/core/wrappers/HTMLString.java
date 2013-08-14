@@ -15,11 +15,14 @@
  */
 package org.jbpm.formModeler.core.wrappers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Wrapper for HTML field types.
  */
 public class HTMLString {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(HTMLString.class.getName());
+    private static transient Logger log =  LoggerFactory.getLogger(HTMLString.class);
 
     private String value;
 

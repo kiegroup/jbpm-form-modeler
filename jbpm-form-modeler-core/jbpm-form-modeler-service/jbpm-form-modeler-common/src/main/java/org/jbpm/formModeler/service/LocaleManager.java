@@ -15,9 +15,10 @@
  */
 package org.jbpm.formModeler.service;
 
-import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -36,8 +37,7 @@ public class LocaleManager {
         return (LocaleManager) CDIBeanLocator.getBeanByName("localeManager");
     }
 
-    @Inject
-    protected Log log;
+    protected Logger log = LoggerFactory.getLogger(LocaleManager.class);
 
     /**
      * The list of locales supported.
@@ -194,7 +194,7 @@ public class LocaleManager {
     public void setCurrentEditLang(String langId) {
         Locale locale = getLocaleById(langId);
         if (locale != null) setCurrentEditLocale(locale);
-        else log.error("Can't set edit lang to " + langId);
+        else log.error("Can't set edit lang to {}", langId);
     }
 
     /**
@@ -210,7 +210,7 @@ public class LocaleManager {
     public void setCurrentLang(String langId) {
         Locale locale = getLocaleById(langId);
         if (locale != null) setCurrentLocale(locale);
-        else log.error("Can't set current lang to " + langId);
+        else log.error("Can't set current lang to {}", langId);
     }
 
     /**

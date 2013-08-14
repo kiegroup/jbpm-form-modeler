@@ -19,6 +19,8 @@ import org.jbpm.formModeler.api.model.Field;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,7 +32,7 @@ import java.util.Map;
  * Handler for dates
  */
 public class DateFieldHandler extends DefaultFieldHandler {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DateFieldHandler.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(DateFieldHandler.class);
 
     public static final String DATE_FROM_SUFFIX = "_from";
     public static final String HAS_CHANGED_PARAM = "_hasChanged";

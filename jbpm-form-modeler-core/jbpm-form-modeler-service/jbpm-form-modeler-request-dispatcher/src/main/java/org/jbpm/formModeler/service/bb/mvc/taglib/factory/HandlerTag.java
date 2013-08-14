@@ -16,12 +16,14 @@
 package org.jbpm.formModeler.service.bb.mvc.taglib.factory;
 
 import org.jbpm.formModeler.service.bb.mvc.components.HandlerMarkupGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.jsp.JspTagException;
 
 public class HandlerTag extends GenericFactoryTag {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(HandlerTag.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(HandlerTag.class);
 
     public int doEndTag() throws JspTagException {
         HandlerMarkupGenerator markupGenerator = HandlerMarkupGenerator.lookup();
@@ -29,7 +31,7 @@ public class HandlerTag extends GenericFactoryTag {
         try {
             pageContext.getOut().print(textToWrite);
         } catch (java.io.IOException ex) {
-            log.error(ex);
+            log.error("Error rendering tag: ", ex);
         }
         return EVAL_PAGE;
     }

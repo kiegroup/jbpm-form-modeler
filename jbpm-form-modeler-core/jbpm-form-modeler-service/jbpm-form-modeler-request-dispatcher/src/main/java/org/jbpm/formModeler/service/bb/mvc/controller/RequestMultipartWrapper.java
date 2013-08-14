@@ -19,6 +19,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -30,7 +31,7 @@ import java.util.*;
  * Request wrapper that handles multipart post and retrieves files and parameters
  */
 public class RequestMultipartWrapper extends HttpServletRequestWrapper {
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(RequestMultipartWrapper.class.getName());
+    private static Logger log = org.slf4j.LoggerFactory.getLogger(RequestMultipartWrapper.class);
 
     /**
      * Map of parameters which are uploaded files *

@@ -15,11 +15,12 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.controller.requestChain;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.components.ControllerStatus;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.SendErrorResponse;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -29,7 +30,7 @@ import javax.inject.Inject;
  */
 public class FreeMemoryProcessor implements RequestChainProcessor {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FreeMemoryProcessor.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(FreeMemoryProcessor.class.getName());
 
     private long minMemorySize = 1000000; // Less than 1MB means memory is running low
     private float minMemoryPercentage = 0.05f; // Less than 5% free memory means memory is running low

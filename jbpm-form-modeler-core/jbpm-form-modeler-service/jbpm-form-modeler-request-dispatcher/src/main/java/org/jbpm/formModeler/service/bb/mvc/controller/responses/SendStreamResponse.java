@@ -20,6 +20,8 @@ import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 import org.apache.commons.io.IOUtils;
 import org.jbpm.formModeler.service.bb.mvc.controller.HTTPSettings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -34,7 +36,7 @@ public class SendStreamResponse implements CommandResponse {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SendStreamResponse.class.getName());
+    private static Logger log = LoggerFactory.getLogger(SendStreamResponse.class);
 
     protected InputStream is;
     protected String contentDisposition;

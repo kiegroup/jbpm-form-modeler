@@ -21,6 +21,8 @@ import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.FormCheckResult;
 import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.SubformChecker;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
@@ -32,7 +34,7 @@ import java.util.Set;
 @ApplicationScoped
 @Named("SubformFormatter")
 public class SubformFormatter extends DefaultFieldHandlerFormatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SubformFormatter.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(SubformFormatter.class);
 
     protected Boolean isDisabled;
     protected Boolean isReadonly;

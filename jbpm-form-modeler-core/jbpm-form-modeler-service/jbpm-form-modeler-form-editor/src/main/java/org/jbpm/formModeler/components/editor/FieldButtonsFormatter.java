@@ -15,12 +15,13 @@
  */
 package org.jbpm.formModeler.components.editor;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.components.URLMarkupGenerator;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -34,8 +35,7 @@ import java.util.Map;
 @Named("FieldButtonsFormatter")
 public class FieldButtonsFormatter extends Formatter {
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(FieldButtonsFormatter.class);
 
     @Inject @Config("buttons/edit.png")
     private String editIcon;

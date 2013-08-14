@@ -33,7 +33,7 @@ import java.util.Set;
 
 @Named("AvailableTemplateElementsFormatter")
 public class AvailableTemplateElementsFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(AvailableTemplateElementsFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AvailableTemplateElementsFormatter.class.getName());
 
     @Inject
     private FormTemplateEditor formTemplateEditor;

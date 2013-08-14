@@ -30,7 +30,7 @@ import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
  */
 public class BeanDispatcher implements RequestChainProcessor {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(BeanDispatcher.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(BeanDispatcher.class);
 
     public boolean processRequest(CommandRequest request) throws Exception {
         CommandResponse response = handleRequest(request);

@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.formStatus;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.processing.FormNamespaceData;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
@@ -26,6 +26,7 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -45,8 +46,7 @@ public class FormStatusManager implements Serializable {
         return (FormStatusManager) CDIBeanLocator.getBeanByType(FormStatusManager.class);
     }
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(FormStatusManager.class);
 
     private transient Map formStatuses = new Hashtable();
 

@@ -15,8 +15,9 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib.formatter;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.service.LocaleManager;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -54,8 +55,7 @@ import java.util.Map;
 
 public abstract class Formatter {
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(Formatter.class);
 
     private transient FormatterTag tag;
     private transient Locale currentLocale;

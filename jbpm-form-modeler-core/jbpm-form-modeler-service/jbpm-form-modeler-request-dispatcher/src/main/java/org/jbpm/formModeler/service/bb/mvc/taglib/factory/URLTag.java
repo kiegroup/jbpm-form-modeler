@@ -16,13 +16,15 @@
 package org.jbpm.formModeler.service.bb.mvc.taglib.factory;
 
 import org.jbpm.formModeler.service.bb.mvc.components.URLMarkupGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.jsp.JspException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class URLTag extends GenericFactoryTag {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(URLTag.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(URLTag.class.getName());
 
     private Map paramsMap = new HashMap();
     private boolean friendly = true;

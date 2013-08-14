@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.formRendering;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.FieldHandlersManager;
@@ -34,6 +34,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -65,8 +66,7 @@ public class FormRenderingFormatter extends Formatter {
     public static final String TEMPLATE_FIELD_TOKEN = "$field";
     public static final String TEMPLATE_LABEL_TOKEN = "$label";
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(FormRenderingFormatter.class);
 
     @Inject
     private FormErrorMessageBuilder formErrorMessageBuilder;

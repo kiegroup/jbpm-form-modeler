@@ -15,11 +15,14 @@
  */
 package org.jbpm.formModeler.core.wrappers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Wrapper class for Link field types
  */
 public class Link implements Comparable {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(Link.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(Link.class);
 
     private String link;
     private String name;

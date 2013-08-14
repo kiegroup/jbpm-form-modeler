@@ -19,6 +19,8 @@ import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathException;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagData;
@@ -26,7 +28,7 @@ import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
 
 public class PropertyTag extends GenericFactoryTag {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PropertyTag.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(PropertyTag.class);
 
     public static final String VALUE_NAME = "value";
 

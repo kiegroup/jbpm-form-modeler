@@ -17,13 +17,15 @@ package org.jbpm.formModeler.service.bb.mvc.controller.responses;
 
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.RequestDispatcher;
 
 /**
  */
 public class ShowScreenResponse implements CommandResponse {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ShowScreenResponse.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(ShowScreenResponse.class.getName());
 
     private String jsp;
 

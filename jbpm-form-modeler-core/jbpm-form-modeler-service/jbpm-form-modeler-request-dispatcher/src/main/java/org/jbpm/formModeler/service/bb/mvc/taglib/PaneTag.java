@@ -17,6 +17,9 @@ package org.jbpm.formModeler.service.bb.mvc.taglib;
 
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
@@ -29,7 +32,7 @@ public class PaneTag extends javax.servlet.jsp.tagext.TagSupport {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PaneTag.class.getName());
+    private static Logger log =  LoggerFactory.getLogger(PaneTag.class);
 
     private String paneId = null;
 

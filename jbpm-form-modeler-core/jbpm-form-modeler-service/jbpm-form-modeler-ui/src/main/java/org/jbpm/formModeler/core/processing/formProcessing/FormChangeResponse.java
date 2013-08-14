@@ -15,11 +15,14 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class FormChangeResponse {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormChangeResponse.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(FormChangeResponse.class);
 
     private List instructions = new ArrayList(); 
 

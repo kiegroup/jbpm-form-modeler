@@ -20,13 +20,15 @@ import javax.servlet.jsp.JspTagException;
 
 import org.jbpm.formModeler.service.bb.mvc.components.FactoryUniqueIdEncoder;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.UIBeanHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EncodeTag extends TagSupport {
 
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(EncodeTag.class.getName());
+    private static Logger log = LoggerFactory.getLogger(EncodeTag.class);
 
     /**
      * Text to encode

@@ -15,13 +15,12 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.controller.requestChain;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.service.bb.mvc.components.ControllerStatus;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.RedirectToURLResponse;
+import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.servlet.http.*;
 
 /**
@@ -29,7 +28,7 @@ import javax.servlet.http.*;
  */
 public class SessionInitializer implements RequestChainProcessor {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SessionInitializer.class.getName());
+    private static transient Logger log =  LoggerFactory.getLogger(SessionInitializer.class);
 
     private final static String SESSION_ATTRIBUTE_INITIALIZED = "controller.initialized";
 
