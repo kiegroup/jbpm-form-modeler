@@ -652,30 +652,35 @@ public class FormManagerImpl implements FormManager {
     }
 
     @Override
-    public void addAllDataHolderFieldsToForm(Form form, String holderId) throws Exception{
+    public void addAllDataHolderFieldsToForm(Form form, String holderId) {
         if (holderId != null) {
 
             DataHolder holder = form.getDataHolderById(holderId);
 
-            addAllDataHolderFieldsToForm(form, holder);
+            addDataHolderFields(form, holder, true);
         }
     }
 
     @Override
-    public void addAllDataHolderFieldsToForm(Form form, DataHolder holder) throws Exception {
-       if (holder != null) {
-           if (!form.containsHolder(holder)) {
-               form.setDataHolder(holder);
-               Set<DataFieldHolder> holderFields = holder.getFieldHolders();
-               for (DataFieldHolder dataFieldHolder : holderFields) {
-                   String holderId = holder.getUniqeId();
-                   addDataFieldHolder(form, holderId, dataFieldHolder.getId(), dataFieldHolder.getClassName());
-               }
-           }
-       }
+    public void addAllDataHolderFieldsToForm(Form form, DataHolder holder) {
+        addDataHolderFields(form, holder, false);
     }
 
-    public void addDataFieldHolder(Form form, String bindingId, String fieldName, String fieldClass) throws Exception {
+    protected void addDataHolderFields(Form form, DataHolder holder, boolean existing) {
+        if (holder != null) {
+            if (!existing) {
+                if(form.containsHolder(holder)) return;
+                else form.setDataHolder(holder);
+            }
+            Set<DataFieldHolder> holderFields = holder.getFieldHolders();
+            for (DataFieldHolder dataFieldHolder : holderFields) {
+                String holderId = holder.getUniqeId();
+                addDataFieldHolder(form, holderId, dataFieldHolder.getId(), dataFieldHolder.getClassName());
+            }
+        }
+    }
+
+    public void addDataFieldHolder(Form form, String bindingId, String fieldName, String fieldClass) {
         I18nSet label = new I18nSet();
         String defaultLang = LocaleManager.lookup().getDefaultLang();
         DataHolder holder = form.getDataHolderById(bindingId);
