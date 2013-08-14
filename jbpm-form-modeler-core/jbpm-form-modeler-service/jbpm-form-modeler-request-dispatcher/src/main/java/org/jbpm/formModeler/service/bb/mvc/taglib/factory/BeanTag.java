@@ -16,11 +16,13 @@
 package org.jbpm.formModeler.service.bb.mvc.taglib.factory;
 
 import org.jbpm.formModeler.service.bb.mvc.components.FactoryURL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.jsp.JspTagException;
 
 public class BeanTag extends GenericFactoryTag {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(BeanTag.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(BeanTag.class);
 
     /**
      * @see javax.servlet.jsp.tagext.TagSupport

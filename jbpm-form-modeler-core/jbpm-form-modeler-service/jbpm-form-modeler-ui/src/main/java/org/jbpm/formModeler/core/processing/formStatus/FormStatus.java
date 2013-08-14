@@ -16,6 +16,8 @@
 package org.jbpm.formModeler.core.processing.formStatus;
 
 import org.jbpm.formModeler.api.model.Form;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.*;
@@ -24,7 +26,7 @@ import java.util.*;
  * Defines the status of a form with the submited values, each FormStatus is identified with a namespace and a formId.
  */
 public class FormStatus implements Serializable {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormStatus.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(FormStatus.class);
 
     private Map<String, Object> inputValues = new HashMap<String, Object>();
     private Map lastParameterMap;

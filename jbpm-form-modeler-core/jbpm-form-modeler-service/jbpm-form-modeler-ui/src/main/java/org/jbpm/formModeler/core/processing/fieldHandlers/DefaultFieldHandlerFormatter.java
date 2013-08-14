@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.api.model.FieldType;
@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormProcessor;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -39,8 +40,7 @@ import javax.inject.Named;
 @Named("DefaultFieldHandlerFormatter")
 public abstract class DefaultFieldHandlerFormatter extends Formatter {
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(DefaultFieldHandlerFormatter.class);
 
     @Inject @Config("128")
     protected int defaultMaxLength;

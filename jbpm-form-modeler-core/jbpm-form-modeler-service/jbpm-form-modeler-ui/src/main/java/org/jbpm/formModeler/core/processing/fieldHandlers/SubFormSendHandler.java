@@ -17,7 +17,7 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
@@ -32,6 +32,7 @@ import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
 
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -41,8 +42,8 @@ import java.util.*;
 @ApplicationScoped
 @Named("org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler")
 public class SubFormSendHandler extends BaseUIComponent {
-    @Inject
-    private Log log;
+
+    private Logger log = LoggerFactory.getLogger(SubFormSendHandler.class);
 
     @Inject
     @Config("/formModeler/components/renderer/component.jsp")
@@ -87,7 +88,7 @@ public class SubFormSendHandler extends BaseUIComponent {
     public String getBeanJSP() {
         return componentIncludeJSP;
     }
-    // private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SubFormSendHandler.class.getName());
+    // private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLog(SubFormSendHandler.class.getName());
 
     public void actionExpandSubform(CommandRequest request) {
         log.debug("Expanding subform");
@@ -246,7 +247,7 @@ public class SubFormSendHandler extends BaseUIComponent {
         String parentFormId = request.getParameter(uid + "_parentFormId");
         String parentNamespace = request.getParameter(uid + "_parentNamespace");
         String field = request.getParameter(uid + "_field");
-        Form form = subformFinderService.getFormById(Long.decode(parentFormId), parentNamespace);;
+        Form form = subformFinderService.getFormById(Long.decode(parentFormId), parentNamespace);
         getFormProcessor().setValues(form, parentNamespace, request.getRequestObject().getParameterMap(), request.getFilesByParamName());
         Map previewFields = (Map) getFormProcessor().getAttribute(form, parentNamespace, FormStatusData.PREVIEW_FIELD_POSITIONS);
         if (previewFields == null) {
@@ -272,7 +273,7 @@ public class SubFormSendHandler extends BaseUIComponent {
         String parentFormId = request.getParameter(uid + "_parentFormId");
         String parentNamespace = request.getParameter(uid + "_parentNamespace");
         String field = request.getParameter(uid + "_field");
-        Form form = subformFinderService.getFormById(Long.decode(parentFormId), parentNamespace);;
+        Form form = subformFinderService.getFormById(Long.decode(parentFormId), parentNamespace);
         getFormProcessor().setValues(form, parentNamespace, request.getRequestObject().getParameterMap(), request.getFilesByParamName());
         Map editFields = (Map) getFormProcessor().getAttribute(form, parentNamespace, FormStatusData.EDIT_FIELD_POSITIONS);
         if (editFields == null) {

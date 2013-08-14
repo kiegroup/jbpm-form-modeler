@@ -15,9 +15,9 @@
  */
 package org.jbpm.formModeler.service.comparator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jbpm.formModeler.service.LocaleManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -28,7 +28,7 @@ import java.util.Iterator;
  */
 public abstract class AbstractComparatorByCriteria implements ComparatorByCriteria {
 
-    private static transient Log log = LogFactory.getLog(AbstractComparatorByCriteria.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(AbstractComparatorByCriteria.class.getName());
 
     /**
      * Sort criteria list.

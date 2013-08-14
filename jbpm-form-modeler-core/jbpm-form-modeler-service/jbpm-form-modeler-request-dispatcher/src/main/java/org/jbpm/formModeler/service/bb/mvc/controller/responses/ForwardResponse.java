@@ -17,13 +17,15 @@ package org.jbpm.formModeler.service.bb.mvc.controller.responses;
 
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Forwards to a resource
  */
 public class ForwardResponse implements CommandResponse {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ForwardResponse.class.getName());
+    private static transient Logger log =  LoggerFactory.getLogger(ForwardResponse.class);
 
     private String resource = null;
 

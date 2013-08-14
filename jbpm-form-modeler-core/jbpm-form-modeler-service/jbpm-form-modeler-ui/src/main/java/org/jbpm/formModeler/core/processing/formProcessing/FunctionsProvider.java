@@ -17,8 +17,9 @@ package org.jbpm.formModeler.core.processing.formProcessing;
 
 import bsh.EvalError;
 import bsh.Interpreter;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -34,8 +35,7 @@ public class FunctionsProvider extends Properties {
         return (FunctionsProvider) CDIBeanLocator.getBeanByType(FunctionsProvider.class);
     }
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(FunctionsProvider.class);
 
     @Inject
     Functions functions;

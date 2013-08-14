@@ -15,12 +15,13 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.core.processing.FormNamespaceData;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormProcessor;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -35,8 +36,7 @@ public class NamespaceManager {
     @Inject
     private SubformFinderService subformFinderService;
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(NamespaceManager.class);
 
     public String getParentNamespace(String namespace) {
         if (namespace != null) {

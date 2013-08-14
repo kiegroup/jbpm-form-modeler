@@ -3,6 +3,8 @@ package org.jbpm.formModeler.core.processing.formProcessing;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormStatusData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.Collection;
@@ -11,7 +13,7 @@ import java.util.Iterator;
 
 @ApplicationScoped
 public class FormulasCalculatorChangeProcessor extends BasicFormChangeProcessor {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormulasCalculatorChangeProcessor.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(FormulasCalculatorChangeProcessor.class);
 
     @Override
     public FormChangeResponse doProcess(FormChangeResponse response) {

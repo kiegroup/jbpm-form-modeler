@@ -1,6 +1,6 @@
 package org.jbpm.formModeler.kie.services.form.provider;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.model.Form;
@@ -17,10 +17,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import org.kie.internal.task.api.model.InternalTask;
+import org.slf4j.LoggerFactory;
 
 public class FormModelerFormProvider implements FormProvider {
-    @Inject
-    protected Log log;
+
+    protected Logger log = LoggerFactory.getLogger(FormModelerFormProvider.class);
 
     @Inject
     private RuntimeDataService dataService;

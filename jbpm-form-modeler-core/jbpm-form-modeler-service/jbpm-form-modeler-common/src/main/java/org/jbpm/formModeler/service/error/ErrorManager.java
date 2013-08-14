@@ -16,8 +16,9 @@
 package org.jbpm.formModeler.service.error;
 
 import org.jbpm.formModeler.service.annotation.config.Config;
-import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -36,8 +37,7 @@ public class ErrorManager {
         return (ErrorManager) CDIBeanLocator.getBeanByType(ErrorManager.class);
     }
 
-    @Inject
-    protected Log log;
+    protected Logger log = LoggerFactory.getLogger(ErrorManager.class);
 
     @Inject @Config("true")
     protected boolean logErrorReportEnabled;
@@ -164,7 +164,7 @@ public class ErrorManager {
         if (appError == null) {
             // Print the report in the log.
             if (logErrorReportEnabled) {
-                log.error("UNEXPECTED ERROR.\n" + report.printContext(0));
+                log.error("UNEXPECTED ERROR.\n{}", report.printContext(0));
             }
         }
     }

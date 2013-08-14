@@ -15,12 +15,13 @@
  */
 package org.jbpm.formModeler.components.editor;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,9 +31,7 @@ import java.util.*;
 
 @Named("WysiwygFieldsToAddFormatter")
 public class WysiwygFieldsToAddFormatter extends Formatter {
-
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(WysiwygFieldsToAddFormatter.class);
 
     private void renderFieldsToAdd(Form form) throws Exception {
         renderFragment("fieldsToAddStart");

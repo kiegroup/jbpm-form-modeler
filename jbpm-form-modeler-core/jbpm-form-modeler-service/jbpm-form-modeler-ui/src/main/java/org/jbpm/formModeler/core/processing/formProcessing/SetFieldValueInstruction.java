@@ -17,12 +17,14 @@ package org.jbpm.formModeler.core.processing.formProcessing;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Iterator;
 import java.util.Map;
 
 public class SetFieldValueInstruction extends FormChangeInstruction {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SetFieldValueInstruction.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(SetFieldValueInstruction.class.getName());
     private String XMLrepresentation;
 
     public SetFieldValueInstruction(Map paramsMap) {

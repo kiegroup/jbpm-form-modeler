@@ -20,6 +20,8 @@ import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.api.model.Field;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Named;
 import java.math.BigDecimal;
@@ -38,7 +40,7 @@ public class NumericFieldHandler extends DefaultFieldHandler {
     public static final String NUMERIC_TO_SUFFIX = "_to";
     public static final boolean DEFAULT_MAX_VALUE = true;
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(NumericFieldHandler.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(NumericFieldHandler.class);
 
     /**
      * Read a parameter value (normally from a request), and translate it to

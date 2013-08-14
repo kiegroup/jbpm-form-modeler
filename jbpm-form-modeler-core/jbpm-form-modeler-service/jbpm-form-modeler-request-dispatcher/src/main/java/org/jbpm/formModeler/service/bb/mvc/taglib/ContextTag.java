@@ -26,9 +26,11 @@ import javax.servlet.jsp.tagext.VariableInfo;
 import java.io.IOException;
 
 import org.jbpm.formModeler.service.bb.mvc.components.URLMarkupGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ContextTag extends BodyTagSupport {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ContextTag.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(ContextTag.class.getName());
     public static final String INCLUDE_HOST = "org.jbpm.formModeler.service.bb.mvc.taglib.ContextTag/includeHost";
 
     private String uri;

@@ -17,7 +17,7 @@ package org.jbpm.formModeler.core.config;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.apache.xerces.parsers.DOMParser;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.xml.util.XMLNode;
@@ -25,6 +25,7 @@ import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.wrappers.I18nEntry;
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -54,8 +55,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     @Inject
     private DataHolderManager dataHolderManager;
 
-    @Inject
-    protected Log log;
+    protected Logger log = LoggerFactory.getLogger(FormSerializationManager.class);
 
     @Inject
     protected FormManager formManager;

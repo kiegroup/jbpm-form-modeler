@@ -19,6 +19,8 @@ import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.jbpm.formModeler.service.bb.mvc.taglib.ContextTag;
 import org.jbpm.bui.resources.StaticResourceResolver;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -33,7 +35,7 @@ public class ImageResolverTag extends BodyTagSupport {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ImageResolverTag.class.getName());
+    private static Logger log = LoggerFactory.getLogger(ImageResolverTag.class);
 
     private String imageURL;
 

@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.components.editor;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter;
@@ -24,6 +24,7 @@ import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Field;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,8 +35,7 @@ import java.lang.reflect.Method;
 @Named("FieldTypePropertyFormatter")
 public class FieldTypePropertyFormatter extends Formatter {
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(FieldTypePropertyFormatter.class);
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         Field field = (Field) getParameter("field");

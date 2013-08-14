@@ -15,11 +15,12 @@
  */
 package org.jbpm.formModeler.components.editor;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.api.model.Form;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -30,8 +31,7 @@ import javax.inject.Named;
 @Named("FormTemplateEditor")
 public class FormTemplateEditor extends BeanHandler {
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(FormTemplateEditor.class);
 
     private Long formId;
     private String templateContent;

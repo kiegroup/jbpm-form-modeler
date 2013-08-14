@@ -22,6 +22,8 @@ import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.FormStatusData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -30,7 +32,7 @@ import java.util.*;
  */
 public class FormStatusDataImpl implements FormStatusData {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormStatusDataImpl.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(FormStatusDataImpl.class.getName());
 
     private List wrongFields;
     private Map wrongFieldsMessages;

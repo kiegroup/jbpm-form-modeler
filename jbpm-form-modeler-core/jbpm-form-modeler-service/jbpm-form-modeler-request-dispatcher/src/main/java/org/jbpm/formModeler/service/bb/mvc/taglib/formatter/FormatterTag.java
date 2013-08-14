@@ -16,6 +16,8 @@
 package org.jbpm.formModeler.service.bb.mvc.taglib.formatter;
 
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +27,7 @@ import java.util.*;
 
 public class FormatterTag extends BodyTagSupport {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormatterTag.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(FormatterTag.class);
 
     public static final int STAGE_READING_PARAMS = 1;
     public static final int STAGE_RENDERING_FRAGMENTS = 2;

@@ -15,6 +15,9 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib.formatter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.*;
 import java.io.IOException;
@@ -23,7 +26,7 @@ import java.io.IOException;
  *
  */
 public class FragmentValueTag extends BodyTagSupport {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FragmentValueTag.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(FragmentValueTag.class);
     public static final String VALUE_NAME = "value";
 
     public static class TEI extends TagExtraInfo {

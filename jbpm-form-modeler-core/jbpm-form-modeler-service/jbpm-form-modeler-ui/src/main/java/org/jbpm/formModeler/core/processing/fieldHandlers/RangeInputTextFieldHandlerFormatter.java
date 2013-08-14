@@ -17,12 +17,13 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -38,8 +39,7 @@ import java.util.Map;
 @Named("RangeInputTextFieldHandlerFormatter")
 public class RangeInputTextFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(RangeInputTextFieldHandlerFormatter.class);
 
     @Inject
     private FormManager formManager;

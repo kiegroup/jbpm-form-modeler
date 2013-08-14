@@ -21,12 +21,14 @@ import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.Map;
 
 public class FormulaReplacementContext {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormulaReplacementContext.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(FormulaReplacementContext.class.getName());
 
     private String formula;
     private String paramValue;

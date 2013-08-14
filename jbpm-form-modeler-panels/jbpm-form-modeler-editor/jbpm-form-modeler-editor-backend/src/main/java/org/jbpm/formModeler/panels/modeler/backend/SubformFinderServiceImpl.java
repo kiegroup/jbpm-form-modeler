@@ -1,6 +1,5 @@
 package org.jbpm.formModeler.panels.modeler.backend;
 
-import org.apache.commons.logging.Log;
 import org.drools.core.util.StringUtils;
 import org.guvnor.common.services.project.model.Project;
 import org.guvnor.common.services.project.service.ProjectService;
@@ -13,6 +12,8 @@ import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.kie.commons.io.IOService;
 import org.kie.workbench.common.services.datamodeller.util.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
 
@@ -24,8 +25,7 @@ import java.util.*;
 
 @ApplicationScoped
 public class SubformFinderServiceImpl implements SubformFinderService {
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(SubformFinderService.class);
 
     @Inject
     @Named("ioStrategy")

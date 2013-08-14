@@ -24,6 +24,8 @@ import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.Subfo
 import org.jbpm.formModeler.core.processing.formRendering.FormErrorMessageBuilder;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatus;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Instance;
@@ -33,7 +35,7 @@ import java.util.*;
 
 @Named("org.jbpm.formModeler.core.processing.fieldHandlers.SubformFieldHandler")
 public class SubformFieldHandler extends PersistentFieldHandler {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SubformFieldHandler.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(SubformFieldHandler.class);
 
     @Inject
     private Instance<SubformChecker> checkers;

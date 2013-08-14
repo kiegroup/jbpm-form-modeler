@@ -32,11 +32,12 @@ import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.core.config.FormManagerImpl;
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -57,8 +58,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         return (WysiwygFormEditor) CDIBeanLocator.getBeanByType(WysiwygFormEditor.class);
     }
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(WysiwygFormEditor.class);
 
     @Inject
     private FormTemplateEditor formTemplateEditor;

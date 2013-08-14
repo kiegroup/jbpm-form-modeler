@@ -22,7 +22,8 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextTO;
 import org.jbpm.formModeler.renderer.service.FormRenderingService;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -31,8 +32,7 @@ import java.util.Map;
 @Service
 @ApplicationScoped
 public class FormRenderingServiceImpl implements FormRenderingService {
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(FormRenderingService.class);
 
     @Inject
     private FormManager formManager;

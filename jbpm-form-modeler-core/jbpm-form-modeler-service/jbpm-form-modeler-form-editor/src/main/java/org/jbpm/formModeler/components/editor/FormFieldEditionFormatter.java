@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.components.editor;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter;
@@ -25,8 +25,8 @@ import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.PropertyDefinition;
+import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,9 +34,7 @@ import java.util.*;
 
 @Named("FormFieldEditionFormatter")
 public class FormFieldEditionFormatter extends FormRenderingFormatter {
-
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(FormFieldEditionFormatter.class);
 
     public WysiwygFormEditor getEditor() {
         return WysiwygFormEditor.lookup();

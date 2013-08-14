@@ -15,6 +15,9 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib.formatter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * This class represent a processing instruction to render a formatter. It can be one of two
  * types: RENDER_FRAGMENT or SET_ATTRIBUTE.
@@ -22,7 +25,7 @@ package org.jbpm.formModeler.service.bb.mvc.taglib.formatter;
  * If it is SET_ATTRIBUTE, the name will be the attribute name, and value will be the attribute value.
  */
 public class ProcessingInstruction {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ProcessingInstruction.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(ProcessingInstruction.class.getName());
 
     public static final int RENDER_FRAGMENT = 0;
     public static final int SET_ATTRIBUTE = 1;

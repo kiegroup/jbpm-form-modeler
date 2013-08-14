@@ -15,12 +15,13 @@
  */
 package org.jbpm.formModeler.core.config;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.service.annotation.Priority;
 import org.jbpm.formModeler.service.annotation.Startable;
 import org.jbpm.formModeler.service.annotation.config.Config;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -32,8 +33,7 @@ import java.io.InputStream;
 @ApplicationScoped
 public class CoreFormsBuilder implements Startable {
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(CoreFormsBuilder.class);
 
     @Inject
     private FormManager formManager;

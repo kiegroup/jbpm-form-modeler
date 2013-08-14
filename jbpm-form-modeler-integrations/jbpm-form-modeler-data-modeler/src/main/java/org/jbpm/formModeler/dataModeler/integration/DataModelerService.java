@@ -15,7 +15,6 @@
  */
 package org.jbpm.formModeler.dataModeler.integration;
 
-import org.apache.commons.logging.Log;
 import org.guvnor.common.services.project.model.Project;
 import org.guvnor.common.services.project.service.ProjectService;
 import org.jbpm.formModeler.core.config.builders.DataHolderBuilder;
@@ -25,6 +24,8 @@ import org.jbpm.formModeler.dataModeler.model.DataModelerDataHolder;
 import org.kie.commons.io.IOService;
 import org.kie.workbench.common.screens.datamodeller.model.DataModelTO;
 import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
 
@@ -32,14 +33,12 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
 @ApplicationScoped
 public class DataModelerService implements DataHolderBuilder {
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(DataModelerService.class);
 
     @Inject
     private org.kie.workbench.common.screens.datamodeller.service.DataModelerService dataModelerService;

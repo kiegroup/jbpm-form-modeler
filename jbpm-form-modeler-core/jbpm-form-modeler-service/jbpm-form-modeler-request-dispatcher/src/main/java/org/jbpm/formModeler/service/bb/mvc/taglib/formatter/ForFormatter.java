@@ -16,8 +16,9 @@
 package org.jbpm.formModeler.service.bb.mvc.taglib.formatter;
 
 import org.apache.commons.jxpath.JXPathContext;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -54,8 +55,7 @@ import java.util.*;
 @Named("org.jbpm.formModeler.service.mvc.formatters.ForFormatter")
 public class ForFormatter extends Formatter {
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(ForFormatter.class);
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         log.debug("Servicing ForFormatter.");

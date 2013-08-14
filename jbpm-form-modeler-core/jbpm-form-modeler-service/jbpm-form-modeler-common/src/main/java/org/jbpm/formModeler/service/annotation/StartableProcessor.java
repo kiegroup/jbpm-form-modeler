@@ -15,8 +15,9 @@
  */
 package org.jbpm.formModeler.service.annotation;
 
-import org.apache.commons.logging.Log;
 import org.jbpm.formModeler.service.comparator.ComparatorUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
@@ -27,8 +28,7 @@ import java.util.List;
 
 public class StartableProcessor {
 
-    @Inject
-    protected Log log;
+    protected Logger log = LoggerFactory.getLogger(StartableProcessor.class);
 
     @Inject
     protected Instance<Startable> startables;
@@ -44,7 +44,7 @@ public class StartableProcessor {
         // Start the beans
         for (Startable startable : startableList) {
             try {
-                log.debug("Starting " + startable.getPriority() + " priority bean " + startable.getClass().getName());
+                log.debug("Starting {} priority bean {}",startable.getPriority(), startable.getClass().getName());
                 startable.start();
             } catch (Exception e) {
                 log.error("Error starting bean " + startable.getClass().getName(), e);

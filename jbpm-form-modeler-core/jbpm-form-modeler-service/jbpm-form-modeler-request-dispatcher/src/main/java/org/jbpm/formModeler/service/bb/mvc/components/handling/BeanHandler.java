@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.components.handling;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.service.bb.mvc.components.CurrentComponentRenderer;
 import org.jbpm.formModeler.service.bb.mvc.components.FactoryURL;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
@@ -23,6 +23,7 @@ import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.SendStreamResponse;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.ShowScreenResponse;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -32,8 +33,7 @@ import java.util.*;
 
 public abstract class BeanHandler implements Serializable {
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(BeanHandler.class);
 
     private List propertyErrors = new ArrayList();
     private Set wrongFields = new HashSet();

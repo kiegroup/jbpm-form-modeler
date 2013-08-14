@@ -15,10 +15,11 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.components;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -31,8 +32,7 @@ public class HandlerMarkupGenerator {
         return (HandlerMarkupGenerator) CDIBeanLocator.getBeanByType(HandlerMarkupGenerator.class);
     }
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(HandlerMarkupGenerator.class);
 
     public String getMarkup(String bean, String property) {
         StringBuffer sb = new StringBuffer();

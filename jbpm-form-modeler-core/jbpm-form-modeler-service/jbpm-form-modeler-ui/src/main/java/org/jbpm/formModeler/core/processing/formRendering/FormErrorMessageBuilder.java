@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.formRendering;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.core.processing.fieldHandlers.SubformFieldHandler;
@@ -27,6 +27,7 @@ import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -40,8 +41,7 @@ import java.util.ResourceBundle;
  */
 public class FormErrorMessageBuilder {
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(FormErrorMessageBuilder.class);
     
     private ResourceBundle bundle;
     private String requiredMessage;

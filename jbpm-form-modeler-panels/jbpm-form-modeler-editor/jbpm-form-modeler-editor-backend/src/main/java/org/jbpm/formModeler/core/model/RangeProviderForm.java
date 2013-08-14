@@ -15,16 +15,12 @@
  */
 package org.jbpm.formModeler.core.model;
 
-
-
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.httpclient.util.URIUtil;
 
-import org.apache.commons.logging.Log;
 import org.guvnor.common.services.project.model.Project;
 import org.guvnor.common.services.project.service.ProjectService;
 import org.jbpm.formModeler.api.model.Form;
@@ -35,6 +31,8 @@ import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
 import org.kie.workbench.common.services.datamodeller.util.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
 
@@ -43,8 +41,7 @@ import javax.inject.Named;
 import java.util.*;
 
 public class RangeProviderForm implements RangeProvider {
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(RangeProviderForm.class);
 
     @Inject
     @Named("ioStrategy")

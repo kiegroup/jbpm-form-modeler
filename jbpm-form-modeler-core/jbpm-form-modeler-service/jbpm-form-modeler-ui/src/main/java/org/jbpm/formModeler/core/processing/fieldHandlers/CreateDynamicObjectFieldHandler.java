@@ -24,6 +24,8 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -31,7 +33,7 @@ import java.util.*;
 
 @Named("org.jbpm.formModeler.core.processing.fieldHandlers.CreateDynamicObjectFieldHandler")
 public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CreateDynamicObjectFieldHandler.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(CreateDynamicObjectFieldHandler.class);
 
     public static final String CODE = "subformMultiple";
 

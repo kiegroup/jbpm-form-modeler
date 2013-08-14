@@ -16,6 +16,8 @@
 package org.jbpm.formModeler.service.bb.mvc.taglib.formatter;
 
 import org.apache.commons.jxpath.JXPathContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class ForComparator implements Comparator {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ForComparator.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(ForComparator.class);
     private List sortTokens = new ArrayList();
 
     public ForComparator(String sortProperties) {

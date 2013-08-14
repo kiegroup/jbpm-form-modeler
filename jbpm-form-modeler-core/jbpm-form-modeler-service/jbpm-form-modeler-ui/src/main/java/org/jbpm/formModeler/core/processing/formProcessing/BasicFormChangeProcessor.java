@@ -10,6 +10,8 @@ import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.core.processing.formProcessing.replacers.FormulaReplacementContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.Date;
@@ -18,7 +20,7 @@ import java.util.Map;
 
 
 public abstract class BasicFormChangeProcessor extends FormChangeProcessor {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(BasicFormChangeProcessor.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(BasicFormChangeProcessor.class);
 
     protected HashSet evaluatedFields = new HashSet();
 

@@ -15,10 +15,11 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.components;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.jbpm.formModeler.service.bb.mvc.controller.HTTPSettings;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -36,8 +37,7 @@ public class URLMarkupGenerator {
         return (URLMarkupGenerator) CDIBeanLocator.getBeanByType(URLMarkupGenerator.class);
     }
 
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(URLMarkupGenerator.class);
 
     private String handler = "factory";
     private String action = "set";

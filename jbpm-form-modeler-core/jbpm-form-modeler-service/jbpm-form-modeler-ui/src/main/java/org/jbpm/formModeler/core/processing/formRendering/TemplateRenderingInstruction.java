@@ -15,8 +15,11 @@
  */
 package org.jbpm.formModeler.core.processing.formRendering;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class TemplateRenderingInstruction {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(TemplateRenderingInstruction.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(TemplateRenderingInstruction.class);
 
     public abstract void doRender(FormRenderer renderer);
 

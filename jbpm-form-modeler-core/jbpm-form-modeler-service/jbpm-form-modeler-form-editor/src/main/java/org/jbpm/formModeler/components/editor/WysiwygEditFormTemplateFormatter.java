@@ -15,9 +15,10 @@
  */
 package org.jbpm.formModeler.components.editor;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,9 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Named("WysiwygEditFormTemplateFormatter")
 public class WysiwygEditFormTemplateFormatter extends Formatter {
-
-    @Inject
-    private Log log;
+    private Logger log = LoggerFactory.getLogger(WysiwygEditFormTemplateFormatter.class);
 
     @Inject
     private FormTemplateEditor formTemplateEditor;
