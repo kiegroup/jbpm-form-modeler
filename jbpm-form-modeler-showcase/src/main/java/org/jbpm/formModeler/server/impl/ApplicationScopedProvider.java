@@ -21,7 +21,6 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
-import java.util.logging.Logger;
 
 import static org.uberfire.backend.server.repositories.SystemRepository.SYSTEM_REPO;
 

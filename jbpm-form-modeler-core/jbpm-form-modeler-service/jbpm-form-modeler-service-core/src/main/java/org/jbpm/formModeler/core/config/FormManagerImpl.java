@@ -19,15 +19,17 @@ import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.*;
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.jbpm.formModeler.service.LocaleManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @ApplicationScoped
 public class FormManagerImpl implements FormManager {
+
+    private Logger log = LoggerFactory.getLogger(FormManager.class);
 
     @Inject
     private DataHolderManager dataHolderManager;
@@ -620,11 +622,11 @@ public class FormManagerImpl implements FormManager {
     }
 
     protected void logWarn(String message) {
-        Logger.getLogger(FormManagerImpl.class.getName()).log(Level.WARNING, message);
+        log.warn(message);
     }
 
     protected void logError(String message) {
-        Logger.getLogger(FormManagerImpl.class.getName()).log(Level.SEVERE, message);
+        log.error(message);
     }
 
     @Override
