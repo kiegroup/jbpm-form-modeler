@@ -101,8 +101,10 @@
                 <groupId>org.zanata</groupId>
                 <artifactId>zanata-maven-plugin</artifactId>
                 <configuration>
-                    <includes>**/*_en.properties</includes>
-                    <includes>**/*Constants.properties</includes>
+                    <projectConfig>${session.executionRootDirectory}/zanata.xml</projectConfig>
+                    <srcDir>src/main/resources/</srcDir>
+                    <transDir>src/main/resources/</transDir>
+                    <includes>**/*_en.properties,**/*Constants.properties</includes>
                 </configuration>
             </plugin>
 
