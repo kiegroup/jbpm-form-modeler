@@ -96,6 +96,16 @@
                 </configuration>
             </plugin>
 
+            <!-- Zanata - translations -->
+            <plugin>
+                <groupId>org.zanata</groupId>
+                <artifactId>zanata-maven-plugin</artifactId>
+                <configuration>
+                    <includes>**/*_en.properties</includes>
+                    <includes>**/*Constants.properties</includes>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
