@@ -3,7 +3,7 @@
   <url>https://translate.jboss.org/</url>
   <project>jbpm_form_modeler</project>
   <project-version>6.0.0</project-version>
-  <project-type>Utf8Properties</project-type>
+  <project-type>utf8properties</project-type>
 
     <locales>
         <locale map-from="es_ES">es</locale>
