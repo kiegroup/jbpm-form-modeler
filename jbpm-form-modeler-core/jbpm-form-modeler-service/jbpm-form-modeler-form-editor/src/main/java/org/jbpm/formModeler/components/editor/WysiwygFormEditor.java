@@ -81,7 +81,6 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public static final String RIGHT_FIELD_MODIFIER = "rightModifier";
     public static final String BOTTOM_FIELD_MODIFIER = "bottomModifier";
 
-    public static final String EDITION_OPTION_SAVE = "saveForm";
     public static final String EDITION_OPTION_FIELDTYPES = "fieldTypes";
     public static final String EDITION_OPTION_FORM_PROPERTIES = "formProperties";
     public static final String EDITION_OPTION_BINDINGS_FIELDS = "dataHoldersFields";
@@ -577,8 +576,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         checkEditionContext(request);
 
         String option = request.getRequestObject().getParameter("newMainOption");
-        if (EDITION_OPTION_SAVE.equals(option)) formEditorContextManager.saveContext(editionContext.getUID());
-        else setCurrentEditionOption(option);
+        setCurrentEditionOption(option);
     }
 
     public void saveCurrentForm(Map parameterMap) throws Exception {

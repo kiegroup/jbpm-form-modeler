@@ -172,4 +172,11 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
         }
 
     }
+
+    @Override
+    public boolean deleteForm(Path context) {
+        if (context == null) return false;
+        org.kie.commons.java.nio.file.Path kiePath = paths.convert(context);
+        return ioService.deleteIfExists(kiePath);
+    }
 }

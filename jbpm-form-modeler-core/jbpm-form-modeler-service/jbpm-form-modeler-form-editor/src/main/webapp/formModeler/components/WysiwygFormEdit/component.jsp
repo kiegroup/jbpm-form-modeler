@@ -70,7 +70,7 @@
                     <input type="image"
                            onclick="setFormInputValue(this.form,'newMainOption','<%=optionName%>');"
                            title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
-                           src="<static:image relativePath="<%=(String)optionImage%>"/>">&nbsp;<a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitForm(document.getElementById('<factory:encode name="changeMainOption"/>'));"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
+                           src="<static:image relativePath="<%=(String)optionImage%>"/>">&nbsp;<a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitAjaxForm(document.getElementById('<factory:encode name="changeMainOption"/>'));"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
                 </td>
             </mvc:fragmentValue>
         </mvc:fragmentValue>
@@ -80,12 +80,6 @@
             <mvc:fragmentValue name="displayBindings" id="displayBindings">
                 <mvc:fragmentValue name="displayCheckbox" id="displayCheckbox">
                     <mvc:fragmentValue name="displayGrid" id="displayGrid">
-                        <td class="HorMenuOff">
-                            <input type="image"
-                                   onclick="setFormInputValue(this.form,'newMainOption','<%=WysiwygFormEditor.EDITION_OPTION_SAVE%>');"
-                                   title="<i18n:message key="save">!!!Save</i18n:message>"
-                                   src="<static:image relativePath="general/Save.png"/>">&nbsp;<a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=WysiwygFormEditor.EDITION_OPTION_SAVE%>');submitForm(document.getElementById('<factory:encode name="changeMainOption"/>'));"><i18n:message key="save">!!!Save</i18n:message></a>
-                        </td>
                         </tr>
                         </table>
                         </form>

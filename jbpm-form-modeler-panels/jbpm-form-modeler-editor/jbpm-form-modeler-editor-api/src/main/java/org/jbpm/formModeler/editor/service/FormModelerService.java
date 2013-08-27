@@ -17,4 +17,6 @@ public interface FormModelerService extends Serializable {
     void removeEditingForm(String ctxUID);
 
     Path createForm(Path context, String formName);
+
+    boolean deleteForm(Path context);
 }

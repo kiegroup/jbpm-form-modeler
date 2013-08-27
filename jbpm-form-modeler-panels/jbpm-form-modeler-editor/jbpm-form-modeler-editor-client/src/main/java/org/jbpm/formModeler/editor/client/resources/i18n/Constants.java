@@ -25,4 +25,10 @@ public interface Constants extends Messages {
     public String form_modeler_form();
     public String form_modeler_new_form();
     public String form_modeler_save();
+    public String form_modeler_title(String name);
+    public String form_modeler_successfully_saved(String name);
+    public String form_modeler_cannot_save(String name);
+    public String form_modeler_cannot_load_form(String name);
+    public String form_modeler_delete();
+    public String form_modeler_confirm_delete();
 }
