@@ -86,7 +86,7 @@ public class NewFormDefinitionlHandler extends DefaultNewResourceHandler {
                                 public boolean error(Message message,
                                                      Throwable throwable) {
                                     BusyPopup.close();
-                                    ErrorPopup.showMessage(CommonConstants.INSTANCE.ExceptionFileAlreadyExists0(throwable.getMessage()));
+                                    ErrorPopup.showMessage(CommonConstants.INSTANCE.SorryAnItemOfThatNameAlreadyExistsInTheRepositoryPleaseChooseAnother());
                                     return true;
                                 }
                             }
