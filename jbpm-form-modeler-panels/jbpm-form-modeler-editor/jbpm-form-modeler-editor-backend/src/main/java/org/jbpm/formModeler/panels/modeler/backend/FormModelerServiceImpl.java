@@ -16,6 +16,8 @@
 package org.jbpm.formModeler.panels.modeler.backend;
 
 import org.apache.commons.lang.StringUtils;
+import org.guvnor.common.services.backend.exceptions.ExceptionUtilities;
+import org.jboss.errai.bus.client.api.base.MessageDeliveryFailure;
 import org.jboss.errai.bus.server.annotations.Service;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.config.FormManager;
@@ -29,10 +31,12 @@ import org.jbpm.formModeler.api.client.FormEditorContext;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
+import org.kie.commons.java.nio.file.FileAlreadyExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
+import org.uberfire.workbench.events.NotificationEvent;
 import org.uberfire.workbench.events.ResourceAddedEvent;
 import org.uberfire.workbench.events.ResourceUpdatedEvent;
 
@@ -63,6 +67,8 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     @Inject
     private Event<ResourceUpdatedEvent> resourceUpdatedEvent;
 
+    @Inject
+    private Event<NotificationEvent> notification;
 
     @Inject
     private FormManager formManager;
@@ -90,7 +96,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     @Override
     public FormEditorContextTO loadForm(Path context) {
         try {
-            org.kie.commons.java.nio.file.Path kiePath = paths.convert( context );
+            org.kie.commons.java.nio.file.Path kiePath = paths.convert(context);
 
             String xml = ioService.readAllString(kiePath).trim();
             Form form = formSerializationManager.loadFormFromXML(xml, kiePath.toUri().toString());
@@ -105,7 +111,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     @Override
     public FormEditorContext newContext(Form form, Object path) {
         FormRenderContext ctx = formRenderContextManager.newContext(form, new HashMap<String, Object>());
-        org.kie.commons.java.nio.file.Path kpath = paths.convert((Path)path);
+        org.kie.commons.java.nio.file.Path kpath = paths.convert((Path) path);
 
         FormEditorContext formEditorContext = new FormEditorContext(ctx, kpath.toUri().toString());
         formEditorContextMap.put(ctx.getUID(), formEditorContext);
@@ -147,21 +153,23 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
 
     @Override
     public Path createForm(Path context, String formName) {
-        org.kie.commons.java.nio.file.Path kiePath = paths.convert(context ).resolve(formName);
+        org.kie.commons.java.nio.file.Path kiePath = paths.convert(context).resolve(formName);
+        try {
+            ioService.createFile(kiePath);
 
-        if (ioService.exists(kiePath)) {
-            return context;
+            Form form = formManager.createForm(formName);
+
+            ioService.write(kiePath, formSerializationManager.generateFormXML(form));
+
+            final Path path = paths.convert(kiePath, false);
+            resourceAddedEvent.fire(new ResourceAddedEvent(path));
+
+            return path;
+        } catch (FileAlreadyExistsException e) {
+            throw new IllegalArgumentException( kiePath.toString());
+        } catch (Exception e) {
+            throw new IllegalArgumentException(kiePath.toString());
         }
 
-        ioService.createFile(kiePath);
-
-        Form form = formManager.createForm(formName);
-
-        ioService.write(kiePath, formSerializationManager.generateFormXML(form));
-
-        final Path path = paths.convert(kiePath, false);
-        resourceAddedEvent.fire(new ResourceAddedEvent(path));
-
-        return path;
     }
 }
