@@ -537,6 +537,11 @@
           <artifactId>jbpm-form-modeler-data-modeler</artifactId>
       </dependency>
 
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+    </dependency>
+
   </dependencies>
 
   <build>

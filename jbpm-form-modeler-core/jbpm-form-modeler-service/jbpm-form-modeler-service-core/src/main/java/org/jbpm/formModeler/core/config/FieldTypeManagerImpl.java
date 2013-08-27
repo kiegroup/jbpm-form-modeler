@@ -106,6 +106,7 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         iconsMappings.put("I18nText", "fieldTypes/textbox.png");
         iconsMappings.put("InputTextFloat", "fieldTypes/box_number.png");
         iconsMappings.put("InputTextBigDecimal", "fieldTypes/box_number.png");
+        iconsMappings.put("InputTextBigInteger", "fieldTypes/box_number.png");
 
         iconsMappings.put("InputTextDouble", "fieldTypes/box_number.png");
         iconsMappings.put("HTMLLabel", "fieldTypes/rich_text_box.png");
@@ -134,6 +135,7 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         baseTypes.add("InputTextInteger");
         baseTypes.add("InputTextShort");
         baseTypes.add("InputTextBigDecimal");
+        baseTypes.add("InputTextBigInteger");
         baseTypes.add("InputTextDouble");
         baseTypes.add("InputTextFloat");
 
