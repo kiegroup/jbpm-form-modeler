@@ -18,18 +18,27 @@ package org.jbpm.formModeler.editor.client.handlers;
 
 import com.google.gwt.user.client.ui.IsWidget;
 import org.jboss.errai.bus.client.api.RemoteCallback;
+import org.jboss.errai.bus.client.api.base.MessageDeliveryFailure;
 import org.jboss.errai.ioc.client.api.Caller;
 import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
 import org.jbpm.formModeler.editor.service.FormModelerService;
+import org.kie.workbench.common.widgets.client.callbacks.DefaultErrorCallback;
 import org.kie.workbench.common.widgets.client.handlers.DefaultNewResourceHandler;
 import org.kie.workbench.common.widgets.client.handlers.NewResourcePresenter;
+import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.common.BusyPopup;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.mvp.PlaceRequest;
 import org.uberfire.mvp.impl.PathPlaceRequest;
+import org.uberfire.workbench.events.NotificationEvent;
+import org.jboss.errai.bus.client.api.ErrorCallback;
+import org.jboss.errai.bus.client.api.Message;
+import org.kie.workbench.common.widgets.client.popups.errors.ErrorPopup;
+import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 @ApplicationScoped
@@ -45,6 +54,9 @@ public class NewFormDefinitionlHandler extends DefaultNewResourceHandler {
     @Inject
     private FormDefinitionResourceType resourceType;
 
+    @Inject
+    private Event<NotificationEvent> notificationEvent;
+
     @Override
     public String getDescription() {
         return "New Form";
@@ -59,15 +71,27 @@ public class NewFormDefinitionlHandler extends DefaultNewResourceHandler {
     public void create(org.guvnor.common.services.project.model.Package pkg, String baseFileName, final NewResourcePresenter presenter) {
         BusyPopup.showMessage("Creating New Form");
 
-        modelerService.call( new RemoteCallback<Path>() {
-            @Override
-            public void callback( final Path path ) {
-                BusyPopup.close();
-                presenter.complete();
-                notifySuccess();
-                PlaceRequest place = new PathPlaceRequest(path, "FormModelerEditor");
-                placeManager.goTo(place);
-            }
-        } ).createForm(pkg.getPackageMainResourcesPath(), buildFileName(resourceType, baseFileName));
+        modelerService.call(new RemoteCallback<Path>() {
+                                @Override
+                                public void callback(final Path path) {
+                                    BusyPopup.close();
+                                    presenter.complete();
+                                    notifySuccess();
+                                    PlaceRequest place = new PathPlaceRequest(path, "FormModelerEditor");
+                                    placeManager.goTo(place);
+
+                                }
+                            }, new ErrorCallback() {
+                                @Override
+                                public boolean error(Message message,
+                                                     Throwable throwable) {
+                                    BusyPopup.close();
+                                    ErrorPopup.showMessage(CommonConstants.INSTANCE.ExceptionFileAlreadyExists0(throwable.getMessage()));
+                                    return true;
+                                }
+                            }
+        ).createForm(pkg.getPackageMainResourcesPath(), buildFileName(resourceType, baseFileName));
     }
+
+
 }
