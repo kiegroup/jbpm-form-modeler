@@ -234,7 +234,8 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
             "Double".equals(type) || Double.class.getName().equals(type) ||
             "Boolean".equals(type) || Boolean.class.getName().equals(type) ||
             "Date".equals(type) || Date.class.getName().equals(type) ||
-            "BigDecimal".equals(type) || java.math.BigDecimal.class.getName().equals(type);
+            "BigDecimal".equals(type) || java.math.BigDecimal.class.getName().equals(type) ||
+            "BigInteger".equals(type) || java.math.BigInteger.class.getName().equals(type);
     }
     
     private String normalizeBaseType(String type) {
@@ -248,6 +249,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
             if ("Boolean".equals(type)) return Boolean.class.getName();
             if ("Date".equals(type)) return Date.class.getName();
             if ("BigDecimal".equals(type)) return java.math.BigDecimal.class.getName();
+            if ("BigInteger".equals(type)) return java.math.BigInteger.class.getName();
         }
         return type;
     }
