@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.api.model;
 
-public class FormDisplayInfo {
+public class FormDisplayInfo implements Comparable{
 
     private String displayData = "";
 
@@ -70,4 +70,12 @@ public class FormDisplayInfo {
         return displayMode.hashCode();
     }
 
+    @Override
+    public int compareTo(Object o) {
+        try{
+            return displayMode.compareTo(((FormDisplayInfo)o).getDisplayMode());
+        }catch (Exception e){
+            return -1;
+        }
+    }
 }
