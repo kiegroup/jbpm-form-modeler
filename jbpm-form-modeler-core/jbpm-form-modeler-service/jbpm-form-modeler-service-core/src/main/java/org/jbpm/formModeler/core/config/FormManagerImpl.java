@@ -675,7 +675,7 @@ public class FormManagerImpl implements FormManager {
             Set<DataFieldHolder> holderFields = holder.getFieldHolders();
             for (DataFieldHolder dataFieldHolder : holderFields) {
                 String holderId = holder.getUniqeId();
-                addDataFieldHolder(form, holderId, dataFieldHolder.getId(), dataFieldHolder.getClassName());
+                if (!form.isFieldBinded(holder, dataFieldHolder.getId())) addDataFieldHolder(form, holderId, dataFieldHolder.getId(), dataFieldHolder.getClassName());
             }
         }
     }
