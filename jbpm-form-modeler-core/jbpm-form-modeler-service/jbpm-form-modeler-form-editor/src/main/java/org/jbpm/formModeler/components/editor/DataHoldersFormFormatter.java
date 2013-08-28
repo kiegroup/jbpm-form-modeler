@@ -182,18 +182,13 @@ public class DataHoldersFormFormatter extends Formatter {
                             setAttribute("type", dataHolder.getTypeCode());
                             setAttribute("renderColor", dataHolder.getRenderColor());
 
-                            if (dataHolder.getInputId() != null && dataHolder.getInputId().equals(wysiwygFormEditor.getLastDataHolderUsedId())) {
+                            if (dataHolder.getUniqeId() != null && dataHolder.getUniqeId().equals(wysiwygFormEditor.getLastDataHolderUsedId())) {
                                 setAttribute("open", Boolean.TRUE);
                             } else {
                                 setAttribute("open", Boolean.FALSE);
                             }
                             String holderName = "";
 
-                            if (!StringUtils.isEmpty(dataHolder.getInputId())) holderName += dataHolder.getInputId();
-                            if (!StringUtils.isEmpty(dataHolder.getOuputId())) {
-                                if(holderName.length() > 0) holderName += "/";
-                                holderName += dataHolder.getOuputId();
-                            }
                             holderName=dataHolder.getUniqeId();
                             if (holderName.length() > 20) holderName = holderName.substring(0, 19) + "...";
 
