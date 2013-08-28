@@ -62,14 +62,15 @@ public class AvailableTemplateElementsFormatter extends Formatter {
     protected void renderItemsToAdd(List fieldsToAdd, String type) {
         if (fieldsToAdd != null && !fieldsToAdd.isEmpty()) {
             renderFragment("outputStartItemsToAdd");
+            String label="";
             for (int i = 0; i < fieldsToAdd.size(); i++) {
                 Field field = (Field) fieldsToAdd.get(i);
+                label = (String)field.getLabel().get(LocaleManager.lookup().getDefaultLang());
                 setAttribute("key", ("Field".equals(type) ? Form.TEMPLATE_FIELD : Form.TEMPLATE_LABEL)
                         + "{" + field.getFieldName() + "}");
                 setAttribute("val",
                         field.getFieldName()
-                                + " - " +
-                                field.getLabel().get(LocaleManager.lookup().getDefaultLang())
+                                + (label !=null? " - " + label :"")
                 );
                 renderFragment("outputItemToAdd");
             }
