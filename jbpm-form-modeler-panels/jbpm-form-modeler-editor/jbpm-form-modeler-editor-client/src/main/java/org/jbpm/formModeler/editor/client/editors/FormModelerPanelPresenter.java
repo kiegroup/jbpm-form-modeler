@@ -15,11 +15,15 @@
  */
 package org.jbpm.formModeler.editor.client.editors;
 
+import javax.enterprise.context.Dependent;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+
 import com.google.gwt.user.client.Window;
 import org.guvnor.common.services.shared.file.DeleteService;
-import org.jboss.errai.bus.client.api.RemoteCallback;
-import org.jboss.errai.ioc.client.api.Caller;
-import org.jboss.errai.ioc.client.container.IOCBeanManager;
+import org.jboss.errai.common.client.api.Caller;
+import org.jboss.errai.common.client.api.RemoteCallback;
+import org.jboss.errai.ioc.client.container.SyncBeanManager;
 import org.jbpm.formModeler.api.client.FormEditorContextTO;
 import org.jbpm.formModeler.editor.client.resources.i18n.Constants;
 import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
@@ -28,11 +32,13 @@ import org.kie.workbench.common.widgets.client.callbacks.HasBusyIndicatorDefault
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 import org.kie.workbench.common.widgets.client.widget.BusyIndicatorView;
 import org.uberfire.backend.vfs.Path;
-import org.uberfire.client.annotations.*;
+import org.uberfire.client.annotations.WorkbenchEditor;
+import org.uberfire.client.annotations.WorkbenchMenu;
+import org.uberfire.client.annotations.WorkbenchPartTitle;
+import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.mvp.UberView;
 import org.uberfire.lifecycle.OnClose;
-import org.uberfire.lifecycle.OnFocus;
 import org.uberfire.lifecycle.OnOpen;
 import org.uberfire.lifecycle.OnSave;
 import org.uberfire.lifecycle.OnStartup;
@@ -42,20 +48,10 @@ import org.uberfire.mvp.impl.PathPlaceRequest;
 import org.uberfire.workbench.events.NotificationEvent;
 import org.uberfire.workbench.events.ResourceDeletedEvent;
 import org.uberfire.workbench.model.menu.MenuFactory;
-import org.uberfire.workbench.model.menu.MenuItem;
 import org.uberfire.workbench.model.menu.Menus;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.uberfire.workbench.model.menu.MenuFactory.newSimpleItem;
-
-
 @Dependent
-@WorkbenchEditor(identifier = "FormModelerEditor", supportedTypes = {FormDefinitionResourceType.class })
+@WorkbenchEditor(identifier = "FormModelerEditor", supportedTypes = { FormDefinitionResourceType.class })
 public class FormModelerPanelPresenter {
 
     public interface FormModelerPanelView
@@ -64,11 +60,11 @@ public class FormModelerPanelPresenter {
 
         void hideForm();
 
-        void loadContext(FormEditorContextTO context);
+        void loadContext( FormEditorContextTO context );
     }
 
     @Inject
-    private IOCBeanManager iocBeanManager;
+    private SyncBeanManager iocBeanManager;
 
     @Inject
     private PlaceManager placeManager;
@@ -98,88 +94,94 @@ public class FormModelerPanelPresenter {
     private Path path;
 
     @OnStartup
-    public void onStartup(final Path path, PlaceRequest placeRequest) {
+    public void onStartup( final Path path,
+                           PlaceRequest placeRequest ) {
 
         this.path = path;
 
-        modelerService.call(new RemoteCallback<FormEditorContextTO>() {
+        modelerService.call( new RemoteCallback<FormEditorContextTO>() {
             @Override
-            public void callback(FormEditorContextTO ctx) {
-                if (ctx == null) {
-                    notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_load_form(path.getFileName()), NotificationEvent.NotificationType.ERROR));
+            public void callback( FormEditorContextTO ctx ) {
+                if ( ctx == null ) {
+                    notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_cannot_load_form( path.getFileName() ), NotificationEvent.NotificationType.ERROR ) );
                 } else {
-                    loadContext(ctx);
+                    loadContext( ctx );
                     makeMenuBar();
                 }
             }
-        }).loadForm(path);
+        } ).loadForm( path );
 
     }
 
     @OnSave
     public void onSave() {
         try {
-            modelerService.call(new RemoteCallback<Long>() {
+            modelerService.call( new RemoteCallback<Long>() {
                 @Override
-                public void callback(Long formId) {
-                    notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_successfully_saved(context.getFormName()), NotificationEvent.NotificationType.SUCCESS));
+                public void callback( Long formId ) {
+                    notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_successfully_saved( context.getFormName() ), NotificationEvent.NotificationType.SUCCESS ) );
                 }
-            }).saveForm(context.getCtxUID());
-        } catch (Exception e) {
-            notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_save(context.getFormName()), NotificationEvent.NotificationType.ERROR));
+            } ).saveForm( context.getCtxUID() );
+        } catch ( Exception e ) {
+            notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_cannot_save( context.getFormName() ), NotificationEvent.NotificationType.ERROR ) );
         }
 
     }
 
     protected void onDelete() {
-        if (path == null || !Window.confirm(Constants.INSTANCE.form_modeler_confirm_delete())) return;
+        if ( path == null || !Window.confirm( Constants.INSTANCE.form_modeler_confirm_delete() ) ) {
+            return;
+        }
         RemoteCallback deleteCallBack = new RemoteCallback<Void>() {
 
             @Override
-            public void callback(final Void response) {
-                notification.fire(new NotificationEvent( CommonConstants.INSTANCE.ItemDeletedSuccessfully(), NotificationEvent.NotificationType.SUCCESS));
-                placeManager.closePlace(new PathPlaceRequest(path));
-                resourceDeleteEvent.fire(new ResourceDeletedEvent(path));
+            public void callback( final Void response ) {
+                notification.fire( new NotificationEvent( CommonConstants.INSTANCE.ItemDeletedSuccessfully(), NotificationEvent.NotificationType.SUCCESS ) );
+                placeManager.closePlace( new PathPlaceRequest( path ) );
+                resourceDeleteEvent.fire( new ResourceDeletedEvent( path ) );
             }
         };
 
-        deleteService.call(deleteCallBack, new HasBusyIndicatorDefaultErrorCallback( busyIndicatorView ) ).delete(path, "");
+        deleteService.call( deleteCallBack, new HasBusyIndicatorDefaultErrorCallback( busyIndicatorView ) ).delete( path, "" );
     }
 
     @OnOpen
     public void onOpen() {
         makeMenuBar();
 
-        if(context==null) return;
+        if ( context == null ) {
+            return;
+        }
 
-        modelerService.call(new RemoteCallback<FormEditorContextTO>() {
+        modelerService.call( new RemoteCallback<FormEditorContextTO>() {
             @Override
-            public void callback(FormEditorContextTO context) {
-                loadContext(context);
+            public void callback( FormEditorContextTO context ) {
+                loadContext( context );
             }
 
-        }).setFormFocus((context!=null? context.getCtxUID():null));
+        } ).setFormFocus( ( context != null ? context.getCtxUID() : null ) );
 
     }
 
     @OnClose
     public void onClose() {
-        modelerService.call(new RemoteCallback<Long>() {
+        modelerService.call( new RemoteCallback<Long>() {
             @Override
-            public void callback(Long formId) {
+            public void callback( Long formId ) {
             }
 
-        }).removeEditingForm(context.getCtxUID());
+        } ).removeEditingForm( context.getCtxUID() );
 
     }
-    public void loadContext(FormEditorContextTO ctx) {
+
+    public void loadContext( FormEditorContextTO ctx ) {
         this.context = ctx;
-        view.loadContext(ctx);
+        view.loadContext( ctx );
     }
 
     @WorkbenchPartTitle
     public String getTitle() {
-        return Constants.INSTANCE.form_modeler_title(path.getFileName());
+        return Constants.INSTANCE.form_modeler_title( path.getFileName() );
     }
 
     @WorkbenchPartView
@@ -189,7 +191,9 @@ public class FormModelerPanelPresenter {
 
     @WorkbenchMenu
     public Menus getMenus() {
-        if (menus == null) makeMenuBar();
+        if ( menus == null ) {
+            makeMenuBar();
+        }
         return menus;
     }
 
@@ -218,6 +222,5 @@ public class FormModelerPanelPresenter {
                 .endMenu()
                 .build();
     }
-
 
 }

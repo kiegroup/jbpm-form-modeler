@@ -15,12 +15,11 @@
  */
 package org.jbpm.formModeler.api.client;
 
-import org.jbpm.formModeler.api.client.FormRenderContextTO;
-import org.jbpm.formModeler.api.model.Form;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.jbpm.formModeler.api.model.Form;
 
 public class FormRenderContext implements Serializable {
     private String UID;
@@ -32,6 +31,8 @@ public class FormRenderContext implements Serializable {
     private int errors;
     private Object marshaller;
     private Map<String, Object> contextForms = new HashMap<String, Object>();
+
+    public FormRenderContext(){}
 
     public FormRenderContext(String uid, Form form, Map<String, Object> inputData, Map<String, Object> outputData) {
         this.UID = uid;

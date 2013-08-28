@@ -15,16 +15,20 @@
  */
 package org.jbpm.formModeler.editor.client.handlers;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 
 import com.google.gwt.user.client.ui.IsWidget;
-import org.jboss.errai.bus.client.api.RemoteCallback;
-import org.jboss.errai.bus.client.api.base.MessageDeliveryFailure;
-import org.jboss.errai.ioc.client.api.Caller;
+import org.jboss.errai.bus.client.api.messaging.Message;
+import org.jboss.errai.common.client.api.Caller;
+import org.jboss.errai.common.client.api.ErrorCallback;
+import org.jboss.errai.common.client.api.RemoteCallback;
 import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
 import org.jbpm.formModeler.editor.service.FormModelerService;
-import org.kie.workbench.common.widgets.client.callbacks.DefaultErrorCallback;
 import org.kie.workbench.common.widgets.client.handlers.DefaultNewResourceHandler;
 import org.kie.workbench.common.widgets.client.handlers.NewResourcePresenter;
+import org.kie.workbench.common.widgets.client.popups.errors.ErrorPopup;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.common.BusyPopup;
@@ -32,18 +36,9 @@ import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.mvp.PlaceRequest;
 import org.uberfire.mvp.impl.PathPlaceRequest;
 import org.uberfire.workbench.events.NotificationEvent;
-import org.jboss.errai.bus.client.api.ErrorCallback;
-import org.jboss.errai.bus.client.api.Message;
-import org.kie.workbench.common.widgets.client.popups.errors.ErrorPopup;
-import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
 
 @ApplicationScoped
 public class NewFormDefinitionlHandler extends DefaultNewResourceHandler {
-
 
     @Inject
     private Caller<FormModelerService> modelerService;
@@ -68,30 +63,31 @@ public class NewFormDefinitionlHandler extends DefaultNewResourceHandler {
     }
 
     @Override
-    public void create(org.guvnor.common.services.project.model.Package pkg, String baseFileName, final NewResourcePresenter presenter) {
-        BusyPopup.showMessage("Creating New Form");
+    public void create( org.guvnor.common.services.project.model.Package pkg,
+                        String baseFileName,
+                        final NewResourcePresenter presenter ) {
+        BusyPopup.showMessage( "Creating New Form" );
 
-        modelerService.call(new RemoteCallback<Path>() {
-                                @Override
-                                public void callback(final Path path) {
-                                    BusyPopup.close();
-                                    presenter.complete();
-                                    notifySuccess();
-                                    PlaceRequest place = new PathPlaceRequest(path, "FormModelerEditor");
-                                    placeManager.goTo(place);
+        modelerService.call( new RemoteCallback<Path>() {
+                                 @Override
+                                 public void callback( final Path path ) {
+                                     BusyPopup.close();
+                                     presenter.complete();
+                                     notifySuccess();
+                                     PlaceRequest place = new PathPlaceRequest( path, "FormModelerEditor" );
+                                     placeManager.goTo( place );
 
-                                }
-                            }, new ErrorCallback() {
-                                @Override
-                                public boolean error(Message message,
-                                                     Throwable throwable) {
-                                    BusyPopup.close();
-                                    ErrorPopup.showMessage(CommonConstants.INSTANCE.SorryAnItemOfThatNameAlreadyExistsInTheRepositoryPleaseChooseAnother());
-                                    return true;
-                                }
-                            }
-        ).createForm(pkg.getPackageMainResourcesPath(), buildFileName(resourceType, baseFileName));
+                                 }
+                             }, new ErrorCallback<Message>() {
+                                 @Override
+                                 public boolean error( Message message,
+                                                       Throwable throwable ) {
+                                     BusyPopup.close();
+                                     ErrorPopup.showMessage( CommonConstants.INSTANCE.SorryAnItemOfThatNameAlreadyExistsInTheRepositoryPleaseChooseAnother() );
+                                     return true;
+                                 }
+                             }
+                           ).createForm( pkg.getPackageMainResourcesPath(), buildFileName( resourceType, baseFileName ) );
     }
-
 
 }
