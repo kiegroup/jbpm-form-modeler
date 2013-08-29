@@ -17,9 +17,10 @@ package org.jbpm.formModeler.api.model;
 
 import org.jbpm.formModeler.api.client.FormRenderContext;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public interface DataHolder extends Comparable{
+public interface DataHolder extends Comparable, Serializable {
     String getUniqeId();
     String getInputId();
     String getOuputId();

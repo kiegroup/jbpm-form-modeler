@@ -17,9 +17,10 @@ package org.jbpm.formModeler.api.model;
 
 import org.jbpm.formModeler.core.processing.FormProcessor;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class FieldType {
+public class FieldType implements Serializable {
 
     private String managerClass;
 

@@ -91,7 +91,7 @@ public class FormModelerFormProvider implements FormProvider {
 
             // Adding forms to context while forms are'nt available on marshaller classloader
             FormRenderContext context = formRenderContextManager.newContext(form, inputs, outputs, buildContextForms(task));
-            context.setMarshaller(renderContext.get("marshallerContext"));
+            context.setDeploymentId((String) renderContext.get("deploymentId"));
 
             String status = task.getTaskData().getStatus().name();
             boolean disabled = "Reserved".equals(status) || "Ready".equals(status);
@@ -116,7 +116,7 @@ public class FormModelerFormProvider implements FormProvider {
 
             // Adding forms to context while forms are'nt available on marshaller classloader
             FormRenderContext context = formRenderContextManager.newContext(form, ctx, new HashMap<String, Object>(), buildContextForms(process));
-            context.setMarshaller(renderContext.get("marshallerContext"));
+            context.setDeploymentId((String) renderContext.get("deploymentId"));
 
             result = context.getUID();
         } catch (Exception e) {

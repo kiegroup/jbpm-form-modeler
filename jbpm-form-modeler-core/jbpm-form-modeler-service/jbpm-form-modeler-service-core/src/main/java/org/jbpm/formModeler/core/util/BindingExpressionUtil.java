@@ -15,7 +15,9 @@
  */
 package org.jbpm.formModeler.core.util;
 
-public class BindingExpressionUtil {
+import java.io.Serializable;
+
+public class BindingExpressionUtil implements Serializable {
     
     public static BindingExpressionUtil getInstance() {
         return new BindingExpressionUtil();        
