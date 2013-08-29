@@ -15,21 +15,16 @@
  */
 package org.jbpm.formModeler.api.model.wrappers;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  *  Wrapper class for Multilanguage Strings
  */
-public class I18nSet extends AbstractMap implements Comparable {
+public class I18nSet extends AbstractMap implements Serializable, Comparable {
 
     // Set of I18nEntry objects
-    private TreeSet entrySet = new TreeSet(new Comparator() {
-        public int compare(Object o1, Object o2) {
-            I18nEntry entry1 = (I18nEntry) o1;
-            I18nEntry entry2 = (I18nEntry) o2;
-            return entry1.getLang().compareTo(entry2.getLang());
-        }
-    });
+    private TreeSet entrySet = new TreeSet(new I18nEntryComparator());
 
     public I18nSet() {
         super();
@@ -106,5 +101,11 @@ public class I18nSet extends AbstractMap implements Comparable {
 
     public Iterator iterator() {
         return entrySet.iterator();
+    }
+}
+class I18nEntryComparator implements Comparator<I18nEntry>, Serializable {
+    @Override
+    public int compare(I18nEntry o1, I18nEntry o2) {
+        return o1.getLang().compareTo(o2.getLang());
     }
 }

@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.api.model.wrappers;
 
+import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +23,7 @@ import java.util.Set;
 /**
  * Implementation of I18nEntry
  */
-public class I18nEntryImpl extends AbstractMap implements I18nEntry {
+public class I18nEntryImpl extends AbstractMap implements Serializable, I18nEntry {
 
     private String lng;
     private Object val;

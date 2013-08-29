@@ -15,7 +15,9 @@
  */
 package org.jbpm.formModeler.api.model;
 
-public class FormDisplayInfo implements Comparable{
+import java.io.Serializable;
+
+public class FormDisplayInfo implements Comparable, Serializable {
 
     private String displayData = "";
 

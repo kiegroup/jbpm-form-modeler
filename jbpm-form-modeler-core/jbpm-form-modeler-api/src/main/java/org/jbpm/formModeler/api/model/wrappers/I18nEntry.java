@@ -15,12 +15,13 @@
  */
 package org.jbpm.formModeler.api.model.wrappers;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * Definition for I18nEntries used on I18nProperties.
  */
-public interface I18nEntry extends Map.Entry {
+public interface I18nEntry extends Serializable, Map.Entry {
     public abstract String getLang();
 
     public abstract Object getValue();

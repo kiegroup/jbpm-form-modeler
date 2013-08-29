@@ -19,6 +19,8 @@ import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.model.PojoDataHolder;
+import org.jbpm.formModeler.dataModeler.integration.ContentMarshallerObtainer;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.kie.internal.task.api.ContentMarshallerContext;
 import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
 import org.kie.workbench.common.screens.datamodeller.model.ObjectPropertyTO;
@@ -32,7 +34,8 @@ public class DataModelerDataHolder extends PojoDataHolder {
 
     @Override
     public Object createInstance(FormRenderContext context) throws Exception {
-        ContentMarshallerContext contextMarshaller = (ContentMarshallerContext) context.getMarshaller();
+        ContentMarshallerObtainer marshallerObtainer = (ContentMarshallerObtainer) CDIBeanLocator.getBeanByType(ContentMarshallerObtainer.class);
+        ContentMarshallerContext contextMarshaller = marshallerObtainer.getMarshaller(context.getDeploymentId());
         ClassLoader classLoader = contextMarshaller.getClassloader();
         return createInstance(classLoader.loadClass(getClassName()));
     }

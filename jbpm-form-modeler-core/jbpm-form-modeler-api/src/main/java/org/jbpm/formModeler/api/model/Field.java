@@ -17,12 +17,13 @@ package org.jbpm.formModeler.api.model;
 
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Definition of a Form Field.
  */
-public class Field implements Comparable<Field> {
+public class Field implements Serializable, Comparable<Field> {
     private Long id;
 
     private I18nSet title;
