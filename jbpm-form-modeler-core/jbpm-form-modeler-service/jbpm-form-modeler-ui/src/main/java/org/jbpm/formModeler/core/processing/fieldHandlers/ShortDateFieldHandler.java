@@ -19,10 +19,12 @@ import org.jbpm.formModeler.service.annotation.config.Config;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Handler for short dates
  */
+@Named("org.jbpm.formModeler.core.processing.fieldHandlers.ShortDateFieldHandler")
 public class ShortDateFieldHandler extends DateFieldHandler {
 
     public ShortDateFieldHandler() {

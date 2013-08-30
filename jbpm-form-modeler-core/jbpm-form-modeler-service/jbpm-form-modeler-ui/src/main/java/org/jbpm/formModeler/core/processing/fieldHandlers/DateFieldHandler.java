@@ -22,6 +22,7 @@ import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Named;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,6 +32,7 @@ import java.util.Map;
 /**
  * Handler for dates
  */
+@Named("org.jbpm.formModeler.core.processing.fieldHandlers.DateFieldHandler")
 public class DateFieldHandler extends DefaultFieldHandler {
     private static transient Logger log = LoggerFactory.getLogger(DateFieldHandler.class);
 
