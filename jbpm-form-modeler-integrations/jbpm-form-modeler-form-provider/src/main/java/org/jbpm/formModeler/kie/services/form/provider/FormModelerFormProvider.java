@@ -1,5 +1,7 @@
 package org.jbpm.formModeler.kie.services.form.provider;
 
+import org.jbpm.formModeler.kie.services.FormRenderContentMarshallerManager;
+import org.kie.internal.task.api.ContentMarshallerContext;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
@@ -31,6 +33,9 @@ public class FormModelerFormProvider implements FormProvider {
 
     @Inject
     private FormRenderContextManager formRenderContextManager;
+
+    @Inject
+    private FormRenderContentMarshallerManager formRenderContentMarshaller;
 
     @Override
     public int getPriority() {
@@ -91,7 +96,7 @@ public class FormModelerFormProvider implements FormProvider {
 
             // Adding forms to context while forms are'nt available on marshaller classloader
             FormRenderContext context = formRenderContextManager.newContext(form, inputs, outputs, buildContextForms(task));
-            context.setDeploymentId((String) renderContext.get("deploymentId"));
+            formRenderContentMarshaller.addContentMarshaller(context.getUID(), (ContentMarshallerContext) renderContext.get("marshallerContext"));
 
             String status = task.getTaskData().getStatus().name();
             boolean disabled = "Reserved".equals(status) || "Ready".equals(status);
@@ -116,7 +121,7 @@ public class FormModelerFormProvider implements FormProvider {
 
             // Adding forms to context while forms are'nt available on marshaller classloader
             FormRenderContext context = formRenderContextManager.newContext(form, ctx, new HashMap<String, Object>(), buildContextForms(process));
-            context.setDeploymentId((String) renderContext.get("deploymentId"));
+            formRenderContentMarshaller.addContentMarshaller(context.getUID(), (ContentMarshallerContext) renderContext.get("marshallerContext"));
 
             result = context.getUID();
         } catch (Exception e) {

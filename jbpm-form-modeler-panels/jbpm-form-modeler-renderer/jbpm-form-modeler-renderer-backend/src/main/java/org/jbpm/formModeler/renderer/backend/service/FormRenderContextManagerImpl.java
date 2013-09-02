@@ -23,6 +23,7 @@ import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
 import org.jbpm.formModeler.api.events.FormSubmittedEvent;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormProcessor;
+import org.jbpm.formModeler.kie.services.FormRenderContentMarshallerManager;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
@@ -41,6 +42,8 @@ public class FormRenderContextManagerImpl implements FormRenderContextManager {
 
     @Inject
     private Event<FormSubmittedEvent> formSubmittedEvent;
+
+    private FormRenderContentMarshallerManager formRenderContentMarshaller;
 
     protected Map<String, FormRenderContext> formRenderContextMap = new HashMap<String, FormRenderContext>();
 
