@@ -93,6 +93,8 @@ public class FormModelerPanelPresenter {
 
     private Path path;
 
+    private PlaceRequest place;
+
     @OnStartup
     public void onStartup( final Path path,
                            PlaceRequest placeRequest ) {
@@ -111,6 +113,8 @@ public class FormModelerPanelPresenter {
             }
         } ).loadForm( path );
 
+        this.place = placeRequest;
+
     }
 
     @OnSave
@@ -128,6 +132,7 @@ public class FormModelerPanelPresenter {
 
     }
 
+
     protected void onDelete() {
         if ( path == null || !Window.confirm( Constants.INSTANCE.form_modeler_confirm_delete() ) ) {
             return;
@@ -137,12 +142,14 @@ public class FormModelerPanelPresenter {
             @Override
             public void callback( final Void response ) {
                 notification.fire( new NotificationEvent( CommonConstants.INSTANCE.ItemDeletedSuccessfully(), NotificationEvent.NotificationType.SUCCESS ) );
-                placeManager.closePlace( new PathPlaceRequest( path ) );
+                placeManager.closePlace( place);
                 resourceDeleteEvent.fire( new ResourceDeletedEvent( path ) );
             }
         };
 
         deleteService.call( deleteCallBack, new HasBusyIndicatorDefaultErrorCallback( busyIndicatorView ) ).delete( path, "" );
+        onClose();
+
     }
 
     @OnOpen
