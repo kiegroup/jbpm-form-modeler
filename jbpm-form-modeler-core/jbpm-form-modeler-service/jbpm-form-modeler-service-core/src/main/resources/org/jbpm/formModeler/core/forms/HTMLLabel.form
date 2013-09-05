@@ -5,7 +5,7 @@
     <property name="labelMode" value="undefined"/>
     <property name="showMode" value=""/>
     <property name="status" value="0"/>
-    <field position="0" name="htmlContent" type="I18nTextArea" id="559575971">
+    <field position="0" name="htmlContent" type="I18nHTMLText" id="559575971">
         <property name="fieldName" value="htmlContent"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
