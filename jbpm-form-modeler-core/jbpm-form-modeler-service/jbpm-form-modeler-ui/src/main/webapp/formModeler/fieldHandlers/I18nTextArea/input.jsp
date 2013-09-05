@@ -121,10 +121,6 @@
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
-                                                                        <input name="<%=name + HTMLTextAreaFieldHandler.VALUE_SUFFIX%>" id="<%=uid + HTMLTextAreaFieldHandler.VALUE_SUFFIX%>" type="hidden"/>
-                                                                        <script>
-                                                                            CKEditorHandler.create('<%=uid%>_<%=LocaleManager.currentLang()%>', '<%=uid + HTMLTextAreaFieldHandler.VALUE_SUFFIX%>', '<%=title%>',<%=readonly%>,<%=tabindex%>,<%=100%>,<%=300%>,'<%=LocaleManager.currentLang()%>', '<%=maxlength%>');
-                                                                        </script>
 
 
                                                                     </mvc:fragmentValue>
