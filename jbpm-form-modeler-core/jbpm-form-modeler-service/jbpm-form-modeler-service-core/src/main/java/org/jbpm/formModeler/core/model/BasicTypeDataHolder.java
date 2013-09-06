@@ -108,12 +108,6 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
 
     @Override
     public void writeValue(Object destination, String propName, Object value) throws Exception {
-        //TODO.. verify this behaviour
-        if (destination == null) return;
-        Field field = destination.getClass().getDeclaredField(propName);
-
-        Method setterMethod = destination.getClass().getMethod("set" + capitalize(propName), new Class[]{field.getType()});
-        setterMethod.invoke(destination, new Object[]{value});
     }
 
     @Override
@@ -124,23 +118,11 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
         bindingExpression = bindingExpressionUtil.extractBindingExpression(bindingExpression);
 
         return readValue(source, bindingExpression);
-        //String[] bindingParts = bindingExpression.split("/");
-
-        //if (bindingParts.length == 2) {
-        //    return readValue(source, bindingParts[1]);
-        //}
-        //return null;
     }
 
     @Override
     public Object readValue(Object source, String propName) throws Exception {
-        //TODO.. verify this behaviour
-        if (source == null) return null;
-
-        Method getter = source.getClass().getMethod("get" + capitalize(propName));
-        Object value = getter.invoke(source);
-
-        return value;
+        return source;
     }
 
     private String capitalize(String string) {
