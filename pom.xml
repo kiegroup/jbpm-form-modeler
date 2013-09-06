@@ -102,8 +102,7 @@
                 <artifactId>zanata-maven-plugin</artifactId>
                 <configuration>
                     <projectConfig>${session.executionRootDirectory}/zanata.xml</projectConfig>
-                    <srcDir>src/main/resources/</srcDir>
-                    <transDir>src/main/resources/</transDir>
+                    <srcDir>.</srcDir>
                     <includes>**/*_en.properties,**/*Constants.properties</includes>
                 </configuration>
             </plugin>
