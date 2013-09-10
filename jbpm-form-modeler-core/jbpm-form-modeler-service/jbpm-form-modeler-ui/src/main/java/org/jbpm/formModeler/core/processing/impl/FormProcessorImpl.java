@@ -486,7 +486,8 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
                     Object holderOutputValue = result.get(holder.getOuputId());
                     if (holderOutputValue == null) {
-                        holderOutputValue = holder.createInstance(context);
+                        holderOutputValue = context.getInputData().get(holder.getInputId());
+                        if (holderOutputValue == null) holderOutputValue = holder.createInstance(context);
                         result.put(holder.getOuputId(), holderOutputValue);
                     }
 
