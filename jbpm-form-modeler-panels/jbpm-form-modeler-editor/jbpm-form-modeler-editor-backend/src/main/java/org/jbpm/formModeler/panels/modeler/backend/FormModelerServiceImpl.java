@@ -15,19 +15,25 @@
  */
 package org.jbpm.formModeler.panels.modeler.backend;
 
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.apache.commons.lang.StringUtils;
-import org.guvnor.common.services.backend.exceptions.ExceptionUtilities;
-import org.jboss.errai.bus.client.api.base.MessageDeliveryFailure;
 import org.jboss.errai.bus.server.annotations.Service;
-import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.core.config.FormManager;
-import org.jbpm.formModeler.core.config.FormSerializationManager;
-import org.jbpm.formModeler.api.client.FormEditorContextTO;
-import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.api.client.FormEditorContext;
 import org.jbpm.formModeler.api.client.FormEditorContextManager;
+import org.jbpm.formModeler.api.client.FormEditorContextTO;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
-import org.jbpm.formModeler.api.client.FormEditorContext;
+import org.jbpm.formModeler.api.model.Field;
+import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.core.config.FormManager;
+import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
@@ -36,16 +42,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
+import org.uberfire.rpc.SessionInfo;
 import org.uberfire.workbench.events.NotificationEvent;
 import org.uberfire.workbench.events.ResourceAddedEvent;
 import org.uberfire.workbench.events.ResourceUpdatedEvent;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.net.URI;
-import java.util.*;
 
 @Service
 @ApplicationScoped
@@ -78,6 +78,10 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
 
     @Inject
     private FormRenderContextManager formRenderContextManager;
+
+    @Inject
+    private SessionInfo sessionInfo;
+
 
     protected Map<String, FormEditorContext> formEditorContextMap = new HashMap<String, FormEditorContext>();
 
@@ -148,7 +152,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
 
         org.kie.commons.java.nio.file.Path kiePath = ioService.get(new URI(ctx.getPath()));
         ioService.write(kiePath, formSerializationManager.generateFormXML(ctx.getForm()));
-        resourceUpdatedEvent.fire(new ResourceUpdatedEvent(paths.convert(kiePath)));
+        resourceUpdatedEvent.fire(new ResourceUpdatedEvent(paths.convert(kiePath), sessionInfo));
     }
 
     @Override

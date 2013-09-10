@@ -82,9 +82,6 @@ public class FormModelerPanelPresenter {
     private BusyIndicatorView busyIndicatorView;
 
     @Inject
-    private Event<ResourceDeletedEvent> resourceDeleteEvent;
-
-    @Inject
     private Event<NotificationEvent> notification;
 
     private FormEditorContextTO context;
@@ -143,7 +140,6 @@ public class FormModelerPanelPresenter {
             public void callback( final Void response ) {
                 notification.fire( new NotificationEvent( CommonConstants.INSTANCE.ItemDeletedSuccessfully(), NotificationEvent.NotificationType.SUCCESS ) );
                 placeManager.closePlace( place);
-                resourceDeleteEvent.fire( new ResourceDeletedEvent( path ) );
             }
         };
 
