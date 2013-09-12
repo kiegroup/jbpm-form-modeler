@@ -218,7 +218,7 @@
 
     <h1><i18n:message key="dataHolder_sources_title_list">Manage form data origins</i18n:message></h1>
 
-    <p><i18n:message key="dataHolder_sources_subtitle_list">!!!List of data sources that will be binded to form fields.</i18n:message></p>
+    <p><i18n:message key="dataHolder_sources_subtitle_list">!!!List of data sources that will be bound to form fields.</i18n:message></p>
     <br><br>
     <table width="100%" class="skn-table_border">
     <tr class="skn-table_header">
