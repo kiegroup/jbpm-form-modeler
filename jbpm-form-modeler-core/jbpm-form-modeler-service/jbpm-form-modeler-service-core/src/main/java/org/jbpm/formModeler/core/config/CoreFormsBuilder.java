@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.config;
 
+import org.jbpm.formModeler.api.model.Form;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
@@ -60,7 +61,8 @@ public class CoreFormsBuilder implements Startable {
             try {
                 // Form is read, deserialized and added to the form manager.
                 InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(formPath);
-                formSerializationManager.loadFormFromXML(is);
+                Form systemForm = formSerializationManager.loadFormFromXML(is);
+                formManager.addSystemForm(systemForm);
             } catch (Exception e) {
                 log.error("Error reading core form file: " + formPath, e);
             }
