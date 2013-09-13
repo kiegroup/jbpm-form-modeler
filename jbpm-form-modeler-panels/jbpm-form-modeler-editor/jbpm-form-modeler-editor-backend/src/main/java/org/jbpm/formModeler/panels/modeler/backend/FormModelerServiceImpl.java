@@ -148,7 +148,6 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     @Override
     public void saveContext(String ctxUID) throws Exception {
         FormEditorContext ctx = getFormEditorContext(ctxUID);
-        formManager.replaceForm(ctx.getOriginalForm(), ctx.getForm());
 
         org.kie.commons.java.nio.file.Path kiePath = ioService.get(new URI(ctx.getPath()));
         ioService.write(kiePath, formSerializationManager.generateFormXML(ctx.getForm()));

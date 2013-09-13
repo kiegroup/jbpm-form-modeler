@@ -154,8 +154,6 @@ public class FormManagerImpl implements FormManager {
         pForm.setName(name);
         pForm.setFormFields(new HashSet());
 
-        forms.add(pForm);
-
         return pForm;
     }
 
@@ -209,7 +207,7 @@ public class FormManagerImpl implements FormManager {
         destination.setId(generateUniqueId());
         destination.setStatus(new Long(FORMSTATUS_HIDDEN));
 
-        forms.add(destination);
+        if (forms.contains(source)) forms.add(destination);
 
         return destination;
     }
@@ -251,22 +249,6 @@ public class FormManagerImpl implements FormManager {
             }
         }
         return  result;
-    }
-
-    public void replaceForm(Long sourceId, Form dest) {
-        replaceForm(getFormById(sourceId), dest);
-    }
-
-    public void replaceForm(Form source, Form dest) {
-        if (source == null || dest == null) {
-            logWarn("Error trying to replace source form: " + source + " with form: " + dest);
-            return;
-        }
-        deleteForm(source);
-        deleteForm(dest);
-        dest.setId(source.getId());
-        dest.setStatus(new Long(FORMSTATUS_NORMAL));
-        forms.add(dest);
     }
 
     /**
@@ -709,4 +691,8 @@ public class FormManagerImpl implements FormManager {
         addFieldToForm(form, fName, fieldType, fieldClass, label, inputBinging, outputBinding);
     }
 
+    @Override
+    public void addSystemForm(Form form) {
+        forms.add(form);
+    }
 }

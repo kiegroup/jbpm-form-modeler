@@ -17,9 +17,9 @@ package org.jbpm.formModeler.editor.client.editors;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
+import javax.enterprise.inject.New;
 import javax.inject.Inject;
 
-import com.google.gwt.user.client.Window;
 import org.guvnor.common.services.shared.file.DeleteService;
 import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.RemoteCallback;
@@ -29,9 +29,12 @@ import org.jbpm.formModeler.editor.client.resources.i18n.Constants;
 import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.workbench.common.widgets.client.callbacks.HasBusyIndicatorDefaultErrorCallback;
+import org.kie.workbench.common.widgets.client.menu.FileMenuBuilder;
+import org.kie.workbench.common.widgets.client.popups.file.CommandWithCommitMessage;
+import org.kie.workbench.common.widgets.client.popups.file.DeletePopup;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 import org.kie.workbench.common.widgets.client.widget.BusyIndicatorView;
-import org.uberfire.backend.vfs.Path;
+import org.uberfire.backend.vfs.ObservablePath;
 import org.uberfire.client.annotations.WorkbenchEditor;
 import org.uberfire.client.annotations.WorkbenchMenu;
 import org.uberfire.client.annotations.WorkbenchPartTitle;
@@ -44,14 +47,11 @@ import org.uberfire.lifecycle.OnSave;
 import org.uberfire.lifecycle.OnStartup;
 import org.uberfire.mvp.Command;
 import org.uberfire.mvp.PlaceRequest;
-import org.uberfire.mvp.impl.PathPlaceRequest;
 import org.uberfire.workbench.events.NotificationEvent;
-import org.uberfire.workbench.events.ResourceDeletedEvent;
-import org.uberfire.workbench.model.menu.MenuFactory;
 import org.uberfire.workbench.model.menu.Menus;
 
 @Dependent
-@WorkbenchEditor(identifier = "FormModelerEditor", supportedTypes = { FormDefinitionResourceType.class })
+@WorkbenchEditor(identifier = "FormModelerEditor", supportedTypes = {FormDefinitionResourceType.class})
 public class FormModelerPanelPresenter {
 
     public interface FormModelerPanelView
@@ -60,7 +60,7 @@ public class FormModelerPanelPresenter {
 
         void hideForm();
 
-        void loadContext( FormEditorContextTO context );
+        void loadContext(FormEditorContextTO context);
     }
 
     @Inject
@@ -88,103 +88,112 @@ public class FormModelerPanelPresenter {
 
     private Menus menus;
 
-    private Path path;
+    protected boolean isReadOnly;
+
+    @Inject
+    @New
+    private FileMenuBuilder menuBuilder;
+
+    private ObservablePath path;
 
     private PlaceRequest place;
 
     @OnStartup
-    public void onStartup( final Path path,
-                           PlaceRequest placeRequest ) {
+    public void onStartup(final ObservablePath path,
+                          PlaceRequest placeRequest) {
 
+        this.place = placeRequest;
         this.path = path;
 
-        modelerService.call( new RemoteCallback<FormEditorContextTO>() {
+        this.isReadOnly = place.getParameter("readOnly", null) != null;
+
+        modelerService.call(new RemoteCallback<FormEditorContextTO>() {
             @Override
-            public void callback( FormEditorContextTO ctx ) {
-                if ( ctx == null ) {
-                    notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_cannot_load_form( path.getFileName() ), NotificationEvent.NotificationType.ERROR ) );
+            public void callback(FormEditorContextTO ctx) {
+                if (ctx == null) {
+                    notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_load_form(path.getFileName()), NotificationEvent.NotificationType.ERROR));
                 } else {
-                    loadContext( ctx );
+                    loadContext(ctx);
                     makeMenuBar();
                 }
             }
-        } ).loadForm( path );
-
-        this.place = placeRequest;
-
+        }).loadForm(path);
     }
 
     @OnSave
     public void onSave() {
         try {
-            modelerService.call( new RemoteCallback<Long>() {
+            modelerService.call(new RemoteCallback<Long>() {
                 @Override
-                public void callback( Long formId ) {
-                    notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_successfully_saved( context.getFormName() ), NotificationEvent.NotificationType.SUCCESS ) );
+                public void callback(Long formId) {
+                    notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_successfully_saved(context.getFormName()), NotificationEvent.NotificationType.SUCCESS));
                 }
-            } ).saveForm( context.getCtxUID() );
-        } catch ( Exception e ) {
-            notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_cannot_save( context.getFormName() ), NotificationEvent.NotificationType.ERROR ) );
+            }).saveForm(context.getCtxUID());
+        } catch (Exception e) {
+            notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_save(context.getFormName()), NotificationEvent.NotificationType.ERROR));
         }
 
     }
 
 
     protected void onDelete() {
-        if ( path == null || !Window.confirm( Constants.INSTANCE.form_modeler_confirm_delete() ) ) {
-            return;
-        }
-        RemoteCallback deleteCallBack = new RemoteCallback<Void>() {
-
+        final DeletePopup popup = new DeletePopup(new CommandWithCommitMessage() {
             @Override
-            public void callback( final Void response ) {
-                notification.fire( new NotificationEvent( CommonConstants.INSTANCE.ItemDeletedSuccessfully(), NotificationEvent.NotificationType.SUCCESS ) );
-                placeManager.closePlace( place);
+            public void execute(final String comment) {
+                busyIndicatorView.showBusyIndicator(CommonConstants.INSTANCE.Deleting());
+                deleteService.call(new RemoteCallback<Void>() {
+
+                    @Override
+                    public void callback(final Void response) {
+                        notification.fire(new NotificationEvent(CommonConstants.INSTANCE.ItemDeletedSuccessfully(), NotificationEvent.NotificationType.SUCCESS));
+                        placeManager.closePlace(place);
+                        onClose();
+                        busyIndicatorView.hideBusyIndicator();
+                    }
+                }, new HasBusyIndicatorDefaultErrorCallback(busyIndicatorView)).delete(path, comment);
             }
-        };
+        });
 
-        deleteService.call( deleteCallBack, new HasBusyIndicatorDefaultErrorCallback( busyIndicatorView ) ).delete( path, "" );
-        onClose();
-
+        popup.show();
     }
 
     @OnOpen
     public void onOpen() {
         makeMenuBar();
 
-        if ( context == null ) {
+        if (context == null) {
             return;
         }
 
-        modelerService.call( new RemoteCallback<FormEditorContextTO>() {
+        modelerService.call(new RemoteCallback<FormEditorContextTO>() {
             @Override
-            public void callback( FormEditorContextTO context ) {
-                loadContext( context );
+            public void callback(FormEditorContextTO context) {
+                loadContext(context);
             }
 
-        } ).setFormFocus( ( context != null ? context.getCtxUID() : null ) );
+        }).setFormFocus((context != null ? context.getCtxUID() : null));
 
     }
 
     @OnClose
     public void onClose() {
-        modelerService.call( new RemoteCallback<Long>() {
+        modelerService.call(new RemoteCallback<Long>() {
             @Override
-            public void callback( Long formId ) {
+            public void callback(Long formId) {
             }
 
-        } ).removeEditingForm( context.getCtxUID() );
+        }).removeEditingForm(context.getCtxUID());
 
     }
 
-    public void loadContext( FormEditorContextTO ctx ) {
+    public void loadContext(FormEditorContextTO ctx) {
         this.context = ctx;
-        view.loadContext( ctx );
+        view.loadContext(ctx);
     }
 
     @WorkbenchPartTitle
     public String getTitle() {
-        return Constants.INSTANCE.form_modeler_title( path.getFileName() );
+        return Constants.INSTANCE.form_modeler_title(path.getFileName());
     }
 
     @WorkbenchPartView
@@ -194,7 +203,7 @@ public class FormModelerPanelPresenter {
 
     @WorkbenchMenu
     public Menus getMenus() {
-        if ( menus == null ) {
+        if (menus == null) {
             makeMenuBar();
         }
         return menus;
@@ -202,28 +211,24 @@ public class FormModelerPanelPresenter {
 
     private void makeMenuBar() {
 
-        Command saveCommand = new Command() {
-            @Override
-            public void execute() {
-                onSave();
-            }
-        };
-
-        Command deleteCommand = new Command() {
-            @Override
-            public void execute() {
-                onDelete();
-            }
-        };
-
-        menus = MenuFactory
-                .newTopLevelMenu( Constants.INSTANCE.form_modeler_save() )
-                .respondsWith( saveCommand )
-                .endMenu()
-                .newTopLevelMenu( Constants.INSTANCE.form_modeler_delete() )
-                .respondsWith( deleteCommand )
-                .endMenu()
-                .build();
+        if (isReadOnly) {
+            menus = menuBuilder.addRestoreVersion(path).build();
+        } else {
+            menus = menuBuilder
+                    .addSave(new Command() {
+                        @Override
+                        public void execute() {
+                            onSave();
+                        }
+                    })
+                    .addDelete(new Command() {
+                        @Override
+                        public void execute() {
+                            onDelete();
+                        }
+                    })
+                    .build();
+        }
     }
 
 }

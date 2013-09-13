@@ -55,10 +55,6 @@ public interface FormManager extends Serializable {
 
     Form duplicateForm(Long duplicateId, String name, String displayMode, Long status) throws Exception;
 
-    void replaceForm(Long sourceId, Form dest);
-
-    void replaceForm(Form source, Form dest);
-
     void deleteForm(Form pForm) throws Exception;
 
     Field addFieldToForm(Form pForm, FieldType fieldType) throws Exception;
@@ -102,4 +98,6 @@ public interface FormManager extends Serializable {
     public void addAllDataHolderFieldsToForm(Form form, DataHolder holder);
 
     public void addDataFieldHolder(Form form, String holderId, String fieldName, String fieldClass) throws Exception;
+
+    public void addSystemForm(Form form);
 }
