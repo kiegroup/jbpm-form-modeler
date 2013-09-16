@@ -23,6 +23,7 @@ public abstract class BasicFormChangeProcessor extends FormChangeProcessor {
     private static transient Logger log = LoggerFactory.getLogger(BasicFormChangeProcessor.class);
 
     protected HashSet evaluatedFields = new HashSet();
+    protected FunctionsProvider functionsProvider = FunctionsProvider.lookup();
 
     protected String replaceFieldValues(Form form, FormStatusData statusData, String namespace, Field field, String rangeFormula, Object loadedObject, FormChangeResponse response) {
         while (rangeFormula.indexOf("{") != -1) {
@@ -73,26 +74,6 @@ public abstract class BasicFormChangeProcessor extends FormChangeProcessor {
                 log.debug("Error in JXPathContext ", e);
             }
         }
-
-        /* ya estaba comentado en el codigo original polymita
-        String entityPropertyName;
-        if (entityValue.indexOf("/") != -1)
-            entityPropertyName = entityValue.substring(0, entityValue.indexOf("/"));
-        else
-            entityPropertyName = entityValue;
-
-        Object statusValue = statusData.getCurrentValue(entityPropertyName);
-        if (entityValue.indexOf("/") != -1 && statusValue != null) {
-            JXPathContext ctx = JXPathContext.newContext(statusValue);
-            try {
-                value = ctx.getValue(entityValue.substring(entityValue.indexOf("/") + 1));
-            } catch (Exception e) {
-                log.debug("Error in JXPathContext ", e);
-            }
-        } else if (statusValue != null) {
-            value = statusValue;
-        }
-        */
 
         if (value instanceof String)
             value = "\"" + StringEscapeUtils.escapeJava((String) value) + "\"";
@@ -162,7 +143,7 @@ public abstract class BasicFormChangeProcessor extends FormChangeProcessor {
         Interpreter interpreter = getInterpreter(form, namespace);
         try {
             if (log.isDebugEnabled()) log.debug("Interpreting formula: '" + modifiedFormula + "'");
-            FunctionsProvider.lookup().populate(interpreter);
+            functionsProvider.populate(interpreter);
             ctx.populate(interpreter);
             Object result = interpreter.eval(modifiedFormula);
             return result;
