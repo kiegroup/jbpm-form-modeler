@@ -119,19 +119,20 @@ public class ControllerServlet extends HttpServlet {
 
             // Init the request context.
             ControllerServletHelper helper = ControllerServletHelper.lookup();
-            CommandRequest cmdRq = helper.initThreadLocal(request, response);
-            ControllerStatus.lookup().setRequest(cmdRq);
+            synchronized (helper) {
+                CommandRequest cmdRq = helper.initThreadLocal(request, response);
+                ControllerStatus.lookup().setRequest(cmdRq);
+                try {
+                    // Process the request (control layer)
+                    processTheRequest(cmdRq);
 
-            try {
-                // Process the request (control layer)
-                processTheRequest(cmdRq);
+                    // Render the view (presentation layer)
+                    processTheView(cmdRq);
+                } finally {
 
-                // Render the view (presentation layer)
-                processTheView(cmdRq);
-            } finally {
-
-                // Clear the request context.
-                helper.clearThreadLocal(request, response);
+                    // Clear the request context.
+                    helper.clearThreadLocal(request, response);
+                }
             }
         } else {
             log.error("Received request, but application servlet hasn't been properly initialized. Ignoring.");
