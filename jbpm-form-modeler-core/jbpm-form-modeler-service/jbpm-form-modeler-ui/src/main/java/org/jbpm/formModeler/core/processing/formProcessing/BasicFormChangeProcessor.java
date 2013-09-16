@@ -162,7 +162,7 @@ public abstract class BasicFormChangeProcessor extends FormChangeProcessor {
         Interpreter interpreter = getInterpreter(form, namespace);
         try {
             if (log.isDebugEnabled()) log.debug("Interpreting formula: '" + modifiedFormula + "'");
-            if (functionsProvider != null) functionsProvider.populate(interpreter);
+            FunctionsProvider.lookup().populate(interpreter);
             ctx.populate(interpreter);
             Object result = interpreter.eval(modifiedFormula);
             return result;

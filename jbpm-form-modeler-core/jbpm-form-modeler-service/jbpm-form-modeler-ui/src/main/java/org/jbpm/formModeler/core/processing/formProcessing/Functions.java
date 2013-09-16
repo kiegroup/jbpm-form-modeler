@@ -35,9 +35,6 @@ public class Functions {
 
     private Logger log = LoggerFactory.getLogger(Functions.class);
 
-    @Inject
-    private FormManager formManager;
-
     private static String[] MONTHS = {"jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};
 
     /**

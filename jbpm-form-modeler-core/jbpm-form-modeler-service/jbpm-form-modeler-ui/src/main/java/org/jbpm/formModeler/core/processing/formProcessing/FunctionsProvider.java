@@ -28,7 +28,6 @@ import java.util.Properties;
 /**
  * Properties class used to provide Java objects as a functions that can be used on field Formulas.
  */
-@ApplicationScoped
 public class FunctionsProvider extends Properties {
 
     public static FunctionsProvider lookup() {
@@ -37,10 +36,8 @@ public class FunctionsProvider extends Properties {
 
     private Logger log = LoggerFactory.getLogger(FunctionsProvider.class);
 
-    @Inject
-    Functions functions;
 
     public void populate(Interpreter interpreter) throws EvalError {
-        interpreter.set("Functions", functions);
+        interpreter.set("Functions", new Functions());
     }
 }
