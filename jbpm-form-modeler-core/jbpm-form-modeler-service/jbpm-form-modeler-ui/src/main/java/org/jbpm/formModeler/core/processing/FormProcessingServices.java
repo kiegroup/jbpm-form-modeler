@@ -17,7 +17,6 @@ package org.jbpm.formModeler.core.processing;
 
 import org.jbpm.formModeler.core.processing.formRendering.FormTemplateHelper;
 import org.jbpm.formModeler.core.FieldHandlersManager;
-import org.jbpm.formModeler.core.processing.formProcessing.FunctionsProvider;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -37,9 +36,6 @@ public class FormProcessingServices {
     protected FormTemplateHelper formTemplateHelper;
 
     @Inject
-    protected FunctionsProvider functionsProvider;
-
-    @Inject
     protected FieldHandlersManager fieldHandlersManager;
 
     public FormProcessor getFormProcessor() {
@@ -48,10 +44,6 @@ public class FormProcessingServices {
 
     public FormTemplateHelper getFormTemplateHelper() {
         return formTemplateHelper;
-    }
-
-    public FunctionsProvider getFunctionsProvider() {
-        return functionsProvider;
     }
 
     public FieldHandlersManager getFieldHandlersManager() {

@@ -46,9 +46,6 @@ public abstract class FormChangeProcessor {
     protected FormulaReplacementManager replacementManager;
 
     @Inject
-    protected FunctionsProvider functionsProvider;
-
-    @Inject
     FormRenderContextManager formRenderContextManager;
 
     public FormChangeProcessor getNextProcessor() {
