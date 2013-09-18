@@ -17,6 +17,7 @@ package org.jbpm.formModeler.core.config;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.core.wrappers.HTMLi18n;
 import org.slf4j.Logger;
 import org.apache.xerces.parsers.DOMParser;
 import org.jbpm.formModeler.api.model.Form;
@@ -283,7 +284,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                     } else if ("isHTML".equals(propName)) {
                         field.setIsHTML(Boolean.valueOf(value));
                     } else if ("htmlContent".equals(propName)) {
-                        field.setHtmlContent(deserializeI18nEntrySet(value));
+                        field.setHtmlContent(deserializeHMLI18nEntrySet(value));
                     } else if ("hideContent".equals(propName)) {
                         field.setHideContent(Boolean.valueOf(value));
                     } else if ("defaultValueFormula".equals(propName)) {
@@ -432,5 +433,22 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
 
         }
         return new I18nSet(mapValues);
+    }
+
+    public HTMLi18n deserializeHMLI18nEntrySet(String cadena) {
+        String[] values = decodeStringArray(cadena);
+        Map mapValues = new HashMap();
+        for (int i = 0; i < values.length;i=i+4) {
+            String key = values[i + 1];
+            String value="";
+            if( i+3 < values.length){
+                value = values[i + 3];
+            }
+            if(key.length()==2){
+                mapValues.put(key, value);
+            }
+
+        }
+        return new HTMLi18n(mapValues);
     }
 }
