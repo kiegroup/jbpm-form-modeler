@@ -50,14 +50,14 @@ public class HTMLi18nFieldHandler extends DefaultFieldHandler {
         HTMLi18n set = new HTMLi18n();
 
         String[] locales = LocaleManager.lookup().getInstalledLocaleIds();
+        String[] value = (String[]) parametersMap.get(inputName);
+        String defaultValue ="";
+        if(value!=null){
+            defaultValue =value[0];
+        }
 
-        for (String locale : locales) {
-            String[] value = (String[]) parametersMap.get(inputName + "_" + locale);
-            if (value != null && value.length > 0) {
-                set.setValue(locale, value[0]);
-            } else {
-                set.setValue(locale, "");
-            }
+        for (String locale : locales) { //we put the same value to every locale because the jsp hasn't locale selector
+            set.setValue(locale, defaultValue);
         }
 
         return set.isEmpty() ? null : set;
