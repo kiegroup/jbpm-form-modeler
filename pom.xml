@@ -110,4 +110,19 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>fullProfile</id>
+            <activation>
+                <property>
+                    <name>full</name>
+                </property>
+            </activation>
+            <modules>
+                <module>jbpm-form-modeler-docs</module>
+            </modules>
+        </profile>
+    </profiles>
+
 </project>
+
