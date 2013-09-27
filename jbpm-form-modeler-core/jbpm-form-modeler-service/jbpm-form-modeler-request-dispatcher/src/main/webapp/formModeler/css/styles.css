@@ -195,6 +195,9 @@ A:hover {
 
 }
 
+label {
+    margin-right: 10px !important;
+}
 /* Square border for things (normally, tables) that must be surrounded by a border.*/
 .skn-table_border {
     border-top: #D1D1D1 0px solid;
