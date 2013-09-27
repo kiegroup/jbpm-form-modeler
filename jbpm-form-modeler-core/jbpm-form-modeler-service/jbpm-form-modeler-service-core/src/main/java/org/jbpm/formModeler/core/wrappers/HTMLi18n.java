@@ -19,6 +19,7 @@ import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -26,6 +27,10 @@ import java.util.Set;
  */
 public class HTMLi18n extends I18nSet {
     private static transient Logger log = LoggerFactory.getLogger(HTMLi18n.class);
+
+    public HTMLi18n(Map m) {
+        super(m);
+    }
 
     public HTMLi18n(Set s) {
         super(s);
