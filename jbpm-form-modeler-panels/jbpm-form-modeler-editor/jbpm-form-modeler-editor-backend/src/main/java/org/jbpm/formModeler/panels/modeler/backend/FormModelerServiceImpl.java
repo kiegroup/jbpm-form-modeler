@@ -42,10 +42,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
-import org.uberfire.rpc.SessionInfo;
 import org.uberfire.workbench.events.NotificationEvent;
-import org.uberfire.workbench.events.ResourceAddedEvent;
-import org.uberfire.workbench.events.ResourceUpdatedEvent;
 
 @Service
 @ApplicationScoped
@@ -62,12 +59,6 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     private Paths paths;
 
     @Inject
-    private Event<ResourceAddedEvent> resourceAddedEvent;
-
-    @Inject
-    private Event<ResourceUpdatedEvent> resourceUpdatedEvent;
-
-    @Inject
     private Event<NotificationEvent> notification;
 
     @Inject
@@ -78,10 +69,6 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
 
     @Inject
     private FormRenderContextManager formRenderContextManager;
-
-    @Inject
-    private SessionInfo sessionInfo;
-
 
     protected Map<String, FormEditorContext> formEditorContextMap = new HashMap<String, FormEditorContext>();
 
@@ -151,7 +138,6 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
 
         org.kie.commons.java.nio.file.Path kiePath = ioService.get(new URI(ctx.getPath()));
         ioService.write(kiePath, formSerializationManager.generateFormXML(ctx.getForm()));
-        resourceUpdatedEvent.fire(new ResourceUpdatedEvent(paths.convert(kiePath), sessionInfo));
     }
 
     @Override
@@ -164,10 +150,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
 
             ioService.write(kiePath, formSerializationManager.generateFormXML(form));
 
-            final Path path = paths.convert(kiePath, false);
-            resourceAddedEvent.fire(new ResourceAddedEvent(path));
-
-            return path;
+            return paths.convert(kiePath, false);
         } catch (FileAlreadyExistsException e) {
             throw new IllegalArgumentException( kiePath.toString());
         } catch (Exception e) {

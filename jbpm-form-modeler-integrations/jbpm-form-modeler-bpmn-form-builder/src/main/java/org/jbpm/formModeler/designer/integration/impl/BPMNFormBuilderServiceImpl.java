@@ -117,7 +117,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
 
                     for (Property prop : processProperties) {
                         Map<String, String> config = new HashMap<String, String>();
-                        config.put("value", prop.getItemSubjectRef().getStructureRef());
+                        config.put("value", StringUtils.defaultIfEmpty(prop.getItemSubjectRef().getStructureRef(), "java.lang.Object"));
                         config.put("path", contextUri);
                         config.put("color", colors[index]);
                         config.put("id", prop.getId());
@@ -191,7 +191,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
 
         for (Property prop : processProperties) {
             String propertyName = prop.getId();
-            String propertyType = prop.getItemSubjectRef().getStructureRef();
+            String propertyType = StringUtils.defaultIfEmpty(prop.getItemSubjectRef().getStructureRef(), "java.lang.Object");
             DataHolder dataHolder = null;
 
             Map<String, String> config = new HashMap<String, String>();
