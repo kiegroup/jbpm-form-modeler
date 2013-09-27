@@ -47,6 +47,23 @@ public class DataHoldersFormFormatter extends Formatter {
     @Inject
     private FieldTypeManager fieldTypeManager;
 
+    /**
+     * The comparator implementation for form holder types.
+     */
+    private static final Comparator<String> formHolderTypesComparator = new Comparator<String>() {
+        /**
+         * Default implementation for comparing form holder types will be using <code>String#compareTo</code> method.
+         *
+         * @param o1 The object source.
+         * @param o2 The obect to compare.
+         * @return The compare result.
+         */
+        @Override
+        public int compare(String o1, String o2) {
+            return o1.compareTo(o2);
+        }
+    };
+
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
             WysiwygFormEditor wysiwygFormEditor = WysiwygFormEditor.lookup();
@@ -91,6 +108,7 @@ public class DataHoldersFormFormatter extends Formatter {
                 renderFragment("color");
             }
 
+            // Render source types sorted by value.
             renderFragment("outputFormHolderTypes");
 
             renderFragment("rowStart");
@@ -99,7 +117,7 @@ public class DataHoldersFormFormatter extends Formatter {
             Map values = null;
             if (holderBuilder != null) values = holderBuilder.getOptions(wysiwygFormEditor.getCurrentEditionContext().getPath());
 
-            renderSelectDataModel(Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL,WysiwygFormEditor.PARAMETER_HOLDER_DM_INFO, values);
+            renderSelectDataModel(Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL,WysiwygFormEditor.PARAMETER_HOLDER_DM_INFO, sort(values, formHolderTypesComparator));
 
             renderFragment("rowEnd");
 
@@ -109,7 +127,7 @@ public class DataHoldersFormFormatter extends Formatter {
             values = null;
             if (holderBuilder != null) values = holderBuilder.getOptions(wysiwygFormEditor.getCurrentEditionContext().getPath());
 
-            renderSelectDataModel(Form.HOLDER_TYPE_CODE_BASIC_TYPE,WysiwygFormEditor.PARAMETER_HOLDER_BT_INFO, values);
+            renderSelectDataModel(Form.HOLDER_TYPE_CODE_BASIC_TYPE,WysiwygFormEditor.PARAMETER_HOLDER_BT_INFO, sort(values, formHolderTypesComparator));
 
             renderFragment("rowEnd");
 
@@ -230,5 +248,21 @@ public class DataHoldersFormFormatter extends Formatter {
         setAttribute("iconUri", fieldTypeManager.getIconPathForCode(type.getCode()));
         setAttribute("fieldName", fieldName);
         renderFragment("outputField");
+    }
+
+    /**
+     * Sorts a map values using a given comparator implementation.
+     *
+     * @param source The source map.
+     * @param c The comparator implementation. If <code>null</code>, the natural ordering of the keys will be used.
+     * @return The sorted map or <code>null</code> if source map is <code>null</code>.
+     */
+    protected Map sort(Map source, Comparator<String> c) {
+        if (source != null) {
+            TreeMap sortedMap = new TreeMap(c);
+            sortedMap.putAll(source);
+            return sortedMap;
+        }
+        return null;
     }
 }
