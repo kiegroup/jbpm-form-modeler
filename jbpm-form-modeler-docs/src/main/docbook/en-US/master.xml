@@ -34,5 +34,6 @@
 
   <xi:include href="What_is_jbpm_form_modeler.xml" />
   <xi:include href="First_steps.xml" />
+  <xi:include href="DataModeller.xml" />
 
 </book>
