@@ -80,7 +80,7 @@ public class FormFieldEditionFormatter extends FormRenderingFormatter {
         setAttribute("isDecorator", isDecorator);
         renderFragment("outputStart");
         setAttribute("namespace", getParameter("namespace"));
-        setAttribute("formId", formToEdit.getId());
+        setAttribute("form", formToEdit);
         setAttribute("editClass", Field.class.getName());
         setAttribute("editId", field.getId());
         FieldType type = field.getFieldType();

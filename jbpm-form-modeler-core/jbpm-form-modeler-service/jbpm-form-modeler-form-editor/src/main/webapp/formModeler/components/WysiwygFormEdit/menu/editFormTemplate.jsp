@@ -35,6 +35,7 @@
 <mvc:fragmentValue name="templateContent" id="templateContent">
 <mvc:fragmentValue name="templateToLoad" id="templateToLoad">
 <mvc:fragmentValue name="formId" id="formId">
+<mvc:fragmentValue name="form" id="form">
 <mvc:fragmentValue name="loadTemplate" id="loadTemplate">
 <mvc:fragmentValue name="genMode" id="genMode">
 
@@ -183,7 +184,7 @@
                                           name="templateContent"
                                           rows="4" cols="50"><% if (Boolean.TRUE.equals(loadTemplate)) {%>
                                     <mvc:formatter name="FormRenderingFormatter">
-                                        <mvc:formatterParam name="formId" value="<%=formId%>"/>
+                                        <mvc:formatterParam name="form" value="<%=form%>"/>
                                         <mvc:formatterParam name="renderMode"
                                                             value="<%=Form.RENDER_MODE_TEMPLATE_EDIT%>"/>
                                         <mvc:formatterParam name="displayMode"
@@ -228,7 +229,7 @@
                                         onmouseover="if(window.formTemplateEditorHandler && this.length == 1)window.formTemplateEditorHandler.evalAvailableFields(window.formTemplateEditorHandler.fieldOptionsArray, this );"
                                         onmouseout="if(window.formTemplateEditorHandler)window.formTemplateEditorHandler.fieldsSynchronized=false"
                                         >
-                                    <option>-- <i18n:message key="chooseField">!!!Escoger campo</i18n:message> --
+                                    <option>-- <i18n:message key="chooseField">!!!choose field</i18n:message> --
                                     </option>
                                 </select>
                             </td>
@@ -244,7 +245,7 @@
                                         onmouseover="if(window.formTemplateEditorHandler && this.length == 1)window.formTemplateEditorHandler.evalAvailableFields(window.formTemplateEditorHandler.labelOptionsArray, this);"
                                         onmouseout="if(window.formTemplateEditorHandler)window.formTemplateEditorHandler.labelsSynchronized=false"
                                         >
-                                    <option>-- <i18n:message key="chooseField">!!!Escoger campo</i18n:message> --
+                                    <option>-- <i18n:message key="chooseField">!!!choose field</i18n:message> --
                                     </option>
                                 </select>
 
@@ -320,6 +321,7 @@
         </td>
     </tr>
 </table>
+</mvc:fragmentValue>
 </mvc:fragmentValue>
 </mvc:fragmentValue>
 </mvc:fragmentValue>
