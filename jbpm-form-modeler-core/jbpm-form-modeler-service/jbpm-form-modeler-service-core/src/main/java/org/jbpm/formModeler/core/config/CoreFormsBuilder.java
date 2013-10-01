@@ -42,9 +42,9 @@ public class CoreFormsBuilder implements Startable {
     @Inject
     private FormSerializationManager formSerializationManager;
 
-    @Inject @Config("default,CheckBox,Date,FreeText,HTMLEditor,HTMLLabel,I18nHTMLText,I18nText,I18nTextArea,InputText," +
-                    "InputTextArea,InputTextCCC,InputTextCP,InputTextDouble,InputTextEmail,InputTextIBAN,InputTextInteger," +
-                    "InputTextLong,InputTextPhone,Link,Separator,Subform,MultipleSubform")
+    @Inject @Config("default,InputText,InputTextBigDecimal,InputTextBigInteger,CheckBox,Date,InputTextDouble," +
+            "InputTextFloat,InputTextInteger,InputTextLong,InputTextShort,HTMLLabel,Separator, Subform, MultipleSubform,"+
+            "InputTextEmail,InputTextArea,HTMLEditor,Link,I18nHTMLText")
     protected String[] coreFormNames;
 
     public Priority getPriority() {

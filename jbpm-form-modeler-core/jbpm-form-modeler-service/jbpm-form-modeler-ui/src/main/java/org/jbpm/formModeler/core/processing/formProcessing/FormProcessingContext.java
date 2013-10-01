@@ -26,6 +26,7 @@ public class FormProcessingContext {
     public static final int TYPE_FORMULA = 1;
     public static final int TYPE_RANGE = 2;
     public static final int TYPE_STYLE = 3;
+    public static final int TYPE_DEFAULT_FORMULA = 4;
     
     private int type;
     private Form form;
@@ -34,6 +35,7 @@ public class FormProcessingContext {
     private List<String> fieldsToEvaluateFormula;
     private List<String> fieldsToEvaluateRange;
     private List<String> fieldsToEvaluateStyle;
+    private List<String> fieldsToEvaluateDefaultFormula;
 
     
     public static FormProcessingContext fullProcessingContext(Form form, String namespace, String formMode) {
@@ -52,6 +54,10 @@ public class FormProcessingContext {
         return new FormProcessingContext(TYPE_STYLE, form, namespace, formMode, fieldsToEvaluateStyle);
     }
 
+    public static FormProcessingContext defaultFormulaProcessingContext(Form form, String namespace, String formMode, List<String> fieldsToEvaluateDefaultFormula) {
+        return new FormProcessingContext(TYPE_DEFAULT_FORMULA, form, namespace, formMode, fieldsToEvaluateDefaultFormula);
+    }
+
     private FormProcessingContext(int type, Form form, String namespace, String formMode, List<String> fieldsToEvaluate) {
         this.type = type;
         this.form = form;
@@ -64,6 +70,8 @@ public class FormProcessingContext {
             case TYPE_RANGE: this.fieldsToEvaluateRange = fieldsToEvaluate;
                 break;
             case TYPE_STYLE: this.fieldsToEvaluateStyle = fieldsToEvaluate;
+                break;
+            case TYPE_DEFAULT_FORMULA: this.fieldsToEvaluateDefaultFormula = fieldsToEvaluate;
                 break;
         }
     }
@@ -82,6 +90,14 @@ public class FormProcessingContext {
 
     public void setFieldsToEvaluateFormula(List<String> fieldsToEvaluateFormula) {
         this.fieldsToEvaluateFormula = fieldsToEvaluateFormula;
+    }
+
+    public List<String> getFieldsToEvaluateDefaultFormula() {
+        return fieldsToEvaluateDefaultFormula;
+    }
+
+    public void setFieldsToEvaluateDefaultFormula(List<String> fieldsToEvaluateDefaultFormula) {
+        this.fieldsToEvaluateDefaultFormula = fieldsToEvaluateDefaultFormula;
     }
 
     public List getFieldsToEvaluateRange() {

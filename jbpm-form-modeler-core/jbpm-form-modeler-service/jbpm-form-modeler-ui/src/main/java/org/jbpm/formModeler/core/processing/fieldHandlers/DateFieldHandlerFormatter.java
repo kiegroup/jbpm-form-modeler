@@ -44,6 +44,12 @@ public class DateFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
 
         setDefaultAttributes(field, form, namespace);
 
+        Boolean isDisabled = paramsReader.isFieldDisabled();
+        Boolean isReadonly = paramsReader.isFieldReadonly();
+
+        if (isDisabled) setAttribute("disabled", isDisabled);
+        if (isReadonly) setAttribute("readonly", isReadonly);
+
         FieldHandlersManager fieldHandlersManager = FormProcessingServices.lookup().getFieldHandlersManager();
         DateFieldHandler dateFieldHandler = (DateFieldHandler) fieldHandlersManager.getHandler(field.getFieldType());
         String inputPattern = dateFieldHandler.getDefaultPattern();

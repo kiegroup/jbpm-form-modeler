@@ -1,6 +1,6 @@
 <form id="638786386">
     <property name="subject" value="org.jbpm.formModeler.api.model.Field"/>
-    <property name="name" value="InputTextBigDecimal"/>
+    <property name="name" value="InputTextBigInteger"/>
     <property name="displayMode" value="default"/>
     <property name="labelMode" value="undefined"/>
     <property name="showMode" value=""/>
@@ -13,29 +13,10 @@
         <property name="label"
                   value="quot;caquot;,quot;Rang de valors:quot;quot;enquot;,quot;Range value:quot;quot;esquot;,quot;Rango de valores:quot;"/>
         <property name="title"
-                  value="quot;caquot;,quot;&#201;s una Expressi&#243; Regular que permet la validaci&#243; del valor del camp.quot;quot;enquot;,quot;Is a Regular Expression that allows to validate the field value.quot;quot;esquot;,quot;Es una Expresi&#243;n Regular que permite la validaci&#243;n del valor del campo.quot;"/>
+                  value="quot;caquot;,quot;&#201;s una Expressi&#243; Regular que permet la validaci&#243; del valor del camp.quot;quot;enquot;,quot;It's a Regular Expression that allow define select of possible values for the field. The sintax is  '{value1, description1;value2,Description value 2;value3,Description value3}'. You can develop your own range and reference it by a range Provider identifier like: '${range_provider_form}'quot;quot;esquot;,quot;Es una Expresi&#243;n Regular que permite la validaci&#243;n del valor del campo.quot;"/>
         <property name="disabled" value="false"/>
         <property name="readonly" value="false"/>
         <property name="size" value="55"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="16" name="groupWithPrevious" type="CheckBox" id="1531760713">
-        <property name="fieldName" value="groupWithPrevious"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Mantenir agrupat amb l&apos;anteriorquot;quot;enquot;,quot;Group with previousquot;quot;esquot;,quot;Mantener agrupado con el anteriorquot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value=""/>
         <property name="formula" value=""/>
         <property name="rangeFormula" value=""/>
         <property name="pattern" value=""/>
@@ -72,29 +53,10 @@
         <property name="label"
                   value="quot;caquot;,quot;F&#242;rmula:quot;quot;enquot;,quot;Formula:quot;quot;esquot;,quot;F&#243;rmula:quot;"/>
         <property name="title"
-                  value="quot;caquot;,quot;Permet autocalcular el valor d&apos;un camp a partir del valor d&apos;altres camps. Les operacions permeses s&#243;n +, -, * i /. Per exemple =({nom_camp} + 5)/7quot;quot;enquot;,quot;Allows to calculate the field value from other field values. The operation allowed are +, -, * and /. For example =({field_name} + 5)/7quot;quot;esquot;,quot;Permite autocalcular el valor de un campo a partir del valor de otros campos. Las operaciones permitidas son +, -, * y /. Por ejemplo =({nombre_campo} + 5)/7quot;"/>
+                  value="quot;caquot;,quot;Permet calcular el valor del camp utilitzant expresions. La sintaxi que es pot utilitzar es: JXPath entre {} per fer referencia a valors d'altres camps inclosos en el mateix formulari i expresions java. Per exemple: una f&#242;rmula valida podria ser '={fieldName1} * 6' or '= new java.math.BigDecimal(6)' o '= myPackage.MyClass.myFunction()'. El resultat de la evaluaci&#243; de la f&#242;rmula ha de ser transformable en java.math.BigInteger.quot;quot;enquot;,quot;Allows to calculate the field value using expressions. The syntax that can be used is JXPath to use other fields values in the same form written between '{}' and java expressions  For example a valid formula can be '={fieldName1} * 6' or '= new java.math.BigDecimal(6)' or '= myPackage.MyClass.myFunction()'. The result of the formula evaluation will be casted to java.math.BigInteger.quot;quot;esquot;,quot;Permite calcular el valor del campo utilizando expresiones. La sintaxi que se puede utilizar es: JXPath entre {} para hacer referencia a valores de otros campos incluidos en el mismo formulario, y expresiones java. Por ejemplo: una f&#243;rmula valida podria ser '={fieldName1} * 6' or '= new java.math.BigDecimal(6)' o '= myPackage.MyClass.myFunction()'. El resultado de la evaluaci&#243;n de la f&#243;rmula ha de ser transformable en java.math.BigInteger.quot;"/>
         <property name="disabled" value="false"/>
         <property name="readonly" value="false"/>
         <property name="size" value="55"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="11" name="disabled" type="CheckBox" id="485327776">
-        <property name="fieldName" value="disabled"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="true"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Deshabilitatquot;quot;enquot;,quot;Disabledquot;quot;esquot;,quot;Deshabilitadoquot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value=""/>
         <property name="formula" value=""/>
         <property name="rangeFormula" value=""/>
         <property name="pattern" value=""/>
@@ -226,10 +188,10 @@
         <property name="label"
                   value="quot;caquot;,quot;F&#243;rmula de valor per defecte:quot;quot;enquot;,quot;Default value formula:quot;quot;esquot;,quot;F&#243;rmula de valor por defecto:quot;"/>
         <property name="title"
-                  value="quot;caquot;,quot;Permet definir una f&#243;rmula per a informar el camp amb un valor per defecte.quot;quot;enquot;,quot;Configure a formula to set a default value for the field.quot;quot;esquot;,quot;Permite definir una f&#243;rmula para informar el campo con un valor por defecto.quot;"/>
+                  value="quot;caquot;,quot;Permet calcular el valor del camp utilitzant expresions. La sintaxi que es pot utilitzar es: JXPath entre {} per fer referencia a valors d'altres camps inclosos en el mateix formulari i expresions java. Per exemple: una f&#242;rmula valida podria ser '={fieldName1} * 6' or '= new java.math.BigDecimal(6)' o '= myPackage.MyClass.myFunction()'. El resultat de la evaluaci&#243; de la f&#242;rmula ha de ser transformable en java.math.BigInteger.quot;quot;enquot;,quot;Allows to calculate the field value using expressions. The syntax that can be used is JXPath to reference other fields values in the same form written between '{}' and java expressions  For example a valid formula could be '={fieldName1} * 6' or '= new java.math.BigInteger(6)' or '= myPackage.MyClass.myFunction()'. The formula evaluation result will be casted to java.math.BigInteger.quot;quot;esquot;,quot;Permite calcular el valor del campo utilizando expresiones. La sintaxi que se puede utilizar es: JXPath entre {} para hacer referencia a valores de otros campos incluidos en el mismo formulario, y expresiones java. Por ejemplo: una f&#243;rmula valida podria ser '={fieldName1} * 6' or '= new java.math.BigDecimal(6)' o '= myPackage.MyClass.myFunction()'. El resultado de la evaluaci&#243;n de la f&#243;rmula ha de ser transformable en java.math.BigInteger.quot;"/>
         <property name="disabled" value="false"/>
         <property name="readonly" value="false"/>
-        <property name="size" value="25"/>
+        <property name="size" value="55"/>
         <property name="formula" value=""/>
         <property name="rangeFormula" value=""/>
         <property name="pattern" value=""/>
@@ -260,7 +222,7 @@
     <field position="9" name="maxlength" type="InputTextLong" id="2033310403">
         <property name="fieldName" value="maxlength"/>
         <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
+        <property name="groupWithPrevious" value="true"/>
         <property name="height" value=""/>
         <property name="label"
                   value="quot;caquot;,quot;Longitud m&#224;xima:quot;quot;enquot;,quot;Max length:quot;quot;esquot;,quot;Longitud m&#225;xima:quot;"/>

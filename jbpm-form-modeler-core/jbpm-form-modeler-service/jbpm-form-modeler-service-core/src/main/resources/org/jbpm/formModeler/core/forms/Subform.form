@@ -147,66 +147,13 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="8" name="fieldRequired" type="CheckBox" id="321635541">
-        <property name="fieldName" value="fieldRequired"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label" value="quot;caquot;,quot;Requeritquot;quot;enquot;,quot;Requiredquot;quot;esquot;,quot;Requeridoquot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value=""/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="9" name="disabled" type="CheckBox" id="737026954">
-        <property name="fieldName" value="disabled"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="true"/>
-        <property name="height" value=""/>
-        <property name="label" value="quot;caquot;,quot;Deshabilitatquot;quot;enquot;,quot;Disabledquot;quot;esquot;,quot;Deshabilitadoquot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value=""/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
+
     <field position="10" name="readonly" type="CheckBox" id="937759424">
         <property name="fieldName" value="readonly"/>
         <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="true"/>
+        <property name="groupWithPrevious" value="false"/>
         <property name="height" value=""/>
         <property name="label" value="quot;caquot;,quot;Sols lecturaquot;quot;enquot;,quot;Read onlyquot;quot;esquot;,quot;S&#243;lo lecturaquot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value=""/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="11" name="groupWithPrevious" type="CheckBox" id="1504888914">
-        <property name="fieldName" value="groupWithPrevious"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="true"/>
-        <property name="height" value=""/>
-        <property name="label" value="quot;caquot;,quot;Mantenir agrupat amb l&apos;anteriorquot;quot;enquot;,quot;Group with previousquot;quot;esquot;,quot;Mantener agrupado con el anteriorquot;"/>
         <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
         <property name="disabled" value="false"/>
         <property name="readonly" value="false"/>

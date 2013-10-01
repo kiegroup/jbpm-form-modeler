@@ -1,11 +1,11 @@
-<form id="1483331947">
+<form id="1483331948">
     <property name="subject" value="org.jbpm.formModeler.api.model.Field"/>
     <property name="name" value="InputTextDouble"/>
     <property name="displayMode" value="default"/>
     <property name="labelMode" value="undefined"/>
     <property name="showMode" value=""/>
     <property name="status" value="0"/>
-    <field position="10" name="fieldRequired" type="CheckBox" id="1494856196">
+    <field position="10" name="fieldRequired" type="CheckBox" id="1494856197">
         <property name="fieldName" value="fieldRequired"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -24,7 +24,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="4" name="labelCSSStyle" type="InputText" id="1156788218">
+    <field position="4" name="labelCSSStyle" type="InputText" id="1156788219">
         <property name="fieldName" value="labelCSSStyle"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="true"/>
@@ -44,26 +44,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="17" name="groupWithPrevious" type="CheckBox" id="514499390">
-        <property name="fieldName" value="groupWithPrevious"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Mantenir agrupat amb l&apos;anteriorquot;quot;enquot;,quot;Group with previousquot;quot;esquot;,quot;Mantener agrupado con el anteriorquot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value=""/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="16" name="defaultValueFormula" type="InputText" id="1511308651">
+    <field position="16" name="defaultValueFormula" type="InputText" id="1511308652">
         <property name="fieldName" value="defaultValueFormula"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -74,7 +55,7 @@
                   value="quot;caquot;,quot;Permet definir una f&#243;rmula per a informar el camp amb un valor per defecte.quot;quot;enquot;,quot;Configure a formula to set a default value for the field.quot;quot;esquot;,quot;Permite definir una f&#243;rmula para informar el campo con un valor por defecto.quot;"/>
         <property name="disabled" value="false"/>
         <property name="readonly" value="false"/>
-        <property name="size" value="25"/>
+        <property name="size" value="55"/>
         <property name="formula" value=""/>
         <property name="rangeFormula" value=""/>
         <property name="pattern" value=""/>
@@ -83,26 +64,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="11" name="disabled" type="CheckBox" id="1105294046">
-        <property name="fieldName" value="disabled"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="true"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Deshabilitatquot;quot;enquot;,quot;Disabledquot;quot;esquot;,quot;Deshabilitadoquot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value=""/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="1" name="label" type="I18nText" id="670849393">
+    <field position="1" name="label" type="I18nText" id="670849394">
         <property name="fieldName" value="label"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -121,7 +83,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="8" name="size" type="InputText" id="1056084955">
+    <field position="8" name="size" type="InputText" id="1056084956">
         <property name="fieldName" value="size"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -141,7 +103,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="5" name="title" type="I18nText" id="1543265965">
+    <field position="5" name="title" type="I18nText" id="1543265966">
         <property name="fieldName" value="title"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -160,10 +122,10 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="9" name="maxlength" type="InputTextLong" id="432372235">
+    <field position="9" name="maxlength" type="InputTextLong" id="432372236">
         <property name="fieldName" value="maxlength"/>
         <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
+        <property name="groupWithPrevious" value="true"/>
         <property name="height" value=""/>
         <property name="label"
                   value="quot;caquot;,quot;Longitud m&#224;xima:quot;quot;enquot;,quot;Max length:quot;quot;esquot;,quot;Longitud m&#225;xima:quot;"/>
@@ -179,7 +141,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="7" name="cssStyle" type="InputText" id="1390231050">
+    <field position="7" name="cssStyle" type="InputText" id="1390231051">
         <property name="fieldName" value="cssStyle"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="true"/>
@@ -199,7 +161,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="18" name="inputBinding" type="InputText" id="85900050">
+    <field position="18" name="inputBinding" type="InputText" id="85900051">
         <property name="fieldName" value="inputBinding"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -219,7 +181,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="19" name="outputBinding" type="InputText" id="413003545">
+    <field position="19" name="outputBinding" type="InputText" id="413003546">
         <property name="fieldName" value="outputBinding"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -239,7 +201,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="6" name="styleclass" type="InputText" id="1702671746">
+    <field position="6" name="styleclass" type="InputText" id="1702671747">
         <property name="fieldName" value="styleclass"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -258,7 +220,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="15" name="pattern" type="InputText" id="1193324281">
+    <field position="15" name="pattern" type="InputText" id="1193324282">
         <property name="fieldName" value="pattern"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -278,7 +240,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="13" name="formula" type="InputTextArea" id="1892703593">
+    <field position="13" name="formula" type="InputTextArea" id="1892703594">
         <property name="fieldName" value="formula"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -298,7 +260,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="14" name="rangeFormula" type="InputTextArea" id="979845151">
+    <field position="14" name="rangeFormula" type="InputTextArea" id="979845152">
         <property name="fieldName" value="rangeFormula"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -318,7 +280,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="0" name="fieldName" type="InputText" id="959806289">
+    <field position="0" name="fieldName" type="InputText" id="959806280">
         <property name="fieldName" value="fieldName"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="true"/>
@@ -337,7 +299,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="3" name="labelCSSClass" type="InputText" id="2143313431">
+    <field position="3" name="labelCSSClass" type="InputText" id="2143313432">
         <property name="fieldName" value="labelCSSClass"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -356,7 +318,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="2" name="errorMessage" type="I18nText" id="286679419">
+    <field position="2" name="errorMessage" type="I18nText" id="286679410">
         <property name="fieldName" value="errorMessage"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="false"/>
@@ -375,7 +337,7 @@
         <property name="cssStyle" value=""/>
         <property name="accesskey" value=""/>
     </field>
-    <field position="12" name="readonly" type="CheckBox" id="2119375621">
+    <field position="12" name="readonly" type="CheckBox" id="2119375622">
         <property name="fieldName" value="readonly"/>
         <property name="fieldRequired" value="false"/>
         <property name="groupWithPrevious" value="true"/>

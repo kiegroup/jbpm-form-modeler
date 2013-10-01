@@ -118,7 +118,7 @@ public class FormRenderingFormatter extends Formatter {
         String multiple = (String) getParameter("isMultiple");
 
         Boolean disabled = (Boolean) getParameter("isDisabled");
-        Boolean readonly = (Boolean) getParameter("isDisabled");
+        Boolean readonly = (Boolean) getParameter("isReadonly");
 
         if (disabled != null) isDisabled = disabled;    // These params can be null, this has to be evaluated
         if (readonly != null) isReadonly = readonly;
