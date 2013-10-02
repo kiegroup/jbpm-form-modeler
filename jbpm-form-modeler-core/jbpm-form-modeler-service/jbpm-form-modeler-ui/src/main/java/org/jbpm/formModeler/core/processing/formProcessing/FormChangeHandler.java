@@ -37,7 +37,7 @@ public class FormChangeHandler extends BeanHandler {
     private FormProcessor formProcessor;
 
     @Inject
-    private FormChangeProcessor changeProcessor;
+    private FormulasCalculatorChangeProcessor changeProcessor;
 
     @Override
     public boolean isEnabledForActionHandling() {

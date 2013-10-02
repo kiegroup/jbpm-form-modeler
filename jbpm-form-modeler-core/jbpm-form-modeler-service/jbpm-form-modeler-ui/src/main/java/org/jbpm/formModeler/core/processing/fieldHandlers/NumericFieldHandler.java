@@ -176,7 +176,6 @@ public class NumericFieldHandler extends DefaultFieldHandler {
                     }
                 } catch (Exception e) {
                     if (value instanceof Short || value instanceof Integer || value instanceof Long || value instanceof BigInteger) {
-                        log.warn("error building paramValue for value " + value + " with pattern " + pattern + ", let's try again without pattern...");
                         return buildParamValue(value, null);
                     }
                     return result;

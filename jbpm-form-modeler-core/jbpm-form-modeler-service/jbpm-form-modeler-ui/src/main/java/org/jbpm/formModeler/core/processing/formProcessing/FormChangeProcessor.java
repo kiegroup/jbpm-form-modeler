@@ -133,6 +133,7 @@ public abstract class FormChangeProcessor {
     protected Collection getContextEvaluableFields() {
         switch (getSupportedContextType()) {
             case FormProcessingContext.TYPE_FORMULA: return context.getFieldsToEvaluateFormula();
+            case FormProcessingContext.TYPE_DEFAULT_FORMULA: return context.getFieldsToEvaluateDefaultFormula();
             case FormProcessingContext.TYPE_RANGE: return context.getFieldsToEvaluateRange();
             case FormProcessingContext.TYPE_STYLE: return context.getFieldsToEvaluateStyle();
         }
