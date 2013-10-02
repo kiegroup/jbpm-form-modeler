@@ -6,6 +6,18 @@
          xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:ns="http://docbook.org/ns/docbook">
   <title>Data Modeller</title>
 
+  <xi:include href="WhatIsDataModeller.xml" />
+
+  <xi:include href="FirstSteps.xml" />
+
+  <xi:include href="Entities.xml" />
+
+  <xi:include href="PropertiesRelationships.xml" />
+
+  <xi:include href="AddtionalOptions.xml" />
+
+  <xi:include href="GenerateCode.xml" />
+
   <xi:include href="ExternalModels.xml" />
 
 </chapter>
