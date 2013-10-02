@@ -24,6 +24,7 @@ import org.jboss.errai.bus.client.api.messaging.Message;
 import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.ErrorCallback;
 import org.jboss.errai.common.client.api.RemoteCallback;
+import org.jbpm.formModeler.editor.client.resources.i18n.Constants;
 import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.workbench.common.widgets.client.handlers.DefaultNewResourceHandler;
@@ -54,7 +55,7 @@ public class NewFormDefinitionlHandler extends DefaultNewResourceHandler {
 
     @Override
     public String getDescription() {
-        return "New Form";
+        return Constants.INSTANCE.form_modeler_form();
     }
 
     @Override
