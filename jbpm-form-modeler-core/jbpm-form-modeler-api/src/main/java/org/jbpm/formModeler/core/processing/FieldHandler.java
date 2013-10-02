@@ -18,7 +18,6 @@ package org.jbpm.formModeler.core.processing;
 
 import org.jbpm.formModeler.api.model.Field;
 
-import java.util.Locale;
 import java.util.Map;
 
 public interface FieldHandler {
@@ -95,18 +94,9 @@ public interface FieldHandler {
     public boolean acceptsPropertyName(String propName);
 
     /**
-     * Return a human readable name for displaying in given locale.
-     *
-     * @return a human readable name for displaying in given locale.
-     */
-    public String getHumanName(Locale locale);
-
-    /**
      * Initialize any status stored in the field.
      */
     public void initialize(Field field, String namespace);
 
     public boolean isEvaluable(String inputName, Map parameterMap, Map filesMap);
-
-    public boolean shouldPersist();
 }

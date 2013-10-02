@@ -45,9 +45,4 @@ public abstract class FormDecorator extends AbstractFieldHandler {
     public boolean acceptsPropertyName(String propName) {
         return propName.startsWith(":");
     }
-
-    @Override
-    public boolean shouldPersist() {
-        return false;
-    }
 }
