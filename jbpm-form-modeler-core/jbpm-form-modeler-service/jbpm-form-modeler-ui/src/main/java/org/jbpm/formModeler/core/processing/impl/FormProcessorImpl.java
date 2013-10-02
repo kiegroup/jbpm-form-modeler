@@ -16,15 +16,14 @@
 package org.jbpm.formModeler.core.processing.impl;
 
 import org.apache.commons.jxpath.JXPathContext;
+import org.jbpm.formModeler.core.processing.formProcessing.*;
+import org.jbpm.formModeler.service.bb.mvc.controller.responses.DoNothingResponse;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.config.RangeProviderManager;
 import org.jbpm.formModeler.core.processing.*;
 import org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler;
-import org.jbpm.formModeler.core.processing.formProcessing.FormChangeProcessor;
-import org.jbpm.formModeler.core.processing.formProcessing.FormChangeResponse;
-import org.jbpm.formModeler.core.processing.formProcessing.NamespaceManager;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatus;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatusManager;
 import org.jbpm.formModeler.api.model.Field;
@@ -47,12 +46,14 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     private Logger log = LoggerFactory.getLogger(FormProcessor.class);
 
     // TODO: fix formulas
-    //@Inject
-    private FormChangeProcessor formChangeProcessor;
+    @Inject
+    private FormulasCalculatorChangeProcessor formChangeProcessor;
 
     @Inject
     private RangeProviderManager rangeProviderManager;
 
+    @Inject
+    private DefaultFormulaProcessor defaultFormulaProcessor;
 
     @Inject
     private FieldHandlersManager fieldHandlersManager;
@@ -114,6 +115,8 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                     log.error("Error obtaining default values for " + inputName, e);
                 }
             }
+
+            defaultFormulaProcessor.process(FormProcessingContext.defaultFormulaProcessingContext(form, namespace), null);
         }
     }
 

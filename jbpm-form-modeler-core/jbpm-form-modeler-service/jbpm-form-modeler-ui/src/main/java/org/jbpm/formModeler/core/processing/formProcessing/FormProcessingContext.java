@@ -54,8 +54,8 @@ public class FormProcessingContext {
         return new FormProcessingContext(TYPE_STYLE, form, namespace, formMode, fieldsToEvaluateStyle);
     }
 
-    public static FormProcessingContext defaultFormulaProcessingContext(Form form, String namespace, String formMode, List<String> fieldsToEvaluateDefaultFormula) {
-        return new FormProcessingContext(TYPE_DEFAULT_FORMULA, form, namespace, formMode, fieldsToEvaluateDefaultFormula);
+    public static FormProcessingContext defaultFormulaProcessingContext(Form form, String namespace) {
+        return new FormProcessingContext(TYPE_DEFAULT_FORMULA, form, namespace, null, null);
     }
 
     private FormProcessingContext(int type, Form form, String namespace, String formMode, List<String> fieldsToEvaluate) {
