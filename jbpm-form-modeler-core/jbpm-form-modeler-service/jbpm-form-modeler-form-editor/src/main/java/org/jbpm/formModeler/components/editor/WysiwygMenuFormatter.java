@@ -30,6 +30,24 @@ public class WysiwygMenuFormatter extends Formatter {
 
     private Logger log = LoggerFactory.getLogger(WysiwygMenuFormatter.class);
 
+    protected String[] options = {
+            WysiwygFormEditor.EDITION_OPTION_BINDINGS_SOURCES,
+            WysiwygFormEditor.EDITION_OPTION_BINDINGS_FIELDS,
+            WysiwygFormEditor.EDITION_OPTION_FIELDTYPES,
+            WysiwygFormEditor.EDITION_OPTION_FORM_PROPERTIES};
+
+    protected String[] optionsImg = {
+            WysiwygFormEditor.EDITION_OPTION_IMG_BINDINGS_SOURCES,
+            WysiwygFormEditor.EDITION_OPTION_IMG_BINDINGS_FIELDS,
+            WysiwygFormEditor.EDITION_OPTION_IMG_FIELDTYPES,
+            WysiwygFormEditor.EDITION_OPTION_IMG_FORM_PROPERTIES};
+
+    protected String [] optionVis = {
+            WysiwygFormEditor.EDITION_OPTION_VIS_MODE_BINDINGS_SOURCE,
+            WysiwygFormEditor.EDITION_OPTION_VIS_MODE_BINDINGS_FIELDS,
+            WysiwygFormEditor.EDITION_OPTION_VIS_MODE_FIELDTYPES,
+            WysiwygFormEditor.EDITION_OPTION_VIS_MODE_FORM_PROPERTIES};
+
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
             WysiwygFormEditor editor = WysiwygFormEditor.lookup();
@@ -41,24 +59,6 @@ public class WysiwygMenuFormatter extends Formatter {
             renderFragment("beforeOptions");
 
             renderFragment("optionsOutputStart");
-
-            String[] options = {
-                    WysiwygFormEditor.EDITION_OPTION_BINDINGS_SOURCES,
-                    WysiwygFormEditor.EDITION_OPTION_BINDINGS_FIELDS,
-                    WysiwygFormEditor.EDITION_OPTION_FIELDTYPES,
-                    WysiwygFormEditor.EDITION_OPTION_FORM_PROPERTIES};
-
-            String[] optionsImg = {
-                    WysiwygFormEditor.EDITION_OPTION_IMG_BINDINGS_SOURCES,
-                    WysiwygFormEditor.EDITION_OPTION_IMG_BINDINGS_FIELDS,
-                    WysiwygFormEditor.EDITION_OPTION_IMG_FIELDTYPES,
-                    WysiwygFormEditor.EDITION_OPTION_IMG_FORM_PROPERTIES};
-
-            String [] optionVis = {
-                    WysiwygFormEditor.EDITION_OPTION_VIS_MODE_BINDINGS_SOURCE,
-                    WysiwygFormEditor.EDITION_OPTION_VIS_MODE_BINDINGS_FIELDS,
-                    WysiwygFormEditor.EDITION_OPTION_VIS_MODE_FIELDTYPES,
-                    WysiwygFormEditor.EDITION_OPTION_VIS_MODE_FORM_PROPERTIES};
 
             String render = "shared";
             for (int i = 0; i < options.length; i++) {

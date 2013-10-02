@@ -23,10 +23,12 @@ import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.FormCheckResult;
 import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.SubformChecker;
+import org.jbpm.formModeler.core.processing.formRendering.FieldI18nResourceObtainer;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,6 +46,9 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
     public static final String PROPERTY_VISUALIZABLE = "visualizable";
     public static final String PROPERTY_PREVIEW_ITEMS = "previewItems";
     public static final String PROPERTY_SEPARATOR = "htmlContent";
+
+    @Inject
+    protected FieldI18nResourceObtainer fieldI18nResourceObtainer;
 
     protected Boolean isDisabled;
     protected Boolean isReadonly;
@@ -310,7 +315,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
             for (int i = 0; i < sortedFields.size(); i++) {
                 Field formularyField = (Field) sortedFields.get(i);
 
-                String colLabel = StringEscapeUtils.escapeHtml(formularyField.getLabel().getValue(getLang()));
+                String colLabel = StringEscapeUtils.escapeHtml(fieldI18nResourceObtainer.getFieldLabel(field));
                 setAttribute("colLabel", StringUtils.defaultString(colLabel, formularyField.getFieldName()));
                 String colName = formularyField.getFieldName();
                 setAttribute("colName", colName);

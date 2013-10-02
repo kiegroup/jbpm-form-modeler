@@ -1,45 +1,37 @@
 <form id="1698662374">
-    <property name="subject" value="org.jbpm.formModeler.api.model.Field"/>
-    <property name="name" value="HTMLLabel"/>
-    <property name="displayMode" value="default"/>
-    <property name="labelMode" value="undefined"/>
-    <property name="showMode" value=""/>
-    <property name="status" value="0"/>
-    <field position="0" name="htmlContent" type="I18nHTMLText" id="559575971">
-        <property name="fieldName" value="htmlContent"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value="4"/>
-        <property name="label"
-                  value="quot;caquot;,quot;Contingut:quot;quot;enquot;,quot;Content:quot;quot;esquot;,quot;Contenido:quot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value="250"/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
-    <field position="1" name="groupWithPrevious" type="CheckBox" id="227133546">
-        <property name="fieldName" value="groupWithPrevious"/>
-        <property name="fieldRequired" value="false"/>
-        <property name="groupWithPrevious" value="false"/>
-        <property name="height" value=""/>
-        <property name="label"
-                  value="quot;caquot;,quot;Mantenir agrupat amb l&apos;anteriorquot;quot;enquot;,quot;Group with previousquot;quot;esquot;,quot;Mantener agrupado con el anteriorquot;"/>
-        <property name="title" value="quot;caquot;,quot;quot;quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
-        <property name="readonly" value="false"/>
-        <property name="size" value=""/>
-        <property name="formula" value=""/>
-        <property name="rangeFormula" value=""/>
-        <property name="pattern" value=""/>
-        <property name="maxlength" value="512"/>
-        <property name="styleclass" value=""/>
-        <property name="cssStyle" value=""/>
-        <property name="accesskey" value=""/>
-    </field>
+<property name="subject" value="org.jbpm.formModeler.api.model.Field"/>
+<property name="name" value="HTMLLabel"/>
+<property name="displayMode" value="default"/>
+<property name="labelMode" value="undefined"/>
+<property name="showMode" value=""/>
+<property name="status" value="0"/>
+<field position="0" name="htmlContent" type="I18nHTMLText" id="559575971">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value="4"/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value="250"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="1" name="groupWithPrevious" type="CheckBox" id="227133546">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="disabled" value="false"/>
+<property name="readonly" value="false"/>
+<property name="size" value=""/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
 </form>

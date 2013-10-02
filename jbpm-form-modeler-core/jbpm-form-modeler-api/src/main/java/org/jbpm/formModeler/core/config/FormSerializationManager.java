@@ -21,6 +21,8 @@ import org.xml.sax.InputSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Map;
+import java.util.Properties;
 
 
 public interface FormSerializationManager extends Serializable {
@@ -28,9 +30,9 @@ public interface FormSerializationManager extends Serializable {
     String generateFormXML(Form form);
     String generateHeaderFormFormId(long formId) throws IOException;
 
-    Form loadFormFromXML(String xml,String path) throws Exception;
+    Form loadFormFromXML(String xml, String path) throws Exception;
     Form loadFormFromXML(String xml) throws Exception;
 
     Form loadFormFromXML(InputStream is) throws Exception;
-    Form loadFormFromXML(InputSource source) throws Exception;
+    Form loadFormFromXML(InputStream is, Map<String, Properties> resources) throws Exception;
 }

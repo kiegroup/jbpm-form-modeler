@@ -210,7 +210,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
     public Form calculateFieldForm(Field field, String formPath, String namespace) {
         if (StringUtils.isEmpty(formPath)) formPath = field.getDefaultSubform();
 
-        return subformFinderService.getFormFromPath(formPath, namespace);
+        return subformFinderService.getSubFormFromPath(formPath, namespace);
     }
 
     public Object deleteElementInPosition(Form form, String namespace, String field, int position) {
