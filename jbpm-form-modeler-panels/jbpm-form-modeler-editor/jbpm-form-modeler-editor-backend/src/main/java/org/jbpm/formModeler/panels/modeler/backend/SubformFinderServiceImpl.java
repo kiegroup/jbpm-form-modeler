@@ -1,6 +1,7 @@
 package org.jbpm.formModeler.panels.modeler.backend;
 
-import org.drools.core.util.StringUtils;
+
+import org.apache.commons.lang.StringUtils;
 import org.guvnor.common.services.project.model.Project;
 import org.guvnor.common.services.project.service.ProjectService;
 import org.jbpm.formModeler.api.client.FormEditorContext;
