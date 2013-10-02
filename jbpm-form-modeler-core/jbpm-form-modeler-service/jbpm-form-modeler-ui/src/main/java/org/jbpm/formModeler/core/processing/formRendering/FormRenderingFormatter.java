@@ -71,6 +71,9 @@ public class FormRenderingFormatter extends Formatter {
     @Inject
     private FormErrorMessageBuilder formErrorMessageBuilder;
 
+    @Inject
+    protected FieldI18nResourceObtainer fieldI18nResourceObtainer;
+
     @Inject @Config("/formModeler/defaultFormErrors.jsp")
     private String errorsPage;
 
@@ -418,7 +421,7 @@ public class FormRenderingFormatter extends Formatter {
             writeToOut(Form.TEMPLATE_LABEL + "{" + field.getFieldName() + "}");
         } else {
             boolean fieldHasErrors = formStatusData.getWrongFields().contains(field.getFieldName());
-            String label = (String) getLocaleManager().localize(field.getLabel());
+            String label = fieldI18nResourceObtainer.getFieldLabel(field);
             Boolean fieldIsRequired = field.getFieldRequired();
             boolean fieldRequired = fieldIsRequired != null && fieldIsRequired.booleanValue() && !Form.RENDER_MODE_DISPLAY.equals(fieldIsRequired);
 

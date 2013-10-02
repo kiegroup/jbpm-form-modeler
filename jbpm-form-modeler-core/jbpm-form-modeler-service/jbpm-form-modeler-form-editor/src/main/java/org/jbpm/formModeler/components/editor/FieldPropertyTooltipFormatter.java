@@ -15,11 +15,12 @@
  */
 package org.jbpm.formModeler.components.editor;
 
-import org.jbpm.formModeler.service.LocaleManager;
+import org.jbpm.formModeler.core.processing.formRendering.FieldI18nResourceObtainer;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,16 +28,15 @@ import java.util.Map;
 
 @Named("FieldPropertyTooltipFormatter")
 public class FieldPropertyTooltipFormatter extends Formatter {
+    @Inject
+    protected FieldI18nResourceObtainer fieldI18nResourceObtainer;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         Field field = (Field) getParameter("field");
-        Map fieldTitle = field.getTitle();
-        if (fieldTitle != null) {
-            String help = (String) LocaleManager.lookup().localize(fieldTitle);
-            if (help != null && !"".equals(help.trim())) {
-                setAttribute("help", help);
-                renderFragment("output");
-            }
+        String help = fieldI18nResourceObtainer.getFieldTitle(field);
+        if (help != null && !"".equals(help.trim())) {
+            setAttribute("help", help);
+            renderFragment("output");
         }
     }
 }

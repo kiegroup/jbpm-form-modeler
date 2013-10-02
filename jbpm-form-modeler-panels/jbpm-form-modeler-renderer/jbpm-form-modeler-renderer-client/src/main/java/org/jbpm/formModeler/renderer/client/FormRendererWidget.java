@@ -17,6 +17,7 @@ package org.jbpm.formModeler.renderer.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.safehtml.shared.UriUtils;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Frame;
@@ -30,6 +31,9 @@ import javax.inject.Inject;
 
 @Dependent
 public class FormRendererWidget extends Composite {
+
+    final static private String GWT_DEFAULT_LOCALE  = "default";
+    final static private String FORM_MODELER_DEFAULT_LOCALE  = "en";
 
     boolean canSubmit = false;
     private String ctxUID;
@@ -87,7 +91,9 @@ public class FormRendererWidget extends Composite {
         this.ctxUID = ctxUID;
 
         frame.getElement().setId("frame_" + ctxUID);
-        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=frc&_fp=Start&ctxUID=" + ctxUID ).asString());
+        String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
+        if (GWT_DEFAULT_LOCALE.equals(localeName)) localeName = FORM_MODELER_DEFAULT_LOCALE;
+        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=frc&_fp=Start&ctxUID=" + ctxUID + "&locale=" + localeName).asString());
         canSubmit = true;
     }
 

@@ -39,13 +39,13 @@
                         <tr>
                             <% if (technicalDetails != null) { %>
                             <td align="left" id="<factory:encode name="viewTechnicalDetails" />">
-                                <input type="button" class="skn-button" value="<i18n:message key="viewTechnicalDetails">!!!Ver detalles t&eacute;cnicos</i18n:message>"
+                                <input type="button" class="skn-button" value="<i18n:message key="viewTechnicalDetails">!!!View technical details</i18n:message>"
                                        onclick="document.getElementById('<factory:encode name="technicalDetails"/>').style.display='block';
                                         document.getElementById('<factory:encode name="viewTechnicalDetails"/>').style.display='none';
                                         document.getElementById('<factory:encode name="hideTechnicalDetails"/>').style.display='block';">&nbsp;
                             </td>
                             <td align="left" id="<factory:encode name="hideTechnicalDetails" />" style="display:none;">
-                                <input type="button" class="skn-button" value="<i18n:message key="hideTechnicalDetails">!!!Ocultar detalles t&eacute;cnicos</i18n:message>"
+                                <input type="button" class="skn-button" value="<i18n:message key="hideTechnicalDetails">!!!Hide technical details</i18n:message>"
                                        onclick="document.getElementById('<factory:encode name="technicalDetails"/>').style.display='none';
                                         document.getElementById('<factory:encode name="viewTechnicalDetails"/>').style.display='block';
                                         document.getElementById('<factory:encode name="hideTechnicalDetails"/>').style.display='none';">&nbsp;

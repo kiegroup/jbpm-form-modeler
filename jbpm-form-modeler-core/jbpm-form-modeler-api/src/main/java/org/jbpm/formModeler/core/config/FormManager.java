@@ -49,14 +49,6 @@ public interface FormManager extends Serializable {
 
     Form createForm(String subject, String name, String displayMode, Long status);
 
-    Form cloneForm(Long id);
-
-    Form cloneForm(Form source) throws Exception;
-
-    Form duplicateForm(Long duplicateId, String name, String displayMode, Long status) throws Exception;
-
-    void deleteForm(Form pForm) throws Exception;
-
     Field addFieldToForm(Form pForm, FieldType fieldType) throws Exception;
 
     Field addFieldToForm(Form pForm, String fieldName, FieldType fieldType, I18nSet label) throws Exception;

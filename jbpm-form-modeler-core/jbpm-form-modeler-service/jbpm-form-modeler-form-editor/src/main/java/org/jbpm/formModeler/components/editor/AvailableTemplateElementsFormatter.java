@@ -18,7 +18,7 @@ package org.jbpm.formModeler.components.editor;
 
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.service.LocaleManager;
+import org.jbpm.formModeler.core.processing.formRendering.FieldI18nResourceObtainer;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 
@@ -37,6 +37,9 @@ public class AvailableTemplateElementsFormatter extends Formatter {
 
     @Inject
     private FormTemplateEditor formTemplateEditor;
+
+    @Inject
+    private FieldI18nResourceObtainer fieldI18nResourceObtainer;
 
     public FormTemplateEditor getFormTemplateEditor() {
         return formTemplateEditor;
@@ -65,7 +68,7 @@ public class AvailableTemplateElementsFormatter extends Formatter {
             String label="";
             for (int i = 0; i < fieldsToAdd.size(); i++) {
                 Field field = (Field) fieldsToAdd.get(i);
-                label = (String)field.getLabel().get(LocaleManager.lookup().getDefaultLang());
+                label = fieldI18nResourceObtainer.getFieldLabel(field);
                 setAttribute("key", ("Field".equals(type) ? Form.TEMPLATE_FIELD : Form.TEMPLATE_LABEL)
                         + "{" + field.getFieldName() + "}");
                 setAttribute("val",

@@ -18,6 +18,7 @@ package org.jbpm.formModeler.core.config;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.core.wrappers.HTMLi18n;
+import org.jbpm.formModeler.service.LocaleManager;
 import org.slf4j.Logger;
 import org.apache.xerces.parsers.DOMParser;
 import org.jbpm.formModeler.api.model.Form;
@@ -56,6 +57,9 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     @Inject
     private DataHolderManager dataHolderManager;
 
+    @Inject
+    private LocaleManager localeManager;
+
     protected Logger log = LoggerFactory.getLogger(FormSerializationManager.class);
 
     @Inject
@@ -91,40 +95,44 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     @Override
     public Form loadFormFromXML(String xml, String path) throws Exception {
         if (StringUtils.isBlank(xml)) return null;
-        return loadFormFromXML(new InputSource(new StringReader(xml)), path);
+        return loadFormFromXML(new InputSource(new StringReader(xml)), path, null);
     }
 
     @Override
     public Form loadFormFromXML(String xml) throws Exception {
         if (StringUtils.isBlank(xml)) return null;
-        return loadFormFromXML(new InputSource(new StringReader(xml)));
+        return loadFormFromXML(new InputSource(new StringReader(xml)), null);
     }
 
     @Override
     public Form loadFormFromXML(InputStream is) throws Exception {
-        return loadFormFromXML(new InputSource(is));
+        return loadFormFromXML(is, null);
     }
 
     @Override
-    public Form loadFormFromXML(InputSource source) throws Exception {
+    public Form loadFormFromXML(InputStream is, Map<String, Properties> resources) throws Exception {
+        return loadFormFromXML(new InputSource(is), resources);
+    }
+
+    public Form loadFormFromXML(InputSource source, Map<String, Properties> resources) throws Exception {
+        DOMParser parser = new DOMParser();
+        parser.parse(source);
+        Document doc = parser.getDocument();
+        NodeList nodes = doc.getElementsByTagName(NODE_FORM);
+        Node rootNode = nodes.item(0);
+        return deserializeForm(rootNode, null, resources);
+    }
+
+    public Form loadFormFromXML(InputSource source, String path, Map<String, Properties> resources) throws Exception {
         DOMParser parser = new DOMParser();
         parser.parse(source);
         Document doc = parser.getDocument();
         NodeList nodes = doc.getElementsByTagName(NODE_FORM);
         Node rootNode = nodes.item(0); // only comes a form
-        return deserializeForm(rootNode,null);
+        return deserializeForm(rootNode, path, resources);
     }
 
-    public Form loadFormFromXML(InputSource source, String path) throws Exception {
-        DOMParser parser = new DOMParser();
-        parser.parse(source);
-        Document doc = parser.getDocument();
-        NodeList nodes = doc.getElementsByTagName(NODE_FORM);
-        Node rootNode = nodes.item(0); // only comes a form
-        return deserializeForm(rootNode, path);
-    }
-
-    public Form deserializeForm(Node nodeForm, String path) throws Exception {
+    public Form deserializeForm(Node nodeForm, String path, Map<String, Properties> resources) throws Exception {
         if (!nodeForm.getNodeName().equals(NODE_FORM)) return null;
 
         Form form = formManager.createForm("");
@@ -153,7 +161,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                     form.setFormTemplate(value);
                 }
             } else if (node.getNodeName().equals(NODE_FIELD)) {
-                Field field = deserializeField(node);
+                Field field = deserializeField(form, node, resources);
                 field.setForm(form);
                 fields.add(field);
             } else if (node.getNodeName().equals(NODE_DATA_HOLDER)) {
@@ -227,7 +235,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         return sw.toString();
     }
 
-    public Field deserializeField(Node nodeField) throws Exception {
+    public Field deserializeField(Form form, Node nodeField, Map<String, Properties> resources) throws Exception {
         if (!nodeField.getNodeName().equals(NODE_FIELD)) return null;
 
         Field field = new Field();
@@ -318,11 +326,40 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                     } else if ("outputBinding".equals(propName)) {
                         field.setOutputBinding(value);
                     }
-
                 }
             }
         }
+
+        if (resources != null) {
+            field.setTitle(new I18nSet());
+            field.setLabel(new I18nSet());
+            field.setErrorMessage(new I18nSet());
+            if (resources.containsKey("default")){
+                resources.put(localeManager.getDefaultLang(), resources.remove("default"));
+            }
+            for(String lang : resources.keySet()) {
+                Properties props = resources.get(lang);
+                String value = getFieldProperty(form.getName(), field.getFieldName(), "title", props);
+                if (!StringUtils.isEmpty(value)) field.getTitle().setValue(lang, value);
+
+                value = getFieldProperty(form.getName(), field.getFieldName(), "label", props);
+                if (!StringUtils.isEmpty(value)) field.getLabel().setValue(lang, value);
+
+                value = getFieldProperty(form.getName(), field.getFieldName(), "errorMessage", props);
+                if (!StringUtils.isEmpty(value)) field.getErrorMessage().setValue(lang, value);
+            }
+        }
         return field;
+    }
+
+    private String getFieldProperty(String formName, String fieldName, String selector, Properties props) {
+        if (props == null) return null;
+
+        String value = props.getProperty(formName + "." + fieldName + "." + selector);
+
+        if (StringUtils.isEmpty(value)) value = props.getProperty(fieldName + "." + selector);
+
+        return value;
     }
 
     public void generateFieldXML(Field field, XMLNode parent) {

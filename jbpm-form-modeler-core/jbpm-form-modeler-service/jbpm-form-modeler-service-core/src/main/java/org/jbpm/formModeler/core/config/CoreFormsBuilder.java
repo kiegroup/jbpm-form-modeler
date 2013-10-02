@@ -16,6 +16,7 @@
 package org.jbpm.formModeler.core.config;
 
 import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.service.LocaleManager;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
@@ -26,7 +27,12 @@ import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * Class that builds the forms modeler's core forms.
@@ -42,6 +48,9 @@ public class CoreFormsBuilder implements Startable {
     @Inject
     private FormSerializationManager formSerializationManager;
 
+    @Inject
+    private LocaleManager localeManager;
+
     @Inject @Config("default,InputText,InputTextBigDecimal,InputTextBigInteger,CheckBox,Date,InputTextDouble," +
             "InputTextFloat,InputTextInteger,InputTextLong,InputTextShort,HTMLLabel,Separator, Subform, MultipleSubform,"+
             "InputTextEmail,InputTextArea,HTMLEditor,Link,I18nHTMLText")
@@ -55,13 +64,34 @@ public class CoreFormsBuilder implements Startable {
         return "org/jbpm/formModeler/core/forms/" + formName + ".form";
     }
 
+    public String getFormResourcesPath(String lang) {
+        return "org/jbpm/formModeler/core/forms/forms-resources" + lang + ".properties";
+    }
+
     public void start() {
+        Map<String, Properties> formResources = new HashMap<String, Properties>();
+
+        for (String lang : localeManager.getPlatformAvailableLangs()) {
+            try {
+                String key = lang.equals(localeManager.getDefaultLang()) ? "" : "_" + lang;
+
+                InputStream in =  Thread.currentThread().getContextClassLoader().getResourceAsStream(getFormResourcesPath(key));
+
+                if (in == null) continue;
+                Properties props = new Properties();
+                props.load(in);
+                formResources.put(lang, props);
+            } catch (Exception e) {
+                log.warn("Error loading resources form lang \"{}\": {}", lang, e);
+            }
+        }
+
         for (String formName : coreFormNames) {
             String formPath = getFormPath(formName);
             try {
                 // Form is read, deserialized and added to the form manager.
                 InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(formPath);
-                Form systemForm = formSerializationManager.loadFormFromXML(is);
+                Form systemForm = formSerializationManager.loadFormFromXML(is, formResources);
                 formManager.addSystemForm(systemForm);
             } catch (Exception e) {
                 log.error("Error reading core form file: " + formPath, e);

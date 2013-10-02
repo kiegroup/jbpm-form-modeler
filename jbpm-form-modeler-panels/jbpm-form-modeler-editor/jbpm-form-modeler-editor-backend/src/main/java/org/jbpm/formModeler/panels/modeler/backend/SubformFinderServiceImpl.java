@@ -1,6 +1,6 @@
 package org.jbpm.formModeler.panels.modeler.backend;
 
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.guvnor.common.services.project.model.Project;
 import org.guvnor.common.services.project.service.ProjectService;
 import org.jbpm.formModeler.api.client.FormEditorContext;
@@ -47,11 +47,25 @@ public class SubformFinderServiceImpl implements SubformFinderService {
     private FormRenderContextManager formRenderContextManager;
 
     @Override
+    public Form getForm(String ctxUID) {
+        try {
+            FormEditorContext editorContext = formEditorContextManager.getRootEditorContext(ctxUID);
+            if (editorContext != null) return getFormByPath(editorContext.getPath());
+
+            FormRenderContext renderContext = formRenderContextManager.getRootContext(ctxUID);
+            if (renderContext != null)  return renderContext.getForm();
+        } catch (Exception e) {
+            log.warn("Error loading form from context {}: {}", ctxUID, e);
+        }
+        return null;
+    }
+
+    @Override
     public Form getFormById(long formId, String ctxUID) {
 
         try {
             FormEditorContext editorContext = formEditorContextManager.getRootEditorContext(ctxUID);
-            if (editorContext != null) return getForm(formId, editorContext);
+            if (editorContext != null) return getFormById(formId, editorContext);
 
             // find root context in order to load the subform
             FormRenderContext renderContext = formRenderContextManager.getRootContext(ctxUID);
@@ -79,18 +93,18 @@ public class SubformFinderServiceImpl implements SubformFinderService {
                 }
             }
         } catch (Exception e) {
-            log.warn("Error getting form '" + formId + "' from context '" + ctxUID + "': ", e);
+            log.warn("Error getting form {} from context {}: {}", formId, ctxUID, e);
         }
         return null;
     }
 
     @Override
-    public Form getFormFromPath(String formPath, String ctxUID) {
+    public Form getSubFormFromPath(String formPath, String ctxUID) {
         try {
             if (StringUtils.isEmpty(formPath)) return null;
 
             FormEditorContext editorContext = formEditorContextManager.getRootEditorContext(ctxUID);
-            if (editorContext != null) return getForm(formPath, editorContext);
+            if (editorContext != null) return getSubForm(formPath, editorContext);
 
             // find root context in order to load the subform
             FormRenderContext renderContext = formRenderContextManager.getRootContext(ctxUID);
@@ -113,12 +127,12 @@ public class SubformFinderServiceImpl implements SubformFinderService {
                 }
             }
         } catch (Exception e) {
-            log.warn("Error getting form '" + formPath + "' from context '" + ctxUID + "': ", e);
+            log.warn("Error getting form {} from context {}: {}", formPath, ctxUID, e);
         }
         return null;
     }
 
-    protected Form getForm(long formId, FormEditorContext editorContext) throws Exception {
+    protected Form getFormById(long formId, FormEditorContext editorContext) throws Exception {
         if (editorContext.getForm().getId().equals(new Long(formId))) return editorContext.getForm();
 
         Path currentForm = paths.convert(ioService.get(new URI(editorContext.getPath())));
@@ -145,14 +159,26 @@ public class SubformFinderServiceImpl implements SubformFinderService {
         return null;
     }
 
-    protected Form getForm(String formPath, FormEditorContext editorContext) throws Exception{
-
+    protected Form getSubForm(String formPath, FormEditorContext editorContext) throws Exception {
         Path currentForm = paths.convert(ioService.get(new URI(editorContext.getPath())));
 
         org.kie.commons.java.nio.file.Path subFormPath = paths.convert(currentForm).getParent().resolve(formPath);
 
-        String xml = ioService.readAllString(subFormPath).trim();
+        return findForm(subFormPath);
+    }
 
-        return formSerializationManager.loadFormFromXML(xml,subFormPath.toUri().toString());
+    public Form getFormByPath(String path) {
+        try {
+            return findForm(paths.convert(paths.convert(ioService.get(new URI(path)))));
+        } catch (Exception e) {
+            log.warn("Error getting form {}: {}", path, e);
+        }
+        return null;
+    }
+
+    protected Form findForm(org.kie.commons.java.nio.file.Path path) throws Exception {
+        String xml = ioService.readAllString(path).trim();
+
+        return formSerializationManager.loadFormFromXML(xml, path.toUri().toString());
     }
 }

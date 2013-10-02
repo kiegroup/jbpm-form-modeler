@@ -16,7 +16,12 @@
 package org.jbpm.formModeler.editor.client.editors;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.safehtml.shared.UriUtils;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Frame;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
@@ -33,6 +38,8 @@ public class FormModelerPanelViewImpl extends Composite
         implements
         FormModelerPanelPresenter.FormModelerPanelView {
 
+    final static private String GWT_DEFAULT_LOCALE  = "default";
+    final static private String FORM_MODELER_DEFAULT_LOCALE  = "en";
 
     private FormModelerPanelPresenter presenter;
 
@@ -52,7 +59,6 @@ public class FormModelerPanelViewImpl extends Composite
         id = System.currentTimeMillis();
         frame.getElement().setId("frame_" + id);
         visible(false);
-
     }
 
     @Override
@@ -73,11 +79,13 @@ public class FormModelerPanelViewImpl extends Composite
 
     @Override
     public void loadContext(FormEditorContextTO context) {
-        String contexUID="";
-        if(context!=null){
-            contexUID= context.getCtxUID();
+        String contexUID = "";
+        if(context != null){
+            contexUID = context.getCtxUID();
         }
-        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=wysiwygfe&_fp=Start&ctxUID=" + contexUID).asString());
+        String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
+        if (GWT_DEFAULT_LOCALE.equals(localeName)) localeName = FORM_MODELER_DEFAULT_LOCALE;
+        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=wysiwygfe&_fp=Start&ctxUID=" + contexUID+"&locale=" + localeName).asString());
         visible(true);
     }
 }

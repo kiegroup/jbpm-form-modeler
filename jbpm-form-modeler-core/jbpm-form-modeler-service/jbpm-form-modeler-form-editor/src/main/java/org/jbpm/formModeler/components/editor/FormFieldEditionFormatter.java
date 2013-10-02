@@ -15,6 +15,8 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.core.processing.formRendering.FieldI18nResourceObtainer;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.core.FormCoreServices;
@@ -35,6 +37,9 @@ import java.util.*;
 @Named("FormFieldEditionFormatter")
 public class FormFieldEditionFormatter extends FormRenderingFormatter {
     private Logger log = LoggerFactory.getLogger(FormFieldEditionFormatter.class);
+
+    @Inject
+    protected FieldI18nResourceObtainer fieldI18nResourceObtainer;
 
     public WysiwygFormEditor getEditor() {
         return WysiwygFormEditor.lookup();
@@ -73,8 +78,10 @@ public class FormFieldEditionFormatter extends FormRenderingFormatter {
         String fieldName = field.getFieldName();
         boolean isDecorator = field.getFieldName().startsWith(":");
         if (isDecorator) fieldName = "{" + fieldName + "}";
-        if(field.getLabel()!=null && (field.getLabel().getValue(getLocaleManager().getDefaultLang())!=null)){
-           fieldName =field.getLabel().getValue(getLocaleManager().getDefaultLang());
+
+        String label =  fieldI18nResourceObtainer.getFieldLabel(field);
+        if(StringUtils.isEmpty(label)){
+           fieldName = label;
         }
         setAttribute("fieldName", fieldName);
         setAttribute("isDecorator", isDecorator);

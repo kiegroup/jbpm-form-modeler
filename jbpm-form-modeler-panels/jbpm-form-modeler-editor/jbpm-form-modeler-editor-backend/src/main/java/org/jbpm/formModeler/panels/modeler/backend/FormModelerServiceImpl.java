@@ -35,6 +35,7 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.core.processing.FormProcessor;
+import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.commons.io.IOService;
 import org.kie.commons.java.nio.file.FileAlreadyExistsException;
@@ -60,6 +61,9 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
 
     @Inject
     private Event<NotificationEvent> notification;
+
+    @Inject
+    private SubformFinderService subformFinderService;
 
     @Inject
     private FormManager formManager;
@@ -89,8 +93,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
         try {
             org.kie.commons.java.nio.file.Path kiePath = paths.convert(context);
 
-            String xml = ioService.readAllString(kiePath).trim();
-            Form form = formSerializationManager.loadFormFromXML(xml, kiePath.toUri().toString());
+            Form form = subformFinderService.getFormByPath(kiePath.toUri().toString());
 
             return newContext(form, context).getFormEditorContextTO();
         } catch (Exception e) {

@@ -42,7 +42,10 @@ import java.util.ResourceBundle;
 public class FormErrorMessageBuilder {
 
     private Logger log = LoggerFactory.getLogger(FormErrorMessageBuilder.class);
-    
+
+    @Inject
+    protected FieldI18nResourceObtainer fieldI18nResourceObtainer;
+
     private ResourceBundle bundle;
     private String requiredMessage;
 
@@ -98,7 +101,7 @@ public class FormErrorMessageBuilder {
         if (StringUtils.isEmpty(msg)) return "";
         
         StringBuffer result = new StringBuffer();
-        String label = field.getFieldName().indexOf(":decorator") > -1 ? (String) field.getLabel().get(LocaleManager.currentLang()) : field.getFieldName();
+        String label = field.getFieldName().indexOf(":decorator") > -1 ? fieldI18nResourceObtainer.getFieldLabel(field) : field.getFieldName();
         result.append(bundle.getString("error.start")).append(label).append(bundle.getString("error.end")).append(msg);
         
         return result.toString();
