@@ -197,7 +197,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                 try {
                     propagateChangesToParentFormStatuses(formStatus, fieldName, value);
                 } catch (Exception e) {
-                    log.error("Error modifying formStatus: ", e);
+                    log.debug("Can't propagate changes to parentFormStatuses: ", e);
                 }
                 boolean isEmpty = handler.isEmpty(value);
                 if (isRequired && isEmpty && !incremental) {
