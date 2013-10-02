@@ -41,6 +41,7 @@ public class WysiwygEditFormTemplateFormatter extends Formatter {
             setAttribute("loadTemplate", Boolean.valueOf(templateEditor.isLoadTemplate()));
             setAttribute("genMode", templateEditor.getGenMode());
             setAttribute("formId", templateEditor.getFormId());
+            setAttribute("form", templateEditor.getForm());
             renderFragment("output");
         }catch (Exception e){
             log.error("Something unexpected has happened editing Form template", e);

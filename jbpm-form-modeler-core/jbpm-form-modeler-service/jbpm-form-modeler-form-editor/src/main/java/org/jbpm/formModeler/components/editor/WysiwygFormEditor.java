@@ -766,7 +766,8 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if (getFormTemplateEditor().isCancel()) {
             getFormTemplateEditor().setFormId(null);
         } else {
-            FormCoreServices.lookup().getFormManager().saveTemplateForForm(getFormTemplateEditor().getFormId(), getFormTemplateEditor().getTemplateContent());
+            getCurrentForm().setFormTemplate(getFormTemplateEditor().getTemplateContent());
+            //FormCoreServices.lookup().getFormManager().saveTemplateForForm(getFormTemplateEditor().getFormId(), getFormTemplateEditor().getTemplateContent());
         }
         if(loadTemplate!=null && Boolean.valueOf(loadTemplate).booleanValue()){
             getFormTemplateEditor().setLoadTemplate(true);

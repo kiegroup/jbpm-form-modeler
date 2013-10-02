@@ -16,24 +16,23 @@
 package org.jbpm.formModeler.components.editor;
 
 import org.slf4j.Logger;
-import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.api.model.Form;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-//@SessionScoped
-@ApplicationScoped
+@SessionScoped
+//@ApplicationScoped
 @Named("FormTemplateEditor")
 public class FormTemplateEditor extends BeanHandler {
 
     private Logger log = LoggerFactory.getLogger(FormTemplateEditor.class);
 
-    private Long formId;
+
     private String templateContent;
     private boolean cancel;
     private boolean persist;
@@ -41,27 +40,37 @@ public class FormTemplateEditor extends BeanHandler {
     private String templateToLoad;
     private String genMode;
 
+    private boolean showTemplate = false;
+    WysiwygFormEditor wysiwygFormEditor= WysiwygFormEditor.lookup();
+
     public boolean isOn() {
-        return formId != null;
+        return showTemplate;
     }
 
-    public Long getFormId() {
-        return formId;
+    public void setShowTemplate(boolean showTemplate) {
+        this.showTemplate = showTemplate;
+    }
+
+    public Long getFormId() throws Exception{
+        return getForm().getId();
     }
 
     public void setFormId(Long formId) {
-        this.formId = formId;
         if (formId != null) {
             try {
                 setTemplateContent(getForm().getFormTemplate());
             } catch (Exception e) {
                 log.error("Error: ", e);
             }
+            this.showTemplate =true;
+        }
+        else{
+            this.showTemplate =false;
         }
     }
 
     public Form getForm() throws Exception {
-        return FormCoreServices.lookup().getFormManager().getFormById(formId);
+        return wysiwygFormEditor.getCurrentForm();
     }
 
     public String getTemplateContent() {
@@ -121,13 +130,12 @@ public class FormTemplateEditor extends BeanHandler {
     }
 
     public void actionSaveTemplate(CommandRequest request) throws Exception {
-        if (isCancel()) {
-            setFormId(null);
-        } else {
+        if (!isCancel()) {
             if (isPersist()) {
-                FormCoreServices.lookup().getFormManager().saveTemplateForForm(getFormId(), getTemplateContent());
+                wysiwygFormEditor.getCurrentForm().setFormTemplate(getTemplateContent());
                 setFormId(null);
             }
         }
+        setShowTemplate(false);
     }
 }

@@ -105,11 +105,11 @@ public class FormRenderingFormatter extends Formatter {
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         Object formObject = getParameter("form");
+
         if (formObject != null) formToPaint = (Form) formObject;
         else {
-            Object formIdObject = getParameter("formId");
-            Long formId = Long.decode(String.valueOf(formIdObject));
-            formToPaint = getFormManager().getFormById(formId);
+            log.error("Form not found");
+            return;
         }
 
         renderMode = (String) getParameter("renderMode");     //Default is form
