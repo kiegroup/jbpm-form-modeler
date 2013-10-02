@@ -32,9 +32,6 @@ public class HTMLlabel extends FormDecorator {
     @Inject @Config("/formModeler/formDecorators/HTMLlabel/show.jsp")
     private String pageToIncludeForDisplaying;
 
-    @Inject @Config("/formModeler/formDecorators/HTMLlabel/search.jsp")
-    private String pageToIncludeForSearching;
-
     public String getPageToIncludeForDisplaying() {
         return pageToIncludeForDisplaying;
     }
@@ -49,13 +46,5 @@ public class HTMLlabel extends FormDecorator {
 
     public void setPageToIncludeForRendering(String pageToIncludeForRendering) {
         this.pageToIncludeForRendering = pageToIncludeForRendering;
-    }
-
-    public String getPageToIncludeForSearching() {
-        return pageToIncludeForSearching;
-    }
-
-    public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
-        this.pageToIncludeForSearching = pageToIncludeForSearching;
     }
 }

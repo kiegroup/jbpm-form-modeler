@@ -55,9 +55,4 @@ public abstract class DefaultFieldHandler extends AbstractFieldHandler {
     public FieldHandlersManager getFieldHandlersManager() {
         return FormProcessingServices.lookup().getFieldHandlersManager();
     }
-
-    @Override
-    public boolean shouldPersist() {
-        return false;
-    }
 }

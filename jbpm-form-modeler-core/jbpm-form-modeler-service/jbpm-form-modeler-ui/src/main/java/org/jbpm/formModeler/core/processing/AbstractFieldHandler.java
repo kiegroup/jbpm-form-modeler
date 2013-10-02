@@ -24,16 +24,6 @@ import java.util.ResourceBundle;
 
 public abstract class AbstractFieldHandler implements FieldHandler {
 
-    public String getHumanName(Locale locale) {
-        ResourceBundle bundle = ResourceBundle.getBundle("org.jbpm.formModeler.core.processing.fieldHandlers", locale);
-        try {
-            return bundle.getString(getName());
-        }
-        catch (Exception e) {
-            return getName();
-        }
-    }
-
     public void initialize(Field field, String namespace) {
         
     }

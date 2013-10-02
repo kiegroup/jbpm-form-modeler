@@ -32,9 +32,6 @@ public class Separator extends FormDecorator {
     @Inject @Config("/formModeler/formDecorators/Separator/show.jsp")
     private String pageToIncludeForDisplaying = "/formModeler/formDecorators/Separator/show.jsp";
 
-    @Inject @Config("/formModeler/formDecorators/Separator/search.jsp")
-    private String pageToIncludeForSearching = "/formModeler/formDecorators/Separator/search.jsp";
-
     public String getPageToIncludeForDisplaying() {
         return pageToIncludeForDisplaying;
     }
@@ -49,13 +46,5 @@ public class Separator extends FormDecorator {
 
     public void setPageToIncludeForRendering(String pageToIncludeForRendering) {
         this.pageToIncludeForRendering = pageToIncludeForRendering;
-    }
-
-    public String getPageToIncludeForSearching() {
-        return pageToIncludeForSearching;
-    }
-
-    public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
-        this.pageToIncludeForSearching = pageToIncludeForSearching;
     }
 }

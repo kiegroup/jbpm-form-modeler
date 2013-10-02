@@ -27,13 +27,6 @@ public class DecoratorFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         List<FieldType> result = new ArrayList<FieldType>();
 
         FieldType ft = new FieldType();
-/*        ft.setCode("FreeText");
-        ft.setFieldClass("void");
-        ft.setManagerClass("org.jbpm.formModeler.core.processing.formDecorators.FreeText");
-        ft.setReadonly(Boolean.TRUE);
-        result.add(ft);
-*/
-        ft = new FieldType();
         ft.setCode("HTMLLabel");
         ft.setFieldClass("HTMLlabel");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.formDecorators.HTMLlabel");
