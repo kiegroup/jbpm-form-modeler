@@ -9,10 +9,10 @@
          xmlns:ns="http://docbook.org/ns/docbook">
   <title>Additional options</title>
 
-  <para>As stated before, both entities as well as entity attributes require
+  <para>As stated before, both entities as well as entity fields require
   some of their initial properties to be set upon creation. These are by no
-  means the only properties entities and attributes have. Below we will give a
-  detailed description of the additional entity and attribute
+  means the only properties entities and fields have. Below we will give a
+  detailed description of the additional entity and field
   properties.</para>
 
   <section>
@@ -55,10 +55,10 @@
   </section>
 
   <section>
-    <title>Additional attribute properties ("Field tab")</title>
+    <title>Additional field properties ("Field tab")</title>
 
     <figure>
-      <title>The entity's attribute properties</title>
+      <title>The entity's field properties</title>
 
       <screenshot>
         <mediaobject>
@@ -74,14 +74,14 @@
     <itemizedlist>
       <listitem>
         <para>Description: this field allows the user to introduce some kind
-        of description for the current attribute, for documentation purposes
+        of description for the current field, for documentation purposes
         only. As with the label property, this is conceptual information that
         will not influence the use or treatment of this entity or its
         instances in any way.</para>
       </listitem>
 
       <listitem>
-        <para>Equals: checking this property for an entity attribute implies
+        <para>Equals: checking this property for an entity field implies
         that it will be taken into account, at the code generation level, for
         the creation of both the equals() and hashCode() methods in the
         generated Java class. We will explain this in more detail in the

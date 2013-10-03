@@ -73,56 +73,56 @@
 
   <para>A standard Java default (or no parameter) constructor is generated, as
   well as a full parameter constructor, i.e. a constructor that accepts as
-  parameters a value for each of the entity's user-defined attributes.</para>
+  parameters a value for each of the entity's user-defined fields.</para>
 
-  <para>The entity's user-defined attributes are translated into Java class
+  <para>The entity's user-defined fields are translated into Java class
   fields, each one of them with its own getter and setter method, according to
   the following transformation rules:</para>
 
   <itemizedlist>
     <listitem>
-      <para>The entity attribute's identifier will become the Java field
+      <para>The entity field's identifier will become the Java field
       identifier. It therefore needs to be a valid Java identifier.</para>
     </listitem>
 
     <listitem>
-      <para>The entity attribute's type is directly translated into the Java
-      class's field type. In case the entity attribute was declared to be
+      <para>The entity field's type is directly translated into the Java
+      class's field type. In case the entity field was declared to be
       multiple (i.e. '[0..N]'), then the generated field is of the
       "java.util.List" type.</para>
     </listitem>
 
     <listitem>
-      <para>The equals property: when it is set for a specific attribute, then
+      <para>The equals property: when it is set for a specific field, then
       this class property will be annotated with the
       "@org.kie.api.definition.type.Key" annotation, which is interpreted by
       the Drools Engine, and it will 'participate' in the generated equals()
       method, which overwrites the equals() method of the Object class. The
-      latter implies that if the attribute is a 'primitive' type, the equals
+      latter implies that if the field is a 'primitive' type, the equals
       method will simply compares its value with the value of the
-      corresponding attribute in another instance of the class. If the
-      attribute is a sub-entity or a collection type, then the equals method
+      corresponding field in another instance of the class. If the
+      field is a sub-entity or a collection type, then the equals method
       will make a method-call to the equals method of the corresponding
       entity's Java class, or of the java.util.List standard Java class,
       respectively.</para>
 
       <para>If the equals property is checked for <emphasis>ANY</emphasis> of
-      the entity's user defined attributes, then this also implies that in
+      the entity's user defined fields, then this also implies that in
       addition to the default generated constructors another constructor is
-      generated, accepting as parameters all of the attributes that were
+      generated, accepting as parameters all of the fields that were
       marked with Equals. Furthermore, generation of the equals() method also
       implies that also the Object class's hashCode() method is overwritten,
       in such a manner that it will call the hashCode() methods of the
       corresponding Java class types (be it 'primitive' or user-defined types)
-      for all the attributes that were marked with Equals in the Data
+      for all the fields that were marked with Equals in the Data
       Model.</para>
     </listitem>
 
     <listitem>
       <para>The position property: this field property is automatically set
-      for all user-defined attributes, starting from 0, and incrementing by 1
-      for each subsequent new attribute. However the user can freely changes
-      the position among the attributes. At code generation time this property
+      for all user-defined fields, starting from 0, and incrementing by 1
+      for each subsequent new field. However the user can freely changes
+      the position among the fields. At code generation time this property
       is translated into the "@org.kie.api.definition.type.Position"
       annotation, which can be interpreted by the Drools Engine. Also, the
       established property order determines the order of the constructor
@@ -142,7 +142,7 @@
   <para>As an example, the generated Java class code for the Purchase Order
   entity, corresponding to its definition as shown in the following figure
   purchase_example.jpg is visualized in the figure at the bottom of this
-  chapter. Note that the two of the entity's attributes, namely 'header' and
+  chapter. Note that the two of the entity's fields, namely 'header' and
   'lines' were marked with Equals, and have been assigned with the positions 2
   and 1, respectively).</para>
 

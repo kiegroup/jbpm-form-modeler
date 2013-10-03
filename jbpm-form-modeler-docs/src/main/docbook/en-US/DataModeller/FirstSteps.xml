@@ -147,7 +147,7 @@
       trail shown in the image indicates that the object browser is currently
       visualizing the properties of an entity called "Purchase Order Line",
       which we accessed through another entity ("Purchase Order"), where it is
-      defined as an attribute.</para>
+      defined as a field.</para>
 
       <figure>
         <title>The bread crumb</title>
@@ -162,10 +162,10 @@
       </figure>
 
       <para>the section beneath the bread crumb widget, is dedicated to the
-      creation of new attributes.</para>
+      creation of new fields.</para>
 
       <figure>
-        <title>New attribute creation</title>
+        <title>New field creation</title>
 
         <screenshot>
           <mediaobject>
@@ -178,12 +178,12 @@
 
       <para/>
 
-      <para>the bottom section comprises the Entity's "attribute browser",
+      <para>the bottom section comprises the Entity's "field browser",
       which displays a list of the currently selected data object's (in the
-      model browser) attributes.</para>
+      model browser) fields.</para>
 
       <figure>
-        <title>The entity attribute browser</title>
+        <title>The entity field browser</title>
 
         <screenshot>
           <mediaobject>
@@ -198,15 +198,15 @@
     </listitem>
 
     <listitem>
-      <para>The "entity / attribute property editor". This is the rightmost
+      <para>The "entity / field property editor". This is the rightmost
       section of the Data Modeller screen which visualizes a tabbed pane. The
       Data object tab allows the user to edit the properties of the currently
       selected entity in the model browser, whilst the Field tab enables
       edition of the properties of any of the currently selected object's
-      attributes.</para>
+      fields.</para>
 
       <figure>
-        <title>The entity/attribute property editor</title>
+        <title>The entity/field property editor</title>
 
         <screenshot>
           <mediaobject>
