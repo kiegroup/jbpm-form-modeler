@@ -13,7 +13,7 @@
   representation of some real-world data. Such data entities have a fixed set
   of modeller (or application-owned) properties, such as its internal
   identifier, a label, description, package etc. Besides those, an entity also
-  has a variable set of user-defined attributes, which are an abstraction of a
+  has a variable set of user-defined fields, which are an abstraction of a
   real-world property of the type of data that this logical entity
   represents.</para>
 
@@ -97,7 +97,7 @@
   <para>It will also appear automatically selected, to make it easy for the
   user to complete the definition of the newly created entity, by completing
   the entity's properties in the Data Object Properties browser, or by adding
-  new attributes.</para>
+  new fields.</para>
 
   <figure>
     <title>New entity has been created</title>
@@ -119,7 +119,7 @@
 
   <para>In the Data Modeller's object browsing section, an entity can be
   deleted by clicking upon the 'x' icon to the right of each entity. If an
-  entity is being referenced from within another entity (as an attribute
+  entity is being referenced from within another entity (as a field
   type), then the modeller tool will not allow it to be deleted, and an error
   message will appear on the screen.</para>
 

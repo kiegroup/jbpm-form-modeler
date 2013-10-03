@@ -25,4 +25,11 @@
   used to interact with them - see the chapter on the form modeller).</para>
 
   <para/>
+
+  <note>
+    <para>The data modeller tool effectively replaces the former Drools Fact Modeller. 
+	The latter is therefore no longer available.</para>
+  </note>
+
+  <para/>
 </section>
