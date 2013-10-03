@@ -105,7 +105,7 @@
     <screenshot>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="images/DataModeller/new_created.jpg" scale="90"/>
+          <imagedata fileref="images/DataModeller/new_created.jpg"/>
         </imageobject>
       </mediaobject>
     </screenshot>
