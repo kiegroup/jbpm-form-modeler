@@ -17,7 +17,6 @@
 --%>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="org.apache.commons.lang.StringUtils"%>
-<%@ page import="org.jbpm.formModeler.core.wrappers.HTMLString"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%try{%>
@@ -32,8 +31,8 @@
                             <%=styleclass!=null && ((String)styleclass).trim().length()>0 ? " class=\""+styleclass+"\"":""%>
                             <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
                             <%=title!=null?("title=\""+title+"\""):""%>
-                            ><%=StringUtils.defaultString( value==null?"":((HTMLString)value).getValue())%></span>
-                    <input type="hidden" name="<%=name%>" value='<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":((HTMLString)value).getValue()))%>'/>
+                            ><%=StringUtils.defaultString((String)value)%></span>
+                    <input type="hidden" name="<%=name%>" value='<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString((String)value))%>'/>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragmentValue>

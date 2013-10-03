@@ -17,7 +17,6 @@
 --%>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
-<%@ page import="org.jbpm.formModeler.core.wrappers.HTMLString" %>
 <%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.HTMLTextAreaFieldHandler" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
@@ -55,7 +54,7 @@
                                                                                             <%=alt != null ? " alt=\"" + alt + "\"" : ""%>
                                                                                             <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
                                                                                             <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly " : ""%>
-                                                                                            <%=disabled != null && ((Boolean) disabled).booleanValue() ? " disabled " : ""%>><%=StringEscapeUtils.escapeHtml(value == null ? "" : ((HTMLString) value).getValue())%></textarea>
+                                                                                            <%=disabled != null && ((Boolean) disabled).booleanValue() ? " disabled " : ""%>><%=StringEscapeUtils.escapeHtml(value == null ? "" : ((String) value))%></textarea>
                                                                                 </div>
                                                                             </td>
                                                                         </tr>
