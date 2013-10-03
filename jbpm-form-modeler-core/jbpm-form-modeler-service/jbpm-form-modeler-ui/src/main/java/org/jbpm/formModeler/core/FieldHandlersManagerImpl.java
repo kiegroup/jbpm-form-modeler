@@ -46,18 +46,13 @@ public class FieldHandlersManagerImpl implements FieldHandlersManager {
         handlers.add(new I18nTextAreaFieldHandler());
         handlers.add(new HTMLTextAreaFieldHandler());
         handlers.add(new HTMLi18nFieldHandler());
-        handlers.add(new LinkFieldHandler());
-        handlers.add(new CurrencyFieldHandler());
 
         decorators = new ArrayList<FieldHandler>();
         decorators.add(new HTMLlabel());
         decorators.add(new Separator());
 
         decorators.add(new SubformFieldHandler());
-        //decorators.add(new MultipleSubformFieldHandlerDumb());
         decorators.add(new CreateDynamicObjectFieldHandler());
-        //decorators.add(new FreeText());
-        //decorators.add(new CustomJsp());
     }
 
     public List<FieldHandler> getDecorators() {

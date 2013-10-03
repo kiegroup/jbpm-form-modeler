@@ -113,15 +113,6 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft.setSize("25");
         result.add(ft);
 
-/*        ft = new FieldType();
-        ft.setCode("InputTextCP");
-        ft.setFieldClass("java.lang.String");
-        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.InputTextFieldHandler");
-        ft.setPattern("[0-9]{5}");
-        ft.setMaxlength(new Long(5));
-        ft.setSize("5");
-        result.add(ft);
-*/
         ft = new FieldType();
         ft.setCode("CheckBox");
         ft.setFieldClass("java.lang.Boolean");
@@ -130,7 +121,7 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
 
         ft = new FieldType();
         ft.setCode("HTMLEditor");
-        ft.setFieldClass("org.jbpm.formModeler.core.wrappers.HTMLString");
+        ft.setFieldClass("java.lang.String");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.HTMLTextAreaFieldHandler");
         ft.setHeight("200");
         ft.setSize("350");
@@ -179,43 +170,6 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft.setPattern("MM-dd-yyyy");
         result.add(ft);
 
-        ft = new FieldType();
-        ft.setCode("Link");
-        ft.setFieldClass("org.jbpm.formModeler.core.wrappers.Link");
-        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.LinkFieldHandler");
-        ft.setMaxlength(new Long(4000));
-        ft.setSize("30");
-        result.add(ft);
-
- /*       ft = new FieldType();
-        ft.setCode("InputTextCCC");
-        ft.setFieldClass("java.lang.String");
-        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.InputTextFieldHandler");
-        ft.setFormula("=Functions.String.upperCase({$this}.trim())");
-        ft.setPattern("=Functions.checkCCC({$this})");
-        ft.setMaxlength(new Long(20));
-        ft.setSize("25");
-        result.add(ft);
-
-        ft = new FieldType();
-        ft.setCode("InputTextIBAN");
-        ft.setFieldClass("java.lang.String");
-        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.InputTextFieldHandler");
-        ft.setFormula("=Functions.String.upperCase({$this}.trim())");
-        ft.setPattern("=Functions.checkIBAN({$this})");
-        ft.setMaxlength(new Long(24));
-        ft.setSize("24");
-        result.add(ft);
-
-        ft = new FieldType();
-        ft.setCode("InputTextPhone");
-        ft.setFieldClass("java.lang.String");
-        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.InputTextFieldHandler");
-        ft.setPattern("[0-9]{9}");
-        ft.setMaxlength(new Long(9));
-        ft.setSize("13");
-        result.add(ft);
-*/
         return result;
     }
 }

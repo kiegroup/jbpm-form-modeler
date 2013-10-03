@@ -15,14 +15,10 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
+import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
-import org.jbpm.formModeler.core.wrappers.HTMLString;
 import org.jbpm.formModeler.api.model.Field;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +32,7 @@ public class HTMLTextAreaFieldHandler extends DefaultFieldHandler {
     public static final String VALUE_SUFFIX = "_value";
 
     public String[] getCompatibleClassNames() {
-        return new String[]{HTMLString.class.getName()};
+        return new String[]{String.class.getName()};
     }
 
     /**
@@ -48,7 +44,7 @@ public class HTMLTextAreaFieldHandler extends DefaultFieldHandler {
      */
     public Object getValue(Field field, String inputName, Map parametersMap, Map filesMap, String desiredClassName, Object previousValue) throws Exception {
         String[] pValues = (String[]) parametersMap.get(inputName + VALUE_SUFFIX);
-        return pValues != null ? new HTMLString(pValues[0]) : null;
+        return pValues != null ? StringUtils.defaultString(pValues[0]) : null;
     }
 
     /**
@@ -64,8 +60,6 @@ public class HTMLTextAreaFieldHandler extends DefaultFieldHandler {
         if (objectValue != null) {
             if (objectValue instanceof String)
                 m.put(inputName, new String[]{(String) objectValue});
-            else if (objectValue instanceof HTMLString)
-                m.put(inputName, new String[]{((HTMLString) objectValue).getValue()});
             else
                 log.error("Unknown value type to convert to parameter: " + objectValue.getClass());
         }
@@ -73,23 +67,8 @@ public class HTMLTextAreaFieldHandler extends DefaultFieldHandler {
     }
 
     public boolean isEmpty(Object value) {
-        String textContent = null;
-        HTMLString html = (HTMLString) value;
-        try {
-            Reader reader = new StringReader(html.getValue().replaceAll("&nbsp;", ""));
-            StringWriter sb = new StringWriter();
-            char[] buffer = new char[1024];
-            int length;
-            while ((length = reader.read(buffer)) != -1) {
-                sb.write(buffer, 0, length);
-            }
-            reader.close();
-            textContent = sb.toString().trim();
-            sb.close();
-        } catch (IOException e) {
-            log.warn("Error: ", e);
-        }
-        return value == null || "".equals(html.getValue()) || html.getValue() == null || textContent.length() == 0;
+        String html = (String) value;
+        return value == null || StringUtils.isEmpty(html);
     }
 
     public boolean acceptsPropertyName(String propName) {
