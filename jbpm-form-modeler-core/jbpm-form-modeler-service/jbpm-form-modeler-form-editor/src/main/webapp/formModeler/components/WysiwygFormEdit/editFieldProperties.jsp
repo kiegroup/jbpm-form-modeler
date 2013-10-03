@@ -58,7 +58,7 @@
                 <td colspan="3">
                     <mvc:formatter name="FieldAvailableTypesFormatter">
                         <mvc:fragment name="outputStart">
-                            <select name="fieldType" class="skn-input" style="width:200px" onchange="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CHANGE_FIELD_TYPE%>'); submitAjaxForm(this.form);">
+                            <select name="fieldType" class="skn-input" style="width:200px" onchange="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CHANGE_FIELD_TYPE%>'); submitAjaxForm(this.form);return false;">
                         </mvc:fragment>
                         <mvc:fragment name="output">
                             <mvc:fragmentValue name="id" id="id">
