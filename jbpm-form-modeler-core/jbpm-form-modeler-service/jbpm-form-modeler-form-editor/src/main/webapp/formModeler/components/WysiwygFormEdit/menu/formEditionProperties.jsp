@@ -33,7 +33,7 @@
             <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="switchRenderMode"/>">
                 <factory:handler action="switchRenderMode" />
                 <div style="margin:3px;"><i18n:message key="wysiwyg.renderMode">!!!Modo</i18n:message></div>
-                <select name="renderMode" onchange="submitAjaxForm(this.form);" class="skn-input">
+                <select name="renderMode" onchange="submitAjaxForm(this.form);return false;" class="skn-input">
                     <option value="<%=Form.RENDER_MODE_WYSIWYG_FORM%>" <%=Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode) ? "selected" : ""%>><i18n:message key="wysiwyg.renderModeForm"/></option>
                     <option value="<%=Form.RENDER_MODE_WYSIWYG_DISPLAY%>" <%=Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode) ? "selected" : ""%>><i18n:message key="wysiwyg.renderModeDisplay"/></option>
                 </select>

@@ -57,7 +57,8 @@
                     <input type="image"
                            onclick="setFormInputValue(this.form,'newMainOption','<%=optionName%>');"
                            title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
-                           src="<static:image relativePath="<%=(String)optionImage%>"/>">&nbsp;<a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitAjaxForm(document.getElementById('<factory:encode name="changeMainOption"/>'));"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
+                           src="<static:image relativePath="<%=(String)optionImage%>"/>">&nbsp;
+                  <a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitAjaxForm(document.getElementById('<factory:encode name="changeMainOption"/>')); return false;"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
                 </td>
 
             </mvc:fragmentValue>
@@ -70,7 +71,8 @@
                     <input type="image"
                            onclick="setFormInputValue(this.form,'newMainOption','<%=optionName%>');"
                            title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
-                           src="<static:image relativePath="<%=(String)optionImage%>"/>">&nbsp;<a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitAjaxForm(document.getElementById('<factory:encode name="changeMainOption"/>'));"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
+                           src="<static:image relativePath="<%=(String)optionImage%>"/>">&nbsp;
+                  <a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitAjaxForm(document.getElementById('<factory:encode name="changeMainOption"/>'));return false;"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
                 </td>
             </mvc:fragmentValue>
         </mvc:fragmentValue>
@@ -101,10 +103,10 @@
                                 <input type="hidden" name="displayGrid" value="<%=displayGrid%>">
 
                                 <input type="checkbox"  <%if (Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode)){ %>checked <% }%>
-                                       onclick="setFormInputValue(this.form,'renderMode','<%=(Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode) ? Form.RENDER_MODE_WYSIWYG_DISPLAY : Form.RENDER_MODE_WYSIWYG_FORM)%>');submitAjaxForm(form);"> <i18n:message key="header_chk_show">Show mode</i18n:message>
+                                       onclick="setFormInputValue(this.form,'renderMode','<%=(Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode) ? Form.RENDER_MODE_WYSIWYG_DISPLAY : Form.RENDER_MODE_WYSIWYG_FORM)%>');submitAjaxForm(form);return false;"> <i18n:message key="header_chk_show">Show mode</i18n:message>
                                 <input type="checkbox"  <%= ((displayBindings!=null && !((Boolean) displayBindings).booleanValue()) ? "": "checked")%>
-                                       onclick="setFormInputValue(this.form,'displayBindings','<%=(displayBindings!=null ? Boolean.toString(!((Boolean)displayBindings).booleanValue()): Boolean.TRUE.toString()) %>');submitAjaxForm(form);"> <i18n:message key="header_chk_bindings">Bindings</i18n:message>
-                                <input type="checkbox" <%= ((displayGrid!=null && ((Boolean) displayGrid).booleanValue()) ? "checked": "")%> value="rule" onclick="setFormInputValue(this.form,'displayGrid','<%=(displayGrid!=null ? Boolean.toString(!((Boolean)displayGrid).booleanValue()): Boolean.TRUE.toString()) %>');submitAjaxForm(form);"> <i18n:message key="header_chk_ruler">Grid & ruler</i18n:message>
+                                       onclick="setFormInputValue(this.form,'displayBindings','<%=(displayBindings!=null ? Boolean.toString(!((Boolean)displayBindings).booleanValue()): Boolean.TRUE.toString()) %>');submitAjaxForm(form);return false;"> <i18n:message key="header_chk_bindings">Bindings</i18n:message>
+                                <input type="checkbox" <%= ((displayGrid!=null && ((Boolean) displayGrid).booleanValue()) ? "checked": "")%> value="rule" onclick="setFormInputValue(this.form,'displayGrid','<%=(displayGrid!=null ? Boolean.toString(!((Boolean)displayGrid).booleanValue()): Boolean.TRUE.toString()) %>');submitAjaxForm(form);return false;"> <i18n:message key="header_chk_ruler">Grid & ruler</i18n:message>
                             </form>
                             <script type="text/javascript" defer="defer">
                                 setAjax("<factory:encode name="switchRenderMode"/>");
