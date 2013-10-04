@@ -38,18 +38,6 @@
 
       <para>This type can be either of the following:</para>
 
-      <figure>
-        <title>Possible entity field types</title>
-
-        <screenshot>
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="images/DataModeller/types.jpg"/>
-            </imageobject>
-          </mediaobject>
-        </screenshot>
-      </figure>
-
       <para/>
 
       <orderedlist>
@@ -58,6 +46,20 @@
           equivalents of the standard Java primitive types, such as Boolean,
           Short, Float, etc, as well as String, Date, BigDecimal and
           BigInteger.</para>
+
+		  <figure>
+			<title>Primitive field types</title>
+
+			<screenshot>
+			  <mediaobject>
+				<imageobject>
+				  <imagedata fileref="images/DataModeller/types_primitive.jpg"/>
+				</imageobject>
+			  </mediaobject>
+			</screenshot>
+		  </figure>
+
+		  <para/>
 
           <para/>
         </listitem>
@@ -75,6 +77,20 @@
           the extension '[0..N]' in the type drop-down or in the entity
           fields table (as can be seen for the 'Lines' field of the
           'Purchase Order' entity, for example).</para>
+
+		  <figure>
+			<title>Entity field types</title>
+
+			<screenshot>
+			  <mediaobject>
+				<imageobject>
+				  <imagedata fileref="images/DataModeller/types_entity.jpg"/>
+				</imageobject>
+			  </mediaobject>
+			</screenshot>
+		  </figure>
+
+		  <para/>
 
           <para/>
         </listitem>
