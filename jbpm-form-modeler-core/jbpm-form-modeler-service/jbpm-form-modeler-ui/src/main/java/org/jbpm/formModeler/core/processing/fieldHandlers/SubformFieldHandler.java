@@ -163,8 +163,8 @@ public class SubformFieldHandler extends PersistentFieldHandler {
     }
 
 
-    public List getWrongChildFieldErrors(String namespace, Field field) {
-        return formErrorMessageBuilder.getWrongFormErrors(namespace, getEnterDataForm(namespace, field));
+    public void addWrongChildFieldErrors(String namespace, Field field, List errors) {
+        formErrorMessageBuilder.getWrongFormErrors(namespace, getEnterDataForm(namespace, field), errors);
     }
 
     /**
