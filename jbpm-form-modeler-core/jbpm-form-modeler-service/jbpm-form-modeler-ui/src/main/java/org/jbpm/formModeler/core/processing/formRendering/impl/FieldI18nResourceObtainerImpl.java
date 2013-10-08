@@ -32,7 +32,7 @@ public class FieldI18nResourceObtainerImpl implements FieldI18nResourceObtainer 
 
     @Override
     public String getFieldLabel(Field field) {
-        return getI18nSetValue(field.getLabel(), "");
+        return getI18nSetValue(field.getLabel(), field.getFieldName());
     }
 
     @Override

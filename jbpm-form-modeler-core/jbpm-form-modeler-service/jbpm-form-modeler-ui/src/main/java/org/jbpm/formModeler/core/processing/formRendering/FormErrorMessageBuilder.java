@@ -29,7 +29,6 @@ import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,17 +45,17 @@ public class FormErrorMessageBuilder {
     @Inject
     protected FieldI18nResourceObtainer fieldI18nResourceObtainer;
 
-    private ResourceBundle bundle;
-    private String requiredMessage;
-
-    @PostConstruct
-    protected void init() {
-        bundle = ResourceBundle.getBundle("org.jbpm.formModeler.core.processing.formRendering.messages", LocaleManager.currentLocale());
-        requiredMessage = bundle.getString("errorMessages.required");
-    }
+    @Inject
+    protected LocaleManager localeManager;
 
     public List getWrongFormErrors(String namespace, Form form) {
-        List errors = new ArrayList();
+        return getWrongFormErrors(namespace, form, new ArrayList<String>());
+    }
+
+    public List getWrongFormErrors(String namespace, Form form, List<String> errors) {
+        ResourceBundle bundle = ResourceBundle.getBundle("org.jbpm.formModeler.core.processing.formRendering.messages", localeManager.currentLocale());
+        String requiredMessage = bundle.getString("errorMessages.required");
+
         if (namespace != null && form != null) {
             try {
                 
@@ -71,13 +70,16 @@ public class FormErrorMessageBuilder {
                     String currentNamespace = namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId().intValue() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName();
                     String currentValue = statusData.getCurrentInputValue(currentNamespace);
                     if (isSubform) {
-                        errors.addAll(((SubformFieldHandler) fieldHanlder).getWrongChildFieldErrors(currentNamespace, field));
+                        ((SubformFieldHandler) fieldHanlder).addWrongChildFieldErrors(currentNamespace, field, errors);
                     } else {
                         if (!statusData.hasErrorMessage(field.getFieldName())) {
                             if (fieldRequired && StringUtils.isEmpty(currentValue)) {
                                 if (!errors.contains(requiredMessage)) errors.add(0, requiredMessage);
+                            } else {
+                                String error = fieldI18nResourceObtainer.getFieldErrorMessage(field);
+                                if (!StringUtils.isEmpty(error)) errors.add(getErrorMessage(error, field, bundle));
                             }
-                        } else errors.addAll(getErrorMessages(statusData.getErrorMessages(field.getFieldName()), field));
+                        } else addErrorMessages(statusData.getErrorMessages(field.getFieldName()), field, bundle, errors);
                     }
                 }
             } catch (Exception e) {
@@ -87,21 +89,21 @@ public class FormErrorMessageBuilder {
         return errors;
     }
     
-    protected List getErrorMessages(List msgs, Field field) {
-        if (CollectionUtils.isEmpty(msgs)) return Collections.EMPTY_LIST;
-        
-        List result = new ArrayList();
+    protected void addErrorMessages(List msgs, Field field, ResourceBundle bundle, List<String> errors) {
+        if (CollectionUtils.isEmpty(msgs)) return;
+
         for (Object msg : msgs) {
-            result.add(getErrorMessage((String) msg, field));
+            String error = getErrorMessage((String) msg, field, bundle);
+
+            if (!errors.contains(error)) errors.add(error);
         }
-        return result;
     }
     
-    protected String getErrorMessage(String msg, Field field) {
+    protected String getErrorMessage(String msg, Field field, ResourceBundle bundle) {
         if (StringUtils.isEmpty(msg)) return "";
         
         StringBuffer result = new StringBuffer();
-        String label = field.getFieldName().indexOf(":decorator") > -1 ? fieldI18nResourceObtainer.getFieldLabel(field) : field.getFieldName();
+        String label = fieldI18nResourceObtainer.getFieldLabel(field);
         result.append(bundle.getString("error.start")).append(label).append(bundle.getString("error.end")).append(msg);
         
         return result.toString();
