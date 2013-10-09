@@ -11,8 +11,6 @@
     <info>
         <title>jBPM Form modeller - Getting Started guide</title>
 
-        <releaseinfo>Version &project.version;</releaseinfo >
-
         <authorgroup>
             <author>
                 <orgname>
@@ -41,15 +39,6 @@
             </imageobject>
         </mediaobject>
     </preface>
-
-    <para>This guide intends to describe in a simple ways all the steps required
-        to create a process with human tasks, generate and modify the forms for
-        these tasks and execute them.
-    </para>
-
-    <para>It will provide initial guidance to perform all initial steps, but it
-        will not provide a full description of all available features.
-    </para>
 
 
     <xi:include href="What_is_jbpm_form_modeler.xml"/>
