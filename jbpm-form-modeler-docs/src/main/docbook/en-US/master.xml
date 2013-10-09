@@ -11,7 +11,7 @@
     <info>
         <title>jBPM Form modeller - Getting Started guide</title>
 
-        <!-- releaseinfo>Version &project.version;</releaseinfo -->
+        <releaseinfo>Version &project.version;</releaseinfo >
 
         <authorgroup>
             <author>
