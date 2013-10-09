@@ -9,254 +9,271 @@
          xmlns:xi="http://www.w3.org/2001/XInclude"
          xmlns:ns2="http://www.w3.org/1998/Math/MathML"
          xmlns:ns="http://docbook.org/ns/docbook">
-  <title>Field types</title>
+    <title>Field types</title>
 
-  <para>There are three types of field types that you can use to model your
-  form:</para>
+    <para>There are three types of field types that you can use to model your
+        form:
+    </para>
 
-  <itemizedlist>
-    <listitem>
-      <para>Simple types</para>
+    <itemizedlist>
+        <listitem>
+            <para>Simple types</para>
 
-      <para>These field types are used to represent simple properties like
-      texts, numeric, dates, etc. The supported Field types are:</para>
+            <para>These field types are used to represent simple properties like
+                texts, numeric, dates, etc. The supported Field types are:
+            </para>
 
-      <para><table frame="all">
-          <tgroup align="left" cols="4" colsep="1" rowsep="1">
-            <tbody>
-              <row>
-                <entry>Name</entry>
+            <para>
+                <table frame="all">
+                    <tgroup align="left" cols="4" colsep="1" rowsep="1">
+                        <thead>
+                            <row>
+                                <entry>Name</entry>
 
-                <entry>Description</entry>
+                                <entry>Description</entry>
 
-                <entry>Java Type</entry>
+                                <entry>Java Type</entry>
 
-                <entry>Default on generated forms</entry>
-              </row>
+                                <entry>Default on generated forms</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Short Text</entry>
 
-              <row>
-                <entry>Short Text</entry>
+                                <entry>Simple input to enter short texts.</entry>
 
-                <entry>Simple input to enter short texts.</entry>
+                                <entry>java.lang.String</entry>
 
-                <entry>java.lang.String</entry>
+                                <entry>yes</entry>
+                            </row>
 
-                <entry>yes</entry>
-              </row>
+                            <row>
+                                <entry>Long Text</entry>
 
-              <row>
-                <entry>Long Text</entry>
+                                <entry>Text area to enter long text.</entry>
 
-                <entry>Text area to enter long text.</entry>
+                                <entry>java.lang.String</entry>
 
-                <entry>java.lang.String</entry>
+                                <entry>no</entry>
+                            </row>
 
-                <entry>no</entry>
-              </row>
+                            <row>
+                                <entry>Rich Text</entry>
 
-              <row>
-                <entry>Rich Text</entry>
+                                <entry>HTMLEditor to enter formatted texts .</entry>
 
-                <entry>HTMLEditor to enter formatted texts .</entry>
+                                <entry>java.lang.Srowing</entry>
 
-                <entry>java.lang.Srowing</entry>
+                                <entry>no</entry>
+                            </row>
 
-                <entry>no</entry>
-              </row>
+                            <row>
+                                <entry>Email</entry>
 
-              <row>
-                <entry>Email</entry>
+                                <entry>Simple input to enter short text with email
+                                    pattern.
+                                </entry>
 
-                <entry>Simple input to enter short text with email
-                pattern.</entry>
+                                <entry>java.lang.String</entry>
 
-                <entry>java.lang.String</entry>
+                                <entry>no</entry>
+                            </row>
 
-                <entry>no</entry>
-              </row>
+                            <row>
+                                <entry>Float</entry>
 
-              <row>
-                <entry>Float</entry>
+                                <entry>Input to enter short decimals.</entry>
 
-                <entry>Input to enter short decimals.</entry>
+                                <entry>java.lang.Float</entry>
 
-                <entry>java.lang.Float</entry>
+                                <entry>yes</entry>
+                            </row>
 
-                <entry>yes</entry>
-              </row>
+                            <row>
+                                <entry>Decimal</entry>
 
-              <row>
-                <entry>Decimal</entry>
+                                <entry>Input to enter number with decimals.</entry>
 
-                <entry>Input to enter number with decimals.</entry>
+                                <entry>java.lang.Double</entry>
 
-                <entry>java.lang.Double</entry>
+                                <entry>yes</entry>
+                            </row>
 
-                <entry>yes</entry>
-              </row>
+                            <row>
+                                <entry>BigDecimal</entry>
 
-              <row>
-                <entry>BigDecimal</entry>
+                                <entry>Input to enter big decimal numbers.</entry>
 
-                <entry>Input to enter big decimal numbers.</entry>
+                                <entry>java.math.BigDecimal</entry>
 
-                <entry>java.math.BigDecimal</entry>
+                                <entry>yes</entry>
+                            </row>
 
-                <entry>yes</entry>
-              </row>
+                            <row>
+                                <entry>BigInteger</entry>
 
-              <row>
-                <entry>BigInteger</entry>
+                                <entry>Input to enter big integers.</entry>
 
-                <entry>Input to enter big integers.</entry>
+                                <entry>java.math.BigInteger</entry>
 
-                <entry>java.math.BigInteger</entry>
+                                <entry>yes</entry>
+                            </row>
 
-                <entry>yes</entry>
-              </row>
+                            <row>
+                                <entry>Short</entry>
 
-              <row>
-                <entry>Short</entry>
+                                <entry>Input to enter short integers</entry>
 
-                <entry>Input to enter short integers</entry>
+                                <entry>java.lang.Short</entry>
 
-                <entry>java.lang.Short</entry>
+                                <entry>yes</entry>
+                            </row>
 
-                <entry>yes</entry>
-              </row>
+                            <row>
+                                <entry>Integer</entry>
 
-              <row>
-                <entry>Integer</entry>
+                                <entry>Input to enter integers.</entry>
 
-                <entry>Input to enter integers.</entry>
+                                <entry>java.lang.Integer</entry>
 
-                <entry>java.lang.Integer</entry>
+                                <entry>yes</entry>
+                            </row>
 
-                <entry>yes</entry>
-              </row>
+                            <row>
+                                <entry>Long Integer</entry>
 
-              <row>
-                <entry>Long Integer</entry>
+                                <entry>Input to enter long integers</entry>
 
-                <entry>Input to enter long integers</entry>
+                                <entry>java.lang.Long</entry>
 
-                <entry>java.lang.Long</entry>
+                                <entry>yes</entry>
+                            </row>
 
-                <entry>yes</entry>
-              </row>
+                            <row>
+                                <entry>Checkbox</entry>
 
-              <row>
-                <entry>Checkbox</entry>
+                                <entry>Checkbox to enter true/false values</entry>
 
-                <entry>Checkbox to enter true/false values</entry>
+                                <entry>java.lang.Boolean</entry>
 
-                <entry>java.lang.Boolean</entry>
+                                <entry>yes</entry>
+                            </row>
 
-                <entry>yes</entry>
-              </row>
+                            <row>
+                                <entry>Timestamp</entry>
 
-              <row>
-                <entry>Timestamp</entry>
+                                <entry>Input to enter date &amp; time values</entry>
 
-                <entry>Input to enter date &amp; time values</entry>
+                                <entry>java.util.Date</entry>
 
-                <entry>java.util.Date</entry>
+                                <entry>yes</entry>
+                            </row>
 
-                <entry>yes</entry>
-              </row>
+                            <row>
+                                <entry>Short Date</entry>
 
-              <row>
-                <entry>Short Date</entry>
+                                <entry>Input to enter date values.</entry>
 
-                <entry>Input to enter date values.</entry>
+                                <entry>java.util.Date</entry>
 
-                <entry>java.util.Date</entry>
+                                <entry>no</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </listitem>
 
-                <entry>no</entry>
-              </row>
-            </tbody>
-          </tgroup>
-        </table></para>
-    </listitem>
+        <listitem>
+            <para>Complex types</para>
 
-    <listitem>
-      <para>Complex types</para>
+            <para>These field types are made to deal with properties that are Java
+                Objects instead of basic types. These field types need extra forms to be
+                created in order to show and write values onto the specified Java
+                Object/s
+            </para>
 
-      <para>These field types are made to deal with properties that are Java
-      Objects instead of basic types. These field types need extra forms to be
-      created in order to show and write values onto the specified Java
-      Object/s</para>
+            <para>
+                <table frame="all">
+                    <tgroup align="left" cols="4" colsep="1" rowsep="1">
+                        <thead>
+                            <row>
+                                <entry>Name</entry>
 
-      <para><table frame="all">
-          <tgroup align="left" cols="4" colsep="1" rowsep="1">
-            <tbody>
-              <row>
-                <entry>Name</entry>
+                                <entry>Description</entry>
 
-                <entry>Description</entry>
+                                <entry>Java Type</entry>
 
-                <entry>Java Type</entry>
+                                <entry>Default on generated forms</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Simple subform</entry>
 
-                <entry>Default on generated forms</entry>
-              </row>
+                                <entry>Renders the a form, it is used to deal with 1:1
+                                    relationships.
+                                </entry>
 
-              <row>
-                <entry>Simple subform</entry>
+                                <entry>java.lang.Object</entry>
 
-                <entry>Renders the a form, it is used to deal with 1:1
-                relationships.</entry>
+                                <entry>yes</entry>
+                            </row>
 
-                <entry>java.lang.Object</entry>
+                            <row>
+                                <entry>Multiple subform</entry>
 
-                <entry>yes</entry>
-              </row>
+                                <entry>This field type is used to deal with 1:N relationships.
+                                    It allows to create, edit and delete a set child Objects.Text
+                                    area to enter long text.
+                                </entry>
 
-              <row>
-                <entry>Multiple subform</entry>
+                                <entry>java.util.List</entry>
 
-                <entry>This field type is used to deal with 1:N relationships.
-                It allows to create, edit and delete a set child Objects.Text
-                area to enter long text.</entry>
+                                <entry>yes</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </listitem>
 
-                <entry>java.util.List</entry>
+        <listitem>
+            <para>Decorators</para>
 
-                <entry>yes</entry>
-              </row>
-            </tbody>
-          </tgroup>
-        </table></para>
-    </listitem>
+            <para>Decorators are a type of field types that don’t store data in the
+                Object shown on the form. They can be used with aesthetic purpose
+            </para>
 
-    <listitem>
-      <para>Decorators</para>
+            <para>
+                <table frame="all">
+                    <tgroup align="left" cols="2" colsep="1" rowsep="1">
+                        <thead>
+                            <row>
+                                <entry>Name</entry>
 
-      <para>Decorators are a type of field types that don’t store data in the
-      Object shown on the form. They can be used with aesthetic purpose</para>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>HTML label</entry>
 
-      <para><table frame="all">
-          <tgroup align="left" cols="2" colsep="1" rowsep="1">
-            <tbody>
-              <row>
-                <entry>Name</entry>
+                                <entry>Allows the user to  create HTML code that will be
+                                    rendered in the form
+                                </entry>
+                            </row>
 
-                <entry>Description</entry>
-              </row>
+                            <row>
+                                <entry>Separator</entry>
 
-              <row>
-                <entry>HTML label</entry>
-
-                <entry>Allows the user to  create HTML code that will be
-                rendered in the form</entry>
-              </row>
-
-              <row>
-                <entry>Separator</entry>
-
-                <entry>Renders an HTML separator</entry>
-              </row>
-            </tbody>
-          </tgroup>
-        </table></para>
-    </listitem>
-  </itemizedlist>
+                                <entry>Renders an HTML separator</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+        </listitem>
+    </itemizedlist>
 </section>
