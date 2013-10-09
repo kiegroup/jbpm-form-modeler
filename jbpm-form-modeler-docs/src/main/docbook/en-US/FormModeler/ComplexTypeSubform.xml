@@ -19,9 +19,9 @@
       form to enter all the purchase order header data and link it from the parent task form.
   </para>
   <para>We will follow the steps:</para>
-    <itemizedlist>
+    <orderedlist>
     <listitem>
-        <para>1. Create new form.</para>
+        <para>Create new form.</para>
         <figure>
             <title>Create new form</title>
 
@@ -35,7 +35,7 @@
         </figure>
     </listitem>
         <listitem>
-            <para>2. Create new data origin, selecting the type of the purchase order header.
+            <para>Create new data origin, selecting the type of the purchase order header.
             <figure>
                 <title>Create new data origin</title>
 
@@ -60,7 +60,7 @@
             </para>
         </listitem>
         <listitem>
-            <para>3.Add fields by origin. All the properties are shown, and can be added to the form,
+            <para>Add fields by origin. All the properties are shown, and can be added to the form,
                 either one by one or all of them at once.
                 <figure>
                     <title>Add fields by origin</title>
@@ -88,10 +88,10 @@
             </figure>
         </listitem>
         <listitem>
-            <para>4. Configure the fields and customize form.</para>
+            <para>Configure the fields and customize form.</para>
         </listitem>
         <listitem>
-            <para>5. Once the form has been saved, open the initial parent form and set the field
+            <para>Once the form has been saved, open the initial parent form and set the field
                 property 'Default form'.</para>
             <figure>
                 <title>Configure the parent form</title>
@@ -105,7 +105,7 @@
                 </screenshot>
             </figure>
         </listitem>
-    </itemizedlist>
+    </orderedlist>
 
    <para>This will insert the subform inside the parent form, and will be shown as below:</para>
    <figure>

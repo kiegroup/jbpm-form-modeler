@@ -18,9 +18,9 @@
         Create a form that will hold and capture the information for each line's value (description,
         amount, unitPrice and total), following the same steps as above. This will be done as follows:
     </para>
-    <itemizedlist>
+    <orderedlist>
         <listitem>
-            <para>1. Create new form.</para>
+            <para>Create new form.</para>
             <figure>
                 <title>Create new form</title>
 
@@ -34,7 +34,7 @@
             </figure>
         </listitem>
         <listitem>
-            <para>2. Create new data origin.
+            <para>Create new data origin.
                 <figure>
                     <title>Create new data origin</title>
 
@@ -49,7 +49,7 @@
             </para>
         </listitem>
         <listitem>
-            <para>3. Add fields by origin. All the properties are shown, and can be added to the form,
+            <para>Add fields by origin. All the properties are shown, and can be added to the form,
                 either one by one or all of them at once.
                 <figure>
                     <title>Configure the parent form</title>
@@ -65,11 +65,11 @@
             </para>
         </listitem>
         <listitem>
-            <para>4. Customize form.  Change display options
+            <para>Customize form.  Change display options
                 to improve the form visualization</para>
         </listitem>
         <listitem>
-            <para>5. Configure the fields. After creating the basic form structure, we can use a formula to
+            <para>Configure the fields. After creating the basic form structure, we can use a formula to
                 calculate automatically the total field. This formulas and expressions are described in
                 <link linkend="FormulasExpression">Formula &amp; expression section </link>.
 
@@ -89,7 +89,7 @@
 
 
         <listitem>
-            <para>6. Finally, we save the lines form and go back to the parent form and configure all
+            <para>Finally, we save the lines form and go back to the parent form and configure all
                 the lines properties.</para>
             <figure>
                 <title>Configure the parent form</title>
@@ -103,6 +103,6 @@
                 </screenshot>
             </figure>
         </listitem>
-    </itemizedlist>
+    </orderedlist>
 
 </section>

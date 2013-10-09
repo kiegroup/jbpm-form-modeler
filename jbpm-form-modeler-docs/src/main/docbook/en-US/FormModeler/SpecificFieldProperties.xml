@@ -44,15 +44,17 @@
 
               <listitem>
                 <para>Formula. to enter expressions that will be evaluated to
-                set the field value. These expressions are described in <link
-                linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                set the field value. These expressions are descrived in <link
+                linkend="FormulasExpression">Formula &amp; expression section
+                </link>.</para>
               </listitem>
 
               <listitem>
                 <para>Range value. A range formula allows you to let you
                 specify the values that the user can select from an specific
-                field. These expressions are described in
-                    <link linkend="FormulasExpression">Formula &amp; expression section </link></para>
+                field. These expressions are described in <link
+                linkend="FormulasExpression">Formula &amp; expression section
+                </link></para>
               </listitem>
 
               <listitem>
@@ -100,15 +102,17 @@
 
               <listitem>
                 <para>Formula. to enter expressions that will be evaluated to
-                set the field value. These expressions are described in
-                <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                set the field value. These expressions are described in <link
+                linkend="FormulasExpression">Formula &amp; expression section
+                </link>.</para>
               </listitem>
 
               <listitem>
                 <para>Range value. A range formula allows you to let you
                 specify the values that the user can select from an specific
-                field. These expressions are described in
-                <link linkend="FormulasExpression">Formula &amp; expression section </link></para>
+                field. These expressions are described in <link
+                linkend="FormulasExpression">Formula &amp; expression section
+                </link></para>
               </listitem>
 
               <listitem>
@@ -148,22 +152,26 @@
 
               <listitem>
                 <para>Formula. to enter expressions that will be evaluated to
-                set the field value. These expressions are described in
-                <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                set the field value. These expressions are described in <link
+                linkend="FormulasExpression">Formula &amp; expression section
+                </link>.</para>
               </listitem>
 
               <listitem>
                 <para>Range value. A range formula allows you to let you
                 specify the values that the user can select from an specific
-                field. These expressions are described in
-                <link linkend="FormulasExpression">Formula &amp; expression section </link></para>
+                field. These expressions are described in <link
+                linkend="FormulasExpression">Formula &amp; expression section
+                </link></para>
               </listitem>
 
               <listitem>
                 <para>Pattern. Allow introduce an expression to specify how
                 the Float value has to be displayed. The pattern allowed is
                 show in section pattern in
-                http://docs.oracle.com/javase/6/docs/api/java/text/DecimalFormat.html</para>
+                    <link xlink:href="http://docs.oracle.com/javase/6/docs/api/java/text/DecimalFormat.html">
+                        http://docs.oracle.com/javase/6/docs/api/java/text/DecimalFormat.html</link></para>
+
               </listitem>
 
               <listitem>
@@ -197,22 +205,25 @@
               <listitem>
                 <para>Formula. Used to enter expressions that will be
                 evaluated to set the field value. These expressions are
-                described in
-                    <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                described in <link linkend="FormulasExpression">Formula &amp;
+                expression section </link>.</para>
               </listitem>
 
               <listitem>
                 <para>Range value. A range formula allows you to let you
                 specify the values that the user can select from an specific
-                field. These expressions are described in
-                <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                field. These expressions are described in <link
+                linkend="FormulasExpression">Formula &amp; expression section
+                </link>.</para>
               </listitem>
 
               <listitem>
                 <para>Pattern. Allow introduce an expression to specify how
                 the Double value has to be displayed. The pattern allowed is
                 show in section pattern in
-                http://docs.oracle.com/javase/6/docs/api/java/text/DecimalFormat.html</para>
+                    <link xlink:href="http://docs.oracle.com/javase/6/docs/api/java/text/DecimalFormat.html">
+                        http://docs.oracle.com/javase/6/docs/api/java/text/DecimalFormat.html</link></para>
+
               </listitem>
 
               <listitem>
@@ -246,22 +257,24 @@
               <listitem>
                 <para>Formula. Used to enter expressions that will be
                 evaluated to set the field value. These expressions are
-                described in
-                    <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                described in <link linkend="FormulasExpression">Formula &amp;
+                expression section </link>.</para>
               </listitem>
 
               <listitem>
                 <para>Range value. A range formula allows you to let you
                 specify the values that the user can select from an specific
-                field. These expressions are described in
-                    <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                field. These expressions are described in <link
+                linkend="FormulasExpression">Formula &amp; expression section
+                </link>.</para>
               </listitem>
 
               <listitem>
                 <para>Pattern. Allow introduce an expression to specify how
                 the BigDecimal value has to be displayed. The pattern allowed
                 is show in section pattern in
-                http://docs.oracle.com/javase/6/docs/api/java/text/DecimalFormat.html</para>
+                    <link xlink:href="http://docs.oracle.com/javase/6/docs/api/java/text/DecimalFormat.html">
+                        http://docs.oracle.com/javase/6/docs/api/java/text/DecimalFormat.html</link></para>
               </listitem>
 
               <listitem>
@@ -295,15 +308,16 @@
               <listitem>
                 <para>Formula. Used to enter expressions that will be
                 evaluated to set the field value. These expressions are
-                described in
-                    <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                described in <link linkend="FormulasExpression">Formula &amp;
+                expression section </link>.</para>
               </listitem>
 
               <listitem>
                 <para>Range value. A range formula allows you to let you
                 specify the values that the user can select from an specific
-                field. These expressions are described in
-                    <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                field. These expressions are described in <link
+                linkend="FormulasExpression">Formula &amp; expression section
+                </link>.</para>
               </listitem>
 
               <listitem>
@@ -337,15 +351,16 @@
               <listitem>
                 <para>Formula. Used to enter expressions that will be
                 evaluated to set the field value. These expressions are
-                described in
-                    <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                described in <link linkend="FormulasExpression">Formula &amp;
+                expression section </link>.</para>
               </listitem>
 
               <listitem>
                 <para>Range value. A range formula allows you to let you
                 specify the values that the user can select from an specific
-                field. These expressions are described in
-                    <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                field. These expressions are described in <link
+                linkend="FormulasExpression">Formula &amp; expression section
+                </link>.</para>
               </listitem>
 
               <listitem>
@@ -379,15 +394,16 @@
               <listitem>
                 <para>Formula. Used to enter expressions that will be
                 evaluated to set the field value. These expressions are
-                described in
-                    <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                described in <link linkend="FormulasExpression">Formula &amp;
+                expression section </link>.</para>
               </listitem>
 
               <listitem>
                 <para>Range value. A range formula allows you to let you
                 specify the values that the user can select from an specific
-                field. These expressions are described in
-                    <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                field. These expressions are described in <link
+                linkend="FormulasExpression">Formula &amp; expression section
+                </link>.</para>
               </listitem>
 
               <listitem>
@@ -421,15 +437,16 @@
               <listitem>
                 <para>Formula. Used to enter expressions that will be
                 evaluated to set the field value. These expressions are
-                described in
-                    <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                described in <link linkend="FormulasExpression">Formula &amp;
+                expression section </link>.</para>
               </listitem>
 
               <listitem>
                 <para>Range value. A range formula allows you to let you
                 specify the values that the user can select from an specific
-                field. These expressions are described in
-                    <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                field. These expressions are described in <link
+                linkend="FormulasExpression">Formula &amp; expression section
+                </link>.</para>
               </listitem>
 
               <listitem>
@@ -550,8 +567,9 @@
 
               <listitem>
                 <para>Formula. to enter expressions that will be evaluated to
-                set the field value. These expressions are described in
-                    <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                set the field value. These expressions are described in <link
+                linkend="FormulasExpression">Formula &amp; expression section
+                </link>.</para>
               </listitem>
 
               <listitem>
@@ -584,8 +602,9 @@
 
               <listitem>
                 <para>Formula. to enter expressions that will be evaluated to
-                set the field value. These expressions are described in
-                    <link linkend="FormulasExpression">Formula &amp; expression section </link>.</para>
+                set the field value. These expressions are described in <link
+                linkend="FormulasExpression">Formula &amp; expression section
+                </link>.</para>
               </listitem>
 
               <listitem>
@@ -602,8 +621,9 @@
 
       <itemizedlist>
         <listitem>
-          <para>For more details see section
-              <link linkend="subformSimple">Simple Object (Subform field Type)</link>.</para>
+          <para>For more details see section <link
+          linkend="subformSimple">Simple Object (Subform field
+          Type)</link>.</para>
 
           <para>Specific properties <itemizedlist>
               <listitem>
@@ -620,8 +640,9 @@
 
       <itemizedlist>
         <listitem>
-          <para>For more details see section
-              <link linkend="multipleSubform">Arrays of objects.( Multiple subform field Type)</link>.</para>
+          <para>For more details see section <link
+          linkend="multipleSubform">Arrays of objects.( Multiple subform field
+          Type)</link>.</para>
 
           <para>Specific properties <itemizedlist>
               <listitem>
