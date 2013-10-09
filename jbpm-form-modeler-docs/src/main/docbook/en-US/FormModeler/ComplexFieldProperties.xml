@@ -9,19 +9,37 @@
          xmlns:xi="http://www.w3.org/2001/XInclude"
          xmlns:ns2="http://www.w3.org/1998/Math/MathML"
          xmlns:ns="http://docbook.org/ns/docbook">
-  <title>Complex Fields Configuration </title>
-  <para>
-      There are two types of complex fields: fields representing an object, and fields representing an object array.
-  </para>
-    <figure>
-        <title>Add field by type</title>
+    <title>Complex Fields Configuration</title>
+    <para>
+        There are two types of complex fields: fields representing an object, and fields representing an object array.
+    </para>
+    <para>
+        Once the field is added to the form, either automatically or manually, it must be configured so that the
+        form had to know how to display the objects that will contain in execution time.
+    </para>
+    <para>
+        Next we describe how can be the configuration process:
+    </para>
+    <itemizedlist>
+        <listitem>
+            <para>The first thing to do is define how the contained object will be displayed. This is done creating
+                a form that represents the object.
+            </para>
+        </listitem>
+        <listitem>
+            <para>In case of the object array, you can define a form to show in preview(edition),
+                or to show when table is shown
+            </para>
+        </listitem>
+    </itemizedlist>
+    <para>
+        Once the form to represent the object, the parent form has to be configured to use them in
+        the parent Subform or Multiple subform.
+    </para>
+    <para>
+        Below we will describe how the setup would be:
+    </para>
+    <xi:include href="FormModeler/ComplexTypeSubform.xml" />
+    <xi:include href="FormModeler/ComplexTypeMultipleSubform.xml" />
 
-        <screenshot>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/FormModeler/13_field_types.png"/>
-                </imageobject>
-            </mediaobject>
-        </screenshot>
-    </figure>
 </section>
