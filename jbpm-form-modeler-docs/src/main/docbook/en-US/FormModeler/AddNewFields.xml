@@ -11,13 +11,11 @@
          xmlns:ns="http://docbook.org/ns/docbook">
   <title>Adding new fields</title>
   <para>
-      You can add fields to forms either by its origin, or by selecting one type of form field. Let's see what has
-      been created automatically for this purchase order form. To see a complete list of the available field types
-      go to <link linkend="fieldTypes">Field types section  </link>
+      You can add fields to forms either by its origin or by selecting one type of form field.
   </para>
-    <figure>
-        <title>Add field by type</title>
 
+  <para>Let's see what has been created automatically for this purchase order form.</para>
+      <figure>
         <screenshot>
             <mediaobject>
                 <imageobject>
@@ -32,6 +30,41 @@
         </para>
     </note>
     <note>
+        <para>
+            <itemizedlist>
+                <listitem>
+                    <para>Add fields by origin: this tab allows you to add fields to the form based on the data origins defined.
+                        These fields will have the correct configuration on the "Input binding expression" and "Output binding expression" properties so whe the
+                        form is submitted the fields values will be stored in the corresponding Data Origin.
+                        <figure>
+                            <title>Add field by origin</title>
+                            <screenshot>
+                                <mediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="images/FormModeler/17_add_fields_origin.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </figure>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Add fields by type: this tab allows you to freely add fields to the form from the Field Types palette on the Form Modeler.
+                        This fields won't be storing it's value on any Data Origin until they have a correct configuration on the "Input binding expression" and "Output binding expression" properties.
+                        <figure>
+                            <title>Add field by type</title>
+                            <screenshot>
+                                <mediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="images/FormModeler/17_add_fields_type.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </figure>
+                        To see a complete list of the available field types go to <link linkend="fieldTypes">Field types section</link>.</para>
+                </listitem>
+            </itemizedlist>
+        </para>
         <para>
             Notice the data model 'po' of type 'org.jbpm.examples.purchases.PurchaseOrder' is composed of three properties.
             <itemizedlist>
@@ -50,7 +83,5 @@
     <para>
         Now all these properties had to be configured.
     </para>
-    <para>
-        TODO: Add field from dataorigin?
-    </para>
+
 </section>
