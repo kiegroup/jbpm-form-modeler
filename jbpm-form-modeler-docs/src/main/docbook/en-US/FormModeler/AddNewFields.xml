@@ -13,7 +13,7 @@
   <para>
       You can add fields to forms either by its origin, or by selecting one type of form field. Let's see what has
       been created automatically for this purchase order form. To see a complete list of the available field types
-      go to LINK_FIELD_TYPE SECTION
+      go to <link linkend="fieldTypes">Field types section  </link>
   </para>
     <figure>
         <title>Add field by type</title>
@@ -28,7 +28,7 @@
     </figure>
     <note>
         <para>
-            all the properties have been added by default, but are not still configured.
+            All the properties have been added by default, but are not still configured.
         </para>
     </note>
     <note>

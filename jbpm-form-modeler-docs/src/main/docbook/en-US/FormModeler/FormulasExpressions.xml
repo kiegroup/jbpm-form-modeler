@@ -172,9 +172,11 @@
                 and each of this duos is separated from each other other with the ‘;’ character. So due
                 this formula the resulting select box will show:</para>
             <para><table frame="all">
-                <tgroup align="left" cols="4" colsep="1" rowsep="1">
-                <tbody>
+                <tgroup align="left" cols="2" colsep="1" rowsep="1">
+                <thead>
                 <row><entry>Value stored in input</entry><entry>Text shown on SelecBox</entry></row>
+                </thead>
+                <tbody>
                 <row><entry>approve</entry><entry>Approve order</entry></row>
                 <row><entry>reject</entry><entry>Reject order</entry></row>
                 <row><entry>modifications</entry><entry>Request Modifications</entry></row>
