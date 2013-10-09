@@ -46,8 +46,16 @@ public class TextAreaFieldHandler extends DefaultFieldHandler {
      * @throws Exception
      */
     public Object getValue(Field field, String inputName, Map parametersMap, Map filesMap, String desiredClassName, Object previousValue) throws Exception {
-        String[] pValues = (String[]) parametersMap.get(inputName);
-        return pValues != null ? pValues[0] : null;
+        String[] paramValue = (String[]) parametersMap.get(inputName);
+        if (paramValue == null || paramValue.length == 0) return null;
+        String expr = "";
+
+        if (field != null)
+            expr = field.getFieldPattern();
+
+        if (!"".equals(paramValue[0]) && expr != null && !"".equals(expr) && !paramValue[0].matches(expr))
+            throw new IllegalArgumentException("Parameter does not match the pattern");
+        return paramValue[0];
     }
 
     /**
