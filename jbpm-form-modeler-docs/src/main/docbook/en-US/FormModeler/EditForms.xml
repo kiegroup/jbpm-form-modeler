@@ -20,4 +20,6 @@
 
     <xi:include href="CustomizingForm.xml" />
 
+    <xi:include href="FieldTypes.xml" />
+
 </section>
