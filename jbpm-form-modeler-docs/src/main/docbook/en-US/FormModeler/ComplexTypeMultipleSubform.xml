@@ -71,7 +71,7 @@
         <listitem>
             <para>5. Configure the fields. After creating the basic form structure, we can use a formula to
                 calculate automatically the total field. This formulas and expressions are described in
-                TODO_LINK_FORMULA_SECTION
+                <link linkend="FormulasExpression">Formula &amp; expression section </link>.
 
                 <figure>
                     <title>Configuring formulas</title>
