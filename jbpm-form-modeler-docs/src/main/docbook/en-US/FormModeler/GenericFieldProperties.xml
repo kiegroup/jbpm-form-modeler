@@ -24,8 +24,10 @@
           <tr><td>Style class</td><td>Allows enter a class css to apply in field visualization</td></tr>
           <tr><td>Css style</td><td>to enter directly the style to apply to the label.</td></tr>
           <tr><td>Read Only</td><td>When this check is on, the field will be used only for read</td></tr>
-          <tr><td>Input binding expression</td><td> TODO </td></tr>
-          <tr><td>Output binding expression</td><td> TODO </td></tr>
+          <tr><td>Input binding expression</td><td>This expression defines the link between field and process task input variable.
+              It will be used in runtime to set the field value with that task input variable data.</td></tr>
+          <tr><td>Output binding expression</td><td>This expression defines the link between field and process task output variable.
+              It will be used in runtime to set that task output variable.</td></tr>
       </table>
    </para>
 
