@@ -16,8 +16,8 @@
       generated in the previous process, but also can be created manually.
   </para>
 
-    <xi:include href="FormModeler/FormGeneratedDescription.xml" />
+    <xi:include href="FormGeneratedDescription.xml" />
 
-    <xi:include href="FormModeler/CustomizingForm.xml" />
+    <xi:include href="CustomizingForm.xml" />
 
 </section>
