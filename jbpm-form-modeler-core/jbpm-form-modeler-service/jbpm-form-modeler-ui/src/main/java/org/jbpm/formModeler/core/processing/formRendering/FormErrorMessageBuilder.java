@@ -77,7 +77,7 @@ public class FormErrorMessageBuilder {
                                 if (!errors.contains(requiredMessage)) errors.add(0, requiredMessage);
                             } else {
                                 String error = fieldI18nResourceObtainer.getFieldErrorMessage(field);
-                                if (!StringUtils.isEmpty(error)) errors.add(getErrorMessage(error, field, bundle));
+                                addErrorMessage(getErrorMessage(error, field, bundle), errors);
                             }
                         } else addErrorMessages(statusData.getErrorMessages(field.getFieldName()), field, bundle, errors);
                     }
@@ -95,15 +95,19 @@ public class FormErrorMessageBuilder {
         for (Object msg : msgs) {
             String error = getErrorMessage((String) msg, field, bundle);
 
-            if (!errors.contains(error)) errors.add(error);
+            addErrorMessage(error, errors);
         }
     }
-    
+
+    protected void addErrorMessage(String error, List<String> errors) {
+        if (!StringUtils.isEmpty(error) && !errors.contains(error)) errors.add(error);
+    }
+
     protected String getErrorMessage(String msg, Field field, ResourceBundle bundle) {
         if (StringUtils.isEmpty(msg)) return "";
         
         StringBuffer result = new StringBuffer();
-        String label = fieldI18nResourceObtainer.getFieldLabel(field);
+        String label = StringUtils.defaultString(fieldI18nResourceObtainer.getFieldLabel(field), field.getFieldName());
         result.append(bundle.getString("error.start")).append(label).append(bundle.getString("error.end")).append(msg);
         
         return result.toString();
