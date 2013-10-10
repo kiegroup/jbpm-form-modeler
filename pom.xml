@@ -20,6 +20,20 @@
         <!-- module>jbpm-form-modeler-showcase</module -->
     </modules>
 
+    <profiles>
+        <profile>
+            <id>fullProfile</id>
+            <activation>
+                <property>
+                    <name>full</name>
+                </property>
+            </activation>
+            <modules>
+                <module>jbpm-form-modeler-docs</module>
+            </modules>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -107,20 +121,5 @@
 
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>fullProfile</id>
-            <activation>
-                <property>
-                    <name>full</name>
-                </property>
-            </activation>
-            <modules>
-                <module>jbpm-form-modeler-docs</module>
-            </modules>
-        </profile>
-    </profiles>
-
 </project>
 
