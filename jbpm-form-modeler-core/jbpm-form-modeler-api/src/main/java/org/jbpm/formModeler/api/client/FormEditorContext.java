@@ -57,20 +57,16 @@ public class FormEditorContext implements Serializable {
         this.path = path;
     }
 
-    public Form getOriginalForm() {
-        return originalForm;
-    }
-
-    public void setOriginalForm(Form originalForm) {
-        this.originalForm = originalForm;
-    }
-
     public FormRenderContext getRenderContext() {
         return renderContext;
     }
 
     public Form getForm() {
         return renderContext.getForm();
+    }
+
+    public void setForm(Form form) {
+        renderContext.setForm(form);
     }
 
     public FormEditorContextTO getFormEditorContextTO() {

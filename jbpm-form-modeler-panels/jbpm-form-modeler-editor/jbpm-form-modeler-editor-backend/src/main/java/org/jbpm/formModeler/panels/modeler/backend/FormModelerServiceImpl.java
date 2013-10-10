@@ -103,6 +103,25 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     }
 
     @Override
+    public FormEditorContextTO reloadForm(Path path, String ctxUID) {
+        try {
+            org.kie.commons.java.nio.file.Path kiePath = paths.convert(path);
+
+            Form form = subformFinderService.getFormByPath(kiePath.toUri().toString());
+
+            FormEditorContext context = getFormEditorContext(ctxUID);
+
+            context.setForm(form);
+
+            return context.getFormEditorContextTO();
+
+        } catch (Exception e) {
+            log.warn("Error loading form " + path.toURI(), e);
+            return null;
+        }
+    }
+
+    @Override
     public FormEditorContext newContext(Form form, Object path) {
         FormRenderContext ctx = formRenderContextManager.newContext(form, new HashMap<String, Object>());
         org.kie.commons.java.nio.file.Path kpath = paths.convert((Path) path);

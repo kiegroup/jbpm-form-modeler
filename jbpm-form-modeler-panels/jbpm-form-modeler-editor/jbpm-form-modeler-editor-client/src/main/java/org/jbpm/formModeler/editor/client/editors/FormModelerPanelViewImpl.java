@@ -27,6 +27,8 @@ import com.google.gwt.user.client.ui.Frame;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.jbpm.formModeler.api.client.FormEditorContextTO;
+import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
+import org.kie.workbench.common.widgets.client.widget.BusyIndicatorView;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
@@ -40,6 +42,9 @@ public class FormModelerPanelViewImpl extends Composite
 
     final static private String GWT_DEFAULT_LOCALE  = "default";
     final static private String FORM_MODELER_DEFAULT_LOCALE  = "en";
+
+    @Inject
+    private BusyIndicatorView busyIndicatorView;
 
     private FormModelerPanelPresenter presenter;
 
@@ -87,6 +92,21 @@ public class FormModelerPanelViewImpl extends Composite
         if (GWT_DEFAULT_LOCALE.equals(localeName)) localeName = FORM_MODELER_DEFAULT_LOCALE;
         frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=wysiwygfe&_fp=Start&ctxUID=" + contexUID+"&locale=" + localeName).asString());
         visible(true);
+    }
+
+    @Override
+    public void showCanNotSaveReadOnly() {
+        Window.alert( CommonConstants.INSTANCE.CantSaveReadOnly() );
+    }
+
+    @Override
+    public void showBusyIndicator( final String message ) {
+        busyIndicatorView.showBusyIndicator( message );
+    }
+
+    @Override
+    public void hideBusyIndicator() {
+        busyIndicatorView.hideBusyIndicator();
     }
 }
 
