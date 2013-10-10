@@ -48,6 +48,10 @@ public class FormRenderContext implements Serializable {
         return form;
     }
 
+    public void setForm(Form form) {
+        this.form = form;
+    }
+
     public Map<String, Object> getInputData() {
         return inputData;
     }

@@ -34,6 +34,7 @@ import org.kie.workbench.common.widgets.client.popups.file.CommandWithCommitMess
 import org.kie.workbench.common.widgets.client.popups.file.DeletePopup;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 import org.kie.workbench.common.widgets.client.widget.BusyIndicatorView;
+import org.kie.workbench.common.widgets.client.widget.HasBusyIndicator;
 import org.uberfire.backend.vfs.ObservablePath;
 import org.uberfire.client.annotations.WorkbenchEditor;
 import org.uberfire.client.annotations.WorkbenchMenu;
@@ -41,14 +42,20 @@ import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.mvp.UberView;
+import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
 import org.uberfire.lifecycle.OnClose;
 import org.uberfire.lifecycle.OnOpen;
 import org.uberfire.lifecycle.OnSave;
 import org.uberfire.lifecycle.OnStartup;
 import org.uberfire.mvp.Command;
+import org.uberfire.mvp.ParameterizedCommand;
 import org.uberfire.mvp.PlaceRequest;
 import org.uberfire.workbench.events.NotificationEvent;
 import org.uberfire.workbench.model.menu.Menus;
+
+import static org.uberfire.client.common.ConcurrentChangePopup.newConcurrentDelete;
+import static org.uberfire.client.common.ConcurrentChangePopup.newConcurrentRename;
+import static org.uberfire.client.common.ConcurrentChangePopup.newConcurrentUpdate;
 
 @Dependent
 @WorkbenchEditor(identifier = "FormModelerEditor", supportedTypes = {FormDefinitionResourceType.class})
@@ -56,11 +63,14 @@ public class FormModelerPanelPresenter {
 
     public interface FormModelerPanelView
             extends
+            HasBusyIndicator,
             UberView<FormModelerPanelPresenter> {
 
         void hideForm();
 
         void loadContext(FormEditorContextTO context);
+
+        void showCanNotSaveReadOnly();
     }
 
     @Inject
@@ -84,6 +94,9 @@ public class FormModelerPanelPresenter {
     @Inject
     private Event<NotificationEvent> notification;
 
+    @Inject
+    private Event<ChangeTitleWidgetEvent> changeTitleNotification;
+
     private FormEditorContextTO context;
 
     private Menus menus;
@@ -96,6 +109,8 @@ public class FormModelerPanelPresenter {
 
     private ObservablePath path;
 
+    private ObservablePath.OnConcurrentUpdateEvent concurrentUpdateSessionInfo = null;
+
     private PlaceRequest place;
 
     @OnStartup
@@ -107,9 +122,40 @@ public class FormModelerPanelPresenter {
 
         this.isReadOnly = place.getParameter("readOnly", null) != null;
 
+        this.path.onConcurrentUpdate( new ParameterizedCommand<ObservablePath.OnConcurrentUpdateEvent>() {
+            @Override
+            public void execute( final ObservablePath.OnConcurrentUpdateEvent eventInfo ) {
+                concurrentUpdateSessionInfo = eventInfo;
+            }
+        } );
+
+        this.path.onConcurrentDelete( new ParameterizedCommand<ObservablePath.OnConcurrentDelete>() {
+            @Override
+            public void execute( final ObservablePath.OnConcurrentDelete info ) {
+                newConcurrentDelete( info.getPath(),
+                        info.getIdentity(),
+                        new Command() {
+                            @Override
+                            public void execute() {
+                                disableMenus();
+                            }
+                        },
+                        new Command() {
+                            @Override
+                            public void execute() {
+                                placeManager.closePlace( place );
+                            }
+                        }
+                ).show();
+            }
+        } );
+
+
+
         modelerService.call(new RemoteCallback<FormEditorContextTO>() {
             @Override
             public void callback(FormEditorContextTO ctx) {
+                view.hideBusyIndicator();
                 if (ctx == null) {
                     notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_load_form(path.getFileName()), NotificationEvent.NotificationType.ERROR));
                 } else {
@@ -120,16 +166,68 @@ public class FormModelerPanelPresenter {
         }).loadForm(path);
     }
 
+    private void reload() {
+        changeTitleNotification.fire( new ChangeTitleWidgetEvent( place, getTitle(), null ) );
+        view.showBusyIndicator( CommonConstants.INSTANCE.Loading() );
+        modelerService.call(new RemoteCallback<FormEditorContextTO>() {
+            @Override
+            public void callback(FormEditorContextTO ctx) {
+                view.hideBusyIndicator();
+                if (ctx == null) {
+                    notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_load_form(path.getFileName()), NotificationEvent.NotificationType.ERROR));
+                } else {
+                    loadContext(ctx);
+                    makeMenuBar();
+                }
+            }
+        }).reloadForm(path, context.getCtxUID());
+    }
+
     @OnSave
-    public void onSave() {
+    private void onSave() {
+        if ( isReadOnly ) {
+            view.showCanNotSaveReadOnly();
+        } else {
+            if ( concurrentUpdateSessionInfo != null ) {
+                newConcurrentUpdate( concurrentUpdateSessionInfo.getPath(),
+                        concurrentUpdateSessionInfo.getIdentity(),
+                        new Command() {
+                            @Override
+                            public void execute() {
+                                save();
+                            }
+                        },
+                        new Command() {
+                            @Override
+                            public void execute() {
+                                //cancel?
+                            }
+                        },
+                        new Command() {
+                            @Override
+                            public void execute() {
+                                reload();
+                            }
+                        }
+                ).show();
+            } else {
+                save();
+            }
+        }
+    }
+
+
+    public void save() {
         try {
             modelerService.call(new RemoteCallback<Long>() {
                 @Override
                 public void callback(Long formId) {
+                    view.hideBusyIndicator();
                     notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_successfully_saved(context.getFormName()), NotificationEvent.NotificationType.SUCCESS));
                 }
             }).saveForm(context.getCtxUID());
         } catch (Exception e) {
+            view.hideBusyIndicator();
             notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_save(context.getFormName()), NotificationEvent.NotificationType.ERROR));
         }
 
@@ -199,6 +297,10 @@ public class FormModelerPanelPresenter {
     @WorkbenchPartView
     public UberView<FormModelerPanelPresenter> getView() {
         return view;
+    }
+
+    private void disableMenus() {
+        menus.getItemsMap().get( FileMenuBuilder.MenuItems.DELETE ).setEnabled( false );
     }
 
     @WorkbenchMenu
