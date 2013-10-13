@@ -197,28 +197,24 @@
     </dependency>
 
     <dependency>
-      <groupId>org.kie.commons</groupId>
-      <artifactId>kie-nio2-jgit</artifactId>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-nio2-jgit</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.kie.commons</groupId>
-      <artifactId>kie-nio2-fs</artifactId>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-nio2-fs</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.kie.commons</groupId>
-      <artifactId>kie-commons-io</artifactId>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-io</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.kie.commons</groupId>
-      <artifactId>kie-commons-cdi</artifactId>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-commons</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.kie.commons</groupId>
-      <artifactId>kie-commons-data</artifactId>
-    </dependency>
-    
+
     <!-- Errai Core -->
     <dependency>
       <groupId>org.jboss.errai</groupId>
@@ -588,16 +584,13 @@
             <compileSourcesArtifact>org.kie.workbench.services:kie-wb-common-services-api</compileSourcesArtifact>
             <compileSourcesArtifact>org.kie.workbench.services:kie-wb-common-security</compileSourcesArtifact>
             <compileSourcesArtifact>org.kie.workbench.services:kie-wb-common-datamodel-api</compileSourcesArtifact>
-            
+
             <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-data-modeller-api</compileSourcesArtifact>
             <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-data-modeller-client</compileSourcesArtifact>
 
-            <!-- Kie Commons -->
-            <compileSourcesArtifact>org.kie.commons:kie-commons-data</compileSourcesArtifact>
-            <compileSourcesArtifact>org.kie.commons:kie-commons-validation</compileSourcesArtifact>
-            <compileSourcesArtifact>org.kie.commons:kie-nio2-model</compileSourcesArtifact>
-
             <!-- UberFire -->
+            <compileSourcesArtifact>org.uberfire:uberfire-commons</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-nio2-model</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-js</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-security-api</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-security-client</compileSourcesArtifact>
@@ -633,7 +626,7 @@
           <extraJvmArgs>-Xmx2048m -XX:MaxPermSize=256m -Djetty.custom.sys.classes=bitronix;javax.transaction</extraJvmArgs>
           <soyc>false</soyc>
           <strict>false</strict>
-          <server>org.jboss.errai.cdi.server.gwt.JettyLauncher</server>
+          <server>org.jboss.errai.org.uberfire.commons.services.org.uberfire.commons.services.cdi.server.gwt.JettyLauncher</server>
           <!-- drools-compiler has dependency on org.eclipse.jdt.core.compiler:ecj:jar:3.5.1:compile, 
                see http://code.google.com/p/google-web-toolkit/issues/detail?id=4479 -->
           <gwtSdkFirstInClasspath>true</gwtSdkFirstInClasspath>
@@ -688,7 +681,7 @@
             WEB-INF/lib/kie-ci*.jar,
             WEB-INF/lib/kie-commons-*.jar,
             WEB-INF/lib/kie-internal*.jar,
-            WEB-INF/lib/kie-nio2-fs*.jar,
+            WEB-INF/lib/uberfire-nio2-fs*.jar,
             WEB-INF/lib/kie-wb-common-*.jar,
             WEB-INF/lib/uberfire-*.jar,
             WEB-INF/lib/jbpm-form-modeler-*.war,

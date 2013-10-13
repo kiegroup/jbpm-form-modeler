@@ -29,7 +29,7 @@ import org.jbpm.formModeler.api.client.FormEditorContext;
 import org.jbpm.formModeler.api.client.FormEditorContextManager;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.editor.service.FormModelerService;
-import org.kie.commons.io.IOService;
+import org.uberfire.io.IOService;
 import org.kie.workbench.common.services.datamodeller.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +86,7 @@ public class RangeProviderForm implements RangeProvider {
 
         FileUtils utils  = FileUtils.getInstance();
 
-        List<org.kie.commons.java.nio.file.Path> nioPaths = new ArrayList<org.kie.commons.java.nio.file.Path>();
+        List<org.uberfire.java.nio.file.Path> nioPaths = new ArrayList<org.uberfire.java.nio.file.Path>();
         nioPaths.add(paths.convert(project.getRootPath()));
 
         Collection<FileUtils.ScanResult> forms = utils.scan(ioService, nioPaths, "form", true);

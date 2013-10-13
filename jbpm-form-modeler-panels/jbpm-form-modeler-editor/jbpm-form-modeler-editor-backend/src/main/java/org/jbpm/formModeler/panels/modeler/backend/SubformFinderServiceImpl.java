@@ -10,7 +10,7 @@ import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
-import org.kie.commons.io.IOService;
+import org.uberfire.io.IOService;
 import org.kie.workbench.common.services.datamodeller.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -141,7 +141,7 @@ public class SubformFinderServiceImpl implements SubformFinderService {
 
         FileUtils utils  = FileUtils.getInstance();
 
-        List<org.kie.commons.java.nio.file.Path> nioPaths = new ArrayList<org.kie.commons.java.nio.file.Path>();
+        List<org.uberfire.java.nio.file.Path> nioPaths = new ArrayList<org.uberfire.java.nio.file.Path>();
         nioPaths.add(paths.convert(project.getRootPath()));
 
         Collection<FileUtils.ScanResult> forms = utils.scan(ioService, nioPaths, "form", true);
@@ -149,8 +149,8 @@ public class SubformFinderServiceImpl implements SubformFinderService {
         String header = formSerializationManager.generateHeaderFormFormId(formId);
 
         for (FileUtils.ScanResult form : forms) {
-            org.kie.commons.java.nio.file.Path formPath = form.getFile();
-            org.kie.commons.java.nio.file.Path path = paths.convert(project.getRootPath()).resolve(MAIN_RESOURCES_PATH).resolve(formPath);
+            org.uberfire.java.nio.file.Path formPath = form.getFile();
+            org.uberfire.java.nio.file.Path path = paths.convert(project.getRootPath()).resolve(MAIN_RESOURCES_PATH).resolve(formPath);
 
             String xml = ioService.readAllString(path).trim();
 
@@ -162,7 +162,7 @@ public class SubformFinderServiceImpl implements SubformFinderService {
     protected Form getSubForm(String formPath, FormEditorContext editorContext) throws Exception {
         Path currentForm = paths.convert(ioService.get(new URI(editorContext.getPath())));
 
-        org.kie.commons.java.nio.file.Path subFormPath = paths.convert(currentForm).getParent().resolve(formPath);
+        org.uberfire.java.nio.file.Path subFormPath = paths.convert(currentForm).getParent().resolve(formPath);
 
         return findForm(subFormPath);
     }
@@ -176,7 +176,7 @@ public class SubformFinderServiceImpl implements SubformFinderService {
         return null;
     }
 
-    protected Form findForm(org.kie.commons.java.nio.file.Path path) throws Exception {
+    protected Form findForm( org.uberfire.java.nio.file.Path path) throws Exception {
         String xml = ioService.readAllString(path).trim();
 
         return formSerializationManager.loadFormFromXML(xml, path.toUri().toString());
