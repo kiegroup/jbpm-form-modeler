@@ -37,8 +37,8 @@ import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.editor.service.FormModelerService;
-import org.kie.commons.io.IOService;
-import org.kie.commons.java.nio.file.FileAlreadyExistsException;
+import org.uberfire.io.IOService;
+import org.uberfire.java.nio.file.FileAlreadyExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
@@ -91,7 +91,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     @Override
     public FormEditorContextTO loadForm(Path context) {
         try {
-            org.kie.commons.java.nio.file.Path kiePath = paths.convert(context);
+            org.uberfire.java.nio.file.Path kiePath = paths.convert(context);
 
             Form form = subformFinderService.getFormByPath(kiePath.toUri().toString());
 
@@ -105,7 +105,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     @Override
     public FormEditorContextTO reloadForm(Path path, String ctxUID) {
         try {
-            org.kie.commons.java.nio.file.Path kiePath = paths.convert(path);
+            org.uberfire.java.nio.file.Path kiePath = paths.convert(path);
 
             Form form = subformFinderService.getFormByPath(kiePath.toUri().toString());
 
@@ -124,7 +124,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     @Override
     public FormEditorContext newContext(Form form, Object path) {
         FormRenderContext ctx = formRenderContextManager.newContext(form, new HashMap<String, Object>());
-        org.kie.commons.java.nio.file.Path kpath = paths.convert((Path) path);
+        org.uberfire.java.nio.file.Path kpath = paths.convert((Path) path);
 
         FormEditorContext formEditorContext = new FormEditorContext(ctx, kpath.toUri().toString());
         formEditorContextMap.put(ctx.getUID(), formEditorContext);
@@ -158,13 +158,13 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     public void saveContext(String ctxUID) throws Exception {
         FormEditorContext ctx = getFormEditorContext(ctxUID);
 
-        org.kie.commons.java.nio.file.Path kiePath = ioService.get(new URI(ctx.getPath()));
+        org.uberfire.java.nio.file.Path kiePath = ioService.get(new URI(ctx.getPath()));
         ioService.write(kiePath, formSerializationManager.generateFormXML(ctx.getForm()));
     }
 
     @Override
     public Path createForm(Path context, String formName) {
-        org.kie.commons.java.nio.file.Path kiePath = paths.convert(context).resolve(formName);
+        org.uberfire.java.nio.file.Path kiePath = paths.convert(context).resolve(formName);
         try {
             ioService.createFile(kiePath);
 
@@ -184,7 +184,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     @Override
     public boolean deleteForm(Path context) {
         if (context == null) return false;
-        org.kie.commons.java.nio.file.Path kiePath = paths.convert(context);
+        org.uberfire.java.nio.file.Path kiePath = paths.convert(context);
         return ioService.deleteIfExists(kiePath);
     }
 

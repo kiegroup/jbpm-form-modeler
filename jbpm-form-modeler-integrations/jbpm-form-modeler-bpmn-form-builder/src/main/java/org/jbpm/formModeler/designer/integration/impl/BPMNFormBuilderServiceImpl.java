@@ -26,7 +26,7 @@ import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.core.config.builders.DataHolderBuilder;
 import org.jbpm.formModeler.designer.integration.BPMNFormBuilderService;
-import org.kie.commons.io.IOService;
+import org.uberfire.io.IOService;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.FileSystem;
 import org.uberfire.backend.vfs.Path;
@@ -68,7 +68,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
     
     public String buildFormXML(FileSystem fs, String fileName, String uri, Definitions source, String id) throws Exception {
         Path formPath = PathFactory.newPath(fs, fileName, uri);
-        org.kie.commons.java.nio.file.Path kiePath = paths.convert(formPath);
+        org.uberfire.java.nio.file.Path kiePath = paths.convert(formPath);
 
 
         Form form;

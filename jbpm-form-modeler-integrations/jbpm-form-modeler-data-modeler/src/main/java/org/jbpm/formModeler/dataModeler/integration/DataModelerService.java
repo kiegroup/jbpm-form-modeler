@@ -21,7 +21,7 @@ import org.jbpm.formModeler.core.config.builders.DataHolderBuilder;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.dataModeler.model.DataModelerDataHolder;
-import org.kie.commons.io.IOService;
+import org.uberfire.io.IOService;
 import org.kie.workbench.common.screens.datamodeller.model.DataModelTO;
 import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
 import org.slf4j.Logger;

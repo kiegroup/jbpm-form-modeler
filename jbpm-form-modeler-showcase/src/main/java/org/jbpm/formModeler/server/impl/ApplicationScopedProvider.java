@@ -1,10 +1,10 @@
 package org.jbpm.formModeler.server.impl;
 
 import org.jbpm.shared.services.cdi.Selectable;
-import org.kie.commons.cluster.ClusterServiceFactory;
+import org.uberfire.commons.cluster.ClusterServiceFactory;
 import org.kie.commons.io.IOService;
-import org.kie.commons.io.impl.IOServiceDotFileImpl;
-import org.kie.commons.io.impl.cluster.IOServiceClusterImpl;
+import org.uberfire.io.impl.IOServiceDotFileImpl;
+import org.uberfire.io.impl.cluster.IOServiceClusterImpl;
 import org.kie.internal.task.api.UserGroupCallback;
 import org.uberfire.backend.repositories.Repository;
 import org.uberfire.security.impl.authz.RuntimeAuthorizationManager;
