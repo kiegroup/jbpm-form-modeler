@@ -19,12 +19,18 @@
         <%@ include file="/formModeler/defaultFormRenderingFormatterOptions.jsp" %>
     </mvc:formatter>
 </form>
-<script type="text/javascript"defer="defer">
-    var width = ($(document).width() + 20) + "px";
-    var pDiv = $("#formRendering<%=ctxUID%>").parent();
-    var height = (pDiv.height() + 20) + "px";
+<script type="text/javascript" defer="defer">
 
-    window.parent.resizeRendererWidget(width, height);
+    function resizeParent() {
+        var width = ($(document).width() + 20) + "px";
+        var height = ($("#formRendering<%=ctxUID%>").parent().height() + 20) + "px";
+
+        window.parent.resizeRendererWidget(width, height);
+    }
+
+    $(document).ready(function() {
+        setTimeout("resizeParent()", 100);
+    });
 
     setAjax("formRendering<%=ctxUID%>");
 </script>
