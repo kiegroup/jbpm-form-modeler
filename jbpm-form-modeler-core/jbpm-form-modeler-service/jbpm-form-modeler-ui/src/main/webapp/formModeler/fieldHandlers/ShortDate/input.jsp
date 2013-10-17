@@ -65,7 +65,7 @@
 %>
             <script>
                 $(function() {
-                    $( "#<%=uid%>" ).datepicker({
+                    $("input[id='<%=uid%>']").datepicker({
                         dateFormat: "<%=inputPattern%>",
                         onClose: function() {
                             processFormInputChange($('#<%=uid%>').get(0));
@@ -84,7 +84,7 @@
     if( (disabled==null || !((Boolean)disabled).booleanValue()) && (readonly==null || !((Boolean)readonly).booleanValue() )) {
 %>
                onclick="document.getElementById('<%=uid + DateFieldHandler.HAS_CHANGED_PARAM%>').value = true;
-                       $('#<%=uid%>').datepicker('show');
+                       $('input[id=\'<%=uid%>\']').datepicker('show');
                        return false;"
 <%
     } else{
@@ -105,7 +105,7 @@
                 <img src="<static:image relativePath="general/16x16/ico-trash.png"/>"border="0"
                      onclick="var dt = document.getElementById('<%=uid%>');
                              dt.value='';
-                             $('#<%=uid%>').datepicker('hide');
+                             $('input[id=\'<%=uid%>\']').datepicker('hide');
                              document.getElementById('<%=uid + DateFieldHandler.HAS_CHANGED_PARAM%>').value = true;
                              processFormInputChange(dt);
                              return false;">
