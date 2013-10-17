@@ -125,44 +125,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
                         if (index == colors.length - 1) index = 0;
                         else index++;
                     }
-
-                    for(FlowElement fe : process.getFlowElements()) {
-                        if(fe instanceof UserTask && fe.getId().equals(resourceId)) {
-                            UserTask utask = (UserTask) fe;
-                            List<DataInputAssociation> dataInputAssociations = utask.getDataInputAssociations();
-
-                            if (dataInputAssociations != null) {
-                                for (DataInputAssociation inputAssociation : dataInputAssociations) {
-
-                                    if (inputAssociation.getSourceRef() != null && inputAssociation.getSourceRef().size() > 0 && inputAssociation.getTargetRef() != null) {
-
-                                        String variableId = inputAssociation.getSourceRef().get(0).getId();
-                                        DataInput input = (DataInput)inputAssociation.getTargetRef();
-                                        String id = input != null ? input.getName() : null;
-                                        Map config = ((variableId != null) && (id != null)) ? associations.get(variableId) : null;
-
-                                        if (config != null) config.put("inputId", id);
-                                    }
-                                }
-                            }
-
-                            List<DataOutputAssociation> dataOutputAssociations = utask.getDataOutputAssociations();
-                            if (dataOutputAssociations != null) {
-                                for (DataOutputAssociation outputAssociation : dataOutputAssociations) {
-
-                                    if (outputAssociation.getSourceRef() != null && outputAssociation.getSourceRef().size() > 0 && outputAssociation.getTargetRef() != null) {
-
-                                        String variableId = outputAssociation.getTargetRef().getId();
-                                        DataOutput output = (DataOutput) outputAssociation.getSourceRef().get(0);
-                                        String outId = output != null ? output.getName() : null;
-
-                                        Map config = ((variableId != null) && (outId != null)) ? associations.get(variableId) : null;
-                                        if (config != null) config.put("outId", outId);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    getDataHoldersFromElements(process, resourceId, associations);
                 }
             }
         }
@@ -180,6 +143,48 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
         }
 
         return result;
+    }
+
+    private void getDataHoldersFromElements(FlowElementsContainer container, String resourceId, Map<String, Map> associations) {
+        for(FlowElement fe : container.getFlowElements()) {
+            if(fe instanceof UserTask && fe.getId().equals(resourceId)) {
+                UserTask utask = (UserTask) fe;
+                List<DataInputAssociation> dataInputAssociations = utask.getDataInputAssociations();
+
+                if (dataInputAssociations != null) {
+                    for (DataInputAssociation inputAssociation : dataInputAssociations) {
+
+                        if (inputAssociation.getSourceRef() != null && inputAssociation.getSourceRef().size() > 0 && inputAssociation.getTargetRef() != null) {
+
+                            String variableId = inputAssociation.getSourceRef().get(0).getId();
+                            DataInput input = (DataInput)inputAssociation.getTargetRef();
+                            String id = input != null ? input.getName() : null;
+                            Map config = ((variableId != null) && (id != null)) ? associations.get(variableId) : null;
+
+                            if (config != null) config.put("inputId", id);
+                        }
+                    }
+                }
+
+                List<DataOutputAssociation> dataOutputAssociations = utask.getDataOutputAssociations();
+                if (dataOutputAssociations != null) {
+                    for (DataOutputAssociation outputAssociation : dataOutputAssociations) {
+
+                        if (outputAssociation.getSourceRef() != null && outputAssociation.getSourceRef().size() > 0 && outputAssociation.getTargetRef() != null) {
+
+                            String variableId = outputAssociation.getTargetRef().getId();
+                            DataOutput output = (DataOutput) outputAssociation.getSourceRef().get(0);
+                            String outId = output != null ? output.getName() : null;
+
+                            Map config = ((variableId != null) && (outId != null)) ? associations.get(variableId) : null;
+                            if (config != null) config.put("outId", outId);
+                        }
+                    }
+                }
+            } else if(fe instanceof FlowElementsContainer) {
+                getDataHoldersFromElements((FlowElementsContainer) fe, resourceId, associations);
+            }
+        }
     }
 
     private Set<DataHolder> getProcessDataHolders(List<Property> processProperties, String path) {
