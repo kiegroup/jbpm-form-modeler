@@ -17,13 +17,14 @@
 --%>
 <%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
 <%@ page import="org.jbpm.formModeler.api.model.wrappers.I18nSet" %>
+<%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%try { %>
 <mvc:formatter name="SimpleFieldHandlerFormatter">
     <mvc:fragment name="output">
         <mvc:fragmentValue name="htmlContent" id="htmlContent">
             <mvc:fragmentValue name="localeManager" id="localeManager">
-                <%= ((LocaleManager) localeManager).localize(((I18nSet) htmlContent).asMap()) %>
+                <%=StringUtils.defaultString((String) ((LocaleManager) localeManager).localize(((I18nSet) htmlContent).asMap())) %>
             </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>

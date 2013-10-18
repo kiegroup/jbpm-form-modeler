@@ -19,19 +19,4 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="1" name="groupWithPrevious" type="CheckBox" id="227133546">
-<property name="fieldRequired" value="false"/>
-<property name="groupWithPrevious" value="false"/>
-<property name="height" value=""/>
-<property name="disabled" value="false"/>
-<property name="readonly" value="false"/>
-<property name="size" value=""/>
-<property name="formula" value=""/>
-<property name="rangeFormula" value=""/>
-<property name="pattern" value=""/>
-<property name="maxlength" value="512"/>
-<property name="styleclass" value=""/>
-<property name="cssStyle" value=""/>
-<property name="accesskey" value=""/>
-</field>
 </form>
