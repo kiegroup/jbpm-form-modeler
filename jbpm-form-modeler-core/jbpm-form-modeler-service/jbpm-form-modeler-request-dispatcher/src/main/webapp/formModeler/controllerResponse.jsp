@@ -31,11 +31,10 @@
     <%@ include file="/formModeler/js/ajax.jsp" %>
     <%@ include file="/formModeler/js/ajaxMonitor.jsp" %>
 </script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery-ui-1.10.2.custom.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery-ui-sliderAccess.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery-ui-timepicker-addon.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery.treeview.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/js/jquery.treeview.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/formModeler/ckeditor/ckeditor_handler.js"></script>

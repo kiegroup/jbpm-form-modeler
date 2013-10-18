@@ -20,7 +20,6 @@ import org.jbpm.formModeler.core.config.builders.FieldTypeBuilder;
 import org.jbpm.formModeler.core.config.builders.fieldType.DecoratorFieldTypeBuilder;
 import org.jbpm.formModeler.core.config.builders.fieldType.SimpleFieldTypeBuilder;
 import org.jbpm.formModeler.core.config.builders.fieldType.ComplexFieldTypeBuilder;
-import org.jbpm.formModeler.core.processing.PropertyDefinition;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.slf4j.Logger;
@@ -52,12 +51,13 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
     protected Instance<ComplexFieldTypeBuilder> complexBuilders;
 
     private Map<String, String> iconsMappings = new HashMap<String, String>();
-    private String defaultIcon = "fieldTypes/button.gif";
+    private String defaultIcon = "fieldTypes/default.png";
 
     private ArrayList<String> hiddenFieldTypesCodes= new ArrayList<String>();
 
     private ArrayList<String> baseTypes= new ArrayList<String>();
 
+    protected FieldType customType = new FieldType();
 
     @PostConstruct
     protected void init() {
@@ -78,54 +78,37 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
             complexTypes.addAll(builder.buildList());
         }
 
-        iconsMappings.put("InputTextShort", "fieldTypes/box_number.png");
+        customType.setCode("CustomInput");
+        customType.setFieldClass("*");
+        customType.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.customInput.CustomInputFieldHandler");
 
+        iconsMappings.put("InputTextShort", "fieldTypes/box_number.png");
         iconsMappings.put("InputTextInteger", "fieldTypes/box_number.png");
         iconsMappings.put("InputTextIBAN", "fieldTypes/box_number.png");
-        iconsMappings.put("Currency", "fieldTypes/currency.gif");
         iconsMappings.put("Separator", "fieldTypes/splitter_box.png");
         iconsMappings.put("InputTextLong", "fieldTypes/box_number.png");
-        iconsMappings.put("File", "fieldTypes/attachments.png");
-        iconsMappings.put("multipleFiles", "fieldTypes/attachments.png");
-        iconsMappings.put("I18nFile", "fieldTypes/attachments.png");
         iconsMappings.put("InputDate", "fieldTypes/date_selector.png");
         iconsMappings.put("I18nHTMLText", "fieldTypes/rich_text_box.png");
-        iconsMappings.put("Link", "fieldTypes/hyperlink.png");
-        iconsMappings.put("Image", "fieldTypes/image.gif");
-        iconsMappings.put("multipleImages", "fieldTypes/image.gif");
-        iconsMappings.put("I18nImage", "fieldTypes/image.gif");
         iconsMappings.put("HTMLEditor", "fieldTypes/rich_text_box.png");
-        iconsMappings.put("InputTextCIF", "fieldTypes/box_number.png");
-        iconsMappings.put("InputTextPhone", "fieldTypes/phone_box.png");
         iconsMappings.put("InputTextArea", "fieldTypes/scroll_zone.png");
         iconsMappings.put("I18nTextArea", "fieldTypes/scroll_zone.png");
         iconsMappings.put("CheckBox", "fieldTypes/checkbox.png");
         iconsMappings.put("InputShortDate", "fieldTypes/date_selector.png");
-        iconsMappings.put("InputTextNIF", "fieldTypes/box_number.png");
-        iconsMappings.put("InputTextCCC", "fieldTypes/box_number.png");
         iconsMappings.put("I18nText", "fieldTypes/textbox.png");
         iconsMappings.put("InputTextFloat", "fieldTypes/box_number.png");
         iconsMappings.put("InputTextBigDecimal", "fieldTypes/box_number.png");
         iconsMappings.put("InputTextBigInteger", "fieldTypes/box_number.png");
-
         iconsMappings.put("InputTextDouble", "fieldTypes/box_number.png");
         iconsMappings.put("HTMLLabel", "fieldTypes/rich_text_box.png");
         iconsMappings.put("InputText", "fieldTypes/textbox.png");
-        iconsMappings.put("InputTextCP", "fieldTypes/box_number.png");
         iconsMappings.put("InputTextEmail", "fieldTypes/mailbox.png");
-        iconsMappings.put("checkboxMultiple", "fieldTypes/listbox.png");
-        iconsMappings.put("radio", "fieldTypes/radiobutton.gif");
         iconsMappings.put("Subform", "fieldTypes/master_details.png");
-        iconsMappings.put("select", "fieldTypes/dropdown_listbox.gif");
-        iconsMappings.put("selectMultiple", "fieldTypes/listsbox.gif");
-        iconsMappings.put("versionSubform", "fieldTypes/master_details.png");
-        iconsMappings.put("editorVersionSubform", "fieldTypes/master_details.png");
         iconsMappings.put("MultipleSubform", "fieldTypes/master_details.png");
-        iconsMappings.put("FreeText", "fieldTypes/textbox.png");
 
         hiddenFieldTypesCodes.add("I18nHTMLText");
         hiddenFieldTypesCodes.add("I18nText");
         hiddenFieldTypesCodes.add("I18nTextArea");
+        hiddenFieldTypesCodes.add("CustomInput");
 
         baseTypes.add("InputTextInteger");
         baseTypes.add("InputText");
@@ -172,44 +155,17 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
     }
 
     /**
-     * Return FieldType's for given manager class
-     *
-     * @param managerClass
-     * @return existing FieldType's for given manager class
-     * @throws Exception
-     */
-    @Override
-    public List<FieldType> getSuitableFieldTypes(String managerClass) throws Exception {
-        final List validFieldTypes = new ArrayList();
-
-        for (FieldType fType : fieldTypes) {
-            if (fType.getManagerClass().equals(managerClass)) validFieldTypes.add(fType);
-        }
-
-        for (FieldType fType : complexTypes) {
-            if (fType.getManagerClass().equals(managerClass)) validFieldTypes.add(fType);
-                validFieldTypes.add(fType);
-        }
-
-        for (FieldType fType : decoratorTypes) {
-            if (fType.getManagerClass().equals(managerClass)) validFieldTypes.add(fType);
-            validFieldTypes.add(fType);
-        }
-
-        return validFieldTypes;
-    }
-
-    /**
      * Get all fieldtypes suitable to generate a value of the given class.
      *
-     * @param propertyName   Property name
      * @param propertyType Expected property definition that the field type should generate.
      * @return A list of FieldType objects suitable to generate a value of the given class.
      * @throws Exception in case of error
      */
-    public List<FieldType> getSuitableFieldTypes(String propertyName, String propertyType) throws Exception {
+    @Override
+    public List<FieldType> getSuitableFieldTypes(String propertyType) throws Exception {
         final List<FieldType> validFieldTypes = new ArrayList<FieldType>();
         if (!StringUtils.isEmpty(propertyType)) {
+            boolean isDecorator = false;
 
             for (FieldType fieldType : fieldTypes) {
                 if (fieldType.getFieldClass().equals(propertyType))
@@ -222,10 +178,19 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
             }
 
             for (FieldType fieldType : decoratorTypes) {
-                if (fieldType.getFieldClass().equals(propertyType))
-                validFieldTypes.add(fieldType);
+                if (fieldType.getFieldClass().equals(propertyType)) {
+                    validFieldTypes.add(fieldType);
+                    isDecorator = true;
+                }
+            }
+
+            if (!isDecorator) {
+                FieldType custom = new FieldType(customType);
+                custom.setFieldClass(propertyType);
+                validFieldTypes.add(custom);
             }
         }
+
         return validFieldTypes;
     }
 
@@ -240,12 +205,12 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
     }
 
     @Override
-    public FieldType getTypeByCode(String typeCode) {
-        return getTypeByCode(typeCode, true);
-    }
-
-    @Override
-    public FieldType getTypeByCode(String typeCode, boolean tryToCreateTypes) {
+    public FieldType getTypeByCode(String typeCode, String fieldClass) {
+        if (customType.getCode().equals(typeCode)) {
+            FieldType ft = new FieldType(customType);
+            ft.setFieldClass(fieldClass);
+            return ft;
+        }
 
         for (FieldType fieldType : fieldTypes) {
             if (fieldType.getCode().equals(typeCode)) return fieldType;
@@ -259,6 +224,11 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
             if (complexType.getCode().equals(typeCode)) return complexType;
         }
         return null;
+    }
+
+    @Override
+    public FieldType getTypeByCode(String typeCode) {
+        return getTypeByCode(typeCode, null);
     }
 
     @Override
@@ -301,10 +271,7 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
 
     public boolean isDisplayableType(String typeCode){
         if (typeCode==null) return false;
-        for(String code: hiddenFieldTypesCodes){
-            if(typeCode.equals(code)) return false;
-        }
-        return true;
+        return !hiddenFieldTypesCodes.contains(typeCode);
     }
 
     @Override

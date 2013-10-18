@@ -6,7 +6,7 @@
         <mvc:fragmentValue name="ctxUID" id="ctxUID">
         <mvc:fragmentValue name="form" id="form">
         <mvc:fragmentValue name="disabled" id="disabled">
-<form action="<factory:formUrl/>" method="post" id="formRendering<%=ctxUID%>" style="margin:0px; padding:0px;">
+<form action="<factory:formUrl/>" method="post" id="formRendering<%=ctxUID%>" style="margin:0px; padding:0px;" enctype="multipart/form-data">
     <factory:handler action="submitForm"/>
     <input type="hidden" name="ctxUID" id="ctxUID" value="<%=ctxUID%>"/>
     <input type="hidden" id="persist_<%=ctxUID%>" name="persistForm" value="false"/>

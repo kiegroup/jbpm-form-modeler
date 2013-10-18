@@ -69,22 +69,6 @@
             <artifactId>errai-data-binding</artifactId>
         </dependency>
 
-        <!-- Guvnor dependencies -->
-        <dependency>
-            <groupId>org.guvnor</groupId>
-            <artifactId>guvnor-project-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kie.workbench.widgets</groupId>
-            <artifactId>kie-wb-common-ui</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kie.workbench.services</groupId>
-            <artifactId>kie-wb-common-services-api</artifactId>
-        </dependency>
-
         <!-- GWT and GWT Extensions -->
         <dependency>
             <groupId>com.google.gwt</groupId>

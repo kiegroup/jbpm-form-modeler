@@ -55,6 +55,24 @@ public class FieldType implements Serializable {
     public FieldType() {
     }
 
+    public FieldType (FieldType ft) {
+        managerClass = ft.getManagerClass();
+        fieldClass = ft.getFieldClass();
+        height = ft.getHeight();
+        disabled = ft.getDisabled();
+        readonly = ft.getReadonly();
+        size = ft.getSize();
+        code = ft.getCode();
+        formula = ft.getFormula();
+        rangeFormula = ft.getRangeFormula();
+        pattern = ft.getPattern();
+        maxlength = ft.getMaxlength();
+        styleclass = ft.getStyleclass();
+        cssStyle = ft.getCssStyle();
+        tabindex = ft.getTabindex();
+        accesskey = ft.getAccesskey();
+    }
+
     public String getManagerClass() {
         return this.managerClass;
     }

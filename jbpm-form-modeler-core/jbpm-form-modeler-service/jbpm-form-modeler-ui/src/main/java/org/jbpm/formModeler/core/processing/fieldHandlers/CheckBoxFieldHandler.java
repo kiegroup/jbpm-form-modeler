@@ -72,8 +72,4 @@ public class CheckBoxFieldHandler extends DefaultFieldHandler {
         m.put(inputName + "Value", new String[]{objectValue.toString()});
         return m;
     }
-
-    public boolean acceptsPropertyName(String propName) {
-        return true;
-    }
 }

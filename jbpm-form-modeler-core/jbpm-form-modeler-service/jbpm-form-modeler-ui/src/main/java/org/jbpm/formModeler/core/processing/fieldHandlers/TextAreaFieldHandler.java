@@ -76,8 +76,4 @@ public class TextAreaFieldHandler extends DefaultFieldHandler {
     public boolean isEmpty(Object value) {
         return value == null || "".equals(value);
     }
-
-    public boolean acceptsPropertyName(String propName) {
-        return true;
-    }
 }

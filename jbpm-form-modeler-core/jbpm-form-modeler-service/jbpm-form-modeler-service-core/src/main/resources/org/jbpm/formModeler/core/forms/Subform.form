@@ -146,7 +146,7 @@
 <property name="readonly" value="false"/>
 <property name="size" value="55"/>
 <property name="formula" value=""/>
-<property name="rangeFormula" value="${range_provider_form}"/>
+<property name="rangeFormula" value="{$range_provider_form}"/>
 <property name="pattern" value=""/>
 <property name="maxlength" value="512"/>
 <property name="styleclass" value=""/>

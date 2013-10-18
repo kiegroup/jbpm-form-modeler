@@ -17,15 +17,9 @@ package org.jbpm.formModeler.components.editor;
 
 import org.slf4j.Logger;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
-import org.jbpm.formModeler.core.FieldHandlersManager;
-import org.jbpm.formModeler.core.FormCoreServices;
-import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.core.processing.FieldHandler;
-import org.jbpm.formModeler.core.processing.PropertyDefinition;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
@@ -39,13 +33,8 @@ public class WysiwygFieldsFormatter extends Formatter {
 
     private Logger log = LoggerFactory.getLogger(WysiwygFieldsFormatter.class);
 
-    public FieldHandlersManager getFieldHandlersManager() {
-        return FormProcessingServices.lookup().getFieldHandlersManager();
-    }
-
-    public FieldTypeManager getFieldTypesManager() {
-        return FormCoreServices.lookup().getFieldTypeManager();
-    }
+    @Inject
+    private FieldTypeManager fieldTypeManager;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
@@ -70,14 +59,15 @@ public class WysiwygFieldsFormatter extends Formatter {
     }
 
     protected void renderComplexTypes() {
-        List<FieldType> complexTypes = getFieldTypesManager().getFormComplexTypes();
+        List<FieldType> complexTypes = fieldTypeManager.getFormComplexTypes();
         if (complexTypes.size() > 0) {
             renderFragment("complexStart");
             for (int i = 0; i < complexTypes.size(); i++) {
-                FieldType type = (FieldType) complexTypes.get(i);
+                FieldType type = complexTypes.get(i);
+                if (!fieldTypeManager.isDisplayableType(type.getCode())) continue;
                 setAttribute("complex", type);
                 setAttribute("complexId", type.getCode());
-                setAttribute("iconUri", getFieldTypesManager().getIconPathForCode(type.getCode()));
+                setAttribute("iconUri", fieldTypeManager.getIconPathForCode(type.getCode()));
                 setAttribute("position", i);
                 renderFragment("outputComplex");
             }
@@ -86,14 +76,14 @@ public class WysiwygFieldsFormatter extends Formatter {
     }
 
     protected void renderDecorators() throws Exception {
-        List decorators = getFieldTypesManager().getFormDecoratorTypes();
+        List decorators = fieldTypeManager.getFormDecoratorTypes();
         if (decorators.size() > 0) {
             renderFragment("decoratorsStart");
             for (int i = 0; i < decorators.size(); i++) {
                 FieldType type = (FieldType) decorators.get(i);
                 setAttribute("decorator", type);
                 setAttribute("decoratorId", type.getCode());
-                setAttribute("iconUri", getFieldTypesManager().getIconPathForCode(type.getCode()));
+                setAttribute("iconUri", fieldTypeManager.getIconPathForCode(type.getCode()));
                 setAttribute("position", i);
                 renderFragment("outputDecorator");
             }
@@ -102,22 +92,15 @@ public class WysiwygFieldsFormatter extends Formatter {
     }
 
     protected void renderPrimitiveTypes() throws Exception {
-
-        List fieldTypes = getFieldTypesManager().getFieldTypes();
-
+        List fieldTypes = fieldTypeManager.getFieldTypes();
         for (int j = 0; j < fieldTypes.size(); j++) {
             FieldType type = (FieldType) fieldTypes.get(j);
-            if(getFieldTypesManager().isDisplayableType(type.getCode())){
-                setAttribute("typeName", type.getCode());
-                setAttribute("iconUri", getFieldTypesManager().getIconPathForCode(type.getCode()));
-                setAttribute("uid", "primitive_" + j);
-                setAttribute("typeId", type.getCode());
-                renderFragment("outputType");
-            }
+            if (!fieldTypeManager.isDisplayableType(type.getCode())) continue;
+            setAttribute("typeName", type.getCode());
+            setAttribute("iconUri", fieldTypeManager.getIconPathForCode(type.getCode()));
+            setAttribute("uid", "primitive_" + j);
+            setAttribute("typeId", type.getCode());
+            renderFragment("outputType");
         }
-    }
-
-    protected List<FieldType> getTypesForManager(String managerClass) throws Exception {
-        return getFieldTypesManager().getSuitableFieldTypes(managerClass);
     }
 }

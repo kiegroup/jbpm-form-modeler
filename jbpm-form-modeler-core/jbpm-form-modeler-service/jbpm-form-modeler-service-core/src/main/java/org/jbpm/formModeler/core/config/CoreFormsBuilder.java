@@ -53,7 +53,7 @@ public class CoreFormsBuilder implements Startable {
 
     @Inject @Config("default,InputText,InputTextBigDecimal,InputTextBigInteger,CheckBox,Date,InputTextDouble," +
             "InputTextFloat,InputTextInteger,InputTextLong,InputTextShort,HTMLLabel,Separator, Subform, MultipleSubform,"+
-            "InputTextEmail,InputTextArea,HTMLEditor,Link,I18nHTMLText")
+            "InputTextEmail,InputTextArea,HTMLEditor,Link,I18nHTMLText,CustomInput")
     protected String[] coreFormNames;
 
     public Priority getPriority() {

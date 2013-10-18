@@ -15,65 +15,8 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 
 <factory:useComponent bean="org.jbpm.formModeler.service.bb.mvc.components.handling.MessagesComponentHandler"/>
-
-<%--
-
-<i18n:bundle baseName="org.jbpm.formModeler.core.processing.formRendering.messages" locale="<%=LocaleManager.currentLocale()%>"/>
-<mvc:formatter name="org.jbpm.formModeler.core.processing.formRendering.FormErrorsFormatter">
-    <mvc:fragment name="outputStart">
-        <div style="background-color: #f5f5dc; margin: 0px; width:100%;">
-            <table border="0">
-                <tr>
-                    <td valign="top">
-                        <img src="<mvc:context uri="/formModeler/images/32x32/messages/warning.gif"/>" border="0"/>
-                    </td>
-                    <td>
-    </mvc:fragment>
-    <mvc:fragment name="outputErrorsStart">
-                        <table>
-    </mvc:fragment>
-    <mvc:fragment name="outputError">
-        <mvc:fragmentValue name="namespace" id="namespace">
-        <mvc:fragmentValue name="index" id="index">
-                            <tr id="<%= "tr_" + namespace + "_" + index%>"
-                                style="display:<mvc:fragmentValue name="display"/>">
-                                <td class="skn-error">
-                                    <mvc:fragmentValue name="errorMsg"/>
-                                </td>
-                            </tr>
-        </mvc:fragmentValue>
-        </mvc:fragmentValue>
-    </mvc:fragment>
-    <mvc:fragment name="outputErrorsEnd">
-                        </table>
-                    </td>
-    </mvc:fragment>
-    <mvc:fragment name="outputDisplayLinks">
-        <mvc:fragmentValue name="namespace" id="namespace">
-        <mvc:fragmentValue name="min" id="min">
-        <mvc:fragmentValue name="max" id="max">
-                    <td valign="bottom">
-                        <a href="#" id="<%="link_"+namespace+"_show"%>" onclick="showErrorMessages('<%=namespace%>', true, <%=min%>, <%=max%>); return false">
-                            <i18n:message key="show">!!! ver mas</i18n:message>
-                        </a>
-                        <a href="#" style="display:none;" id="<%="link_"+namespace+"_hide"%>" onclick="showErrorMessages('<%=namespace%>', false, <%=min%>, <%=max%>); return false">
-                            <i18n:message key="hide">!!! esconder</i18n:message>
-                        </a>
-                    </td>
-        </mvc:fragmentValue>
-        </mvc:fragmentValue>
-        </mvc:fragmentValue>
-    </mvc:fragment>
-    <mvc:fragment name="outputEnd">
-                </tr>
-            </table>
-        </div>
-    </mvc:fragment>
-</mvc:formatter>
---%>

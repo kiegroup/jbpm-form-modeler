@@ -95,6 +95,14 @@ public class Field implements Serializable, Comparable<Field> {
 
     private Boolean enableTableEnterData;
 
+    //Custom types
+    private String customFieldType;
+    private String param1;
+    private String param2;
+    private String param3;
+    private String param4;
+    private String param5;
+
 
     private Form form;
 
@@ -359,6 +367,54 @@ public class Field implements Serializable, Comparable<Field> {
         this.enableTableEnterData = enableTableEnterData;
     }
 
+    public String getCustomFieldType() {
+        return customFieldType;
+    }
+
+    public void setCustomFieldType(String customFieldType) {
+        this.customFieldType = customFieldType;
+    }
+
+    public String getParam1() {
+        return param1;
+    }
+
+    public void setParam1(String param1) {
+        this.param1 = param1;
+    }
+
+    public String getParam2() {
+        return param2;
+    }
+
+    public void setParam2(String param2) {
+        this.param2 = param2;
+    }
+
+    public String getParam3() {
+        return param3;
+    }
+
+    public void setParam3(String param3) {
+        this.param3 = param3;
+    }
+
+    public String getParam4() {
+        return param4;
+    }
+
+    public void setParam4(String param4) {
+        this.param4 = param4;
+    }
+
+    public String getParam5() {
+        return param5;
+    }
+
+    public void setParam5(String param5) {
+        this.param5 = param5;
+    }
+
     public String toString() {
         return getId().toString();
     }
@@ -458,6 +514,13 @@ public class Field implements Serializable, Comparable<Field> {
         this.setHideCreateItem(field.getHideCreateItem());
         this.setExpanded(field.getExpanded());
         this.setEnableTableEnterData(field.getEnableTableEnterData());
+
+        this.setCustomFieldType(field.getCustomFieldType());
+        this.setParam1(field.getParam1());
+        this.setParam2(field.getParam2());
+        this.setParam3(field.getParam3());
+        this.setParam4(field.getParam4());
+        this.setParam5(field.getParam5());
     }
 
     public String getLabelCSSStyle() {
@@ -568,6 +631,13 @@ public class Field implements Serializable, Comparable<Field> {
 
         names.add("enableTableEnterData");
 
+        names.add("customFieldType");
+        names.add("param1");
+        names.add("param2");
+        names.add("param3");
+        names.add("param4");
+        names.add("param5");
+
         return names;
     }
 
@@ -618,6 +688,14 @@ public class Field implements Serializable, Comparable<Field> {
         value.put("expanded",getExpanded());
 
         value.put("enableTableEnterData",getEnableTableEnterData());
+
+        value.put("customFieldType", getCustomFieldType());
+        value.put("param1", getParam1());
+        value.put("param2", getParam2());
+        value.put("param3", getParam3());
+        value.put("param4", getParam4());
+        value.put("param5", getParam5());
+
         return value;
     }
 

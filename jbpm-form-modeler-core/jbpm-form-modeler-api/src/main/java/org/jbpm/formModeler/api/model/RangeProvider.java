@@ -21,5 +21,5 @@ public interface RangeProvider {
 
     String getType();
 
-    Map getRangesMap(String code);
+    Map<String,String> getRangesMap(String namespace);
 }

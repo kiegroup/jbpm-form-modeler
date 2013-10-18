@@ -36,9 +36,6 @@ import java.util.*;
  */
 @Named("org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler")
 public class NumericFieldHandler extends DefaultFieldHandler {
-
-    public static final String NUMERIC_FROM_SUFFIX = "_from";
-    public static final String NUMERIC_TO_SUFFIX = "_to";
     public static final boolean DEFAULT_MAX_VALUE = true;
 
     private static transient Logger log = LoggerFactory.getLogger(NumericFieldHandler.class);
@@ -51,23 +48,6 @@ public class NumericFieldHandler extends DefaultFieldHandler {
      * @throws Exception
      */
     public Object getValue(Field field, String inputName, Map parametersMap, Map filesMap, String desiredClassName, Object previousValue) throws Exception {
-        String[] numberFrom = (String[]) parametersMap.get(inputName + NUMERIC_FROM_SUFFIX);
-        String[] numberTo = (String[]) parametersMap.get(inputName + NUMERIC_TO_SUFFIX);
-
-        if (numberFrom != null || numberTo != null) {
-            Object from = null;
-            try {
-                from = getTheValue(field, numberFrom, desiredClassName);
-            } catch (EmptyNumberException e) { }
-
-            Object to = null;
-            try {
-                to = getTheValue(field, numberTo, desiredClassName);
-            } catch (Exception e) {}
-
-            return new Object[]{from, to};
-        }
-
         String[] paramValue = (String[]) parametersMap.get(inputName);
         return getTheValue(field, paramValue, desiredClassName);
 
@@ -135,19 +115,7 @@ public class NumericFieldHandler extends DefaultFieldHandler {
     public Map getParamValue(String inputName, Object objectValue, String pattern) {
         if (objectValue == null) return Collections.EMPTY_MAP;
         Map m = new HashMap();
-
-        if (objectValue.getClass().isArray()) {
-            Object[] values = (Object[]) objectValue;
-            if (values.length > 0 && values[0] != null) {
-                m.put(inputName + NUMERIC_FROM_SUFFIX, buildParamValue(values[0], pattern));
-            }
-            if (values.length > 1 && values[1] != null) {
-                m.put(inputName + NUMERIC_TO_SUFFIX, buildParamValue(values[1], pattern));
-            }
-        } else {
-            m.put(inputName, buildParamValue(objectValue, pattern));
-        }
-
+        m.put(inputName, buildParamValue(objectValue, pattern));
         return m;
     }
 
@@ -184,10 +152,6 @@ public class NumericFieldHandler extends DefaultFieldHandler {
             result = new String[]{value.toString()};
         }
         return result;
-    }
-
-    public boolean acceptsPropertyName(String propName) {
-        return true;
     }
 
     /**

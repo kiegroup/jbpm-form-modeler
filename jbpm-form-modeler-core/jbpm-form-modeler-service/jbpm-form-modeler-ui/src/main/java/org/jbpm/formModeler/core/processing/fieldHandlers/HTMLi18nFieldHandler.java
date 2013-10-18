@@ -93,8 +93,4 @@ public class HTMLi18nFieldHandler extends DefaultFieldHandler {
         }
         return true;
     }
-
-    public boolean acceptsPropertyName(String propName) {
-        return true;
-    }
 }

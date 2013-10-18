@@ -98,10 +98,6 @@ public class InputTextFieldHandler extends DefaultFieldHandler {
         this.pageToIncludeForDisplaying = pageToIncludeForDisplaying;
     }
 
-    public boolean acceptsPropertyName(String propName) {
-        return true;
-    }
-
     /**
      * When rendering a form, if field is handled by this handler, determine the
      * page that renders the input(s)

@@ -421,7 +421,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
                 Form editForm = getFormForFieldEdition(editField);
                 editField.setFieldType(getEditionContext().getOriginalFieldType());
                 getFormProcessor().clear(editForm, editNamespace);
-                getEditionContext().setOriginalFieldType( null);
+                getEditionContext().setOriginalFieldType(null);
                 setCurrentEditFieldPosition(-1);
             } else {
                 //Use custom edit form
@@ -431,7 +431,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
                 if (ACTION_CHANGE_FIELD_TYPE.equals(action)) {
                     setFieldTypeToView( ((String[]) parameterMap.get("fieldType"))[0]);
-                    editField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView()));
+                    editField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView(), editionContext.getOriginalFieldType().getFieldClass()));
                     Form formToEdit = getFormForFieldEdition(editField);
                     if (formToEdit != null) {
                         getFormProcessor().clear(formToEdit, editNamespace);
@@ -465,8 +465,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
                             }
                         }
 
-                        setCurrentEditFieldPosition( -1);
-                        editField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView()));
+                        setCurrentEditFieldPosition(-1);
                         getFormProcessor().clear(editForm, editNamespace);
                         getFormProcessor().read(editForm, editNamespace, data.getCurrentValues());
 

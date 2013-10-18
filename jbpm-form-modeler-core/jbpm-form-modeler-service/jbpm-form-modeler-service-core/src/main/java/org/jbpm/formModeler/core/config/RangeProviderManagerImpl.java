@@ -41,7 +41,7 @@ public class RangeProviderManagerImpl implements RangeProviderManager {
     }
 
     @Override
-    public Map getRangeValues(String type, String namespace) {
+    public Map<String,String> getRangeValues(String type, String namespace) {
         RangeProvider rangeProvider = getRangeProviderByType(type);
         if (rangeProvider != null) {
             return rangeProvider.getRangesMap(namespace);
@@ -49,7 +49,7 @@ public class RangeProviderManagerImpl implements RangeProviderManager {
         return generateMapFromExpresion(type);
     }
 
-    private Map generateMapFromExpresion(String rangeFormula) {
+    private Map<String,String> generateMapFromExpresion(String rangeFormula) {
         CSVParser rangeParser = new CSVParser(';');
         CSVParser optionParser = new CSVParser(',');
 
@@ -59,7 +59,7 @@ public class RangeProviderManagerImpl implements RangeProviderManager {
 
                 String[] options = rangeParser.parseLine(rangeFormula);
                 if (options != null) {
-                    Map rangeValues = new TreeMap();
+                    Map<String,String> rangeValues = new TreeMap<String,String>();
                     for (String option : options) {
                         String[] values = optionParser.parseLine(option);
                         if (values != null && values.length == 2) {
