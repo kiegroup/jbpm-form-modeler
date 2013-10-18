@@ -97,8 +97,4 @@ public class I18nTextAreaFieldHandler extends DefaultFieldHandler {
         m.put(inputName, new String[]{});
         return m;
     }
-
-    public boolean acceptsPropertyName(String propName) {
-        return true;
-    }
 }

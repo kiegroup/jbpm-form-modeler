@@ -325,6 +325,20 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         field.setInputBinding(value);
                     } else if ("outputBinding".equals(propName)) {
                         field.setOutputBinding(value);
+                    } else if ("customFieldType".equals(propName)) {
+                        field.setCustomFieldType(value);
+                    } else if ("param1".equals(propName)) {
+                        field.setParam1(value);
+                    } else if ("param2".equals(propName)) {
+                        field.setParam2(value);
+                    } else if ("param3".equals(propName)) {
+                        field.setParam3(value);
+                    } else if ("param4".equals(propName)) {
+                        field.setParam4(value);
+                    } else if ("param5".equals(propName)) {
+                        field.setParam5(value);
+                    } else if ("fieldClass".equals(propName)) {
+                        field.getFieldType().setFieldClass(value);
                     }
                 }
             }
@@ -409,6 +423,13 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         addXMLNode("hideCreateItem", (field.getHideCreateItem() != null ? String.valueOf(field.getHideCreateItem()) : null), rootNode);
         addXMLNode("expanded", (field.getExpanded() != null ? String.valueOf(field.getExpanded()) : null), rootNode);
         addXMLNode("enableTableEnterData", (field.getEnableTableEnterData() != null ? String.valueOf(field.getEnableTableEnterData()) : null), rootNode);
+        addXMLNode("customFieldType", field.getCustomFieldType(), rootNode);
+        addXMLNode("fieldClass", field.getFieldType().getFieldClass(), rootNode);
+        addXMLNode("param1", field.getParam1(), rootNode);
+        addXMLNode("param2", field.getParam2(), rootNode);
+        addXMLNode("param3", field.getParam3(), rootNode);
+        addXMLNode("param4", field.getParam4(), rootNode);
+        addXMLNode("param5", field.getParam5(), rootNode);
 
         parent.addChild(rootNode);
     }

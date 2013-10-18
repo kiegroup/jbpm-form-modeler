@@ -70,8 +70,4 @@ public class HTMLTextAreaFieldHandler extends DefaultFieldHandler {
         String html = (String) value;
         return value == null || StringUtils.isEmpty(html);
     }
-
-    public boolean acceptsPropertyName(String propName) {
-        return true;
-    }
 }

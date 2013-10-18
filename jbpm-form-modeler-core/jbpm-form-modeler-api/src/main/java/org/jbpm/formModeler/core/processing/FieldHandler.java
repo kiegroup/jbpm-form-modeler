@@ -86,14 +86,6 @@ public interface FieldHandler {
     public boolean isEmpty(Object value);
 
     /**
-     * Determine if given property name is accepted by this handler.
-     *
-     * @param propName property name to determine if it is accepted or not.
-     * @return true if handler accepts given property name
-     */
-    public boolean acceptsPropertyName(String propName);
-
-    /**
      * Initialize any status stored in the field.
      */
     public void initialize(Field field, String namespace);

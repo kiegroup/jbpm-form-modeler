@@ -36,11 +36,9 @@ import java.util.Map;
 public class DateFieldHandler extends DefaultFieldHandler {
     private static transient Logger log = LoggerFactory.getLogger(DateFieldHandler.class);
 
-    public static final String DATE_FROM_SUFFIX = "_from";
     public static final String HAS_CHANGED_PARAM = "_hasChanged";
     public static final String DATE_PATTERN_SUFFIX = "_pattern";
     public static final Date DEFAULT_MIN_DATE = new Date(0);
-    public static final String DATE_TO_SUFFIX = "_to";
 
     protected String defaultPattern;
     protected String defaultPatterTimeSuffix;
@@ -60,23 +58,14 @@ public class DateFieldHandler extends DefaultFieldHandler {
      * @throws Exception
      */
     public Object getValue(Field field, String inputName, Map parametersMap, Map filesMap, String desiredClassName, Object previousValue) throws Exception {
-        String[] dateFromValue = (String[]) parametersMap.get(inputName + DATE_FROM_SUFFIX);
-        String[] dateToValue = (String[]) parametersMap.get(inputName + DATE_TO_SUFFIX);
         String[] hasChangedParam = (String[]) parametersMap.get(inputName + HAS_CHANGED_PARAM);
         
         try {
             boolean hasChanged = (!ArrayUtils.isEmpty(hasChangedParam) && Boolean.TRUE.equals(Boolean.parseBoolean(hasChangedParam[0])));
             
             SimpleDateFormat sdf = getSimpleDateFormat(field, hasChanged, field.getFieldPattern());
-
-            if (!ArrayUtils.isEmpty(dateFromValue) ||!ArrayUtils.isEmpty(dateToValue)) {
-                Object from = getTheDate(dateFromValue, sdf);
-                Object to = getTheDate(dateToValue, sdf);
-                return new Object[]{from, to};
-            } else {
-                String[] dateValue = (String[]) parametersMap.get(inputName);
-                if (!ArrayUtils.isEmpty(dateValue)) return getTheDate(dateValue, sdf);
-            }
+            String[] dateValue = (String[]) parametersMap.get(inputName);
+            if (!ArrayUtils.isEmpty(dateValue)) return getTheDate(dateValue, sdf);
         } catch (ParseException e) {
             log.debug("Error:", e);
         }
@@ -150,21 +139,9 @@ public class DateFieldHandler extends DefaultFieldHandler {
         Map m = new HashMap();
         if (objectValue != null) {
             SimpleDateFormat sdf = new SimpleDateFormat(StringUtils.defaultString(pattern, defaultPattern));
-            if (objectValue instanceof Date) {
-                m.put(inputName, new String[]{sdf.format(objectValue)});
-            } else if (objectValue instanceof Object[]) {
-                Object[] dateArray = (Object[]) objectValue;
-                if (dateArray.length > 0 && dateArray[0] != null)
-                    m.put(inputName + DateFieldHandler.DATE_FROM_SUFFIX, new String[]{sdf.format(dateArray[0])});
-                if (dateArray.length > 1 && dateArray[1] != null)
-                    m.put(inputName + DateFieldHandler.DATE_TO_SUFFIX, new String[]{sdf.format(dateArray[1])});
-            }
+            m.put(inputName, new String[]{sdf.format(objectValue)});
         }
         return m;
-    }
-
-    public boolean acceptsPropertyName(String propName) {
-        return true;
     }
 
     public String getDefaultPatterTimeSuffix() {

@@ -86,16 +86,14 @@ public class FormManagerImpl implements FormManager {
         if (code == null) {
             logError("Found field type without code.");
         } else {
-            List allFormsForField = getFormsBySubject(Field.class.getName());
+
             // Literal search
-            for (int i = 0; i < allFormsForField.size(); i++) {
-                Form form = (Form) allFormsForField.get(i);
+            for(Form form : forms) {
                 if (form.getName() != null && form.getName().equals(code))
                     return form;
             }
             // Pattern search
-            for (int i = 0; i < allFormsForField.size(); i++) {
-                Form form = (Form) allFormsForField.get(i);
+            for (Form form : forms) {
                 if (form.getName() != null) {
                     try {
                         if (code.matches(form.getName())) {

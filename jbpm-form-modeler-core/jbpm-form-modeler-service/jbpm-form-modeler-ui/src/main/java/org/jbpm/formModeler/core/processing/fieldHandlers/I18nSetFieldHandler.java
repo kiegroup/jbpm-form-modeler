@@ -97,8 +97,4 @@ public class I18nSetFieldHandler extends DefaultFieldHandler {
         m.put(inputName, new String[]{});
         return m;
     }
-
-    public boolean acceptsPropertyName(String propName) {
-        return true;
-    }
 }

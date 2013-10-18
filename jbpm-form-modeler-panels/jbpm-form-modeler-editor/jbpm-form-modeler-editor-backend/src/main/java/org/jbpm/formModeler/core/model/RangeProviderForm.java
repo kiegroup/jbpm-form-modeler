@@ -61,11 +61,11 @@ public class RangeProviderForm implements RangeProvider {
 
     @Override
     public String getType() {
-        return Form.RANGE_PROVIDER_FORM;
+        return "{$range_provider_form}";
     }
 
     @Override
-    public Map getRangesMap(String namespace) {
+    public Map<String,String> getRangesMap(String namespace) {
         TreeMap treeMap = new TreeMap<String,String> ();
 
         FormEditorContext context = formEditorContextManager.getRootEditorContext(namespace);

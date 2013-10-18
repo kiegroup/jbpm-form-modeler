@@ -48,8 +48,8 @@ public class FieldAvailableTypesFormatter extends Formatter {
 
             List suitableFieldTypes;
             BindingManager bindingManager = FormCoreServices.lookup().getBindingManager();
-            if (!StringUtils.isEmpty(form.getSubject())) suitableFieldTypes = getEditor().getFieldTypesManager().getSuitableFieldTypes(propertyName, bindingManager.getPropertyDefinition(propertyName, form.getSubject()).getPropertyClassName());
-            else suitableFieldTypes = getEditor().getFieldTypesManager().getSuitableFieldTypes(propertyName, field.getFieldType().getFieldClass());
+            if (!StringUtils.isEmpty(form.getSubject())) suitableFieldTypes = getEditor().getFieldTypesManager().getSuitableFieldTypes(bindingManager.getPropertyDefinition(propertyName, form.getSubject()).getPropertyClassName());
+            else suitableFieldTypes = getEditor().getFieldTypesManager().getSuitableFieldTypes(field.getFieldType().getFieldClass());
 
             if (suitableFieldTypes != null && !suitableFieldTypes.isEmpty()) {
                 renderFragment("outputStart");
