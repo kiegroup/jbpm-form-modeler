@@ -68,6 +68,12 @@ if (!window.CKEditorHandler) {
                 valueDiv.value = e.editor.getData();
                 window.CKEditorHandler.checkMaxLength(e.editor, maxlength);
             });
+            editor.on( 'dataReady', function(e) {
+                var valueDiv = document.getElementById(valueDivId);
+                valueDiv.value = e.editor.getData();
+                window.CKEditorHandler.checkMaxLength(e.editor, maxlength);
+            });
+
 
             // Add the char counter
             setTimeout(function() {
