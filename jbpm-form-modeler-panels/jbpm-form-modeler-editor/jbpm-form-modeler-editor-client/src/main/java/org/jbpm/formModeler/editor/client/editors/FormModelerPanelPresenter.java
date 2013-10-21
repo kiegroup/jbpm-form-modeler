@@ -28,6 +28,7 @@ import org.jbpm.formModeler.api.client.FormEditorContextTO;
 import org.jbpm.formModeler.editor.client.resources.i18n.Constants;
 import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
 import org.jbpm.formModeler.editor.service.FormModelerService;
+import org.jbpm.formModeler.editor.type.FormResourceTypeDefinition;
 import org.kie.workbench.common.widgets.client.callbacks.HasBusyIndicatorDefaultErrorCallback;
 import org.kie.workbench.common.widgets.client.menu.FileMenuBuilder;
 import org.kie.workbench.common.widgets.client.popups.file.CommandWithCommitMessage;
@@ -52,6 +53,7 @@ import org.uberfire.mvp.ParameterizedCommand;
 import org.uberfire.mvp.PlaceRequest;
 import org.uberfire.workbench.events.NotificationEvent;
 import org.uberfire.workbench.model.menu.Menus;
+import org.uberfire.workbench.type.FileNameUtil;
 
 import static org.uberfire.client.common.ConcurrentChangePopup.newConcurrentDelete;
 import static org.uberfire.client.common.ConcurrentChangePopup.newConcurrentRename;
@@ -96,6 +98,9 @@ public class FormModelerPanelPresenter {
 
     @Inject
     private Event<ChangeTitleWidgetEvent> changeTitleNotification;
+
+    @Inject
+    private FormResourceTypeDefinition resourceType;
 
     private FormEditorContextTO context;
 
@@ -291,7 +296,7 @@ public class FormModelerPanelPresenter {
 
     @WorkbenchPartTitle
     public String getTitle() {
-        return Constants.INSTANCE.form_modeler_title(path.getFileName());
+        return Constants.INSTANCE.form_modeler_title(FileNameUtil.removeExtension(this.path, resourceType));
     }
 
     @WorkbenchPartView
