@@ -55,7 +55,7 @@ public interface CustomFieldType {
     public String getInputHTML(Object value, String fieldName, String namespace, boolean required, boolean readonly, String... params);
 
     /**
-     * This method is used to obtain the field value from the values on the form
+     * This method is used to obtain the field value from the submitted form values.
      * @param requestParameters     A Map containing the request parameters for the submitted form
      * @param requestFiles          A Map containing the java.io.Files uploaded on the request
      * @param fieldName             The field name

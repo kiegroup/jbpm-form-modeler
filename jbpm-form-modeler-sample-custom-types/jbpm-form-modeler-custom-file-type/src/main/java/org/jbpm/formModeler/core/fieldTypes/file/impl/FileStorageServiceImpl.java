@@ -36,6 +36,9 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     private Logger log = LoggerFactory.getLogger(FileStorageServiceImpl.class);
 
+    /**
+     * This is the root folder where the files are going to be stored, please check that the user that is running the app has permissions to read/write inside
+     */
     private String storagePath = "/docs";
 
     @Override

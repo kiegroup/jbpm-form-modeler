@@ -63,7 +63,7 @@
 
                                 <entry>HTMLEditor to enter formatted texts .</entry>
 
-                                <entry>java.lang.Srowing</entry>
+                                <entry>java.lang.String</entry>
 
                                 <entry>no</entry>
                             </row>
@@ -276,4 +276,6 @@
             </para>
         </listitem>
     </itemizedlist>
+
+    <xi:include href="CustomFieldTypes.xml"/>
 </section>
