@@ -57,9 +57,6 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     private IOService ioService;
 
     @Inject
-    private Paths paths;
-
-    @Inject
     private Event<NotificationEvent> notification;
 
     @Inject
@@ -91,7 +88,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     @Override
     public FormEditorContextTO loadForm(Path context) {
         try {
-            org.uberfire.java.nio.file.Path kiePath = paths.convert(context);
+            org.uberfire.java.nio.file.Path kiePath = Paths.convert(context);
 
             Form form = subformFinderService.getFormByPath(kiePath.toUri().toString());
 
@@ -105,7 +102,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     @Override
     public FormEditorContextTO reloadForm(Path path, String ctxUID) {
         try {
-            org.uberfire.java.nio.file.Path kiePath = paths.convert(path);
+            org.uberfire.java.nio.file.Path kiePath = Paths.convert(path);
 
             Form form = subformFinderService.getFormByPath(kiePath.toUri().toString());
 
@@ -124,7 +121,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     @Override
     public FormEditorContext newContext(Form form, Object path) {
         FormRenderContext ctx = formRenderContextManager.newContext(form, new HashMap<String, Object>());
-        org.uberfire.java.nio.file.Path kpath = paths.convert((Path) path);
+        org.uberfire.java.nio.file.Path kpath = Paths.convert((Path) path);
 
         FormEditorContext formEditorContext = new FormEditorContext(ctx, kpath.toUri().toString());
         formEditorContextMap.put(ctx.getUID(), formEditorContext);
@@ -164,7 +161,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
 
     @Override
     public Path createForm(Path context, String formName) {
-        org.uberfire.java.nio.file.Path kiePath = paths.convert(context).resolve(formName);
+        org.uberfire.java.nio.file.Path kiePath = Paths.convert(context).resolve(formName);
         try {
             ioService.createFile(kiePath);
 
@@ -172,7 +169,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
 
             ioService.write(kiePath, formSerializationManager.generateFormXML(form));
 
-            return paths.convert(kiePath, false);
+            return Paths.convert(kiePath);
         } catch (FileAlreadyExistsException e) {
             throw new IllegalArgumentException( kiePath.toString());
         } catch (Exception e) {
@@ -184,7 +181,7 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     @Override
     public boolean deleteForm(Path context) {
         if (context == null) return false;
-        org.uberfire.java.nio.file.Path kiePath = paths.convert(context);
+        org.uberfire.java.nio.file.Path kiePath = Paths.convert(context);
         return ioService.deleteIfExists(kiePath);
     }
 

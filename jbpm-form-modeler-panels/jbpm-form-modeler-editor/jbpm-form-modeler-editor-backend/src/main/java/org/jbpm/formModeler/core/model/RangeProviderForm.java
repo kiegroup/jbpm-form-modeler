@@ -48,9 +48,6 @@ public class RangeProviderForm implements RangeProvider {
     private IOService ioService;
 
     @Inject
-    private Paths paths;
-
-    @Inject
     private ProjectService projectService;
 
     @Inject
@@ -74,7 +71,7 @@ public class RangeProviderForm implements RangeProvider {
 
         Path currentForm = null;
         try {
-            currentForm = paths.convert(ioService.get(new URI(context.getPath())));
+            currentForm = Paths.convert(ioService.get(new URI(context.getPath())));
         } catch (Exception e) {
             log.warn("Unable to load asset on '" + context.getPath() + "': ", e);
             return  treeMap;
@@ -87,17 +84,17 @@ public class RangeProviderForm implements RangeProvider {
         FileUtils utils  = FileUtils.getInstance();
 
         List<org.uberfire.java.nio.file.Path> nioPaths = new ArrayList<org.uberfire.java.nio.file.Path>();
-        nioPaths.add(paths.convert(project.getRootPath()));
+        nioPaths.add(Paths.convert(project.getRootPath()));
 
         Collection<FileUtils.ScanResult> forms = utils.scan(ioService, nioPaths, "form", true);
 
-        String resourcesPath = paths.convert(projectService.resolveProject(currentForm).getRootPath()).resolve(SubformFinderService.MAIN_RESOURCES_PATH).toUri().getPath();
+        String resourcesPath = Paths.convert(projectService.resolveProject(currentForm).getRootPath()).resolve(SubformFinderService.MAIN_RESOURCES_PATH).toUri().getPath();
 
         Path formPath;
         String formDirUri;
         String formName;
         for (FileUtils.ScanResult form : forms) {
-            formPath = paths.convert(form.getFile());
+            formPath = Paths.convert(form.getFile());
             formDirUri = getFormDirUri(formPath);
             formName = formPath.getFileName();
 

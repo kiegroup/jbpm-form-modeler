@@ -41,9 +41,6 @@ import java.util.*;
 public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
 
     @Inject
-    private Paths paths;
-
-    @Inject
     @Named("ioStrategy")
     private IOService ioService;
 
@@ -68,7 +65,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
     
     public String buildFormXML(FileSystem fs, String fileName, String uri, Definitions source, String id) throws Exception {
         Path formPath = PathFactory.newPath(fs, fileName, uri);
-        org.uberfire.java.nio.file.Path kiePath = paths.convert(formPath);
+        org.uberfire.java.nio.file.Path kiePath = Paths.convert(formPath);
 
 
         Form form;
@@ -76,7 +73,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
 
         if (!ioService.exists(kiePath)) {
             form = formManager.createForm(fileName);
-            holders = getDataHolders(source, paths.convert(kiePath.getParent()), id);
+            holders = getDataHolders(source, Paths.convert(kiePath.getParent()), id);
         } else {
             form = formSerializationManager.loadFormFromXML(ioService.readAllString(kiePath).trim());
             holders = getDataHolders(source, formPath, id);
@@ -101,7 +98,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
         Map<String, Map> associations = new HashMap<String, Map>();
         List<RootElement> rootElements = source.getRootElements();
 
-        String contextUri = paths.convert(context).toUri().toString();
+        String contextUri = Paths.convert(context).toUri().toString();
 
         for(RootElement re : rootElements) {
             if(re instanceof org.eclipse.bpmn2.Process) {

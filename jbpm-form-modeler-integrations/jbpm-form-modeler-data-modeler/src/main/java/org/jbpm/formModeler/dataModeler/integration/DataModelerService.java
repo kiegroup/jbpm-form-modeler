@@ -50,9 +50,6 @@ public class DataModelerService implements DataHolderBuilder {
     @Named("ioStrategy")
     private IOService ioService;
 
-    @Inject
-    private Paths paths;
-
     @Override
     public Map getOptions(String path) {
         Map result = new HashMap();
@@ -91,7 +88,7 @@ public class DataModelerService implements DataHolderBuilder {
 
     protected Path getPath(String path) {
         try {
-            return paths.convert(ioService.get(new URI(path)), false);
+            return Paths.convert(ioService.get(new URI(path)));
         } catch (Exception e) {
             log.error("Unable to build Path for '" + path + "': ", e);
         }
