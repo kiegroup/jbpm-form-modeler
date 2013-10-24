@@ -35,9 +35,6 @@ public class SubformFinderServiceImpl implements SubformFinderService {
     private ProjectService projectService;
 
     @Inject
-    private Paths paths;
-
-    @Inject
     private FormSerializationManager formSerializationManager;
 
     @Inject
@@ -135,14 +132,14 @@ public class SubformFinderServiceImpl implements SubformFinderService {
     protected Form getFormById(long formId, FormEditorContext editorContext) throws Exception {
         if (editorContext.getForm().getId().equals(new Long(formId))) return editorContext.getForm();
 
-        Path currentForm = paths.convert(ioService.get(new URI(editorContext.getPath())));
+        Path currentForm = Paths.convert(ioService.get(new URI(editorContext.getPath())));
 
         Project project = projectService.resolveProject(currentForm);
 
         FileUtils utils  = FileUtils.getInstance();
 
         List<org.uberfire.java.nio.file.Path> nioPaths = new ArrayList<org.uberfire.java.nio.file.Path>();
-        nioPaths.add(paths.convert(project.getRootPath()));
+        nioPaths.add(Paths.convert(project.getRootPath()));
 
         Collection<FileUtils.ScanResult> forms = utils.scan(ioService, nioPaths, "form", true);
 
@@ -150,7 +147,7 @@ public class SubformFinderServiceImpl implements SubformFinderService {
 
         for (FileUtils.ScanResult form : forms) {
             org.uberfire.java.nio.file.Path formPath = form.getFile();
-            org.uberfire.java.nio.file.Path path = paths.convert(project.getRootPath()).resolve(MAIN_RESOURCES_PATH).resolve(formPath);
+            org.uberfire.java.nio.file.Path path = Paths.convert(project.getRootPath()).resolve(MAIN_RESOURCES_PATH).resolve(formPath);
 
             String xml = ioService.readAllString(path).trim();
 
@@ -160,16 +157,16 @@ public class SubformFinderServiceImpl implements SubformFinderService {
     }
 
     protected Form getSubForm(String formPath, FormEditorContext editorContext) throws Exception {
-        Path currentForm = paths.convert(ioService.get(new URI(editorContext.getPath())));
+        Path currentForm = Paths.convert(ioService.get(new URI(editorContext.getPath())));
 
-        org.uberfire.java.nio.file.Path subFormPath = paths.convert(currentForm).getParent().resolve(formPath);
+        org.uberfire.java.nio.file.Path subFormPath = Paths.convert(currentForm).getParent().resolve(formPath);
 
         return findForm(subFormPath);
     }
 
     public Form getFormByPath(String path) {
         try {
-            return findForm(paths.convert(paths.convert(ioService.get(new URI(path)))));
+            return findForm(Paths.convert(Paths.convert(ioService.get(new URI(path)))));
         } catch (Exception e) {
             log.warn("Error getting form {}: {}", path, e);
         }
