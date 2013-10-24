@@ -1,4 +1,0 @@
-org.jbpm.formModeler.core.fieldTypes.file.FileCustomType
-org.jbpm.formModeler.core.fieldTypes.file.FileStorageService
-org.jbpm.formModeler.core.fieldTypes.file.impl.FileStorageServiceImpl
-org.jbpm.formModeler.core.fieldTypes.file.FileDownloadHandler
