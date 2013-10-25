@@ -1,47 +1,54 @@
-/*
- * Copyright 2012 JBoss Inc
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.jbpm.formModeler.server.impl;
 
-
-import org.jbpm.console.ng.bd.backend.server.AdministrationService;
-import org.kie.commons.services.cdi.Startup;
-import org.uberfire.backend.repositories.Repository;
-import org.uberfire.backend.server.config.ConfigurationFactory;
-import org.uberfire.backend.server.config.ConfigurationService;
-
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.uberfire.io.IOClusteredService;
+import org.uberfire.io.IOService;
+import org.uberfire.commons.services.cdi.Startup;
+import org.uberfire.commons.services.cdi.StartupType;
+import org.uberfire.backend.organizationalunit.OrganizationalUnit;
+import org.uberfire.backend.organizationalunit.OrganizationalUnitService;
+import org.uberfire.backend.repositories.Repository;
+import org.uberfire.backend.repositories.RepositoryService;
+import org.uberfire.backend.server.config.ConfigGroup;
+import org.uberfire.backend.server.config.ConfigType;
+import org.uberfire.backend.server.config.ConfigurationFactory;
+import org.uberfire.backend.server.config.ConfigurationService;
+import org.uberfire.security.impl.authz.RuntimeAuthorizationManager;
+import org.uberfire.security.server.cdi.SecurityFactory;
 
 @ApplicationScoped
-@Startup
+@Startup(StartupType.BOOTSTRAP)
 public class AppSetup {
 
-     // default repository section - start
-    private static final String JBPM_WB_PLAYGROUND_ALIAS = "jbpm-playground";
-    private static final String JBPM_WB_PLAYGROUND_ORIGIN = "https://github.com/guvnorngtestuser1/jbpm-console-ng-playground-kjar.git";
-    private static final String JBPM_WB_PLAYGROUND_UID = "guvnorngtestuser1";
-    private static final String JBPM_WB_PLAYGROUND_PWD = "test1234";
+    private static final String JBPM_REPO_PLAYGROUND = "jbpm-playground";
+//    private static final String GUVNOR_REPO_PLAYGROUND = "uf-playground";
+    // default repository section - start
+    private static final String JBPM_URL = "https://github.com/pzapata/kie-examples.git";
+//    private static final String GUVNOR_URL = "https://github.com/guvnorngtestuser1/guvnorng-playground.git";
+
+    private final String userName = "guvnorngtestuser1";
+    private final String password = "test1234";
+
+    private static final String GLOBAL_SETTINGS = "settings";
 
     @Inject
-    private AdministrationService administrationService;
+    @Named("ioStrategy")
+    private IOService ioService;
 
-    private Repository repository;
-    
+    @Inject
+    private RepositoryService repositoryService;
+
+    @Inject
+    private OrganizationalUnitService organizationalUnitService;
+
     @Inject
     private ConfigurationService configurationService;
 
@@ -50,15 +57,71 @@ public class AppSetup {
 
     @PostConstruct
     public void onStartup() {
-        // TODO Setup default repository for jBPM-Workbench
-        administrationService.bootstrapRepository( JBPM_WB_PLAYGROUND_ALIAS, JBPM_WB_PLAYGROUND_ORIGIN,
-                                                   JBPM_WB_PLAYGROUND_UID, JBPM_WB_PLAYGROUND_PWD );
-       
-        
-        administrationService.bootstrapConfig();
+        try {
+            SecurityFactory.setAuthzManager( new RuntimeAuthorizationManager() );
 
-        administrationService.bootstrapDeployments();
+            Repository jbpmRepo = repositoryService.getRepository( JBPM_REPO_PLAYGROUND );
+            if ( jbpmRepo == null ) {
+                jbpmRepo = repositoryService.createRepository( "git",
+                                                               JBPM_REPO_PLAYGROUND,
+                                                               new HashMap<String, Object>() {{
+                                                                   put( "origin", JBPM_URL );
+                                                                   put( "username", userName );
+                                                                   put( "crypt:password", password );
+                                                               }} );
+            }
+
+            // TODO in case groups are not defined
+            Collection<OrganizationalUnit> groups = organizationalUnitService.getOrganizationalUnits();
+            if ( groups == null || groups.isEmpty() ) {
+                final List<Repository> repositories = new ArrayList<Repository>();
+                repositories.add( jbpmRepo );
+
+                organizationalUnitService.createOrganizationalUnit( "demo",
+                                                                     "demo@jbpm.org",
+                                                                    repositories );
+            }
+
+            //Define mandatory properties
+            List<ConfigGroup> globalConfigGroups = configurationService.getConfiguration( ConfigType.GLOBAL );
+            boolean globalSettingsDefined = false;
+            for ( ConfigGroup globalConfigGroup : globalConfigGroups ) {
+                if ( GLOBAL_SETTINGS.equals( globalConfigGroup.getName() ) ) {
+                    globalSettingsDefined = true;
+                    break;
+                }
+            }
+            if ( !globalSettingsDefined ) {
+                configurationService.addConfiguration( getGlobalConfiguration() );
+            }
+
+            // notify cluster service that bootstrap is completed to start synchronization
+            if (ioService instanceof IOClusteredService) {
+                ((IOClusteredService) ioService).start();
+            }
+        } catch ( Exception e ) {
+            throw new RuntimeException( "Error when starting Form Modeler " + e.getMessage(), e );
+        }
     }
 
-
+    private ConfigGroup getGlobalConfiguration() {
+        //Global Configurations used by many of Drools Workbench editors
+        final ConfigGroup group = configurationFactory.newConfigGroup( ConfigType.GLOBAL,
+                                                                       GLOBAL_SETTINGS,
+                                                                       "" );
+        group.addConfigItem( configurationFactory.newConfigItem( "drools.dateformat",
+                                                                 "dd-MMM-yyyy" ) );
+        group.addConfigItem( configurationFactory.newConfigItem( "drools.datetimeformat",
+                                                                 "dd-MMM-yyyy hh:mm:ss" ) );
+        group.addConfigItem( configurationFactory.newConfigItem( "drools.defaultlanguage",
+                                                                 "en" ) );
+        group.addConfigItem( configurationFactory.newConfigItem( "drools.defaultcountry",
+                                                                 "US" ) );
+        group.addConfigItem( configurationFactory.newConfigItem( "build.enable-incremental",
+                                                                 "true" ) );
+        group.addConfigItem( configurationFactory.newConfigItem( "rule-modeller-onlyShowDSLStatements",
+                                                                 "false" ) );
+        return group;
+    }
 }
+

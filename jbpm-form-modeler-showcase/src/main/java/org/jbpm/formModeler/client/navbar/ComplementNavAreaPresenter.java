@@ -1,5 +1,3 @@
-
-
 package org.jbpm.formModeler.client.navbar;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -23,12 +21,12 @@ public class ComplementNavAreaPresenter implements Header {
 
     @Override
     public int getOrder() {
-        return MAX_VALUE;
+        return 0;
     }
 
     @Override
     public Widget asWidget() {
         return view.asWidget();
     }
-}
 
+}

@@ -1,37 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-~ Copyright 2012 JBoss Inc
-~
-~ Licensed under the Apache License, Version 2.0 (the "License");
-~ you may not use this file except in compliance with the License.
-~ You may obtain a copy of the License at
-~
-~       http://www.apache.org/licenses/LICENSE-2.0
-~
-~ Unless required by applicable law or agreed to in writing, software
-~ distributed under the License is distributed on an "AS IS" BASIS,
-~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-~ See the License for the specific language governing permissions and
-~ limitations under the License.
--->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <artifactId>jbpm-form-modeler</artifactId>
-        <groupId>org.jbpm</groupId>
-        <version>6.1.0-SNAPSHOT</version>
-    </parent>
 
-    <artifactId>jbpm-form-modeler-showcase</artifactId>
-    <packaging>war</packaging>
-
-  <name>jbpm-form-modeler-showcase</name>
-  <description>jBPM Form Modeler - Complete Showcase</description>
+  <parent>
+    <groupId>org.jbpm</groupId>
+    <artifactId>jbpm-form-modeler</artifactId>
+    <version>6.1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>jbpm-form-modeler-showcase</artifactId>
+  <name>jBPM Form Modeler - ShowCase</name>
+  <packaging>war</packaging>
 
   <dependencies>
+
     <!-- Hack: ANT bundled with kie-ci needs to be excluded when running on Jetty -->
     <!-- It is added back for other Application Servers in their respective assemblies -->
     <dependency>
@@ -50,115 +31,21 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
-
     <!-- This is a war file, so logback is not in scope test, but in scope compile -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-
-    <!-- Manstis hackathon -->
-    <dependency>
-      <groupId>org.drools</groupId>
-      <artifactId>drools-wb-scorecard-xls-editor-client</artifactId>
-    </dependency>
-
-    <!-- jBPM Console Panels -->
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-console-ng-human-tasks-client</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-console-ng-human-tasks-backend</artifactId>
-      <exclusions>
-        <exclusion>
-          <artifactId>jboss-transaction-api_1.1_spec</artifactId>
-          <groupId>org.jboss.spec.javax.transaction</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-console-ng-business-domain-client</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-console-ng-business-domain-backend</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-console-ng-process-runtime-client</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-console-ng-process-runtime-backend</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-console-ng-executor-service-client</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-console-ng-executor-service-backend</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-console-ng-bpm-home-client</artifactId>
-    </dependency>
-
-    <!-- jBPM Designer -->
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-designer-client</artifactId>
-        <exclusions>
-            <exclusion>
-                <artifactId>slf4j-jdk14</artifactId>
-                <groupId>org.slf4j</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>log4j-over-slf4j</artifactId>
-                <groupId>org.slf4j</groupId>
-            </exclusion>
-        </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-designer-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-designer-backend</artifactId>
-        <exclusions>
-            <exclusion>
-                <artifactId>log4j-over-slf4j</artifactId>
-                <groupId>org.slf4j</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>slf4j-jdk14</artifactId>
-                <groupId>org.slf4j</groupId>
-            </exclusion>
-        </exclusions>
     </dependency>
 
     <!-- UberFire -->
     <dependency>
-       <groupId>org.uberfire</groupId>
-       <artifactId>uberfire-js</artifactId>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-server</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-server</artifactId>
+      <artifactId>uberfire-security-api</artifactId>
     </dependency>
 
     <dependency>
@@ -191,6 +78,11 @@
       <artifactId>uberfire-workbench</artifactId>
     </dependency>
 
+     <dependency>
+      <groupId>org.uberfire</groupId>
+       <artifactId>uberfire-js</artifactId>
+     </dependency>
+
     <dependency>
       <groupId>javax.enterprise</groupId>
       <artifactId>cdi-api</artifactId>
@@ -208,11 +100,18 @@
 
     <dependency>
       <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-io</artifactId>
+      <artifactId>uberfire-commons</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-commons</artifactId>
+      <artifactId>uberfire-io</artifactId>
+    </dependency>
+
+    <!-- Errai AS -->
+    <dependency>
+      <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-jboss-as-support</artifactId>
     </dependency>
 
     <!-- Errai Core -->
@@ -275,7 +174,7 @@
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-validator</artifactId>
     </dependency>
-    <!-- This must be placed above com.google.gwt:gwt-dev to override the 
+    <!-- This must be placed above com.google.gwt:gwt-dev to override the
       Jetty that is present there -->
     <dependency>
       <groupId>org.mortbay.jetty</groupId>
@@ -318,7 +217,11 @@
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
-      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.gwtbootstrap</groupId>
+      <artifactId>gwt-bootstrap</artifactId>
     </dependency>
 
     <!-- Rouge imports to avoid OSGi errors -->
@@ -341,10 +244,6 @@
       <groupId>javax.transaction</groupId>
       <artifactId>jta</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.codehaus.btm</groupId>
-      <artifactId>btm</artifactId>
-    </dependency>
 
     <!--Miscellaneous -->
     <dependency>
@@ -361,11 +260,11 @@
       <artifactId>org.eclipse.bpmn2</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.kie.remote</groupId>
-      <artifactId>kie-services-remote</artifactId>
+       <groupId>org.jdom</groupId>
+       <artifactId>jdom</artifactId>
     </dependency>
 
-    <!-- Guvnor --> 
+    <!-- Guvnor -->
     <dependency>
       <groupId>org.guvnor</groupId>
       <artifactId>guvnor-services-api</artifactId>
@@ -385,8 +284,8 @@
     <dependency>
       <groupId>org.guvnor</groupId>
       <artifactId>guvnor-project-api</artifactId>
-     </dependency>
-     <dependency>
+    </dependency>
+    <dependency>
       <groupId>org.guvnor</groupId>
       <artifactId>guvnor-project-backend</artifactId>
     </dependency>
@@ -406,11 +305,11 @@
     <!-- Kie Workbench -->
     <dependency>
       <groupId>org.kie.workbench.screens</groupId>
-      <artifactId>kie-wb-common-project-explorer-backend</artifactId>
+      <artifactId>kie-wb-common-project-explorer-client</artifactId>
     </dependency>
     <dependency>
       <groupId>org.kie.workbench.screens</groupId>
-      <artifactId>kie-wb-common-project-explorer-client</artifactId>
+      <artifactId>kie-wb-common-project-explorer-backend</artifactId>
     </dependency>
     <dependency>
       <groupId>org.kie.workbench.screens</groupId>
@@ -424,17 +323,14 @@
       <groupId>org.kie.workbench.screens</groupId>
       <artifactId>kie-wb-common-project-imports-editor-client</artifactId>
     </dependency>
-
     <dependency>
-      <groupId>org.kie.workbench.services</groupId>
-      <artifactId>kie-wb-common-datamodel-api</artifactId>
+        <groupId>org.kie.workbench.screens</groupId>
+        <artifactId>kie-wb-common-project-explorer-api</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.kie.workbench.services</groupId>
       <artifactId>kie-wb-common-security</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.kie.workbench.widgets</groupId>
       <artifactId>kie-wb-common-ui</artifactId>
@@ -456,23 +352,7 @@
       <artifactId>kie-wb-config-resource-widget</artifactId>
     </dependency>
 
-    <!-- Dashboard --> 
-      <dependency>
-          <groupId>org.jbpm</groupId>
-          <artifactId>jbpm-console-ng-dashboard-client</artifactId>
-      </dependency>
-
-      <dependency>
-          <groupId>org.jbpm</groupId>
-          <artifactId>jbpm-console-ng-dashboard-backend</artifactId>
-      </dependency>
-
-      <dependency>
-          <groupId>org.jbpm</groupId>
-          <artifactId>jbpm-console-ng-dashboard-api</artifactId>
-      </dependency>
-
-    <!-- formModeler dependencies -->
+      <!-- formModeler dependencies -->
       <dependency>
           <groupId>org.jbpm</groupId>
           <artifactId>jbpm-form-modeler-app</artifactId>
@@ -511,9 +391,21 @@
 
       <dependency>
           <groupId>org.jbpm</groupId>
-          <artifactId>jbpm-form-modeler-form-provider</artifactId>
+          <artifactId>jbpm-form-modeler-data-modeler</artifactId>
+        <exclusions>
+          <exclusion>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-kie-services</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
-     <!-- Data Modeller --> 
+
+      <dependency>
+          <groupId>org.jbpm</groupId>
+          <artifactId>jbpm-bpmn2</artifactId>
+      </dependency>
+
+      <!-- Data Modeller -->
       <dependency>
           <groupId>org.kie.workbench.screens</groupId>
           <artifactId>kie-wb-common-data-modeller-api</artifactId>
@@ -528,14 +420,16 @@
           <groupId>org.kie.workbench.screens</groupId>
           <artifactId>kie-wb-common-data-modeller-client</artifactId>
       </dependency>
-      <dependency>
-          <groupId>org.jbpm</groupId>
-          <artifactId>jbpm-form-modeler-data-modeler</artifactId>
-      </dependency>
 
+    <!-- Logging -->
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jstl</artifactId>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <scope>runtime</scope>
     </dependency>
 
   </dependencies>
@@ -554,11 +448,12 @@
     </resources>
 
     <plugins>
+
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
         <configuration>
-          <module>org.jbpm.formModeler.FastCompiledjBPMShowcase</module>
+          <module>org.jbpm.formModeler.FastCompiledjBPMFormModeler</module>
           <logLevel>INFO</logLevel>
           <compileSourcesArtifacts>
 
@@ -578,15 +473,10 @@
             <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-project-explorer-api</compileSourcesArtifact>
             <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-project-explorer-client</compileSourcesArtifact>
             <compileSourcesArtifact>org.kie.workbench.widgets:kie-wb-common-ui</compileSourcesArtifact>
-            <compileSourcesArtifact>org.kie.workbench.widgets:kie-wb-view-source-widget</compileSourcesArtifact>
             <compileSourcesArtifact>org.kie.workbench.widgets:kie-wb-metadata-widget</compileSourcesArtifact>
             <compileSourcesArtifact>org.kie.workbench.widgets:kie-wb-config-resource-widget</compileSourcesArtifact>
             <compileSourcesArtifact>org.kie.workbench.services:kie-wb-common-services-api</compileSourcesArtifact>
             <compileSourcesArtifact>org.kie.workbench.services:kie-wb-common-security</compileSourcesArtifact>
-            <compileSourcesArtifact>org.kie.workbench.services:kie-wb-common-datamodel-api</compileSourcesArtifact>
-
-            <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-data-modeller-api</compileSourcesArtifact>
-            <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-data-modeller-client</compileSourcesArtifact>
 
             <!-- UberFire -->
             <compileSourcesArtifact>org.uberfire:uberfire-commons</compileSourcesArtifact>
@@ -599,36 +489,18 @@
             <compileSourcesArtifact>org.uberfire:uberfire-widgets-commons</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-workbench</compileSourcesArtifact>
 
-            <!-- jBPM Console -->
-            <compileSourcesArtifact>org.jbpm:jbpm-console-ng-bpm-home-client</compileSourcesArtifact>
-            <compileSourcesArtifact>org.jbpm:jbpm-console-ng-human-tasks-api</compileSourcesArtifact>
-            <compileSourcesArtifact>org.jbpm:jbpm-console-ng-human-tasks-client</compileSourcesArtifact>
-            <compileSourcesArtifact>org.jbpm:jbpm-console-ng-process-runtime-api</compileSourcesArtifact>
-            <compileSourcesArtifact>org.jbpm:jbpm-console-ng-process-runtime-client</compileSourcesArtifact>
-            <compileSourcesArtifact>org.jbpm:jbpm-console-ng-business-domain-api</compileSourcesArtifact>
-            <compileSourcesArtifact>org.jbpm:jbpm-console-ng-business-domain-client</compileSourcesArtifact>
-
-            <compileSourcesArtifact>org.jbpm:jbpm-designer-api</compileSourcesArtifact>
-            <compileSourcesArtifact>org.jbpm:jbpm-designer-client</compileSourcesArtifact>
-
-            <!-- jBPM Dashboard integration-->
-            <compileSourcesArtifact>org.jbpm:jbpm-console-ng-dashboard-api</compileSourcesArtifact>
-            <compileSourcesArtifact>org.jbpm:jbpm-console-ng-dashboard-client</compileSourcesArtifact>
-
-
+            <!-- Form Modeler -->
             <compileSourcesArtifact>org.jbpm:jbpm-form-modeler-editor-api</compileSourcesArtifact>
             <compileSourcesArtifact>org.jbpm:jbpm-form-modeler-editor-client</compileSourcesArtifact>
             <compileSourcesArtifact>org.jbpm:jbpm-form-modeler-renderer-api</compileSourcesArtifact>
             <compileSourcesArtifact>org.jbpm:jbpm-form-modeler-renderer-client</compileSourcesArtifact>
 
           </compileSourcesArtifacts>
-          <runTarget>org.jbpm.formModeler.jBPMShowcase/jBPM.html</runTarget>
-          <extraJvmArgs>-Xmx2048m -XX:MaxPermSize=256m -Djetty.custom.sys.classes=bitronix;javax.transaction</extraJvmArgs>
+          <runTarget>org.jbpm.formModeler.jBPMFormModeler/jBPM.html</runTarget>
+          <extraJvmArgs>-Xmx1024m -XX:MaxPermSize=256m</extraJvmArgs>
           <soyc>false</soyc>
-          <strict>false</strict>
           <server>org.jboss.errai.cdi.server.gwt.JettyLauncher</server>
-          <!-- drools-compiler has dependency on org.eclipse.jdt.core.compiler:ecj:jar:3.5.1:compile, 
-               see http://code.google.com/p/google-web-toolkit/issues/detail?id=4479 -->
+          <!-- drools-compiler has dependency on org.eclipse.jdt.core.compiler:ecj:jar:3.5.1:compile, see http://code.google.com/p/google-web-toolkit/issues/detail?id=4479 -->
           <gwtSdkFirstInClasspath>true</gwtSdkFirstInClasspath>
         </configuration>
         <executions>
@@ -648,49 +520,48 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <configuration>
-          <packagingExcludes>**/javax/**/*.*,**/client/**/*.class</packagingExcludes>
-          <archive>
-            <addMavenDescriptor>false</addMavenDescriptor>
-          </archive>
-          <overlays>
-            <overlay>
-              <groupId>org.jbpm</groupId>
-              <artifactId>jbpm-form-modeler-app</artifactId>
-            </overlay>
-          </overlays>
-          <webResources>
-            <resource>
-              <directory>${basedir}/src/main/webapp/WEB-INF</directory>
-              <filtering>true</filtering>
-              <targetPath>WEB-INF</targetPath>
-              <includes>
-                <include>**/web.xml</include>
-              </includes>
-            </resource>
-          </webResources>
-          <dependentWarExcludes>
-            WEB-INF/lib/drools-compiler*.jar,
-            WEB-INF/lib/drools-core*.jar,
-            WEB-INF/lib/drools-workbench-models-commons-*.jar,
-            WEB-INF/lib/guvnor-m2repo-editor-*.jar,
-            WEB-INF/lib/guvnor-project-*.jar,
-            WEB-INF/lib/kie-api*.jar,
-            WEB-INF/lib/kie-ci*.jar,
-            WEB-INF/lib/kie-commons-*.jar,
-            WEB-INF/lib/kie-internal*.jar,
-            WEB-INF/lib/uberfire-nio2-fs*.jar,
-            WEB-INF/lib/kie-wb-common-*.jar,
-            WEB-INF/lib/uberfire-*.jar,
-            WEB-INF/lib/jbpm-form-modeler-*.war,
-          </dependentWarExcludes>
-        </configuration>
-      </plugin>
 
-      <!-- Tests are skipped by default because they require additional GWT 
-           dependencies. Run mvn with -Pintegration-test to enable testing. -->
+        <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+                <packagingExcludes>**/javax/**/*.*,**/client/**/*.class</packagingExcludes>
+                <archive>
+                    <addMavenDescriptor>false</addMavenDescriptor>
+                </archive>
+                <overlays>
+                    <overlay>
+                        <groupId>org.jbpm</groupId>
+                        <artifactId>jbpm-form-modeler-app</artifactId>
+                    </overlay>
+                </overlays>
+                <webResources>
+                    <resource>
+                        <directory>${basedir}/src/main/webapp/WEB-INF</directory>
+                        <filtering>true</filtering>
+                        <targetPath>WEB-INF</targetPath>
+                        <includes>
+                            <include>**/web.xml</include>
+                        </includes>
+                    </resource>
+                </webResources>
+                <dependentWarExcludes>
+                    WEB-INF/lib/drools-compiler*.jar,
+                    WEB-INF/lib/drools-core*.jar,
+                    WEB-INF/lib/drools-workbench-models-commons-*.jar,
+                    WEB-INF/lib/guvnor-m2repo-editor-*.jar,
+                    WEB-INF/lib/guvnor-project-*.jar,
+                    WEB-INF/lib/kie-api*.jar,
+                    WEB-INF/lib/kie-ci*.jar,
+                    WEB-INF/lib/kie-commons-*.jar,
+                    WEB-INF/lib/kie-internal*.jar,
+                    WEB-INF/lib/uberfire-nio2-fs*.jar,
+                    WEB-INF/lib/kie-wb-common-*.jar,
+                    WEB-INF/lib/uberfire-*.jar,
+                    WEB-INF/lib/jbpm-form-modeler-*.war,
+                </dependentWarExcludes>
+            </configuration>
+        </plugin>
+
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
@@ -706,15 +577,15 @@
               <directory>${basedir}</directory>
               <includes>
                 <include>.errai/**</include>
-                <include>.niogit/**</include>
+                <include>.vfsgit/**</include>
               </includes>
             </fileset>
           </filesets>
         </configuration>
       </plugin>
     </plugins>
-  </build>
 
+  </build>
   <profiles>
     <profile>
       <id>fullProfile</id>
@@ -723,6 +594,13 @@
           <name>full</name>
         </property>
       </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.ant</groupId>
+          <artifactId>ant</artifactId>
+          <scope>runtime</scope>
+        </dependency>
+      </dependencies>
       <build>
         <plugins>
           <plugin><!-- Keep in sync with soa profile -->
@@ -730,7 +608,7 @@
             <artifactId>gwt-maven-plugin</artifactId>
             <configuration>
               <!-- Build all GWT permutations and optimize them -->
-              <module>org.jbpm.formModeler.jBPMShowcase</module>
+              <module>org.jbpm.formModeler.jBPMFormModeler</module>
               <draftCompile>false</draftCompile>
             </configuration>
           </plugin>
@@ -738,5 +616,4 @@
       </build>
     </profile>
   </profiles>
-
 </project>

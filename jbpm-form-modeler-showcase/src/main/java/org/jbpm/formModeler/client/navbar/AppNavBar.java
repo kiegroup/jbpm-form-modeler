@@ -1,4 +1,3 @@
- 
 package org.jbpm.formModeler.client.navbar;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -9,6 +8,7 @@ import com.google.gwt.user.client.ui.Widget;
 import org.uberfire.client.workbench.Header;
 import org.uberfire.client.workbench.widgets.menu.WorkbenchMenuBarPresenter;
 
+import static java.lang.Integer.*;
 
 @ApplicationScoped
 public class AppNavBar
@@ -24,6 +24,6 @@ public class AppNavBar
 
     @Override
     public int getOrder() {
-        return 0;
+        return MAX_VALUE;
     }
 }
