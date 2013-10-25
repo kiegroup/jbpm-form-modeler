@@ -29,11 +29,7 @@ import org.uberfire.security.server.cdi.SecurityFactory;
 public class AppSetup {
 
     private static final String JBPM_REPO_PLAYGROUND = "jbpm-playground";
-//    private static final String GUVNOR_REPO_PLAYGROUND = "uf-playground";
-    // default repository section - start
-    private static final String JBPM_URL = "https://github.com/pzapata/kie-examples.git";
-//    private static final String GUVNOR_URL = "https://github.com/guvnorngtestuser1/guvnorng-playground.git";
-
+    private static final String JBPM_URL = "https://github.com/guvnorngtestuser1/guvnorng-playground.git";
     private final String userName = "guvnorngtestuser1";
     private final String password = "test1234";
 
