@@ -1,4 +1,3 @@
-
 package org.jbpm.formModeler.client.navbar;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +11,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RequiresResize;
+import org.jbpm.formModeler.client.resources.StandaloneResources;
 import org.uberfire.client.workbench.widgets.menu.PespectiveContextMenusPresenter;
 
 /**
@@ -41,8 +41,7 @@ public class ComplementNavAreaView
 
     @PostConstruct
     public void init() {
-        // logo = new Image( AppResource.INSTANCE.images().logo() );
-        logo = new Image( );
+        logo = new Image( StandaloneResources.INSTANCE.images().logo() );
         initWidget( uiBinder.createAndBindUi( this ) );
         contextMenuArea.add( contextMenu.getView() );
     }
@@ -51,7 +50,7 @@ public class ComplementNavAreaView
     public void onResize() {
         int height = getParent().getOffsetHeight();
         int width = getParent().getOffsetWidth();
-// panel.setPixelSize( width, height );
+//        panel.setPixelSize( width, height );
     }
 
 }

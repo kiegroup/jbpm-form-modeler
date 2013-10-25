@@ -31,35 +31,5 @@ public interface Constants extends Messages {
 
     Constants INSTANCE = GWT.create(Constants.class);
 
-    String Tasks_List();
-
-    String Dashboards();
-
-    String Process_Dashboard();
-
-    String Business_Dashboard();
-
-    String Process_Authoring();
-
-    String Authoring();
-
-    String Process_Management();
-
-    String Work();
-
-    String LogOut();
-
-    String Home();
-
-    String Process_Definitions();
-
-    String Process_Instances();
-
-    String Deploy();
-
-    String Deployments();
-
     String newItem();
-
-
 }
