@@ -30,7 +30,6 @@
                 </property>
             </activation>
             <modules>
-                <module>jbpm-form-modeler-docs</module>
             </modules>
         </profile>
     </profiles>
