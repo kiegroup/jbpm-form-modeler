@@ -42,22 +42,20 @@ public class EditFormFormatter extends Formatter {
             setFormAttributes(form);
             renderFragment("outputNameInput");
 
-            setFormAttributes(form);
-            renderFragment("outputProcessorInput");
 
             if (form.getDisplayMode() == null || "".equals(form.getDisplayMode())) {
                 form.setDisplayMode("default");
             }
-            renderFragment("outputDisplayModeStart");
-            setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_DEFAULT) ? "checked" : "");
-            renderFragment("outputDefaultDisplayMode");
-            setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_ALIGNED) ? "checked" : "");
-            renderFragment("outputAlignedDisplayMode");
-            setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_NONE) ? "checked" : "");
-            renderFragment("outputNoneDisplayMode");
-            setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE) ? "checked" : "");
-            renderFragment("outputTemplateDisplayMode");
 
+            setAttribute("checked", (form.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE)) ? "": "checked" );
+            setAttribute("showLabel", (form.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE)) ? "false": "true" );
+
+            renderFragment("outputDisplayModeStart");
+            setAttribute("checked", (form.getDisplayMode().equals(Form.DISPLAY_MODE_NONE)) ? "" : "checked" );
+            setAttribute("showLabel", "true");
+            renderFragment("outputAlignedDisplayMode");
+
+            //if(!form.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE)){
             renderFragment("outputLabelModeStart");
             String[] possibleLabelModes = {
                     Form.LABEL_MODE_UNDEFINED,
@@ -75,9 +73,19 @@ public class EditFormFormatter extends Formatter {
                     selected = (i == 0);
                 renderFragment("outputLabelMode" + (selected ? "Selected" : ""));
             }
+            if (form.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE))
+                setAttribute("showLabel", "false");
+            else
+                setAttribute("showLabel", "true");
             renderFragment("outputLabelModeEnd");
-
+            //}
             renderFragment("outputDisplayModeEnd");
+
+            setAttribute("checked", form.getDisplayMode().equals(Form.DISPLAY_MODE_TEMPLATE) ? "checked" : "");
+            setAttribute("showLabel", "false");
+            renderFragment("outputTemplateDisplayMode");
+
+            ;
 
             renderFragment("outputEnd");
         } catch (Exception e) {

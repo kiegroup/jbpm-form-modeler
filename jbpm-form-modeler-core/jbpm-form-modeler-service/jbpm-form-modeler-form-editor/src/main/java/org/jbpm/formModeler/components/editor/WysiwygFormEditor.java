@@ -582,12 +582,21 @@ public class WysiwygFormEditor extends BaseUIComponent {
         Map map = fillFormFromForm(parameterMap);
         String name = (String) map.get("name");
         String displayMode = (String) map.get("displayMode");
+        String displayModeAligned = (String) map.get("displayModeAligned");
         String labelMode = (String) map.get("labelMode");
         Long status = (Long) map.get("status");
 
         Form form = getCurrentForm();
         form.setName(name);
-        form.setDisplayMode(displayMode);
+
+        if(!Form.DISPLAY_MODE_TEMPLATE.equals(displayMode)){
+            if(Form.DISPLAY_MODE_ALIGNED.equals(displayModeAligned)) form.setDisplayMode(Form.DISPLAY_MODE_ALIGNED);
+            else form.setDisplayMode(Form.DISPLAY_MODE_NONE);
+        } else {
+            form.setDisplayMode(Form.DISPLAY_MODE_TEMPLATE);
+        }
+
+        //form.setDisplayMode(displayMode);
         form.setLabelMode(labelMode);
         form.setStatus(status);
 
@@ -609,7 +618,9 @@ public class WysiwygFormEditor extends BaseUIComponent {
         Map m = new HashMap();
         String[] name = (String[]) parameterMap.get("name");
         String[] displayMode = (String[]) parameterMap.get("displayMode");
+        String[] displayModeAligned = (String[]) parameterMap.get("displayModeAligned");
         String[] labelMode = (String[]) parameterMap.get("labelMode");
+
         String[] status = (String[]) parameterMap.get("status");
         String[] copyingFrom = (String[]) parameterMap.get("copyingFrom");
 
@@ -618,6 +629,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         }
 
         m.put("name", (name != null && name.length > 0) ? name[0] : null);
+        m.put("displayModeAligned", (displayModeAligned != null && displayModeAligned.length > 0) ? displayModeAligned[0] : Form.DISPLAY_MODE_NONE);
         m.put("displayMode", (displayMode != null && displayMode.length > 0) ? displayMode[0] : "default");
         m.put("labelMode", (labelMode != null && labelMode.length > 0) ? labelMode[0] : "undefined");
         m.put("status", Long.decode(status[0]));
