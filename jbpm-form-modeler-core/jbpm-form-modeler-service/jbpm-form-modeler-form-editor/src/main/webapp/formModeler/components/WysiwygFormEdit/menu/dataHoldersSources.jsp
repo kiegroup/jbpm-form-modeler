@@ -139,18 +139,18 @@
                    value="<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>"
                    onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>');">&nbsp;<i18n:message
                 key="dataHolder_process">!!!Process </i18n:message><br-->
-                <input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
+                <label><input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
                        value="<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>"
                        onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>')">&nbsp;<i18n:message
-                    key="dataHolder_datamodel">!!!Data Model source</i18n:message><br>
-                <input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
+                    key="dataHolder_datamodel">!!!Data Model source</i18n:message></label><br>
+                <label><input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
                        value="<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>"
                        onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>')">&nbsp;<i18n:message
-                    key="dataHolder_info_javaClass">!!!dataHolder_info_javaClass</i18n:message><br>
-                <input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
+                    key="dataHolder_info_javaClass">!!!dataHolder_info_javaClass</i18n:message><label><br>
+                <label><input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
                        value="<%=Form.HOLDER_TYPE_CODE_BASIC_TYPE%>"
                        onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_BASIC_TYPE%>')">&nbsp;<i18n:message
-                    key="dataHolder_basicType">!!!Basic type source</i18n:message><br>
+                    key="dataHolder_basicType">!!!Basic type source</i18n:message></label><br>
             </td>
         </tr>
         <tr>
