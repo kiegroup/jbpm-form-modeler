@@ -309,15 +309,13 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
 
             setAttribute("colspan", colspan);
             renderFragment("headerStart");
-            Set formFields = form.getFormFields();
-            List sortedFields = new ArrayList(formFields);
+            Set<Field> formFields = form.getFormFields();
+            List<Field> sortedFields = new ArrayList(formFields);
             Collections.sort(sortedFields, new Field.Comparator());
-            for (int i = 0; i < sortedFields.size(); i++) {
-                Field formularyField = (Field) sortedFields.get(i);
-
-                String colLabel = StringEscapeUtils.escapeHtml(fieldI18nResourceObtainer.getFieldLabel(field));
-                setAttribute("colLabel", StringUtils.defaultString(colLabel, formularyField.getFieldName()));
-                String colName = formularyField.getFieldName();
+            for (Field formField : sortedFields) {
+                String colLabel = StringEscapeUtils.escapeHtml(fieldI18nResourceObtainer.getFieldLabel(formField));
+                setAttribute("colLabel", StringUtils.defaultString(colLabel, formField.getFieldName()));
+                String colName = formField.getFieldName();
                 setAttribute("colName", colName);
                 renderFragment("outputColumnName");
             }

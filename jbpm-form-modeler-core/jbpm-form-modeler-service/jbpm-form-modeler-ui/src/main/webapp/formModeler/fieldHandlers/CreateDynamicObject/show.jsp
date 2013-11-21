@@ -64,7 +64,7 @@
     </mvc:fragment>
     <%----------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="previewRow">
-        <mvc:fragmentValue name="formId" id="formId">
+        <mvc:fragmentValue name="form" id="form">
         <mvc:fragmentValue name="namespace" id="namespace">
         <mvc:fragmentValue name="formValues" id="formValues">
                         <tr>
@@ -73,7 +73,7 @@
                                     <tr>
                                         <td>
             <mvc:formatter name="FormRenderingFormatter">
-                <mvc:formatterParam name="formId" value="<%=formId%>"/>
+                <mvc:formatterParam name="form" value="<%=form%>"/>
                 <mvc:formatterParam name="namespace" value="<%=namespace%>"/>
                 <mvc:formatterParam name="renderMode" value="<%=Form.RENDER_MODE_DISPLAY%>"/>
                 <mvc:formatterParam name="formValues" value="<%=formValues%>"/>
@@ -93,24 +93,23 @@
     <mvc:fragment name="tableRow">
         <mvc:fragmentValue name="index" id="index">
         <mvc:fragmentValue name="namespace" id="namespace">
-        <mvc:fragmentValue name="formId" id="formId">
+        <mvc:fragmentValue name="form" id="form">
         <mvc:fragmentValue name="formValues" id="formValues">
-            <mvc:formatter
-                name="FormRenderingFormatter">
-                <%-- Formatter for table row, cannot use default rendering options --%>
-            <mvc:formatterParam name="formId" value="<%=formId%>"/>
-            <mvc:formatterParam name="renderMode" value="<%=Form.RENDER_MODE_DISPLAY%>"/>
-            <mvc:formatterParam name="displayMode" value="default"/>
-            <mvc:formatterParam name="formValues" value="<%=formValues%>"/>
-            <mvc:formatterParam name="namespace" value="<%=namespace%>"/>
-            <mvc:formatterParam name="reuseStatus" value="false"/>
-            <mvc:fragment name="outputStart">
-                <tr class="<%=((Integer) index).intValue() % 2 == 1 ? "skn-even_row" : "skn-odd_row"%>">
-            </mvc:fragment>
-            <mvc:fragment name="beforeField"><td valign="top"></mvc:fragment>
-            <mvc:fragment name="afterField"></td></mvc:fragment>
-            <mvc:fragment name="outputEnd"></tr></mvc:fragment>
-        </mvc:formatter>
+            <mvc:formatter name="FormRenderingFormatter">
+                <mvc:formatterParam name="form" value="<%=form%>"/>
+                <mvc:formatterParam name="renderMode" value="<%=Form.RENDER_MODE_DISPLAY%>"/>
+                <mvc:formatterParam name="displayMode" value="default"/>
+                <mvc:formatterParam name="formValues" value="<%=formValues%>"/>
+                <mvc:formatterParam name="namespace" value="<%=namespace%>"/>
+                <mvc:formatterParam name="reuseStatus" value="false"/>
+                <mvc:formatterParam name="labelMode" value="<%=Form.LABEL_MODE_HIDDEN%>"/>
+                <mvc:fragment name="outputStart">
+                    <tr class="<%=((Integer) index).intValue() % 2 == 1 ? "skn-even_row" : "skn-odd_row"%>">
+                </mvc:fragment>
+                <mvc:fragment name="beforeField"><td valign="top"></mvc:fragment>
+                <mvc:fragment name="afterField"></td></mvc:fragment>
+                <mvc:fragment name="outputEnd"></tr></mvc:fragment>
+            </mvc:formatter>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
