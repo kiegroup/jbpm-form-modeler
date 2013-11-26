@@ -35,6 +35,7 @@
                                             <mvc:fragmentValue name="disabled" id="disabled">
                                                 <mvc:fragmentValue name="height" id="height">
                                                     <mvc:fragmentValue name="readonly" id="readonly">
+                                                        <mvc:fragmentValue name="isEditMode" id="isEditMode">
                                             <table border="0" cellpadding="0" cellspacing="0" >
                                                 <tr valign="top">
                                                     <td>
@@ -43,7 +44,7 @@
                                                             onkeyup="return ismaxlength(this)"
                                                             <%=title!=null?("title=\""+title+"\""):""%>
                                                             class='dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>'
-                                                            style="<%=StringUtils.defaultString((String) cssStyle)%>"
+                                                            style="<%=Boolean.TRUE.equals(isEditMode) ? "resize: none;" : ""%><%=StringUtils.defaultString((String) cssStyle)%>"
                                                             <%=size!=null ? " cols=\""+size+"\"":""%>
                                                             <%=maxlength!=null ? " maxlength=\""+maxlength+"\"":""%>
                                                             <%=tabindex!=null ? " tabindex=\""+tabindex+"\"":""%>
@@ -54,7 +55,8 @@
                                                             <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%>><%=StringEscapeUtils.escapeHtml(StringUtils.defaultString((String)value))%></textarea>
                                                     </td>
                                                 </tr>
-                                            </table>            
+                                            </table>
+                                                        </mvc:fragmentValue>
                                                     </mvc:fragmentValue>
                                                 </mvc:fragmentValue>
                                             </mvc:fragmentValue>
