@@ -84,4 +84,9 @@ public class FieldHandlerParametersReader {
     public String getCurrentRenderMode() {
         return (String) httpServletRequest.getAttribute(FormRenderingFormatter.ATTR_FORM_RENDER_MODE);
     }
+
+    public boolean isEditingForm() {
+        String renderMode = getCurrentRenderMode();
+        return Form.RENDER_MODE_WYSIWYG_FORM.equals(renderMode) || Form.RENDER_MODE_WYSIWYG_DISPLAY.equals(renderMode);
+    }
 }

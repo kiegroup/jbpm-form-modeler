@@ -61,6 +61,7 @@ public class SimpleFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
         setAttribute("name", fieldName);
         setAttribute("formFieldName", field != null ? field.getFieldName() : null);
         setAttribute("lang", getLang());
+        setAttribute("isEditMode", paramsReader.isEditingForm());
         setAttribute("uid", getFormManager().getUniqueIdentifier(form, namespace, field, fieldName));
 
         // Override the field's own disabled and readonly values with the ones coming from a parent formatter
