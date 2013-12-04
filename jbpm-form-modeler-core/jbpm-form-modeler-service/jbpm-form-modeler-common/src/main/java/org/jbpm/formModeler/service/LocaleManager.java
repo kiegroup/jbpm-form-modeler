@@ -230,7 +230,7 @@ public class LocaleManager {
      */
     public Object localize(Map localizedData) {
         if (localizedData == null) return null;
-        String lang = getCurrentLang();
+        String lang = getCurrentLocale().getLanguage();
 
         Object data = localizedData.get(lang);
         if (data != null && (!(data instanceof String) || !"".equals(data)))
