@@ -21,6 +21,7 @@ import javax.enterprise.inject.New;
 import javax.inject.Inject;
 
 import org.guvnor.common.services.shared.file.DeleteService;
+import org.guvnor.common.services.shared.file.RenameService;
 import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.RemoteCallback;
 import org.jboss.errai.ioc.client.container.SyncBeanManager;
@@ -31,12 +32,12 @@ import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.jbpm.formModeler.editor.type.FormResourceTypeDefinition;
 import org.kie.workbench.common.widgets.client.callbacks.HasBusyIndicatorDefaultErrorCallback;
 import org.kie.workbench.common.widgets.client.menu.FileMenuBuilder;
-import org.kie.workbench.common.widgets.client.popups.file.CommandWithCommitMessage;
-import org.kie.workbench.common.widgets.client.popups.file.DeletePopup;
+import org.kie.workbench.common.widgets.client.popups.file.*;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 import org.kie.workbench.common.widgets.client.widget.BusyIndicatorView;
 import org.kie.workbench.common.widgets.client.widget.HasBusyIndicator;
 import org.uberfire.backend.vfs.ObservablePath;
+import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.annotations.WorkbenchEditor;
 import org.uberfire.client.annotations.WorkbenchMenu;
 import org.uberfire.client.annotations.WorkbenchPartTitle;
@@ -100,6 +101,9 @@ public class FormModelerPanelPresenter {
     private Event<ChangeTitleWidgetEvent> changeTitleNotification;
 
     @Inject
+    private Caller<RenameService> renameService;
+
+    @Inject
     private FormResourceTypeDefinition resourceType;
 
     private FormEditorContextTO context;
@@ -155,7 +159,34 @@ public class FormModelerPanelPresenter {
             }
         } );
 
+        this.path.onConcurrentRename( new ParameterizedCommand<ObservablePath.OnConcurrentRenameEvent>() {
+            @Override
+            public void execute( final ObservablePath.OnConcurrentRenameEvent info ) {
+                newConcurrentRename( info.getSource(),
+                        info.getTarget(),
+                        info.getIdentity(),
+                        new Command() {
+                            @Override
+                            public void execute() {
+                                disableMenus();
+                            }
+                        },
+                        new Command() {
+                            @Override
+                            public void execute() {
+                                reload();
+                            }
+                        }
+                ).show();
+            }
+        } );
 
+        this.path.onRename( new Command() {
+            @Override
+            public void execute() {
+                changeTitleNotification.fire( new ChangeTitleWidgetEvent( place, getTitle(), null ) );
+            }
+        });
 
         modelerService.call(new RemoteCallback<FormEditorContextTO>() {
             @Override
@@ -186,6 +217,29 @@ public class FormModelerPanelPresenter {
                 }
             }
         }).reloadForm(path, context.getCtxUID());
+    }
+
+    private void onRename() {
+        final RemoteCallback<Path> renameCallback = new RemoteCallback<Path>() {
+            @Override
+            public void callback( final Path path ) {
+                busyIndicatorView.hideBusyIndicator();
+                notification.fire( new NotificationEvent( CommonConstants.INSTANCE.ItemRenamedSuccessfully() ) );
+                modelerService.call().changeContextPath(context.getCtxUID(), path);
+            }
+        };
+        RenamePopup popup = new RenamePopup( new CommandWithFileNameAndCommitMessage() {
+            @Override
+            public void execute( final FileNameAndCommitMessage details ) {
+                busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Renaming() );
+                renameService.call( renameCallback,
+                        new HasBusyIndicatorDefaultErrorCallback( busyIndicatorView ) ).rename(path,
+                        details.getNewFileName(),
+                        details.getCommitMessage());
+            }
+        } );
+
+        popup.show();
     }
 
     @OnSave
@@ -326,6 +380,12 @@ public class FormModelerPanelPresenter {
                         @Override
                         public void execute() {
                             onSave();
+                        }
+                    })
+                    .addRename(new Command() {
+                        @Override
+                        public void execute() {
+                            onRename();
                         }
                     })
                     .addDelete(new Command() {

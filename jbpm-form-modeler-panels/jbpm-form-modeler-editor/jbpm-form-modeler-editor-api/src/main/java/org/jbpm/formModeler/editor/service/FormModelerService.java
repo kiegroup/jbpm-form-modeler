@@ -16,6 +16,8 @@ public interface FormModelerService extends Serializable {
 
     FormEditorContextTO setFormFocus(String ctxUID);
 
+    void changeContextPath(String ctxUID, Path path);
+
     void removeEditingForm(String ctxUID);
 
     Path createForm(Path context, String formName);

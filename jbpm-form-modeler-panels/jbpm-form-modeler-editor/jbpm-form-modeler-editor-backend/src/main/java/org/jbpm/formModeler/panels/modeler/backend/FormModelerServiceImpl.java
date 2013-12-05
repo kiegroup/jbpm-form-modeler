@@ -74,6 +74,12 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     protected Map<String, FormEditorContext> formEditorContextMap = new HashMap<String, FormEditorContext>();
 
     @Override
+    public void changeContextPath(String ctxUID, Path path) {
+        if (StringUtils.isEmpty(ctxUID)) return;
+        getFormEditorContext(ctxUID).setPath(Paths.convert(path).toUri().toString());
+    }
+
+    @Override
     public FormEditorContextTO setFormFocus(String ctxUID) {
         if (StringUtils.isEmpty(ctxUID)) return null;
         return getFormEditorContext(ctxUID).getFormEditorContextTO();
