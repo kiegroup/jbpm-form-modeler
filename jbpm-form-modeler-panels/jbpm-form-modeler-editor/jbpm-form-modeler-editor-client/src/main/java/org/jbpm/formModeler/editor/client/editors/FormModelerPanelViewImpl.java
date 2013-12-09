@@ -88,6 +88,9 @@ public class FormModelerPanelViewImpl extends Composite
         if(context != null){
             contexUID = context.getCtxUID();
         }
+        String height = getParent().getOffsetHeight() - 30 + "px";
+        this.setHeight(height);
+        frame.setHeight(height);
         String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
         if (GWT_DEFAULT_LOCALE.equals(localeName)) localeName = FORM_MODELER_DEFAULT_LOCALE;
         frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=wysiwygfe&_fp=Start&ctxUID=" + contexUID+"&locale=" + localeName).asString());
