@@ -161,7 +161,7 @@
 
     setTimeout('highlightFields()',1);
 </script>
-<div style="overflow: hidden; padding: 4px;">
+<div style="padding: 4px;">
     <form id='<factory:encode name="changeFieldPositionForm"/>' action="<factory:formUrl/>" method="post" style="margin: 0px;">
         <factory:handler action="moveField"/>
         <input type="hidden" id='<factory:encode name="selectedField"/>' name="selectedField" value="">
