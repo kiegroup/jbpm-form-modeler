@@ -18,11 +18,12 @@ package org.jbpm.formModeler.api.client;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 
+import java.io.Serializable;
 
-public interface FormEditorContextManager {
-    FormEditorContext newContext(Form form, Object path);
+public interface FormEditorContextManager extends Serializable {
+    FormEditorContext newContext(Form form, String path);
+    void removeEditingForm(String ctxUID);
     FormEditorContext getFormEditorContext(String UID);
     String generateFieldEditionNamespace(String UID, Field field);
     FormEditorContext getRootEditorContext(String UID);
-    void saveContext(String UID) throws Exception;
 }

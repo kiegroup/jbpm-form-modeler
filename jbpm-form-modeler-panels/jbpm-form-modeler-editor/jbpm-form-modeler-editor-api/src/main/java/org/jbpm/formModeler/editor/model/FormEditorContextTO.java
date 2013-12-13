@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbpm.formModeler.api.client;
+package org.jbpm.formModeler.editor.model;
 
 import org.jboss.errai.common.client.api.annotations.Portable;
 
@@ -22,18 +22,12 @@ import java.io.Serializable;
 @Portable
 public class FormEditorContextTO implements Serializable {
     private String ctxUID;
-    private Long formId;
-    private String formName;
-    private Object path;
 
     public FormEditorContextTO() {
     }
 
-    public FormEditorContextTO(String ctxUID, Long formId, String formName, Object path) {
+    public FormEditorContextTO(String ctxUID) {
         this.ctxUID = ctxUID;
-        this.formId = formId;
-        this.formName = formName;
-        this.path = path;
     }
 
     public String getCtxUID() {
@@ -42,29 +36,5 @@ public class FormEditorContextTO implements Serializable {
 
     public void setCtxUID(String ctxUID) {
         this.ctxUID = ctxUID;
-    }
-
-    public Long getFormId() {
-        return formId;
-    }
-
-    public void setFormId(Long formId) {
-        this.formId = formId;
-    }
-
-    public String getFormName() {
-        return formName;
-    }
-
-    public void setFormName(String formName) {
-        this.formName = formName;
-    }
-
-    public Object getPath() {
-        return path;
-    }
-
-    public void setPath(Object path) {
-        this.path = path;
     }
 }

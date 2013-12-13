@@ -16,6 +16,7 @@
 package org.jbpm.formModeler.components.renderer;
 
 import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.api.client.FormRenderContextTO;
 import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
 import org.jbpm.formModeler.api.events.FormSubmittedEvent;
 import org.jbpm.formModeler.api.model.Form;
@@ -84,9 +85,9 @@ public class FormRenderingComponent extends BaseUIComponent {
             submited = true;
 
             ctx.setSubmit(false);
-            formRenderContextManager.fireContextSubmit(new FormSubmittedEvent(ctx.getFormRenderingContextTO()));
+            formRenderContextManager.fireContextSubmit(new FormSubmittedEvent(new FormRenderContextTO(ctx)));
         } catch (Exception e) {
-            formRenderContextManager.fireContextSubmitError(new FormSubmitFailEvent(ctx.getFormRenderingContextTO(), e.getMessage()));
+            formRenderContextManager.fireContextSubmitError(new FormSubmitFailEvent(new FormRenderContextTO(ctx), e.getMessage()));
         }
 
 

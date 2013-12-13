@@ -23,7 +23,6 @@ import java.io.Serializable;
 
 public class FormEditorContext implements Serializable {
     private FormRenderContext renderContext;
-    private Form originalForm;
     private String path;
 
     private int currentEditFieldPosition = -1;
@@ -67,10 +66,6 @@ public class FormEditorContext implements Serializable {
 
     public void setForm(Form form) {
         renderContext.setForm(form);
-    }
-
-    public FormEditorContextTO getFormEditorContextTO() {
-        return new FormEditorContextTO(renderContext.getUID(), renderContext.getForm().getId(), renderContext.getForm().getName(), path);
     }
 
     /*--Form edition status ----------------------------------*/

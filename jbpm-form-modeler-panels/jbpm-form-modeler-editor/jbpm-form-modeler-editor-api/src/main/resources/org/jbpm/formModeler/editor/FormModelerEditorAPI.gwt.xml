@@ -24,6 +24,7 @@
   <inherits name="org.jbpm.formModeler.FormModelerApi"/>
   <inherits name="org.uberfire.UberfireBackend"/>
 
+  <source path='model'/>
   <source path='service'/>
   <source path='type'/>
 </module>

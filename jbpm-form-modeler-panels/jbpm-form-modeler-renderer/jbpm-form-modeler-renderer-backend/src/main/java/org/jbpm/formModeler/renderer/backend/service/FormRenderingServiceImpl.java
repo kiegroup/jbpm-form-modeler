@@ -16,6 +16,7 @@
 package org.jbpm.formModeler.renderer.backend.service;
 
 import org.jboss.errai.bus.server.annotations.Service;
+import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.api.model.Form;
@@ -25,12 +26,12 @@ import org.jbpm.formModeler.renderer.service.FormRenderingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import java.util.Map;
 
 @Service
-@ApplicationScoped
+@SessionScoped
 public class FormRenderingServiceImpl implements FormRenderingService {
     private Logger log = LoggerFactory.getLogger(FormRenderingService.class);
 
@@ -41,7 +42,7 @@ public class FormRenderingServiceImpl implements FormRenderingService {
     private FormSerializationManager formSerializationManager;
 
     @Inject
-    private FormRenderContextManagerImpl formRenderContextManager;
+    private FormRenderContextManager formRenderContextManager;
 
 
     @Override
@@ -54,12 +55,9 @@ public class FormRenderingServiceImpl implements FormRenderingService {
     @Override
     public FormRenderContextTO startRendering(Form form, Map<String, Object> bindingData) {
         if (form != null) {
-
             FormRenderContext ctx = formRenderContextManager.newContext(form, bindingData);
-
-            return ctx.getFormRenderingContextTO();
+            return new FormRenderContextTO(ctx.getUID());
         }
-
         return null;
     }
 }
