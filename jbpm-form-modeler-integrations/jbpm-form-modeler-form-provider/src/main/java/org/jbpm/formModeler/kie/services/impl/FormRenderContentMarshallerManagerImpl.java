@@ -4,9 +4,10 @@ import org.jbpm.formModeler.kie.services.FormRenderContentMarshallerManager;
 import org.kie.internal.task.api.ContentMarshallerContext;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import java.util.concurrent.ConcurrentHashMap;
 
-@ApplicationScoped
+@SessionScoped
 public class FormRenderContentMarshallerManagerImpl implements FormRenderContentMarshallerManager {
     private ConcurrentHashMap<String, ContentMarshallerContext> marhsalContexts = new ConcurrentHashMap<String, ContentMarshallerContext>();
 

@@ -13,27 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbpm.formModeler.renderer.backend.service;
+package org.jbpm.formModeler.components.renderer;
 
-
-import org.jboss.errai.bus.server.annotations.Service;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
 import org.jbpm.formModeler.api.events.FormSubmittedEvent;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormProcessor;
-import org.jbpm.formModeler.kie.services.FormRenderContentMarshallerManager;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
-@ApplicationScoped
-public class FormRenderContextManagerImpl implements FormRenderContextManager {
+@SessionScoped
+public class FormRenderContextManagerImpl implements FormRenderContextManager, Serializable {
     @Inject
     private FormProcessor formProcessor;
 
@@ -42,8 +39,6 @@ public class FormRenderContextManagerImpl implements FormRenderContextManager {
 
     @Inject
     private Event<FormSubmittedEvent> formSubmittedEvent;
-
-    private FormRenderContentMarshallerManager formRenderContentMarshaller;
 
     protected Map<String, FormRenderContext> formRenderContextMap = new HashMap<String, FormRenderContext>();
 
@@ -70,7 +65,6 @@ public class FormRenderContextManagerImpl implements FormRenderContextManager {
             formProcessor.clear(context);
         }
     }
-
 
     @Override
     public FormRenderContext newContext(Form form, Map<String, Object> ctx) {

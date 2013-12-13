@@ -60,11 +60,6 @@ public class FormRenderContext implements Serializable {
         return outputData;
     }
 
-    public FormRenderContextTO getFormRenderingContextTO() {
-        FormRenderContextTO formRenderContextTO = new FormRenderContextTO(UID, form.getId(), submit, errors);
-        return formRenderContextTO;
-    }
-
     public boolean isDisabled() {
         return disabled;
     }

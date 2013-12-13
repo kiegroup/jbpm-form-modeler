@@ -16,19 +16,14 @@
 package org.jbpm.formModeler.editor.client.editors;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.safehtml.shared.UriUtils;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Frame;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
-import org.jbpm.formModeler.api.client.FormEditorContextTO;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
-import org.kie.workbench.common.widgets.client.widget.BusyIndicatorView;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
@@ -42,9 +37,6 @@ public class FormModelerPanelViewImpl extends Composite
 
     final static private String GWT_DEFAULT_LOCALE  = "default";
     final static private String FORM_MODELER_DEFAULT_LOCALE  = "en";
-
-    @Inject
-    private BusyIndicatorView busyIndicatorView;
 
     private FormModelerPanelPresenter presenter;
 
@@ -83,33 +75,19 @@ public class FormModelerPanelViewImpl extends Composite
     }
 
     @Override
-    public void loadContext(FormEditorContextTO context) {
-        String contexUID = "";
-        if(context != null){
-            contexUID = context.getCtxUID();
-        }
+    public void loadContext(String ctxUID) {
         String height = getParent().getOffsetHeight() - 30 + "px";
         this.setHeight(height);
         frame.setHeight(height);
         String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
         if (GWT_DEFAULT_LOCALE.equals(localeName)) localeName = FORM_MODELER_DEFAULT_LOCALE;
-        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=wysiwygfe&_fp=Start&ctxUID=" + contexUID+"&locale=" + localeName).asString());
+        frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=wysiwygfe&_fp=Start&ctxUID=" + ctxUID + "&locale=" + localeName).asString());
         visible(true);
     }
 
     @Override
     public void showCanNotSaveReadOnly() {
-        Window.alert( CommonConstants.INSTANCE.CantSaveReadOnly() );
-    }
-
-    @Override
-    public void showBusyIndicator( final String message ) {
-        busyIndicatorView.showBusyIndicator( message );
-    }
-
-    @Override
-    public void hideBusyIndicator() {
-        busyIndicatorView.hideBusyIndicator();
+        Window.alert(CommonConstants.INSTANCE.CantSaveReadOnly());
     }
 }
 

@@ -20,14 +20,12 @@ import javax.enterprise.event.Event;
 import javax.enterprise.inject.New;
 import javax.inject.Inject;
 
-import org.guvnor.common.services.shared.file.DeleteService;
-import org.guvnor.common.services.shared.file.RenameService;
 import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.RemoteCallback;
 import org.jboss.errai.ioc.client.container.SyncBeanManager;
-import org.jbpm.formModeler.api.client.FormEditorContextTO;
 import org.jbpm.formModeler.editor.client.resources.i18n.Constants;
 import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
+import org.jbpm.formModeler.editor.model.FormEditorContextTO;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.jbpm.formModeler.editor.type.FormResourceTypeDefinition;
 import org.kie.workbench.common.widgets.client.callbacks.HasBusyIndicatorDefaultErrorCallback;
@@ -35,7 +33,6 @@ import org.kie.workbench.common.widgets.client.menu.FileMenuBuilder;
 import org.kie.workbench.common.widgets.client.popups.file.*;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 import org.kie.workbench.common.widgets.client.widget.BusyIndicatorView;
-import org.kie.workbench.common.widgets.client.widget.HasBusyIndicator;
 import org.uberfire.backend.vfs.ObservablePath;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.annotations.WorkbenchEditor;
@@ -66,12 +63,11 @@ public class FormModelerPanelPresenter {
 
     public interface FormModelerPanelView
             extends
-            HasBusyIndicator,
             UberView<FormModelerPanelPresenter> {
 
         void hideForm();
 
-        void loadContext(FormEditorContextTO context);
+        void loadContext(String ctxUID);
 
         void showCanNotSaveReadOnly();
     }
@@ -89,9 +85,6 @@ public class FormModelerPanelPresenter {
     Caller<FormModelerService> modelerService;
 
     @Inject
-    private Caller<DeleteService> deleteService;
-
-    @Inject
     private BusyIndicatorView busyIndicatorView;
 
     @Inject
@@ -99,9 +92,6 @@ public class FormModelerPanelPresenter {
 
     @Inject
     private Event<ChangeTitleWidgetEvent> changeTitleNotification;
-
-    @Inject
-    private Caller<RenameService> renameService;
 
     @Inject
     private FormResourceTypeDefinition resourceType;
@@ -191,7 +181,7 @@ public class FormModelerPanelPresenter {
         modelerService.call(new RemoteCallback<FormEditorContextTO>() {
             @Override
             public void callback(FormEditorContextTO ctx) {
-                view.hideBusyIndicator();
+                busyIndicatorView.hideBusyIndicator();
                 if (ctx == null) {
                     notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_load_form(path.getFileName()), NotificationEvent.NotificationType.ERROR));
                 } else {
@@ -204,11 +194,11 @@ public class FormModelerPanelPresenter {
 
     private void reload() {
         changeTitleNotification.fire( new ChangeTitleWidgetEvent( place, getTitle(), null ) );
-        view.showBusyIndicator( CommonConstants.INSTANCE.Loading() );
+        busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Loading() );
         modelerService.call(new RemoteCallback<FormEditorContextTO>() {
             @Override
             public void callback(FormEditorContextTO ctx) {
-                view.hideBusyIndicator();
+                busyIndicatorView.hideBusyIndicator();
                 if (ctx == null) {
                     notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_load_form(path.getFileName()), NotificationEvent.NotificationType.ERROR));
                 } else {
@@ -232,8 +222,8 @@ public class FormModelerPanelPresenter {
             @Override
             public void execute( final FileNameAndCommitMessage details ) {
                 busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Renaming() );
-                renameService.call( renameCallback,
-                        new HasBusyIndicatorDefaultErrorCallback( busyIndicatorView ) ).rename(path,
+                modelerService.call( renameCallback,
+                        new HasBusyIndicatorDefaultErrorCallback(busyIndicatorView)).rename(path,
                         details.getNewFileName(),
                         details.getCommitMessage());
             }
@@ -277,19 +267,26 @@ public class FormModelerPanelPresenter {
 
 
     public void save() {
-        try {
-            modelerService.call(new RemoteCallback<Long>() {
-                @Override
-                public void callback(Long formId) {
-                    view.hideBusyIndicator();
-                    notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_successfully_saved(context.getFormName()), NotificationEvent.NotificationType.SUCCESS));
-                }
-            }).saveForm(context.getCtxUID());
-        } catch (Exception e) {
-            view.hideBusyIndicator();
-            notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_save(context.getFormName()), NotificationEvent.NotificationType.ERROR));
-        }
-
+        new SaveOperationService().save(path,
+                new CommandWithCommitMessage() {
+                    @Override
+                    public void execute( final String commitMessage ) {
+                        busyIndicatorView.showBusyIndicator(CommonConstants.INSTANCE.Saving());
+                        try {
+                            modelerService.call(new RemoteCallback<Path>() {
+                                @Override
+                                public void callback(Path formPath) {
+                                    busyIndicatorView.hideBusyIndicator();
+                                    notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_successfully_saved(path.getFileName()), NotificationEvent.NotificationType.SUCCESS));
+                                }
+                            }).save(path, context, null, commitMessage);
+                        } catch (Exception e) {
+                            notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_save(path.getFileName()), NotificationEvent.NotificationType.ERROR));
+                        } finally {
+                            busyIndicatorView.hideBusyIndicator();
+                        }
+                    }
+                });
     }
 
 
@@ -298,7 +295,7 @@ public class FormModelerPanelPresenter {
             @Override
             public void execute(final String comment) {
                 busyIndicatorView.showBusyIndicator(CommonConstants.INSTANCE.Deleting());
-                deleteService.call(new RemoteCallback<Void>() {
+                modelerService.call(new RemoteCallback<Void>() {
 
                     @Override
                     public void callback(final Void response) {
@@ -321,15 +318,6 @@ public class FormModelerPanelPresenter {
         if (context == null) {
             return;
         }
-
-        modelerService.call(new RemoteCallback<FormEditorContextTO>() {
-            @Override
-            public void callback(FormEditorContextTO context) {
-                loadContext(context);
-            }
-
-        }).setFormFocus((context != null ? context.getCtxUID() : null));
-
     }
 
     @OnClose
@@ -345,7 +333,7 @@ public class FormModelerPanelPresenter {
 
     public void loadContext(FormEditorContextTO ctx) {
         this.context = ctx;
-        view.loadContext(ctx);
+        view.loadContext(ctx.getCtxUID());
     }
 
     @WorkbenchPartTitle

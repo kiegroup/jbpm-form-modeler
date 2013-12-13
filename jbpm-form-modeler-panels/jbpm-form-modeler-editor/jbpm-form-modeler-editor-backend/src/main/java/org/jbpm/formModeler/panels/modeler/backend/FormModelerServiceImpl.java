@@ -15,40 +15,39 @@
  */
 package org.jbpm.formModeler.panels.modeler.backend;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Date;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.lang.StringUtils;
+import org.guvnor.common.services.shared.file.DeleteService;
+import org.guvnor.common.services.shared.file.RenameService;
+import org.guvnor.common.services.shared.metadata.model.Metadata;
 import org.jboss.errai.bus.server.annotations.Service;
 import org.jbpm.formModeler.api.client.FormEditorContext;
 import org.jbpm.formModeler.api.client.FormEditorContextManager;
-import org.jbpm.formModeler.api.client.FormEditorContextTO;
-import org.jbpm.formModeler.api.client.FormRenderContext;
-import org.jbpm.formModeler.api.client.FormRenderContextManager;
-import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
-import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
+import org.jbpm.formModeler.editor.model.FormEditorContextTO;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.uberfire.io.IOService;
+import org.uberfire.java.nio.base.options.CommentedOption;
 import org.uberfire.java.nio.file.FileAlreadyExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
+import org.uberfire.rpc.SessionInfo;
+import org.uberfire.security.Identity;
 import org.uberfire.workbench.events.NotificationEvent;
 
 @Service
 @ApplicationScoped
-public class FormModelerServiceImpl implements FormModelerService, FormEditorContextManager {
-    public static final String EDIT_FIELD_LITERAL = "editingFormFieldId";
+public class FormModelerServiceImpl implements FormModelerService {
 
     private Logger log = LoggerFactory.getLogger(FormModelerServiceImpl.class);
 
@@ -60,6 +59,12 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     private Event<NotificationEvent> notification;
 
     @Inject
+    private RenameService renameService;
+
+    @Inject
+    private DeleteService deleteService;
+
+    @Inject
     private SubformFinderService subformFinderService;
 
     @Inject
@@ -69,38 +74,40 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
     private FormSerializationManager formSerializationManager;
 
     @Inject
-    private FormRenderContextManager formRenderContextManager;
+    private FormEditorContextManager formEditorContextManager;
 
-    protected Map<String, FormEditorContext> formEditorContextMap = new HashMap<String, FormEditorContext>();
+    @Inject
+    private Identity identity;
+
+    @Inject
+    private SessionInfo sessionInfo;
+
 
     @Override
     public void changeContextPath(String ctxUID, Path path) {
         if (StringUtils.isEmpty(ctxUID)) return;
-        getFormEditorContext(ctxUID).setPath(Paths.convert(path).toUri().toString());
-    }
-
-    @Override
-    public FormEditorContextTO setFormFocus(String ctxUID) {
-        if (StringUtils.isEmpty(ctxUID)) return null;
-        return getFormEditorContext(ctxUID).getFormEditorContextTO();
+        formEditorContextManager.getFormEditorContext(ctxUID).setPath(Paths.convert(path).toUri().toString());
     }
 
     @Override
     public void removeEditingForm(String ctxUID) {
-        formEditorContextMap.remove(ctxUID);
-        formRenderContextManager.removeContext(ctxUID);
+        formEditorContextManager.removeEditingForm(ctxUID);
     }
 
     @Override
-    public FormEditorContextTO loadForm(Path context) {
+    public FormEditorContextTO loadForm(Path path) {
         try {
-            org.uberfire.java.nio.file.Path kiePath = Paths.convert(context);
+            org.uberfire.java.nio.file.Path kiePath = Paths.convert(path);
 
-            Form form = subformFinderService.getFormByPath(kiePath.toUri().toString());
+            String formPath = kiePath.toUri().toString();
 
-            return newContext(form, context).getFormEditorContextTO();
+            Form form = subformFinderService.getFormByPath(formPath);
+
+            FormEditorContext context = formEditorContextManager.newContext(form, formPath);
+
+            return new FormEditorContextTO(context.getUID());
         } catch (Exception e) {
-            log.warn("Error loading form " + context.toURI(), e);
+            log.warn("Error loading form " + path.toURI(), e);
             return null;
         }
     }
@@ -112,62 +119,38 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
 
             Form form = subformFinderService.getFormByPath(kiePath.toUri().toString());
 
-            FormEditorContext context = getFormEditorContext(ctxUID);
+            FormEditorContext context = formEditorContextManager.getFormEditorContext(ctxUID);
 
             context.setForm(form);
 
-            return context.getFormEditorContextTO();
-
+            return new FormEditorContextTO(context.getUID());
         } catch (Exception e) {
             log.warn("Error loading form " + path.toURI(), e);
             return null;
         }
     }
 
-    @Override
-    public FormEditorContext newContext(Form form, Object path) {
-        FormRenderContext ctx = formRenderContextManager.newContext(form, new HashMap<String, Object>());
-        org.uberfire.java.nio.file.Path kpath = Paths.convert((Path) path);
 
-        FormEditorContext formEditorContext = new FormEditorContext(ctx, kpath.toUri().toString());
-        formEditorContextMap.put(ctx.getUID(), formEditorContext);
-        return formEditorContext;
+    @Override
+    public Path save(Path path, FormEditorContextTO content, Metadata metadata, String comment) {
+        FormEditorContext ctx = formEditorContextManager.getFormEditorContext(content.getCtxUID());
+        ioService.write(Paths.convert(path), formSerializationManager.generateFormXML(ctx.getForm()), makeCommentedOption(comment));
+        return path;
     }
 
     @Override
-    public FormEditorContext getFormEditorContext(String UID) {
-        return formEditorContextMap.get(UID);
+    public Path rename(Path path, String newName, String comment) {
+        return renameService.rename(path, newName, comment);
     }
 
     @Override
-    public String generateFieldEditionNamespace(String UID, Field field) {
-        return UID + FormProcessor.NAMESPACE_SEPARATOR + EDIT_FIELD_LITERAL + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + field.getId();
+    public void delete(Path path, String comment) {
+        deleteService.delete(path, comment);
     }
 
     @Override
-    public FormEditorContext getRootEditorContext(String UID) {
-        if (StringUtils.isEmpty(UID)) return null;
-        int separatorIndex = UID.indexOf(FormProcessor.NAMESPACE_SEPARATOR);
-        if (separatorIndex != -1) UID = UID.substring(0, separatorIndex);
-        return formEditorContextMap.get(UID);
-    }
-
-    @Override
-    public void saveForm(String ctxUID) throws Exception {
-        saveContext(ctxUID);
-    }
-
-    @Override
-    public void saveContext(String ctxUID) throws Exception {
-        FormEditorContext ctx = getFormEditorContext(ctxUID);
-
-        org.uberfire.java.nio.file.Path kiePath = ioService.get(new URI(ctx.getPath()));
-        ioService.write(kiePath, formSerializationManager.generateFormXML(ctx.getForm()));
-    }
-
-    @Override
-    public Path createForm(Path context, String formName) {
-        org.uberfire.java.nio.file.Path kiePath = Paths.convert(context).resolve(formName);
+    public Path createForm(Path path, String formName) {
+        org.uberfire.java.nio.file.Path kiePath = Paths.convert(path).resolve(formName);
         try {
             ioService.createFile(kiePath);
 
@@ -184,12 +167,15 @@ public class FormModelerServiceImpl implements FormModelerService, FormEditorCon
 
     }
 
-    @Override
-    public boolean deleteForm(Path context) {
-        if (context == null) return false;
-        org.uberfire.java.nio.file.Path kiePath = Paths.convert(context);
-        return ioService.deleteIfExists(kiePath);
+    private CommentedOption makeCommentedOption( final String commitMessage ) {
+        final String name = identity.getName();
+        final Date when = new Date();
+        final CommentedOption co = new CommentedOption( sessionInfo.getId(),
+                name,
+                null,
+                commitMessage,
+                when );
+        return co;
     }
-
 
 }
