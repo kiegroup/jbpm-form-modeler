@@ -28,7 +28,7 @@ import javax.inject.Named;
 public class ShortDateFieldHandler extends DateFieldHandler {
 
     public ShortDateFieldHandler() {
-        defaultPattern = "mm-dd-yy";
+        defaultPattern = "MM-dd-yy";
         defaultPatterTimeSuffix = "";
     }
 }
