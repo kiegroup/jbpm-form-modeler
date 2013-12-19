@@ -20,6 +20,8 @@ import javax.enterprise.event.Event;
 import javax.enterprise.inject.New;
 import javax.inject.Inject;
 
+import com.google.gwt.user.client.ui.IsWidget;
+import org.guvnor.common.services.shared.metadata.MetadataService;
 import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.RemoteCallback;
 import org.jboss.errai.ioc.client.container.SyncBeanManager;
@@ -33,12 +35,17 @@ import org.kie.workbench.common.widgets.client.menu.FileMenuBuilder;
 import org.kie.workbench.common.widgets.client.popups.file.*;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 import org.kie.workbench.common.widgets.client.widget.BusyIndicatorView;
+import org.kie.workbench.common.widgets.metadata.client.callbacks.MetadataSuccessCallback;
+import org.kie.workbench.common.widgets.metadata.client.widget.MetadataWidget;
 import org.uberfire.backend.vfs.ObservablePath;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.annotations.WorkbenchEditor;
 import org.uberfire.client.annotations.WorkbenchMenu;
 import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartView;
+import org.uberfire.client.common.MultiPageEditor;
+import org.uberfire.client.common.Page;
+import org.uberfire.client.editors.defaulteditor.DefaultFileEditorPresenter;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.mvp.UberView;
 import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
@@ -61,16 +68,8 @@ import static org.uberfire.client.common.ConcurrentChangePopup.newConcurrentUpda
 @WorkbenchEditor(identifier = "FormModelerEditor", supportedTypes = {FormDefinitionResourceType.class})
 public class FormModelerPanelPresenter {
 
-    public interface FormModelerPanelView
-            extends
-            UberView<FormModelerPanelPresenter> {
-
-        void hideForm();
-
-        void loadContext(String ctxUID);
-
-        void showCanNotSaveReadOnly();
-    }
+    @Inject
+    private MultiPageEditor multiPage;
 
     @Inject
     private SyncBeanManager iocBeanManager;
@@ -94,6 +93,9 @@ public class FormModelerPanelPresenter {
     private Event<ChangeTitleWidgetEvent> changeTitleNotification;
 
     @Inject
+    private Caller<MetadataService> metadataService;
+
+    @Inject
     private FormResourceTypeDefinition resourceType;
 
     private FormEditorContextTO context;
@@ -101,10 +103,14 @@ public class FormModelerPanelPresenter {
     private Menus menus;
 
     protected boolean isReadOnly;
+    private String version;
 
     @Inject
     @New
     private FileMenuBuilder menuBuilder;
+
+    @Inject
+    private MetadataWidget metadataWidget;
 
     private ObservablePath path;
 
@@ -120,6 +126,34 @@ public class FormModelerPanelPresenter {
         this.path = path;
 
         this.isReadOnly = place.getParameter("readOnly", null) != null;
+        this.version = place.getParameter( "version", null );
+
+        multiPage.addPage(new Page( view,
+                CommonConstants.INSTANCE.SourceTabTitle() ) {
+            @Override
+            public void onFocus() {
+            }
+
+            @Override
+            public void onLostFocus() {
+            }
+        });
+
+        multiPage.addPage( new Page( metadataWidget,
+                CommonConstants.INSTANCE.MetadataTabTitle() ) {
+            @Override
+            public void onFocus() {
+                metadataWidget.showBusyIndicator( CommonConstants.INSTANCE.Loading() );
+                metadataService.call( new MetadataSuccessCallback( metadataWidget,
+                        isReadOnly ),
+                        new HasBusyIndicatorDefaultErrorCallback( metadataWidget ) ).getMetadata( path );
+            }
+
+            @Override
+            public void onLostFocus() {
+                //Nothing to do
+            }
+        });
 
         this.path.onConcurrentUpdate( new ParameterizedCommand<ObservablePath.OnConcurrentUpdateEvent>() {
             @Override
@@ -279,7 +313,7 @@ public class FormModelerPanelPresenter {
                                     busyIndicatorView.hideBusyIndicator();
                                     notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_successfully_saved(path.getFileName()), NotificationEvent.NotificationType.SUCCESS));
                                 }
-                            }).save(path, context, null, commitMessage);
+                            }).save(path, context, metadataWidget.getContent(), commitMessage);
                         } catch (Exception e) {
                             notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_save(path.getFileName()), NotificationEvent.NotificationType.ERROR));
                         } finally {
@@ -338,12 +372,11 @@ public class FormModelerPanelPresenter {
 
     @WorkbenchPartTitle
     public String getTitle() {
-        return Constants.INSTANCE.form_modeler_title(FileNameUtil.removeExtension(this.path, resourceType));
-    }
-
-    @WorkbenchPartView
-    public UberView<FormModelerPanelPresenter> getView() {
-        return view;
+        String fileName = FileNameUtil.removeExtension(path, resourceType);
+        if ( version != null ) {
+            fileName = fileName + " v" + version;
+        }
+        return Constants.INSTANCE.form_modeler_title(fileName);
     }
 
     private void disableMenus() {
@@ -386,4 +419,8 @@ public class FormModelerPanelPresenter {
         }
     }
 
+    @WorkbenchPartView
+    public IsWidget getWidget() {
+        return multiPage;
+    }
 }
