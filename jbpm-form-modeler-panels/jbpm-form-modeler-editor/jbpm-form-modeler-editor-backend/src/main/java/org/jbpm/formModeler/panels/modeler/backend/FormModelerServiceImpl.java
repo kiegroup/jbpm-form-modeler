@@ -24,6 +24,7 @@ import javax.inject.Named;
 import org.apache.commons.lang.StringUtils;
 import org.guvnor.common.services.shared.file.DeleteService;
 import org.guvnor.common.services.shared.file.RenameService;
+import org.guvnor.common.services.shared.metadata.MetadataService;
 import org.guvnor.common.services.shared.metadata.model.Metadata;
 import org.jboss.errai.bus.server.annotations.Service;
 import org.jbpm.formModeler.api.client.FormEditorContext;
@@ -63,6 +64,9 @@ public class FormModelerServiceImpl implements FormModelerService {
 
     @Inject
     private DeleteService deleteService;
+
+    @Inject
+    private MetadataService metadataService;
 
     @Inject
     private SubformFinderService subformFinderService;
@@ -134,7 +138,7 @@ public class FormModelerServiceImpl implements FormModelerService {
     @Override
     public Path save(Path path, FormEditorContextTO content, Metadata metadata, String comment) {
         FormEditorContext ctx = formEditorContextManager.getFormEditorContext(content.getCtxUID());
-        ioService.write(Paths.convert(path), formSerializationManager.generateFormXML(ctx.getForm()), makeCommentedOption(comment));
+        ioService.write(Paths.convert(path), formSerializationManager.generateFormXML(ctx.getForm()), metadataService.setUpAttributes(path, metadata), makeCommentedOption(comment));
         return path;
     }
 

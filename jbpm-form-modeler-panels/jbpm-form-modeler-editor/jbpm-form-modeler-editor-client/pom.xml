@@ -29,6 +29,11 @@
 
         <dependency>
             <groupId>org.uberfire</groupId>
+            <artifactId>uberfire-widgets-core-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.uberfire</groupId>
             <artifactId>uberfire-workbench</artifactId>
         </dependency>
 
@@ -68,6 +73,11 @@
         <dependency>
             <groupId>org.kie.workbench.widgets</groupId>
             <artifactId>kie-wb-common-ui</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kie.workbench.widgets</groupId>
+            <artifactId>kie-wb-metadata-widget</artifactId>
         </dependency>
 
         <dependency>

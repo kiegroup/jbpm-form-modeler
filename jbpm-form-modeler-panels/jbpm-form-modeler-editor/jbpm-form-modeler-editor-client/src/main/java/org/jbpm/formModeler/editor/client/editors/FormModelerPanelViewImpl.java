@@ -16,6 +16,8 @@
 package org.jbpm.formModeler.editor.client.editors;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.safehtml.shared.UriUtils;
 import com.google.gwt.user.client.Window;
@@ -33,7 +35,7 @@ import javax.inject.Inject;
 @Templated(value = "FormModelerPanelViewImpl.html")
 public class FormModelerPanelViewImpl extends Composite
         implements
-        FormModelerPanelPresenter.FormModelerPanelView {
+        FormModelerPanelView {
 
     final static private String GWT_DEFAULT_LOCALE  = "default";
     final static private String FORM_MODELER_DEFAULT_LOCALE  = "en";
@@ -45,7 +47,6 @@ public class FormModelerPanelViewImpl extends Composite
     private Frame frame;
 
     private long id;
-    private long formId = -1;
 
     public FormModelerPanelViewImpl() {
 
