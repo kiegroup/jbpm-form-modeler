@@ -54,7 +54,7 @@
                                                                                                 <mvc:fragmentValue name="index" id="index">
                                                                                                     <mvc:fragmentValue name="element" id="locale">
                                                                                                         <div id="<%=uid%><%=((Locale) locale).toString()%>"
-                                                                                                             style='<%=(((Locale) locale).getLanguage().equals(LocaleManager.currentLang()) ? "display:block;" : "display:none;")%>'
+                                                                                                             style='<%=(((Locale) locale).getLanguage().equals(LocaleManager.currentLocale().getLanguage()) ? "display:block;" : "display:none;")%>'
                                                                                                                 >
                                                                                                             <input id="<%=uid%><%=((Locale) locale).toString()%>" name="<%=name%>_<%=((Locale) locale).toString()%>"
                                                                                                                    onchange="processFormInputChange(this)"
@@ -97,7 +97,7 @@
                                                                                                 <mvc:fragmentValue name="index" id="index">
                                                                                                     <mvc:fragmentValue name="element" id="locale">
                                                                                                         <%--<option <%=((Integer) index).intValue() == 0 ? "selected" : ""%>--%>
-                                                                                                        <option <%=((Locale) locale).getLanguage().equals(LocaleManager.currentLang()) ? "selected" : ""%>
+                                                                                                        <option <%=((Locale) locale).toString().equals(LocaleManager.currentLocale().getLanguage()) ? "selected" : ""%>
                                                                                                                 value="<%=((Locale)locale).toString()%>">
                                                                                                             <%=StringUtils.capitalize(((Locale) locale).getDisplayName((Locale) locale))%>
                                                                                                         </option>
