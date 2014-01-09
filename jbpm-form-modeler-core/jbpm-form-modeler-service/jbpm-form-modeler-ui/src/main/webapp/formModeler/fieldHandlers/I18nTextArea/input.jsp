@@ -83,7 +83,7 @@
                                                                             <mvc:fragment name="output">
                                                                                 <mvc:fragmentValue name="index" id="index">
                                                                                     <mvc:fragmentValue name="element" id="locale">
-                                                                                        <option <%=((Locale) locale).getLanguage().equals(LocaleManager.currentLang()) ? "selected" : ""%>
+                                                                                        <option <%=((Locale) locale).getLanguage().equals(LocaleManager.currentLocale().getLanguage()) ? "selected" : ""%>
                                                                                         value="<%=((Locale)locale).toString()%>">
                                                                                         <%=StringUtils.capitalize(((Locale) locale).getDisplayName((Locale) locale))%>
                                                                                         </option>
