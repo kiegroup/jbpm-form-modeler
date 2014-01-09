@@ -454,6 +454,7 @@
         <artifactId>gwt-maven-plugin</artifactId>
         <configuration>
           <deploy>${project.build.directory}/gwt-symbols-deploy</deploy>
+          <localWorkers>4</localWorkers>
           <module>org.jbpm.formModeler.FastCompiledjBPMFormModeler</module>
           <logLevel>INFO</logLevel>
           <compileSourcesArtifacts>
