@@ -41,28 +41,25 @@
         <tr><td>
         <mvc:fragmentValue name="form" id="form">
         <mvc:fragmentValue name="namespace" id="namespace">
-            <mvc:fragmentValue name="uid" id="uid">
-                <mvc:fragmentValue name="name" id="name">
-                    <mvc:fragmentValue name="formValues" id="formValues">
-                        <mvc:fragmentValue name="renderMode" id="renderMode">
-                                    <mvc:fragmentValue name="disabled" id="disabled">
-                                        <mvc:fragmentValue name="readonly" id="readonly">
+        <mvc:fragmentValue name="uid" id="uid">
+        <mvc:fragmentValue name="name" id="name">
+        <mvc:fragmentValue name="formValues" id="formValues">
+        <mvc:fragmentValue name="renderMode" id="renderMode">
+        <mvc:fragmentValue name="readonly" id="readonly">
                                     <mvc:formatter name="FormRenderingFormatter">
                                         <mvc:formatterParam name="form" value="<%=form%>"/>
                                         <mvc:formatterParam name="namespace" value="<%=namespace%>"/>
                                         <mvc:formatterParam name="renderMode" value="<%=renderMode%>"/>
                                         <mvc:formatterParam name="formValues" value="<%=formValues%>"/>
-                                        <mvc:formatterParam name="isDisabled" value="<%=disabled%>"/>
                                         <mvc:formatterParam name="isReadonly" value="<%=readonly%>"/>
                                         <mvc:formatterParam name="isMultipleSubForm" value="false"/>
                                         <mvc:formatterParam name="isSubForm" value="true"/>
                                         <%@ include file="/formModeler/components/WysiwygFormEdit/menu/defaultFormRenderingFormatterOptions.jsp" %>
                                     </mvc:formatter>
-                                        </mvc:fragmentValue>
-                                </mvc:fragmentValue>
-                            </mvc:fragmentValue>
-                    </mvc:fragmentValue>
-                </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>

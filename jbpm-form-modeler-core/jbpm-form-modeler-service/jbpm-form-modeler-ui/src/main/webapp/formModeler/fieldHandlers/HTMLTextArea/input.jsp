@@ -34,11 +34,10 @@
                                     <mvc:fragmentValue name="accesskey" id="accesskey">
                                         <mvc:fragmentValue name="alt" id="alt">
                                             <mvc:fragmentValue name="cssStyle" id="cssStyle">
-                                                <mvc:fragmentValue name="disabled" id="disabled">
-                                                    <mvc:fragmentValue name="height" id="height">
-                                                        <mvc:fragmentValue name="readonly" id="readonly">
-                                                            <mvc:fragmentValue name="uid" id="uid">
-                                                                <mvc:fragmentValue name="lang" id="lang">
+                                                <mvc:fragmentValue name="height" id="height">
+                                                    <mvc:fragmentValue name="readonly" id="readonly">
+                                                        <mvc:fragmentValue name="uid" id="uid">
+                                                            <mvc:fragmentValue name="lang" id="lang">
                                                                     <table border="0" cellpadding="0" cellspacing="0" >
                                                                         <tr valign="top">
                                                                             <td style="padding-bottom: 200px;">
@@ -53,8 +52,7 @@
                                                                                             <%=accesskey != null ? " accesskey=\"" + accesskey + "\"" : ""%>
                                                                                             <%=alt != null ? " alt=\"" + alt + "\"" : ""%>
                                                                                             <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
-                                                                                            <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly " : ""%>
-                                                                                            <%=disabled != null && ((Boolean) disabled).booleanValue() ? " disabled " : ""%>><%=StringEscapeUtils.escapeHtml(value == null ? "" : ((String) value))%></textarea>
+                                                                                            <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly disabled " : ""%>><%=StringEscapeUtils.escapeHtml(value == null ? "" : ((String) value))%></textarea>
                                                                                 </div>
                                                                             </td>
                                                                         </tr>
@@ -63,7 +61,6 @@
                                                                     <script>
                                                                         CKEditorHandler.create('<%=uid%>', '<%=uid + HTMLTextAreaFieldHandler.VALUE_SUFFIX%>', '<%=title%>',<%=readonly%>,<%=tabindex%>,<%=height%>,<%=size%>,'<%=lang%>', '<%=maxlength%>');
                                                                     </script>
-                                                                </mvc:fragmentValue>
                                                             </mvc:fragmentValue>
                                                         </mvc:fragmentValue>
                                                     </mvc:fragmentValue>

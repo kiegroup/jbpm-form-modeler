@@ -5,7 +5,7 @@
     <mvc:fragment name="output">
         <mvc:fragmentValue name="ctxUID" id="ctxUID">
         <mvc:fragmentValue name="form" id="form">
-        <mvc:fragmentValue name="disabled" id="disabled">
+        <mvc:fragmentValue name="readonly" id="readonly">
 <form action="<factory:formUrl/>" method="post" id="formRendering<%=ctxUID%>" style="margin:0px; padding:0px;" enctype="multipart/form-data">
     <factory:handler action="submitForm"/>
     <input type="hidden" name="ctxUID" id="ctxUID" value="<%=ctxUID%>"/>
@@ -14,7 +14,7 @@
         <mvc:formatterParam name="form" value="<%=form%>"/>
         <mvc:formatterParam name="renderMode" value="<%=Form.RENDER_MODE_FORM%>"/>
         <mvc:formatterParam name="namespace" value="<%=ctxUID%>"/>
-        <mvc:formatterParam name="isDisabled" value="<%=disabled%>"/>
+        <mvc:formatterParam name="isReadonly" value="<%=readonly%>"/>
         <mvc:formatterParam name="reuseStatus" value="true"/>
         <%@ include file="/formModeler/defaultFormRenderingFormatterOptions.jsp" %>
     </mvc:formatter>

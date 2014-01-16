@@ -36,9 +36,6 @@ import java.util.Set;
 public class SubformFormatter extends DefaultFieldHandlerFormatter {
     private static transient Logger log = LoggerFactory.getLogger(SubformFormatter.class);
 
-    protected Boolean isDisabled;
-    protected Boolean isReadonly;
-
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         FieldHandlerParametersReader paramsReader = new FieldHandlerParametersReader(httpServletRequest);
 
@@ -49,8 +46,7 @@ public class SubformFormatter extends DefaultFieldHandlerFormatter {
         int position = paramsReader.getCurrentPosition();
         String namespace = paramsReader.getCurrentNamespace();
 
-        isDisabled = paramsReader.isFieldDisabled();
-        isReadonly = paramsReader.isFieldReadonly();
+        Boolean isReadonly = paramsReader.isFieldReadonly();
 
         SubformFieldHandler fieldHandler = (SubformFieldHandler) getFieldHandlersManager().getHandler(field.getFieldType());
 
@@ -85,7 +81,6 @@ public class SubformFormatter extends DefaultFieldHandlerFormatter {
         setAttribute("renderMode", renderMode);
         // Override the field's own disabled and readonly values with the ones coming from a parent formatter
         // that contains it if they're set to true.
-        if (isDisabled) setAttribute("disabled", isDisabled);
         if (isReadonly) setAttribute("readonly", isReadonly);
         if (value != null) {
             setAttribute("formValues", value);

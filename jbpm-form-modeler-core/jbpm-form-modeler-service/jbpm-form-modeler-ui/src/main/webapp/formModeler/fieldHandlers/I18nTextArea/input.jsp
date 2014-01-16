@@ -41,9 +41,8 @@
                                                 <mvc:fragmentValue name="localeManager" id="localeManager">
                                                     <mvc:fragmentValue name="wrong" id="wrong">
                                                         <mvc:fragmentValue name="cssStyle" id="cssStyle">
-                                                            <mvc:fragmentValue name="disabled" id="disabled">
-                                                                <mvc:fragmentValue name="height" id="height">
-                                                                    <mvc:fragmentValue name="readonly" id="readonly">
+                                                            <mvc:fragmentValue name="height" id="height">
+                                                                <mvc:fragmentValue name="readonly" id="readonly">
                                                                         <!--<table border="0" cellpadding="0" cellspacing="0" >
                                                                         <tr valign="top">
                                                                         <td>
@@ -115,8 +114,7 @@
                                                                                                 <%=tabindex != null ? " tabindex=\"" + tabindex + "\"" : ""%>
                                                                                                 <%=accesskey != null ? " accesskey=\"" + accesskey + "\"" : ""%>
                                                                                                 <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
-                                                                                                <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly " : ""%>
-                                                                                                <%=disabled != null && ((Boolean) disabled).booleanValue() ? " disabled " : ""%>><%=StringEscapeUtils.escapeHtml(StringUtils.defaultString((val == null || "".equals(val)) ? "" : ((I18nSet) val).getValue(LocaleManager.currentLang())))%></textarea>
+                                                                                                <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly disabled " : ""%>><%=StringEscapeUtils.escapeHtml(StringUtils.defaultString((val == null || "".equals(val)) ? "" : ((I18nSet) val).getValue(LocaleManager.currentLang())))%></textarea>
                                                                                     </div>
                                                                                 </td>
                                                                             </tr>

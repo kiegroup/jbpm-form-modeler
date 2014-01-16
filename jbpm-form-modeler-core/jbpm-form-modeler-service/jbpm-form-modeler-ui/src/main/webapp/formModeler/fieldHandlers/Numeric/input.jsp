@@ -32,11 +32,10 @@
                                 <mvc:fragmentValue name="accesskey" id="accesskey">
                                     <mvc:fragmentValue name="alt" id="alt">
                                         <mvc:fragmentValue name="cssStyle" id="cssStyle">
-                                            <mvc:fragmentValue name="disabled" id="disabled">
-                                                <mvc:fragmentValue name="height" id="height">
-                                                    <mvc:fragmentValue name="readonly" id="readonly">
-                                                        <mvc:fragmentValue name="wrong" id="wrong">
-                                                            <mvc:fragmentValue name="inputValue" id="inputValue">
+                                            <mvc:fragmentValue name="height" id="height">
+                                                <mvc:fragmentValue name="readonly" id="readonly">
+                                                    <mvc:fragmentValue name="wrong" id="wrong">
+                                                        <mvc:fragmentValue name="inputValue" id="inputValue">
                                             <table border="0" cellpadding="0" cellspacing="0" >
                                                 <tr valign="top">
                                                     <td>
@@ -52,7 +51,6 @@
                                                             <%=alt!=null ? " alt=\""+alt+"\"":""%>
                                                             <%=height!=null ? " height=\""+height+"\"":""%>
                                                             <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>
-                                                            <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%>
                                                                 value="<%=
                                                                 Boolean.TRUE.equals(wrong)?
                                                                 (StringEscapeUtils.escapeHtml(StringUtils.defaultString(inputValue==null?"":String.valueOf(inputValue))))
@@ -62,7 +60,6 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                                            </mvc:fragmentValue>
                                                         </mvc:fragmentValue>
                                                     </mvc:fragmentValue>
                                                 </mvc:fragmentValue>
@@ -89,9 +86,8 @@
                                 <mvc:fragmentValue name="accesskey" id="accesskey">
                                     <mvc:fragmentValue name="alt" id="alt">
                                         <mvc:fragmentValue name="cssStyle" id="cssStyle">
-                                            <mvc:fragmentValue name="disabled" id="disabled">
-                                                <mvc:fragmentValue name="height" id="height">
-                                                    <mvc:fragmentValue name="readonly" id="readonly">
+                                            <mvc:fragmentValue name="height" id="height">
+                                                <mvc:fragmentValue name="readonly" id="readonly">
                                                         <select name="<%=name%>"  id='<mvc:fragmentValue name="uid"/>'
                                                             onchange="processFormInputChange(this)"
                                                             <%=title!=null?("title=\""+title+"\""):""%>
@@ -103,9 +99,7 @@
                                                             <%=alt!=null ? " alt=\""+alt+"\"":""%>
                                                             <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
                                                             <%=height!=null ? " height=\""+height+"\"":""%>
-                                                            <%=readonly!=null && ((Boolean)readonly).booleanValue()? " onfocus=\"this.blur();\" ":""%>
-                                                            <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%> >
-                                                    </mvc:fragmentValue>
+                                                            <%=readonly!=null && ((Boolean)readonly).booleanValue()? " onfocus=\"this.blur();\" disabled ":""%> >
                                                 </mvc:fragmentValue>
                                             </mvc:fragmentValue>
                                         </mvc:fragmentValue>

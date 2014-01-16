@@ -33,13 +33,11 @@
                                     <mvc:fragmentValue name="accesskey" id="accesskey">
                                         <mvc:fragmentValue name="alt" id="alt">
                                             <mvc:fragmentValue name="cssStyle" id="cssStyle">
-                                                <mvc:fragmentValue name="disabled" id="disabled">
-                                                    <mvc:fragmentValue name="height" id="height">
-                                                        <mvc:fragmentValue name="readonly" id="readonly">
-                                                            <mvc:fragmentValue name="uid" id="uid">
-                                                                <mvc:fragmentValue name="timePattern" id="timePattern">
-                                                                    <mvc:fragmentValue name="inputPattern"
-                                                                                       id="inputPattern">
+                                                <mvc:fragmentValue name="height" id="height">
+                                                    <mvc:fragmentValue name="readonly" id="readonly">
+                                                        <mvc:fragmentValue name="uid" id="uid">
+                                                            <mvc:fragmentValue name="timePattern" id="timePattern">
+                                                                <mvc:fragmentValue name="inputPattern" id="inputPattern">
                                                                         <table border="0" cellpadding="0"
                                                                                cellspacing="0"
                                                                                class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "")%>"
@@ -60,10 +58,10 @@
                                                                                             <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
                                                                                             <%=height!=null ? " height=\""+height+"\"":""%>
                                                                                            readonly
-                                                                                            <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%>
+                                                                                            <%=Boolean.TRUE.equals(readonly)? " disabled ":""%>
                                                                                            value="<%=value%>">
                                                                                     <%
-                                                                                        if ((disabled == null || !((Boolean) disabled).booleanValue()) && (readonly == null || !((Boolean) readonly).booleanValue())) {
+                                                                                        if (!Boolean.TRUE.equals(readonly)) {
                                                                                     %>
                                                                                     <script >
                                                                                         $(function() {
@@ -84,7 +82,7 @@
                                                                                            value="false"/>
                                                                                     <a href="#"
                                                                                             <%
-                                                                                                if ((disabled == null || !((Boolean) disabled).booleanValue()) && (readonly == null || !((Boolean) readonly).booleanValue())) {
+                                                                                                if (!Boolean.TRUE.equals(readonly)) {
                                                                                             %>
                                                                                        onclick="document.getElementById('<%=uid + DateFieldHandler.HAS_CHANGED_PARAM%>').value = true;
                                                                                                $('input[id=\'<%=uid%>\']').datetimepicker('show');
@@ -102,7 +100,7 @@
                                                                                     </a>
                                                                                 </td>
                                                                                 <%
-                                                                                    if ((disabled == null || !((Boolean) disabled).booleanValue()) && (readonly == null || !((Boolean) readonly).booleanValue())) {
+                                                                                    if (!Boolean.TRUE.equals(readonly)) {
                                                                                 %>
                                                                                 <td>
                                                                                     <a href="#">
@@ -121,7 +119,6 @@
                                                                                 %>
                                                                             </tr>
                                                                         </table>
-                                                                    </mvc:fragmentValue>
                                                                 </mvc:fragmentValue>
                                                             </mvc:fragmentValue>
                                                         </mvc:fragmentValue>

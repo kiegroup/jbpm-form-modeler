@@ -29,7 +29,6 @@
 <property name="label" value="quot;SSClassquot;,quot;quot;quot;SSStylequot;,quot;quot;quot;enquot;,quot;address (invoice)quot;quot;esquot;,quot;quot;"/>
 <property name="errorMessage" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
 <property name="title" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="60"/>
 <property name="formula" value=""/>
@@ -92,7 +91,6 @@
 <property name="label" value="quot;SSClassquot;,quot;quot;quot;SSStylequot;,quot;quot;quot;enquot;,quot;name (invoice)quot;quot;esquot;,quot;quot;"/>
 <property name="errorMessage" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
 <property name="title" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="60"/>
 <property name="formula" value=""/>
@@ -146,7 +144,6 @@
 <property name="label" value="quot;SSClassquot;,quot;quot;quot;SSStylequot;,quot;quot;quot;enquot;,quot;phone (invoice)quot;quot;esquot;,quot;quot;"/>
 <property name="errorMessage" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
 <property name="title" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="15"/>
 <property name="formula" value=""/>
@@ -169,7 +166,6 @@
 <property name="label" value="quot;SSClassquot;,quot;quot;quot;SSStylequot;,quot;quot;quot;enquot;,quot;variable1quot;quot;esquot;,quot;quot;"/>
 <property name="errorMessage" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
 <property name="title" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="15"/>
 <property name="formula" value=""/>
@@ -192,7 +188,6 @@
 <property name="label" value="quot;SSClassquot;,quot;quot;quot;SSStylequot;,quot;quot;quot;enquot;,quot;variable2quot;quot;esquot;,quot;quot;"/>
 <property name="errorMessage" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
 <property name="title" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="15"/>
 <property name="formula" value=""/>
@@ -216,7 +211,6 @@
                   value="quot;SSClassquot;,quot;quot;quot;SSStylequot;,quot;quot;quot;enquot;,quot;Subform4quot;quot;esquot;,quot;quot;"/>
         <property name="errorMessage" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
         <property name="title" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
         <property name="readonly" value="false"/>
         <property name="styleclass" value=""/>
         <property name="cssStyle" value=""/>
@@ -234,7 +228,6 @@
                   value="quot;SSClassquot;,quot;quot;quot;SSStylequot;,quot;quot;quot;enquot;,quot;MultipleSubform5quot;quot;esquot;,quot;quot;"/>
         <property name="errorMessage" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
         <property name="title" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
         <property name="readonly" value="false"/>
         <property name="styleclass" value=""/>
         <property name="cssStyle" value=""/>

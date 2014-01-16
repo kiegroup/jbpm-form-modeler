@@ -50,8 +50,6 @@ public class FormRenderingComponent extends BaseUIComponent {
     @Inject
     private FormProcessor formProcessor;
 
-    private boolean submited = false;
-
     private FormRenderContext ctx;
 
     public void doStart(CommandRequest commandRequest) {
@@ -62,8 +60,6 @@ public class FormRenderingComponent extends BaseUIComponent {
 
         ctx = formRenderContextManager.getFormRenderContext(ctxUID);
 
-        submited = false;
-
     }
 
     public void actionSubmitForm(CommandRequest request) {
@@ -72,7 +68,6 @@ public class FormRenderingComponent extends BaseUIComponent {
         FormRenderContext ctx = formRenderContextManager.getFormRenderContext(ctxUID);
         if (ctx == null) return;
         try {
-            ctx.setSubmit(true);
             Form form = ctx.getForm();
 
             formProcessor.setValues(form, ctxUID, request.getRequestObject().getParameterMap(), request.getFilesByParamName());
@@ -80,11 +75,11 @@ public class FormRenderingComponent extends BaseUIComponent {
 
             ctx.setErrors(fsd.getWrongFields().size());
 
-            if (Boolean.parseBoolean(persist) && fsd.isValid()) formRenderContextManager.persistContext(ctx);
+            if (fsd.isValid()) {
+                ctx.setSubmit(true);
+                if (Boolean.parseBoolean(persist)) formRenderContextManager.persistContext(ctx);
+            }
 
-            submited = true;
-
-            ctx.setSubmit(false);
             formRenderContextManager.fireContextSubmit(new FormSubmittedEvent(new FormRenderContextTO(ctx)));
         } catch (Exception e) {
             formRenderContextManager.fireContextSubmitError(new FormSubmitFailEvent(new FormRenderContextTO(ctx), e.getMessage()));
@@ -101,8 +96,8 @@ public class FormRenderingComponent extends BaseUIComponent {
         return ctx.getForm();
     }
 
-    public boolean isDisabled() {
-        return ctx.isDisabled();
+    public boolean isReadonly() {
+        return ctx.isReadonly();
     }
 
     public void setBaseComponentJSP(String baseComponentJSP) {
@@ -136,10 +131,6 @@ public class FormRenderingComponent extends BaseUIComponent {
     }
 
     public boolean isSubmited() {
-        return submited;
-    }
-
-    public void setSubmited(boolean submited) {
-        this.submited = submited;
+        return ctx.isSubmit();
     }
 }

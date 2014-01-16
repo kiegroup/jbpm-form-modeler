@@ -60,11 +60,8 @@ public class FormRenderingFormatter extends Formatter {
     public static final String ATTR_VALUE_IS_DYNAMIC_OBJECT_ARRAY = "_ddm_valueIsObjectArray";
     public static final String ATTR_DYNAMIC_OBJECT_ID = "_ddm_currentValueIds";
     public static final String ATTR_DYNAMIC_OBJECT_ENTITY_NAME = "_ddm_currentValueEntityName";
-    public static final String ATTR_FIELD_IS_DISABLED = "_ddm_fieldIsDisabled";
     public static final String ATTR_FIELD_IS_READONLY = "_ddm_fieldIsReadonly";
     public static final String FIELD_CONTAINER_STYLE = "padding-top: 3px; padding-right:3px;";
-    public static final String TEMPLATE_FIELD_TOKEN = "$field";
-    public static final String TEMPLATE_LABEL_TOKEN = "$label";
 
     private Logger log = LoggerFactory.getLogger(FormRenderingFormatter.class);
 
@@ -83,7 +80,6 @@ public class FormRenderingFormatter extends Formatter {
     protected transient Form formToPaint;
     protected transient String namespace;
     protected transient String renderMode;
-    protected transient Boolean isDisabled = Boolean.FALSE;
     protected transient Boolean isReadonly = Boolean.FALSE;
     protected transient FormStatusData formStatusData;
 
@@ -120,10 +116,8 @@ public class FormRenderingFormatter extends Formatter {
         String subForm = (String) getParameter("isSubForm");
         String multiple = (String) getParameter("isMultiple");
 
-        Boolean disabled = (Boolean) getParameter("isDisabled");
         Boolean readonly = (Boolean) getParameter("isReadonly");
 
-        if (disabled != null) isDisabled = disabled;    // These params can be null, this has to be evaluated
         if (readonly != null) isReadonly = readonly;
 
         boolean isSubForm = subForm != null && Boolean.valueOf(subForm).booleanValue();
@@ -296,19 +290,6 @@ public class FormRenderingFormatter extends Formatter {
 
     protected void renderField(Field field, String namespace, String renderMode) {
         beforeRenderField(field, namespace, renderMode);
-        String genericURL = (String) getParameter("URL for *");
-        String fieldURL = (String) getParameter("URL for " + field.getFieldName());
-        String genericOnClick = (String) getParameter("onclick for *");
-        String fieldOnClick = (String) getParameter("onclick for " + field.getFieldName());
-        String externalUrlForField = genericURL;
-        if (!StringUtils.isEmpty(fieldURL)) {
-            externalUrlForField = fieldURL;
-        }
-        String externalOnclickForField = genericOnClick;
-        if (!StringUtils.isEmpty(fieldOnClick)) {
-            externalOnclickForField = fieldOnClick;
-        }
-
         boolean fieldHasErrors = formStatusData.getWrongFields().contains(field.getFieldName());
         String renderPage = "";
         FieldHandler fieldHandler = getFieldHandlersManager().getHandler(field.getFieldType());
@@ -317,22 +298,12 @@ public class FormRenderingFormatter extends Formatter {
             renderPage = fieldHandler.getPageToIncludeForRendering();
         } else if (Arrays.asList(displayModes).contains(renderMode)) {
             renderPage = fieldHandler.getPageToIncludeForDisplaying();
-        } else if (Form.RENDER_MODE_SEARCH.equals(renderMode)) {
-            renderPage = fieldHandler.getPageToIncludeForSearching();
         }
         if (!"".equals(renderPage)) {
-            boolean mustRenderExternalUrl = !StringUtils.isEmpty(externalUrlForField) && Form.RENDER_MODE_DISPLAY.equals(renderMode);
             Boolean fieldIsRequired = field.getFieldRequired();
             boolean fieldRequired = fieldIsRequired != null && fieldIsRequired.booleanValue();
             if (fieldHasErrors) renderFragment("beforeWrongField");
             if (fieldRequired) renderFragment("beforeRequiredField");
-            if (mustRenderExternalUrl) {
-                writeToOut(" <a href=\"" + externalUrlForField + "\"");
-                if (!StringUtils.isEmpty(externalOnclickForField)) {
-                    writeToOut(" onclick=\"" + externalOnclickForField + "\" ");
-                }
-                writeToOut(" >");
-            }
             Object value = formStatusData.getCurrentValue(field.getFieldName());
             boolean isStringType = String.class.getName().equals(field.getFieldType().getFieldClass());
             if (value == null && isStringType) {
@@ -347,12 +318,8 @@ public class FormRenderingFormatter extends Formatter {
             setRenderingAttributes(field, namespace, value, formStatusData, fieldHasErrors);
             // If disabled and/or readonly parameters were received from a subformformatter, pass them on to the included
             // fields (only relevant when they're set to true)
-            if (isDisabled) setAttribute(ATTR_FIELD_IS_DISABLED, isDisabled);
             if (isReadonly) setAttribute(ATTR_FIELD_IS_READONLY, isReadonly);
             includePage(renderPage);
-            if (mustRenderExternalUrl) {
-                writeToOut("</a>");
-            }
             if (fieldRequired) renderFragment("afterRequiredField");
             if (fieldHasErrors) renderFragment("afterWrongField");
         } else {
@@ -540,7 +507,7 @@ public class FormRenderingFormatter extends Formatter {
 
     protected void displayFooter(Form form) {
         String displayMode = form.getDisplayMode();
-        if (Form.RENDER_MODE_FORM.equals(renderMode) || Form.RENDER_MODE_SEARCH.equals(renderMode)) {
+        if (Form.RENDER_MODE_FORM.equals(renderMode)) {
             String formRefresherFieldName = namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + ":initialFormRefresher";
             setAttribute("name", formRefresherFieldName);
             setAttribute("uid", getUidGenerator().getUniqueIdentifiersPreffix() + FormProcessor.NAMESPACE_SEPARATOR + formRefresherFieldName);

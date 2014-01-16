@@ -267,8 +267,6 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         field.setErrorMessage(deserializeI18nEntrySet(value));
                     } else if ("title".equals(propName)) {
                         field.setTitle(deserializeI18nEntrySet(value));
-                    } else if ("disabled".equals(propName)) {
-                        field.setDisabled(Boolean.valueOf(value));
                     } else if ("readonly".equals(propName)) {
                         field.setReadonly(Boolean.valueOf(value));
                     } else if ("size".equals(propName)) {
@@ -393,7 +391,6 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         addXMLNode("label", (field.getLabel() != null ? serializeI18nSet(field.getLabel()) : null), rootNode);
         addXMLNode("errorMessage", (field.getErrorMessage() != null ? serializeI18nSet(field.getErrorMessage()) : null), rootNode);
         addXMLNode("title", (field.getTitle() != null ? serializeI18nSet(field.getTitle()) : null), rootNode);
-        addXMLNode("disabled", (field.getDisabled() != null ? String.valueOf(field.getDisabled()) : null), rootNode);
         addXMLNode("readonly", (field.getReadonly() != null ? String.valueOf(field.getReadonly()) : null), rootNode);
         addXMLNode("size", field.getSize(), rootNode);
         addXMLNode("formula", field.getFormula(), rootNode);

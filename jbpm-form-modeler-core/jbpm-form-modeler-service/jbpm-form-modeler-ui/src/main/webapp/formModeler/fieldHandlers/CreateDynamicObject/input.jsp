@@ -67,8 +67,7 @@
                         <mvc:fragmentValue name="parentNamespace" id="parentNamespace">
                             <mvc:fragmentValue name="field" id="field">
                                 <mvc:fragmentValue name="uid" id="uid">
-                                    <mvc:fragmentValue name="disabled" id="disabled">
-                                        <mvc:fragmentValue name="readonly" id="readonly">
+                                    <mvc:fragmentValue name="readonly" id="readonly">
                                             <tr>
                                                 <td>
                                                     <table  width="100%" cellspacing="1" cellpadding="1">
@@ -80,7 +79,6 @@
                                                                     <mvc:formatterParam name="reuseStatus" value="false"/>
                                                                     <mvc:formatterParam name="namespace" value="showItemPreview"/>
                                                                     <mvc:formatterParam name="formValues" value="<%=valueToPreview%>"/>
-                                                                    <mvc:formatterParam name="isDisabled" value="<%=disabled%>"/>
                                                                     <mvc:formatterParam name="isReadonly" value="<%=readonly%>"/>
                                                                     <%@ include file="/formModeler/components/WysiwygFormEdit/menu/defaultFormRenderingFormatterOptions.jsp" %>
                                                                 </mvc:formatter>
@@ -103,8 +101,6 @@
                                                     </table>
                                                 </td>
                                             </tr>
-
-                                        </mvc:fragmentValue>
                                     </mvc:fragmentValue>
                                 </mvc:fragmentValue>
                             </mvc:fragmentValue>
@@ -126,8 +122,7 @@
                             <mvc:fragmentValue name="name" id="name">
                                 <mvc:fragmentValue name="field" id="field">
                                     <mvc:fragmentValue name="uid" id="uid">
-                                        <mvc:fragmentValue name="disabled" id="disabled">
-                                            <mvc:fragmentValue name="readonly" id="readonly">
+                                        <mvc:fragmentValue name="readonly" id="readonly">
 
             <tr>
                 <td>
@@ -142,14 +137,13 @@
                                     <mvc:formatterParam name="isSubForm" value="true"/>
                                     <mvc:formatterParam name="isMultiple" value="true"/>
                                     <mvc:formatterParam name="renderMode" value="<%=Form.RENDER_MODE_FORM%>"/>
-                                    <mvc:formatterParam name="isDisabled" value="<%=disabled%>"/>
                                     <mvc:formatterParam name="isReadonly" value="<%=readonly%>"/>
                                     <%@ include file="/formModeler/components/WysiwygFormEdit/menu/defaultFormRenderingFormatterOptions.jsp" %>
                                 </mvc:formatter>
                             </td>
                         </tr>
                         <%
-                            if(!Boolean.TRUE.equals(readonly) && !Boolean.TRUE.equals(disabled)) {
+                            if(!Boolean.TRUE.equals(readonly)) {
                         %>
 
                         <tr>
@@ -175,8 +169,6 @@
                     </table>
                 </td>
             </tr>
-
-                                            </mvc:fragmentValue>
                                         </mvc:fragmentValue>
                                     </mvc:fragmentValue>
                                 </mvc:fragmentValue>
@@ -313,7 +305,6 @@
     <mvc:fragmentValue name="namespace" id="namespace">
         <mvc:fragmentValue name="form" id="form">
             <mvc:fragmentValue name="formValues" id="formValues">
-                <mvc:fragmentValue name="disabled" id="disabled">
                     <mvc:fragmentValue name="readonly" id="readonly">
                         <mvc:fragmentValue name="renderMode" id="renderMode">
                             <mvc:fragmentValue name="labelMode" id="labelMode">
@@ -325,7 +316,6 @@
                                     <mvc:formatterParam name="displayMode" value="default"/>
                                     <mvc:formatterParam name="formValues" value="<%=formValues%>"/>
                                     <mvc:formatterParam name="namespace" value="<%=namespace%>"/>
-                                    <mvc:formatterParam name="isDisabled" value="<%=disabled%>"/>
                                     <mvc:formatterParam name="isReadonly" value="<%=readonly%>"/>
                                     <mvc:formatterParam name="labelMode" value="<%=labelMode%>"/>
                                     <mvc:fragment name="outputStart"></mvc:fragment>
@@ -333,7 +323,6 @@
                                     <mvc:fragment name="afterField"></td></mvc:fragment>
                                     <mvc:fragment name="outputEnd"></tr></mvc:fragment>
                                 </mvc:formatter>
-                            </mvc:fragmentValue>
                         </mvc:fragmentValue>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>
@@ -365,9 +354,8 @@
                         <mvc:fragmentValue name="entityName" id="entityName">
                             <mvc:fragmentValue name="expanded" id="expanded">
                                 <mvc:fragmentValue name="noCancelButton" id="noCancelButton">
-                                    <mvc:fragmentValue name="disabled" id="disabled">
-                                        <mvc:fragmentValue name="readonly" id="readonly">
-                                            <mvc:fragmentValue name="renderMode" id="renderMode">
+                                    <mvc:fragmentValue name="readonly" id="readonly">
+                                        <mvc:fragmentValue name="renderMode" id="renderMode">
                                                 <tr>
                                                     <td>
                                                         <input type="hidden" id="<%=uid%>_expand" name="<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "expand"%>" value="leaveItAlone">
@@ -383,7 +371,6 @@
                                                                         <mvc:formatterParam name="namespace" value="<%=namespace%>"/>
                                                                         <mvc:formatterParam name="isMultiple" value="true"/>
                                                                         <mvc:formatterParam name="isSubForm" value="true"/>
-                                                                        <mvc:formatterParam name="isDisabled" value="<%=disabled%>"/>
                                                                         <mvc:formatterParam name="isReadonly" value="<%=readonly%>"/>
                                                                         <mvc:formatterParam name="renderMode" value="<%=renderMode%>"/>
                                                                         <%@ include file="/formModeler/components/WysiwygFormEdit/menu/defaultFormRenderingFormatterOptions.jsp" %>
@@ -412,7 +399,7 @@
 
                                                         <%
                                                             }
-                                                            if (!Boolean.TRUE.equals(expanded) && !Boolean.TRUE.equals(readonly) && !Boolean.TRUE.equals(disabled)) {
+                                                            if (!Boolean.TRUE.equals(expanded) && !Boolean.TRUE.equals(readonly)) {
                                                         %>
 
                                                         <div style="text-align:center; padding-top:0px; width:100%;">
@@ -424,7 +411,6 @@
                                                         %>
                                                     </td>
                                                 </tr>
-                                            </mvc:fragmentValue>
                                         </mvc:fragmentValue>
                                     </mvc:fragmentValue>
                                 </mvc:fragmentValue>

@@ -46,7 +46,6 @@ public class SimpleFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
         boolean wrong = paramsReader.isWrongField();
         String inputValue = paramsReader.getInputValue();
 
-        Boolean isDisabled = paramsReader.isFieldDisabled();
         Boolean isReadonly = paramsReader.isFieldReadonly();
 
         setDefaultAttributes(field, form, namespace);
@@ -64,9 +63,8 @@ public class SimpleFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
         setAttribute("isEditMode", paramsReader.isEditingForm());
         setAttribute("uid", getFormManager().getUniqueIdentifier(form, namespace, field, fieldName));
 
-        // Override the field's own disabled and readonly values with the ones coming from a parent formatter
+        // Override the field's own readonly values with the ones coming from a parent formatter
         // that contains it if they're set to true.
-        if (isDisabled) setAttribute("disabled", isDisabled);
         if (isReadonly) setAttribute("readonly", isReadonly);
         renderFragment("output");
     }

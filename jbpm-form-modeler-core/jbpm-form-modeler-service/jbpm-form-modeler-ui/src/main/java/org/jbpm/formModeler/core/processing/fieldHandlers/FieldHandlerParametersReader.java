@@ -71,11 +71,6 @@ public class FieldHandlerParametersReader {
         return (String) httpServletRequest.getAttribute(FormRenderingFormatter.ATTR_INPUT_VALUE);
     }
 
-    public Boolean isFieldDisabled() {
-        Boolean b = (Boolean) httpServletRequest.getAttribute(FormRenderingFormatter.ATTR_FIELD_IS_DISABLED);
-        return b != null ? b : Boolean.FALSE;
-    }
-
     public Boolean isFieldReadonly() {
         Boolean b = (Boolean) httpServletRequest.getAttribute(FormRenderingFormatter.ATTR_FIELD_IS_READONLY);
         return b != null ? b : Boolean.FALSE;

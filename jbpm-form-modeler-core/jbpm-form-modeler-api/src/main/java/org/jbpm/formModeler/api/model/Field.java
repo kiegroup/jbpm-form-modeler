@@ -36,8 +36,6 @@ public class Field implements Serializable, Comparable<Field> {
 
     private Boolean fieldRequired;
 
-    private Boolean disabled;
-
     private Boolean readonly;
 
     private String size;
@@ -132,15 +130,6 @@ public class Field implements Serializable, Comparable<Field> {
     public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
     }
-
-    public Boolean getDisabled() {
-        return this.disabled;
-    }
-
-    public void setDisabled(Boolean disabled) {
-        this.disabled = disabled;
-    }
-
 
     public Boolean getReadonly() {
         return this.readonly;
@@ -477,7 +466,6 @@ public class Field implements Serializable, Comparable<Field> {
     public void putAll(Field field) {
         this.setAccesskey(field.getAccesskey());
         this.setCssStyle(field.getCssStyle());
-        this.setDisabled(field.getDisabled());
         this.setTitle(field.getTitle());
         this.setLabel(field.getLabel());
         this.setErrorMessage(field.getErrorMessage());
@@ -653,7 +641,6 @@ public class Field implements Serializable, Comparable<Field> {
         value.put("label", getLabel());
         value.put("errorMessage", getErrorMessage());
         value.put("title", getTitle());
-        value.put("disabled", getDisabled());
         value.put("readonly", getReadonly());
         value.put("size", getSize());
         value.put("formula", getFormula());
