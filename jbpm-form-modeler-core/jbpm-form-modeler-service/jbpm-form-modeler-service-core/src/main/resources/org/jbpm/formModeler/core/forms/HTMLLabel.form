@@ -9,7 +9,6 @@
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value="4"/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="250"/>
 <property name="formula" value=""/>

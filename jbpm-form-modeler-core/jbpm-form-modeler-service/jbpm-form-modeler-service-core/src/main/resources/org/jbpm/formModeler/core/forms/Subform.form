@@ -7,7 +7,6 @@
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="true"/>
 <property name="height" value=""/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="25"/>
 <property name="formula" value=""/>
@@ -22,7 +21,6 @@
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="25"/>
 <property name="formula" value=""/>
@@ -37,7 +35,6 @@
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="25"/>
 <property name="formula" value=""/>
@@ -52,7 +49,6 @@
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="25"/>
 <property name="formula" value=""/>
@@ -67,7 +63,6 @@
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="true"/>
 <property name="height" value=""/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="25"/>
 <property name="formula" value=""/>
@@ -82,7 +77,6 @@
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="25"/>
 <property name="formula" value=""/>
@@ -97,7 +91,6 @@
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="25"/>
 <property name="formula" value=""/>
@@ -112,7 +105,6 @@
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="true"/>
 <property name="height" value=""/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="25"/>
 <property name="formula" value=""/>
@@ -127,7 +119,6 @@
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value=""/>
 <property name="formula" value=""/>
@@ -142,7 +133,6 @@
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value="2"/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="55"/>
 <property name="formula" value=""/>
@@ -157,7 +147,6 @@
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="55"/>
 <property name="formula" value=""/>
@@ -172,7 +161,6 @@
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
-<property name="disabled" value="false"/>
 <property name="readonly" value="false"/>
 <property name="size" value="55"/>
 <property name="formula" value=""/>

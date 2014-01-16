@@ -24,7 +24,6 @@ import java.util.*;
 public class Form implements Serializable, Comparable{
     public static final String RENDER_MODE_FORM = "form";
     public static final String RENDER_MODE_DISPLAY = "display";
-    public static final String RENDER_MODE_SEARCH = "search";
     public static final String RENDER_MODE_TEMPLATE_EDIT = "templateEdit";
     public static final String RENDER_MODE_WYSIWYG_FORM = "wysiwyg-form";
     public static final String RENDER_MODE_WYSIWYG_DISPLAY = "wysiwyg-display";

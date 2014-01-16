@@ -178,9 +178,19 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
         if (objectValue == null) return null;
 
         Form form = getEnterDataForm(inputName, field);
-        DataHolder holder = form.getHolders().iterator().next();
 
-        List loadedObjects = (List) data.getLoadedObject(holder.getUniqeId());
+        DataHolder parentHolder = field.getForm().getDataHolderByField(field);
+
+        // getting parent object to obtain the parent child elements
+        Object parentObject = null;
+        List loadedObjects = null;
+
+        if (parentHolder != null) {
+            parentObject = data.getLoadedObject(parentHolder.getUniqeId());
+            if (parentObject != null) loadedObjects = (List) parentHolder.readFromBindingExperssion(parentObject, field.getInputBinding());
+        }
+
+
         if (loadedObjects == null) loadedObjects = Collections.EMPTY_LIST;
 
         Map[] values = (Map[]) objectValue;
@@ -194,6 +204,8 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
             Integer removed = (Integer) removedValues.get(i);
             if (removed < loadedObjects.size()) loadedObjects.remove(removed.intValue());
         }
+
+        DataHolder holder = form.getHolders().iterator().next();
 
         for (int i = 0; i < values.length; i++) {
             Object loadedObject = null;

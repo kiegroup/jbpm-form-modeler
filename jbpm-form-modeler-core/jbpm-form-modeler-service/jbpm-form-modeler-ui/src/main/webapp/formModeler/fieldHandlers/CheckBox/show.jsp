@@ -29,7 +29,6 @@
                                 <mvc:fragmentValue name="accesskey" id="accesskey">
                                     <mvc:fragmentValue name="alt" id="alt">
                                         <mvc:fragmentValue name="cssStyle" id="cssStyle">
-                                            <mvc:fragmentValue name="disabled" id="disabled">
                                                 <mvc:fragmentValue name="height" id="height">
                                                     <mvc:fragmentValue name="readonly" id="readonly">
                                                         <input type="checkbox" <%=title!=null?("title=\""+title+"\""):""%>
@@ -43,9 +42,7 @@
                                                             <%=height!=null ? " height=\""+height+"\"":""%>
                                                             readonly
                                                             disabled
-                                                            <%=(new Boolean(String.valueOf(value))).booleanValue()?" checked ":""%>
-                                                                >
-                                                    </mvc:fragmentValue>
+                                                            <%=(new Boolean(String.valueOf(value))).booleanValue()?" checked ":""%>>
                                                 </mvc:fragmentValue>
                                             </mvc:fragmentValue>
                                         </mvc:fragmentValue>

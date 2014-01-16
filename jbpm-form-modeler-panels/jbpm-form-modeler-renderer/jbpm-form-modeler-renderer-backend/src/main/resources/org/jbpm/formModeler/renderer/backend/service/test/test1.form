@@ -14,7 +14,6 @@
         <property name="label" value="quot;SSClassquot;,quot;quot;quot;SSStylequot;,quot;quot;quot;enquot;,quot;invoiceLines (var1)quot;quot;esquot;,quot;quot;"/>
         <property name="errorMessage" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
         <property name="title" value="quot;enquot;,quot;quot;quot;esquot;,quot;quot;"/>
-        <property name="disabled" value="false"/>
         <property name="readonly" value="false"/>
         <property name="styleclass" value=""/>
         <property name="cssStyle" value=""/>

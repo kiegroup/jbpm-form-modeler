@@ -39,13 +39,11 @@
                                                 <mvc:fragmentValue name="localeManager" id="localeManager">
                                                     <mvc:fragmentValue name="wrong" id="wrong">
                                                         <mvc:fragmentValue name="cssStyle" id="cssStyle">
-                                                            <mvc:fragmentValue name="disabled" id="disabled">
-                                                                <mvc:fragmentValue name="height" id="height">
-                                                                    <mvc:fragmentValue name="readonly" id="readonly">
-                                                                        <mvc:fragmentValue name="value" id="value">
+                                                            <mvc:fragmentValue name="height" id="height">
+                                                                <mvc:fragmentValue name="readonly" id="readonly">
+                                                                    <mvc:fragmentValue name="value" id="value">
                                                                             <table border="0" cellpadding="0" cellspacing="0" >
                                                                                 <tr valign="top">
-
                                                                                     <td>
                                                                                         <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
                                                                                             <mvc:formatterParam name="bean" value="org.jbpm.formModeler.service.LocaleManager"/>
@@ -67,12 +65,8 @@
                                                                                                                     <%=accesskey != null ? " accesskey=\"" + accesskey + "\"" : ""%>
                                                                                                                     <%=altvalue != null ? " alt=\"" + altvalue + "\"" : ""%>
                                                                                                                     <%=height != null ? " height=\"" + height + "\"" : ""%>
-                                                                                                                    <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly " : ""%>
-                                                                                                                    <%=disabled != null && ((Boolean) disabled).booleanValue() ? " disabled " : ""%>
-                                                                                                                   value='<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(
-                                            (value == null || "".equals(value)) ? "" :
-                                                    ((I18nSet) value).getValue( ((Locale) locale).toString()))
-                                    )%>'></div>
+                                                                                                                    <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly disabled " : ""%>
+                                                                                                                   value='<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString((value == null || "".equals(value)) ? "" : ((I18nSet) value).getValue( ((Locale) locale).toString())))%>'></div>
                                                                                                     </mvc:fragmentValue>
                                                                                                 </mvc:fragmentValue>
                                                                                             </mvc:fragment>
@@ -111,7 +105,6 @@
                                                                                     </td> -->
                                                                                 </tr>
                                                                             </table>
-                                                                        </mvc:fragmentValue>
                                                                     </mvc:fragmentValue>
                                                                 </mvc:fragmentValue>
                                                             </mvc:fragmentValue>

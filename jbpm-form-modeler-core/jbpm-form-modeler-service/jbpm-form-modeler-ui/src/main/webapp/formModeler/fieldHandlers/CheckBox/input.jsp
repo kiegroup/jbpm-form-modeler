@@ -30,9 +30,8 @@
                                 <mvc:fragmentValue name="accesskey" id="accesskey">
                                     <mvc:fragmentValue name="alt" id="alt">
                                         <mvc:fragmentValue name="cssStyle" id="cssStyle">
-                                            <mvc:fragmentValue name="disabled" id="disabled">
-                                                <mvc:fragmentValue name="height" id="height">
-                                                    <mvc:fragmentValue name="readonly" id="readonly">
+                                            <mvc:fragmentValue name="height" id="height">
+                                                <mvc:fragmentValue name="readonly" id="readonly">
                                             <table border="0" cellpadding="0" cellspacing="0" >
                                                 <tr valign="top">
                                                     <td>
@@ -47,13 +46,12 @@
                                                             <%=alt!=null ? " alt=\""+alt+"\"":""%>
                                                             <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
                                                             <%=height!=null ? " height=\""+height+"\"":""%>
-                                                            <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%>
+                                                            <%=Boolean.TRUE.equals(readonly) ? " disabled ":""%>
                                                             value="true" <%=(new Boolean(String.valueOf(value))).booleanValue()?" checked ":""%>
                                                                 >
                                                     </td>
                                                 </tr>
                                             </table>
-                                                    </mvc:fragmentValue>
                                                 </mvc:fragmentValue>
                                             </mvc:fragmentValue>
                                         </mvc:fragmentValue>

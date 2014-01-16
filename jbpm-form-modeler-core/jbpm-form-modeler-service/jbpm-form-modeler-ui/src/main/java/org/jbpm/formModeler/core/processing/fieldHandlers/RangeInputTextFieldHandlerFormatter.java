@@ -57,7 +57,6 @@ public class RangeInputTextFieldHandlerFormatter extends DefaultFieldHandlerForm
         boolean wrong = paramsReader.isWrongField();
         String inputValue = paramsReader.getInputValue();
 
-        Boolean isDisabled = paramsReader.isFieldDisabled();
         Boolean isReadonly = paramsReader.isFieldReadonly();
 
         boolean forceShow = Boolean.TRUE.equals(field.getIsHTML());
@@ -76,7 +75,6 @@ public class RangeInputTextFieldHandlerFormatter extends DefaultFieldHandlerForm
 
             // Override the field's own disabled and readonly values with the ones coming from a parent formatter
             // that contains it if they're set to true.
-            if (isDisabled) setAttribute("disabled", isDisabled);
             if (isReadonly) setAttribute("readonly", isReadonly);
             renderFragment("outputStartRange");
 
@@ -106,7 +104,6 @@ public class RangeInputTextFieldHandlerFormatter extends DefaultFieldHandlerForm
             setAttribute("uid", getFormManager().getUniqueIdentifier(form, namespace, field, fieldName));
             // Override the field's own disabled and readonly values with the ones coming from a parent formatter
             // that contains it if they're set to true.
-            if (isDisabled) setAttribute("disabled", isDisabled);
             if (isReadonly) setAttribute("readonly", isReadonly);
             renderFragment(forceShow ? "outputForceShowMode" : "output");
         }

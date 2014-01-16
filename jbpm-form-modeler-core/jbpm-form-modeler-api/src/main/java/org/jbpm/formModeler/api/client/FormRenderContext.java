@@ -24,7 +24,7 @@ import org.jbpm.formModeler.api.model.Form;
 public class FormRenderContext implements Serializable {
     private String UID;
     private Form form;
-    private boolean disabled = false;
+    private boolean readonly = false;
     private Map<String, Object> inputData;
     private Map<String, Object> outputData;
     private boolean submit = false;
@@ -60,12 +60,12 @@ public class FormRenderContext implements Serializable {
         return outputData;
     }
 
-    public boolean isDisabled() {
-        return disabled;
+    public boolean isReadonly() {
+        return readonly;
     }
 
-    public void setDisabled(boolean readonly) {
-        this.disabled = readonly;
+    public void setReadonly(boolean readonly) {
+        this.readonly = readonly;
     }
 
     public boolean isSubmit() {

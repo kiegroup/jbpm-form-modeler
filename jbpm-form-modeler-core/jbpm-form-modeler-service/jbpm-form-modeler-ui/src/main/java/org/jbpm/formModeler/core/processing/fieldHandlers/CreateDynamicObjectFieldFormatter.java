@@ -50,7 +50,6 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
     @Inject
     protected FieldI18nResourceObtainer fieldI18nResourceObtainer;
 
-    protected Boolean isDisabled;
     protected Boolean isReadonly;
 
     protected String renderMode;
@@ -67,7 +66,6 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
         String fieldName = paramsReader.getCurrentFieldName();
         renderMode = paramsReader.getCurrentRenderMode();
 
-        isDisabled = paramsReader.isFieldDisabled();
         isReadonly = paramsReader.isFieldReadonly();
 
         CreateDynamicObjectFieldHandler fHandler = (CreateDynamicObjectFieldHandler) getFieldHandlersManager().getHandler(field.getFieldType());
@@ -87,7 +85,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
 
         if (!fHandler.checkSubformDepthAllowed(form, currentNamespace)) return;
 
-        if (!displayPage.booleanValue() && field != null && ((field.getReadonly() != null && field.getReadonly().booleanValue()) || (field.getDisabled() != null && field.getDisabled().booleanValue()))) {
+        if (!displayPage.booleanValue() && field != null && Boolean.TRUE.equals(field.getReadonly())) {
             includePage(fHandler.getPageToIncludeForDisplaying());
             return;
         }
@@ -171,7 +169,6 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
 
                     // Override the field's own disabled and readonly values with the ones coming from a parent formatter
                     // that contains it if they're set to true.
-                    if (isDisabled) setAttribute("disabled", isDisabled);
                     if (isReadonly) setAttribute("readonly", isReadonly);
 
                     //String rowNamespace = currentNamespace +
@@ -210,7 +207,6 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
                     setAttribute("field", field.getFieldName());
                     // Override the field's own disabled and readonly values with the ones coming from a parent formatter
                     // that contains it if they're set to true.
-                    if (isDisabled) setAttribute("disabled", isDisabled);
                     if (isReadonly) setAttribute("readonly", isReadonly);
 
                     String rowNamespace = namespace + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + position;
@@ -267,7 +263,6 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
 
             // Override the field's own disabled and readonly values with the ones coming from a parent formatter
             // that contains it if they're set to true.
-            if (isDisabled) setAttribute("disabled", isDisabled);
             if (isReadonly) setAttribute("readonly", isReadonly);
             setAttribute("renderMode", renderMode);
             renderFragment("outputEnterDataForm");
@@ -291,15 +286,15 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
                 value = l;
             }
         }
-        //getFormProcessor().read(form, currentNamespace,value);
+
         List values = (List) value;
         if (values != null && !values.isEmpty()) {
             setAttribute("className", "skn-table_border");
             String uid = getFormManager().getUniqueIdentifier(parentForm, currentNamespace, field, field.getFieldName());
             setAttribute("uid", uid);
             renderFragment("tableStart");
-            boolean modificable = Boolean.TRUE.equals(field.getUpdateItems());
-            boolean deleteable = Boolean.TRUE.equals(field.getDeleteItems());
+            boolean modificable = !isReadonly && Boolean.TRUE.equals(field.getUpdateItems());
+            boolean deleteable = !isReadonly && Boolean.TRUE.equals(field.getDeleteItems());
             boolean visualizable = Boolean.TRUE.equals(field.getVisualizeItem());
 
             int colspan = 0;
@@ -348,7 +343,6 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
                     if (Boolean.TRUE.equals(field.getEnableTableEnterData()))
                         setAttribute("renderMode", renderMode);
                     else setAttribute("renderMode", Form.RENDER_MODE_DISPLAY);
-                    if (isDisabled) setAttribute("disabled", isDisabled);
                     if (isReadonly) setAttribute("readonly", isReadonly);
                     setAttribute("labelMode", Form.LABEL_MODE_HIDDEN);
                     renderFragment("tableRow");

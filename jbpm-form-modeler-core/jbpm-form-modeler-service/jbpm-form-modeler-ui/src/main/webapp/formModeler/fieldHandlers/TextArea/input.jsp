@@ -32,10 +32,9 @@
                                 <mvc:fragmentValue name="accesskey" id="accesskey">
                                     <mvc:fragmentValue name="alt" id="alt">
                                         <mvc:fragmentValue name="cssStyle" id="cssStyle">
-                                            <mvc:fragmentValue name="disabled" id="disabled">
-                                                <mvc:fragmentValue name="height" id="height">
-                                                    <mvc:fragmentValue name="readonly" id="readonly">
-                                                        <mvc:fragmentValue name="isEditMode" id="isEditMode">
+                                            <mvc:fragmentValue name="height" id="height">
+                                                <mvc:fragmentValue name="readonly" id="readonly">
+                                                    <mvc:fragmentValue name="isEditMode" id="isEditMode">
                                             <table border="0" cellpadding="0" cellspacing="0" >
                                                 <tr valign="top">
                                                     <td>
@@ -51,12 +50,10 @@
                                                             <%=accesskey!=null ? " accesskey=\""+accesskey+"\"":""%>
                                                             <%=alt!=null ? " alt=\""+alt+"\"":""%>
                                                             <%=height!=null ? " rows=\""+height+"\"":""%>
-                                                            <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>
-                                                            <%=disabled!=null && ((Boolean)disabled).booleanValue()? " disabled ":""%>><%=StringEscapeUtils.escapeHtml(StringUtils.defaultString((String)value))%></textarea>
+                                                            <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>><%=StringEscapeUtils.escapeHtml(StringUtils.defaultString((String)value))%></textarea>
                                                     </td>
                                                 </tr>
                                             </table>
-                                                        </mvc:fragmentValue>
                                                     </mvc:fragmentValue>
                                                 </mvc:fragmentValue>
                                             </mvc:fragmentValue>
