@@ -132,7 +132,7 @@ public class FormModelerFormProvider implements FormProvider {
     }
 
     protected Map<String, Object> buildContextForms(Task task) {
-        ProcessAssetDesc processDesc = dataService.getProcessById(task.getTaskData().getProcessId());
+        ProcessAssetDesc processDesc = dataService.getProcessesByDeploymentIdProcessId(task.getTaskData().getDeploymentId(), task.getTaskData().getProcessId());
         return buildContextForms(processDesc);
     }
 
