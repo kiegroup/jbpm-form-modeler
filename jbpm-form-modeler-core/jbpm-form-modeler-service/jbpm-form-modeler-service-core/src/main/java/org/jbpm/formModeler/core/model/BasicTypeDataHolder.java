@@ -189,14 +189,27 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
     }
 
     @Override
+    public boolean containsInputBinding(String bindingString) {
+        return containsBinding(bindingString, getInputId());
+    }
+
+    @Override
+    public boolean containsOutputBinding(String bindingString) {
+        return containsBinding(bindingString, getOuputId());
+    }
+
+    @Override
     public boolean containsBinding(String bindingString) {
-        if (StringUtils.isEmpty(bindingString)) return false;
+        return containsBinding(bindingString, getInputId()) || containsBinding(bindingString, getOuputId());
+    }
+
+    protected boolean containsBinding(String bindingString, String id) {
+        if (StringUtils.isEmpty(bindingString) || StringUtils.isEmpty(id)) return false;
 
         String rawbinding = bindingExpressionUtil.extractBindingExpression(bindingString);
 
         if (StringUtils.isEmpty(rawbinding)) return false;
 
-        return (getInputId() != null && getInputId().equals(rawbinding)) || (getOuputId() != null && getOuputId().equals(rawbinding));
-
+        return id.equals(rawbinding);
     }
 }

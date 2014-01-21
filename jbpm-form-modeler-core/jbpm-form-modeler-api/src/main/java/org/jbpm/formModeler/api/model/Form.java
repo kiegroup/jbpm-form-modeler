@@ -350,6 +350,24 @@ public class Form implements Serializable, Comparable{
         return "";
     }
 
+    public DataHolder getDataHolderFromInputExpression(String inputExpression) {
+        return getDataHolderFromExpression(inputExpression, true);
+    }
+
+    public DataHolder getDataHolderFromOutputExpression(String outputExpression) {
+        return getDataHolderFromExpression(outputExpression, false);
+    }
+
+    protected DataHolder getDataHolderFromExpression(String bindingExpression, boolean checkInput) {
+        if (bindingExpression == null) return null;
+
+        for (DataHolder holder : holders) {
+            if (checkInput && holder.containsInputBinding(bindingExpression)) return holder;
+            else if (!checkInput && holder.containsOutputBinding(bindingExpression)) return holder;
+        }
+        return null;
+    }
+
     public DataHolder getDataHolderByField(Field field) {
         if (field == null || field.getInputBinding() == null || field.getOutputBinding() == null) return null;
 
