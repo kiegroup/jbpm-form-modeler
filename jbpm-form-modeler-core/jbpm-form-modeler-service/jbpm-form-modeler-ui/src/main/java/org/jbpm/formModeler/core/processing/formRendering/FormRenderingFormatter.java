@@ -614,31 +614,28 @@ public class FormRenderingFormatter extends Formatter {
     }
 
     private void setBindingAttributes(Field field) {
-        String bindingTitle = "";
 
-        if (!StringUtils.isEmpty(field.getInputBinding())) {
-            bindingTitle = "Input: " + field.getInputBinding();
+        DataHolder inputHolder = formToPaint.getDataHolderFromInputExpression(field.getInputBinding());
+        boolean hasInputBinding = !StringUtils.isEmpty(field.getInputBinding());
+
+        String color = "#444444";
+
+        setAttribute("hasInputBinding", hasInputBinding);
+        if (hasInputBinding) {
+            setAttribute("inputBindingColor", inputHolder != null ? inputHolder.getRenderColor() : color);
         }
 
-        if (!StringUtils.isEmpty(field.getOutputBinding())) {
-            if (!StringUtils.isEmpty(bindingTitle)) bindingTitle += "\n";
-            bindingTitle += "Output: " + field.getOutputBinding();
+        DataHolder outputHolder = formToPaint.getDataHolderFromOutputExpression(field.getOutputBinding());
+        boolean hasOutputBinding = !StringUtils.isEmpty(field.getOutputBinding());
+
+        if (hasOutputBinding && hasInputBinding) {
+            if (inputHolder != null && inputHolder.equals(outputHolder)) hasOutputBinding = false;
+            else if (inputHolder == null && outputHolder == null) hasOutputBinding = false;
         }
 
-        boolean hasBinding = !StringUtils.isEmpty(bindingTitle);
-
-        setAttribute("hasBinding", hasBinding);
-        if (hasBinding) {
-            DataHolder holder = formToPaint.getDataHolderByField(field);
-
-            String color = null;
-
-            if (holder != null) color = holder.getRenderColor();
-
-            if (StringUtils.isEmpty(color)) color = "#444444";
-
-            setAttribute("renderHolderColor", color);
-            setAttribute("bindingTitle", bindingTitle);
+        setAttribute("hasOutputBinding", hasOutputBinding);
+        if (hasOutputBinding) {
+            setAttribute("outputBindingColor", outputHolder != null ? outputHolder.getRenderColor() : color);
         }
     }
 

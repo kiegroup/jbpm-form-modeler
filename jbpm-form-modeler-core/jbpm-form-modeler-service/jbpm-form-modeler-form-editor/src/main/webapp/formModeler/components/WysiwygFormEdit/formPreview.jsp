@@ -276,17 +276,26 @@
                                         </mvc:fragment>
                                         <mvc:fragment name="afterFieldInTemplateMode"><div style="height:2px;"></div></div></mvc:fragment>
                                         <mvc:fragment name="beforeLabel">
-                                            <mvc:fragmentValue name="hasBinding" id="hasBinding">
-                                            <mvc:fragmentValue name="renderHolderColor" id="renderHolderColor">
-                                            <mvc:fragmentValue name="bindingTitle" id="bindingTitle">
+                                            <mvc:fragmentValue name="hasInputBinding" id="hasInputBinding">
+                                            <mvc:fragmentValue name="inputBindingColor" id="inputBindingColor">
+                                            <mvc:fragmentValue name="hasOutputBinding" id="hasOutputBinding">
+                                            <mvc:fragmentValue name="outputBindingColor" id="outputBindingColor">
                                                 <td valign="top" nowrap width="1%">
                                                 <%
-                                                    if (Boolean.TRUE.equals(displayBindings) && Boolean.TRUE.equals(hasBinding)) {
+                                                    if (Boolean.TRUE.equals(displayBindings)) {
+                                                        if(Boolean.TRUE.equals(hasInputBinding)) {
                                                 %>
-                                                    <div class='bulletBinding' style='background-color: <%=renderHolderColor%>;' title='<%=bindingTitle%>"'></div>
+                                                    <div class='bulletBinding' style='background-color: <%=inputBindingColor%>;'></div>
                                                 <%
+                                                        }
+                                                    if(Boolean.TRUE.equals(hasOutputBinding)) {
+                                                %>
+                                                    <div class='bulletBinding' style='background-color: <%=outputBindingColor%>;'></div>
+                                                <%
+                                                        }
                                                     }
                                                 %>
+                                            </mvc:fragmentValue>
                                             </mvc:fragmentValue>
                                             </mvc:fragmentValue>
                                             </mvc:fragmentValue>

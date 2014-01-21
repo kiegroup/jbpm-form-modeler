@@ -270,27 +270,35 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         return data;
     }
 
-    protected Object readSimpleBindingValue(Form form, Field field, String bindingExpression, Map<String, Object> bindingData, Map<String, Object> loadedObjects) {
+    protected Object readInputBindingValue(Form form, String bindingExpression, Map<String, Object> bindingData, Map<String, Object> loadedObjects) {
+        DataHolder inputHolder = form.getDataHolderFromInputExpression(bindingExpression);
+        if (inputHolder != null) return readBindingValue(inputHolder, inputHolder.getInputId(), bindingExpression, bindingData, loadedObjects);
 
-        DataHolder holder = form.getDataHolderByField(field);
+        return readBindingValue(null, null, bindingExpression, bindingData, loadedObjects);
+    }
+
+    protected Object readOutputBindingValue(Form form, String bindingExpression, Map<String, Object> bindingData, Map<String, Object> loadedObjects) {
+        DataHolder inputHolder = form.getDataHolderFromOutputExpression(bindingExpression);
+        if (inputHolder != null) return readBindingValue(inputHolder, inputHolder.getOuputId(), bindingExpression, bindingData, loadedObjects);
+
+        return readBindingValue(null, null, bindingExpression, bindingData, loadedObjects);
+    }
+
+    protected Object readBindingValue(DataHolder holder, String holderId, String bindingExpression, Map<String, Object> bindingData, Map<String, Object> loadedObjects) {
         if (holder != null) {
-            Object bindingValue = bindingData.get(holder.getInputId());
-
+            Object bindingValue = bindingData.get(holderId);
             try {
                 if (bindingValue != null && holder.isAssignableValue(bindingValue)) {
                     loadedObjects.put(holder.getUniqeId(), bindingValue);
                     return holder.readFromBindingExperssion(bindingValue, bindingExpression);
+
                 }
             } catch (Exception e) {
                 log.warn("Unable to read value from expression '" + bindingExpression + "'. Error: ", e);
             }
         } else {
-            //bindingExpression = bindingExpression.substring(1, bindingExpression.length() - 1);
-            bindingExpression = bindingExpressionUtil.extractBindingExpression(bindingExpression);
-
             if (bindingExpression.indexOf("/") != -1) {
                 try {
-
                     String root = bindingExpression.substring(0, bindingExpression.indexOf("/"));
                     String expression = bindingExpression.substring(root.length() + 1);
 
@@ -361,67 +369,33 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     }
 
     public Object getFieldContextValue(Field field, String namespace, Form form, Map<String, Object> inputData, Map<String, Object> outputData, Map<String, Object> loadedObjects) throws Exception {
-
         String inputBinding = field.getInputBinding();
         String outputBinding = field.getOutputBinding();
+
         boolean hasInput = !StringUtils.isEmpty(inputBinding);
         boolean hasOutput = !StringUtils.isEmpty(outputBinding);
 
         if (!hasInput && !hasOutput) throw new IllegalArgumentException("Unable to bind field: " + field.getFieldName());
-        if (!hasOutput) return readSimpleBindingValue(form, field, inputBinding, inputData,loadedObjects);
-        else if (!hasInput) return readSimpleBindingValue(form, field, outputBinding, outputData,loadedObjects);
-        else {
 
-            //inputBinding = inputBinding.substring(1, inputBinding.length() - 1);
-            inputBinding = bindingExpressionUtil.extractBindingExpression(inputBinding);
-            //outputBinding = outputBinding.substring(1, outputBinding.length() - 1);
-            outputBinding = bindingExpressionUtil.extractBindingExpression(outputBinding);
+        Object inValue = readInputBindingValue(form, inputBinding, inputData,loadedObjects);
+        Object outValue = readOutputBindingValue(form, outputBinding, outputData,loadedObjects);
 
-            String[] inputParts = inputBinding.split("/");
-            String[] outputParts = outputBinding.split("/");
+        if (inValue == null && outValue == null) return null;
 
-            boolean complexBinding = inputParts.length == 2 && outputParts.length == 2;
+        Object value = null;
 
-            Object value = null;
+        if (!hasOutput) value = inValue;
+        else if (!hasInput) value = outValue;
+        else if (inValue != null && outValue == null) value = inValue;
+        else value = outValue;
 
-            if (complexBinding) {
-                DataHolder holder = form.getDataHolderByIds(inputParts[0], outputParts[0]);
-                if (holder != null) {
-                    Object inputValue = inputData.get(holder.getInputId());
-                    Object outputValue = outputData.get(holder.getOuputId());
-
-                    if (inputValue == null && outputValue == null) return null;
-
-
-                    if (outputValue != null && holder.isAssignableValue(outputValue)) {
-                        loadedObjects.put(holder.getUniqeId(), outputValue);
-                        value = holder.readValue(outputValue, outputParts[1]);
-
-                    }
-                    else if (inputValue != null && holder.isAssignableValue(inputValue)) {
-                        loadedObjects.put(holder.getUniqeId(), inputValue);
-                        value = holder.readValue(inputValue, inputParts[1]);
-
-                    }
-                    FieldHandler handler = (FieldHandler) CDIBeanLocator.getBeanByNameOrType(field.getFieldType().getManagerClass());
-                    if (handler instanceof PersistentFieldHandler) {
-                        String inputName = getPrefix(field.getForm(), namespace) + field.getFieldName();
-                        value = ((PersistentFieldHandler) handler).getStatusValue(field, inputName, value);
-                    }
-                } else {
-                    try {
-                        Object object = inputData.get(inputParts[0]);
-                        JXPathContext ctx = JXPathContext.newContext(object);
-                        value = ctx.getValue(inputParts[2]);
-                    } catch (Exception e) {
-                        log.warn("Error getting value for xpath xpression '" + inputBinding + "' :", e);
-                    }
-                }
-                return value;
-            }
-
-            return (outputData.containsKey(outputBinding) && outputData.get(outputBinding) != null) ? outputData.get(outputBinding) : inputData.get(inputBinding);
+        FieldHandler handler = (FieldHandler) CDIBeanLocator.getBeanByNameOrType(field.getFieldType().getManagerClass());
+        if (handler instanceof PersistentFieldHandler) {
+            String inputName = getPrefix(field.getForm(), namespace) + field.getFieldName();
+            value = ((PersistentFieldHandler) handler).getStatusValue(field, inputName, value);
         }
+
+        return value;
     }
 
     public FormStatusData read(Form form, String namespace, Map formValues) {
