@@ -227,6 +227,7 @@ public class FormModelerPanelPresenter {
     }
 
     private void reload() {
+        concurrentUpdateSessionInfo = null;
         changeTitleNotification.fire( new ChangeTitleWidgetEvent( place, getTitle(), null ) );
         busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Loading() );
         modelerService.call(new RemoteCallback<FormEditorContextTO>() {
@@ -321,6 +322,7 @@ public class FormModelerPanelPresenter {
                         }
                     }
                 });
+        concurrentUpdateSessionInfo = null;
     }
 
 
