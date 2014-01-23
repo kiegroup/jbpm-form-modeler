@@ -41,15 +41,12 @@
                                         <mvc:fragmentValue name="height" id="height">
                                           <mvc:fragmentValue name="readonly" id="readonly">
                                              <mvc:fragmentValue name="lang" id="languageForEditor">
-                                        <%
-                                            readonly= readonly==null ? Boolean.FALSE : readonly;
-                                        %>
                                         <table border="0" cellpadding="0" cellspacing="0" >
                                             <tr valign="top">
                                                 <td>
                                                     <%
                                                         String value = StringEscapeUtils.escapeHtml(StringUtils.defaultString((val == null || "".equals(val)) ? "" : ((HTMLi18n) val).getValue(LocaleManager.currentLang())));
-                                                        if (Boolean.TRUE.equals(readonly)) {
+                                                        if (!Boolean.TRUE.equals(readonly)) {
                                                     %>
                                                     <table border="0" cellpadding="0" cellspacing="0" >
                                                         <tr valign="top">
@@ -66,7 +63,7 @@
                                                                             <%=tabindex != null ? " tabindex=\"" + tabindex + "\"" : ""%>
                                                                             <%=accesskey != null ? " accesskey=\"" + accesskey + "\"" : ""%>
                                                                             <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
-                                                                            <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly disabled " : ""%>><%=value%></textarea>
+                                                                            <%=Boolean.TRUE.equals(readonly) ? " readonly disabled " : ""%>><%=value%></textarea>
                                                                 </div>
                                                             </td>
                                                         </tr>
