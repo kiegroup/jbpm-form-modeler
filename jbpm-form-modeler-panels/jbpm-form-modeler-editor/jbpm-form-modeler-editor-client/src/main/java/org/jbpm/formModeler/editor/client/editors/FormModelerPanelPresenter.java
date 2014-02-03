@@ -215,13 +215,7 @@ public class FormModelerPanelPresenter {
         modelerService.call(new RemoteCallback<FormEditorContextTO>() {
             @Override
             public void callback(FormEditorContextTO ctx) {
-                busyIndicatorView.hideBusyIndicator();
-                if (ctx == null) {
-                    notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_load_form(path.getFileName()), NotificationEvent.NotificationType.ERROR));
-                } else {
-                    loadContext(ctx);
-                    makeMenuBar();
-                }
+                loadContext(ctx);
             }
         }).loadForm(path);
     }
@@ -233,13 +227,7 @@ public class FormModelerPanelPresenter {
         modelerService.call(new RemoteCallback<FormEditorContextTO>() {
             @Override
             public void callback(FormEditorContextTO ctx) {
-                busyIndicatorView.hideBusyIndicator();
-                if (ctx == null) {
-                    notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_load_form(path.getFileName()), NotificationEvent.NotificationType.ERROR));
-                } else {
-                    loadContext(ctx);
-                    makeMenuBar();
-                }
+                loadContext(ctx);
             }
         }).reloadForm(path, context.getCtxUID());
     }
@@ -358,18 +346,17 @@ public class FormModelerPanelPresenter {
 
     @OnClose
     public void onClose() {
-        modelerService.call(new RemoteCallback<Long>() {
-            @Override
-            public void callback(Long formId) {
-            }
-
-        }).removeEditingForm(context.getCtxUID());
-
+        if (context != null) modelerService.call().removeEditingForm(context.getCtxUID());
     }
 
     public void loadContext(FormEditorContextTO ctx) {
-        this.context = ctx;
-        view.loadContext(ctx.getCtxUID());
+        busyIndicatorView.hideBusyIndicator();
+        if (ctx == null || ctx.isLoadError()) notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_load_form(path.getFileName()), NotificationEvent.NotificationType.ERROR));
+        if (ctx != null) {
+            this.context = ctx;
+            view.loadContext(ctx.getCtxUID());
+            makeMenuBar();
+        }
     }
 
     @WorkbenchPartTitle
