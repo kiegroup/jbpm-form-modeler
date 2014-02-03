@@ -107,9 +107,18 @@ public class FormModelerServiceImpl implements FormModelerService {
 
             Form form = subformFinderService.getFormByPath(formPath);
 
+            FormEditorContextTO result = new FormEditorContextTO();
+
+            if (form == null) {
+                result.setLoadError(true);
+                form = formManager.createForm(path.getFileName());
+            }
+
             FormEditorContext context = formEditorContextManager.newContext(form, formPath);
 
-            return new FormEditorContextTO(context.getUID());
+            result.setCtxUID(context.getUID());
+
+            return result;
         } catch (Exception e) {
             log.warn("Error loading form " + path.toURI(), e);
             return null;
