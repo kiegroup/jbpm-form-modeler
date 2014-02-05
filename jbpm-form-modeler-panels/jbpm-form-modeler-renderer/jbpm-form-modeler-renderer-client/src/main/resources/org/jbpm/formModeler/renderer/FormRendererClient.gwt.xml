@@ -20,22 +20,17 @@
     "http://google-web-toolkit.googlecode.com/svn/tags/2.5.0/distro-source/core/src/gwt-module.dtd">
 <module>
 
-    <!-- Inherit the core Web Toolkit stuff. -->
-    <inherits name="com.google.gwt.i18n.I18N"/>
-    <inherits name="com.google.gwt.http.HTTP"/>
-    <inherits name="com.google.gwt.user.User"/>
+  <!-- Inherit the core Web Toolkit stuff. -->
+  <inherits name="com.google.gwt.i18n.I18N"/>
+  <inherits name="com.google.gwt.http.HTTP"/>
+  <inherits name="com.google.gwt.user.User"/>
 
-    <inherits name='org.jboss.errai.bus.ErraiBus'/>
-    <inherits name="org.jboss.errai.ui.UI"/>
+  <inherits name="org.jboss.errai.ui.UI"/>
 
-    <inherits name="org.jboss.errai.enterprise.CDI"/>
+  <inherits name="org.uberfire.UberfireClientAll"/>
+  <inherits name="org.jbpm.formModeler.renderer.FormRendererAPI"/>
+  <inherits name="org.jbpm.formModeler.FormModelerApi"/>
 
-    <inherits name="org.uberfire.UberfireWorkbench"/>
-    <inherits name="org.uberfire.UberfireWidgetsCommons"/>
-
-    <inherits name="org.uberfire.UberfireJS"/>
-   <inherits name="org.jbpm.formModeler.renderer.FormRendererAPI"/>
-
-   <source path='client'/>
-    <source path='includer'/>
+  <source path='client'/>
+  <source path='includer'/>
 </module>
