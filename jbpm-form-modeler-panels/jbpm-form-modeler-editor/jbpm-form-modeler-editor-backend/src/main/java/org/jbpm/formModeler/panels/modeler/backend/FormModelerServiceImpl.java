@@ -165,8 +165,6 @@ public class FormModelerServiceImpl implements FormModelerService {
     public Path createForm(Path path, String formName) {
         org.uberfire.java.nio.file.Path kiePath = Paths.convert(path).resolve(formName);
         try {
-            ioService.createFile(kiePath);
-
             Form form = formManager.createForm(formName);
 
             ioService.write(kiePath, formSerializationManager.generateFormXML(form));
