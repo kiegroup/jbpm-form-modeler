@@ -45,6 +45,7 @@ import org.uberfire.backend.vfs.Path;
 import org.uberfire.rpc.SessionInfo;
 import org.uberfire.security.Identity;
 import org.uberfire.workbench.events.NotificationEvent;
+import org.uberfire.workbench.events.ResourceOpenedEvent;
 
 @Service
 @ApplicationScoped
@@ -86,6 +87,8 @@ public class FormModelerServiceImpl implements FormModelerService {
     @Inject
     private SessionInfo sessionInfo;
 
+    @Inject
+    private Event<ResourceOpenedEvent> resourceOpenedEvent;
 
     @Override
     public void changeContextPath(String ctxUID, Path path) {
@@ -117,6 +120,8 @@ public class FormModelerServiceImpl implements FormModelerService {
             FormEditorContext context = formEditorContextManager.newContext(form, formPath);
 
             result.setCtxUID(context.getUID());
+
+            resourceOpenedEvent.fire(new ResourceOpenedEvent( path, sessionInfo ));
 
             return result;
         } catch (Exception e) {
