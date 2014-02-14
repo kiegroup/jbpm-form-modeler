@@ -32,7 +32,12 @@ import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.jbpm.formModeler.editor.type.FormResourceTypeDefinition;
 import org.kie.workbench.common.widgets.client.callbacks.HasBusyIndicatorDefaultErrorCallback;
 import org.kie.workbench.common.widgets.client.menu.FileMenuBuilder;
-import org.kie.workbench.common.widgets.client.popups.file.*;
+import org.kie.workbench.common.widgets.client.popups.file.CommandWithCommitMessage;
+import org.kie.workbench.common.widgets.client.popups.file.CommandWithFileNameAndCommitMessage;
+import org.kie.workbench.common.widgets.client.popups.file.DeletePopup;
+import org.kie.workbench.common.widgets.client.popups.file.FileNameAndCommitMessage;
+import org.kie.workbench.common.widgets.client.popups.file.RenamePopup;
+import org.kie.workbench.common.widgets.client.popups.file.SaveOperationService;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 import org.kie.workbench.common.widgets.client.widget.BusyIndicatorView;
 import org.kie.workbench.common.widgets.metadata.client.callbacks.MetadataSuccessCallback;
@@ -45,9 +50,7 @@ import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.common.MultiPageEditor;
 import org.uberfire.client.common.Page;
-import org.uberfire.client.editors.defaulteditor.DefaultFileEditorPresenter;
 import org.uberfire.client.mvp.PlaceManager;
-import org.uberfire.client.mvp.UberView;
 import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
 import org.uberfire.lifecycle.OnClose;
 import org.uberfire.lifecycle.OnOpen;
@@ -60,12 +63,10 @@ import org.uberfire.workbench.events.NotificationEvent;
 import org.uberfire.workbench.model.menu.Menus;
 import org.uberfire.workbench.type.FileNameUtil;
 
-import static org.uberfire.client.common.ConcurrentChangePopup.newConcurrentDelete;
-import static org.uberfire.client.common.ConcurrentChangePopup.newConcurrentRename;
-import static org.uberfire.client.common.ConcurrentChangePopup.newConcurrentUpdate;
+import static org.uberfire.client.common.ConcurrentChangePopup.*;
 
 @Dependent
-@WorkbenchEditor(identifier = "FormModelerEditor", supportedTypes = {FormDefinitionResourceType.class})
+@WorkbenchEditor(identifier = "FormModelerEditor", supportedTypes = { FormDefinitionResourceType.class })
 public class FormModelerPanelPresenter {
 
     @Inject
@@ -119,17 +120,17 @@ public class FormModelerPanelPresenter {
     private PlaceRequest place;
 
     @OnStartup
-    public void onStartup(final ObservablePath path,
-                          PlaceRequest placeRequest) {
+    public void onStartup( final ObservablePath path,
+                           PlaceRequest placeRequest ) {
 
         this.place = placeRequest;
         this.path = path;
 
-        this.isReadOnly = place.getParameter("readOnly", null) != null;
+        this.isReadOnly = place.getParameter( "readOnly", null ) != null;
         this.version = place.getParameter( "version", null );
 
-        multiPage.addPage(new Page( view,
-                CommonConstants.INSTANCE.SourceTabTitle() ) {
+        multiPage.addPage( new Page( view,
+                                     CommonConstants.INSTANCE.SourceTabTitle() ) {
             @Override
             public void onFocus() {
             }
@@ -137,23 +138,26 @@ public class FormModelerPanelPresenter {
             @Override
             public void onLostFocus() {
             }
-        });
+        } );
 
         multiPage.addPage( new Page( metadataWidget,
-                CommonConstants.INSTANCE.MetadataTabTitle() ) {
+                                     CommonConstants.INSTANCE.MetadataTabTitle() ) {
             @Override
             public void onFocus() {
-                metadataWidget.showBusyIndicator( CommonConstants.INSTANCE.Loading() );
-                metadataService.call( new MetadataSuccessCallback( metadataWidget,
-                        isReadOnly ),
-                        new HasBusyIndicatorDefaultErrorCallback( metadataWidget ) ).getMetadata( path );
+                if ( !metadataWidget.isAlreadyLoaded() ) {
+                    metadataWidget.showBusyIndicator( CommonConstants.INSTANCE.Loading() );
+                    metadataService.call( new MetadataSuccessCallback( metadataWidget,
+                                                                       isReadOnly ),
+                                          new HasBusyIndicatorDefaultErrorCallback( metadataWidget )
+                                        ).getMetadata( path );
+                }
             }
 
             @Override
             public void onLostFocus() {
                 //Nothing to do
             }
-        });
+        } );
 
         this.path.onConcurrentUpdate( new ParameterizedCommand<ObservablePath.OnConcurrentUpdateEvent>() {
             @Override
@@ -166,20 +170,20 @@ public class FormModelerPanelPresenter {
             @Override
             public void execute( final ObservablePath.OnConcurrentDelete info ) {
                 newConcurrentDelete( info.getPath(),
-                        info.getIdentity(),
-                        new Command() {
-                            @Override
-                            public void execute() {
-                                disableMenus();
-                            }
-                        },
-                        new Command() {
-                            @Override
-                            public void execute() {
-                                placeManager.closePlace( place );
-                            }
-                        }
-                ).show();
+                                     info.getIdentity(),
+                                     new Command() {
+                                         @Override
+                                         public void execute() {
+                                             disableMenus();
+                                         }
+                                     },
+                                     new Command() {
+                                         @Override
+                                         public void execute() {
+                                             placeManager.closePlace( place );
+                                         }
+                                     }
+                                   ).show();
             }
         } );
 
@@ -187,21 +191,21 @@ public class FormModelerPanelPresenter {
             @Override
             public void execute( final ObservablePath.OnConcurrentRenameEvent info ) {
                 newConcurrentRename( info.getSource(),
-                        info.getTarget(),
-                        info.getIdentity(),
-                        new Command() {
-                            @Override
-                            public void execute() {
-                                disableMenus();
-                            }
-                        },
-                        new Command() {
-                            @Override
-                            public void execute() {
-                                reload();
-                            }
-                        }
-                ).show();
+                                     info.getTarget(),
+                                     info.getIdentity(),
+                                     new Command() {
+                                         @Override
+                                         public void execute() {
+                                             disableMenus();
+                                         }
+                                     },
+                                     new Command() {
+                                         @Override
+                                         public void execute() {
+                                             reload();
+                                         }
+                                     }
+                                   ).show();
             }
         } );
 
@@ -210,26 +214,26 @@ public class FormModelerPanelPresenter {
             public void execute() {
                 changeTitleNotification.fire( new ChangeTitleWidgetEvent( place, getTitle(), null ) );
             }
-        });
+        } );
 
-        modelerService.call(new RemoteCallback<FormEditorContextTO>() {
+        modelerService.call( new RemoteCallback<FormEditorContextTO>() {
             @Override
-            public void callback(FormEditorContextTO ctx) {
-                loadContext(ctx);
+            public void callback( FormEditorContextTO ctx ) {
+                loadContext( ctx );
             }
-        }).loadForm(path);
+        } ).loadForm( path );
     }
 
     private void reload() {
         concurrentUpdateSessionInfo = null;
         changeTitleNotification.fire( new ChangeTitleWidgetEvent( place, getTitle(), null ) );
         busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Loading() );
-        modelerService.call(new RemoteCallback<FormEditorContextTO>() {
+        modelerService.call( new RemoteCallback<FormEditorContextTO>() {
             @Override
-            public void callback(FormEditorContextTO ctx) {
-                loadContext(ctx);
+            public void callback( FormEditorContextTO ctx ) {
+                loadContext( ctx );
             }
-        }).reloadForm(path, context.getCtxUID());
+        } ).reloadForm( path, context.getCtxUID() );
     }
 
     private void onRename() {
@@ -238,7 +242,7 @@ public class FormModelerPanelPresenter {
             public void callback( final Path path ) {
                 busyIndicatorView.hideBusyIndicator();
                 notification.fire( new NotificationEvent( CommonConstants.INSTANCE.ItemRenamedSuccessfully() ) );
-                modelerService.call().changeContextPath(context.getCtxUID(), path);
+                modelerService.call().changeContextPath( context.getCtxUID(), path );
             }
         };
         RenamePopup popup = new RenamePopup( new CommandWithFileNameAndCommitMessage() {
@@ -246,9 +250,9 @@ public class FormModelerPanelPresenter {
             public void execute( final FileNameAndCommitMessage details ) {
                 busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Renaming() );
                 modelerService.call( renameCallback,
-                        new HasBusyIndicatorDefaultErrorCallback(busyIndicatorView)).rename(path,
-                        details.getNewFileName(),
-                        details.getCommitMessage());
+                                     new HasBusyIndicatorDefaultErrorCallback( busyIndicatorView ) ).rename( path,
+                                                                                                             details.getNewFileName(),
+                                                                                                             details.getCommitMessage() );
             }
         } );
 
@@ -262,75 +266,74 @@ public class FormModelerPanelPresenter {
         } else {
             if ( concurrentUpdateSessionInfo != null ) {
                 newConcurrentUpdate( concurrentUpdateSessionInfo.getPath(),
-                        concurrentUpdateSessionInfo.getIdentity(),
-                        new Command() {
-                            @Override
-                            public void execute() {
-                                save();
-                            }
-                        },
-                        new Command() {
-                            @Override
-                            public void execute() {
-                                //cancel?
-                            }
-                        },
-                        new Command() {
-                            @Override
-                            public void execute() {
-                                reload();
-                            }
-                        }
-                ).show();
+                                     concurrentUpdateSessionInfo.getIdentity(),
+                                     new Command() {
+                                         @Override
+                                         public void execute() {
+                                             save();
+                                         }
+                                     },
+                                     new Command() {
+                                         @Override
+                                         public void execute() {
+                                             //cancel?
+                                         }
+                                     },
+                                     new Command() {
+                                         @Override
+                                         public void execute() {
+                                             reload();
+                                         }
+                                     }
+                                   ).show();
             } else {
                 save();
             }
         }
     }
 
-
     public void save() {
-        new SaveOperationService().save(path,
-                new CommandWithCommitMessage() {
-                    @Override
-                    public void execute( final String commitMessage ) {
-                        busyIndicatorView.showBusyIndicator(CommonConstants.INSTANCE.Saving());
-                        try {
-                            modelerService.call(new RemoteCallback<Path>() {
-                                @Override
-                                public void callback(Path formPath) {
-                                    busyIndicatorView.hideBusyIndicator();
-                                    notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_successfully_saved(path.getFileName()), NotificationEvent.NotificationType.SUCCESS));
-                                }
-                            }).save(path, context, metadataWidget.getContent(), commitMessage);
-                        } catch (Exception e) {
-                            notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_save(path.getFileName()), NotificationEvent.NotificationType.ERROR));
-                        } finally {
-                            busyIndicatorView.hideBusyIndicator();
-                        }
-                    }
-                });
+        new SaveOperationService().save( path,
+                                         new CommandWithCommitMessage() {
+                                             @Override
+                                             public void execute( final String commitMessage ) {
+                                                 busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Saving() );
+                                                 try {
+                                                     modelerService.call( new RemoteCallback<Path>() {
+                                                         @Override
+                                                         public void callback( Path formPath ) {
+                                                             busyIndicatorView.hideBusyIndicator();
+                                                             notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_successfully_saved( path.getFileName() ), NotificationEvent.NotificationType.SUCCESS ) );
+                                                         }
+                                                     } ).save( path, context, metadataWidget.getContent(), commitMessage );
+                                                 } catch ( Exception e ) {
+                                                     notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_cannot_save( path.getFileName() ), NotificationEvent.NotificationType.ERROR ) );
+                                                 } finally {
+                                                     busyIndicatorView.hideBusyIndicator();
+                                                 }
+                                             }
+                                         }
+                                       );
         concurrentUpdateSessionInfo = null;
     }
 
-
     protected void onDelete() {
-        final DeletePopup popup = new DeletePopup(new CommandWithCommitMessage() {
+        final DeletePopup popup = new DeletePopup( new CommandWithCommitMessage() {
             @Override
-            public void execute(final String comment) {
-                busyIndicatorView.showBusyIndicator(CommonConstants.INSTANCE.Deleting());
-                modelerService.call(new RemoteCallback<Void>() {
+            public void execute( final String comment ) {
+                busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Deleting() );
+                modelerService.call( new RemoteCallback<Void>() {
 
                     @Override
-                    public void callback(final Void response) {
-                        notification.fire(new NotificationEvent(CommonConstants.INSTANCE.ItemDeletedSuccessfully(), NotificationEvent.NotificationType.SUCCESS));
-                        placeManager.closePlace(place);
+                    public void callback( final Void response ) {
+                        notification.fire( new NotificationEvent( CommonConstants.INSTANCE.ItemDeletedSuccessfully(), NotificationEvent.NotificationType.SUCCESS ) );
+                        placeManager.closePlace( place );
                         onClose();
                         busyIndicatorView.hideBusyIndicator();
                     }
-                }, new HasBusyIndicatorDefaultErrorCallback(busyIndicatorView)).delete(path, comment);
+                }, new HasBusyIndicatorDefaultErrorCallback( busyIndicatorView ) ).delete( path, comment );
             }
-        });
+        } );
 
         popup.show();
     }
@@ -339,33 +342,37 @@ public class FormModelerPanelPresenter {
     public void onOpen() {
         makeMenuBar();
 
-        if (context == null) {
+        if ( context == null ) {
             return;
         }
     }
 
     @OnClose
     public void onClose() {
-        if (context != null) modelerService.call().removeEditingForm(context.getCtxUID());
+        if ( context != null ) {
+            modelerService.call().removeEditingForm( context.getCtxUID() );
+        }
     }
 
-    public void loadContext(FormEditorContextTO ctx) {
+    public void loadContext( FormEditorContextTO ctx ) {
         busyIndicatorView.hideBusyIndicator();
-        if (ctx == null || ctx.isLoadError()) notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_load_form(path.getFileName()), NotificationEvent.NotificationType.ERROR));
-        if (ctx != null) {
+        if ( ctx == null || ctx.isLoadError() ) {
+            notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_cannot_load_form( path.getFileName() ), NotificationEvent.NotificationType.ERROR ) );
+        }
+        if ( ctx != null ) {
             this.context = ctx;
-            view.loadContext(ctx.getCtxUID());
+            view.loadContext( ctx.getCtxUID() );
             makeMenuBar();
         }
     }
 
     @WorkbenchPartTitle
     public String getTitle() {
-        String fileName = FileNameUtil.removeExtension(path, resourceType);
+        String fileName = FileNameUtil.removeExtension( path, resourceType );
         if ( version != null ) {
             fileName = fileName + " v" + version;
         }
-        return Constants.INSTANCE.form_modeler_title(fileName);
+        return Constants.INSTANCE.form_modeler_title( fileName );
     }
 
     private void disableMenus() {
@@ -374,7 +381,7 @@ public class FormModelerPanelPresenter {
 
     @WorkbenchMenu
     public Menus getMenus() {
-        if (menus == null) {
+        if ( menus == null ) {
             makeMenuBar();
         }
         return menus;
@@ -382,28 +389,28 @@ public class FormModelerPanelPresenter {
 
     private void makeMenuBar() {
 
-        if (isReadOnly) {
-            menus = menuBuilder.addRestoreVersion(path).build();
+        if ( isReadOnly ) {
+            menus = menuBuilder.addRestoreVersion( path ).build();
         } else {
             menus = menuBuilder
-                    .addSave(new Command() {
+                    .addSave( new Command() {
                         @Override
                         public void execute() {
                             onSave();
                         }
-                    })
-                    .addRename(new Command() {
+                    } )
+                    .addRename( new Command() {
                         @Override
                         public void execute() {
                             onRename();
                         }
-                    })
-                    .addDelete(new Command() {
+                    } )
+                    .addDelete( new Command() {
                         @Override
                         public void execute() {
                             onDelete();
                         }
-                    })
+                    } )
                     .build();
         }
     }
