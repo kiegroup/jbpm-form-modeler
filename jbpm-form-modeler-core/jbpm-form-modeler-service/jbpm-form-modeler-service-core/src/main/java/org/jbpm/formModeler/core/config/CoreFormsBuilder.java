@@ -51,9 +51,12 @@ public class CoreFormsBuilder implements Startable {
     @Inject
     private LocaleManager localeManager;
 
-    @Inject @Config("default,InputText,InputTextBigDecimal,InputTextBigInteger,CheckBox,Date,InputTextDouble," +
-            "InputTextFloat,InputTextInteger,InputTextLong,InputTextShort,HTMLLabel,Separator, Subform, MultipleSubform,"+
-            "InputTextEmail,InputTextArea,HTMLEditor,Link,I18nHTMLText,CustomInput")
+    @Inject @Config("default,InputText,InputTextBigDecimal,InputTextBigInteger,CheckBox,CheckBoxPrimitiveBoolean," +
+            "Date,InputTextDouble,InputTextPrimitiveDouble,InputTextFloat,InputTextPrimitiveFloat," +
+            "InputTextByte,InputTextPrimitiveByte,InputTextInteger,InputTextPrimitiveInteger,InputTextLong," +
+            "InputTextPrimitiveLong,InputTextShort,InputTextPrimitiveShort,HTMLLabel,Separator, Subform, " +
+            "MultipleSubform,InputTextCharacter,InputTextPrimitiveCharacter,InputTextEmail,InputTextArea," +
+            "HTMLEditor,Link,I18nHTMLText,CustomInput")
     protected String[] coreFormNames;
 
     public Priority getPriority() {

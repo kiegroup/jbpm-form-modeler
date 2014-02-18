@@ -1,0 +1,261 @@
+<form id="772441366">
+<property name="subject" value="org.jbpm.formModeler.api.model.Field"/>
+<property name="name" value="InputTextPrimitiveFloat"/>
+<property name="displayMode" value="default"/>
+<property name="labelMode" value="undefined"/>
+<property name="showMode" value=""/>
+<property name="status" value="0"/>
+<field position="0" name="fieldName" type="InputText" id="7724413601">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="1" name="label" type="I18nText" id="7724413601">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="2" name="errorMessage" type="I18nText" id="7724413602">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="3" name="labelCSSClass" type="InputText" id="7724413603">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="4" name="labelCSSStyle" type="InputText" id="7724413604">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="5" name="title" type="I18nText" id="7724413605">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="6" name="styleclass" type="InputText" id="7724413606">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="7" name="cssStyle" type="InputText" id="7724413607">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="8" name="size" type="InputText" id="7724413608">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="9" name="maxlength" type="InputTextLong" id="7724413609">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="10" name="fieldRequired" type="CheckBox" id="7724413610">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value=""/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="12" name="readonly" type="CheckBox" id="7724413611">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="true"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value=""/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="13" name="formula" type="InputTextArea" id="7724413612">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value="2"/>
+<property name="readonly" value="false"/>
+<property name="size" value="55"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="14" name="rangeFormula" type="InputTextArea" id="7724413613">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value="2"/>
+<property name="readonly" value="false"/>
+<property name="size" value="55"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="15" name="defaultValueFormula" type="InputText" id="7724413614">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value="55"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="16" name="pattern" type="InputText" id="7724413615">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value="25"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value="#.#"/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="17" name="inputBinding" type="InputText" id="7724413616">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value="55"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+<field position="18" name="outputBinding" type="InputText" id="7724413617">
+<property name="fieldRequired" value="false"/>
+<property name="groupWithPrevious" value="false"/>
+<property name="height" value=""/>
+<property name="readonly" value="false"/>
+<property name="size" value="55"/>
+<property name="formula" value=""/>
+<property name="rangeFormula" value=""/>
+<property name="pattern" value=""/>
+<property name="maxlength" value="512"/>
+<property name="styleclass" value=""/>
+<property name="cssStyle" value=""/>
+<property name="accesskey" value=""/>
+</field>
+</form>
+

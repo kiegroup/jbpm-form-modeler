@@ -46,6 +46,22 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         result.add(ft);
 
         ft = new FieldType();
+        ft.setCode("InputTextCharacter");
+        ft.setFieldClass("java.lang.Character");
+        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.CharacterFieldHandler");
+        ft.setMaxlength(new Long(1));
+        ft.setSize("25");
+        result.add(ft);
+
+        ft = new FieldType();
+        ft.setCode("InputTextPrimitiveCharacter");
+        ft.setFieldClass("char");
+        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.CharacterFieldHandler");
+        ft.setMaxlength(new Long(1));
+        ft.setSize("25");
+        result.add(ft);
+
+        ft = new FieldType();
         ft.setCode("InputTextFloat");
         ft.setFieldClass("java.lang.Float");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler");
@@ -55,8 +71,26 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         result.add(ft);
 
         ft = new FieldType();
+        ft.setCode("InputTextPrimitiveFloat");
+        ft.setFieldClass("float");
+        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler");
+        ft.setMaxlength(new Long(50));
+        ft.setSize("25");
+        ft.setPattern("#.##");
+        result.add(ft);
+
+        ft = new FieldType();
         ft.setCode("InputTextDouble");
         ft.setFieldClass("java.lang.Double");
+        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler");
+        ft.setMaxlength(new Long(100));
+        ft.setSize("25");
+        ft.setPattern("#.##");
+        result.add(ft);
+
+        ft = new FieldType();
+        ft.setCode("InputTextPrimitiveDouble");
+        ft.setFieldClass("double");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler");
         ft.setMaxlength(new Long(100));
         ft.setSize("25");
@@ -81,10 +115,34 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         result.add(ft);
 
         ft = new FieldType();
+        ft.setCode("InputTextByte");
+        ft.setFieldClass("java.lang.Byte");
+        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler");
+        ft.setMaxlength(new Long(4));
+        ft.setSize("25");
+        result.add(ft);
+
+        ft = new FieldType();
+        ft.setCode("InputTextPrimitiveByte");
+        ft.setFieldClass("byte");
+        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler");
+        ft.setMaxlength(new Long(4));
+        ft.setSize("25");
+        result.add(ft);
+
+        ft = new FieldType();
         ft.setCode("InputTextShort");
         ft.setFieldClass("java.lang.Short");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler");
         ft.setMaxlength(new Long(100));
+        ft.setSize("25");
+        result.add(ft);
+
+        ft = new FieldType();
+        ft.setCode("InputTextPrimitiveShort");
+        ft.setFieldClass("short");
+        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler");
+        ft.setMaxlength(new Long(6));
         ft.setSize("25");
         result.add(ft);
 
@@ -97,10 +155,26 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         result.add(ft);
 
         ft = new FieldType();
+        ft.setCode("InputTextPrimitiveInteger");
+        ft.setFieldClass("int");
+        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler");
+        ft.setMaxlength(new Long(11));
+        ft.setSize("25");
+        result.add(ft);
+
+        ft = new FieldType();
         ft.setCode("InputTextLong");
         ft.setFieldClass("java.lang.Long");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler");
         ft.setMaxlength(new Long(100));
+        ft.setSize("25");
+        result.add(ft);
+
+        ft = new FieldType();
+        ft.setCode("InputTextPrimitiveLong");
+        ft.setFieldClass("long");
+        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.NumericFieldHandler");
+        ft.setMaxlength(new Long(20));
         ft.setSize("25");
         result.add(ft);
 
@@ -116,6 +190,12 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft = new FieldType();
         ft.setCode("CheckBox");
         ft.setFieldClass("java.lang.Boolean");
+        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.CheckBoxFieldHandler");
+        result.add(ft);
+
+        ft = new FieldType();
+        ft.setCode("CheckBoxPrimitiveBoolean");
+        ft.setFieldClass("boolean");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.CheckBoxFieldHandler");
         result.add(ft);
 
