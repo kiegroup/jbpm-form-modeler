@@ -105,22 +105,31 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         iconsMappings.put("Subform", "fieldTypes/master_details.png");
         iconsMappings.put("MultipleSubform", "fieldTypes/master_details.png");
 
+        hiddenFieldTypesCodes.add("InputTextPrimitiveByte");
+        hiddenFieldTypesCodes.add("InputTextPrimitiveShort");
+        hiddenFieldTypesCodes.add("InputTextPrimitiveInteger");
+        hiddenFieldTypesCodes.add("InputTextPrimitiveLong");
+        hiddenFieldTypesCodes.add("InputTextPrimitiveFloat");
+        hiddenFieldTypesCodes.add("InputTextPrimitiveDouble");
+        hiddenFieldTypesCodes.add("CheckBoxPrimitiveBoolean");
+        hiddenFieldTypesCodes.add("InputTextPrimitiveCharacter");
         hiddenFieldTypesCodes.add("I18nHTMLText");
         hiddenFieldTypesCodes.add("I18nText");
         hiddenFieldTypesCodes.add("I18nTextArea");
         hiddenFieldTypesCodes.add("CustomInput");
 
-        baseTypes.add("InputTextInteger");
         baseTypes.add("InputText");
         baseTypes.add("InputDate");
         baseTypes.add("CheckBox");
-        baseTypes.add("InputTextLong");
-        baseTypes.add("InputTextInteger");
+        baseTypes.add("InputTextCharacter");
+        baseTypes.add("InputTextByte");
         baseTypes.add("InputTextShort");
+        baseTypes.add("InputTextInteger");
+        baseTypes.add("InputTextLong");
+        baseTypes.add("InputTextFloat");
+        baseTypes.add("InputTextDouble");
         baseTypes.add("InputTextBigDecimal");
         baseTypes.add("InputTextBigInteger");
-        baseTypes.add("InputTextDouble");
-        baseTypes.add("InputTextFloat");
 
     }
 
