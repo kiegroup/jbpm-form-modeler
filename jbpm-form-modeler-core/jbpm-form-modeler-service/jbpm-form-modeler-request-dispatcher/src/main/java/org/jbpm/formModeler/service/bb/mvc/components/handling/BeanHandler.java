@@ -73,7 +73,7 @@ public abstract class BeanHandler implements Serializable {
     }
 
     @PostConstruct
-    public void start() throws Exception {
+    public void start() {
         if (isUseActionShortcuts()) {
             calculateActionShortcuts();
         }
