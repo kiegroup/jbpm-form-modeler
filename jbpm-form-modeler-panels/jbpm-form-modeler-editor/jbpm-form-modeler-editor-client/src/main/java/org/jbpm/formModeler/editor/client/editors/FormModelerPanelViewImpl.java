@@ -39,6 +39,7 @@ public class FormModelerPanelViewImpl extends Composite
 
     final static private String GWT_DEFAULT_LOCALE  = "default";
     final static private String FORM_MODELER_DEFAULT_LOCALE  = "en";
+    final static private String HEIGHT_100P = "100%";
 
     private FormModelerPanelPresenter presenter;
 
@@ -77,9 +78,8 @@ public class FormModelerPanelViewImpl extends Composite
 
     @Override
     public void loadContext(String ctxUID) {
-        String height = getParent().getOffsetHeight() - 30 + "px";
-        this.setHeight(height);
-        frame.setHeight(height);
+        this.setHeight(HEIGHT_100P);
+        frame.setHeight(HEIGHT_100P);
         String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
         if (GWT_DEFAULT_LOCALE.equals(localeName)) localeName = FORM_MODELER_DEFAULT_LOCALE;
         frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=wysiwygfe&_fp=Start&ctxUID=" + ctxUID + "&locale=" + localeName).asString());
