@@ -172,7 +172,7 @@ public class FormModelerServiceImpl implements FormModelerService {
         try {
             Form form = formManager.createForm(formName);
 
-            ioService.write(kiePath, formSerializationManager.generateFormXML(form));
+            ioService.write(kiePath, formSerializationManager.generateFormXML(form), makeCommentedOption(""));
 
             return Paths.convert(kiePath);
         } catch (FileAlreadyExistsException e) {
