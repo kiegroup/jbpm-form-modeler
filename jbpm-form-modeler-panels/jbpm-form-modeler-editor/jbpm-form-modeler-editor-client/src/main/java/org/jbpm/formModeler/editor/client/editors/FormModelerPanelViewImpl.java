@@ -21,8 +21,7 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.safehtml.shared.UriUtils;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Frame;
+import com.google.gwt.user.client.ui.*;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
@@ -35,7 +34,7 @@ import javax.inject.Inject;
 @Templated(value = "FormModelerPanelViewImpl.html")
 public class FormModelerPanelViewImpl extends Composite
         implements
-        FormModelerPanelView {
+        FormModelerPanelView, RequiresResize {
 
     final static private String GWT_DEFAULT_LOCALE  = "default";
     final static private String FORM_MODELER_DEFAULT_LOCALE  = "en";
@@ -78,8 +77,7 @@ public class FormModelerPanelViewImpl extends Composite
 
     @Override
     public void loadContext(String ctxUID) {
-        this.setHeight(HEIGHT_100P);
-        frame.setHeight(HEIGHT_100P);
+        doOnResize();
         String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
         if (GWT_DEFAULT_LOCALE.equals(localeName)) localeName = FORM_MODELER_DEFAULT_LOCALE;
         frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=wysiwygfe&_fp=Start&ctxUID=" + ctxUID + "&locale=" + localeName).asString());
@@ -89,6 +87,19 @@ public class FormModelerPanelViewImpl extends Composite
     @Override
     public void showCanNotSaveReadOnly() {
         Window.alert(CommonConstants.INSTANCE.CantSaveReadOnly());
+    }
+
+    @Override
+    public void onResize() {
+        doOnResize();
+    }
+    
+    protected void  doOnResize() {
+        final Widget w = getParent();
+        final int width = w.getOffsetWidth();
+        final int height = w.getOffsetHeight();
+        frame.setWidth( width + "px" );
+        frame.setHeight( height + "px" );
     }
 }
 
