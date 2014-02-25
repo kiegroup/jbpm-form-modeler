@@ -37,6 +37,7 @@ import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.mvp.PlaceRequest;
 import org.uberfire.mvp.impl.PathPlaceRequest;
 import org.uberfire.workbench.events.NotificationEvent;
+import org.uberfire.workbench.type.ResourceTypeDefinition;
 
 @ApplicationScoped
 public class NewFormDefinitionlHandler extends DefaultNewResourceHandler {
@@ -64,6 +65,11 @@ public class NewFormDefinitionlHandler extends DefaultNewResourceHandler {
     }
 
     @Override
+    public ResourceTypeDefinition getResourceType() {
+        return resourceType;
+    }
+
+    @Override
     public void create( org.guvnor.common.services.project.model.Package pkg,
                         String baseFileName,
                         final NewResourcePresenter presenter ) {
@@ -88,7 +94,8 @@ public class NewFormDefinitionlHandler extends DefaultNewResourceHandler {
                                      return true;
                                  }
                              }
-                           ).createForm( pkg.getPackageMainResourcesPath(), buildFileName( resourceType, baseFileName ) );
+                           ).createForm( pkg.getPackageMainResourcesPath(), buildFileName( baseFileName,
+                                                                                           resourceType ) );
     }
 
 }

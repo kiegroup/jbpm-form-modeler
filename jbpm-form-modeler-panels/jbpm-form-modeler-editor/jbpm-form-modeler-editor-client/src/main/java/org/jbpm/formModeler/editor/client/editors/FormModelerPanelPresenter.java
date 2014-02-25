@@ -38,6 +38,7 @@ import org.kie.workbench.common.widgets.client.popups.file.DeletePopup;
 import org.kie.workbench.common.widgets.client.popups.file.FileNameAndCommitMessage;
 import org.kie.workbench.common.widgets.client.popups.file.RenamePopup;
 import org.kie.workbench.common.widgets.client.popups.file.SaveOperationService;
+import org.kie.workbench.common.widgets.client.popups.validation.DefaultFileNameValidator;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 import org.kie.workbench.common.widgets.client.widget.BusyIndicatorView;
 import org.kie.workbench.common.widgets.metadata.client.callbacks.MetadataSuccessCallback;
@@ -98,6 +99,9 @@ public class FormModelerPanelPresenter {
 
     @Inject
     private FormResourceTypeDefinition resourceType;
+
+    @Inject
+    private DefaultFileNameValidator fileNameValidator;
 
     private FormEditorContextTO context;
 
@@ -245,16 +249,18 @@ public class FormModelerPanelPresenter {
                 modelerService.call().changeContextPath( context.getCtxUID(), path );
             }
         };
-        RenamePopup popup = new RenamePopup( new CommandWithFileNameAndCommitMessage() {
-            @Override
-            public void execute( final FileNameAndCommitMessage details ) {
-                busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Renaming() );
-                modelerService.call( renameCallback,
-                                     new HasBusyIndicatorDefaultErrorCallback( busyIndicatorView ) ).rename( path,
-                                                                                                             details.getNewFileName(),
-                                                                                                             details.getCommitMessage() );
-            }
-        } );
+        RenamePopup popup = new RenamePopup( path,
+                                             fileNameValidator,
+                                             new CommandWithFileNameAndCommitMessage() {
+                                                 @Override
+                                                 public void execute( final FileNameAndCommitMessage details ) {
+                                                     busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Renaming() );
+                                                     modelerService.call( renameCallback,
+                                                                          new HasBusyIndicatorDefaultErrorCallback( busyIndicatorView ) ).rename( path,
+                                                                                                                                                  details.getNewFileName(),
+                                                                                                                                                  details.getCommitMessage() );
+                                                 }
+                                             } );
 
         popup.show();
     }
