@@ -13,16 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbpm.formModeler.core.config.builders;
+package org.jbpm.formModeler.core.config.builders.fieldType;
 
-import org.jbpm.formModeler.api.model.DataHolder;
+import java.util.List;
 
-import java.util.Map;
-
-public interface DataHolderBuilder {
-    String getId();
-    DataHolder buildDataHolder(Map<String, String> config);
-    Map getOptions(String path);
-    boolean supportsPropertyType(String type, String path);
-    public int getPriority();
+public interface FieldTypeBuilder<T>{
+    public List<T> buildList();
 }

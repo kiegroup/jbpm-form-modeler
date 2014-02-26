@@ -16,7 +16,8 @@
 package org.jbpm.formModeler.core.config;
 
 
-import org.jbpm.formModeler.core.config.builders.DataHolderBuilder;
+import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuildConfig;
+import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuilder;
 import org.jbpm.formModeler.api.model.DataHolder;
 
 import javax.annotation.PostConstruct;
@@ -81,11 +82,29 @@ public class DataHolderManagerImpl implements DataHolderManager {
         return null;
     }
 
+    protected DataHolderBuilder getBuilderByCompatibleType(String builderId) {
+        for(DataHolderBuilder builder : builders) {
+            if (Arrays.asList(builder.getSupportedHolderTypes()).contains(builderId)) return builder;
+        }
+        return null;
+    }
+
     @Override
-    public DataHolder createDataHolderByType(String type, Map<String, String> config) {
+    public DataHolder createDataHolderByType(String type, DataHolderBuildConfig config) {
         DataHolderBuilder builder = getBuilderByBuilderType(type);
         if (builder == null) return null;
 
-        return builder.buildDataHolder(config);
+        DataHolder holder = builder.buildDataHolder(config);
+
+        if (holder == null) {
+            builder = getBuilderByCompatibleType(type);
+            if (builder != null) holder = builder.buildDataHolder(config);
+        }
+
+        return holder;
+    }
+
+    public Set<DataHolderBuilder> getHolderBuilders() {
+        return builders;
     }
 }

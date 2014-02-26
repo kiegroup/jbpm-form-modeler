@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbpm.formModeler.core.config.builders;
+package org.jbpm.formModeler.core.config.builders.dataHolder;
 
-import java.util.List;
+import java.util.Map;
 
-public interface FieldTypeBuilder<T>{
-    public List<T> buildList();
+public interface RangedDataHolderBuilder extends DataHolderBuilder {
+    public Map<String, String> getHolderSources(String context);
 }

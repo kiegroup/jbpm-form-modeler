@@ -28,6 +28,8 @@ public interface DataHolder extends Comparable, Serializable {
     void setInputId(String inputId);
     void setOutputId(String outputId);
 
+    boolean canHaveChildren();
+
     Object createInstance(FormRenderContext context) throws Exception;
     void writeValue(Object destination, String propName, Object value) throws Exception;
     Object readFromBindingExperssion(Object source, String bindingExpression) throws Exception;

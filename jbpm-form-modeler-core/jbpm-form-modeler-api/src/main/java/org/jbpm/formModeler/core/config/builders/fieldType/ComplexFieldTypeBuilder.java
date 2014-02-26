@@ -17,7 +17,6 @@ package org.jbpm.formModeler.core.config.builders.fieldType;
 
 
 import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.core.config.builders.FieldTypeBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

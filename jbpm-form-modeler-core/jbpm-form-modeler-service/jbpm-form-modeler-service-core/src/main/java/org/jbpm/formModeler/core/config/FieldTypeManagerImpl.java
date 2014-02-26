@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.core.config;
 
 import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.core.config.builders.FieldTypeBuilder;
+import org.jbpm.formModeler.core.config.builders.fieldType.FieldTypeBuilder;
 import org.jbpm.formModeler.core.config.builders.fieldType.DecoratorFieldTypeBuilder;
 import org.jbpm.formModeler.core.config.builders.fieldType.SimpleFieldTypeBuilder;
 import org.jbpm.formModeler.core.config.builders.fieldType.ComplexFieldTypeBuilder;
@@ -171,7 +171,7 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
      * @throws Exception in case of error
      */
     @Override
-    public List<FieldType> getSuitableFieldTypes(String propertyType) throws Exception {
+    public List<FieldType> getSuitableFieldTypes(String propertyType) {
         final List<FieldType> validFieldTypes = new ArrayList<FieldType>();
         if (!StringUtils.isEmpty(propertyType)) {
             boolean isDecorator = false;
@@ -242,21 +242,41 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
 
     @Override
     public FieldType getTypeByClass(String className) {
-        try {
-            for (FieldType fieldType : fieldTypes) {
-                if (fieldType.getFieldClass().equals(className)) return fieldType;
-            }
-            for (FieldType fieldType : decoratorTypes) {
-                if (fieldType.getFieldClass().equals(className)) return fieldType;
-            }
+        if (StringUtils.isEmpty(className)) return null;
 
-            for (FieldType complexType : complexTypes) {
-                if (complexType.getFieldClass().equals(className)) return complexType;
-            }
+        FieldType fieldType = getSimpleTypeByClass(className);
 
-            return getTypeByCode("Subform");// If there are no valid return type consider Object one
-        } catch (Exception e) {
+        if (fieldType != null) return fieldType;
 
+        fieldType = getDecoratorTypeByClass(className);
+
+        if (fieldType != null) return fieldType;
+
+        fieldType = getComplexTypeByClass(className);
+
+        if (fieldType != null) return fieldType;
+
+        return getTypeByCode("Subform");
+    }
+
+    @Override
+    public FieldType getSimpleTypeByClass(String className) {
+        return getFieldTypeByClass(fieldTypes, className);
+    }
+
+    @Override
+    public FieldType getComplexTypeByClass(String className) {
+        return getFieldTypeByClass(complexTypes, className);
+    }
+
+    @Override
+    public FieldType getDecoratorTypeByClass(String className) {
+        return getFieldTypeByClass(decoratorTypes, className);
+    }
+
+    protected FieldType getFieldTypeByClass(List<FieldType> fieldTypes, String className) {
+        for (FieldType fieldType : fieldTypes) {
+            if (fieldType.getFieldClass().equals(className)) return fieldType;
         }
         return null;
     }

@@ -15,28 +15,35 @@
  */
 package org.jbpm.formModeler.core.config.builders.dataHolder;
 
-import org.jbpm.formModeler.core.config.builders.DataHolderBuilder;
 import org.jbpm.formModeler.api.model.DataHolder;
-import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.model.PojoDataHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.util.Map;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @ApplicationScoped
 public class PojoDataHolderBuilder implements DataHolderBuilder {
+
+    public static final String HOLDER_TYPE_POJO_CLASSNAME = "className";
+
+    private Logger log = LoggerFactory.getLogger(PojoDataHolderBuilder.class);
+
     @Override
     public String getId() {
-        return Form.HOLDER_TYPE_CODE_POJO_CLASSNAME;
+        return HOLDER_TYPE_POJO_CLASSNAME;
     }
 
     @Override
-    public DataHolder buildDataHolder(Map<String, String> config) {
-        return new PojoDataHolder(config.get("id"), config.get("inputId"), config.get("outId"), config.get("value"), config.get("color"));
-    }
-
-    @Override
-    public Map getOptions(String path) {
+    public DataHolder buildDataHolder(DataHolderBuildConfig config) {
+        try {
+            Class.forName(config.getValue());
+            return new PojoDataHolder(config.getHolderId(), config.getInputId(), config.getOutputId(), config.getValue(), config.getRenderColor());
+        } catch (ClassNotFoundException e) {
+            log.warn("Unable to load class '{0}': {1}", config.getValue(), e);
+        }
         return null;
     }
 
@@ -53,5 +60,16 @@ public class PojoDataHolderBuilder implements DataHolderBuilder {
     @Override
     public int getPriority() {
         return 100000;
+    }
+
+    @Override
+    public String[] getSupportedHolderTypes() {
+        return new String[0];
+    }
+
+    @Override
+    public String getDataHolderName(Locale locale) {
+        ResourceBundle bundle = ResourceBundle.getBundle("org.jbpm.formModeler.core.config.builders.dataHolder.messages", locale);
+        return bundle.getString("dataHolder_className");
     }
 }

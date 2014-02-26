@@ -18,6 +18,7 @@ package org.jbpm.formModeler.core.config;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.*;
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
+import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuildConfig;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -506,16 +507,15 @@ public class FormManagerImpl implements FormManager {
 
     @Override
     public void addDataHolderToForm(Form form, String holderType, String id,String inputId, String outId, String color, String value, String path) throws Exception {
-        Map<String, String> config = new HashMap<String, String>();
+        DataHolderBuildConfig config = new DataHolderBuildConfig(id, inputId, outId, color, value);
+        config.addAttribute("path", path);
 
-        config.put("id", id);
-        config.put("inputId", inputId);
-        config.put("outId", outId);
-        config.put("color", color);
-        config.put("value", value);
-        config.put("path", path);
+        addDataHolderToForm(form, dataHolderManager.createDataHolderByType(holderType, config));
 
-        DataHolder holder = dataHolderManager.createDataHolderByType(holderType, config);
+    }
+
+    @Override
+    public void addDataHolderToForm(Form form, DataHolder holder) {
         if (holder != null) form.setDataHolder(holder);
     }
 
@@ -568,7 +568,7 @@ public class FormManagerImpl implements FormManager {
         FieldType fieldType = null;
         fieldType = fieldTypeManager.getTypeByClass(fieldClass);
         String fName=fieldName;
-        if (Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(holder.getTypeCode())){
+        if (!holder.canHaveChildren()){
              fName=holder.getUniqeId();
         }else{
             fName=holder.getUniqeId() + "_" + fieldName;

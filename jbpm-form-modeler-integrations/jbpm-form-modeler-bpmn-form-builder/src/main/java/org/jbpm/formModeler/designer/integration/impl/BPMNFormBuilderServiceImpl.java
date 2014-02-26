@@ -24,7 +24,8 @@ import org.jbpm.formModeler.core.config.DataHolderManager;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
-import org.jbpm.formModeler.core.config.builders.DataHolderBuilder;
+import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuildConfig;
+import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuilder;
 import org.jbpm.formModeler.designer.integration.BPMNFormBuilderService;
 import org.uberfire.io.IOService;
 import org.uberfire.backend.server.util.Paths;
@@ -95,7 +96,7 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
     public Set<DataHolder> getDataHolders(Definitions source, Path context, String resourceId) {
         if (source == null || context == null) return null;
 
-        Map<String, Map> associations = new HashMap<String, Map>();
+        Map<String, DataHolderBuildConfig> associations = new HashMap<String, DataHolderBuildConfig>();
         List<RootElement> rootElements = source.getRootElements();
 
         String contextUri = Paths.convert(context).toUri().toString();
@@ -113,11 +114,9 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
                     int index = 0;
 
                     for (Property prop : processProperties) {
-                        Map<String, String> config = new HashMap<String, String>();
-                        config.put("value", StringUtils.defaultIfEmpty(prop.getItemSubjectRef().getStructureRef(), "java.lang.Object"));
-                        config.put("path", contextUri);
-                        config.put("color", colors[index]);
-                        config.put("id", prop.getId());
+                        String holderClass = StringUtils.defaultIfEmpty(prop.getItemSubjectRef().getStructureRef(), "java.lang.Object");
+                        DataHolderBuildConfig config = new DataHolderBuildConfig(prop.getId(), "", "", colors[index], holderClass);
+                        config.addAttribute("path", contextUri);
                         associations.put(prop.getId(), config);
                         if (index == colors.length - 1) index = 0;
                         else index++;
@@ -130,19 +129,15 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
         Set<DataHolder> result = new TreeSet<DataHolder>();
 
         for (Iterator it = associations.keySet().iterator(); it.hasNext();) {
-            Map config = associations.get(it.next());
-            DataHolder dataHolder;
-
-            if (config.size() > 4) {
-                dataHolder = createDataHolder(config);
-                if (dataHolder != null) result.add(dataHolder);
-            }
+            DataHolderBuildConfig config = associations.get(it.next());
+            DataHolder dataHolder = createDataHolder(config);
+            if (dataHolder != null) result.add(dataHolder);
         }
 
         return result;
     }
 
-    private void getDataHoldersFromElements(FlowElementsContainer container, String resourceId, Map<String, Map> associations) {
+    private void getDataHoldersFromElements(FlowElementsContainer container, String resourceId, Map<String, DataHolderBuildConfig> associations) {
         for(FlowElement fe : container.getFlowElements()) {
             if(fe instanceof UserTask && fe.getId().equals(resourceId)) {
                 UserTask utask = (UserTask) fe;
@@ -156,9 +151,9 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
                             String variableId = inputAssociation.getSourceRef().get(0).getId();
                             DataInput input = (DataInput)inputAssociation.getTargetRef();
                             String id = input != null ? input.getName() : null;
-                            Map config = ((variableId != null) && (id != null)) ? associations.get(variableId) : null;
+                            DataHolderBuildConfig config = ((variableId != null) && (id != null)) ? associations.get(variableId) : null;
 
-                            if (config != null) config.put("inputId", id);
+                            if (config != null) config.setInputId(id);
                         }
                     }
                 }
@@ -173,8 +168,8 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
                             DataOutput output = (DataOutput) outputAssociation.getSourceRef().get(0);
                             String outId = output != null ? output.getName() : null;
 
-                            Map config = ((variableId != null) && (outId != null)) ? associations.get(variableId) : null;
-                            if (config != null) config.put("outId", outId);
+                            DataHolderBuildConfig config = ((variableId != null) && (outId != null)) ? associations.get(variableId) : null;
+                            if (config != null) config.setOutputId(outId);
                         }
                     }
                 }
@@ -194,16 +189,11 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
         for (Property prop : processProperties) {
             String propertyName = prop.getId();
             String propertyType = StringUtils.defaultIfEmpty(prop.getItemSubjectRef().getStructureRef(), "java.lang.Object");
-            DataHolder dataHolder = null;
 
-            Map<String, String> config = new HashMap<String, String>();
-            config.put("id", propertyName);
-            config.put("outId", propertyName);
-            config.put("color", colors[index]);
-            config.put("value", propertyType);
-            config.put("path", path);
+            DataHolderBuildConfig config = new DataHolderBuildConfig(propertyName, "", propertyName, colors[index], propertyType);
+            config.addAttribute("path", path);
 
-            dataHolder = createDataHolder(config);
+            DataHolder dataHolder = createDataHolder(config);
             if (dataHolder != null) result.add(dataHolder);
 
             if (index == colors.length - 1) index = 0;
@@ -213,13 +203,13 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
         return result;
     }
     
-    private DataHolder createDataHolder(Map<String, String> config) {
+    private DataHolder createDataHolder(DataHolderBuildConfig config) {
 
-        String type = (String) config.get("value");
+        String type = config.getValue();
         if (isBaseType(type)) type = normalizeBaseType(type);
 
-        DataHolderBuilder builder = dataHolderManager.getBuilderByHolderValueType(type, config.get("path"));
-        config.put("value", type);
+        DataHolderBuilder builder = dataHolderManager.getBuilderByHolderValueType(type, config.getAttribute("path"));
+        config.setValue(type);
         if (builder != null) return builder.buildDataHolder(config);
 
         return null;
