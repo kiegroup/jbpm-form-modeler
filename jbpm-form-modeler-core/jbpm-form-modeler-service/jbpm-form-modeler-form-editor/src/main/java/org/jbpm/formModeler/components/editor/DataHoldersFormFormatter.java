@@ -16,6 +16,7 @@
 package org.jbpm.formModeler.components.editor;
 
 import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.core.config.builders.dataHolder.RangedDataHolderBuilder;
 import org.slf4j.Logger;
 
 import org.jbpm.formModeler.core.config.DataHolderManager;
@@ -24,7 +25,7 @@ import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.core.config.builders.DataHolderBuilder;
+import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuilder;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.slf4j.LoggerFactory;
@@ -42,31 +43,16 @@ public class DataHoldersFormFormatter extends Formatter {
     private Logger log = LoggerFactory.getLogger(DataHoldersFormFormatter.class);
 
     @Inject
+    private WysiwygFormEditor wysiwygFormEditor;
+
+    @Inject
     private DataHolderManager dataHolderManager;
 
     @Inject
     private FieldTypeManager fieldTypeManager;
 
-    /**
-     * The comparator implementation for form holder types.
-     */
-    private static final Comparator<String> formHolderTypesComparator = new Comparator<String>() {
-        /**
-         * Default implementation for comparing form holder types will be using <code>String#compareTo</code> method.
-         *
-         * @param o1 The object source.
-         * @param o2 The obect to compare.
-         * @return The compare result.
-         */
-        @Override
-        public int compare(String o1, String o2) {
-            return o1.compareTo(o2);
-        }
-    };
-
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
-            WysiwygFormEditor wysiwygFormEditor = WysiwygFormEditor.lookup();
             if (WysiwygFormEditor.EDITION_OPTION_BINDINGS_FIELDS.equals(wysiwygFormEditor.getCurrentEditionOption())) {
                 renderPendingFields();
             } else {
@@ -78,8 +64,15 @@ public class DataHoldersFormFormatter extends Formatter {
     }
 
     public void renderDataHolders() {
-        WysiwygFormEditor wysiwygFormEditor = WysiwygFormEditor.lookup();
         try {
+            renderFragment("outputStartHeader");
+            for (DataHolderBuilder builder : dataHolderManager.getHolderBuilders()) {
+
+                if (builder instanceof RangedDataHolderBuilder) notifyHolderBuilder((RangedDataHolderBuilder)builder, wysiwygFormEditor.getCurrentEditionContext().getPath());
+                else notifyHolderBuilder(builder);
+            }
+            renderFragment("outputEndHeader");
+
             renderFragment("outputStart");
 
             Form form = wysiwygFormEditor.getCurrentForm();
@@ -111,29 +104,13 @@ public class DataHoldersFormFormatter extends Formatter {
             // Render source types sorted by value.
             renderFragment("outputFormHolderTypes");
 
-            renderFragment("rowStart");
+            for (DataHolderBuilder builder : dataHolderManager.getHolderBuilders()) {
+                setAttribute("holderType", builder.getId());
+                setAttribute("holderName", builder.getDataHolderName(getLocale()));
+                renderFragment("outputHolderType");
+            }
 
-            DataHolderBuilder holderBuilder = dataHolderManager.getBuilderByBuilderType(Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL);
-            Map values = null;
-            if (holderBuilder != null) values = holderBuilder.getOptions(wysiwygFormEditor.getCurrentEditionContext().getPath());
-
-            renderSelectDataModel(Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL,WysiwygFormEditor.PARAMETER_HOLDER_DM_INFO, sort(values, formHolderTypesComparator));
-
-            renderFragment("rowEnd");
-
-            renderFragment("rowStart");
-
-            holderBuilder = dataHolderManager.getBuilderByBuilderType(Form.HOLDER_TYPE_CODE_BASIC_TYPE);
-            values = null;
-            if (holderBuilder != null) values = holderBuilder.getOptions(wysiwygFormEditor.getCurrentEditionContext().getPath());
-
-            renderSelectDataModel(Form.HOLDER_TYPE_CODE_BASIC_TYPE,WysiwygFormEditor.PARAMETER_HOLDER_BT_INFO, sort(values, formHolderTypesComparator));
-
-            renderFragment("rowEnd");
-
-            renderFragment("outputFormAddHolderEnd");
-
-            renderFragment("outputNameInput");
+            renderFragment("outputEndHolderTypes");
 
             renderFragment("outputStartBindings");
 
@@ -158,23 +135,29 @@ public class DataHoldersFormFormatter extends Formatter {
         }
     }
 
-    public void renderSelectDataModel(String id, String name, Map values) throws Exception {
-        setAttribute("id", id);
-        setAttribute("name", name);
-        renderFragment("selectStart");
+    public void notifyHolderBuilder(DataHolderBuilder builder) throws Exception {
+        setAttribute("id", builder.getId());
+        renderFragment("notifyHolderBuilder");
+    }
+
+
+    public void notifyHolderBuilder(RangedDataHolderBuilder builder, String path) throws Exception {
+        setAttribute("id", builder.getId());
+        Map<String, String> values = builder.getHolderSources(path);
+
+        StringBuffer comboJSON = new StringBuffer("[");
 
         if (values!= null ) {
             for (Iterator it = values.keySet().iterator(); it.hasNext();) {
+                if (comboJSON.length() > 1) comboJSON .append(",");
                 String key = (String) it.next();
-                String value = (String) values.get(key);
-                setAttribute("optionLabel", key);
-                setAttribute("optionValue", value);
-                renderFragment("selectOption");
+                String value = values.get(key);
+                comboJSON.append("{key:\"").append(key).append("\",").append("value:\"").append(value).append("\"}");
             }
         }
-        renderFragment("selectEnd");
-
-
+        comboJSON.append("]");
+        setAttribute("comboValues", comboJSON.toString());
+        renderFragment("notifyComboHolderBuilder");
     }
 
     public void renderPendingFields() throws Exception {
@@ -211,7 +194,7 @@ public class DataHoldersFormFormatter extends Formatter {
                             if (holderName.length() > 20) holderName = holderName.substring(0, 19) + "...";
 
                             setAttribute("showHolderName", holderName);
-                            if (Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(dataHolder.getTypeCode())){
+                            if (!dataHolder.canHaveChildren()){
                                 setAttribute("noConfirm", Boolean.TRUE);
                             } else {
                                 setAttribute("noConfirm", Boolean.FALSE);
@@ -220,7 +203,7 @@ public class DataHoldersFormFormatter extends Formatter {
 
                         }
                         i++;
-                        if (!Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(dataHolder.getTypeCode())){
+                        if (dataHolder.canHaveChildren()){
                             renderAddField(fieldName, dataFieldHolder, holderId);
                         }
                     }
@@ -248,21 +231,5 @@ public class DataHoldersFormFormatter extends Formatter {
         setAttribute("iconUri", fieldTypeManager.getIconPathForCode(type.getCode()));
         setAttribute("fieldName", fieldName);
         renderFragment("outputField");
-    }
-
-    /**
-     * Sorts a map values using a given comparator implementation.
-     *
-     * @param source The source map.
-     * @param c The comparator implementation. If <code>null</code>, the natural ordering of the keys will be used.
-     * @return The sorted map or <code>null</code> if source map is <code>null</code>.
-     */
-    protected Map sort(Map source, Comparator<String> c) {
-        if (source != null) {
-            TreeMap sortedMap = new TreeMap(c);
-            sortedMap.putAll(source);
-            return sortedMap;
-        }
-        return null;
     }
 }

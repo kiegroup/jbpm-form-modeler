@@ -35,7 +35,7 @@ public interface FieldTypeManager extends Serializable {
 
     void setFieldTypes(List<FieldType> fieldTypes);
 
-    List getSuitableFieldTypes(String propertyType) throws Exception;
+    List getSuitableFieldTypes(String propertyType);
 
     List<FieldType> getFormDecoratorTypes();
 
@@ -44,6 +44,12 @@ public interface FieldTypeManager extends Serializable {
     FieldType getTypeByCode(String typeCode);
 
     FieldType getTypeByClass(String classType);
+
+    FieldType getSimpleTypeByClass(String className);
+
+    FieldType getComplexTypeByClass(String className);
+
+    FieldType getDecoratorTypeByClass(String className);
 
     String getIconPathForCode(String code);
 

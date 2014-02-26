@@ -41,11 +41,6 @@ public class Form implements Serializable, Comparable{
     public static final String TEMPLATE_FIELD = "$field";
     public static final String TEMPLATE_LABEL = "$label";
 
-    public static final String HOLDER_TYPE_CODE_POJO_CLASSNAME = "className";
-    public static final String HOLDER_TYPE_CODE_POJO_DATA_MODEL = "dataModelerEntry";
-    public static final String HOLDER_TYPE_CODE_BPM_PROCESS = "bpm_process";
-    public static final String HOLDER_TYPE_CODE_BASIC_TYPE = "basicType";
-
     private Long id;
 
     private String subject;

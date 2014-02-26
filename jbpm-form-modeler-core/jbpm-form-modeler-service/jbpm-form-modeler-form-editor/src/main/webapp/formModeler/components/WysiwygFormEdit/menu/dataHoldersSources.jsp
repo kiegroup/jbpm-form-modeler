@@ -28,6 +28,42 @@
              locale="<%=LocaleManager.currentLocale()%>"/>
 
 <mvc:formatter name="DataHoldersFormFormatter">
+<mvc:fragment name="outputStartHeader">
+    <script type="text/javascript">
+        var holderSources = {};
+</mvc:fragment>
+
+<mvc:fragment name="notifyHolderBuilder">
+    holderSources['<mvc:fragmentValue name="id"/>'] = null;
+</mvc:fragment>
+<mvc:fragment name="notifyComboHolderBuilder">
+        holderSources['<mvc:fragmentValue name="id"/>'] = <mvc:fragmentValue name="comboValues"/>;
+</mvc:fragment>
+<mvc:fragment name="outputEndHeader">
+        function show_dataholderInfo(holderType) {
+
+            var combo = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_COMBO_VALUE%>");
+            var input = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_VALUE%>");
+
+            combo.val("");
+            combo.hide();
+            combo.empty();
+            input.val("");
+            input.hide();
+
+            var options = holderSources[holderType];
+
+            if (options) {
+                jQuery.each(options, function(index, value) {
+                    combo.append($('<option></option>').attr("value", value.key).text(value.value));
+                });
+                combo.show();
+            } else {
+                input.show();
+            }
+        }
+    </script>
+</mvc:fragment>
 <%------------------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="outputStart">
     <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="formDataHolders"/>">
@@ -41,80 +77,66 @@
     <mvc:fragmentValue name="existingInputIds" id="existingInputIds">
         <mvc:fragmentValue name="existingOutputIds" id="existingOutputIds">
             <mvc:fragmentValue name="existingIds" id="existingIds">
-            <tr>
+        <tr>
             <td class="LeftColumnProperties" align="center">
-            <script type="text/javascript">
-                var supportedHolders = new Array();
-                supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>');
-                supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>');
-                supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>');
-                supportedHolders.push('<%=Form.HOLDER_TYPE_CODE_BASIC_TYPE%>');
+                <script type="text/javascript">
 
-            function show_dataholderInfo(divStr) {
-                jQuery.each( supportedHolders, function( index, value ) {
-                    if (divStr == value) $('#' + value).show();
-                    else $('#' + value).hide();
-                });
-            }
-            show_dataholderInfo("none");
+                    function confirmAdd(){
+                        var existingInputIds = [<%=existingInputIds%>];
+                        var existingOutputIds = [<%=existingOutputIds%>];
+                        var existingIds = [<%=existingIds%>];
 
-                function confirmAdd(){
-                    var existingInputIds = [<%=existingInputIds%>];
-                    var existingOutputIds = [<%=existingOutputIds%>];
-                    var existingIds = [<%=existingIds%>];
+                        var inVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_ID%>").val();
+                        var idVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>").val();
+                        var outVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>").val();
+                        if ((idVal && jQuery.inArray(idVal, existingIds)!=-1) ){
+                            alert("<i18n:message key="dataHolder_existingId_Message">Sure?</i18n:message>")
+                            return false;
+                        }
+                        if ((inVal && jQuery.inArray(inVal, existingInputIds)!=-1) ||
+                                (outVal && jQuery.inArray(outVal, existingOutputIds)!=-1)){
+                            alert("<i18n:message key="dataHolder_add_confirm">Sure?</i18n:message>")
+                            return false;
+                        }
+                        if(!idVal){
+                            alert("<i18n:message key="dataHolder_requiredId">required id!</i18n:message>")
+                            return false;
+                        }
+                        if (!(inVal || outVal)){
+                            alert("<i18n:message key="dataHolder_requiredInOut">required input output!</i18n:message>")
+                            return false;
+                        }
 
-                    var inVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_ID%>").val();
-                    var idVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>").val();
-                    var outVal = $("#<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>").val();
-                    if ((idVal && jQuery.inArray(idVal, existingIds)!=-1) ){
-                        alert("<i18n:message key="dataHolder_existingId_Message">Sure?</i18n:message>")
-                        return false;
                     }
-                    if ((inVal && jQuery.inArray(inVal, existingInputIds)!=-1) ||
-                            (outVal && jQuery.inArray(outVal, existingOutputIds)!=-1)){
-                        alert("<i18n:message key="dataHolder_add_confirm">Sure?</i18n:message>")
-                        return false;
-                    }
-                    if (!(inVal || outVal)){
-                        alert("<i18n:message key="dataHolder_requiredInOut">required input output!</i18n:message>")
-                        return false;
-                    }
-                    if(!idVal){
-                        alert("<i18n:message key="dataHolder_requiredId">required id!</i18n:message>")
-                        return false;
-                    }
-
-
-                }
-        </script>
-        <table>
-        <tr>
-            <td><b><i18n:message key="dataHolder_Id">!!!dataHolder_id</i18n:message>:</b></td>
-        </tr>
-        <tr>
-            <td><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" type="text" class="skn-input" value=""
-                       size="20" maxlength="64" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>"></td>
-        </tr>
-        <tr>
-            <td><b><i18n:message key="dataHolder_inputId">!!!dataHolder_input</i18n:message>:</b></td>
-        </tr>
-        <tr>
-            <td><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_ID%>" type="text" class="skn-input" value=""
-                       size="20" maxlength="64" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_ID%>"></td>
-        </tr>
-        <tr>
-            <td><b><i18n:message key="dataHolder_outputId">!!!dataHolder_outputid</i18n:message>:</b></td>
-        </tr>
-        <tr>
-            <td><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>" type="text" class="skn-input" value=""
-                       size="20" maxlength="64" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>"></td>
-        </tr>
-        <tr>
-            <td><b><i18n:message key="dataHolder_renderColor">!!!dataHolder_renderColor</i18n:message>:</b></td>
-        </tr>
-        <tr>
-            <td>
-                <select class="skn-input" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_RENDERCOLOR%>">
+            </script>
+            <table>
+                <tr>
+                    <td><b><i18n:message key="dataHolder_Id">!!!dataHolder_id</i18n:message>:</b></td>
+                </tr>
+                <tr>
+                    <td><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" type="text" class="skn-input" value=""
+                               size="20" maxlength="64" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>"></td>
+                </tr>
+                <tr>
+                    <td><b><i18n:message key="dataHolder_inputId">!!!dataHolder_input</i18n:message>:</b></td>
+                </tr>
+                <tr>
+                    <td><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_ID%>" type="text" class="skn-input" value=""
+                               size="20" maxlength="64" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_ID%>"></td>
+                </tr>
+                <tr>
+                    <td><b><i18n:message key="dataHolder_outputId">!!!dataHolder_outputid</i18n:message>:</b></td>
+                </tr>
+                <tr>
+                    <td><input name="<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>" type="text" class="skn-input" value=""
+                               size="20" maxlength="64" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_OUTPUT_ID%>"></td>
+                </tr>
+                <tr>
+                    <td><b><i18n:message key="dataHolder_renderColor">!!!dataHolder_renderColor</i18n:message>:</b></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select class="skn-input" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_RENDERCOLOR%>">
             </mvc:fragmentValue>
     </mvc:fragmentValue>
     </mvc:fragmentValue>
@@ -122,94 +144,57 @@
 <mvc:fragment name="color">
     <mvc:fragmentValue name="color" id="color">
     <mvc:fragmentValue name="name" id="name">
-        <option value="<%=color%>"><i18n:message key="<%=(String)name%>"><%=color%></i18n:message></option>
+                            <option value="<%=color%>"><i18n:message key="<%=(String)name%>"><%=color%></i18n:message></option>
     </mvc:fragmentValue>
     </mvc:fragmentValue>
 </mvc:fragment>
 <mvc:fragment name="outputFormHolderTypes">
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td><b><i18n:message key="dataHolder_type">!!!dataHolder_type</i18n:message>:</b></td>
-        </tr>
-        <tr>
-            <td>
-                <!--input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
-                   value="<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>"
-                   onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_BPM_PROCESS%>');">&nbsp;<i18n:message
-                key="dataHolder_process">!!!Process </i18n:message><br-->
-                <label><input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
-                       value="<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>"
-                       onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL%>')">&nbsp;<i18n:message
-                    key="dataHolder_datamodel">!!!Data Model source</i18n:message></label><br>
-                <label><input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
-                       value="<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>"
-                       onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>')">&nbsp;<i18n:message
-                    key="dataHolder_info_javaClass">!!!dataHolder_info_javaClass</i18n:message><label><br>
-                <label><input type="radio" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
-                       value="<%=Form.HOLDER_TYPE_CODE_BASIC_TYPE%>"
-                       onclick="show_dataholderInfo('<%=Form.HOLDER_TYPE_CODE_BASIC_TYPE%>')">&nbsp;<i18n:message
-                    key="dataHolder_basicType">!!!Basic type source</i18n:message></label><br>
-            </td>
-        </tr>
-        <tr>
-            <td><b><i18n:message key="dataHolder_info">!!!dataHolder_info</i18n:message>:</b></td>
-        </tr>
-        <td valign="top">
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" >
-
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b><i18n:message key="dataHolder_type">!!!dataHolder_type</i18n:message>:</b></td>
+                </tr>
+                <tr>
+                    <td>
 </mvc:fragment>
-<mvc:fragment name="rowStart">
-    <td>
-</mvc:fragment>
-<%--------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="selectStart">
-    <mvc:fragmentValue name="id" id="id">
-        <mvc:fragmentValue name="name" id="name">
-            <select class="skn-input" id="<%= id %>" name="<%=name%>" style="display: none">
-        </mvc:fragmentValue>
+<mvc:fragment name="outputHolderType">
+    <mvc:fragmentValue name="holderType" id="holderType">
+                        <input type="radio"
+                               name="<%=WysiwygFormEditor.PARAMETER_HOLDER_TYPE%>"
+                               id="<%="dataHolder_" + holderType%>"
+                               value="<%=holderType%>"
+                               onclick="show_dataholderInfo('<%=holderType%>')">&nbsp;<label for="<%="dataHolder_" + holderType%>"><mvc:fragmentValue name="holderName"/></label><br>
     </mvc:fragmentValue>
 </mvc:fragment>
-<%--------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="selectOption">
-    <mvc:fragmentValue name="optionLabel" id="optionLabel">
-        <mvc:fragmentValue name="optionValue" id="optionValue">
-            <option value="<%=optionValue%>">
-                <%=optionLabel%>
-            </option>
-        </mvc:fragmentValue>
-    </mvc:fragmentValue>
-</mvc:fragment>
-<%--------------------------------------------------------------------------------------------------%>
-<mvc:fragment name="selectEnd">
-    </select>
-</mvc:fragment>
-<mvc:fragment name="rowEnd">
-    </td>
-</mvc:fragment>
-<mvc:fragment name="outputFormAddHolderEnd">
+<mvc:fragment name="outputEndHolderTypes">
+                    </td>
+                </tr>
+                <tr>
+                    <td><b><i18n:message key="dataHolder_info">!!!dataHolder_info</i18n:message>:</b></td>
+                </tr>
+                <tr>
+                    <td valign="top">
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" >
+                            <tr>
+                                <td>
+                                    <select class="skn-input" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_COMBO_VALUE%>" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_COMBO_VALUE%>" style="display: none"></select>
+                                    <input type="text" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_VALUE%>" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_VALUE%>"  class="skn-input" value="" size="20" maxlength="64" style="display: none">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
 
-    <tr>
-        <td><input id="<%=Form.HOLDER_TYPE_CODE_POJO_CLASSNAME%>"
-                   name="<%=WysiwygFormEditor.PARAMETER_HOLDER_INFO%>" type="text" class="skn-input" value=""
-                   size="20" maxlength="64" style="display: none"></td>
-    </tr>
-    </table></td>
-    <tr>
-    </table>
-    <br>
+            <br>
 
-    <div style="text-align: center;">
-
-        <input type="submit"
-               value="<i18n:message key="dataHolder_addDataHolder">!!! dataHolder_addDataHolder</i18n:message>"
-               class="skn-button" onclick="return confirmAdd()">
-    </div>
-
-    </td>
-
-
+            <div style="text-align: center;">
+                <input type="submit"
+                       value="<i18n:message key="dataHolder_addDataHolder">!!! dataHolder_addDataHolder</i18n:message>"
+                       class="skn-button" onclick="return confirmAdd()">
+            </div>
+        </td>
 </mvc:fragment>
 <%------------------------------------------------------------------------------------------------------------%>
 <mvc:fragment name="outputStartBindings">

@@ -17,6 +17,7 @@ package org.jbpm.formModeler.core.config;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuildConfig;
 import org.jbpm.formModeler.core.wrappers.HTMLi18n;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.slf4j.Logger;
@@ -173,14 +174,10 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                 String holderRenderColor = getNodeAttributeValue(node, ATTR_NAME);
 
                 if(holderId!=null && holderType!=null && holderValue != null) {
-                    Map<String, String> config = new HashMap<String, String>();
 
-                    config.put("id", holderId);
-                    config.put("inputId", holderInputId);
-                    config.put("outId", holderOutId);
-                    config.put("value", holderValue);
-                    config.put("color", holderRenderColor);
-                    config.put("path", path);
+                    DataHolderBuildConfig config = new DataHolderBuildConfig(holderId, holderInputId, holderOutId, holderRenderColor, holderValue);
+                    config.addAttribute("path", path);
+
                     DataHolder holder = dataHolderManager.createDataHolderByType(holderType, config);
 
                     if (holderId != null) form.setDataHolder(holder);

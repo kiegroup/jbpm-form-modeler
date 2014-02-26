@@ -32,6 +32,11 @@ public abstract class DefaultDataHolder implements DataHolder {
 
     protected BindingExpressionUtil bindingExpressionUtil = BindingExpressionUtil.getInstance();
 
+    @Override
+    public boolean canHaveChildren() {
+        return true;
+    }
+
     public String getUniqeId() {
         //return StringUtils.defaultString(getInputId()) + "/" + StringUtils.defaultString(getOuputId());
         return uniqueId;

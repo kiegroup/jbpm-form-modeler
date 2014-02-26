@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
@@ -22,6 +23,7 @@ import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.config.DataHolderManager;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.core.config.FormManager;
+import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuildConfig;
 import org.jbpm.formModeler.core.processing.*;
 import org.jbpm.formModeler.core.wrappers.HTMLi18n;
 import org.jbpm.formModeler.api.client.FormEditorContext;
@@ -42,6 +44,7 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -108,13 +111,10 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public static final String PARAMETER_HOLDER_ID = "holderId";
     public static final String PARAMETER_HOLDER_INPUT_ID = "holderInputId";
     public static final String PARAMETER_HOLDER_OUTPUT_ID = "holderOutputId";
-    public static final String PARAMETER_HOLDER_INFO = "holderInfo";
     public static final String PARAMETER_HOLDER_TYPE = "holderType";
-    public static final String PARAMETER_HOLDER_DM_INFO = "holderDMInfo";
-    public static final String PARAMETER_HOLDER_BT_INFO = "holderBasicTypeInfo";
-    public static final String PARAMETER_HOLDER_PR_INFO = "holderPRInfo";
+    public static final String PARAMETER_HOLDER_COMBO_VALUE = "holderComboValue";
+    public static final String PARAMETER_HOLDER_INPUT_VALUE = "holderInputValue";
     public static final String PARAMETER_FIELD_NAME = "fieldName";
-    public static final String PARAMETER_FIELD_TYPECODE = "typeCode";
     public static final String PARAMETER_FIELD_CLASS = "className";
     public static final String PARAMETER_HOLDER_RENDERCOLOR = "holderRenderColor";
 
@@ -673,7 +673,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         String action = request.getRequestObject().getParameter(ACTION_TO_DO);
 
         if (ACTION_ADD_DATA_HOLDER.equals(action)) {
-            addDataHolder(request.getRequestObject().getParameterMap());
+            addDataHolder(request.getRequestObject());
         } else if (ACTION_REMOVE_DATA_HOLDER.equals(action)) {
             removeDataHolder(request.getRequestObject().getParameterMap());
         } else if (ACTION_ADD_DATA_HOLDER_FIELDS.equals(action)) {
@@ -682,36 +682,23 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
     }
 
-    public void addDataHolder(Map parameterMap) throws Exception {
-        String[] holderTypeArray = (String[]) parameterMap.get(PARAMETER_HOLDER_TYPE);
-        String[] holderIdArray = (String[]) parameterMap.get(PARAMETER_HOLDER_ID);
-        String[] holderInputIdArray = (String[]) parameterMap.get(PARAMETER_HOLDER_INPUT_ID);
-        String[] holderOutIdArray = (String[]) parameterMap.get(PARAMETER_HOLDER_OUTPUT_ID);
-        String[] holderRenderColorArray = (String[]) parameterMap.get(PARAMETER_HOLDER_RENDERCOLOR);
+    public void addDataHolder(HttpServletRequest request) throws Exception {
+        String holderType = request.getParameter(PARAMETER_HOLDER_TYPE);
+        String holderId = request.getParameter(PARAMETER_HOLDER_ID);
+        String holderInputId = request.getParameter(PARAMETER_HOLDER_INPUT_ID);
+        String holderOutId = request.getParameter(PARAMETER_HOLDER_OUTPUT_ID);
+        String holderRenderColor = request.getParameter(PARAMETER_HOLDER_RENDERCOLOR);
+        String holderInputValue = request.getParameter(PARAMETER_HOLDER_INPUT_VALUE);
+        String holderComboValue = request.getParameter(PARAMETER_HOLDER_COMBO_VALUE);
 
-        String holderType = null;
-        String holderId = null;
-        String holderInputId = null;
-        String holderOutId = null;
-        String holderRenderColor = null;
-        String holderInfo = null;
+        String holderValue = StringUtils.defaultIfEmpty(holderInputValue, holderComboValue);
 
-        if (holderTypeArray != null && holderTypeArray.length > 0) holderType = holderTypeArray[0];
-        if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
-        if (holderInputIdArray != null && holderInputIdArray.length > 0) holderInputId = holderInputIdArray[0];
-        if (holderOutIdArray != null && holderOutIdArray.length > 0) holderOutId = holderOutIdArray[0];
-        if (holderRenderColorArray != null && holderRenderColorArray.length > 0) holderRenderColor = holderRenderColorArray[0];
+        DataHolderBuildConfig config = new DataHolderBuildConfig(holderId, holderInputId, holderOutId, holderRenderColor, holderValue);
+        config.addAttribute("path", getCurrentEditionContext().getPath());
 
-        String[] holderInfoArray = null;
-        if (Form.HOLDER_TYPE_CODE_BASIC_TYPE.equals(holderType)) {
-            holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_BT_INFO);
-        }else  if (Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL.equals(holderType)) {
-            holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_DM_INFO);
-        } else if (Form.HOLDER_TYPE_CODE_POJO_CLASSNAME.equals(holderType)) holderInfoArray = (String[]) parameterMap.get(PARAMETER_HOLDER_INFO);
-        if (holderInfoArray != null && holderInfoArray.length > 0) holderInfo = holderInfoArray[0];
+        DataHolder holder = dataHolderManager.createDataHolderByType(holderType, config);
 
-        getFormManager().addDataHolderToForm(getCurrentForm(), holderType, holderId, holderInputId, holderOutId, holderRenderColor, holderInfo, getCurrentEditionContext().getPath());
-
+        getFormManager().addDataHolderToForm(getCurrentForm(), holder);
     }
 
 

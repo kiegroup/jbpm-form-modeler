@@ -17,51 +17,32 @@ package org.jbpm.formModeler.core.config.builders.dataHolder;
 
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
-import org.jbpm.formModeler.core.config.builders.DataHolderBuilder;
 import org.jbpm.formModeler.core.model.BasicTypeDataHolder;
-import org.jbpm.formModeler.core.model.PojoDataHolder;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @ApplicationScoped
-public class BasicTypeHolderBuilder implements DataHolderBuilder {
+public class BasicTypeHolderBuilder implements RangedDataHolderBuilder {
+    public static final String HOLDER_TYPE_BASIC_TYPE = "basicType";
+
     @Inject
     private FieldTypeManager fieldTypeManager;
 
     @Override
     public String getId() {
-        return Form.HOLDER_TYPE_CODE_BASIC_TYPE;
+        return HOLDER_TYPE_BASIC_TYPE;
     }
 
     @Override
-    public DataHolder buildDataHolder(Map<String, String> config) {
-        return new BasicTypeDataHolder(config.get("id"), config.get("inputId"), config.get("outId"), config.get("value"), config.get("color"));
+    public DataHolder buildDataHolder(DataHolderBuildConfig config) {
+        String fieldClass = config.getValue();
+        if (fieldTypeManager.getSimpleTypeByClass(fieldClass) == null) return null;
 
-    }
-
-    @Override
-    public Map getOptions(String path) {
-        Map result = new HashMap();
-        try {
-            FieldTypeManager fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
-            List<FieldType> allFieldTypes = fieldTypeManager.getFieldTypes();
-            for (FieldType fieldType: allFieldTypes){
-                if(fieldTypeManager.isbaseType(fieldType.getCode())) {
-                    result.put(fieldType.getFieldClass(), fieldType.getFieldClass());
-                }
-            }
-
-        } catch (Throwable e) {
-            result.put("-", "-");
-        }
-        return result;
+        return new BasicTypeDataHolder(config.getHolderId(), config.getInputId(), config.getOutputId(), fieldClass, config.getRenderColor());
     }
 
     @Override
@@ -80,5 +61,34 @@ public class BasicTypeHolderBuilder implements DataHolderBuilder {
     @Override
     public int getPriority() {
         return 1;
+    }
+
+    @Override
+    public Map<String, String> getHolderSources(String context) {
+        Map<String, String> result = new TreeMap<String, String>();
+        try {
+            FieldTypeManager fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
+            List<FieldType> allFieldTypes = fieldTypeManager.getFieldTypes();
+            for (FieldType fieldType: allFieldTypes){
+                if(fieldTypeManager.isbaseType(fieldType.getCode())) {
+                    result.put(fieldType.getFieldClass(), fieldType.getFieldClass());
+                }
+            }
+
+        } catch (Throwable e) {
+            result.put("-", "-");
+        }
+        return result;
+    }
+
+    @Override
+    public String[] getSupportedHolderTypes() {
+        return new String[0];
+    }
+
+    @Override
+    public String getDataHolderName(Locale locale) {
+        ResourceBundle bundle = ResourceBundle.getBundle("org.jbpm.formModeler.core.config.builders.dataHolder.messages", locale);
+        return bundle.getString("dataHolder_basicType");
     }
 }

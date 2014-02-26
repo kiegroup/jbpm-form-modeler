@@ -15,12 +15,18 @@
  */
 package org.jbpm.formModeler.dataModeler.integration;
 
+import org.drools.core.util.StringUtils;
+import org.guvnor.common.services.project.model.POM;
 import org.guvnor.common.services.project.model.Project;
+import org.guvnor.common.services.project.service.POMService;
 import org.guvnor.common.services.project.service.ProjectService;
-import org.jbpm.formModeler.core.config.builders.DataHolderBuilder;
 import org.jbpm.formModeler.api.model.DataHolder;
-import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuildConfig;
+import org.jbpm.formModeler.core.config.builders.dataHolder.PojoDataHolderBuilder;
+import org.jbpm.formModeler.core.config.builders.dataHolder.RangedDataHolderBuilder;
 import org.jbpm.formModeler.dataModeler.model.DataModelerDataHolder;
+import org.kie.api.KieServices;
+import org.kie.api.runtime.KieContainer;
 import org.uberfire.io.IOService;
 import org.kie.workbench.common.screens.datamodeller.model.DataModelTO;
 import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
@@ -33,11 +39,15 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.net.URI;
-import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.TreeMap;
 
 @ApplicationScoped
-public class DataModelerService implements DataHolderBuilder {
+public class DataModelerService implements RangedDataHolderBuilder {
+    public static final String HOLDER_TYPE_DATA_MODEL = "dataModelerEntry";
+
     private Logger log = LoggerFactory.getLogger(DataModelerService.class);
 
     @Inject
@@ -47,12 +57,15 @@ public class DataModelerService implements DataHolderBuilder {
     private ProjectService projectService;
 
     @Inject
+    private POMService pomService;
+
+    @Inject
     @Named("ioStrategy")
     private IOService ioService;
 
     @Override
-    public Map getOptions(String path) {
-        Map result = new HashMap();
+    public Map<String, String> getHolderSources(String path) {
+        Map<String, String> result = new TreeMap<String, String>();
         try {
             DataModelTO dataModelTO = dataModelerService.loadModel(projectService.resolveProject(getPath(path)));
             if (dataModelTO != null && dataModelTO.getDataObjects() != null) {
@@ -69,21 +82,29 @@ public class DataModelerService implements DataHolderBuilder {
     }
 
     @Override
-    public DataHolder buildDataHolder(Map<String, String> config) {
+    public DataHolder buildDataHolder(DataHolderBuildConfig config) {
+        String path = config.getAttribute("path");
+        if (StringUtils.isEmpty(path)) {
+            return new DataModelerDataHolder(config.getHolderId(), config.getInputId(), config.getOutputId(), config.getValue(), config.getRenderColor());
+        }
+        Class holderClass = findHolderClass(config.getValue(), config.getAttribute("path"));
+        if (holderClass == null) return null;
+        return new DataModelerDataHolder(config.getHolderId(), config.getInputId(), config.getOutputId(), holderClass, config.getRenderColor());
+    }
 
-        return createDataHolder(config.get("path"), config.get("id"), config.get("inputId"), config.get("outId"), config.get("value"), config.get("color"));
+    private Class findHolderClass(String className, String path) {
+        ClassLoader classLoader = getProjectClassLoader(projectService.resolveProject(getPath(path)));
+        try {
+            return classLoader.loadClass(className);
+        } catch (ClassNotFoundException e) {
+            log.warn("Unable to load class '{0}': {1}", className, e);
+        }
+        return null;
     }
 
     @Override
     public String getId() {
-        return Form.HOLDER_TYPE_CODE_POJO_DATA_MODEL;
-    }
-
-
-    public DataHolder createDataHolder(String path, String id, String inputId, String outId, String className, String renderColor) {
-        if (path == null) return new DataModelerDataHolder(id, inputId, outId, className, renderColor);
-        DataObjectTO dO = getDataObject(className, getPath(path));
-        return new DataModelerDataHolder(id, inputId, outId, className, renderColor, dO);
+        return HOLDER_TYPE_DATA_MODEL;
     }
 
     protected Path getPath(String path) {
@@ -97,18 +118,47 @@ public class DataModelerService implements DataHolderBuilder {
 
     @Override
     public boolean supportsPropertyType(String className, String path) {
-        return getDataObject(className, getPath(path)) != null;
+        return findHolderClass(className, path) != null;
     }
 
     protected DataObjectTO getDataObject(String className, Path path) {
-        Project project = projectService.resolveProject(path);
-
-        DataModelTO dataModelTO = dataModelerService.loadModel(project);
+        DataModelTO dataModelTO = getDataModel(path);
         return dataModelTO.getDataObjectByClassName(className);
+    }
+
+    protected DataModelTO getDataModel(Path path) {
+        Project project = projectService.resolveProject(path);
+        return dataModelerService.loadModel(project);
     }
 
     @Override
     public int getPriority() {
         return 2;
+    }
+
+    @Override
+    public String[] getSupportedHolderTypes() {
+        return new String[]{PojoDataHolderBuilder.HOLDER_TYPE_POJO_CLASSNAME};
+    }
+
+    private ClassLoader getProjectClassLoader(Project project) {
+        if (project == null || project.getPomXMLPath() == null) {
+            log.warn("project: " + project + " or pomXMLPath: " + project.getPomXMLPath() + " is null." );return null;
+        }
+        POM pom = pomService.load(project.getPomXMLPath());
+        if (pom == null) {
+            log.warn("Pom couldn't be read for project: " + project + " pomXmlPath: " + project.getPomXMLPath());
+            return null;
+        }
+
+        KieServices kieServices = KieServices.Factory.get();
+        KieContainer kieContainer = kieServices.newKieContainer(kieServices.newReleaseId(pom.getGav().getGroupId(), pom.getGav().getArtifactId(), pom.getGav().getVersion()));
+        return kieContainer.getClassLoader();
+    }
+
+    @Override
+    public String getDataHolderName(Locale locale) {
+        ResourceBundle bundle = ResourceBundle.getBundle("org.jbpm.formModeler.dataModeler.messages", locale);
+        return bundle.getString("dataHolder_dataModeler");
     }
 }

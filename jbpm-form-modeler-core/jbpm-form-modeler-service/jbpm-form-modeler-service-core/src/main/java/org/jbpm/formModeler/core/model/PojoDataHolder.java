@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
-import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.core.config.builders.dataHolder.PojoDataHolderBuilder;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import java.lang.reflect.*;
@@ -49,20 +49,8 @@ public class PojoDataHolder extends DefaultDataHolder  {
         return null;
     }
 
-    public PojoDataHolder(){
-    }
-
     public PojoDataHolder(String uniqueId, String inputId, String outputId, String className, String renderColor) {
         this.uniqueId = uniqueId;
-        this.inputId = inputId;
-        this.outputId = outputId;
-        this.className = className;
-        fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
-        setRenderColor(renderColor);
-    }
-
-    //TODO remove this constructor
-    public PojoDataHolder(String inputId, String outputId, String className, String renderColor) {
         this.inputId = inputId;
         this.outputId = outputId;
         this.className = className;
@@ -147,7 +135,7 @@ public class PojoDataHolder extends DefaultDataHolder  {
 
     @Override
     public String getTypeCode() {
-        return Form.HOLDER_TYPE_CODE_POJO_CLASSNAME;
+        return PojoDataHolderBuilder.HOLDER_TYPE_POJO_CLASSNAME;
     }
 
 
@@ -167,14 +155,14 @@ public class PojoDataHolder extends DefaultDataHolder  {
         return null;
     }
 
-    private Set<DataFieldHolder> calculatePropertyNames() throws Exception{
+    protected Class getHolderClass() throws ClassNotFoundException {
+        if (!StringUtils.isEmpty(className)) return Class.forName(className);
+        return null;
+    }
 
-        Class clazz = null;
-        try {
-            clazz = Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            return null;
-        }
+    private Set<DataFieldHolder> calculatePropertyNames() throws Exception {
+
+        Class clazz = getHolderClass();
 
         if (clazz == null) {
             return null;
