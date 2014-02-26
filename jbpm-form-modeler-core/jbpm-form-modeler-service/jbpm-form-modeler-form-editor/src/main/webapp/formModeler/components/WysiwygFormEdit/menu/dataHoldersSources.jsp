@@ -211,7 +211,6 @@
         <td><i18n:message key="dataHolder_Id">!!!dataHolder_id</i18n:message></td>
         <td><i18n:message key="dataHolder_inputId">!!!dataHolder_InputId</i18n:message></td>
         <td><i18n:message key="dataHolder_outputId">!!!dataHolder_outid</i18n:message></td>
-        <td><i18n:message key="dataHolder_type">!!!dataHolder_type</i18n:message></td>
         <td><i18n:message key="dataHolder_info">!!!!!!dataHolder_info</i18n:message></td>
         <td style="width: 100px;"><i18n:message key="dataHolder_renderColor">!!!!!!dataHolder_renderColor</i18n:message></td>
 
@@ -223,10 +222,9 @@
     <mvc:fragmentValue name="input_id" id="input_id">
         <mvc:fragmentValue name="outId" id="outId">
             <mvc:fragmentValue name="deleteId" id="deleteId">
-                <mvc:fragmentValue name="type" id="type">
-                    <mvc:fragmentValue name="value" id="value">
-                        <mvc:fragmentValue name="renderColor" id="renderColor">
-                            <mvc:fragmentValue name="rowStyle" id="rowStyle">
+                <mvc:fragmentValue name="value" id="value">
+                    <mvc:fragmentValue name="renderColor" id="renderColor">
+                        <mvc:fragmentValue name="rowStyle" id="rowStyle">
                                 <tr class="<%=rowStyle%>">
                                     <td align="center" style="width:16px;"><a
                                             title="<i18n:message key="delete">!!!Borrar</i18n:message>"
@@ -249,16 +247,12 @@
                                         <%=StringEscapeUtils.escapeHtml((String)outId) %>
                                     </td>
                                     <td>
-                                        <%=type%>
-                                    </td>
-                                    <td>
                                         <%=value%>
                                     </td>
                                     <td style="width: 100px;">
                                         <div style="background-color: <%=renderColor%> ">&nbsp;</div>
                                     </td>
                                 </tr>
-                            </mvc:fragmentValue>
                         </mvc:fragmentValue>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>

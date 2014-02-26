@@ -120,7 +120,6 @@ public class DataHoldersFormFormatter extends Formatter {
                 setAttribute("input_id", StringUtils.defaultString(holder.getInputId()));
                 setAttribute("outId", StringUtils.defaultString(holder.getOuputId()));
                 setAttribute("deleteId", StringUtils.defaultString(holder.getUniqeId()));
-                setAttribute("type", holder.getTypeCode());
                 setAttribute("renderColor", holder.getRenderColor());
                 setAttribute("value", holder.getInfo());
                 setAttribute("rowStyle",i%2==1 ? "skn-even_row":"skn-odd_row" );
