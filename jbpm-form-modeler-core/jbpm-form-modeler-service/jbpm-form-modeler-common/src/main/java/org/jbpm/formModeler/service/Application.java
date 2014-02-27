@@ -34,7 +34,6 @@ public class Application {
     @Inject
     protected StartableProcessor startupProcessor;
 
-    protected boolean upAndRunning = false;
     protected String baseCfgDirectory = null;
     protected String baseAppDirectory = null;
 
@@ -54,20 +53,7 @@ public class Application {
         baseCfgDirectory = newBaseCfgDirectory;
     }
 
-    public boolean isUpAndRunning() {
-        return upAndRunning;
-    }
-
-    public void setUpAndRunning(boolean upAndRunning) {
-        this.upAndRunning = upAndRunning;
-    }
-
     public void start() throws Exception {
         startupProcessor.wakeUpStartableBeans();
-        setUpAndRunning(true);
-    }
-
-    public void shutdown() {
-        setUpAndRunning(false);
     }
 }

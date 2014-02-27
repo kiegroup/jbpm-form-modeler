@@ -39,25 +39,7 @@ public class URLMarkupGenerator {
 
     private Logger log = LoggerFactory.getLogger(URLMarkupGenerator.class);
 
-    private String handler = "factory";
-    private String action = "set";
     public static final String COMMAND_RUNNER = "Controller";
-
-    public String getHandler() {
-        return handler;
-    }
-
-    public void setHandler(String handler) {
-        this.handler = handler;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
 
     /**
      * Get a permanent link to a given action on a bean
