@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.jbpm.formModeler.service.Application;
 import org.jbpm.formModeler.service.bb.mvc.components.ControllerStatus;
 import org.jbpm.formModeler.service.bb.mvc.components.CurrentComponentRenderer;
-import org.jbpm.formModeler.service.bb.mvc.controller.requestChain.RequestChainProcessor;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.ShowCurrentScreenResponse;
 import org.jbpm.formModeler.service.error.ErrorManager;
 import org.jbpm.formModeler.service.error.ErrorReport;
@@ -180,13 +179,5 @@ public class ControllerServlet extends HttpServlet {
         CurrentComponentRenderer.lookup().setCurrentComponent(errorHandler);
         ControllerStatus controllerStatus = ControllerStatus.lookup();
         controllerStatus.setResponse(new ShowCurrentScreenResponse());
-    }
-
-    /**
-     * Called when it's destroyed.
-     */
-    public void destroy() {
-        Application.lookup().shutdown();
-        log.debug("Destroying controller servlet");
     }
 }
