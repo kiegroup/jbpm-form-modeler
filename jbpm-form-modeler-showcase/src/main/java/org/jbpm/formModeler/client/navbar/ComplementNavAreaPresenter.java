@@ -7,8 +7,6 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import org.uberfire.client.workbench.Header;
 
-import static java.lang.Integer.*;
-
 @ApplicationScoped
 public class ComplementNavAreaPresenter implements Header {
 
@@ -18,6 +16,11 @@ public class ComplementNavAreaPresenter implements Header {
 
     @Inject
     public View view;
+
+    @Override
+    public String getId() {
+        return "ComplementNavArea";
+    }
 
     @Override
     public int getOrder() {
