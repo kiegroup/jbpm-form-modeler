@@ -28,11 +28,6 @@ public class ComplementNavAreaPresenter implements Header {
     }
 
     @Override
-    public String getId() {
-        return "ComplementNavArea";
-    }
-
-    @Override
     public Widget asWidget() {
         return view.asWidget();
     }
