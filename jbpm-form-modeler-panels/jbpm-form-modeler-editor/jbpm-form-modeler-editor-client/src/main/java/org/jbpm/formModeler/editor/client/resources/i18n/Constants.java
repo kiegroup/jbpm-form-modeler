@@ -31,4 +31,5 @@ public interface Constants extends Messages {
     public String form_modeler_cannot_load_form(String name);
     public String form_modeler_delete();
     public String form_modeler_confirm_delete();
+    public String formResourceTypeDescription();
 }
