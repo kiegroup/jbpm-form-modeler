@@ -31,4 +31,9 @@ public class AppNavBar
     public int getOrder() {
         return MAX_VALUE;
     }
+
+    @Override
+    public String getId() {
+        return "AppNavBar";
+    }
 }
