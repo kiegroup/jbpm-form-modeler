@@ -547,6 +547,7 @@ public class FormManagerImpl implements FormManager {
                 if(form.containsHolder(holder)) return;
                 else form.setDataHolder(holder);
             }
+            if (!form.containsHolder(holder)) return;
             Set<DataFieldHolder> holderFields = holder.getFieldHolders();
             for (DataFieldHolder dataFieldHolder : holderFields) {
                 String holderId = holder.getUniqeId();
@@ -559,6 +560,9 @@ public class FormManagerImpl implements FormManager {
         I18nSet label = new I18nSet();
         String defaultLang = LocaleManager.lookup().getDefaultLang();
         DataHolder holder = form.getDataHolderById(bindingId);
+
+        if (holder == null) return;
+
         String dataHolderId = holder.getUniqeId();
         label.setValue(defaultLang, fieldName + " (" + dataHolderId + ")");
 
