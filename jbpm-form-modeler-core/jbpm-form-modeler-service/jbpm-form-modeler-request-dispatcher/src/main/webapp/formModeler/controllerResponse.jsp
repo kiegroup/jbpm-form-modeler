@@ -25,7 +25,6 @@
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/formModeler/css/ui-lightness/jquery-ui-1.10.2.custom.min.css">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/formModeler/css/jquery-ui-timepicker-addon.css">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/formModeler/css/jquery.treeview.css">
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css" media="screen">
 </head>
 <script type="text/javascript">
     <%@ include file="/formModeler/js/ajax.jsp" %>
