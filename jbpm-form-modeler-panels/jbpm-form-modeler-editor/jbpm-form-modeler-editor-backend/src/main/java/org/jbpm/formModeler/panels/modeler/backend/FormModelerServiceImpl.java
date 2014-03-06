@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.lang.StringUtils;
+import org.guvnor.common.services.backend.exceptions.ExceptionUtilities;
 import org.guvnor.common.services.shared.file.DeleteService;
 import org.guvnor.common.services.shared.file.RenameService;
 import org.guvnor.common.services.shared.metadata.MetadataService;
@@ -170,17 +171,17 @@ public class FormModelerServiceImpl implements FormModelerService {
     public Path createForm(Path path, String formName) {
         org.uberfire.java.nio.file.Path kiePath = Paths.convert(path).resolve(formName);
         try {
+            if (ioService.exists(kiePath)) {
+                throw new FileAlreadyExistsException(kiePath.toString());
+            }
             Form form = formManager.createForm(formName);
 
             ioService.write(kiePath, formSerializationManager.generateFormXML(form), makeCommentedOption(""));
 
             return Paths.convert(kiePath);
-        } catch (FileAlreadyExistsException e) {
-            throw new IllegalArgumentException( kiePath.toString());
-        } catch (Exception e) {
-            throw new IllegalArgumentException(kiePath.toString());
+        } catch ( Exception e ) {
+            throw ExceptionUtilities.handleException(e);
         }
-
     }
 
     private CommentedOption makeCommentedOption( final String commitMessage ) {
