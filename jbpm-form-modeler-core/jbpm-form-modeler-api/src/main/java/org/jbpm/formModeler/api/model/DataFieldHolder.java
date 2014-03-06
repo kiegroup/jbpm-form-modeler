@@ -15,7 +15,9 @@
  */
 package org.jbpm.formModeler.api.model;
 
-public class DataFieldHolder implements Comparable {
+import java.io.Serializable;
+
+public class DataFieldHolder implements Comparable, Serializable {
     DataHolder holder;
     String id;
     String className;
