@@ -83,13 +83,24 @@ public class DataModelerService implements RangedDataHolderBuilder {
 
     @Override
     public DataHolder buildDataHolder(DataHolderBuildConfig config) {
+        DataModelerDataHolder dataHolder = null;
+
+        boolean isExternal = false;
+
         String path = config.getAttribute("path");
         if (StringUtils.isEmpty(path)) {
-            return new DataModelerDataHolder(config.getHolderId(), config.getInputId(), config.getOutputId(), config.getValue(), config.getRenderColor());
+            dataHolder = new DataModelerDataHolder(config.getHolderId(), config.getInputId(), config.getOutputId(), config.getValue(), config.getRenderColor());
+            isExternal = Boolean.TRUE.equals(config.getAttribute("supportedType"));
+        } else {
+            Class holderClass = findHolderClass(config.getValue(), config.getAttribute("path"));
+            if (holderClass == null) return null;
+            DataModelTO dataModelTO = dataModelerService.loadModel(projectService.resolveProject(getPath(path)));
+            isExternal = dataModelTO.isExternal(config.getValue());
+            dataHolder = new DataModelerDataHolder(config.getHolderId(), config.getInputId(), config.getOutputId(), holderClass, config.getRenderColor());
         }
-        Class holderClass = findHolderClass(config.getValue(), config.getAttribute("path"));
-        if (holderClass == null) return null;
-        return new DataModelerDataHolder(config.getHolderId(), config.getInputId(), config.getOutputId(), holderClass, config.getRenderColor());
+
+        if (isExternal) dataHolder.setSupportedType(PojoDataHolderBuilder.HOLDER_TYPE_POJO_CLASSNAME);
+        return dataHolder;
     }
 
     private Class findHolderClass(String className, String path) {
@@ -97,7 +108,7 @@ public class DataModelerService implements RangedDataHolderBuilder {
         try {
             return classLoader.loadClass(className);
         } catch (ClassNotFoundException e) {
-            log.warn("Unable to load class '{0}': {1}", className, e);
+            log.warn("Unable to load class '{}': {}", className, e);
         }
         return null;
     }
@@ -111,19 +122,28 @@ public class DataModelerService implements RangedDataHolderBuilder {
         try {
             return Paths.convert(ioService.get(new URI(path)));
         } catch (Exception e) {
-            log.error("Unable to build Path for '" + path + "': ", e);
+            log.error("Unable to build Path for {}': {}", path, e);
         }
         return null;
     }
 
     @Override
     public boolean supportsPropertyType(String className, String path) {
-        return findHolderClass(className, path) != null;
+        return getDataObject(className, getPath(path)) != null;
     }
 
     protected DataObjectTO getDataObject(String className, Path path) {
         DataModelTO dataModelTO = getDataModel(path);
-        return dataModelTO.getDataObjectByClassName(className);
+
+        DataObjectTO result = dataModelTO.getDataObjectByClassName(className);
+
+        if (result == null) {
+            for (DataObjectTO externalDataObject : dataModelTO.getExternalClasses()) {
+                if (className.equals(externalDataObject.getClassName())) return externalDataObject;
+            }
+        }
+
+        return result;
     }
 
     protected DataModelTO getDataModel(Path path) {

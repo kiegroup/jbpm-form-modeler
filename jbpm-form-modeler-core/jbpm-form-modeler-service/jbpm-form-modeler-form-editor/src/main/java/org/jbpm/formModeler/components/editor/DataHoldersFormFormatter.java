@@ -101,12 +101,16 @@ public class DataHoldersFormFormatter extends Formatter {
                 renderFragment("color");
             }
 
+            Map<String, String> builderNames = new HashMap<String, String>();
+
             // Render source types sorted by value.
             renderFragment("outputFormHolderTypes");
 
             for (DataHolderBuilder builder : dataHolderManager.getHolderBuilders()) {
+                String holderName = builder.getDataHolderName(getLocale());
+                builderNames.put(builder.getId(), holderName);
                 setAttribute("holderType", builder.getId());
-                setAttribute("holderName", builder.getDataHolderName(getLocale()));
+                setAttribute("holderName", holderName);
                 renderFragment("outputHolderType");
             }
 
@@ -120,6 +124,7 @@ public class DataHoldersFormFormatter extends Formatter {
                 setAttribute("input_id", StringUtils.defaultString(holder.getInputId()));
                 setAttribute("outId", StringUtils.defaultString(holder.getOuputId()));
                 setAttribute("deleteId", StringUtils.defaultString(holder.getUniqeId()));
+                setAttribute("type", builderNames.get(StringUtils.defaultIfEmpty(holder.getSupportedType(), holder.getTypeCode())));
                 setAttribute("renderColor", holder.getRenderColor());
                 setAttribute("value", holder.getInfo());
                 setAttribute("rowStyle",i%2==1 ? "skn-even_row":"skn-odd_row" );
