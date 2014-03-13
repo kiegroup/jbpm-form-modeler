@@ -30,7 +30,19 @@ public abstract class DefaultDataHolder implements DataHolder {
     
     protected String uniqueId;
 
+    protected String supportedType;
+
     protected BindingExpressionUtil bindingExpressionUtil = BindingExpressionUtil.getInstance();
+
+    @Override
+    public String getSupportedType() {
+        return supportedType;
+    }
+
+    @Override
+    public void setSupportedType(String supportedType) {
+        this.supportedType = supportedType;
+    }
 
     @Override
     public boolean canHaveChildren() {

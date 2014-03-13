@@ -52,6 +52,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     public static final String ATTR_OUT_ID = "outId";
     public static final String ATTR_POSITION = "position";
     public static final String ATTR_TYPE = "type";
+    public static final String ATTR_SUPPORTED_TYPE = "supportedType";
     public static final String ATTR_NAME = "name";
     public static final String ATTR_VALUE = "value";
 
@@ -172,15 +173,17 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                 String holderType = getNodeAttributeValue(node, ATTR_TYPE);
                 String holderValue = getNodeAttributeValue(node, ATTR_VALUE);
                 String holderRenderColor = getNodeAttributeValue(node, ATTR_NAME);
+                String holderSupportedType = getNodeAttributeValue(node, ATTR_SUPPORTED_TYPE);
 
-                if(holderId!=null && holderType!=null && holderValue != null) {
+                if(!StringUtils.isEmpty(holderId) && !StringUtils.isEmpty(holderType) && !StringUtils.isEmpty(holderValue)) {
 
                     DataHolderBuildConfig config = new DataHolderBuildConfig(holderId, holderInputId, holderOutId, holderRenderColor, holderValue);
                     config.addAttribute("path", path);
+                    if (!StringUtils.isEmpty(holderSupportedType)) config.addAttribute(ATTR_SUPPORTED_TYPE, holderSupportedType);
 
                     DataHolder holder = dataHolderManager.createDataHolderByType(holderType, config);
 
-                    if (holderId != null) form.setDataHolder(holder);
+                    if (!StringUtils.isEmpty(holderId)) form.setDataHolder(holder);
                 }
             }
         }
@@ -436,6 +439,8 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         rootNode.addAttribute(ATTR_TYPE, dataHolder.getTypeCode());
         rootNode.addAttribute(ATTR_VALUE, dataHolder.getInfo());
         rootNode.addAttribute(ATTR_NAME, dataHolder.getRenderColor());
+
+        if (!StringUtils.isEmpty(dataHolder.getSupportedType())) rootNode.addAttribute(ATTR_SUPPORTED_TYPE, dataHolder.getSupportedType());
 
         parent.addChild(rootNode);
     }
