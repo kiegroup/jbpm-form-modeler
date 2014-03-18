@@ -93,6 +93,7 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         iconsMappings.put("InputTextArea", "fieldTypes/scroll_zone.png");
         iconsMappings.put("I18nTextArea", "fieldTypes/scroll_zone.png");
         iconsMappings.put("CheckBox", "fieldTypes/checkbox.png");
+        iconsMappings.put("CheckBoxPrimitiveBoolean", "fieldTypes/checkbox.png");
         iconsMappings.put("InputShortDate", "fieldTypes/date_selector.png");
         iconsMappings.put("I18nText", "fieldTypes/textbox.png");
         iconsMappings.put("InputTextFloat", "fieldTypes/box_number.png");
