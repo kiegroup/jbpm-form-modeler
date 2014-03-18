@@ -95,11 +95,11 @@ public class FormModelerPanelViewImpl extends Composite
     }
 
     protected void  doOnResize() {
-        final Widget w = getParent();
-        final int width = w.getOffsetWidth();
-        final int height = w.getOffsetHeight();
-        frame.setWidth( width + "px" );
-        frame.setHeight(height + "px");
+        Widget w = getParent();
+        int width = w.getOffsetWidth();
+        int height = w.getOffsetHeight() - 30;
+        if (width > 0) frame.setWidth( width + "px" );
+        if (height > 0) frame.setHeight(height + "px");
     }
 }
 
