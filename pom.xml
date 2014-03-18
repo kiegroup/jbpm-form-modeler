@@ -112,12 +112,46 @@
 
             <!-- Zanata - translations -->
             <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/messages*.properties</include>
+                        <include>**/Constants*.properties</include>
+                        <include>**/forms-resources*.properties</include>
+                    </includes>
+                    <excludes>
+                        <exclude>**/ErraiApp.properties</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+
+            <!-- Zanata - translations -->
+            <plugin>
                 <groupId>org.zanata</groupId>
                 <artifactId>zanata-maven-plugin</artifactId>
                 <configuration>
+                    <excludes>**/ErraiApp.properties</excludes>
+                    <projectConfig>${session.executionRootDirectory}/src/main/config/zanata.xml</projectConfig>
                     <includes>**/messages.properties,**/Constants.properties,**/forms-resources.properties</includes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>native2ascii-maven-plugin</artifactId>
+                <version>1.0-beta-1</version>
+                <configuration>
+                    <includes>
+                        <include>**/messages*.properties</include>
+                        <include>**/Constants*.properties</include>
+                        <include>**/forms-resources*.properties</include>
+                    </includes>
+                    <workDir>.</workDir>
+                </configuration>
+
+            </plugin>
+
 
         </plugins>
     </build>
