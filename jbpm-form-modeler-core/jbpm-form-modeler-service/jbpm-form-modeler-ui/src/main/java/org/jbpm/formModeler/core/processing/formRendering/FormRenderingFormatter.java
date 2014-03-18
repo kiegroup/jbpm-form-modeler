@@ -571,7 +571,8 @@ public class FormRenderingFormatter extends Formatter {
         boolean labelInSameLine = Form.LABEL_MODE_LEFT.equals(labelMode) || Form.LABEL_MODE_RIGHT.equals(labelMode);
         renderFragment("beforeInputElement");
 
-        if(field.getFieldType().getCode().equals("CheckBox") && !Form.LABEL_MODE_LEFT.equals(labelMode)){
+        // TODO: improve alignment for checkbox label
+        if((field.getFieldType().getCode().equals("CheckBox") || field.getFieldType().getCode().equals("CheckBoxPrimitiveBoolean")) && !Form.LABEL_MODE_LEFT.equals(labelMode)){
             labelMode =Form.LABEL_MODE_AFTER;
             labelInSameLine=true;
         }

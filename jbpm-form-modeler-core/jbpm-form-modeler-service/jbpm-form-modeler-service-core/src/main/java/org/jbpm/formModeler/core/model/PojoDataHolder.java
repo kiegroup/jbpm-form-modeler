@@ -232,7 +232,7 @@ public class PojoDataHolder extends DefaultDataHolder  {
             propName = String.valueOf(Character.toLowerCase(methodName.charAt(3)));
             if (methodName.length() > 4)
                 propName += methodName.substring(4);
-        } else if (methodName.startsWith("is") && methodName.length() > 2 && returnType.equals(Boolean.class) && parameterTypes.length == 0) {
+        } else if (methodName.startsWith("is") && methodName.length() > 2 && (returnType.equals(Boolean.class) || returnType.equals(boolean.class)) && parameterTypes.length == 0) {
             propName = String.valueOf(Character.toLowerCase(methodName.charAt(2)));
             if (methodName.length() > 3)
                 propName += methodName.substring(3);
