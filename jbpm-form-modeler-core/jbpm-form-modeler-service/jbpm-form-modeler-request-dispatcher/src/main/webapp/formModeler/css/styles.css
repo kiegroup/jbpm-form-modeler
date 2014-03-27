@@ -430,9 +430,6 @@ div.GlobalBreadCrump {
     box-shadow: -1px 1px 1px 1px rgba(0, 0, 0, 0.1);
     background-color: #F6F6F6;
     display: block;
-    float: right;
-    margin-top: -40px;
-    *margin-top: -25px;
     position: relative;
     z-index: 9999;
     border-collapse: collapse;

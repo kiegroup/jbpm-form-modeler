@@ -127,7 +127,6 @@
     <mvc:fragment name="outputWithFormEditionPage">
         <mvc:fragmentValue name="editionPage" id="editionPage">
             <mvc:fragmentValue name="displayGrid" id="displayGrid">
-                <mvc:fragmentValue name="editionNamespace" id="editionNamespace">
                 <tr>
                     <td>
 
@@ -140,20 +139,10 @@
                                 <td class="CompCenterColumn  <% if (displayGrid!=null && ((Boolean) displayGrid).booleanValue()) {%>bgGuides<%}%>" id="preview">
                                     <jsp:include page="formPreview.jsp"/>
                                 </td>
-                                <td class="CompRightColumn">
-                                    <%
-                                        request.setAttribute("editionNamespace", editionNamespace);
-                                    %>
-                                    <jsp:include page="editFieldProperties.jsp"/>
-                                    <%
-                                        request.removeAttribute("editionNamespace");
-                                    %>
-                                </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
-                </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
@@ -188,6 +177,15 @@
     </mvc:fragment>
 
     <mvc:fragment name="outputEnd">
+        <mvc:fragmentValue name="editionNamespace" id="editionNamespace">
         </table>
+        <%
+            request.setAttribute("editionNamespace", editionNamespace);
+        %>
+        <jsp:include page="editFieldProperties.jsp"/>
+        <%
+            request.removeAttribute("editionNamespace");
+        %>
+        </mvc:fragmentValue>
     </mvc:fragment>
 </mvc:formatter>
