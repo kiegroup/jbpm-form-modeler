@@ -95,12 +95,12 @@ public class WysiwygMenuFormatter extends Formatter {
                     renderFragment("outputWithEditionZone");
                 } else {
                     setAttribute("displayGrid", editor.getDisplayGrid());
-                    setAttribute("editionNamespace", editor.getCurrentFieldEditionNamespace());
                     renderFragment("outputWithFormEditionPage");
                 }
             }
             else
                 renderFragment("outputWithoutFormEditionPage");
+            setAttribute("editionNamespace", editor.getCurrentFieldEditionNamespace());
             renderFragment("outputEnd");
         } catch (Exception e) {
             log.error("Error: ", e);

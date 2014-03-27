@@ -48,14 +48,11 @@ public class FieldEditionFormatter extends Formatter {
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
             Field field = wysiwygFormEditor.getCurrentEditField();
-            if (field == null) {
-                renderFragment("empty");
-            } else {
-                Form formToEdit = wysiwygFormEditor.getFormForFieldEdition(field);
-                if (formToEdit != null) {
-                    renderFieldUsingForm(field, formToEdit);
-                }
-            }
+            if (field == null) return;
+
+            Form formToEdit = wysiwygFormEditor.getFormForFieldEdition(field);
+            if (formToEdit != null) renderFieldUsingForm(field, formToEdit);
+
         } catch (Exception e) {
             log.error("Error:", e);
         }

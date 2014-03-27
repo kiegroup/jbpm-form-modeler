@@ -35,7 +35,7 @@
     <%------------------------------------------------------------------------------------------------------------%>
     <mvc:fragment name="outputStart">
         <mvc:fragmentValue name="fieldName" id="fieldName">
-            <div id="<factory:encode name="fieldProperties"/>">
+            <div id="<factory:encode name="fieldProperties"/>" style="position:absolute; top:0px; right: 0px;">
             <form action="<factory:formUrl/>" id="<factory:encode name="updateFormField"/>" method="POST" enctype="multipart/form-data">
             <factory:handler bean="org.jbpm.formModeler.components.editor.WysiwygFormEditor" action="saveFieldProperties"/>
             <input type="hidden" name="<%=WysiwygFormEditor.ACTION_TO_DO%>" id="<factory:encode name="actionToDo"/>" value="<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>"/>
