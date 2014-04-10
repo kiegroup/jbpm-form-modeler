@@ -172,47 +172,36 @@ public class DataHoldersFormFormatter extends Formatter {
         renderFragment("outputStart");
 
         for (DataHolder dataHolder : holders) {
-            String holderId = dataHolder.getUniqeId();//StringUtils.defaultIfEmpty(dataHolder.getInputId(), dataHolder.getOuputId());
-
             Set<DataFieldHolder> dataFieldHolders = dataHolder.getFieldHolders();
 
-            String fieldName = "";
-            int i = 0;
             if (dataFieldHolders != null) {
+                if (dataHolder.canHaveChildren()) {
+                    setAttribute("id", dataHolder.getUniqeId());
+                    setAttribute("type", dataHolder.getTypeCode());
+                    setAttribute("renderColor", dataHolder.getRenderColor());
+
+                    if (dataHolder.getUniqeId() != null && dataHolder.getUniqeId().equals(wysiwygFormEditor.getLastDataHolderUsedId())) {
+                        setAttribute("open", Boolean.TRUE);
+                    } else {
+                        setAttribute("open", Boolean.FALSE);
+                    }
+                    String holderName = "";
+
+                    holderName=dataHolder.getUniqeId();
+                    if (holderName.length() > 20) holderName = holderName.substring(0, 19) + "...";
+
+                    setAttribute("showHolderName", holderName);
+                    renderFragment("outputBinding");
+                }
+
                 for (DataFieldHolder dataFieldHolder : dataFieldHolders) {
-                    fieldName = dataFieldHolder.getId();
+                    String fieldName = dataFieldHolder.getId();
                     if (fieldName != null && !form.isFieldBinded(dataHolder, fieldName)) {
-                        if (i == 0) {//first field
-                            setAttribute("id", dataHolder.getUniqeId());
-                            setAttribute("type", dataHolder.getTypeCode());
-                            setAttribute("renderColor", dataHolder.getRenderColor());
-
-                            if (dataHolder.getUniqeId() != null && dataHolder.getUniqeId().equals(wysiwygFormEditor.getLastDataHolderUsedId())) {
-                                setAttribute("open", Boolean.TRUE);
-                            } else {
-                                setAttribute("open", Boolean.FALSE);
-                            }
-                            String holderName = "";
-
-                            holderName=dataHolder.getUniqeId();
-                            if (holderName.length() > 20) holderName = holderName.substring(0, 19) + "...";
-
-                            setAttribute("showHolderName", holderName);
-                            if (!dataHolder.canHaveChildren()){
-                                setAttribute("noConfirm", Boolean.TRUE);
-                            } else {
-                                setAttribute("noConfirm", Boolean.FALSE);
-                            }
-                            renderFragment("outputBinding");
-
-                        }
-                        i++;
-                        if (dataHolder.canHaveChildren()){
-                            renderAddField(fieldName, dataFieldHolder, holderId);
-                        }
+                        renderAddField(fieldName, dataFieldHolder, dataHolder);
                     }
                 }
-                if (i != 0) {//last field of list
+
+                if (dataHolder.canHaveChildren()) {
                     renderFragment("outputEndBinding");
                 }
             }
@@ -222,14 +211,14 @@ public class DataHoldersFormFormatter extends Formatter {
         renderFragment("outputEnd");
     }
 
-    public void renderAddField(String fieldName, DataFieldHolder dataFieldHolder, String bindingId) {
+    public void renderAddField(String fieldName, DataFieldHolder dataFieldHolder, DataHolder dataHolder) {
         FieldType type = fieldTypeManager.getTypeByClass(dataFieldHolder.getClassName());
 
         if (type == null) return;
-
+        setAttribute("renderColor", dataHolder.getRenderColor());;
         setAttribute("className", dataFieldHolder.getClassName());
         setAttribute("typeName", type.getCode());
-        setAttribute("bindingId", bindingId);
+        setAttribute("bindingId", dataHolder.getUniqeId());
         setAttribute("showFieldName", ((fieldName != null && fieldName.length() < 17) ? fieldName : fieldName.substring(0, 13) + "..."));
 
         setAttribute("iconUri", fieldTypeManager.getIconPathForCode(type.getCode()));
