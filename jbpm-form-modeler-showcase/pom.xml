@@ -4,7 +4,7 @@
     <parent>
         <artifactId>jbpm-form-modeler</artifactId>
         <groupId>org.jbpm</groupId>
-        <version>6.0.2-SNAPSHOT</version>
+        <version>6.0.3-SNAPSHOT</version>
     </parent>
 
   <artifactId>jbpm-form-modeler-showcase</artifactId>
