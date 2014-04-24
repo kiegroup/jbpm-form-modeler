@@ -45,7 +45,6 @@ public class WysiwygFieldsFormatter extends Formatter {
     }
 
     protected void renderAvailableFields() throws Exception {
-
         renderDecorators();
         renderComplexTypes();
         renderSeparator();
@@ -69,6 +68,7 @@ public class WysiwygFieldsFormatter extends Formatter {
                 setAttribute("complexId", type.getCode());
                 setAttribute("iconUri", fieldTypeManager.getIconPathForCode(type.getCode()));
                 setAttribute("position", i);
+                setAttribute("label", fieldTypeManager.getFieldTypeLabel(type));
                 renderFragment("outputComplex");
             }
             renderFragment("complexEnd");
@@ -85,6 +85,7 @@ public class WysiwygFieldsFormatter extends Formatter {
                 setAttribute("decoratorId", type.getCode());
                 setAttribute("iconUri", fieldTypeManager.getIconPathForCode(type.getCode()));
                 setAttribute("position", i);
+                setAttribute("label", fieldTypeManager.getFieldTypeLabel(type));
                 renderFragment("outputDecorator");
             }
             renderFragment("decoratorsEnd");
@@ -100,6 +101,7 @@ public class WysiwygFieldsFormatter extends Formatter {
             setAttribute("iconUri", fieldTypeManager.getIconPathForCode(type.getCode()));
             setAttribute("uid", "primitive_" + j);
             setAttribute("typeId", type.getCode());
+            setAttribute("label", fieldTypeManager.getFieldTypeLabel(type));
             renderFragment("outputType");
         }
     }

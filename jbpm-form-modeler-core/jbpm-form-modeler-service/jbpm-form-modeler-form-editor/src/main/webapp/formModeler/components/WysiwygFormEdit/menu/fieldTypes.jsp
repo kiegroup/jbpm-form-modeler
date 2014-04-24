@@ -59,8 +59,7 @@
                                                      align="absmiddle">
                                             </td>
                                             <td>
-                                                <i18n:message key='<%="fieldType." + typeName%>'/>
-
+                                                <mvc:fragmentValue name="label"/>
                                             </td>
                                             <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
                                                 <input type="image" onclick="this.onclick=function(){return false;}"
@@ -145,7 +144,7 @@
                                             </mvc:fragmentValue>
                                         </td>
                                         <td>
-                                            <i18n:message key='<%="fieldType." + complexId%>'/>
+                                            <mvc:fragmentValue name="label"/>
                                         </td>
                                         <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
                                             <input type="image" style="cursor:hand"
@@ -185,7 +184,7 @@
                                             </mvc:fragmentValue>
                                         </td>
                                         <td>
-                                            <i18n:message key='<%="fieldType." + decoratorId%>'/>
+                                            <mvc:fragmentValue name="label"/>
                                         </td>
                                         <td style="text-align:right; padding-right:5px; padding-bottom:1px;">
                                             <input type="image" style="cursor:hand"

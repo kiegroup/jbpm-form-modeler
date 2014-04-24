@@ -22,8 +22,6 @@ import java.util.Map;
 
 public interface FieldHandler {
 
-    public String getName();
-
     /**
      * Determine the list of class names this field can generate. That is, normally,
      * a field can generate multiple outputs (an input text can generate Strings,
@@ -70,25 +68,10 @@ public interface FieldHandler {
     public String getPageToIncludeForDisplaying();
 
     /**
-     * When rendering a form, if field is handled by this handler, determine the
-     * page that renders the displaying of the value
-     *
-     * @return a page to include
-     */
-    public String getPageToIncludeForSearching();
-
-    /**
      * Determine if supplied value is empty
      *
      * @param value
      * @return true if value can be considered empty
      */
     public boolean isEmpty(Object value);
-
-    /**
-     * Initialize any status stored in the field.
-     */
-    public void initialize(Field field, String namespace);
-
-    public boolean isEvaluable(String inputName, Map parameterMap, Map filesMap);
 }

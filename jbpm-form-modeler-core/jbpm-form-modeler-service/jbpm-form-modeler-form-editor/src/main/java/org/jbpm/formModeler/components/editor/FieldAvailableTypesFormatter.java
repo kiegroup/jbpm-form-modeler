@@ -16,6 +16,8 @@
 package org.jbpm.formModeler.components.editor;
 
 import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.core.config.FieldTypeManager;
+import org.jbpm.formModeler.service.LocaleManager;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.core.processing.BindingManager;
 import org.jbpm.formModeler.core.FormCoreServices;
@@ -37,34 +39,40 @@ public class FieldAvailableTypesFormatter extends Formatter {
 
     private Logger log = LoggerFactory.getLogger(FieldAvailableTypesFormatter.class);
 
+    @Inject
+    private LocaleManager localeManager;
+
+    @Inject
+    private FieldTypeManager fieldTypeManager;
+
     public WysiwygFormEditor getEditor() {
         return WysiwygFormEditor.lookup();
     }
+
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
-            Field field = getEditor().getCurrentEditField();
-            Form form = getEditor().getCurrentForm();
+            WysiwygFormEditor editor = getEditor();
+            Field field = editor.getCurrentEditField();
+            Form form = editor.getCurrentForm();
             String propertyName = field.getFieldName();
 
             List suitableFieldTypes;
             BindingManager bindingManager = FormCoreServices.lookup().getBindingManager();
-            if (!StringUtils.isEmpty(form.getSubject())) suitableFieldTypes = getEditor().getFieldTypesManager().getSuitableFieldTypes(bindingManager.getPropertyDefinition(propertyName, form.getSubject()).getPropertyClassName());
-            else suitableFieldTypes = getEditor().getFieldTypesManager().getSuitableFieldTypes(field.getFieldType().getFieldClass());
+            if (!StringUtils.isEmpty(form.getSubject())) suitableFieldTypes = fieldTypeManager.getSuitableFieldTypes(bindingManager.getPropertyDefinition(propertyName, form.getSubject()).getPropertyClassName());
+            else suitableFieldTypes = fieldTypeManager.getSuitableFieldTypes(field.getFieldType().getFieldClass());
 
             if (suitableFieldTypes != null && !suitableFieldTypes.isEmpty()) {
                 renderFragment("outputStart");
 
-                String currentType = getEditor().getFieldTypeToView();
+                String currentType = editor.getFieldTypeToView();
                 currentType = currentType == null ? field.getFieldType().getCode() : currentType;
 
                 for (int i = 0; i < suitableFieldTypes.size(); i++) {
                     FieldType type = (FieldType) suitableFieldTypes.get(i);
                     setAttribute("id", type.getCode());
-                    if (currentType.equals(type.getCode())) {
-                        renderFragment("outputSelected");
-                    } else {
-                        renderFragment("output");
-                    }
+                    setAttribute("label", fieldTypeManager.getFieldTypeLabel(type));
+                    setAttribute("selected", type.getCode().equals(currentType) ? "selected" : "");
+                    renderFragment("output");
                 }
                 renderFragment("outputEnd");
             } else {

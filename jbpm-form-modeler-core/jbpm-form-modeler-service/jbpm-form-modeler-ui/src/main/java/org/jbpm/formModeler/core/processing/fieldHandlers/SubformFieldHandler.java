@@ -47,10 +47,6 @@ public class SubformFieldHandler extends PersistentFieldHandler {
     @Inject
     private FormErrorMessageBuilder formErrorMessageBuilder;
 
-    private String pageToIncludeForRendering = "/formModeler/fieldHandlers/Subform/input.jsp";
-    private String pageToIncludeForDisplaying = "/formModeler/fieldHandlers/Subform/show.jsp";
-    private String pageToIncludeForSearching = "/formModeler/fieldHandlers/Subform/search.jsp";
-
     private static int maxDepth = 2;
 
 
@@ -167,44 +163,8 @@ public class SubformFieldHandler extends PersistentFieldHandler {
         formErrorMessageBuilder.getWrongFormErrors(namespace, getEnterDataForm(namespace, field), errors);
     }
 
-    /**
-     * When rendering a form, if field is handled by this handler, determine the
-     * page that renders the displaying of the value
-     *
-     * @return a page to include
-     */
-    public String getPageToIncludeForDisplaying() {
-        return pageToIncludeForDisplaying;
-    }
-
     public boolean isEmpty(Object value) {
         return value == null || "".equals(value);
-    }
-
-    public void setPageToIncludeForDisplaying(String pageToIncludeForDisplaying) {
-        this.pageToIncludeForDisplaying = pageToIncludeForDisplaying;
-    }
-
-    /**
-     * When rendering a form, if field is handled by this handler, determine the
-     * page that renders the input(s)
-     *
-     * @return a page to include
-     */
-    public String getPageToIncludeForRendering() {
-        return pageToIncludeForRendering;
-    }
-
-    public void setPageToIncludeForRendering(String pageToIncludeForRendering) {
-        this.pageToIncludeForRendering = pageToIncludeForRendering;
-    }
-
-    public String getPageToIncludeForSearching() {
-        return pageToIncludeForSearching;
-    }
-
-    public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
-        this.pageToIncludeForSearching = pageToIncludeForSearching;
     }
 
     protected Form getEnterDataForm(String namespace, Field field) {

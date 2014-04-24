@@ -15,14 +15,20 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.components;
 
+import org.jbpm.formModeler.service.LocaleChangedEvent;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.service.bb.mvc.controller.RequestContext;
 
+import javax.enterprise.event.Event;
 import javax.enterprise.inject.Specializes;
+import javax.inject.Inject;
 import java.util.Locale;
 
 @Specializes
 public class SessionAwareLocaleManager extends LocaleManager {
+
+    @Inject
+    protected Event<LocaleChangedEvent> localeChangedEvent;
 
     protected SessionContext getSessionContext() {
         return (RequestContext.getCurrentContext() != null ? SessionContext.lookup() : null);
@@ -36,14 +42,6 @@ public class SessionAwareLocaleManager extends LocaleManager {
 
     public void setCurrentLocale(Locale currentLocale) {
         getSessionContext().setCurrentLocale(currentLocale);
-    }
-
-    public Locale getCurrentEditLocale() {
-        Locale locale = getSessionContext().getCurrentEditLocale();
-        return (locale != null) ? locale : getDefaultLocale();
-    }
-
-    public void setCurrentEditLocale(Locale currentEditLocale) {
-        getSessionContext().setCurrentEditLocale(currentEditLocale);
+        localeChangedEvent.fire(new LocaleChangedEvent());
     }
 }

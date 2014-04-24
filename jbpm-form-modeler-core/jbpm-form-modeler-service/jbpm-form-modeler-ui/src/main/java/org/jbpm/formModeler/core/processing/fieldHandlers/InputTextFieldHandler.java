@@ -29,10 +29,6 @@ import java.util.Map;
 @Named("org.jbpm.formModeler.core.processing.fieldHandlers.InputTextFieldHandler")
 public class InputTextFieldHandler extends DefaultFieldHandler {
 
-    private String pageToIncludeForRendering = "/formModeler/fieldHandlers/InputText/input.jsp";
-    private String pageToIncludeForDisplaying = "/formModeler/fieldHandlers/InputText/show.jsp";
-    private String pageToIncludeForSearching = "/formModeler/fieldHandlers/InputText/search.jsp";
-
     /**
      * Determine the list of class types this field can generate. That is, normally,
      * a field can generate multiple outputs (an input text can generate Strings,
@@ -79,44 +75,7 @@ public class InputTextFieldHandler extends DefaultFieldHandler {
         return m;
     }
 
-
-    /**
-     * When rendering a form, if field is handled by this handler, determine the
-     * page that renders the displaying of the value
-     *
-     * @return a page to include
-     */
-    public String getPageToIncludeForDisplaying() {
-        return pageToIncludeForDisplaying;
-    }
-
     public boolean isEmpty(Object value) {
         return value == null || "".equals(value);
-    }
-
-    public void setPageToIncludeForDisplaying(String pageToIncludeForDisplaying) {
-        this.pageToIncludeForDisplaying = pageToIncludeForDisplaying;
-    }
-
-    /**
-     * When rendering a form, if field is handled by this handler, determine the
-     * page that renders the input(s)
-     *
-     * @return a page to include
-     */
-    public String getPageToIncludeForRendering() {
-        return pageToIncludeForRendering;
-    }
-
-    public void setPageToIncludeForRendering(String pageToIncludeForRendering) {
-        this.pageToIncludeForRendering = pageToIncludeForRendering;
-    }
-
-    public String getPageToIncludeForSearching() {
-        return pageToIncludeForSearching;
-    }
-
-    public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
-        this.pageToIncludeForSearching = pageToIncludeForSearching;
     }
 }

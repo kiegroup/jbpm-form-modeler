@@ -180,8 +180,6 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
             Object previousValue = formStatus.getInputValues().get(fieldName);
             boolean isRequired = field.getFieldRequired().booleanValue();
             
-            if (!handler.isEvaluable(inputName, parameterMap, filesMap) && !(handler.isEmpty(previousValue) && isRequired)) return;
-
             Object value = null;
             boolean emptyNumber = false;
             try {

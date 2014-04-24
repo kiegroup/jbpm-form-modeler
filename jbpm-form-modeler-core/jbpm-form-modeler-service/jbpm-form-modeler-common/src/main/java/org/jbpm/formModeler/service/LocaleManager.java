@@ -22,8 +22,11 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -31,7 +34,7 @@ import java.util.Map;
 
 @ApplicationScoped
 @Named("localeManager")
-public class LocaleManager {
+public class LocaleManager implements Serializable {
 
     public static LocaleManager lookup() {
         return (LocaleManager) CDIBeanLocator.getBeanByName("localeManager");
@@ -120,17 +123,6 @@ public class LocaleManager {
     }
 
     /**
-     * Current locale for editing contents
-     */
-    public Locale getCurrentEditLocale() {
-        return currentEditLocale == null ? defaultLocale : currentEditLocale;
-    }
-
-    public void setCurrentEditLocale(Locale currentEditLocale) {
-        this.currentEditLocale = currentEditLocale;
-    }
-
-    /**
      * Current locale for viewing contents
      */
     public Locale getCurrentLocale() {
@@ -179,22 +171,6 @@ public class LocaleManager {
      */
     public String[] getLangs() {
         return getPlatformAvailableLangs();
-    }
-
-    /**
-     * Get the language in which the system is editing contents.
-     */
-    public String getCurrentEditLang() {
-        return getCurrentEditLocale().toString();
-    }
-
-    /**
-     * Set the language in which the system is editing contents.
-     */
-    public void setCurrentEditLang(String langId) {
-        Locale locale = getLocaleById(langId);
-        if (locale != null) setCurrentEditLocale(locale);
-        else log.error("Can't set edit lang to {}", langId);
     }
 
     /**

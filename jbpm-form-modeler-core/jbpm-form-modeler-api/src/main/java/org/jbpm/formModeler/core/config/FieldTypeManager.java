@@ -58,4 +58,6 @@ public interface FieldTypeManager extends Serializable {
     boolean isbaseType(String code);
 
     FieldType getTypeByCode(String typeCode, String fieldClass);
+
+    String getFieldTypeLabel(FieldType fieldType);
 }

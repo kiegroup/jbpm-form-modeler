@@ -17,16 +17,24 @@ package org.jbpm.formModeler.core.config.builders.fieldType;
 
 
 import org.jbpm.formModeler.api.model.FieldType;
+import org.jbpm.formModeler.core.fieldTypes.ComplexFieldType;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ComplexFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
 
-    @Override
-    public List<FieldType> buildList() {
+    @Inject
+    protected Instance<ComplexFieldType> complexFieldTypes;
 
-        List<FieldType> result = new ArrayList<FieldType>();
+    public List<FieldType> fieldTypes;
+
+    @PostConstruct
+    public void initList() {
+        fieldTypes = new ArrayList<FieldType>();
 
         FieldType ft = new FieldType();
         ft.setCode("Subform");
@@ -34,7 +42,7 @@ public class ComplexFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.SubformFieldHandler");
         ft.setMaxlength(new Long(4000));
         ft.setSize("25");
-        result.add(ft);
+        fieldTypes.add(ft);
 
         ft = new FieldType();
         ft.setCode("MultipleSubform");
@@ -42,8 +50,15 @@ public class ComplexFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.CreateDynamicObjectFieldHandler");
         ft.setMaxlength(new Long(4000));
         ft.setSize("25");
-        result.add(ft);
+        fieldTypes.add(ft);
 
-        return result;
+        for (ComplexFieldType fieldType : complexFieldTypes) {
+            fieldTypes.add(fieldType);
+        }
+    }
+
+    @Override
+    public List<FieldType> buildList() {
+        return fieldTypes;
     }
 }

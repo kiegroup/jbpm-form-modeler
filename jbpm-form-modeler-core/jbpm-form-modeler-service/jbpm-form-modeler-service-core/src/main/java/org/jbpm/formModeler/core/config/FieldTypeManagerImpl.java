@@ -44,6 +44,9 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
     private Logger log = LoggerFactory.getLogger(FieldTypeManager.class);
 
     @Inject
+    FieldTypeLabelBuilder fieldTypeLabelBuilder;
+
+    @Inject
     protected Instance<SimpleFieldTypeBuilder> builders;
     @Inject
     protected Instance<DecoratorFieldTypeBuilder> decoratorBuilders;
@@ -105,6 +108,8 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         iconsMappings.put("InputTextEmail", "fieldTypes/mailbox.png");
         iconsMappings.put("Subform", "fieldTypes/master_details.png");
         iconsMappings.put("MultipleSubform", "fieldTypes/master_details.png");
+        iconsMappings.put("Document", "fieldTypes/file.png");
+        iconsMappings.put("File", "fieldTypes/file.png");
 
         hiddenFieldTypesCodes.add("InputTextPrimitiveByte");
         hiddenFieldTypesCodes.add("InputTextPrimitiveShort");
@@ -311,5 +316,10 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
             if(code.equals(codeId)) return true;
         }
         return false;
+    }
+
+    @Override
+    public String getFieldTypeLabel(FieldType fieldType) {
+        return fieldTypeLabelBuilder.getFieldTypeLabel(fieldType);
     }
 }

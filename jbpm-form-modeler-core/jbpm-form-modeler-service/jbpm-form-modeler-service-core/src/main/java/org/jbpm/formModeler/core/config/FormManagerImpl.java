@@ -209,6 +209,7 @@ public class FormManagerImpl implements FormManager {
 
             field.setFieldName(fieldName);
             field.setFieldRequired(Boolean.FALSE);
+            field.setReadonly(Boolean.FALSE);
             field.setFieldType(fieldType);
             field.setInputBinding(inputBinding);
             field.setOutputBinding(outputBinding);

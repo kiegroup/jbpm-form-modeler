@@ -40,12 +40,6 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
     @Inject
     private SubformFinderService subformFinderService;
 
-    public CreateDynamicObjectFieldHandler() {
-        setPageToIncludeForDisplaying("/formModeler/fieldHandlers/CreateDynamicObject/show.jsp");
-        setPageToIncludeForRendering("/formModeler/fieldHandlers/CreateDynamicObject/input.jsp");
-        setPageToIncludeForSearching("/formModeler/fieldHandlers/CreateDynamicObject/search.jsp");
-    }
-
     /**
      * Read a parameter value (normally from a request), and translate it to
      * an object with desired class (that must be one of the returned by this handler)

@@ -24,18 +24,6 @@ import java.util.ResourceBundle;
 
 public abstract class AbstractFieldHandler implements FieldHandler {
 
-    public void initialize(Field field, String namespace) {
-        
-    }
-
-    public boolean isEvaluable(String inputName, Map parametersMap, Map filesMap) {
-        return true;
-    }
-
-    protected boolean checkBooleanParameter(String[] param) {
-        return param != null && param.length > 0 && Boolean.valueOf(StringUtils.defaultString(param[0])).booleanValue();
-    }
-
     protected String getFieldName() {
         String name = getClass().getSimpleName();
         return name.substring(0, name.indexOf("FieldHandler"));
@@ -47,9 +35,5 @@ public abstract class AbstractFieldHandler implements FieldHandler {
 
     public String getPageToIncludeForDisplaying() {
         return "/formModeler/fieldHandlers/" + getFieldName() + "/show.jsp";
-    }
-
-    public String getPageToIncludeForSearching() {
-        return "/formModeler/fieldHandlers/" + getFieldName() + "/search.jsp";
     }
 }

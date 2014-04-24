@@ -33,9 +33,6 @@ public abstract class DefaultFieldHandler extends AbstractFieldHandler {
         return FunctionsProvider.lookup();
     }
 
-    public String getName() {
-        return this.getClass().getName();
-    }
     public FormManager getFormManager() {
         return FormCoreServices.lookup().getFormManager();
     }

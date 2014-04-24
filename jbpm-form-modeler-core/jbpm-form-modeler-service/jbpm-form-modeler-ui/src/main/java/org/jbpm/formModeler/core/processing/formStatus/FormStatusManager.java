@@ -73,15 +73,6 @@ public class FormStatusManager implements Serializable {
         namespace = StringUtils.defaultIfEmpty(namespace, FormProcessor.DEFAULT_NAMESPACE);
         FormStatus fs = new FormStatus(form, namespace, currentValues);
         formStatuses.put(namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId(), fs);
-        try {
-            FieldHandlersManager fieldHandlersManager = FormProcessingServices.lookup().getFieldHandlersManager();
-            for (Field pff : form.getFormFields()) {
-                FieldHandler handler = fieldHandlersManager.getHandler(pff.getFieldType());
-                handler.initialize(pff, namespace);
-            }
-        } catch (Exception e) {
-            log.error("Error: ", e);
-        }
         return fs;
     }
 

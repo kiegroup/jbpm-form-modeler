@@ -61,14 +61,7 @@
                             <select name="fieldType" class="skn-input" style="width:200px" onchange="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CHANGE_FIELD_TYPE%>'); submitAjaxForm(this.form);return false;">
                         </mvc:fragment>
                         <mvc:fragment name="output">
-                            <mvc:fragmentValue name="id" id="id">
-                                <option value="<%=id%>"><i18n:message key='<%="fieldType." + id%>'/></option>
-                            </mvc:fragmentValue>
-                        </mvc:fragment>
-                        <mvc:fragment name="outputSelected">
-                            <mvc:fragmentValue name="id" id="id">
-                                <option value="<%=id%>" selected><i18n:message key='<%="fieldType." + id%>'/></option>
-                            </mvc:fragmentValue>
+                                <option value="<mvc:fragmentValue name="id"/>" <mvc:fragmentValue name="selected"/>><mvc:fragmentValue name="label"/></option>
                         </mvc:fragment>
                         <mvc:fragment name="outputEnd">
                             </select>
