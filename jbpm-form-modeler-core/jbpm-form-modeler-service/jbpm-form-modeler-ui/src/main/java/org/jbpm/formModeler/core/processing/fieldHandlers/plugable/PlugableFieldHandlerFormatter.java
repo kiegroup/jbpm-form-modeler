@@ -38,6 +38,7 @@ public class PlugableFieldHandlerFormatter extends Formatter {
 
         if (fieldHandler == null) return;
 
+        String inputName = paramsReader.getCurrentFieldName();
         String namespace = paramsReader.getCurrentNamespace();
         Object value = paramsReader.getCurrentFieldValue();
 
@@ -45,10 +46,11 @@ public class PlugableFieldHandlerFormatter extends Formatter {
 
         String htmlCode = null;
 
+
         if (MODE_INPUT.equals(mode)) {
-            htmlCode =  fieldHandler.getInputHTML(value, field.getFieldName(), namespace, field);
+            htmlCode =  fieldHandler.getInputHTML(value, field, inputName, namespace, paramsReader.isFieldReadonly());
         } else if (MODE_SHOW.equals(mode)) {
-            htmlCode =  fieldHandler.getShowHTML(value, field.getFieldName(), namespace, field);
+            htmlCode =  fieldHandler.getShowHTML(value, field, inputName, namespace);
         }
 
         if (!StringUtils.isEmpty(htmlCode)) {

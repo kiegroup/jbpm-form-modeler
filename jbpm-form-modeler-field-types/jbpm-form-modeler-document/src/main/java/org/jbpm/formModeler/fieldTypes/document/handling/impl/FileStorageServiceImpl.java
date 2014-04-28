@@ -41,12 +41,11 @@ public class FileStorageServiceImpl implements FileStorageService {
     /**
      * This is the root folder where the files are going to be stored, please check that the user that is running the app has permissions to read/write inside
      */
-    private String storagePath = "docs";
+    private String storagePath = ".docs";
 
     @Override
     public Document saveDocument(File file) {
         try {
-
             String destinationPath = generateUniquePath(file.getName());
 
             File destination = new File(destinationPath);
@@ -105,7 +104,7 @@ public class FileStorageServiceImpl implements FileStorageService {
                     file.delete();
                     return deleteFile(file.getParentFile());
                 } else {
-                    if (!file.getAbsolutePath().equals(storagePath)) {
+                    if (!file.getName().equals(storagePath)) {
                         String[] list = file.list();
                         if (list == null || list.length == 0) {
                             file.delete();

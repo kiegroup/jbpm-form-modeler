@@ -39,6 +39,9 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
 
     @Inject
     private SubformFinderService subformFinderService;
+    
+    @Inject
+    private FormProcessor formProcessor;
 
     /**
      * Read a parameter value (normally from a request), and translate it to
@@ -63,10 +66,10 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
 
             for (int i = 0; i < count; i++) {
                 String namespace = inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + i;
-                getFormProcessor().setValues(form, namespace, parametersMap, filesMap);
-                FormStatusData status = getFormProcessor().read(form, namespace);
+                formProcessor.setValues(form, namespace, parametersMap, filesMap);
+                FormStatusData status = formProcessor.read(form, namespace);
                 if (status.isValid()) {
-                    final Map objectCreated = getFormProcessor().getMapRepresentationToPersist(form, namespace);
+                    final Map objectCreated = formProcessor.getMapRepresentationToPersist(form, namespace);
 
                     if (previousValuesMap[i] != null) previousValuesMap[i].putAll(objectCreated);
                     else previousValuesMap[i] = objectCreated;
@@ -78,24 +81,24 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
         boolean doCreate = createParams != null && createParams.length == 1 && createParams[0].equals("true");
         if (doCreate) {
             Form createForm = getCreateForm(field, inputName);
-            boolean addItemEnabled = Boolean.TRUE.equals(getFormProcessor().getAttribute(createForm, inputName, FormStatusData.DO_THE_ITEM_ADD));
+            boolean addItemEnabled = Boolean.TRUE.equals(formProcessor.getAttribute(createForm, inputName, FormStatusData.DO_THE_ITEM_ADD));
             if (addItemEnabled) {
-                getFormProcessor().setValues(createForm, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create", parametersMap, filesMap);
-                FormStatusData status = getFormProcessor().read(createForm, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create");
+                formProcessor.setValues(createForm, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create", parametersMap, filesMap);
+                FormStatusData status = formProcessor.read(createForm, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create");
                 if (status.isValid()) {
-                    final Map objectCreated = getFormProcessor().getMapRepresentationToPersist(createForm, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create");
+                    final Map objectCreated = formProcessor.getMapRepresentationToPersist(createForm, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create");
                     if (previousValuesMap == null) previousValuesMap = new Map[0];
                     previousValuesMap = (Map[]) ArrayUtils.add(previousValuesMap, objectCreated);
                     // Not the correct place to do it !!!  form.getProcessor().clear(form.getDbid(), inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create");
                     // Collapse form
                     Form parentForm = field.getForm();
                     String parentNamespace = getNamespaceManager().getParentNamespace(inputName);
-                    Set expandedFields = (Set) getFormProcessor().getAttribute(parentForm, parentNamespace, FormStatusData.EXPANDED_FIELDS);
+                    Set expandedFields = (Set) formProcessor.getAttribute(parentForm, parentNamespace, FormStatusData.EXPANDED_FIELDS);
                     if (expandedFields != null) {
                         expandedFields.remove(field.getFieldName());
-                        getFormProcessor().setAttribute(parentForm, parentNamespace, FormStatusData.EXPANDED_FIELDS, expandedFields);
+                        formProcessor.setAttribute(parentForm, parentNamespace, FormStatusData.EXPANDED_FIELDS, expandedFields);
                     }
-                    getFormProcessor().clear(form, parentNamespace);
+                    formProcessor.clear(form, parentNamespace);
                 }
             }
         }
@@ -106,20 +109,20 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
             // Collapse form
             Form parentForm = field.getForm();
             String parentNamespace = getNamespaceManager().getParentNamespace(inputName);
-            Map expandedFields = (Map) getFormProcessor().getAttribute(parentForm, parentNamespace, FormStatusData.EDIT_FIELD_POSITIONS);
+            Map expandedFields = (Map) formProcessor.getAttribute(parentForm, parentNamespace, FormStatusData.EDIT_FIELD_POSITIONS);
             if (expandedFields != null && !expandedFields.isEmpty()) {
                 Integer positionStr = (Integer) expandedFields.get(field.getFieldName());
                 int position = positionStr.intValue();
                 Form editForm = getEditForm(field, inputName);
-                getFormProcessor().setValues(editForm, inputName, parametersMap, filesMap);
-                FormStatusData status = getFormProcessor().read(editForm, inputName);
+                formProcessor.setValues(editForm, inputName, parametersMap, filesMap);
+                FormStatusData status = formProcessor.read(editForm, inputName);
                 if (status.isValid()) {
-                    final Map objectCreated = getFormProcessor().getMapRepresentationToPersist(editForm, inputName);
+                    final Map objectCreated = formProcessor.getMapRepresentationToPersist(editForm, inputName);
                     previousValuesMap[position].putAll(objectCreated);
-                    getFormProcessor().clear(editForm, inputName);
+                    formProcessor.clear(editForm, inputName);
                     //Collapse form
                     expandedFields.remove(field.getFieldName());
-                    getFormProcessor().setAttribute(parentForm, parentNamespace, FormStatusData.EDIT_FIELD_POSITIONS, expandedFields);
+                    formProcessor.setAttribute(parentForm, parentNamespace, FormStatusData.EDIT_FIELD_POSITIONS, expandedFields);
                 }
             }
         }
@@ -146,11 +149,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
                 Map<String, Object> inputData = new HashMap();
                 if (!StringUtils.isEmpty(holder.getInputId())) inputData.put(holder.getInputId(), val);
 
-                Map<String, Object> outputData = new HashMap();
-
-                if (!StringUtils.isEmpty(holder.getOuputId())) outputData.put(holder.getOuputId(), val);
-
-                result[i] = getFormProcessor().createFieldContextValueFromHolder(form, inputName, inputData, outputData, new HashMap<String, Object>(), holder);
+                result[i] = formProcessor.readValuesToLoad(form, inputData, true, new HashMap(), inputName);
             } catch (Exception e) {
                 log.error("Error getting status value for field: " + inputName, e);
             }
@@ -159,14 +158,14 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
         Map<String, Object> loadedObjects = new HashMap();
         loadedObjects.put(holder.getUniqeId(), result);
 
-        getFormProcessor().read(form, inputName, null, loadedObjects);
+        formProcessor.read(form, inputName, null, loadedObjects);
 
         return result;
     }
 
     @Override
     public Object persist(Field field, String inputName) throws Exception {
-        FormStatusData data = getFormProcessor().read(field.getForm(), getNamespaceManager().getParentNamespace(inputName));
+        FormStatusData data = formProcessor.read(field.getForm(), getNamespaceManager().getParentNamespace(inputName));
 
         Object objectValue = data.getCurrentValue(field.getFieldName());
         if (objectValue == null) return null;
@@ -207,7 +206,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
                 loadedObject = loadedObjects.get(i);
             }
 
-            result.add(getFormProcessor().persistFormHolder(form, inputName, values[i], holder, loadedObject));
+            result.add(formProcessor.persistFormHolder(form, inputName, values[i], holder, loadedObject));
         }
 
         return result;
@@ -221,7 +220,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
 
     public Object deleteElementInPosition(Form form, String namespace, String field, int position) {
         synchronized (form) {
-            FormStatusData statusData = getFormProcessor().read(form, namespace);
+            FormStatusData statusData = formProcessor.read(form, namespace);
             Object previousValue = statusData.getCurrentValue(field);
             if (previousValue != null) {
                 Object[] vals = (Object[]) previousValue;

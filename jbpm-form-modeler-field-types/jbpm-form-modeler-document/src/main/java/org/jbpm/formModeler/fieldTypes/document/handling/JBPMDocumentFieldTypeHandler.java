@@ -18,7 +18,6 @@ package org.jbpm.formModeler.fieldTypes.document.handling;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.Template;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.processing.fieldHandlers.plugable.PlugableFieldHandler;
 import org.jbpm.formModeler.fieldTypes.document.Document;
@@ -111,48 +110,48 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
         File file = (File) filesMap.get(inputName);
         if (file != null) {
             if (oldDoc != null) fileStorageService.deleteDocument(oldDoc);
-            return fileStorageService.saveDocument(file);
+            Document doc = fileStorageService.saveDocument(file);
+            doc.addAttribute("scope", "form");
+            return doc;
         }
 
         // If we receive the delete parameter or we are uploading a new file the current file will be deleted
-        if (delete) fileStorageService.deleteDocument(oldDoc);
+        if (delete) {
+            fileStorageService.deleteDocument(oldDoc);
+            return null;
+        }
 
         return previousValue;
     }
 
     @Override
-    public String getShowHTML(Object value, String fieldName, String namespace, Field field) {
-        return renderField(fieldName, (String) value, namespace, false);
+    public String getShowHTML(Object value, Field field, String inputName, String namespace) {
+        return renderField((Document) value, field, inputName, false);
     }
 
     @Override
-    public String getInputHTML(Object value, String fieldName, String namespace, Field field) {
-        return renderField(fieldName, (String) value, namespace, !field.getReadonly());
+    public String getInputHTML(Object value, Field field, String inputName, String namespace, Boolean readonly) {
+        return renderField((Document) value, field, inputName, !readonly && !field.getReadonly());
     }
 
-    public String renderField(String fieldName, String id, String namespace, boolean showInput) {
+    public String renderField(Document document, Field field, String inputName, boolean showInput) {
         /*
          * We are using a .ftl template to generate the HTML to show on screen, as it is a sample you can use any other way to do that.
          * To see the template format look at input.ftl on the resources folder.
          */
         String str = null;
         try {
-            Document document = null;
-            if (!StringUtils.isEmpty(id)) {
-                document = fileStorageService.getDocument(id);
-            }
-
             Map<String, Object> context = new HashMap<String, Object>();
 
             // if there is a file in the specified id, the input will show a link to download it.
-            context.put("inputId", namespace + "_file_" + fieldName);
+            context.put("inputId", inputName);
             if (document != null) {
                 /*
                  * Building the parameter map for the download link.
                  * We are encoding the file id in order to make a download link cleaner
                  */
                 Map params = new HashMap();
-                params.put("content", Base64.encodeBase64String(id.getBytes()));
+                params.put("content", Base64.encodeBase64String(document.getIdentifier().getBytes()));
 
                 /*
                  * Building the download link:
@@ -183,13 +182,13 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
             defaultInstance.setSimpleMapWrapper(true);
             cfg.setObjectWrapper(defaultInstance);
             cfg.setTemplateUpdateDelay(0);
-            Template temp = new Template(fieldName, new InputStreamReader(src), cfg);
+            Template temp = new Template(inputName, new InputStreamReader(src), cfg);
             StringWriter out = new StringWriter();
             temp.process(context, out);
             out.flush();
             str = out.getBuffer().toString();
         } catch (Exception e) {
-            log.warn("Failed to process template for field '{}': {}", fieldName, e);
+            log.warn("Failed to process template for field '{}': {}", field.getFieldName(), e);
         }
         return str;
     }

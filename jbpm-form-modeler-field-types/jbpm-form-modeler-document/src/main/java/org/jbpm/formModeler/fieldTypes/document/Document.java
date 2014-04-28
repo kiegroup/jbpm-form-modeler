@@ -46,4 +46,14 @@ public class Document implements Serializable{
         attributes.put(attributeName, attributeValue);
     }
 
+    @Override
+    public String toString() {
+        return "Document{" +
+                "identifier='" + identifier + '\'' +
+                ", name='" + name + '\'' +
+                ", size=" + size +
+                ", lastModified=" + lastModified +
+                ", attributes=" + attributes +
+                '}';
+    }
 }

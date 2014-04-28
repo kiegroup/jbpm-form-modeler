@@ -5,8 +5,8 @@ import org.jbpm.formModeler.core.processing.FieldHandler;
 
 public abstract class PlugableFieldHandler implements FieldHandler {
 
-    public abstract String getInputHTML(Object value, String fieldName, String namespace, Field field);
-    public abstract String getShowHTML(Object value, String fieldName, String namespace, Field field);
+    public abstract String getInputHTML(Object value, Field field, String inputName, String namespace, Boolean readonly);
+    public abstract String getShowHTML(Object value, Field field, String inputName, String namespace);
 
     @Override
     public String getPageToIncludeForRendering() {

@@ -220,5 +220,6 @@ public interface FormProcessor {
      */
     void forceWrongField(Form form, String namespace, String fieldName);
 
-    Map createFieldContextValueFromHolder(Form form, String namespace, Map<String, Object> inputData, Map<String, Object> outputData, Map<String, Object> loadedObjects, DataHolder holder) throws Exception;
+
+    Map readValuesToLoad(Form form, Map dataToLoad, boolean isInput, Map loadedObjects, String namespace);
 }

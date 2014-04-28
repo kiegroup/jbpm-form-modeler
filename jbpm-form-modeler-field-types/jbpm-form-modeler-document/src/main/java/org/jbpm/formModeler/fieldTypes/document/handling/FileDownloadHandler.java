@@ -17,6 +17,7 @@ package org.jbpm.formModeler.fieldTypes.document.handling;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.fieldTypes.document.Document;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
@@ -31,9 +32,6 @@ import javax.inject.Named;
 import java.io.File;
 import java.io.FileInputStream;
 
-/**
- * Definition a sample File Download Service, this will allow the user to download the uploaded file when pressing the download link.
- */
 @Named("fdch")
 @ApplicationScoped
 public class FileDownloadHandler extends BeanHandler {
@@ -45,18 +43,21 @@ public class FileDownloadHandler extends BeanHandler {
     /**
      * Action to download the specified file
      * @param request A CommandRequest object that contains the the HttpServletRequest, HttpServletResponse, HttpSession and the information about the files uploaded on the current submit
-     * @return A CommandResponse to download the file content if the file exists or an empty response if there is any error.
+     * @return A CommandResponse to download the document content if the file exists or an empty response if there is any error.
      */
     public CommandResponse actionDownload(CommandRequest request) {
         try {
             // try to get the content parameter that identifies the file to download and try to find the File.
             String content = request.getRequestObject().getParameter("content");
             if (!StringUtils.isEmpty(content)) {
-                String path = new String(Base64.decodeBase64(content));
+                String id = new String(Base64.decodeBase64(content));
 
-                // build the file, if the file exists will return and StreamResponse to download it
-                File file = new File(path);
-                if (file.exists()) return new SendStreamResponse(new FileInputStream(file), "inline;filename=" + file.getName());
+                Document doc = fileStorageService.getDocument(id);
+
+                if (doc != null) {
+                    File file = fileStorageService.getDocumentContent(doc);
+                    if (file.exists()) return new SendStreamResponse(new FileInputStream(file), "inline;filename=" + file.getName());
+                }
             }
         } catch (Exception e) {
             log.warn("Error trying to get file content: ", e);
