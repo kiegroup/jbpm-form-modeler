@@ -66,7 +66,6 @@ public class FormModelerFormProvider implements FormProvider {
                 lookupName = formName;
             }else{
                 lookupName = task.getNames().get(0).getText();
-                
             }
             if (process.getForms().containsKey(lookupName)) {
                 template = new ByteArrayInputStream(process.getForms().get(lookupName).getBytes());
@@ -87,7 +86,9 @@ public class FormModelerFormProvider implements FormProvider {
 
             Map inputs = new HashMap();
 
-            Map outputs = (Map) renderContext.get("outputs");
+            Map outputs;
+            if (task.getTaskData().getOutputContentId() == -1) outputs = new HashMap();
+            else outputs = (Map) renderContext.get("outputs");
 
             Map m = (Map) renderContext.get("inputs");
             if (m != null) inputs.putAll(m);

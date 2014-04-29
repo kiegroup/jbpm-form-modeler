@@ -47,9 +47,8 @@ public class SubformFieldHandler extends PersistentFieldHandler {
     @Inject
     private FormErrorMessageBuilder formErrorMessageBuilder;
 
-    private String pageToIncludeForRendering = "/formModeler/fieldHandlers/Subform/input.jsp";
-    private String pageToIncludeForDisplaying = "/formModeler/fieldHandlers/Subform/show.jsp";
-    private String pageToIncludeForSearching = "/formModeler/fieldHandlers/Subform/search.jsp";
+    @Inject
+    private FormProcessor formProcessor;
 
     private static int maxDepth = 2;
 
@@ -82,12 +81,12 @@ public class SubformFieldHandler extends PersistentFieldHandler {
     public Object getValue(Field field, String inputName, Map parametersMap, Map filesMap, String desiredClassName, Object previousValue) throws Exception {
         Form form = getEnterDataForm(inputName, field);
         if (!checkSubformDepthAllowed(form, inputName)) return null;
-        getFormProcessor().setValues(form, inputName, parametersMap, filesMap);
-        FormStatusData status = getFormProcessor().read(form, inputName);
+        formProcessor.setValues(form, inputName, parametersMap, filesMap);
+        FormStatusData status = formProcessor.read(form, inputName);
         if (status.isValid()) {
             // Check if form status is empty & if the object already exists to avoid null objects creation.
             if (status.isEmpty()) return null;
-            Map m = getFormProcessor().getMapRepresentationToPersist(form, inputName);
+            Map m = formProcessor.getMapRepresentationToPersist(form, inputName);
             return m;
         } else {
             throw new IllegalArgumentException("Subform status is invalid.");
@@ -97,14 +96,14 @@ public class SubformFieldHandler extends PersistentFieldHandler {
     @Override
     public Object persist(Field field, String inputName) throws Exception {
         Form form = getEnterDataForm(inputName, field);
-        Map representation = getFormProcessor().getMapRepresentationToPersist(form, inputName);
+        Map representation = formProcessor.getMapRepresentationToPersist(form, inputName);
 
         DataHolder holder = form.getHolders().iterator().next();
 
         FormStatus fs = getFormStatusManager().getFormStatus(form, inputName);
         Object locadedObject = fs.getLoadedObject(holder.getUniqeId());
 
-        return getFormProcessor().persistFormHolder(form, inputName, representation, holder, locadedObject);
+        return formProcessor.persistFormHolder(form, inputName, representation, holder, locadedObject);
     }
 
     @Override
@@ -125,12 +124,12 @@ public class SubformFieldHandler extends PersistentFieldHandler {
 
         Map result = null;
         try {
-            result = getFormProcessor().createFieldContextValueFromHolder(form, inputName, inputData, outputData, loadedObjects, holder);
+            result = formProcessor.readValuesToLoad(form, inputData, true, loadedObjects, inputName);
         } catch (Exception e) {
             log.error("Error getting status value for field: " + inputName, e);
         }
 
-        getFormProcessor().read(form, inputName, result, loadedObjects);
+        formProcessor.read(form, inputName, result, loadedObjects);
 
         return result;
     }
@@ -167,44 +166,8 @@ public class SubformFieldHandler extends PersistentFieldHandler {
         formErrorMessageBuilder.getWrongFormErrors(namespace, getEnterDataForm(namespace, field), errors);
     }
 
-    /**
-     * When rendering a form, if field is handled by this handler, determine the
-     * page that renders the displaying of the value
-     *
-     * @return a page to include
-     */
-    public String getPageToIncludeForDisplaying() {
-        return pageToIncludeForDisplaying;
-    }
-
     public boolean isEmpty(Object value) {
         return value == null || "".equals(value);
-    }
-
-    public void setPageToIncludeForDisplaying(String pageToIncludeForDisplaying) {
-        this.pageToIncludeForDisplaying = pageToIncludeForDisplaying;
-    }
-
-    /**
-     * When rendering a form, if field is handled by this handler, determine the
-     * page that renders the input(s)
-     *
-     * @return a page to include
-     */
-    public String getPageToIncludeForRendering() {
-        return pageToIncludeForRendering;
-    }
-
-    public void setPageToIncludeForRendering(String pageToIncludeForRendering) {
-        this.pageToIncludeForRendering = pageToIncludeForRendering;
-    }
-
-    public String getPageToIncludeForSearching() {
-        return pageToIncludeForSearching;
-    }
-
-    public void setPageToIncludeForSearching(String pageToIncludeForSearching) {
-        this.pageToIncludeForSearching = pageToIncludeForSearching;
     }
 
     protected Form getEnterDataForm(String namespace, Field field) {
