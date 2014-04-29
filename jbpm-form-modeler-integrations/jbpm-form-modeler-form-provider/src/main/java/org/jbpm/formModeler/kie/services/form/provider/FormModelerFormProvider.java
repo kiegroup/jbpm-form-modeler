@@ -66,7 +66,6 @@ public class FormModelerFormProvider implements FormProvider {
                 lookupName = formName;
             }else{
                 lookupName = task.getNames().get(0).getText();
-                
             }
             if (process.getForms().containsKey(lookupName)) {
                 template = new ByteArrayInputStream(process.getForms().get(lookupName).getBytes());

@@ -31,7 +31,6 @@ import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.core.util.BindingExpressionUtil;
-import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -59,7 +58,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
     @Inject
     private FormRenderContextManager formRenderContextManager;
-    
+
     private BindingExpressionUtil bindingExpressionUtil = BindingExpressionUtil.getInstance();
 
     protected FormStatus getContextFormStatus(FormRenderContext context) {
@@ -143,7 +142,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                 formStatus.setLastParameterMap(parameterMap);
             }
             String inputsPrefix = getPrefix(form, namespace);
-            
+
             for (Field field : form.getFormFields()) {
                 setFieldValue(field, formStatus, inputsPrefix, parameterMap, filesMap, incremental);
             }
@@ -464,7 +463,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         String bindingString = field.getOutputBinding();
 
         if (holder == null && !StringUtils.isEmpty(bindingString)) return mapToPersist.get(field.getFieldName());
-        
+
         bindingString = bindingExpressionUtil.extractBindingExpression(bindingString);
 
         boolean complexBinding = bindingString.indexOf("/") > 0;
@@ -474,7 +473,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
             String holderFieldId = bindingString.substring(holderId.length() + 1);
             if (holder != null && !StringUtils.isEmpty(holderFieldId)) {
 
-                FieldHandler handler = (FieldHandler) CDIBeanLocator.getBeanByNameOrType(field.getFieldType().getManagerClass());
+                FieldHandler handler = fieldHandlersManager.getHandler(field.getFieldType());
 
                 if (handler instanceof PersistentFieldHandler) {
 
