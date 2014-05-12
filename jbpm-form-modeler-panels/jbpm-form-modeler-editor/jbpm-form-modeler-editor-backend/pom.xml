@@ -36,7 +36,10 @@
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-io</artifactId>
     </dependency>
-
+      <dependency>
+          <groupId>org.uberfire</groupId>
+          <artifactId>uberfire-backend-server</artifactId>
+      </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-form-modeler-api</artifactId>

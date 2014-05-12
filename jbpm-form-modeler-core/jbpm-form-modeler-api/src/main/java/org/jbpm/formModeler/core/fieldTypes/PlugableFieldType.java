@@ -4,7 +4,7 @@ import org.jbpm.formModeler.api.model.FieldType;
 
 import java.util.Locale;
 
-public abstract class ComplexFieldType extends FieldType {
+public abstract class PlugableFieldType extends FieldType {
 
     public abstract String getCode();
     public abstract String getManagerClass();

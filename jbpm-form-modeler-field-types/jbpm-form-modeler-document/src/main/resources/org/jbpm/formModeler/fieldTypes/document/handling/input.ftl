@@ -1,13 +1,17 @@
 <div>
     <input type="hidden" name="${inputId}_delete" id="${inputId}_delete" value="false"/>
-    <#if showLink = true>
+    <#if showDownload = true>
         <div id="${inputId}_head" style="padding:0 0 5px 0; display:table;">
             <div style="display: table-row;">
                 <div style="padding:0 5px 0 0; display: table-cell; vertical-align: bottom;">
                     <img src="${fileIcon}" border="0">
                 </div>
                 <div style="display: table-cell; vertical-align: bottom; white-space: nowrap">
+        <#if showLink = true>
                     <a href="${downloadLink}" target="_blank">${fileName} (${fileSize})</a>
+        <#else>
+            ${fileName} (${fileSize})
+        </#if>
                 </div>
         <#if showInput = true>
                 <div style="display: table-cell; vertical-align: bottom; padding:0 0 0 5px;">

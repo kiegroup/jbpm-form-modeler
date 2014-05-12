@@ -1,7 +1,7 @@
 package org.jbpm.formModeler.core.config;
 
 import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.core.fieldTypes.ComplexFieldType;
+import org.jbpm.formModeler.core.fieldTypes.PlugableFieldType;
 import org.jbpm.formModeler.service.LocaleChangedEvent;
 import org.jbpm.formModeler.service.LocaleManager;
 
@@ -19,8 +19,8 @@ public class FieldTypeLabelBuilder implements Serializable {
     private ResourceBundle bundle;
 
     public String getFieldTypeLabel(FieldType fieldType) {
-        if (fieldType instanceof ComplexFieldType) {
-            return ((ComplexFieldType)fieldType).getDescription(localeManager.getCurrentLocale());
+        if (fieldType instanceof PlugableFieldType) {
+            return ((PlugableFieldType)fieldType).getDescription(localeManager.getCurrentLocale());
         }
 
         return bundle.getString("fieldType." + fieldType.getCode());

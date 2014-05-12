@@ -18,9 +18,12 @@ package org.jbpm.formModeler.fieldTypes.document.handling;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.Template;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
+import org.jbpm.document.Document;
+import org.jbpm.document.service.impl.DocumentImpl;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.processing.fieldHandlers.plugable.PlugableFieldHandler;
-import org.jbpm.formModeler.fieldTypes.document.Document;
 import org.jbpm.formModeler.service.bb.mvc.components.URLMarkupGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,9 +44,6 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
     private Logger log = LoggerFactory.getLogger(JBPMDocumentFieldTypeHandler.class);
 
     public final String SIZE_UNITS[] = new String[]{"bytes", "Kb", "Mb"};
-
-    @Inject
-    private FileStorageService fileStorageService;
 
     @Inject
     private URLMarkupGenerator urlMarkupGenerator;
@@ -109,19 +109,18 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
         // if there is an uploaded file for that field we will delete the previous one (if existed) and will return the uploaded file path.
         File file = (File) filesMap.get(inputName);
         if (file != null) {
-            if (oldDoc != null) fileStorageService.deleteDocument(oldDoc);
-            Document doc = fileStorageService.saveDocument(file);
+            Document doc = new DocumentImpl(file.getName(), file.length(), new Date(file.lastModified()));
+            doc.setContent(FileUtils.readFileToByteArray(file));
             doc.addAttribute("scope", "form");
             return doc;
         }
 
         // If we receive the delete parameter or we are uploading a new file the current file will be deleted
         if (delete) {
-            fileStorageService.deleteDocument(oldDoc);
             return null;
         }
 
-        return previousValue;
+        return oldDoc;
     }
 
     @Override
@@ -135,10 +134,6 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
     }
 
     public String renderField(Document document, Field field, String inputName, boolean showInput) {
-        /*
-         * We are using a .ftl template to generate the HTML to show on screen, as it is a sample you can use any other way to do that.
-         * To see the template format look at input.ftl on the resources folder.
-         */
         String str = null;
         try {
             Map<String, Object> context = new HashMap<String, Object>();
@@ -146,32 +141,24 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
             // if there is a file in the specified id, the input will show a link to download it.
             context.put("inputId", inputName);
             if (document != null) {
-                /*
-                 * Building the parameter map for the download link.
-                 * We are encoding the file id in order to make a download link cleaner
-                 */
+
                 Map params = new HashMap();
-                params.put("content", Base64.encodeBase64String(document.getIdentifier().getBytes()));
+                if (StringUtils.isEmpty(document.getIdentifier())) {
+                    context.put("showLink", Boolean.FALSE);
+                } else {
+                    params.put("content", Base64.encodeBase64String(document.getIdentifier().getBytes()));
+                    String downloadLink = urlMarkupGenerator.getMarkup("fdch", "download", params);
+                    context.put("showLink", Boolean.TRUE);
+                    context.put("downloadLink", downloadLink);
+                }
 
-                /*
-                 * Building the download link:
-                 * For this sample we created a FileDownloadHandler that will execute the download action. We used the @Named("fdch") annotation to identify it.
-                 * To generate the link we are using the URLMarkupGenerator from jbpm-form-modeler-request-dispatcher module. It generates a markup to the FileDownloadHandler
-                 * using the parameters:
-                 * "fdch"       -> Identifier of the Bean that will execute the action (you can also use the Canonical Name of the Bean "org.jbpm.formModeler.core.fieldTypes.file.FileDownloadHandler")
-                 * "download"   -> Action to execute
-                 * params       -> A map containing the parameters that the action requires. In that case only the file id in Base64.
-                 */
-                String downloadLink = urlMarkupGenerator.getMarkup("fdch", "download", params);
-
-                context.put("showLink", Boolean.TRUE);
-                context.put("downloadLink", downloadLink);
+                context.put("showDownload", Boolean.TRUE);
                 context.put("fileName", document.getName());
                 context.put("fileSize", getFileSize(document.getSize()));
                 context.put("fileIcon", getFileIcon(document));
                 context.put("dropIcon", dropIcon);
             } else {
-                context.put("showLink", Boolean.FALSE);
+                context.put("showDownload", Boolean.FALSE);
             }
             // If the field is readonly or we are just showing the field value we will hide the input file.
             context.put("showInput", showInput);

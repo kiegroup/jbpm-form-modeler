@@ -17,7 +17,8 @@ package org.jbpm.formModeler.fieldTypes.document.handling;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.fieldTypes.document.Document;
+import org.jbpm.document.Document;
+import org.jbpm.document.service.DocumentStorageService;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 
@@ -38,7 +40,7 @@ public class FileDownloadHandler extends BeanHandler {
     private Logger log = LoggerFactory.getLogger(FileDownloadHandler.class);
 
     @Inject
-    private FileStorageService fileStorageService;
+    private DocumentStorageService fileStorageService;
 
     /**
      * Action to download the specified file
@@ -55,8 +57,8 @@ public class FileDownloadHandler extends BeanHandler {
                 Document doc = fileStorageService.getDocument(id);
 
                 if (doc != null) {
-                    File file = fileStorageService.getDocumentContent(doc);
-                    if (file.exists()) return new SendStreamResponse(new FileInputStream(file), "inline;filename=" + file.getName());
+                    byte[] docContent = doc.getContent();
+                    if (docContent != null) return new SendStreamResponse(new ByteArrayInputStream(docContent), "inline;filename=" + doc.getName());
                 }
             }
         } catch (Exception e) {

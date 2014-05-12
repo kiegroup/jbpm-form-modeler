@@ -328,7 +328,6 @@
     <dependency>
         <groupId>org.jbpm</groupId>
         <artifactId>jbpm-form-modeler-document</artifactId>
-        <version>6.1.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
@@ -347,7 +346,12 @@
       <artifactId>jbpm-bpmn2</artifactId>
     </dependency>
 
-    <!-- Data Modeller -->
+    <dependency>
+      <groupId>org.jbpm</groupId>
+      <artifactId>jbpm-document</artifactId>
+    </dependency>
+
+      <!-- Data Modeller -->
     <dependency>
       <groupId>org.kie.workbench.screens</groupId>
       <artifactId>kie-wb-common-data-modeller-api</artifactId>

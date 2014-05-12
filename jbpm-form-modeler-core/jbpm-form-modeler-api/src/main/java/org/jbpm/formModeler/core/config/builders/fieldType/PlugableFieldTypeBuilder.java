@@ -15,35 +15,32 @@
  */
 package org.jbpm.formModeler.core.config.builders.fieldType;
 
-
 import org.jbpm.formModeler.api.model.FieldType;
+import org.jbpm.formModeler.core.fieldTypes.PlugableFieldType;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComplexFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
+public class PlugableFieldTypeBuilder extends SimpleFieldTypeBuilder {
+    @Inject
+    protected Instance<PlugableFieldType> plugableFieldTypes;
+
+    public List<FieldType> fieldTypes;
+
+    @PostConstruct
+    public void initList() {
+        fieldTypes = new ArrayList<FieldType>();
+
+        for (PlugableFieldType fieldType : plugableFieldTypes) {
+            fieldTypes.add(fieldType);
+        }
+    }
 
     @Override
     public List<FieldType> buildList() {
-
-        List<FieldType> result = new ArrayList<FieldType>();
-
-        FieldType ft = new FieldType();
-        ft.setCode("Subform");
-        ft.setFieldClass("java.lang.Object");
-        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.SubformFieldHandler");
-        ft.setMaxlength(new Long(4000));
-        ft.setSize("25");
-        result.add(ft);
-
-        ft = new FieldType();
-        ft.setCode("MultipleSubform");
-        ft.setFieldClass("java.util.List");
-        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.CreateDynamicObjectFieldHandler");
-        ft.setMaxlength(new Long(4000));
-        ft.setSize("25");
-        result.add(ft);
-
-        return result;
+        return fieldTypes;
     }
 }
