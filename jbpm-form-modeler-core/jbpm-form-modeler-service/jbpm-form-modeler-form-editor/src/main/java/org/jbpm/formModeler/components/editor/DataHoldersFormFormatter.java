@@ -172,9 +172,9 @@ public class DataHoldersFormFormatter extends Formatter {
         renderFragment("outputStart");
 
         for (DataHolder dataHolder : holders) {
-            Set<DataFieldHolder> dataFieldHolders = dataHolder.getFieldHolders();
+            Set<DataFieldHolder> dataFieldHolders = getUnBindedFields(form, dataHolder);
 
-            if (dataFieldHolders != null) {
+            if (dataFieldHolders != null && !dataFieldHolders.isEmpty()) {
                 if (dataHolder.canHaveChildren()) {
                     setAttribute("id", dataHolder.getUniqeId());
                     setAttribute("type", dataHolder.getTypeCode());
@@ -209,6 +209,23 @@ public class DataHoldersFormFormatter extends Formatter {
         }
 
         renderFragment("outputEnd");
+    }
+
+    protected Set<DataFieldHolder> getUnBindedFields(Form form, DataHolder dataHolder) {
+        Set<DataFieldHolder> dataFieldHolders = dataHolder.getFieldHolders();
+
+        Set<DataFieldHolder> result = new TreeSet<DataFieldHolder>();
+
+        if (dataFieldHolders == null || dataFieldHolders.isEmpty()) return result;
+
+        for (DataFieldHolder dataFieldHolder : dataFieldHolders) {
+            String fieldName = dataFieldHolder.getId();
+            if (fieldName != null && !form.isFieldBinded(dataHolder, fieldName)) {
+                result.add(dataFieldHolder);
+            }
+        }
+
+        return result;
     }
 
     public void renderAddField(String fieldName, DataFieldHolder dataFieldHolder, DataHolder dataHolder) {
