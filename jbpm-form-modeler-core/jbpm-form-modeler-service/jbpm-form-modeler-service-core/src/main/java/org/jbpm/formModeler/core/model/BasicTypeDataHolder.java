@@ -163,9 +163,12 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
 
     @Override
     public boolean isAssignableValue(Object value) {
-        //TODO verify
         if (value == null) return true;
-        return value.getClass().getName().equals(this.basicFieldType.getFieldClass());
+        try {
+            return value.getClass().getName().equals(this.basicFieldType.getFieldClass()) || Class.forName(this.basicFieldType.getFieldClass()).isAssignableFrom(value.getClass()) ;
+        } catch (ClassNotFoundException e) {
+        }
+        return false;
     }
 
     @Override

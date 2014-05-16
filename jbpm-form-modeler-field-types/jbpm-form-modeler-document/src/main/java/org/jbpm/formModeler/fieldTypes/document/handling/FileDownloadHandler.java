@@ -22,6 +22,7 @@ import org.jbpm.document.service.DocumentStorageService;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
+import org.jbpm.formModeler.service.bb.mvc.controller.HTTPSettings;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.DoNothingResponse;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.SendStreamResponse;
 import org.slf4j.Logger;
@@ -33,11 +34,15 @@ import javax.inject.Named;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URLEncoder;
 
 @Named("fdch")
 @ApplicationScoped
 public class FileDownloadHandler extends BeanHandler {
     private Logger log = LoggerFactory.getLogger(FileDownloadHandler.class);
+
+    @Inject
+    private HTTPSettings httpSettings;
 
     @Inject
     private DocumentStorageService fileStorageService;
@@ -52,13 +57,11 @@ public class FileDownloadHandler extends BeanHandler {
             // try to get the content parameter that identifies the file to download and try to find the File.
             String content = request.getRequestObject().getParameter("content");
             if (!StringUtils.isEmpty(content)) {
-                String id = new String(Base64.decodeBase64(content));
-
-                Document doc = fileStorageService.getDocument(id);
+                Document doc = fileStorageService.getDocument(content);
 
                 if (doc != null) {
                     byte[] docContent = doc.getContent();
-                    if (docContent != null) return new SendStreamResponse(new ByteArrayInputStream(docContent), "inline;filename=" + doc.getName());
+                    if (docContent != null) return new SendStreamResponse(new ByteArrayInputStream(docContent), "inline;filename=" + URLEncoder.encode(doc.getName(), httpSettings.getEncoding()));
                 }
             }
         } catch (Exception e) {
@@ -67,5 +70,10 @@ public class FileDownloadHandler extends BeanHandler {
 
         // if the file doesn't exist or something wrong happens return the DonNothingResponse
         return new DoNothingResponse();
+    }
+
+    @Override
+    public boolean isEnabledForActionHandling() {
+        return true;
     }
 }

@@ -347,11 +347,12 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                     loadedObjects.put(holder.getUniqeId(), bindingValue);
                     return holder.readFromBindingExperssion(bindingValue, bindingExpression);
                 }
+                return null;
             } catch (Exception e) {
                 log.warn("Unable to read value from expression '" + bindingExpression + "'. Error: ", e);
             }
-        } else  return getUnbindedFieldValue(bindingExpression, bindingData);
-        return bindingData.get(bindingExpression);
+        }
+        return getUnbindedFieldValue(bindingExpression, bindingData);
     }
 
     public FormStatusData read(Form form, String namespace, Map formValues) {

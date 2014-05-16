@@ -17,19 +17,17 @@ package org.jbpm.formModeler.fieldTypes.document.handling;
 
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.Template;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.document.Document;
 import org.jbpm.document.service.impl.DocumentImpl;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.processing.fieldHandlers.plugable.PlugableFieldHandler;
-import org.jbpm.formModeler.service.bb.mvc.components.URLMarkupGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.File;
 import java.io.InputStream;
@@ -44,9 +42,6 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
     private Logger log = LoggerFactory.getLogger(JBPMDocumentFieldTypeHandler.class);
 
     public final String SIZE_UNITS[] = new String[]{"bytes", "Kb", "Mb"};
-
-    @Inject
-    private URLMarkupGenerator urlMarkupGenerator;
 
     protected String dropIcon;
     protected String iconFolder;
@@ -111,7 +106,6 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
         if (file != null) {
             Document doc = new DocumentImpl(file.getName(), file.length(), new Date(file.lastModified()));
             doc.setContent(FileUtils.readFileToByteArray(file));
-            doc.addAttribute("scope", "form");
             return doc;
         }
 
@@ -125,15 +119,15 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
 
     @Override
     public String getShowHTML(Object value, Field field, String inputName, String namespace) {
-        return renderField((Document) value, field, inputName, false);
+        return renderField((Document) value, field, inputName, false, false);
     }
 
     @Override
     public String getInputHTML(Object value, Field field, String inputName, String namespace, Boolean readonly) {
-        return renderField((Document) value, field, inputName, !readonly && !field.getReadonly());
+        return renderField((Document) value, field, inputName, true, readonly || field.getReadonly());
     }
 
-    public String renderField(Document document, Field field, String inputName, boolean showInput) {
+    public String renderField(Document document, Field field, String inputName, boolean showInput, boolean readonly) {
         String str = null;
         try {
             Map<String, Object> context = new HashMap<String, Object>();
@@ -142,25 +136,22 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
             context.put("inputId", inputName);
             if (document != null) {
 
-                Map params = new HashMap();
                 if (StringUtils.isEmpty(document.getIdentifier())) {
                     context.put("showLink", Boolean.FALSE);
                 } else {
-                    params.put("content", Base64.encodeBase64String(document.getIdentifier().getBytes()));
-                    String downloadLink = urlMarkupGenerator.getMarkup("fdch", "download", params);
                     context.put("showLink", Boolean.TRUE);
-                    context.put("downloadLink", downloadLink);
+                    context.put("downloadLink", document.getLink());
                 }
 
                 context.put("showDownload", Boolean.TRUE);
-                context.put("fileName", document.getName());
+                context.put("fileName", StringEscapeUtils.escapeHtml(document.getName()));
                 context.put("fileSize", getFileSize(document.getSize()));
                 context.put("fileIcon", getFileIcon(document));
                 context.put("dropIcon", dropIcon);
             } else {
                 context.put("showDownload", Boolean.FALSE);
             }
-            // If the field is readonly or we are just showing the field value we will hide the input file.
+            context.put("readonly", readonly);
             context.put("showInput", showInput);
 
             InputStream src = this.getClass().getResourceAsStream("input.ftl");

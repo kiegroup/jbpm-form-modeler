@@ -14,7 +14,7 @@
         </#if>
                 </div>
         <#if showInput = true>
-                <div style="display: table-cell; vertical-align: bottom; padding:0 0 0 5px;">
+                <div style="display: table-cell; vertical-align: bottom; padding:0 0 0 10px;">
                     <a href="#" onclick="$('#${inputId}_head').hide(); $('#${inputId}_delete').val('true'); return false;"><img src="${dropIcon}" border="0"/></a>
                 </div>
         </#if>
@@ -23,7 +23,11 @@
     </#if>
     <#if showInput = true>
         <div>
-            <input type="file" name="${inputId}" id="${inputId}"/>
+            <input type="file" name="${inputId}" id="${inputId}"
+        <#if readonly = true>
+               disabled="disabled"
+        </#if>
+            />
         </div>
     </#if>
 </div>
