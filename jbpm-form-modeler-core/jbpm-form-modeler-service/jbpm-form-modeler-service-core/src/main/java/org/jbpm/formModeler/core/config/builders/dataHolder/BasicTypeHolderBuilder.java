@@ -19,7 +19,6 @@ import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.core.model.BasicTypeDataHolder;
-import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -67,7 +66,6 @@ public class BasicTypeHolderBuilder implements RangedDataHolderBuilder {
     public Map<String, String> getHolderSources(String context) {
         Map<String, String> result = new TreeMap<String, String>();
         try {
-            FieldTypeManager fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
             List<FieldType> allFieldTypes = fieldTypeManager.getFieldTypes();
             for (FieldType fieldType: allFieldTypes){
                 if(fieldTypeManager.isbaseType(fieldType.getCode())) {

@@ -196,7 +196,7 @@ public class Form implements Serializable, Comparable{
 
 
     public String toString() {
-        return "Form: " + getId().toString();
+        return "Form [" + getName() + "]";
     }
 
     public boolean equals(Object other) {

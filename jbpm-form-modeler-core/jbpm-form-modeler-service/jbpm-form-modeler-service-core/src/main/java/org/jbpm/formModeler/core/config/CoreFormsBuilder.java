@@ -15,11 +15,10 @@
  */
 package org.jbpm.formModeler.core.config;
 
+import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.slf4j.Logger;
-import org.jbpm.formModeler.core.config.FormManager;
-import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.service.annotation.Priority;
 import org.jbpm.formModeler.service.annotation.Startable;
 import org.jbpm.formModeler.service.annotation.config.Config;
@@ -27,10 +26,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -51,13 +49,8 @@ public class CoreFormsBuilder implements Startable {
     @Inject
     private LocaleManager localeManager;
 
-    @Inject @Config("default,InputText,InputTextBigDecimal,InputTextBigInteger,CheckBox,CheckBoxPrimitiveBoolean," +
-            "Date,InputTextDouble,InputTextPrimitiveDouble,InputTextFloat,InputTextPrimitiveFloat," +
-            "InputTextByte,InputTextPrimitiveByte,InputTextInteger,InputTextPrimitiveInteger,InputTextLong," +
-            "InputTextPrimitiveLong,InputTextShort,InputTextPrimitiveShort,HTMLLabel,Separator, Subform, " +
-            "MultipleSubform,InputTextCharacter,InputTextPrimitiveCharacter,InputTextEmail,InputTextArea," +
-            "HTMLEditor,Link,I18nHTMLText,CustomInput")
-    protected String[] coreFormNames;
+    @Inject
+    private FieldTypeManager fieldTypeManager;
 
     public Priority getPriority() {
         return Priority.HIGH;
@@ -89,16 +82,30 @@ public class CoreFormsBuilder implements Startable {
             }
         }
 
-        for (String formName : coreFormNames) {
-            String formPath = getFormPath(formName);
-            try {
-                // Form is read, deserialized and added to the form manager.
-                InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(formPath);
-                Form systemForm = formSerializationManager.loadFormFromXML(is, formResources);
-                formManager.addSystemForm(systemForm);
-            } catch (Exception e) {
-                log.error("Error reading core form file: " + formPath, e);
-            }
+        deployFieldTypeForm("default", formResources);
+        deployFieldTypeForm("CustomInput", formResources);
+        deployFieldTypesForms(fieldTypeManager.getFieldTypes(), formResources);
+        deployFieldTypesForms(fieldTypeManager.getFormComplexTypes(), formResources);
+        deployFieldTypesForms(fieldTypeManager.getFormDecoratorTypes(), formResources);
+    }
+
+    protected void deployFieldTypesForms(List<FieldType> fieldTypes, Map<String, Properties> formResources) {
+        if (fieldTypes == null) return;
+        for (FieldType fieldType : fieldTypes) {
+            deployFieldTypeForm(fieldType.getCode(), formResources);
+        }
+    }
+
+    protected void deployFieldTypeForm(String formName, Map<String, Properties> formResources) {
+        String formPath = getFormPath(formName);
+        try {
+            InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(formPath);
+            if (is == null) return;
+            log.warn(formName);
+            Form systemForm = formSerializationManager.loadFormFromXML(is, formResources);
+            formManager.addSystemForm(systemForm);
+        } catch (Exception e) {
+            log.error("Error reading core form file: " + formPath, e);
         }
     }
 }

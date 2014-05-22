@@ -198,7 +198,7 @@ public class FieldType implements Serializable {
     }
 
     public String toString() {
-        return "Field Type [" + code + "]";
+        return "Field Type [" + getCode() + "]";
     }
 
     public boolean equals(Object other) {

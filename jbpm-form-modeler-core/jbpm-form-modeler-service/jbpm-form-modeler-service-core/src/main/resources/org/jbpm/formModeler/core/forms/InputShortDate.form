@@ -1,11 +1,11 @@
-<form id="260281464">
+<form id="260283451464">
 <property name="subject" value="org.jbpm.formModeler.api.model.Field"/>
-<property name="name" value=".+Date"/>
+<property name="name" value="InputShortDate"/>
 <property name="displayMode" value="default"/>
 <property name="labelMode" value="undefined"/>
 <property name="showMode" value=""/>
 <property name="status" value="0"/>
-<field position="0" name="fieldName" type="InputText" id="1909779706">
+<field position="0" name="fieldName" type="InputText" id="190977932706">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="true"/>
 <property name="height" value=""/>
@@ -19,7 +19,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="1" name="label" type="I18nText" id="947054856">
+<field position="1" name="label" type="I18nText" id="947054435856">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
@@ -33,7 +33,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="2" name="errorMessage" type="I18nText" id="2083554527">
+<field position="2" name="errorMessage" type="I18nText" id="2083543654527">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
@@ -47,7 +47,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="3" name="labelCSSClass" type="InputText" id="1008700454">
+<field position="3" name="labelCSSClass" type="InputText" id="100870057454">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
@@ -61,7 +61,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="4" name="labelCSSStyle" type="InputText" id="1509074187">
+<field position="4" name="labelCSSStyle" type="InputText" id="1509567074187">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="true"/>
 <property name="height" value=""/>
@@ -75,7 +75,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="5" name="title" type="I18nText" id="1115532213">
+<field position="5" name="title" type="I18nText" id="1115755532213">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
@@ -89,7 +89,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="6" name="styleclass" type="InputText" id="1202825279">
+<field position="6" name="styleclass" type="InputText" id="120285725279">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
@@ -103,7 +103,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="7" name="cssStyle" type="InputText" id="2077980493">
+<field position="7" name="cssStyle" type="InputText" id="2077980567493">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="true"/>
 <property name="height" value=""/>
@@ -117,7 +117,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="8" name="size" type="InputText" id="296725925">
+<field position="8" name="size" type="InputText" id="296725675925">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
@@ -131,7 +131,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="10" name="fieldRequired" type="CheckBox" id="771882815">
+<field position="10" name="fieldRequired" type="CheckBox" id="771567882815">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
@@ -145,7 +145,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="12" name="readonly" type="CheckBox" id="2088020175">
+<field position="12" name="readonly" type="CheckBox" id="208804520175">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="true"/>
 <property name="height" value=""/>
@@ -159,7 +159,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="13" name="formula" type="InputTextArea" id="1534262772">
+<field position="13" name="formula" type="InputTextArea" id="153344262772">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value="2"/>
@@ -173,7 +173,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="14" name="defaultValueFormula" type="InputText" id="1303457814">
+<field position="14" name="defaultValueFormula" type="InputText" id="1303765457814">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
@@ -187,7 +187,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="16" name="inputBinding" type="InputText" id="430289815">
+<field position="16" name="inputBinding" type="InputText" id="43028957815">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
@@ -201,7 +201,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="17" name="outputBinding" type="InputText" id="413003545">
+<field position="17" name="outputBinding" type="InputText" id="41300567653545">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
