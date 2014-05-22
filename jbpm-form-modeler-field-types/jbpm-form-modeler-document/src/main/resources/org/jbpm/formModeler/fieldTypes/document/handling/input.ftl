@@ -13,7 +13,7 @@
             ${fileName} (${fileSize})
         </#if>
                 </div>
-        <#if showInput = true>
+        <#if showInput = true && readonly = false>
                 <div style="display: table-cell; vertical-align: bottom; padding:0 0 0 10px;">
                     <a href="#" onclick="$('#${inputId}_head').hide(); $('#${inputId}_delete').val('true'); return false;"><img src="${dropIcon}" border="0"/></a>
                 </div>
