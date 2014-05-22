@@ -101,7 +101,6 @@ public class CoreFormsBuilder implements Startable {
         try {
             InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(formPath);
             if (is == null) return;
-            log.warn(formName);
             Form systemForm = formSerializationManager.loadFormFromXML(is, formResources);
             formManager.addSystemForm(systemForm);
         } catch (Exception e) {
