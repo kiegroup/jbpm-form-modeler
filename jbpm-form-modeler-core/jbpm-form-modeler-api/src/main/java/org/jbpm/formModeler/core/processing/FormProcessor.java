@@ -220,6 +220,5 @@ public interface FormProcessor {
      */
     void forceWrongField(Form form, String namespace, String fieldName);
 
-
-    Map readValuesToLoad(Form form, Map dataToLoad, boolean isInput, Map loadedObjects, String namespace);
+    Map readValuesToLoad(Form form, Map inputData, Map outputData, Map loadedObjects, String namespace);
 }

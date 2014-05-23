@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.controller;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,7 +23,7 @@ import java.util.Set;
  * This interface acts encapsulates access to the request, response and session objects,
  * to allow the implementators to override this objects' behaviour.
  */
-public interface CommandRequest{
+public interface CommandRequest extends Serializable {
 
     /**
      * @deprecated Access request object directly

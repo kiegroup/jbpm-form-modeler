@@ -15,10 +15,12 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.controller;
 
+import java.io.Serializable;
+
 /**
  * Interface to implement for all the response objects.
  */
-public interface CommandResponse {
+public interface CommandResponse extends Serializable {
 
     /**
      * Executes the response. It typically will be one of the response types
