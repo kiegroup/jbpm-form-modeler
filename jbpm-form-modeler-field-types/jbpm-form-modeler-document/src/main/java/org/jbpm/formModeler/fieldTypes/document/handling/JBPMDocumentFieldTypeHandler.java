@@ -24,6 +24,7 @@ import org.jbpm.document.Document;
 import org.jbpm.document.service.impl.DocumentImpl;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.processing.fieldHandlers.plugable.PlugableFieldHandler;
+import org.jbpm.formModeler.service.bb.mvc.components.ControllerStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -130,6 +131,8 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
     public String renderField(Document document, Field field, String inputName, boolean showInput, boolean readonly) {
         String str = null;
         try {
+            String contextPath = ControllerStatus.lookup().getRequest().getRequestObject().getContextPath();
+
             Map<String, Object> context = new HashMap<String, Object>();
 
             // if there is a file in the specified id, the input will show a link to download it.
@@ -146,8 +149,8 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
                 context.put("showDownload", Boolean.TRUE);
                 context.put("fileName", StringEscapeUtils.escapeHtml(document.getName()));
                 context.put("fileSize", getFileSize(document.getSize()));
-                context.put("fileIcon", getFileIcon(document));
-                context.put("dropIcon", dropIcon);
+                context.put("fileIcon", contextPath + getFileIcon(document));
+                context.put("dropIcon", contextPath + dropIcon);
             } else {
                 context.put("showDownload", Boolean.FALSE);
             }

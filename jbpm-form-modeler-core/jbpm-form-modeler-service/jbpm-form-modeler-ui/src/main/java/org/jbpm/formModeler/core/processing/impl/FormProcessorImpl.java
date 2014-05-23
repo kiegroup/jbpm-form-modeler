@@ -268,45 +268,55 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
     protected FormStatus createContextFormStatus(FormRenderContext context) throws Exception {
         Map<String, Object> loadedObjects = new HashMap<String, Object>();
-
-        boolean isInput = context.getOutputData().isEmpty();
-
-        Map dataToLoad = isInput ? context.getInputData() : context.getOutputData();
-
-        Map values = readValuesToLoad(context.getForm(), dataToLoad, isInput, loadedObjects, context.getUID());
-
+        Map values = readValuesToLoad(context.getForm(), context.getInputData(), context.getOutputData(), loadedObjects, context.getUID());
         return getFormStatus(context.getForm(), context.getUID(), values, loadedObjects);
     }
 
-
     @Override
-    public Map readValuesToLoad(Form form, Map dataToLoad, boolean isInput, Map loadedObjects, String namespace) {
+    public Map readValuesToLoad(Form form, Map inputData, Map outputData, Map loadedObjects, String namespace) {
         Map values = new HashMap();
-        if (dataToLoad != null && !dataToLoad.isEmpty()) {
+        Set<Field> fields = form.getFormFields();
 
-            Set<Field> fields = form.getFormFields();
+        if (fields != null) {
+            for (Field field : form.getFormFields()) {
 
-            if (fields != null) {
-                for (Field field : form.getFormFields()) {
+                String inputExperession = field.getInputBinding();
+                String outputExpression = field.getOutputBinding();
 
-                    String bindingExpression = isInput ? field.getInputBinding() : field.getOutputBinding();
+                boolean hasInput = !StringUtils.isEmpty(inputExperession);
+                boolean hasOutput = !StringUtils.isEmpty(outputExpression);
 
-                    if (!StringUtils.isEmpty(bindingExpression)) {
+                if (!hasInput && !hasOutput) continue;
 
-                        DataHolder holder = form.getDataHolderByField(field);
-                        Object value;
-
-                        if (holder == null) value = getUnbindedFieldValue(bindingExpression, dataToLoad);
-                        else {
-                            String holderId = isInput ? holder.getInputId() : holder.getOuputId();
-                            value = getBindedValue(field, holder, holderId, bindingExpression, dataToLoad, loadedObjects, namespace);
-                        }
-                        values.put(field.getFieldName(), value);
-                    }
+                Object value;
+                if ((hasInput && !hasOutput) || (hasInput && outputData.isEmpty())) {
+                    value = readFieldValue(field, inputData, loadedObjects, namespace, true);
+                } else {
+                    value = readFieldValue(field, outputData, loadedObjects, namespace, false);
                 }
+                values.put(field.getFieldName(), value);
             }
         }
         return values;
+    }
+
+
+    protected Object readFieldValue(Field field, Map dataToLoad, Map loadedObjects, String namespace, boolean isInput) {
+        Form form = field.getForm();
+
+        String bindingExpression = isInput ?  field.getInputBinding() : field.getOutputBinding();
+
+        Object value = null;
+        if (!StringUtils.isEmpty(bindingExpression)) {
+            DataHolder holder = form.getDataHolderByField(field);
+
+            if (holder == null) value = getUnbindedFieldValue(bindingExpression, dataToLoad);
+            else {
+                String holderId = isInput ? holder.getInputId() : holder.getOuputId();
+                value = getBindedValue(field, holder, holderId, bindingExpression, dataToLoad, loadedObjects, namespace);
+            }
+        }
+        return value;
     }
 
     protected Object getUnbindedFieldValue(String bindingExpression, Map<String, Object> bindingData) {
