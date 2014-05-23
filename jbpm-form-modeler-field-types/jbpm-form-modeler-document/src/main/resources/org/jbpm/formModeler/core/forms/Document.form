@@ -103,21 +103,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="7" name="formula" type="InputTextArea" id="130451952242">
-<property name="fieldRequired" value="false"/>
-<property name="groupWithPrevious" value="false"/>
-<property name="height" value="2"/>
-<property name="readonly" value="false"/>
-<property name="size" value="55"/>
-<property name="formula" value=""/>
-<property name="rangeFormula" value=""/>
-<property name="pattern" value=""/>
-<property name="maxlength" value="512"/>
-<property name="styleclass" value=""/>
-<property name="cssStyle" value=""/>
-<property name="accesskey" value=""/>
-</field>
-<field position="8" name="inputBinding" type="InputText" id="8246569306">
+<field position="7" name="inputBinding" type="InputText" id="8246569306">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
@@ -131,7 +117,7 @@
 <property name="cssStyle" value=""/>
 <property name="accesskey" value=""/>
 </field>
-<field position="9" name="outputBinding" type="InputText" id="41300763545">
+<field position="8" name="outputBinding" type="InputText" id="41300763545">
 <property name="fieldRequired" value="false"/>
 <property name="groupWithPrevious" value="false"/>
 <property name="height" value=""/>
