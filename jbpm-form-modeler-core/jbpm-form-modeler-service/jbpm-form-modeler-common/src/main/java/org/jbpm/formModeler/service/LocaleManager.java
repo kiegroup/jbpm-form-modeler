@@ -21,9 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -32,7 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-@ApplicationScoped
+@SessionScoped
 @Named("localeManager")
 public class LocaleManager implements Serializable {
 
