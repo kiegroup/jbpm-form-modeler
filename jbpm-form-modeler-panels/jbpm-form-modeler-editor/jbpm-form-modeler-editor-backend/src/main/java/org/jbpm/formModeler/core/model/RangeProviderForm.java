@@ -23,11 +23,9 @@ import org.apache.commons.httpclient.util.URIUtil;
 
 import org.guvnor.common.services.project.model.Project;
 import org.guvnor.common.services.project.service.ProjectService;
-import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.RangeProvider;
 import org.jbpm.formModeler.api.client.FormEditorContext;
 import org.jbpm.formModeler.api.client.FormEditorContextManager;
-import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.uberfire.io.IOService;
 import org.kie.workbench.common.services.datamodeller.util.FileUtils;
@@ -87,8 +85,6 @@ public class RangeProviderForm implements RangeProvider {
         nioPaths.add(Paths.convert(project.getRootPath()));
 
         Collection<FileUtils.ScanResult> forms = utils.scan(ioService, nioPaths, "form", true);
-
-        String resourcesPath = Paths.convert(projectService.resolveProject(currentForm).getRootPath()).resolve(SubformFinderService.MAIN_RESOURCES_PATH).toUri().getPath();
 
         Path formPath;
         String formDirUri;

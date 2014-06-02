@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.dataModeler.integration;
 
 import org.drools.core.util.StringUtils;
-import org.guvnor.common.services.project.model.POM;
+import org.guvnor.common.services.builder.LRUBuilderCache;
 import org.guvnor.common.services.project.model.Project;
 import org.guvnor.common.services.project.service.POMService;
 import org.guvnor.common.services.project.service.ProjectService;
@@ -25,8 +25,8 @@ import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuildConfi
 import org.jbpm.formModeler.core.config.builders.dataHolder.PojoDataHolderBuilder;
 import org.jbpm.formModeler.core.config.builders.dataHolder.RangedDataHolderBuilder;
 import org.jbpm.formModeler.dataModeler.model.DataModelerDataHolder;
-import org.kie.api.KieServices;
-import org.kie.api.runtime.KieContainer;
+import org.kie.api.builder.KieModule;
+import org.kie.scanner.KieModuleMetaData;
 import org.uberfire.io.IOService;
 import org.kie.workbench.common.screens.datamodeller.model.DataModelTO;
 import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
@@ -52,6 +52,9 @@ public class DataModelerService implements RangedDataHolderBuilder {
 
     @Inject
     private org.kie.workbench.common.screens.datamodeller.service.DataModelerService dataModelerService;
+
+    @Inject
+    private LRUBuilderCache builderCache;
 
     @Inject
     private ProjectService projectService;
@@ -161,19 +164,10 @@ public class DataModelerService implements RangedDataHolderBuilder {
         return new String[]{PojoDataHolderBuilder.HOLDER_TYPE_POJO_CLASSNAME};
     }
 
-    private ClassLoader getProjectClassLoader(Project project) {
-        if (project == null || project.getPomXMLPath() == null) {
-            log.warn("project: " + project + " or pomXMLPath: " + project.getPomXMLPath() + " is null." );return null;
-        }
-        POM pom = pomService.load(project.getPomXMLPath());
-        if (pom == null) {
-            log.warn("Pom couldn't be read for project: " + project + " pomXmlPath: " + project.getPomXMLPath());
-            return null;
-        }
-
-        KieServices kieServices = KieServices.Factory.get();
-        KieContainer kieContainer = kieServices.newKieContainer(kieServices.newReleaseId(pom.getGav().getGroupId(), pom.getGav().getArtifactId(), pom.getGav().getVersion()));
-        return kieContainer.getClassLoader();
+    protected ClassLoader getProjectClassLoader( Project project ) {
+        final KieModule module = builderCache.assertBuilder( project ).getKieModuleIgnoringErrors();
+        final ClassLoader classLoader = KieModuleMetaData.Factory.newKieModuleMetaData( module ).getClassLoader();
+        return classLoader;
     }
 
     @Override

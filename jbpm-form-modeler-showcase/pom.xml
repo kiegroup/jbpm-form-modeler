@@ -93,23 +93,6 @@
       <artifactId>errai-data-binding</artifactId>
     </dependency>
 
-    <!-- CDI Development Utils -->
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-entitymanager</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-    </dependency>
     <!-- This must be placed above com.google.gwt:gwt-dev to override the
       Jetty that is present there -->
     <dependency>
@@ -300,6 +283,15 @@
       <artifactId>kie-wb-config-resource-widget</artifactId>
     </dependency>
 
+      <!-- Search -->
+      <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-metadata-backend-lucene</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-metadata-commons-io</artifactId>
+    </dependency>
 
     <!-- formModeler dependencies -->
     <dependency>
@@ -538,6 +530,8 @@
               <directory>${basedir}</directory>
               <includes>
                 <include>.errai/**</include>
+                <include>.niogit/**</include>
+                <include>.index/**</include>
                 <include>.vfsgit/**</include>
               </includes>
             </fileset>
