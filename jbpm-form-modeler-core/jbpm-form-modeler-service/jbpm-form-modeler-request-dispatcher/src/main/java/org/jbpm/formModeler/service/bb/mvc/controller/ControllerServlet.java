@@ -76,7 +76,7 @@ public class ControllerServlet extends HttpServlet {
         try {
             String baseAppDir = getInitParameter(INIT_PARAM_APP_DIR);
             if (baseAppDir == null) {
-                baseAppDir = new File(getServletContext().getRealPath(".")).getPath();
+                baseAppDir = new File(getServletContext().getRealPath("/")).getPath();
                 baseAppDir = StringUtils.replace(baseAppDir, "\\", "/");
                 log.info("Application Directory: " + baseAppDir);
             }
