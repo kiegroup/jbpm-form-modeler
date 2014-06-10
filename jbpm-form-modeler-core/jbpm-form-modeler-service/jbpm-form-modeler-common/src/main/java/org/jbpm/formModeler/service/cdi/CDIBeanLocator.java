@@ -15,6 +15,8 @@
  */
 package org.jbpm.formModeler.service.cdi;
 
+import org.apache.deltaspike.core.api.provider.BeanProvider;
+
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
@@ -23,47 +25,18 @@ import javax.naming.NamingException;
 
 public class CDIBeanLocator {
 
-    /** The bean manager. */
-    public static BeanManager beanManager;
-
-    public static BeanManager getBeanManager() {
-        if (beanManager != null) return beanManager;
-
-        beanManager = lookupBeanManager("java:comp/BeanManager");
-        if (beanManager == null) beanManager = lookupBeanManager("java:comp/env/BeanManager");
-        return beanManager;
-    }
-
-    private static BeanManager lookupBeanManager(String jndiName) {
-        try{
-            InitialContext initialContext = new InitialContext();
-            return (BeanManager) initialContext.lookup(jndiName);
-        } catch (NamingException e) {
-            // Ignore and return null.
-            return null;
-        }
-    }
-
     public static Object getBeanByName(String name) {
-        BeanManager bm = getBeanManager();
-        Bean bean = bm.getBeans(name).iterator().next();
-        CreationalContext ctx = bm.createCreationalContext(bean);
-        Object o = bm.getReference(bean, bean.getBeanClass(), ctx);
-        return o;
+        return BeanProvider.getContextualReference(name, false);
     }
 
     public static Object getBeanByType(Class type) {
-        BeanManager bm = getBeanManager();
-        Bean bean = bm.getBeans(type).iterator().next();
-        CreationalContext ctx = bm.createCreationalContext(bean);
-        Object o = bm.getReference(bean, bean.getBeanClass(), ctx);
-        return o;
+        return BeanProvider.getContextualReference(type, true);
     }
 
     public static Object getBeanByType(String type) {
         try {
             Class beanClass = Class.forName(type);
-            return CDIBeanLocator.getBeanByType(beanClass);
+            return getBeanByType(beanClass);
         } catch (Throwable e) {
             // Just ignore
             return null;
@@ -72,7 +45,7 @@ public class CDIBeanLocator {
 
     public static Object getBeanByNameOrType(String beanName) {
         try {
-            Object beanObject = CDIBeanLocator.getBeanByName(beanName);
+            Object beanObject = getBeanByName(beanName);
             if (beanObject != null) return beanObject;
             return null;
         } catch (Exception e) {
