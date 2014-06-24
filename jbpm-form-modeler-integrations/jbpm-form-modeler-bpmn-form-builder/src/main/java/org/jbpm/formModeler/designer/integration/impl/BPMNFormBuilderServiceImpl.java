@@ -64,8 +64,8 @@ public class BPMNFormBuilderServiceImpl implements BPMNFormBuilderService {
     }
     
     
-    public String buildFormXML(FileSystem fs, String fileName, String uri, Definitions source, String id) throws Exception {
-        Path formPath = PathFactory.newPath(fs, fileName, uri);
+    public String buildFormXML(Path base, String fileName, String uri, Definitions source, String id) throws Exception {
+        Path formPath = PathFactory.newPathBasedOn(fileName, uri, base);
         org.uberfire.java.nio.file.Path kiePath = Paths.convert(formPath);
 
 

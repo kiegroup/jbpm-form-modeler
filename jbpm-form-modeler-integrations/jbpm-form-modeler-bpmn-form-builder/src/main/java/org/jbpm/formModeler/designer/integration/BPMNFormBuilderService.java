@@ -18,10 +18,11 @@ package org.jbpm.formModeler.designer.integration;
 
 import org.eclipse.bpmn2.Definitions;
 import org.uberfire.backend.vfs.FileSystem;
+import org.uberfire.backend.vfs.Path;
 
 public interface BPMNFormBuilderService {
 
-    String buildFormXML(FileSystem fs, String fileName, String uri, Definitions source, String id) throws Exception;
+    String buildFormXML(Path base, String fileName, String uri, Definitions source, String id) throws Exception;
 
     String buildEmptyFormXML(String fileName) throws Exception;
 
