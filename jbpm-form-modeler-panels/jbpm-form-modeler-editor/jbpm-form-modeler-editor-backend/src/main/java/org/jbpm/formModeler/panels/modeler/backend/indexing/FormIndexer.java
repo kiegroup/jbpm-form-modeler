@@ -15,9 +15,16 @@
  */
 package org.jbpm.formModeler.panels.modeler.backend.indexing;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.editor.type.FormResourceTypeDefinition;
+import org.kie.uberfire.metadata.engine.Indexer;
+import org.kie.uberfire.metadata.model.KObject;
+import org.kie.uberfire.metadata.model.KObjectKey;
 import org.kie.workbench.common.services.refactoring.backend.server.indexing.DefaultIndexBuilder;
 import org.kie.workbench.common.services.refactoring.backend.server.util.KObjectUtil;
 import org.slf4j.Logger;
@@ -25,13 +32,6 @@ import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.io.IOService;
 import org.uberfire.java.nio.file.Path;
-import org.uberfire.metadata.engine.Indexer;
-import org.uberfire.metadata.model.KObject;
-import org.uberfire.metadata.model.KObjectKey;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 @ApplicationScoped
 public class FormIndexer implements Indexer {

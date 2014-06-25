@@ -163,6 +163,18 @@
     <!-- Guvnor -->
     <dependency>
       <groupId>org.guvnor</groupId>
+      <artifactId>guvnor-structure-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.guvnor</groupId>
+      <artifactId>guvnor-structure-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.guvnor</groupId>
+      <artifactId>guvnor-structure-backend</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.guvnor</groupId>
       <artifactId>guvnor-services-api</artifactId>
     </dependency>
     <dependency>
@@ -262,12 +274,12 @@
 
       <!-- Search -->
       <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-metadata-backend-lucene</artifactId>
+      <groupId>org.kie.uberfire</groupId>
+      <artifactId>kie-uberfire-metadata-backend-lucene</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-metadata-commons-io</artifactId>
+      <groupId>org.kie.uberfire</groupId>
+      <artifactId>kie-uberfire-metadata-commons-io</artifactId>
     </dependency>
 
     <!-- formModeler dependencies -->
@@ -383,6 +395,7 @@
           <compileSourcesArtifacts>
 
             <!-- Guvnor -->
+            <compileSourcesArtifact>org.guvnor:guvnor-structure-client</compileSourcesArtifact>
             <compileSourcesArtifact>org.guvnor:guvnor-m2repo-editor-api</compileSourcesArtifact>
             <compileSourcesArtifact>org.guvnor:guvnor-m2repo-editor-client</compileSourcesArtifact>
             <compileSourcesArtifact>org.guvnor:guvnor-workingset-api</compileSourcesArtifact>
