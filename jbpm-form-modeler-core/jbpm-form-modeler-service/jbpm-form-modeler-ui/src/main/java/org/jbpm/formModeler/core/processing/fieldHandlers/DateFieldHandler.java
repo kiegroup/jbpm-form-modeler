@@ -45,9 +45,9 @@ public class DateFieldHandler extends DefaultFieldHandler {
     protected String defaultJQueryPattern;
 
     public DateFieldHandler() {
-        defaultPattern = "MM-dd-yyyy";
+        defaultPattern = "MM-dd-yy";
         defaultPatterTimeSuffix = "HH:mm:ss";
-        defaultJQueryPattern="mm-dd-yy";
+        defaultJQueryPattern="mm-dd-y";
     }
 
     /**
