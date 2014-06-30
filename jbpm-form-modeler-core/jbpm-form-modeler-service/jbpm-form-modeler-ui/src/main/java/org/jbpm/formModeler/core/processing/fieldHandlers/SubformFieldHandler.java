@@ -124,7 +124,7 @@ public class SubformFieldHandler extends PersistentFieldHandler {
 
         Map result = null;
         try {
-            result = formProcessor.readValuesToLoad(form, inputData, new HashMap(), loadedObjects, inputName);
+            result = formProcessor.readValuesToLoad(form, inputData, true, loadedObjects, inputName);
         } catch (Exception e) {
             log.error("Error getting status value for field: " + inputName, e);
         }

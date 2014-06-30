@@ -26,15 +26,14 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
-import java.io.Serializable;
 
 /**
  * Request-scoped component that holds the processing status for a given request.
  */
-@SessionScoped
-public class ControllerStatus implements Serializable {
+//@RequestScoped
+@ApplicationScoped
+public class ControllerStatus {
 
     public static ControllerStatus lookup() {
         return (ControllerStatus) CDIBeanLocator.getBeanByType(ControllerStatus.class);

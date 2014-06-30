@@ -149,7 +149,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
                 Map<String, Object> inputData = new HashMap();
                 if (!StringUtils.isEmpty(holder.getInputId())) inputData.put(holder.getInputId(), val);
 
-                result[i] = formProcessor.readValuesToLoad(form, inputData, new HashMap(), new HashMap(), inputName);
+                result[i] = formProcessor.readValuesToLoad(form, inputData, true, new HashMap(), inputName);
             } catch (Exception e) {
                 log.error("Error getting status value for field: " + inputName, e);
             }
