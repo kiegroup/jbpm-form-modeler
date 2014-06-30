@@ -288,35 +288,28 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
                 if (!hasInput && !hasOutput) continue;
 
+                boolean readFromInput = (hasInput && !hasOutput) || (hasInput && outputData.isEmpty());
+                DataHolder dataHolder = form.getDataHolderByField(field);
                 Object value;
-                if ((hasInput && !hasOutput) || (hasInput && outputData.isEmpty())) {
-                    value = readFieldValue(field, inputData, loadedObjects, namespace, true);
+
+                if (dataHolder == null) {
+                    if (readFromInput) value = getUnbindedFieldValue(field.getInputBinding(), inputData);
+                    else value = getUnbindedFieldValue(field.getOutputBinding(), outputData);
                 } else {
-                    value = readFieldValue(field, outputData, loadedObjects, namespace, false);
+                    Object loadedObject = loadedObjects.get(dataHolder.getUniqeId());
+                    if (loadedObject == null) {
+                        if (outputData.isEmpty()) loadedObject = inputData.get(dataHolder.getInputId());
+                        else loadedObject = outputData.get(dataHolder.getOuputId());
+                        loadedObjects.put(dataHolder.getUniqeId(), loadedObject);
+                    }
+                    if (readFromInput) value = getBindedValue(field, dataHolder, inputExperession, inputData, loadedObjects, namespace);
+                    else value = getBindedValue(field, dataHolder, outputExpression, outputData, loadedObjects, namespace);
                 }
+
                 values.put(field.getFieldName(), value);
             }
         }
         return values;
-    }
-
-
-    protected Object readFieldValue(Field field, Map dataToLoad, Map loadedObjects, String namespace, boolean isInput) {
-        Form form = field.getForm();
-
-        String bindingExpression = isInput ?  field.getInputBinding() : field.getOutputBinding();
-
-        Object value = null;
-        if (!StringUtils.isEmpty(bindingExpression)) {
-            DataHolder holder = form.getDataHolderByField(field);
-
-            if (holder == null) value = getUnbindedFieldValue(bindingExpression, dataToLoad);
-            else {
-                String holderId = isInput ? holder.getInputId() : holder.getOuputId();
-                value = getBindedValue(field, holder, holderId, bindingExpression, dataToLoad, loadedObjects, namespace);
-            }
-        }
-        return value;
     }
 
     protected Object getUnbindedFieldValue(String bindingExpression, Map<String, Object> bindingData) {
@@ -329,14 +322,25 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                 JXPathContext ctx = JXPathContext.newContext(object);
                 return ctx.getValue(expression);
             } catch (Exception e) {
-                log.warn("Error getting value for xpath xpression '" + bindingExpression + "' :", e);
+                log.warn("Error getting value for xpath xpression '{}': {}", bindingExpression, e);
             }
         }
         return bindingData.get(bindingExpression);
     }
 
-    protected Object getBindedValue(Field field, DataHolder holder, String holderId, String bindingExpression, Map data, Map loadedObjects, String namespace) {
-        Object value = getValueFromHolder(holder, holderId, bindingExpression, data, loadedObjects);
+    protected Object getBindedValue(Field field, DataHolder holder, String bindingExpression, Map<String, Object> bindingData, Map loadedObjects, String namespace) {
+        Object value = null;
+
+        try {
+            Object bindingValue = loadedObjects.get(holder.getUniqeId());
+            if (bindingValue != null && holder.isAssignableValue(bindingValue)) {
+                if (!loadedObjects.containsKey(holder.getUniqeId())) loadedObjects.put(holder.getUniqeId(), bindingValue);
+                value =  holder.readFromBindingExperssion(bindingValue, bindingExpression);
+            }
+        } catch (Exception e) {
+            log.warn("Unable to read value from expression '" + bindingExpression + "'. Error: ", e);
+            value = bindingData.get(bindingExpression);
+        }
 
         FieldHandler handler = fieldHandlersManager.getHandler(field.getFieldType());
         if (handler instanceof PersistentFieldHandler) {
@@ -345,23 +349,6 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         }
 
         return value;
-    }
-
-
-    protected Object getValueFromHolder(DataHolder holder, String holderId, String bindingExpression, Map<String, Object> bindingData, Map<String, Object> loadedObjects) {
-        if (holder != null) {
-            try {
-                Object bindingValue = loadedObjects.get(holder.getUniqeId());
-                if (bindingValue == null) bindingValue = bindingData.get(holderId);
-                if (bindingValue != null && holder.isAssignableValue(bindingValue)) {
-                    if (!loadedObjects.containsKey(holder.getUniqeId())) loadedObjects.put(holder.getUniqeId(), bindingValue);
-                    return holder.readFromBindingExperssion(bindingValue, bindingExpression);
-                }
-            } catch (Exception e) {
-                log.warn("Unable to read value from expression '" + bindingExpression + "'. Error: ", e);
-            }
-        } else  return getUnbindedFieldValue(bindingExpression, bindingData);
-        return bindingData.get(bindingExpression);
     }
 
     public FormStatusData read(Form form, String namespace, Map formValues) {
