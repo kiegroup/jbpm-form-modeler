@@ -15,13 +15,11 @@
  */
 package org.jbpm.formModeler.server.impl;
 
-import org.apache.lucene.analysis.Analyzer;
-import org.kie.workbench.common.services.refactoring.backend.server.indexing.RuleAttributeNameAnalyzer;
-import org.kie.workbench.common.services.refactoring.model.index.terms.RuleIndexTerm;
-import org.uberfire.metadata.backend.lucene.LuceneConfig;
-import org.uberfire.metadata.backend.lucene.LuceneConfigBuilder;
-import org.uberfire.metadata.engine.Indexer;
-
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Any;
@@ -29,10 +27,17 @@ import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.*;
+
+import org.apache.lucene.analysis.Analyzer;
+import org.kie.workbench.common.services.refactoring.backend.server.indexing.RuleAttributeNameAnalyzer;
+import org.kie.workbench.common.services.refactoring.model.index.terms.ProjectRootPathIndexTerm;
+import org.kie.workbench.common.services.refactoring.model.index.terms.RuleIndexTerm;
+import org.uberfire.metadata.backend.lucene.LuceneConfig;
+import org.uberfire.metadata.backend.lucene.LuceneConfigBuilder;
+import org.uberfire.metadata.backend.lucene.analyzer.FilenameAnalyzer;
+import org.uberfire.metadata.engine.Indexer;
 
 import static org.apache.lucene.util.Version.*;
-import static org.apache.lucene.util.Version.LUCENE_40;
 
 @ApplicationScoped
 public class LuceneConfigProducer {
@@ -76,6 +81,8 @@ public class LuceneConfigProducer {
         return new HashMap<String, Analyzer>() {{
             put( RuleIndexTerm.TERM,
                  new RuleAttributeNameAnalyzer( LUCENE_40 ) );
+            put( ProjectRootPathIndexTerm.TERM,
+                 new FilenameAnalyzer( LUCENE_40 ) );
         }};
     }
 

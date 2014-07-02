@@ -15,6 +15,12 @@
  */
 package org.jbpm.formModeler.panels.modeler.backend.indexing;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.guvnor.common.services.project.model.Project;
+import org.guvnor.common.services.project.service.ProjectService;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.editor.type.FormResourceTypeDefinition;
@@ -29,14 +35,10 @@ import org.uberfire.metadata.engine.Indexer;
 import org.uberfire.metadata.model.KObject;
 import org.uberfire.metadata.model.KObjectKey;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-
 @ApplicationScoped
 public class FormIndexer implements Indexer {
 
-    private static final Logger logger = LoggerFactory.getLogger(FormIndexer.class);
+    private static final Logger logger = LoggerFactory.getLogger( FormIndexer.class );
 
     @Inject
     protected FormResourceTypeDefinition formType;
@@ -48,25 +50,32 @@ public class FormIndexer implements Indexer {
     @Named("ioStrategy")
     protected IOService ioService;
 
+    @Inject
+    protected ProjectService projectService;
+
     @Override
-    public boolean supportsPath(Path path) {
-        return formType.accept(Paths.convert(path));
+    public boolean supportsPath( Path path ) {
+        return formType.accept( Paths.convert( path ) );
     }
 
     @Override
-    public KObject toKObject(Path path) {
+    public KObject toKObject( Path path ) {
         KObject index = null;
 
         try {
-            Form form = formSerializationManager.loadFormFromXML(ioService.readAllString(path).trim(), path.toUri().toString());
+            Form form = formSerializationManager.loadFormFromXML( ioService.readAllString( path ).trim(), path.toUri().toString() );
 
-            DefaultIndexBuilder builder = new DefaultIndexBuilder();
+            final Project project = projectService.resolveProject( Paths.convert( path ) );
+            final org.guvnor.common.services.project.model.Package pkg = projectService.resolvePackage( Paths.convert( path ) );
 
-            FormVisitor formVisitor = new FormVisitor(builder, form);
+            final DefaultIndexBuilder builder = new DefaultIndexBuilder( project,
+                                                                         pkg );
+
+            FormVisitor formVisitor = new FormVisitor( builder, form );
 
             formVisitor.visit();
 
-            index = KObjectUtil.toKObject(path, builder.build());
+            index = KObjectUtil.toKObject( path, builder.build() );
         } catch ( Exception e ) {
             logger.error( "Unable to index '" + path.toUri().toString() + "'.", e.getMessage() );
         }
@@ -75,7 +84,7 @@ public class FormIndexer implements Indexer {
     }
 
     @Override
-    public KObjectKey toKObjectKey(Path path) {
-        return KObjectUtil.toKObjectKey(path);
+    public KObjectKey toKObjectKey( Path path ) {
+        return KObjectUtil.toKObjectKey( path );
     }
 }
