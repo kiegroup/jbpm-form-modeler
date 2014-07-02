@@ -15,6 +15,15 @@
  */
 package org.jbpm.formModeler.client;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import javax.inject.Inject;
+
 import com.google.gwt.animation.client.Animation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -31,9 +40,6 @@ import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.workbench.widgets.menu.WorkbenchMenuBarPresenter;
 import org.uberfire.mvp.Command;
 import org.uberfire.workbench.model.menu.MenuFactory;
-
-import javax.inject.Inject;
-import java.util.*;
 
 @EntryPoint
 public class ShowcaseEntryPoint {
@@ -96,16 +102,16 @@ public class ShowcaseEntryPoint {
 
         //Sort Perspective Providers so they're always in the same sequence!
         List<AbstractWorkbenchPerspectiveActivity> sortedActivities = new ArrayList<AbstractWorkbenchPerspectiveActivity>( activities );
-        Collections.sort(sortedActivities,
-                new Comparator<AbstractWorkbenchPerspectiveActivity>() {
+        Collections.sort( sortedActivities,
+                          new Comparator<AbstractWorkbenchPerspectiveActivity>() {
 
-                    @Override
-                    public int compare(AbstractWorkbenchPerspectiveActivity o1,
-                                       AbstractWorkbenchPerspectiveActivity o2) {
-                        return o1.getPerspective().getName().compareTo(o2.getPerspective().getName());
-                    }
+                              @Override
+                              public int compare( AbstractWorkbenchPerspectiveActivity o1,
+                                                  AbstractWorkbenchPerspectiveActivity o2 ) {
+                                  return o1.getPerspective().getName().compareTo( o2.getPerspective().getName() );
+                              }
 
-                });
+                          } );
 
         return sortedActivities;
     }
