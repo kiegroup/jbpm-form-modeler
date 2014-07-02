@@ -7,7 +7,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.guvnor.common.services.backend.metadata.attribute.OtherMetaView;
+import org.uberfire.backend.server.IOWatchServiceNonDotImpl;
 import org.uberfire.commons.cluster.ClusterServiceFactory;
+import org.uberfire.commons.services.cdi.Startup;
+import org.uberfire.commons.services.cdi.StartupType;
 import org.uberfire.io.IOService;
 import org.uberfire.io.attribute.DublinCoreView;
 import org.uberfire.io.impl.IOServiceDotFileImpl;
@@ -23,6 +26,7 @@ import static org.uberfire.backend.server.repositories.SystemRepository.*;
  * This class should contain all ApplicationScoped producers
  * required by the application.
  */
+@Startup(StartupType.BOOTSTRAP)
 @ApplicationScoped
 public class ApplicationScopedProvider {
 
@@ -42,19 +46,17 @@ public class ApplicationScopedProvider {
     @PostConstruct
     public void setup() {
         final IOService service = new IOServiceIndexedImpl( watchService,
-                config.getIndexEngine(),
-                config.getIndexers(),
-                DublinCoreView.class,
-                VersionAttributeView.class,
-                OtherMetaView.class );
-
+                                                            config.getIndexEngine(),
+                                                            DublinCoreView.class,
+                                                            VersionAttributeView.class,
+                                                            OtherMetaView.class );
 
         if ( clusterServiceFactory == null ) {
             ioService = service;
         } else {
             ioService = new IOServiceClusterImpl( service,
-                    clusterServiceFactory,
-                    false );
+                                                  clusterServiceFactory,
+                                                  false );
         }
     }
 
