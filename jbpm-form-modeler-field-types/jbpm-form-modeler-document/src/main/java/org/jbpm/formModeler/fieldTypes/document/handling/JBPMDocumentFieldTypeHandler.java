@@ -209,7 +209,7 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
     }
 
     @Override
-    public Map getParamValue(String inputName, Object objectValue, String pattern) {
+    public Map getParamValue(Field field, String inputName, Object objectValue) {
         return Collections.EMPTY_MAP;
     }
 }

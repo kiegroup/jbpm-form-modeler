@@ -67,7 +67,7 @@ public class DefaultFormulaProcessor extends BasicFormChangeProcessor {
             Object currentFieldValue = status1.getCurrentValue(field.getFieldName());
             if ((currentFieldValue != null && value == null) || (value != null && !value.equals(currentFieldValue))) {
                 FieldHandler fieldHandler = fieldHandlersManager.getHandler(field.getFieldType());
-                Map fieldValuesMap = fieldHandler.getParamValue(namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName(), value, field.getFieldPattern());
+                Map fieldValuesMap = fieldHandler.getParamValue(field, namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName(), value);
                 formProcessor.setValues(form, namespace, fieldValuesMap, fieldValuesMap, true);
             }
         }

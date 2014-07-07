@@ -70,6 +70,7 @@ public class Field implements Serializable, Comparable<Field> {
     private I18nSet htmlContent;
 
     private FieldType fieldType;
+    private String bag;
 
     private String inputBinding;
     private String outputBinding;
@@ -81,9 +82,9 @@ public class Field implements Serializable, Comparable<Field> {
     private String previewSubform;
     private String tableSubform;
 
-    private I18nSet newItemText;
-    private I18nSet addItemText;
-    private I18nSet cancelItemText;
+    private I18nSet newItemText = new I18nSet();
+    private I18nSet addItemText = new I18nSet();
+    private I18nSet cancelItemText = new I18nSet();
 
     private Boolean deleteItems;
     private Boolean updateItems;
@@ -225,6 +226,14 @@ public class Field implements Serializable, Comparable<Field> {
 
     public void setFieldType(FieldType fieldType) {
         this.fieldType = fieldType;
+    }
+
+    public String getBag() {
+        return bag;
+    }
+
+    public void setBag(String bag) {
+        this.bag = bag;
     }
 
     public String getRangeFormula() {
@@ -461,54 +470,6 @@ public class Field implements Serializable, Comparable<Field> {
             return getFieldType().getRangeFormula();
         else
             return getRangeFormula();
-    }
-
-    public void putAll(Field field) {
-        this.setAccesskey(field.getAccesskey());
-        this.setCssStyle(field.getCssStyle());
-        this.setTitle(field.getTitle());
-        this.setLabel(field.getLabel());
-        this.setErrorMessage(field.getErrorMessage());
-        this.setFieldName(field.getFieldName());
-        this.setFieldType(field.getFieldType());
-        this.setFieldRequired(field.getFieldRequired());
-        this.setFormula(field.getFormula());
-        this.setGroupWithPrevious(field.getGroupWithPrevious());
-        this.setHeight(field.getHeight());
-        this.setLabelCSSClass(field.getLabelCSSClass());
-        this.setLabelCSSStyle(field.getLabelCSSStyle());
-        this.setReadonly(field.getReadonly());
-        this.setSize(field.getSize());
-        this.setRangeFormula(field.getRangeFormula());
-        this.setPattern(field.getPattern());
-        this.setMaxlength(field.getMaxlength());
-        this.setStyleclass(field.getStyleclass());
-        this.setTabindex(field.getTabindex());
-        this.setIsHTML(field.getIsHTML());
-        this.setHideContent(field.getHideContent());
-        this.setDefaultValueFormula(field.getDefaultValueFormula());
-
-        //subforms
-        this.setDefaultSubform(field.getDefaultSubform());
-        this.setPreviewSubform(field.getPreviewSubform());
-        this.setTableSubform(field.getTableSubform());
-        this.setNewItemText(field.getNewItemText());
-        this.setAddItemText(field.getAddItemText());
-        this.setCancelItemText(field.getCancelItemText());
-
-        this.setDeleteItems(field.getDeleteItems());
-        this.setUpdateItems(field.getUpdateItems());
-        this.setVisualizeItem(field.getVisualizeItem());
-        this.setHideCreateItem(field.getHideCreateItem());
-        this.setExpanded(field.getExpanded());
-        this.setEnableTableEnterData(field.getEnableTableEnterData());
-
-        this.setCustomFieldType(field.getCustomFieldType());
-        this.setParam1(field.getParam1());
-        this.setParam2(field.getParam2());
-        this.setParam3(field.getParam3());
-        this.setParam4(field.getParam4());
-        this.setParam5(field.getParam5());
     }
 
     public String getLabelCSSStyle() {

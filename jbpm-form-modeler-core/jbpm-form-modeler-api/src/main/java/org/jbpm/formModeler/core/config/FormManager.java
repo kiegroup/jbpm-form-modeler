@@ -91,7 +91,7 @@ public interface FormManager extends Serializable {
 
     public void addAllDataHolderFieldsToForm(Form form, DataHolder holder);
 
-    public void addDataFieldHolder(Form form, String holderId, String fieldName, String fieldClass) throws Exception;
+    public void addDataHolderField(Form form, String holderId, String fieldName) throws Exception;
 
     public void addSystemForm(Form form);
 }

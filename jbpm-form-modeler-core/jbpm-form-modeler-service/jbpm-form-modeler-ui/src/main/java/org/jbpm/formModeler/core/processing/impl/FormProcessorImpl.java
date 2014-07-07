@@ -209,7 +209,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         } catch (Exception e) {
             log.debug("Error setting field value:", e);
             if (!incremental) {
-                formStatus.getInputValues().put(fieldName, null);
+                //formStatus.getInputValues().put(fieldName, null);
                 formStatus.getWrongFields().add(fieldName);
             }
         }

@@ -15,17 +15,13 @@
  */
 package org.jbpm.formModeler.components.editor;
 
-import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.slf4j.Logger;
-import org.jbpm.formModeler.core.processing.BindingManager;
-import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.api.model.Form;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
@@ -53,13 +49,8 @@ public class FieldAvailableTypesFormatter extends Formatter {
         try {
             WysiwygFormEditor editor = getEditor();
             Field field = editor.getCurrentEditField();
-            Form form = editor.getCurrentForm();
-            String propertyName = field.getFieldName();
 
-            List suitableFieldTypes;
-            BindingManager bindingManager = FormCoreServices.lookup().getBindingManager();
-            if (!StringUtils.isEmpty(form.getSubject())) suitableFieldTypes = fieldTypeManager.getSuitableFieldTypes(bindingManager.getPropertyDefinition(propertyName, form.getSubject()).getPropertyClassName());
-            else suitableFieldTypes = fieldTypeManager.getSuitableFieldTypes(field.getFieldType().getFieldClass());
+            List suitableFieldTypes = fieldTypeManager.getSuitableFieldTypes(field);
 
             if (suitableFieldTypes != null && !suitableFieldTypes.isEmpty()) {
                 renderFragment("outputStart");

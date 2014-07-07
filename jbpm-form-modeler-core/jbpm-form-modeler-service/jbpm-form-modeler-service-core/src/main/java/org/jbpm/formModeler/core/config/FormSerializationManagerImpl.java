@@ -52,6 +52,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     public static final String ATTR_OUT_ID = "outId";
     public static final String ATTR_POSITION = "position";
     public static final String ATTR_TYPE = "type";
+    public static final String ATTR_BAG_TYPE = "bag-type";
     public static final String ATTR_SUPPORTED_TYPE = "supportedType";
     public static final String ATTR_NAME = "name";
     public static final String ATTR_VALUE = "value";
@@ -244,6 +245,12 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         field.setPosition(Integer.parseInt(nodeField.getAttributes().getNamedItem(ATTR_POSITION).getNodeValue()));
         field.setFieldType(fieldTypeManager.getTypeByCode(nodeField.getAttributes().getNamedItem(ATTR_TYPE).getNodeValue()));
 
+        Node bag = nodeField.getAttributes().getNamedItem(ATTR_BAG_TYPE);
+
+        if (bag != null) {
+            field.setBag(bag.getNodeValue());
+        }
+
         NodeList fieldPropsNodes = nodeField.getChildNodes();
         for (int j = 0; j < fieldPropsNodes.getLength(); j++) {
             Node nodeFieldProp = fieldPropsNodes.item(j);
@@ -381,6 +388,10 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         rootNode.addAttribute(ATTR_NAME, field.getFieldName());
         if (field.getFieldType() != null) {
             rootNode.addAttribute(ATTR_TYPE, field.getFieldType().getCode());
+        }
+
+        if (!StringUtils.isEmpty(field.getBag())) {
+            rootNode.addAttribute(ATTR_BAG_TYPE, field.getBag());
         }
 
         addXMLNode("fieldRequired", (field.getFieldRequired() != null ? String.valueOf(field.getFieldRequired()) : null), rootNode);

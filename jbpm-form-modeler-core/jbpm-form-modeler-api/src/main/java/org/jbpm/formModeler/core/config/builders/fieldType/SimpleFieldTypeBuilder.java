@@ -187,6 +187,14 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         result.add(ft);
 
         ft = new FieldType();
+        ft.setCode("MultipleInput");
+        ft.setFieldClass("java.util.List");
+        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.multiple.MultipleInputFieldHandler");
+        ft.setMaxlength(new Long(4000));
+        ft.setSize("25");
+        result.add(ft);
+
+        ft = new FieldType();
         ft.setCode("CheckBox");
         ft.setFieldClass("java.lang.Boolean");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.CheckBoxFieldHandler");

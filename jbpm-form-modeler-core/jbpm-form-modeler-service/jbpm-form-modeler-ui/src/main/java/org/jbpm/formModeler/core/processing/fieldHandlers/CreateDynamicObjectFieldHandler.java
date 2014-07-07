@@ -130,7 +130,7 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
     }
 
     @Override
-    public Map getParamValue(String inputName, Object value, String pattern) {
+    public Map getParamValue(Field field, String inputName, Object value) {
         return Collections.EMPTY_MAP;
     }
 

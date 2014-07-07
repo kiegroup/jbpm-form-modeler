@@ -32,9 +32,6 @@
                                         <mvc:fragmentValue name="cssStyle" id="cssStyle">
                                             <mvc:fragmentValue name="height" id="height">
                                                 <mvc:fragmentValue name="readonly" id="readonly">
-                                            <table border="0" cellpadding="0" cellspacing="0" >
-                                                <tr valign="top">
-                                                    <td>
                                                         <input type="hidden" name="<%=name%>Value" value="<%=value%>">
                                                         <input type="checkbox" name="<%=name%>" id="<mvc:fragmentValue name="uid"/>"
                                                                onclick="<%=Boolean.TRUE.equals(readonly) ? "return false;" : "this.form['" + name + "Value'].value=this.checked ? 'true' : 'false'; processFormInputChange(this);"%>"
@@ -49,9 +46,6 @@
                                                             <%=Boolean.TRUE.equals(readonly) ? " disabled ":""%>
                                                             value="true" <%=(new Boolean(String.valueOf(value))).booleanValue()?" checked ":""%>
                                                                 >
-                                                    </td>
-                                                </tr>
-                                            </table>
                                                 </mvc:fragmentValue>
                                             </mvc:fragmentValue>
                                         </mvc:fragmentValue>

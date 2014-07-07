@@ -91,7 +91,7 @@
                                     <%=StringEscapeUtils.escapeHtml((String) showFieldName)%>
                                     <div style="float: right; position: relative; top: 0px;">
                                         <div class='bulletBinding' style='background-color: <%=rColor%>; bottom: 6px;' align="absmiddle"></div>
-                                        <a href="<factory:url  action="addFieldFromDataHolder"><factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=bindingId%>"/><factory:param name="<%=WysiwygFormEditor.PARAMETER_FIELD_NAME%>" value="<%=fieldName%>"/><factory:param name="<%=WysiwygFormEditor.PARAMETER_FIELD_CLASS%>" value="<%=className%>"/></factory:url>"
+                                        <a href="<factory:url  action="addFieldFromDataHolder"><factory:param name="<%=WysiwygFormEditor.PARAMETER_HOLDER_ID%>" value="<%=bindingId%>"/><factory:param name="<%=WysiwygFormEditor.PARAMETER_FIELD_NAME%>" value="<%=fieldName%>"/></factory:url>"
                                            title='<i18n:message key="dataHolder_addField">!!!add as new form field</i18n:message>'>
                                             <img  src='<static:image relativePath="actions/triang_right.png"/>'>
                                         </a>

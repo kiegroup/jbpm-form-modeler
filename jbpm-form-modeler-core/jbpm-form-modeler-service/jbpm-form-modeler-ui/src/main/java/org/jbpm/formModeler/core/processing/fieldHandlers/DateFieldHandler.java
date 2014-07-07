@@ -63,7 +63,7 @@ public class DateFieldHandler extends DefaultFieldHandler {
         try {
             boolean hasChanged = (!ArrayUtils.isEmpty(hasChangedParam) && Boolean.TRUE.equals(Boolean.parseBoolean(hasChangedParam[0])));
             
-            SimpleDateFormat sdf = getSimpleDateFormat(field, hasChanged, field.getFieldPattern());
+            SimpleDateFormat sdf = getSimpleDateFormat(field, hasChanged, getFieldPattern(field));
             String[] dateValue = (String[]) parametersMap.get(inputName);
             if (!ArrayUtils.isEmpty(dateValue)) return getTheDate(dateValue, sdf);
         } catch (ParseException e) {
@@ -127,18 +127,11 @@ public class DateFieldHandler extends DefaultFieldHandler {
         return (!StringUtils.isEmpty(date)) ? sdf.parse(date) : null;
     }
 
-    /**
-     * Determine the value as a parameter map for a given input value. This is like the inverse operation of getValue()
-     *
-     * @param objectValue Object value to represent
-     * @param pattern     Pattern to apply if any
-     * @return a Map representing the parameter values expected inside a request that would cause the form
-     *         to generate given object value as a result.
-     */
-    public Map getParamValue(String inputName, Object objectValue, String pattern) {
+    @Override
+    public Map getParamValue(Field field, String inputName, Object objectValue) {
         Map m = new HashMap();
         if (objectValue != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat(StringUtils.defaultString(pattern, defaultPattern));
+            SimpleDateFormat sdf = new SimpleDateFormat(StringUtils.defaultString(getFieldPattern(field), defaultPattern));
             m.put(inputName, new String[]{sdf.format(objectValue)});
         }
         return m;

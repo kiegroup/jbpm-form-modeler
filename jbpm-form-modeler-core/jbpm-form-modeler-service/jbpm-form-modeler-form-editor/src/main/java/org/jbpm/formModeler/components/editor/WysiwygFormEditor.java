@@ -728,19 +728,16 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
         String[] holderIdArray = (String[]) parameterMap.get(PARAMETER_HOLDER_ID);
         String[] fieldNameArray = (String[]) parameterMap.get(PARAMETER_FIELD_NAME);
-        String[] fieldClassArray = (String[]) parameterMap.get(PARAMETER_FIELD_CLASS);
 
-        String bindingId = null;
+        String holderId = null;
         String fieldName = null;
-        String fieldClass = null;
 
-        if (holderIdArray != null && holderIdArray.length > 0) bindingId = holderIdArray[0];
+        if (holderIdArray != null && holderIdArray.length > 0) holderId = holderIdArray[0];
         if (fieldNameArray != null && fieldNameArray.length > 0) fieldName = fieldNameArray[0];
-        if (fieldClassArray != null && fieldClassArray.length > 0) fieldClass = fieldClassArray[0];
 
-        if (bindingId != null) {
-            getFormManager().addDataFieldHolder(getCurrentForm(),bindingId,fieldName,fieldClass);
-            setLastDataHolderUsedId(bindingId);
+        if (holderId != null) {
+            getFormManager().addDataHolderField(getCurrentForm(), holderId, fieldName);
+            setLastDataHolderUsedId(holderId);
         }
     }
 

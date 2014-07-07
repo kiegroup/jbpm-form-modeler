@@ -34,7 +34,8 @@ public abstract class FormDecorator extends AbstractFieldHandler {
         return null;
     }
 
-    public Map getParamValue(String inputName, Object objectValue, String pattern) {
+    @Override
+    public Map getParamValue(Field field, String inputName, Object objectValue) {
         return null;
     }
 

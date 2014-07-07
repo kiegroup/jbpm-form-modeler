@@ -47,7 +47,7 @@ public class CustomInputFieldHandler extends DefaultFieldHandler {
     }
 
     @Override
-    public Map getParamValue(String inputName, Object objectValue, String pattern) {
+    public Map getParamValue(Field field, String inputName, Object objectValue) {
         return null;
     }
 

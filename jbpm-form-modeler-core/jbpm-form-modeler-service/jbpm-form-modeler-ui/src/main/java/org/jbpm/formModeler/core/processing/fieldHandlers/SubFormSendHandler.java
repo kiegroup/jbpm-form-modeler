@@ -17,6 +17,7 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 
 import org.apache.commons.lang.ArrayUtils;
+import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
@@ -28,8 +29,6 @@ import org.jbpm.formModeler.core.processing.formStatus.FormStatus;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatusManager;
 
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
-import org.jbpm.formModeler.service.annotation.config.Config;
-import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
 
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.slf4j.LoggerFactory;
@@ -41,17 +40,9 @@ import java.util.*;
 
 @ApplicationScoped
 @Named("org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler")
-public class SubFormSendHandler extends BaseUIComponent {
+public class SubFormSendHandler extends BeanHandler {
 
     private Logger log = LoggerFactory.getLogger(SubFormSendHandler.class);
-
-    @Inject
-    @Config("/formModeler/components/renderer/component.jsp")
-    private String baseComponentJSP;
-
-    @Inject
-    @Config("/formModeler/components/renderer/show.jsp")
-    private String componentIncludeJSP;
 
     @Inject
     private SubformFinderService subformFinderService;
@@ -69,24 +60,6 @@ public class SubFormSendHandler extends BaseUIComponent {
     }
     public FieldHandlersManager getFieldHandlersManager() {
         return FormProcessingServices.lookup().getFieldHandlersManager();
-    }
-
-    public void setBaseComponentJSP(String baseComponentJSP) {
-        this.baseComponentJSP = baseComponentJSP;
-    }
-
-    public void setComponentIncludeJSP(String componentIncludeJSP) {
-        this.componentIncludeJSP = componentIncludeJSP;
-    }
-
-    @Override
-    public String getBaseComponentJSP() {
-        return baseComponentJSP;
-    }
-
-    @Override
-    public String getBeanJSP() {
-        return componentIncludeJSP;
     }
     // private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLog(SubFormSendHandler.class.getName());
 
@@ -359,9 +332,7 @@ public class SubFormSendHandler extends BaseUIComponent {
     }
 
     @Override
-    public void doStart(CommandRequest request) {
-
+    public boolean isEnabledForActionHandling() {
+        return true;
     }
-
-
 }

@@ -40,27 +40,8 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
         return Class.forName(className).newInstance();
     }
 
-    public BasicTypeDataHolder(){
-    }
-
-
     public BasicTypeDataHolder(String uniqueId, String inputId, String outputId, String className, String renderColor) {
         this.uniqueId = uniqueId;
-        this.inputId = inputId;
-        this.outputId = outputId;
-        fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
-
-        try{
-            this.basicFieldType = fieldTypeManager.getTypeByClass(className);
-        }catch (Exception e){
-
-        }
-
-        setRenderColor(renderColor);
-    }
-
-    //TODO remove this constructor.
-    public BasicTypeDataHolder(String inputId, String outputId, String className, String renderColor) {
         this.inputId = inputId;
         this.outputId = outputId;
         fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
@@ -175,14 +156,12 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
     public String getInputBinding(String fieldName) {
         if (StringUtils.isEmpty(getInputId()) || StringUtils.isEmpty(fieldName)) return "";
         return bindingExpressionUtil.generateBindingExpression(getInputId());
-        //return "{" + getInputId() +"}" ;
     }
 
     @Override
     public String getOuputBinding(String fieldName) {
         if (StringUtils.isEmpty(getOuputId()) || StringUtils.isEmpty(fieldName)) return "";
         return bindingExpressionUtil.generateBindingExpression(getOuputId());
-        //return "{" + getOuputId() + "}" ;
     }
 
     @Override

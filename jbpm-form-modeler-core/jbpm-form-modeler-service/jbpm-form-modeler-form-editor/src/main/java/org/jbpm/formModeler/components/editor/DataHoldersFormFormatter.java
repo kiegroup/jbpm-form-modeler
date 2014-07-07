@@ -232,8 +232,7 @@ public class DataHoldersFormFormatter extends Formatter {
         FieldType type = fieldTypeManager.getTypeByClass(dataFieldHolder.getClassName());
 
         if (type == null) return;
-        setAttribute("renderColor", dataHolder.getRenderColor());;
-        setAttribute("className", dataFieldHolder.getClassName());
+        setAttribute("renderColor", dataHolder.getRenderColor());
         setAttribute("typeName", type.getCode());
         setAttribute("bindingId", dataHolder.getUniqeId());
         setAttribute("showFieldName", ((fieldName != null && fieldName.length() < 17) ? fieldName : fieldName.substring(0, 13) + "..."));

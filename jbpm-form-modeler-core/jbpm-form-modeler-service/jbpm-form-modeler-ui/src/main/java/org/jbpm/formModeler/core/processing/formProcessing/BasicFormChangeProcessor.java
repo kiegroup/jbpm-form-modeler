@@ -102,7 +102,7 @@ public abstract class BasicFormChangeProcessor extends FormChangeProcessor {
             Object currentFieldValue = status1.getCurrentValue(field.getFieldName());
             if ((currentFieldValue != null && value == null) || (value != null && !value.equals(currentFieldValue))) {
                 FieldHandler fieldHandler = fieldHandlersManager.getHandler(field.getFieldType());
-                Map fieldValuesMap = fieldHandler.getParamValue(namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName(), value, field.getFieldPattern());
+                Map fieldValuesMap = fieldHandler.getParamValue(field, namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName(), value);
                 formProcessor.setValues(form, namespace, fieldValuesMap, fieldValuesMap, true);
                 response.addInstruction(new SetFieldValueInstruction(fieldValuesMap));
             }
@@ -124,7 +124,7 @@ public abstract class BasicFormChangeProcessor extends FormChangeProcessor {
         try {
             Map parametersMap = statusData.getCurrentInputValues();
             Object value = manager.getValue(field, fieldId, parametersMap == null ? Collections.EMPTY_MAP : parametersMap, Collections.EMPTY_MAP, field.getFieldType().getFieldClass(), statusData.getCurrentValue(field.getFieldName()));
-            Map params = manager.getParamValue(fieldId, value, field.getFieldPattern());
+            Map params = manager.getParamValue(field, fieldId, value);
             if (params != null) {
                 String[] paramValues = (String[]) params.get(fieldId);
                 if (paramValues != null && paramValues.length > 0)

@@ -16,6 +16,7 @@
 package org.jbpm.formModeler.core.config;
 
 import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.config.builders.fieldType.FieldTypeBuilder;
 import org.jbpm.formModeler.core.config.builders.fieldType.DecoratorFieldTypeBuilder;
 import org.jbpm.formModeler.core.config.builders.fieldType.SimpleFieldTypeBuilder;
@@ -105,6 +106,7 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         iconsMappings.put("InputTextDouble", "fieldTypes/box_number.png");
         iconsMappings.put("HTMLLabel", "fieldTypes/rich_text_box.png");
         iconsMappings.put("InputText", "fieldTypes/textbox.png");
+        iconsMappings.put("MultipleInput", "fieldTypes/textbox.png");
         iconsMappings.put("InputTextEmail", "fieldTypes/mailbox.png");
         iconsMappings.put("Subform", "fieldTypes/master_details.png");
         iconsMappings.put("MultipleSubform", "fieldTypes/master_details.png");
@@ -122,6 +124,7 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         hiddenFieldTypesCodes.add("I18nHTMLText");
         hiddenFieldTypesCodes.add("I18nText");
         hiddenFieldTypesCodes.add("I18nTextArea");
+        hiddenFieldTypesCodes.add("MultipleInput");
         hiddenFieldTypesCodes.add("CustomInput");
 
         baseTypes.add("InputText");
@@ -170,17 +173,19 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
     }
 
     /**
-     * Get all fieldtypes suitable to generate a value of the given class.
+     * Get all fieldtypes compatibles with the given field.
      *
-     * @param propertyType Expected property definition that the field type should generate.
-     * @return A list of FieldType objects suitable to generate a value of the given class.
+     * @param field the field to check.
+     * @return A list of FieldType objects suitable to generate a value of the given field.
      * @throws Exception in case of error
      */
     @Override
-    public List<FieldType> getSuitableFieldTypes(String propertyType) {
+    public List<FieldType> getSuitableFieldTypes(Field field) {
         final List<FieldType> validFieldTypes = new ArrayList<FieldType>();
-        if (!StringUtils.isEmpty(propertyType)) {
+        if (field != null) {
             boolean isDecorator = false;
+
+            String propertyType = field.getFieldType().getFieldClass();
 
             for (FieldType fieldType : fieldTypes) {
                 if (fieldType.getFieldClass().equals(propertyType))
@@ -248,7 +253,17 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
 
     @Override
     public FieldType getTypeByClass(String className) {
+        return getTypeByClass(className, null);
+    }
+
+    @Override
+    public FieldType getTypeByClass(String className, String bag) {
         if (StringUtils.isEmpty(className)) return null;
+
+        if (!StringUtils.isEmpty(bag)) {
+            if (getSimpleTypeByClass(bag) != null) return getSimpleTypeByClass(className);
+            else return getComplexTypeByClass(className);
+        }
 
         FieldType fieldType = getSimpleTypeByClass(className);
 

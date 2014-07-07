@@ -21,12 +21,16 @@ import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.core.config.builders.dataHolder.PojoDataHolderBuilder;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.*;
 import java.lang.reflect.Field;
 import java.util.*;
 
 public class PojoDataHolder extends DefaultDataHolder  {
+    private transient Logger log = LoggerFactory.getLogger(PojoDataHolder.class);
+
     private String inputId;
     private String outputId;
     private String className;
@@ -170,79 +174,60 @@ public class PojoDataHolder extends DefaultDataHolder  {
 
         Set<DataFieldHolder> dataFieldHolders = new TreeSet<DataFieldHolder>();
 
-        Map propertiesDescriptors = new HashMap();
-        Method[] methods = clazz.getMethods();
-        for (int i = 0; i < methods.length; i++) {
-            Method method = methods[i];
-            String methodName = method.getName();
-            Class[] parameterTypes = method.getParameterTypes();
-            Class returnType = method.getReturnType();
-            if (isValidReturnType(returnType.getName())) {
-                String propertyName = getPropertyName(methodName, returnType, parameterTypes);
-                if (propertyName != null && Modifier.isPublic(method.getModifiers())) {
-                    Map values = (Map) propertiesDescriptors.get(propertyName);
-                    if (values == null)
-                        propertiesDescriptors.put(propertyName, values = new HashMap());
-                    Class paramClazz = parameterTypes.length == 0 ? returnType : parameterTypes[0]; // Relevant
-                    // class
-                    Boolean[] clazzValues = (Boolean[]) values.get(paramClazz);
-                    if (clazzValues == null)
-                        values.put(paramClazz, clazzValues = new Boolean[]{Boolean.FALSE, Boolean.FALSE});
-                    clazzValues[parameterTypes.length] = Boolean.TRUE;// 0 ->
-                    // getter,
-                    // 1->
-                    // setter
-                }
-            }
-        }
-        DataFieldHolder fieldHolder = null;
-        for (Iterator it = propertiesDescriptors.keySet().iterator(); it.hasNext(); ) {
-            String propertyName = (String) it.next();
-            Map propertyValue = (Map) propertiesDescriptors.get(propertyName);
-            for (Iterator itMethods = propertyValue.keySet().iterator(); itMethods.hasNext(); ) {
-                Class methodClazz = (Class) itMethods.next();
-                Boolean[] clazzValues = (Boolean[]) propertyValue.get(methodClazz);
-                if (clazzValues[0].booleanValue() && clazzValues[1].booleanValue()) {
-                    try{
-                        String className = methodClazz.getName();
-                        fieldHolder =  new DataFieldHolder(this, propertyName, className);
-                        dataFieldHolders.add(fieldHolder);
-                    } catch (Exception e){
-                        //The
+        for (Field field : clazz.getDeclaredFields()) {
+
+            if (isValidType(field.getType().getName())) {
+                String capitalizedName = capitalize(field.getName());
+                try {
+                    Method setter = clazz.getDeclaredMethod("set" + capitalizedName, field.getType());
+
+                    if (!setter.getReturnType().getName().equals("void") && !Modifier.isPublic(setter.getModifiers())) continue;
+
+                    Method getter;
+
+                    if (field.getType().equals(boolean.class)) getter = clazz.getDeclaredMethod("is" + capitalizedName);
+                    else getter = clazz.getDeclaredMethod("get" + capitalizedName);
+
+                    if (!getter.getReturnType().equals(field.getType()) && !Modifier.isPublic(getter.getModifiers())) continue;
+
+                    Type type = field.getGenericType();
+
+                    DataFieldHolder fieldHolder;
+
+                    if (type instanceof ParameterizedType) {
+                        ParameterizedType generictype = (ParameterizedType)type;
+                        Type[] arguments = generictype.getActualTypeArguments();
+                        if (arguments == null || arguments.length > 1) fieldHolder =  new DataFieldHolder(this, field.getName(), field.getType().getName());
+                        else fieldHolder =  new DataFieldHolder(this, field.getName(), field.getType().getName(), ((Class<?>)arguments[0]).getName());
+                    } else {
+                        fieldHolder =  new DataFieldHolder(this, field.getName(), field.getType().getName());
                     }
-                    break;
+
+                    dataFieldHolders.add(fieldHolder);
+
+                } catch (Exception e) {
+                    getLogger().debug("Unable to generate field holder for '{}': {}", field.getName(), e);
                 }
             }
         }
+
         return dataFieldHolders;
     }
 
-    protected boolean isValidReturnType(String returnType) throws Exception{
+    protected boolean isValidType(String returnType) throws Exception{
         if(returnType== null) return false;
-        if ("void".equals(returnType)) return true;
         if (fieldTypeManager.getTypeByClass(returnType) != null) return true;
-            //else if ("boolean".equals(returnType)) return true;
         else return false;
 
-    }
-
-    protected String getPropertyName(String methodName, Class returnType, Class[] parameterTypes) {
-        String propName = null;
-        if (((methodName.startsWith("get") && (parameterTypes.length == 0)) || (methodName.startsWith("set") && parameterTypes.length == 1)) && methodName.length() > 3) {
-            propName = String.valueOf(Character.toLowerCase(methodName.charAt(3)));
-            if (methodName.length() > 4)
-                propName += methodName.substring(4);
-        } else if (methodName.startsWith("is") && methodName.length() > 2 && (returnType.equals(Boolean.class) || returnType.equals(boolean.class)) && parameterTypes.length == 0) {
-            propName = String.valueOf(Character.toLowerCase(methodName.charAt(2)));
-            if (methodName.length() > 3)
-                propName += methodName.substring(3);
-        }
-        return propName;
     }
 
     @Override
     public boolean isAssignableValue(Object value) {
         if (value == null) return true;
         return value.getClass().getName().equals(this.getClassName());
+    }
+
+    public Logger getLogger() {
+        return log;
     }
 }

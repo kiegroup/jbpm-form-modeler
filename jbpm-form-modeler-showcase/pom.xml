@@ -518,7 +518,6 @@
               <directory>${basedir}</directory>
               <includes>
                 <include>.errai/**</include>
-                <include>.niogit/**</include>
                 <include>.index/**</include>
                 <include>.vfsgit/**</include>
               </includes>

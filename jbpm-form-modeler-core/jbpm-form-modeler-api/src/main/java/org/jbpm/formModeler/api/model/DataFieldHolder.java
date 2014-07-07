@@ -21,11 +21,19 @@ public class DataFieldHolder implements Comparable, Serializable {
     DataHolder holder;
     String id;
     String className;
+    String bag;
 
     public DataFieldHolder(DataHolder holder, String id, String className) {
         this.holder = holder;
         this.id = id;
         this.className = className;
+    }
+
+    public DataFieldHolder(DataHolder holder, String id, String className, String bag) {
+        this.holder = holder;
+        this.id = id;
+        this.className = className;
+        this.bag = bag;
     }
 
     public DataHolder getHolder() {
@@ -55,5 +63,13 @@ public class DataFieldHolder implements Comparable, Serializable {
     @Override
     public int compareTo(Object o) {
         return id.compareTo(((DataFieldHolder) o).getId());
+    }
+
+    public String getBag() {
+        return bag;
+    }
+
+    public void setBag(String bag) {
+        this.bag = bag;
     }
 }

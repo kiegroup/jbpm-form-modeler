@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.config;
 
+import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.core.processing.PropertyDefinition;
 
@@ -35,7 +36,7 @@ public interface FieldTypeManager extends Serializable {
 
     void setFieldTypes(List<FieldType> fieldTypes);
 
-    List getSuitableFieldTypes(String propertyType);
+    List getSuitableFieldTypes(Field field);
 
     List<FieldType> getFormDecoratorTypes();
 
@@ -44,6 +45,8 @@ public interface FieldTypeManager extends Serializable {
     FieldType getTypeByCode(String typeCode);
 
     FieldType getTypeByClass(String classType);
+
+    FieldType getTypeByClass(String classType, String bag);
 
     FieldType getSimpleTypeByClass(String className);
 

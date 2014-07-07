@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
+import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.service.LocaleManager;
@@ -49,7 +50,14 @@ public class DateFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
         if (isReadonly) setAttribute("readonly", isReadonly);
 
         FieldHandlersManager fieldHandlersManager = FormProcessingServices.lookup().getFieldHandlersManager();
-        DateFieldHandler dateFieldHandler = (DateFieldHandler) fieldHandlersManager.getHandler(field.getFieldType());
+        DateFieldHandler dateFieldHandler;
+
+        if (StringUtils.isEmpty(field.getBag())) dateFieldHandler = (DateFieldHandler) fieldHandlersManager.getHandler(field.getFieldType());
+        else {
+            FieldType bagType = getFieldTypeManager().getTypeByClass(field.getBag());
+            dateFieldHandler = (DateFieldHandler) fieldHandlersManager.getHandler(bagType);
+        }
+
         String inputPattern = dateFieldHandler.getDefaultPattern();
 
         if (!StringUtils.isEmpty(dateFieldHandler.getDefaultPatterTimeSuffix())) {
@@ -64,7 +72,6 @@ public class DateFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
         setAttribute("value", dateValue);
         setAttribute("inputPattern", dateFieldHandler.getDefaultJQueryPattern());
         setAttribute("timePattern", dateFieldHandler.getDefaultPatterTimeSuffix());
-        setAttribute("uid", getFormManager().getUniqueIdentifier(form, namespace, field, fieldName));
         renderFragment("output");
     }
 }

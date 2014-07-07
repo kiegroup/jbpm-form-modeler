@@ -36,9 +36,6 @@
                                                 <mvc:fragmentValue name="readonly" id="readonly">
                                                     <mvc:fragmentValue name="wrong" id="wrong">
                                                         <mvc:fragmentValue name="inputValue" id="inputValue">
-                                            <table border="0" cellpadding="0" cellspacing="0" >
-                                                <tr valign="top">
-                                                    <td>
                                                         <input  name="<%=name%>"  id="<mvc:fragmentValue name="uid"/>"
                                                             onchange="processFormInputChange(this)"
                                                             <%=title!=null?("title=\""+title+"\""):""%>
@@ -57,9 +54,6 @@
                                                                 :
                                                                 (StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":String.valueOf(value))))
                                                                 %>">
-                                                    </td>
-                                                </tr>
-                                            </table>
                                                         </mvc:fragmentValue>
                                                     </mvc:fragmentValue>
                                                 </mvc:fragmentValue>

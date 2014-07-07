@@ -47,15 +47,8 @@ public class HTMLTextAreaFieldHandler extends DefaultFieldHandler {
         return pValues != null ? StringUtils.defaultString(pValues[0]) : null;
     }
 
-    /**
-     * Determine the value as a parameter map for a given input value. This is like the inverse operation of getValue()
-     *
-     * @param objectValue Object value to represent
-     * @param pattern     Pattern to apply if any
-     * @return a Map representing the parameter values expected inside a request that would cause the form
-     *         to generate given object value as a result.
-     */
-    public Map getParamValue(String inputName, Object objectValue, String pattern) {
+    @Override
+    public Map getParamValue(Field field, String inputName, Object objectValue) {
         Map m = new HashMap();
         if (objectValue != null) {
             if (objectValue instanceof String)

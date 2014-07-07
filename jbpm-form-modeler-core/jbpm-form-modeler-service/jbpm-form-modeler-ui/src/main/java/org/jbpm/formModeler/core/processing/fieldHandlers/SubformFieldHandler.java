@@ -134,7 +134,8 @@ public class SubformFieldHandler extends PersistentFieldHandler {
         return result;
     }
 
-    public Map getParamValue(String inputName, Object value, String pattern) {
+    @Override
+    public Map getParamValue(Field field, String inputName, Object value) {
         if (value == null)
             return Collections.EMPTY_MAP;
 
@@ -151,7 +152,7 @@ public class SubformFieldHandler extends PersistentFieldHandler {
             try {
                 Object val = holder.readFromBindingExperssion(value, bindingExpression);
                 FieldHandler fieldManager = getFieldHandlersManager().getHandler(childField.getFieldType());
-                Map childrenMap = fieldManager.getParamValue(childField.getFieldName(), val, childField.getFieldPattern());
+                Map childrenMap = fieldManager.getParamValue(childField, childField.getFieldName(), val);
                 if (childrenMap != null) result.putAll(childrenMap);
             } catch (Exception e) {
                 log.warn("Error reading value from field '" + childField.getFieldName() + "': ", e);

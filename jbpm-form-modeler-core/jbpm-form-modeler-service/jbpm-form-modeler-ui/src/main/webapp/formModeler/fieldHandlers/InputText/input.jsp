@@ -71,9 +71,7 @@
                                                     <mvc:fragmentValue name="wrong" id="wrong">
                                                         <mvc:fragmentValue name="inputValue" id="inputValue">
                                                             <mvc:fragmentValue name="hideContent" id="hideContent">
-                                            <table border="0" cellpadding="0" cellspacing="0" >
-                                                <tr valign="top">
-                                                    <td>
+
                                                         <input  name="<%=name%>"  id="<mvc:fragmentValue name="uid"/>"
                                                             onchange="processFormInputChange(this)"
                                                             type="<%=(hideContent!=null && ((Boolean)hideContent).booleanValue()) ? "password" : "text"%>"
@@ -91,9 +89,7 @@
                                                                 :
                                                                 (StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":String.valueOf(value))))
                                                                 %>'>
-                                                    </td>
-                                                </tr>
-                                            </table>
+
                                                             </mvc:fragmentValue>
                                                 </mvc:fragmentValue>
                                             </mvc:fragmentValue>

@@ -37,6 +37,9 @@ public class FormManagerImpl implements FormManager {
 
     @Inject
     protected FieldTypeManager fieldTypeManager;
+    
+    @Inject
+    private LocaleManager localeManager;
 
     private HashSet<Form> forms = new HashSet<Form>();
 
@@ -219,7 +222,7 @@ public class FormManagerImpl implements FormManager {
             if (label != null) field.setLabel(label);
 
             if (label != null && !"Separator".equals(fieldType.getCode()) && !"HTMLLabel".equals(fieldType.getCode())){  //default label
-                String currentLang = LocaleManager.lookup().getDefaultLang();
+                String currentLang = localeManager.getDefaultLang();
                 if(label.getValue(currentLang)==null) {
                     label.setValue(currentLang, fieldType.getCode()+field.getPosition());
                 }
@@ -551,18 +554,27 @@ public class FormManagerImpl implements FormManager {
             if (!form.containsHolder(holder)) return;
             Set<DataFieldHolder> holderFields = holder.getFieldHolders();
             for (DataFieldHolder dataFieldHolder : holderFields) {
-                String holderId = holder.getUniqeId();
-                if (!form.isFieldBinded(holder, dataFieldHolder.getId())) addDataFieldHolder(form, holderId, dataFieldHolder.getId(), dataFieldHolder.getClassName());
+                if (!form.isFieldBinded(holder, dataFieldHolder.getId())) addDataHolderField(form, dataFieldHolder);
             }
         }
     }
 
-    public void addDataFieldHolder(Form form, String bindingId, String fieldName, String fieldClass) {
-        I18nSet label = new I18nSet();
-        String defaultLang = LocaleManager.lookup().getDefaultLang();
-        DataHolder holder = form.getDataHolderById(bindingId);
+    @Override
+    public void addDataHolderField(Form form, String holderId, String fieldName) throws Exception {
+        DataHolder holder = form.getDataHolderById(holderId);
+        if (holder != null) {
+            DataFieldHolder field = holder.getDataFieldHolderById(fieldName);
+            if (field != null) addDataHolderField(form, field);
+        }
+    }
 
-        if (holder == null) return;
+    protected void addDataHolderField(Form form, DataFieldHolder holderField) {
+        I18nSet label = new I18nSet();
+        String defaultLang = localeManager.getDefaultLang();
+
+        DataHolder holder = holderField.getHolder();
+
+        String fieldName = holderField.getId();
 
         String dataHolderId = holder.getUniqeId();
         label.setValue(defaultLang, fieldName + " (" + dataHolderId + ")");
@@ -570,13 +582,12 @@ public class FormManagerImpl implements FormManager {
         String inputBinging = holder.getInputBinding(fieldName);
         String outputBinding = holder.getOuputBinding(fieldName);
 
-        FieldType fieldType = null;
-        fieldType = fieldTypeManager.getTypeByClass(fieldClass);
-        String fName=fieldName;
+        FieldType fieldType = fieldTypeManager.getTypeByClass(holderField.getClassName(), holderField.getBag());
+        String fName;
         if (!holder.canHaveChildren()){
-             fName=holder.getUniqeId();
+            fName = holder.getUniqeId();
         }else{
-            fName=holder.getUniqeId() + "_" + fieldName;
+            fName = holder.getUniqeId() + "_" + fieldName;
         }
 
         int i = 0;
@@ -586,7 +597,8 @@ public class FormManagerImpl implements FormManager {
         }
         fName=tmpFName;
 
-        addFieldToForm(form, fName, fieldType, fieldClass, label, inputBinging, outputBinding);
+        Field field = addFieldToForm(form, fName, fieldType, holderField.getClassName(), label, inputBinging, outputBinding);
+        if (!StringUtils.isEmpty(holderField.getBag())) field.setBag(holderField.getBag());
     }
 
     @Override

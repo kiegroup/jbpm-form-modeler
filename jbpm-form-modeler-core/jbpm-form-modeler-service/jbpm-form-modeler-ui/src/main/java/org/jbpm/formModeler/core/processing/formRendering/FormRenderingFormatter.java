@@ -56,10 +56,6 @@ public class FormRenderingFormatter extends Formatter {
     public static final String ATTR_NAME = "_ddm_currentName";
     public static final String ATTR_FIELD_IS_WRONG = "_ddm_currentFieldIsWrong";
     public static final String ATTR_FORM_RENDER_MODE = "_ddm_current_renderMode";
-    public static final String ATTR_VALUE_IS_DYNAMIC_OBJECT = "_ddm_valueIsObject";
-    public static final String ATTR_VALUE_IS_DYNAMIC_OBJECT_ARRAY = "_ddm_valueIsObjectArray";
-    public static final String ATTR_DYNAMIC_OBJECT_ID = "_ddm_currentValueIds";
-    public static final String ATTR_DYNAMIC_OBJECT_ENTITY_NAME = "_ddm_currentValueEntityName";
     public static final String ATTR_FIELD_IS_READONLY = "_ddm_fieldIsReadonly";
     public static final String FIELD_CONTAINER_STYLE = "padding-top: 3px; padding-right:3px;";
 
@@ -676,10 +672,6 @@ public class FormRenderingFormatter extends Formatter {
         setAttribute(ATTR_FIELD_IS_WRONG, isWrongField);
         setAttribute(ATTR_NAMESPACE, namespace);
         setAttribute(ATTR_NAME, fieldName);
-        setAttribute(ATTR_VALUE_IS_DYNAMIC_OBJECT, false);
-        setAttribute(ATTR_VALUE_IS_DYNAMIC_OBJECT_ARRAY, false);
-        setAttribute(ATTR_DYNAMIC_OBJECT_ID, null);
-        setAttribute(ATTR_DYNAMIC_OBJECT_ENTITY_NAME, null);
         setAttribute(ATTR_FORM_RENDER_MODE, renderMode);
     }
 }

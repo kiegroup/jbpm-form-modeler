@@ -53,22 +53,15 @@ public class InputTextFieldHandler extends DefaultFieldHandler {
         String expr = "";
 
         if (field != null)
-            expr = field.getFieldPattern();
+            expr =getFieldPattern(field);
 
         if (!"".equals(paramValue[0]) && expr != null && !"".equals(expr) && !paramValue[0].matches(expr))
                 throw new IllegalArgumentException("Parameter does not match the pattern");
         return paramValue[0];
     }
 
-    /**
-     * Determine the value as a parameter map for a given input value. This is like the inverse operation of getValue()
-     *
-     * @param objectValue Object value to represent
-     * @param pattern     Pattern to apply if any
-     * @return a Map representing the parameter values expected inside a request that would cause the form
-     *         to generate given object value as a result.
-     */
-    public Map getParamValue(String inputName, Object objectValue, String pattern) {
+    @Override
+    public Map getParamValue(Field field, String inputName, Object objectValue) {
         if (objectValue == null) return Collections.EMPTY_MAP;
         Map m = new HashMap();
         m.put(inputName, new String[]{objectValue.toString()});

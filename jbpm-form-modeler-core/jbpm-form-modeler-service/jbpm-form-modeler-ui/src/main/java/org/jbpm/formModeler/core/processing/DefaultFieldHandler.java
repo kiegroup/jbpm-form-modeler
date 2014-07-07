@@ -15,8 +15,12 @@
  */
 package org.jbpm.formModeler.core.processing;
 
+import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.api.model.Field;
+import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.FormCoreServices;
+import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.processing.formProcessing.FormulaReplacementManager;
 import org.jbpm.formModeler.core.processing.formProcessing.FunctionsProvider;
@@ -24,6 +28,17 @@ import org.jbpm.formModeler.core.processing.formProcessing.NamespaceManager;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatusManager;
 
 public abstract class DefaultFieldHandler extends AbstractFieldHandler {
+
+    public String getFieldPattern(Field field) {
+        if (StringUtils.isEmpty(field.getBag())) return field.getFieldPattern();
+
+        if (!StringUtils.isEmpty(field.getPattern())) return field.getPattern();
+
+        FieldType bagtype = getFieldTypeManager().getTypeByClass(field.getBag());
+        if (bagtype != null) return bagtype.getPattern();
+
+        return "";
+    }
 
     public FormulaReplacementManager getReplacementManager() {
         return FormulaReplacementManager.lookup();
@@ -51,5 +66,9 @@ public abstract class DefaultFieldHandler extends AbstractFieldHandler {
 
     public FieldHandlersManager getFieldHandlersManager() {
         return FormProcessingServices.lookup().getFieldHandlersManager();
+    }
+
+    public FieldTypeManager getFieldTypeManager() {
+        return FormCoreServices.lookup().getFieldTypeManager();
     }
 }

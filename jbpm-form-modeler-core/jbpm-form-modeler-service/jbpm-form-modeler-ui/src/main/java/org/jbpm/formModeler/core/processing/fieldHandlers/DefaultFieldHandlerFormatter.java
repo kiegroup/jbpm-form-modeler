@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
+import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.config.FormManager;
@@ -50,6 +51,10 @@ public abstract class DefaultFieldHandlerFormatter extends Formatter {
 
     public FormManager getFormManager() {
         return FormCoreServices.lookup().getFormManager();
+    }
+
+    public FieldTypeManager getFieldTypeManager() {
+        return FormCoreServices.lookup().getFieldTypeManager();
     }
 
     public FormProcessor getFormProcessor() {
