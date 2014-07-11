@@ -16,7 +16,6 @@
 package org.jbpm.formModeler.dataModeler.integration;
 
 import org.drools.core.util.StringUtils;
-import org.guvnor.common.services.builder.LRUBuilderCache;
 import org.guvnor.common.services.project.model.Project;
 import org.guvnor.common.services.project.service.POMService;
 import org.guvnor.common.services.project.service.ProjectService;
@@ -27,6 +26,8 @@ import org.jbpm.formModeler.core.config.builders.dataHolder.RangedDataHolderBuil
 import org.jbpm.formModeler.dataModeler.model.DataModelerDataHolder;
 import org.kie.api.builder.KieModule;
 import org.kie.scanner.KieModuleMetaData;
+import org.kie.workbench.common.services.backend.builder.LRUBuilderCache;
+import org.kie.workbench.common.services.shared.project.KieProject;
 import org.uberfire.io.IOService;
 import org.kie.workbench.common.screens.datamodeller.model.DataModelTO;
 import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
@@ -56,8 +57,7 @@ public class DataModelerService implements RangedDataHolderBuilder {
     @Inject
     private LRUBuilderCache builderCache;
 
-    @Inject
-    private ProjectService projectService;
+    private ProjectService<KieProject> projectService;
 
     @Inject
     private POMService pomService;
@@ -65,6 +65,14 @@ public class DataModelerService implements RangedDataHolderBuilder {
     @Inject
     @Named("ioStrategy")
     private IOService ioService;
+
+    public DataModelerService() {
+    }
+
+    @Inject
+    public DataModelerService(ProjectService projectService) {
+        this.projectService = projectService;
+    }
 
     @Override
     public Map<String, String> getHolderSources(String path) {
@@ -150,7 +158,7 @@ public class DataModelerService implements RangedDataHolderBuilder {
     }
 
     protected DataModelTO getDataModel(Path path) {
-        Project project = projectService.resolveProject(path);
+        KieProject project = projectService.resolveProject(path);
         return dataModelerService.loadModel(project);
     }
 
@@ -164,7 +172,7 @@ public class DataModelerService implements RangedDataHolderBuilder {
         return new String[]{PojoDataHolderBuilder.HOLDER_TYPE_POJO_CLASSNAME};
     }
 
-    protected ClassLoader getProjectClassLoader( Project project ) {
+    protected ClassLoader getProjectClassLoader( KieProject project ) {
         final KieModule module = builderCache.assertBuilder( project ).getKieModuleIgnoringErrors();
         final ClassLoader classLoader = KieModuleMetaData.Factory.newKieModuleMetaData( module ).getClassLoader();
         return classLoader;
