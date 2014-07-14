@@ -25,6 +25,7 @@ import org.jbpm.document.service.impl.DocumentImpl;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.processing.fieldHandlers.plugable.PlugableFieldHandler;
 import org.jbpm.formModeler.service.bb.mvc.components.ControllerStatus;
+import org.jbpm.formModeler.service.bb.mvc.controller.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,6 +108,8 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
         if (file != null) {
             Document doc = new DocumentImpl(file.getName(), file.length(), new Date(file.lastModified()));
             doc.setContent(FileUtils.readFileToByteArray(file));
+            StringBuffer url = RequestContext.getCurrentContext().getRequest().getRequestObject().getRequestURL();
+            doc.addAttribute("app.url", url.substring(0, url.indexOf("/Controller")));
             return doc;
         }
 
