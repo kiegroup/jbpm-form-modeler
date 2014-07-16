@@ -21,7 +21,6 @@ import javax.inject.Named;
 
 import org.guvnor.common.services.project.model.Package;
 import org.guvnor.common.services.project.model.Project;
-import org.guvnor.common.services.project.service.ProjectService;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.editor.type.FormResourceTypeDefinition;
@@ -30,6 +29,7 @@ import org.kie.uberfire.metadata.model.KObject;
 import org.kie.uberfire.metadata.model.KObjectKey;
 import org.kie.workbench.common.services.refactoring.backend.server.indexing.DefaultIndexBuilder;
 import org.kie.workbench.common.services.refactoring.backend.server.util.KObjectUtil;
+import org.kie.workbench.common.services.shared.project.KieProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
@@ -46,7 +46,7 @@ public class FormIndexer implements Indexer {
     protected IOService ioService;
 
     @Inject
-    protected ProjectService projectService;
+    protected KieProjectService projectService;
 
     @Inject
     protected FormSerializationManager formSerializationManager;

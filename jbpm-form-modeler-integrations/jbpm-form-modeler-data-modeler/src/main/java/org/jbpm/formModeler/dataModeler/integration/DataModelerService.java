@@ -15,10 +15,17 @@
  */
 package org.jbpm.formModeler.dataModeler.integration;
 
+import java.net.URI;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.TreeMap;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.drools.core.util.StringUtils;
-import org.guvnor.common.services.project.model.Project;
 import org.guvnor.common.services.project.service.POMService;
-import org.guvnor.common.services.project.service.ProjectService;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuildConfig;
 import org.jbpm.formModeler.core.config.builders.dataHolder.PojoDataHolderBuilder;
@@ -26,30 +33,23 @@ import org.jbpm.formModeler.core.config.builders.dataHolder.RangedDataHolderBuil
 import org.jbpm.formModeler.dataModeler.model.DataModelerDataHolder;
 import org.kie.api.builder.KieModule;
 import org.kie.scanner.KieModuleMetaData;
-import org.kie.workbench.common.services.backend.builder.LRUBuilderCache;
-import org.kie.workbench.common.services.shared.project.KieProject;
-import org.uberfire.io.IOService;
 import org.kie.workbench.common.screens.datamodeller.model.DataModelTO;
 import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
+import org.kie.workbench.common.services.backend.builder.LRUBuilderCache;
+import org.kie.workbench.common.services.shared.project.KieProject;
+import org.kie.workbench.common.services.shared.project.KieProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.net.URI;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.TreeMap;
+import org.uberfire.io.IOService;
 
 @ApplicationScoped
 public class DataModelerService implements RangedDataHolderBuilder {
+
     public static final String HOLDER_TYPE_DATA_MODEL = "dataModelerEntry";
 
-    private Logger log = LoggerFactory.getLogger(DataModelerService.class);
+    private Logger log = LoggerFactory.getLogger( DataModelerService.class );
 
     @Inject
     private org.kie.workbench.common.screens.datamodeller.service.DataModelerService dataModelerService;
@@ -57,7 +57,8 @@ public class DataModelerService implements RangedDataHolderBuilder {
     @Inject
     private LRUBuilderCache builderCache;
 
-    private ProjectService<KieProject> projectService;
+    @Inject
+    private KieProjectService projectService;
 
     @Inject
     private POMService pomService;
@@ -66,60 +67,57 @@ public class DataModelerService implements RangedDataHolderBuilder {
     @Named("ioStrategy")
     private IOService ioService;
 
-    public DataModelerService() {
-    }
-
-    @Inject
-    public DataModelerService(ProjectService projectService) {
-        this.projectService = projectService;
-    }
-
     @Override
-    public Map<String, String> getHolderSources(String path) {
+    public Map<String, String> getHolderSources( String path ) {
         Map<String, String> result = new TreeMap<String, String>();
         try {
-            DataModelTO dataModelTO = dataModelerService.loadModel(projectService.resolveProject(getPath(path)));
-            if (dataModelTO != null && dataModelTO.getDataObjects() != null) {
+            DataModelTO dataModelTO = dataModelerService.loadModel( projectService.resolveProject( getPath( path ) ) );
+            if ( dataModelTO != null && dataModelTO.getDataObjects() != null ) {
                 String className = "";
-                for (DataObjectTO dataObjectTO : dataModelTO.getDataObjects()) {
+                for ( DataObjectTO dataObjectTO : dataModelTO.getDataObjects() ) {
                     className = dataObjectTO.getClassName();
-                    result.put(className, className);
+                    result.put( className, className );
                 }
             }
-        } catch (Throwable e) {
-            result.put("-", "-");
+        } catch ( Throwable e ) {
+            result.put( "-", "-" );
         }
         return result;
     }
 
     @Override
-    public DataHolder buildDataHolder(DataHolderBuildConfig config) {
+    public DataHolder buildDataHolder( DataHolderBuildConfig config ) {
         DataModelerDataHolder dataHolder = null;
 
         boolean isExternal = false;
 
-        String path = config.getAttribute("path");
-        if (StringUtils.isEmpty(path)) {
-            dataHolder = new DataModelerDataHolder(config.getHolderId(), config.getInputId(), config.getOutputId(), config.getValue(), config.getRenderColor());
-            isExternal = Boolean.TRUE.equals(config.getAttribute("supportedType"));
+        String path = config.getAttribute( "path" );
+        if ( StringUtils.isEmpty( path ) ) {
+            dataHolder = new DataModelerDataHolder( config.getHolderId(), config.getInputId(), config.getOutputId(), config.getValue(), config.getRenderColor() );
+            isExternal = Boolean.TRUE.equals( config.getAttribute( "supportedType" ) );
         } else {
-            Class holderClass = findHolderClass(config.getValue(), config.getAttribute("path"));
-            if (holderClass == null) return null;
-            DataModelTO dataModelTO = dataModelerService.loadModel(projectService.resolveProject(getPath(path)));
-            isExternal = dataModelTO.isExternal(config.getValue());
-            dataHolder = new DataModelerDataHolder(config.getHolderId(), config.getInputId(), config.getOutputId(), holderClass, config.getRenderColor());
+            Class holderClass = findHolderClass( config.getValue(), config.getAttribute( "path" ) );
+            if ( holderClass == null ) {
+                return null;
+            }
+            DataModelTO dataModelTO = dataModelerService.loadModel( projectService.resolveProject( getPath( path ) ) );
+            isExternal = dataModelTO.isExternal( config.getValue() );
+            dataHolder = new DataModelerDataHolder( config.getHolderId(), config.getInputId(), config.getOutputId(), holderClass, config.getRenderColor() );
         }
 
-        if (isExternal) dataHolder.setSupportedType(PojoDataHolderBuilder.HOLDER_TYPE_POJO_CLASSNAME);
+        if ( isExternal ) {
+            dataHolder.setSupportedType( PojoDataHolderBuilder.HOLDER_TYPE_POJO_CLASSNAME );
+        }
         return dataHolder;
     }
 
-    private Class findHolderClass(String className, String path) {
-        ClassLoader classLoader = getProjectClassLoader(projectService.resolveProject(getPath(path)));
+    private Class findHolderClass( String className,
+                                   String path ) {
+        ClassLoader classLoader = getProjectClassLoader( projectService.resolveProject( getPath( path ) ) );
         try {
-            return classLoader.loadClass(className);
-        } catch (ClassNotFoundException e) {
-            log.warn("Unable to load class '{}': {}", className, e);
+            return classLoader.loadClass( className );
+        } catch ( ClassNotFoundException e ) {
+            log.warn( "Unable to load class '{}': {}", className, e );
         }
         return null;
     }
@@ -129,37 +127,41 @@ public class DataModelerService implements RangedDataHolderBuilder {
         return HOLDER_TYPE_DATA_MODEL;
     }
 
-    protected Path getPath(String path) {
+    protected Path getPath( String path ) {
         try {
-            return Paths.convert(ioService.get(new URI(path)));
-        } catch (Exception e) {
-            log.error("Unable to build Path for {}': {}", path, e);
+            return Paths.convert( ioService.get( new URI( path ) ) );
+        } catch ( Exception e ) {
+            log.error( "Unable to build Path for {}': {}", path, e );
         }
         return null;
     }
 
     @Override
-    public boolean supportsPropertyType(String className, String path) {
-        return getDataObject(className, getPath(path)) != null;
+    public boolean supportsPropertyType( String className,
+                                         String path ) {
+        return getDataObject( className, getPath( path ) ) != null;
     }
 
-    protected DataObjectTO getDataObject(String className, Path path) {
-        DataModelTO dataModelTO = getDataModel(path);
+    protected DataObjectTO getDataObject( String className,
+                                          Path path ) {
+        DataModelTO dataModelTO = getDataModel( path );
 
-        DataObjectTO result = dataModelTO.getDataObjectByClassName(className);
+        DataObjectTO result = dataModelTO.getDataObjectByClassName( className );
 
-        if (result == null) {
-            for (DataObjectTO externalDataObject : dataModelTO.getExternalClasses()) {
-                if (className.equals(externalDataObject.getClassName())) return externalDataObject;
+        if ( result == null ) {
+            for ( DataObjectTO externalDataObject : dataModelTO.getExternalClasses() ) {
+                if ( className.equals( externalDataObject.getClassName() ) ) {
+                    return externalDataObject;
+                }
             }
         }
 
         return result;
     }
 
-    protected DataModelTO getDataModel(Path path) {
-        KieProject project = projectService.resolveProject(path);
-        return dataModelerService.loadModel(project);
+    protected DataModelTO getDataModel( Path path ) {
+        KieProject project = projectService.resolveProject( path );
+        return dataModelerService.loadModel( project );
     }
 
     @Override
@@ -169,7 +171,7 @@ public class DataModelerService implements RangedDataHolderBuilder {
 
     @Override
     public String[] getSupportedHolderTypes() {
-        return new String[]{PojoDataHolderBuilder.HOLDER_TYPE_POJO_CLASSNAME};
+        return new String[]{ PojoDataHolderBuilder.HOLDER_TYPE_POJO_CLASSNAME };
     }
 
     protected ClassLoader getProjectClassLoader( KieProject project ) {
@@ -179,8 +181,8 @@ public class DataModelerService implements RangedDataHolderBuilder {
     }
 
     @Override
-    public String getDataHolderName(Locale locale) {
-        ResourceBundle bundle = ResourceBundle.getBundle("org.jbpm.formModeler.dataModeler.messages", locale);
-        return bundle.getString("dataHolder_dataModeler");
+    public String getDataHolderName( Locale locale ) {
+        ResourceBundle bundle = ResourceBundle.getBundle( "org.jbpm.formModeler.dataModeler.messages", locale );
+        return bundle.getString( "dataHolder_dataModeler" );
     }
 }
