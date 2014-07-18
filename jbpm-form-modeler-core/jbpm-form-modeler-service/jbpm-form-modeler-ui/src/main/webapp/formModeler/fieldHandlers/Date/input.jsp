@@ -17,6 +17,7 @@
 --%>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.DateFieldHandler" %>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
@@ -24,27 +25,28 @@
 <mvc:formatter name="DateFieldHandlerFormatter">
     <mvc:fragment name="output">
         <mvc:fragmentValue name="name" id="name">
-            <mvc:fragmentValue name="title" id="title">
-                <mvc:fragmentValue name="styleclass" id="styleclass">
-                    <mvc:fragmentValue name="size" id="size">
-                        <mvc:fragmentValue name="maxlength" id="maxlength">
-                            <mvc:fragmentValue name="tabindex" id="tabindex">
-                                <mvc:fragmentValue name="value" id="value">
-                                    <mvc:fragmentValue name="accesskey" id="accesskey">
-                                        <mvc:fragmentValue name="alt" id="alt">
-                                            <mvc:fragmentValue name="cssStyle" id="cssStyle">
-                                                <mvc:fragmentValue name="height" id="height">
-                                                    <mvc:fragmentValue name="readonly" id="readonly">
-                                                        <mvc:fragmentValue name="timePattern" id="timePattern">
-                                                            <mvc:fragmentValue name="inputPattern" id="inputPattern">
+        <mvc:fragmentValue name="title" id="title">
+        <mvc:fragmentValue name="styleclass" id="styleclass">
+        <mvc:fragmentValue name="size" id="size">
+        <mvc:fragmentValue name="maxlength" id="maxlength">
+        <mvc:fragmentValue name="tabindex" id="tabindex">
+        <mvc:fragmentValue name="value" id="value">
+        <mvc:fragmentValue name="accesskey" id="accesskey">
+        <mvc:fragmentValue name="alt" id="alt">
+        <mvc:fragmentValue name="cssStyle" id="cssStyle">
+        <mvc:fragmentValue name="height" id="height">
+        <mvc:fragmentValue name="readonly" id="readonly">
+        <mvc:fragmentValue name="timePattern" id="timePattern">
+        <mvc:fragmentValue name="inputPattern" id="inputPattern">
+        <mvc:fragmentValue name="uid" id="uid">
+        <mvc:fragmentValue name="onChangeScript" id="onChangeScript">
 <div class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "")%>"
     style="display: table; <%=cssStyle%>">
     <div style="display: table-row;">
         <div style="display: table-cell;">
             <input type="text"
                    name="<%=name%>"
-                   onchange="processFormInputChange(this)"
-                   id="<%=name%>"
+                   id="<%=uid%>"
                     <%=title!=null?("title=\""+title+"\""):""%>
                    class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
                     <%=size!=null ? " size=\""+size+"\"":""%>
@@ -62,9 +64,21 @@
             %>
             <script >
                 $(function() {
-                    $("input[id='<%=name%>']").datetimepicker({
+                    $("input[id='<%=uid%>']").datetimepicker({
                         dateFormat:"<%=inputPattern%>",
-                        timeFormat:"<%=timePattern%>"
+                        timeFormat:"<%=timePattern%>",
+                        onClose:function(ct){
+                            processFormInputChange($('#<%=uid%>').get(0))
+<%
+        if (onChangeScript != null) {
+%>
+                            try {
+                                eval('<%=StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)onChangeScript))%>');
+                            } catch (err) {}
+<%
+    }
+%>
+                        }
                     })
                 });
             </script>
@@ -75,14 +89,14 @@
         <div style="display: table-cell;">
             <input type="hidden"
                    name="<%=name + DateFieldHandler.HAS_CHANGED_PARAM%>"
-                   id="<%=name + DateFieldHandler.HAS_CHANGED_PARAM%>"
+                   id="<%=uid + DateFieldHandler.HAS_CHANGED_PARAM%>"
                    value="false"/>
             <a href="#"
                     <%
                         if (!Boolean.TRUE.equals(readonly)) {
                     %>
-               onclick="document.getElementById('<%=name + DateFieldHandler.HAS_CHANGED_PARAM%>').value = true;
-                       $('input[id=\'<%=name%>\']').datetimepicker('show');
+               onclick="document.getElementById('<%=uid + DateFieldHandler.HAS_CHANGED_PARAM%>').value = true;
+                       $('input[id=\'<%=uid%>\']').datetimepicker('show');
                        return false;"
                     <%
                     } else {
@@ -103,11 +117,20 @@
             <a href="#">
                 <img src="<static:image relativePath="general/16x16/ico-remove.png"/>"
                      border="0"
-                     onclick="var dt = document.getElementById('<%=name%>');
+                     onclick="var dt = document.getElementById('<%=uid%>');
                              dt.value='';
-                             $('input[id=\'<%=name%>\']').datetimepicker('hide');
-                             document.getElementById('<%=name + DateFieldHandler.HAS_CHANGED_PARAM%>').value = true;
+                             $('input[id=\'<%=uid%>\']').datetimepicker('hide');
+                             document.getElementById('<%=uid + DateFieldHandler.HAS_CHANGED_PARAM%>').value = true;
                              processFormInputChange(dt);
+<%
+    if (onChangeScript != null) {
+%>
+                             try {
+                                 eval('<%=StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)onChangeScript))%>');
+                             } catch (err) {}
+<%
+    }
+%>
                              return false;">
             </a>
         </div>
@@ -116,19 +139,21 @@
 %>
     </div>
 </div>
-                                                            </mvc:fragmentValue>
-                                                        </mvc:fragmentValue>
-                                                    </mvc:fragmentValue>
-                                                </mvc:fragmentValue>
-                                            </mvc:fragmentValue>
-                                        </mvc:fragmentValue>
-                                    </mvc:fragmentValue>
-                                </mvc:fragmentValue>
-                            </mvc:fragmentValue>
-                        </mvc:fragmentValue>
-                    </mvc:fragmentValue>
-                </mvc:fragmentValue>
-            </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
 </mvc:formatter>

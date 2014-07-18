@@ -18,7 +18,8 @@
         <module>jbpm-form-modeler-integrations</module>
         <module>jbpm-form-modeler-panels</module>
         <module>jbpm-form-modeler-field-types</module>
-        <module>jbpm-form-modeler-showcase</module>
+        <!--module>jbpm-form-modeler-showcase</module-->
+        <module>jbpm-form-modeler-showcase-full</module>
     </modules>
 
     <profiles>

@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
+import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
 
@@ -49,7 +50,7 @@ public class CharacterFieldHandler extends DefaultFieldHandler {
     @Override
     public Object getValue( Field field, String inputName, Map parametersMap, Map filesMap, String desiredClassName, Object previousValue ) throws Exception {
         String[] paramValue = (String[]) parametersMap.get(inputName);
-        if (paramValue == null || paramValue.length == 0) return null;
+        if (paramValue == null || paramValue.length == 0 || StringUtils.isEmpty(paramValue[0])) return null;
 
         return new Character(paramValue[0].charAt(0));
     }

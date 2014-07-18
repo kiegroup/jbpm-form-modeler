@@ -22,36 +22,39 @@
 <mvc:formatter name="SimpleFieldHandlerFormatter">
     <mvc:fragment name="output">
         <mvc:fragmentValue name="title" id="title">
-			<mvc:fragmentValue name="name" id="name">
-				<mvc:fragmentValue name="styleclass" id="styleclass">
-						<mvc:fragmentValue name="value" id="value">
-							<mvc:fragmentValue name="cssStyle" id="cssStyle">
-								<mvc:fragmentValue name="height" id="height">
-									<mvc:fragmentValue name="readonly" id="readonly">
-										<table border="0" cellpadding="0" cellspacing="0" >
-											<tr valign="top">
-												<td>
-													<input type="hidden" name="<%=name%>Value" value="<%=value%>">
-													<input type="text" name="<%=name%>" id="<mvc:fragmentValue name="uid"/>"
-														   onclick="<%=Boolean.TRUE.equals(readonly) ? "return false;" : "this.form['" + name + "Value'].value=this.checked ? 'true' : 'false'; processFormInputChange(this);"%>"
-														   onchange="<%=Boolean.TRUE.equals(readonly) ? "return false;" : "this.form['" + name + "Value'].value=this.checked ? 'true' : 'false'; processFormInputChange(this);"%>"
-														   maxlength="1"
-														   size="1"
-														<%=title!=null?("title=\""+title+"\""):""%>
-														class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
-														<%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
-														<%=height!=null ? " height=\""+height+"\"":""%>
-														<%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>
-														value="<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":String.valueOf(value)))%>">
-												</td>
-											</tr>
-										</table>
-								</mvc:fragmentValue>
-							</mvc:fragmentValue>
-						</mvc:fragmentValue>
-					</mvc:fragmentValue>
-				</mvc:fragmentValue>
-			</mvc:fragmentValue>
-		</mvc:fragmentValue>
+        <mvc:fragmentValue name="name" id="name">
+        <mvc:fragmentValue name="styleclass" id="styleclass">
+        <mvc:fragmentValue name="value" id="value">
+        <mvc:fragmentValue name="cssStyle" id="cssStyle">
+        <mvc:fragmentValue name="height" id="height">
+        <mvc:fragmentValue name="readonly" id="readonly">
+        <mvc:fragmentValue name="onChangeScript" id="onChangeScript">
+<input type="text" name="<%=name%>" id="<mvc:fragmentValue name="uid"/>"
+       onchange="processFormInputChange(this);
+<%
+    if (onChangeScript != null) {
+%>
+               try {
+                eval('<%=StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)onChangeScript))%>');
+               } catch (err) {}
+<%
+   }
+%>"
+        maxlength="1"
+        size="1"
+        <%=title!=null?("title=\""+title+"\""):""%>
+        class="dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>"
+        <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
+        <%=height!=null ? " height=\""+height+"\"":""%>
+        <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>
+        value="<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":String.valueOf(value)))%>">
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
     </mvc:fragment>
 </mvc:formatter>

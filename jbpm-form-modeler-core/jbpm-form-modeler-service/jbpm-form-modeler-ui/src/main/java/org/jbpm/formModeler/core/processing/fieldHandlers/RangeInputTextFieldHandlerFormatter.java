@@ -18,14 +18,12 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
-import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,9 +38,6 @@ import java.util.Map;
 public class RangeInputTextFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
 
     private Logger log = LoggerFactory.getLogger(RangeInputTextFieldHandlerFormatter.class);
-
-    @Inject
-    private FormManager formManager;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
 
@@ -66,16 +61,19 @@ public class RangeInputTextFieldHandlerFormatter extends DefaultFieldHandlerForm
 
         setDefaultAttributes(field, form, namespace);
 
+        String fieldId = namespaceManager.squashInputName(fieldName);
+
         if (fieldRange != null && !forceShow) {
             setAttribute("size", 1);
             setAttribute("name", fieldName);
             setAttribute("lang", getLang());
-            setAttribute("uid", formManager.getUniqueIdentifier(form, namespace, field, fieldName));
+            setAttribute("uid", fieldId);
             String keyValueStr = StringEscapeUtils.escapeHtml(StringUtils.defaultString(value == null ? "" : String.valueOf(value)));
 
             // Override the field's own disabled and readonly values with the ones coming from a parent formatter
             // that contains it if they're set to true.
             if (isReadonly) setAttribute("readonly", isReadonly);
+            setAttribute("onChangeScript", field.getOnChangeScript());
             renderFragment("outputStartRange");
 
             renderFragment("outputRange");
@@ -101,10 +99,11 @@ public class RangeInputTextFieldHandlerFormatter extends DefaultFieldHandlerForm
             setAttribute("position", position);
             setAttribute("name", fieldName);
             setAttribute("lang", getLang());
-            setAttribute("uid", getFormManager().getUniqueIdentifier(form, namespace, field, fieldName));
+            setAttribute("uid", fieldId);
             // Override the field's own disabled and readonly values with the ones coming from a parent formatter
             // that contains it if they're set to true.
             if (isReadonly) setAttribute("readonly", isReadonly);
+            if (!isReadonly) setAttribute("onChangeScript", field.getOnChangeScript());
             renderFragment(forceShow ? "outputForceShowMode" : "output");
         }
 

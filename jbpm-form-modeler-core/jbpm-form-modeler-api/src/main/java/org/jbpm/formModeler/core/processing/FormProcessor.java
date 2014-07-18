@@ -16,6 +16,7 @@
 package org.jbpm.formModeler.core.processing;
 
 import org.jbpm.formModeler.api.model.DataHolder;
+import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 
@@ -153,15 +154,6 @@ public interface FormProcessor {
     public FormStatusData read(Form form, String namespace, Map<String, Object> formValues, Map<String, Object> loadedObjects);
 
     /**
-     * Calculates all formulas for given form. Should be called before reading status, otherwise, some
-     * calculations might be performed afterwards (they may arrive asynchronously through ajax).
-     *
-     * @param form      Form to store
-     * @param namespace Form namespace
-     */
-    public void flushPendingCalculations(Form form, String namespace);
-
-    /**
      * Returns the Map to persis based on the data stored on the data stored on a FormStatus
      *
      * @param form The form that corresponds the FormStatus
@@ -222,4 +214,6 @@ public interface FormProcessor {
 
 
     Map readValuesToLoad(Form form, Map inputData, Map outputData, Map loadedObjects, String namespace);
+
+    void setFieldValue(Field field, String namespace, Map parametersMap, Map filesMap, boolean incremental);
 }

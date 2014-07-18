@@ -28,14 +28,20 @@ import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @SessionScoped
 @Named("frc")
 public class FormRenderingComponent extends BaseUIComponent {
+    private Logger log = LoggerFactory.getLogger(FormRenderingComponent.class);
+
     @Inject
     @Config("/formModeler/components/renderer/component.jsp")
     private String baseComponentJSP;
@@ -50,8 +56,12 @@ public class FormRenderingComponent extends BaseUIComponent {
     @Inject
     private FormProcessor formProcessor;
 
+    @Inject
+    private Event<ContextRenderedEvent> contextRenderedEventEvent;
+
     private FormRenderContext ctx;
 
+    @Override
     public void doStart(CommandRequest commandRequest) {
 
         String ctxUID = commandRequest.getRequestObject().getParameter("ctxUID");
@@ -59,13 +69,29 @@ public class FormRenderingComponent extends BaseUIComponent {
         if (StringUtils.isEmpty(ctxUID)) return;
 
         ctx = formRenderContextManager.getFormRenderContext(ctxUID);
+    }
 
+
+    @Override
+    public void beforeRenderBean() {
+        if (ctx != null) ctx.setInUse(true);
+    }
+
+    @Override
+    public void afterRenderBean() {
+        ctx.setInUse(false);
+        ctx = null;
+        contextRenderedEventEvent.fire(new ContextRenderedEvent(ctx.getUID()));
+    }
+
+    public void removeContextEvent(@Observes ContextRemovedEvent event) {
+        if (ctx != null && ctx.getUID().equals(event.getCtxUID())) ctx = null;
     }
 
     public void actionSubmitForm(CommandRequest request) {
         String ctxUID = request.getRequestObject().getParameter("ctxUID");
-        String persist = request.getRequestObject().getParameter("persistForm");
-        FormRenderContext ctx = formRenderContextManager.getFormRenderContext(ctxUID);
+
+        if (ctx == null || ctx.getUID().equals(ctxUID)) ctx = formRenderContextManager.getFormRenderContext(ctxUID);
         if (ctx == null) return;
         try {
             Form form = ctx.getForm();
@@ -75,6 +101,7 @@ public class FormRenderingComponent extends BaseUIComponent {
 
             ctx.setErrors(fsd.getWrongFields().size());
 
+            String persist = request.getRequestObject().getParameter("persistForm");
             if (fsd.isValid()) {
                 ctx.setSubmit(true);
                 if (Boolean.parseBoolean(persist)) formRenderContextManager.persistContext(ctx);
@@ -82,10 +109,9 @@ public class FormRenderingComponent extends BaseUIComponent {
 
             formRenderContextManager.fireContextSubmit(new FormSubmittedEvent(new FormRenderContextTO(ctx)));
         } catch (Exception e) {
+            log.error("Error submitting form: ", e);
             formRenderContextManager.fireContextSubmitError(new FormSubmitFailEvent(new FormRenderContextTO(ctx), e.getMessage()));
         }
-
-
     }
 
     public String getCtxUID() {

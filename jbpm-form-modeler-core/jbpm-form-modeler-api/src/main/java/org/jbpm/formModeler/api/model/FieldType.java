@@ -211,18 +211,6 @@ public class FieldType implements Serializable {
         return getCode().hashCode();
     }
 
-    public String getUniqueIdentifier(String preffix, String namespace, Form form, Field field, String fieldName) {
-        StringBuffer sb = new StringBuffer();
-        sb.append(preffix)
-                .append(FormProcessor.NAMESPACE_SEPARATOR)
-                .append(namespace)
-                .append(FormProcessor.NAMESPACE_SEPARATOR)
-                .append(form != null ? form.getId().toString() : "_")
-                .append(FormProcessor.NAMESPACE_SEPARATOR)
-                .append(field != null ? field.getFieldName() : fieldName);
-        return sb.toString();
-    }
-
     public Set getPropertyNames() {
         Set names = new TreeSet();
 

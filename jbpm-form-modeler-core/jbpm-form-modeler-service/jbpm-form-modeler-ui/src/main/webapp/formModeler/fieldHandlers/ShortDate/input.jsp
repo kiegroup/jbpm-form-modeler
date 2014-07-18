@@ -18,6 +18,7 @@
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.DateFieldHandler" %>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%try{%>
@@ -37,6 +38,7 @@
         <mvc:fragmentValue name="readonly" id="readonly">
         <mvc:fragmentValue name="uid" id="uid">
         <mvc:fragmentValue name="inputPattern" id="inputPattern">
+        <mvc:fragmentValue name="onChangeScript" id="onChangeScript">
 <table border="0" cellpadding="0" cellspacing="0"
        class='dynInputStyle <%=StringUtils.defaultString((String) styleclass, "")%>'
        <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>>
@@ -44,7 +46,6 @@
         <td>
             <input  type="text"
                     name="<%=name%>"
-                    onchange="processFormInputChange(this)"
                     id="<%=uid%>"
                 <%=title!=null?("title=\""+title+"\""):""%>
                 class='dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>'
@@ -68,6 +69,15 @@
                         dateFormat: "<%=inputPattern%>",
                         onClose: function() {
                             processFormInputChange($('#<%=uid%>').get(0));
+<%
+        if (onChangeScript != null) {
+%>
+                            try {
+                                eval('<%=StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)onChangeScript))%>');
+                            } catch (err) {}
+<%
+    }
+%>
                         }
                     });
                 });
@@ -101,12 +111,21 @@
 %>
         <td>
             <a href="#">
-                <img src="<static:image relativePath="general/16x16/ico-trash.png"/>"border="0"
+                <img src="<static:image relativePath="general/16x16/ico-remove.png"/>"border="0"
                      onclick="var dt = document.getElementById('<%=uid%>');
                              dt.value='';
                              $('input[id=\'<%=uid%>\']').datepicker('hide');
                              document.getElementById('<%=uid + DateFieldHandler.HAS_CHANGED_PARAM%>').value = true;
                              processFormInputChange(dt);
+<%
+    if (onChangeScript != null) {
+%>
+                             try {
+                                eval('<%=StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)onChangeScript))%>');
+                             } catch (err) {}
+<%
+    }
+%>
                              return false;">
             </a>
         </td>
@@ -115,6 +134,7 @@
 %>
     </tr>
 </table>
+        </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>

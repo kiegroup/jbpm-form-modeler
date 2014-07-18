@@ -39,7 +39,7 @@ public class MultipleInputFieldHandlerFormatter extends DefaultFieldHandlerForma
 
         FieldHandler handler = getFieldHandlersManager().getHandler(bagType);
 
-        String uid = getFormManager().getUniqueIdentifier(form, currentNamespace, field, field.getFieldName());
+        String uid = namespaceManager.squashInputName(fieldName);
         setAttribute("uid", uid);
         setAttribute("formId", form.getId());
         setAttribute("namespace", currentNamespace);
@@ -64,7 +64,7 @@ public class MultipleInputFieldHandlerFormatter extends DefaultFieldHandlerForma
 
                 renderFragment("inputRow");
 
-                setRenderingAttributes(field, currentNamespace, values[i], i, readOnly, paramsReader.isWrongField());
+                setRenderingAttributes(field, fieldName + FormProcessor.NAMESPACE_SEPARATOR + i, currentNamespace, values[i], readOnly, paramsReader.isWrongField());
                 if (readOnly) includePage(handler.getPageToIncludeForDisplaying());
                 else includePage(handler.getPageToIncludeForRendering());
 
@@ -77,7 +77,7 @@ public class MultipleInputFieldHandlerFormatter extends DefaultFieldHandlerForma
 
         if (!readOnly) {
             renderFragment("startAdd");
-            setRenderingAttributes(field, currentNamespace, null, -1, readOnly, paramsReader.isWrongField());
+            setRenderingAttributes(field, fieldName, currentNamespace, null, readOnly, paramsReader.isWrongField());
             includePage(handler.getPageToIncludeForRendering());
             String addItemButtonText = field.getAddItemText().getValue(getLocaleManager().getCurrentLang());
             if (StringUtils.isEmpty(addItemButtonText)) addItemButtonText = "Add new item";
@@ -91,11 +91,7 @@ public class MultipleInputFieldHandlerFormatter extends DefaultFieldHandlerForma
 
     }
 
-    protected void setRenderingAttributes(Field field, String namespace, Object value, int index, boolean isReadOnly, boolean isWrongField) {
-        String fieldName = namespace + FormProcessor.NAMESPACE_SEPARATOR + field.getForm().getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName();
-
-        if (index > -1) fieldName += FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + index;
-
+    protected void setRenderingAttributes(Field field, String fieldName, String namespace, Object value, boolean isReadOnly, boolean isWrongField) {
         setAttribute(FormRenderingFormatter.ATTR_FIELD, field);
         setAttribute(FormRenderingFormatter.ATTR_VALUE, value);
         setAttribute(FormRenderingFormatter.ATTR_INPUT_VALUE, value != null ? value.toString() : "");

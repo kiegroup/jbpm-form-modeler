@@ -24,9 +24,12 @@ import org.jbpm.formModeler.core.processing.FormProcessor;
 
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SessionScoped
@@ -40,7 +43,12 @@ public class FormRenderContextManagerImpl implements FormRenderContextManager, S
     @Inject
     private Event<FormSubmittedEvent> formSubmittedEvent;
 
+    @Inject
+    private Event<ContextRemovedEvent> contextRemovedEventEvent;
+
     protected Map<String, FormRenderContext> formRenderContextMap = new HashMap<String, FormRenderContext>();
+
+    protected List<String> contextToRemove = new ArrayList<String>();
 
     @Override
     public void persistContext(FormRenderContext ctx) throws Exception {
@@ -61,9 +69,26 @@ public class FormRenderContextManagerImpl implements FormRenderContextManager, S
     @Override
     public void removeContext(FormRenderContext context) {
         if (context != null) {
-            formRenderContextMap.remove(context.getUID());
-            formProcessor.clear(context);
+            if (!context.isInUse())
+                doRemovecontext(context.getUID());
+            else
+                contextToRemove.add(context.getUID());
+
         }
+    }
+
+    protected void doRemovecontext(String ctxUID) {
+        FormRenderContext context = formRenderContextMap.get(ctxUID);
+        if (context == null) return;
+        context.clear();
+        contextToRemove.remove(ctxUID);
+        formProcessor.clear(context);
+        formRenderContextMap.remove(context.getUID());
+        contextRemovedEventEvent.fire(new ContextRemovedEvent(ctxUID));
+    }
+
+    public void removeContextEvent(@Observes ContextRenderedEvent event) {
+        if (contextToRemove.contains(event.getCtxUID())) doRemovecontext(event.getCtxUID());
     }
 
     @Override

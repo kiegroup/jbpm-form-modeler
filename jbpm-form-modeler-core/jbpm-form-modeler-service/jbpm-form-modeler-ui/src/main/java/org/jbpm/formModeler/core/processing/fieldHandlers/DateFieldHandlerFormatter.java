@@ -68,10 +68,12 @@ public class DateFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
         String dateValue = "";
         if (value != null) dateValue = sdf.format(value);
 
+        setAttribute("uid", namespaceManager.squashInputName(fieldName));
         setAttribute("name", fieldName);
         setAttribute("value", dateValue);
         setAttribute("inputPattern", dateFieldHandler.getDefaultJQueryPattern());
         setAttribute("timePattern", dateFieldHandler.getDefaultPatterTimeSuffix());
+        setAttribute("onChangeScript", field.getOnChangeScript());
         renderFragment("output");
     }
 }

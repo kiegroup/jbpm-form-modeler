@@ -15,7 +15,6 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing;
 
-import org.jbpm.formModeler.core.config.FormManagerImpl;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -26,8 +25,8 @@ public class FieldStyleChangeInstruction extends FormChangeInstruction {
     private static transient Logger log = LoggerFactory.getLogger(FieldStyleChangeInstruction.class.getName());
     private String XMLrepresentation;
 
-    public FieldStyleChangeInstruction(FormManagerImpl formManagerImpl, Form form, String namespace, Field field, String styleValue) {
-        String uid = formManagerImpl.getUniqueIdentifier(form, namespace, field, field.getFieldName());
+    public FieldStyleChangeInstruction(NamespaceManager namespaceManager, Form form, String namespace, Field field, String styleValue) {
+        String uid = namespaceManager.generateSquashedInputName(namespace, field);
         StringBuffer sb = new StringBuffer();
         sb.append("<setFieldStyle name=\"");
         sb.append(StringEscapeUtils.escapeXml(uid));

@@ -13,30 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbpm.formModeler.core;
+package org.jbpm.formModeler.components.renderer;
 
-import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import java.io.Serializable;
 
-import javax.enterprise.context.ApplicationScoped;
+public class ContextRemovedEvent implements Serializable {
+    private String ctxUID;
 
-@ApplicationScoped
-public class UIDGenerator {
-
-    public static UIDGenerator lookup() {
-        return (UIDGenerator) CDIBeanLocator.getBeanByType(UIDGenerator.class);
+    public ContextRemovedEvent(String ctxUID) {
+        this.ctxUID = ctxUID;
     }
 
-    private String preffix = "uid_";
-
-    public String getPreffix() {
-        return preffix;
-    }
-
-    public void setPreffix(String preffix) {
-        this.preffix = preffix;
-    }
-
-    public String getUniqueIdentifiersPreffix() {
-        return preffix;
+    public String getCtxUID() {
+        return ctxUID;
     }
 }

@@ -15,6 +15,8 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing;
 
+import org.apache.commons.lang.StringUtils;
+import org.jbpm.formModeler.api.model.Field;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.core.processing.FormNamespaceData;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
@@ -25,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.StringTokenizer;
 
 @ApplicationScoped
 public class NamespaceManager {
@@ -37,6 +40,66 @@ public class NamespaceManager {
     private SubformFinderService subformFinderService;
 
     private Logger log = LoggerFactory.getLogger(NamespaceManager.class);
+
+    public String generateFieldNamesPace(String namespace, Field field) {
+        return generateFieldNamesPace(namespace, field.getForm(), field.getFieldName());
+    }
+
+    public String generateFieldNamesPace(String namespace, Form form, String fieldName) {
+        return namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + fieldName;
+    }
+
+    public String squashInputName(String inputName) {
+        inputName = inputName.substring(inputName.indexOf(FormProcessor.NAMESPACE_SEPARATOR));
+
+        StringTokenizer tokenizer = new StringTokenizer(inputName, FormProcessor.NAMESPACE_SEPARATOR);
+        String result = "";
+
+        if (tokenizer.countTokens() % 2 != 0) {
+            log.warn("Unable to squash field name '{}', wrong number of name parts: {}", inputName, tokenizer.countTokens());
+            System.out.println("Error! " + tokenizer.countTokens());
+            return null;
+        }
+
+        int i = 0;
+        while (tokenizer.hasMoreTokens()) {
+            String token = tokenizer.nextToken();
+            if (i % 2 != 0) {
+                if (!result.isEmpty()) result += FormProcessor.NAMESPACE_SEPARATOR;
+                result += token;
+            }
+
+            i++;
+        }
+        return result;
+    }
+
+    public String generateSquashedInputName(String namespace, Field field) {
+        namespace = squashNamespace(namespace);
+
+        if (StringUtils.isEmpty(namespace)) return field.getFieldName();
+
+        return  namespace + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName();
+    }
+
+    protected String squashNamespace(String namespace) {
+        if (namespace.indexOf(FormProcessor.NAMESPACE_SEPARATOR) == -1) return "";
+        namespace = namespace.substring(namespace.indexOf(FormProcessor.NAMESPACE_SEPARATOR));
+        StringTokenizer tokenizer = new StringTokenizer(namespace, FormProcessor.NAMESPACE_SEPARATOR);
+        String result = "";
+
+        int i = 0;
+        while (tokenizer.hasMoreTokens()) {
+            String token = tokenizer.nextToken();
+            if (i % 2 != 0) {
+                if (!result.isEmpty()) result += FormProcessor.NAMESPACE_SEPARATOR;
+                result += token;
+            }
+
+            i++;
+        }
+        return result;
+    }
 
     public String getParentNamespace(String namespace) {
         if (namespace != null) {
@@ -75,4 +138,5 @@ public class NamespaceManager {
         }
         return null;
     }
+
 }

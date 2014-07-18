@@ -19,6 +19,7 @@ import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.components.renderer.ContextRemovedEvent;
 import org.jbpm.formModeler.core.FormCoreServices;
 import org.jbpm.formModeler.core.config.DataHolderManager;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
@@ -42,6 +43,7 @@ import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -772,6 +774,13 @@ public class WysiwygFormEditor extends BaseUIComponent {
             getFormTemplateEditor().setLoadTemplate(false);
             getFormTemplateEditor().setFormId(null);
             getEditionContext().setShowTemplateEdition(false);
+        }
+    }
+
+    public void removedContext(@Observes ContextRemovedEvent event) {
+        if (editionContext != null && editionContext.getUID().equals(event.getCtxUID())) {
+            formEditorContextManager.removeEditingForm(event.getCtxUID());
+            editionContext = null;
         }
     }
 }

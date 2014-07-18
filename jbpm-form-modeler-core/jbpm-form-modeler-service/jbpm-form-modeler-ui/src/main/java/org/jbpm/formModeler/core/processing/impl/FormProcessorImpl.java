@@ -83,6 +83,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         FormStatus fStatus = FormStatusManager.lookup().createFormStatus(form, namespace, currentValues);
         fStatus.setLoadedObjects(loadedObjects);
         setDefaultValues(form, namespace, currentValues);
+        formChangeProcessor.process(form, namespace, new FormChangeResponse());
         return fStatus;
     }
 
@@ -168,6 +169,12 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
             return formStatus.getAttributes().get(attributeName);
         }
         return null;
+    }
+
+    @Override
+    public void setFieldValue(Field field, String namespace, Map parametersMap, Map filesMap, boolean incremental) {
+        FormStatus formStatus = getFormStatus(field.getForm(), namespace);
+        setFieldValue(field, formStatus, getPrefix(field.getForm(), namespace), parametersMap, filesMap, incremental);
     }
 
     protected void setFieldValue(Field field, FormStatus formStatus, String inputsPrefix, Map parameterMap, Map filesMap, boolean incremental) {
@@ -373,12 +380,6 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         return read(form, namespace, new HashMap<String, Object>());
     }
 
-    public void flushPendingCalculations(Form form, String namespace) {
-        if (formChangeProcessor != null) {
-            formChangeProcessor.process(form, namespace, new FormChangeResponse());//Response is ignored, we just need the session values.
-        }
-    }
-
     public void persist(String ctxUid) throws Exception {
         ctxUid = StringUtils.defaultIfEmpty(ctxUid, FormProcessor.DEFAULT_NAMESPACE);
         persist(formRenderContextManager.getFormRenderContext(ctxUid));
@@ -487,7 +488,6 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
     public Map getMapRepresentationToPersist(Form form, String namespace) throws Exception {
         namespace = StringUtils.defaultIfEmpty(namespace, DEFAULT_NAMESPACE);
-        flushPendingCalculations(form, namespace);
         Map m = new HashMap();
         FormStatus formStatus = getFormStatus(form, namespace);
         if (!formStatus.getWrongFields().isEmpty()) {

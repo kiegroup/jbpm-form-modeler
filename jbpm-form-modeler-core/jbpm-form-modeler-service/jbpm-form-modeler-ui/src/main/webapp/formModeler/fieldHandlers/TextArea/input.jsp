@@ -24,47 +24,52 @@
     <mvc:fragment name="output">
         <mvc:fragmentValue name="name" id="name">
         <mvc:fragmentValue name="title" id="title">
-            <mvc:fragmentValue name="styleclass" id="styleclass">
-                <mvc:fragmentValue name="size" id="size">
-                    <mvc:fragmentValue name="maxlength" id="maxlength">
-                        <mvc:fragmentValue name="tabindex" id="tabindex">
-                            <mvc:fragmentValue name="value" id="value">
-                                <mvc:fragmentValue name="accesskey" id="accesskey">
-                                    <mvc:fragmentValue name="alt" id="alt">
-                                        <mvc:fragmentValue name="cssStyle" id="cssStyle">
-                                            <mvc:fragmentValue name="height" id="height">
-                                                <mvc:fragmentValue name="readonly" id="readonly">
-                                                    <mvc:fragmentValue name="isEditMode" id="isEditMode">
-                                            <table border="0" cellpadding="0" cellspacing="0" >
-                                                <tr valign="top">
-                                                    <td>
-                                                        <textarea  name="<%=name%>" id="<mvc:fragmentValue name="uid"/>"
-                                                            onchange="processFormInputChange(this)"
-                                                            onkeyup="return ismaxlength(this)"
-                                                            <%=title!=null?("title=\""+title+"\""):""%>
-                                                            class='dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>'
-                                                            style="<%=Boolean.TRUE.equals(isEditMode) ? "resize: none;" : ""%><%=StringUtils.defaultString((String) cssStyle)%>"
-                                                            <%=size!=null ? " cols=\""+size+"\"":""%>
-                                                            <%=maxlength!=null ? " maxlength=\""+maxlength+"\"":""%>
-                                                            <%=tabindex!=null ? " tabindex=\""+tabindex+"\"":""%>
-                                                            <%=accesskey!=null ? " accesskey=\""+accesskey+"\"":""%>
-                                                            <%=alt!=null ? " alt=\""+alt+"\"":""%>
-                                                            <%=height!=null ? " rows=\""+height+"\"":""%>
-                                                            <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>><%=StringEscapeUtils.escapeHtml(StringUtils.defaultString((String)value))%></textarea>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                                    </mvc:fragmentValue>
-                                                </mvc:fragmentValue>
-                                            </mvc:fragmentValue>
-                                        </mvc:fragmentValue>
-                                    </mvc:fragmentValue>
-                                </mvc:fragmentValue>
-                            </mvc:fragmentValue>
-                        </mvc:fragmentValue>
-                    </mvc:fragmentValue>
-                </mvc:fragmentValue>
-            </mvc:fragmentValue>
+        <mvc:fragmentValue name="styleclass" id="styleclass">
+        <mvc:fragmentValue name="size" id="size">
+        <mvc:fragmentValue name="maxlength" id="maxlength">
+        <mvc:fragmentValue name="tabindex" id="tabindex">
+        <mvc:fragmentValue name="value" id="value">
+        <mvc:fragmentValue name="accesskey" id="accesskey">
+        <mvc:fragmentValue name="alt" id="alt">
+        <mvc:fragmentValue name="cssStyle" id="cssStyle">
+        <mvc:fragmentValue name="height" id="height">
+        <mvc:fragmentValue name="readonly" id="readonly">
+        <mvc:fragmentValue name="isEditMode" id="isEditMode">
+        <mvc:fragmentValue name="onChangeScript" id="onChangeScript">
+<textarea  name="<%=name%>" id="<mvc:fragmentValue name="uid"/>"
+           onchange="processFormInputChange(this);
+<%
+    if (onChangeScript != null) {
+%>
+                   try {
+                        eval('<%=StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)onChangeScript))%>');
+                   } catch (err) {}
+<%
+   }
+%>"
+           onkeyup="return ismaxlength(this)"
+        <%=title!=null?("title=\""+title+"\""):""%>
+           class='dynInputStyle <%=StringUtils.defaultString((String) styleclass, "skn-input")%>'
+           style="<%=Boolean.TRUE.equals(isEditMode) ? "resize: none;" : ""%><%=StringUtils.defaultString((String) cssStyle)%>"
+        <%=size!=null ? " cols=\""+size+"\"":""%>
+        <%=maxlength!=null ? " maxlength=\""+maxlength+"\"":""%>
+        <%=tabindex!=null ? " tabindex=\""+tabindex+"\"":""%>
+        <%=accesskey!=null ? " accesskey=\""+accesskey+"\"":""%>
+        <%=alt!=null ? " alt=\""+alt+"\"":""%>
+        <%=height!=null ? " rows=\""+height+"\"":""%>
+        <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>><%=StringEscapeUtils.escapeHtml(StringUtils.defaultString((String)value))%></textarea>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>

@@ -30,6 +30,7 @@ public class FormRenderContext implements Serializable {
     private boolean submit = false;
     private int errors;
     private Map<String, Object> contextForms = new HashMap<String, Object>();
+    private boolean inUse = false;
 
     public FormRenderContext(){}
 
@@ -90,5 +91,19 @@ public class FormRenderContext implements Serializable {
 
     public void setContextForms(Map<String, Object> contextForms) {
         this.contextForms = contextForms;
+    }
+
+    public boolean isInUse() {
+        return inUse;
+    }
+
+    public void setInUse(boolean inUse) {
+        this.inUse = inUse;
+    }
+
+    public void clear() {
+        inputData = null;
+        outputData = null;
+        contextForms = null;
     }
 }

@@ -61,13 +61,15 @@ public class FormEditorContextManagerImpl implements FormEditorContextManager {
 
     @Override
     public String generateFieldEditionNamespace(String UID, Field field) {
-        return UID + FormProcessor.NAMESPACE_SEPARATOR + EDIT_FIELD_LITERAL + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + field.getId();
+        return UID + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + EDIT_FIELD_LITERAL + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + field.getId();
     }
 
     @Override
     public FormEditorContext getRootEditorContext(String UID) {
         if (StringUtils.isEmpty(UID)) return null;
         int separatorIndex = UID.indexOf(FormProcessor.NAMESPACE_SEPARATOR);
+        if (separatorIndex != -1) UID = UID.substring(0, separatorIndex);
+        separatorIndex = UID.indexOf(FormProcessor.CUSTOM_NAMESPACE_SEPARATOR);
         if (separatorIndex != -1) UID = UID.substring(0, separatorIndex);
         return formEditorContextMap.get(UID);
     }

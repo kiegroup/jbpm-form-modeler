@@ -15,12 +15,12 @@
  */
 package org.jbpm.formModeler.core.processing.formRendering;
 
+import org.jbpm.formModeler.core.processing.formProcessing.NamespaceManager;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.FormCoreServices;
-import org.jbpm.formModeler.core.UIDGenerator;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
 import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
@@ -67,6 +67,9 @@ public class FormRenderingFormatter extends Formatter {
     @Inject
     protected FieldI18nResourceObtainer fieldI18nResourceObtainer;
 
+    @Inject
+    protected NamespaceManager namespaceManager;
+
     @Inject @Config("/formModeler/defaultFormErrors.jsp")
     private String errorsPage;
 
@@ -78,10 +81,6 @@ public class FormRenderingFormatter extends Formatter {
     protected transient String renderMode;
     protected transient Boolean isReadonly = Boolean.FALSE;
     protected transient FormStatusData formStatusData;
-
-    public UIDGenerator getUidGenerator() {
-        return UIDGenerator.lookup();
-    }
 
     public FormManager getFormManager() {
         return FormCoreServices.lookup().getFormManager();
@@ -328,7 +327,7 @@ public class FormRenderingFormatter extends Formatter {
     }
 
     protected void beforeRenderField(Field field, String namespace, String renderMode) {
-        String uid = getFormManager().getUniqueIdentifier(field.getForm(), namespace, field, field.getFieldName());
+        String uid = namespaceManager.generateSquashedInputName(namespace, field);
         String fieldTypeCss = field.getFieldType().getCssStyle();
         String fieldCss = field.getCssStyle();
         Object overridenValue = getFormProcessor().getAttribute(field.getForm(), namespace, field.getFieldName() + ".cssStyle");
@@ -359,13 +358,7 @@ public class FormRenderingFormatter extends Formatter {
 
     protected void renderLabel(Field field, String namespace, String renderMode) {
         beforeRenderLabel(field, namespace, renderMode);
-        String inputId = field.getFieldType().getUniqueIdentifier(
-                getUidGenerator().getUniqueIdentifiersPreffix(),
-                namespace,
-                field.getForm(),
-                field,
-                field.getFieldName()
-        );
+        String inputId = namespaceManager.generateSquashedInputName(namespace, field);
         String labelCssStyle = null;
         String labelCssClass = null;
         try {
@@ -412,7 +405,8 @@ public class FormRenderingFormatter extends Formatter {
     }
 
     protected void beforeRenderLabel(Field field, String namespace, String renderMode) {
-        String uid = getFormManager().getUniqueIdentifier(field.getForm(), namespace, field, field.getFieldName());
+        String uid = namespaceManager.generateSquashedInputName(namespace, field);
+
         String fieldCss = field.getLabelCSSStyle();
         Object overridenValue = getFormProcessor().getAttribute(field.getForm(), namespace, field.getFieldName() + ".labelCSSStyle");
         String css = fieldCss;
@@ -504,9 +498,9 @@ public class FormRenderingFormatter extends Formatter {
     protected void displayFooter(Form form) {
         String displayMode = form.getDisplayMode();
         if (Form.RENDER_MODE_FORM.equals(renderMode)) {
-            String formRefresherFieldName = namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + ":initialFormRefresher";
+            String formRefresherFieldName = namespaceManager.generateFieldNamesPace(namespace, form, ":initialFormRefresher");
             setAttribute("name", formRefresherFieldName);
-            setAttribute("uid", getUidGenerator().getUniqueIdentifiersPreffix() + FormProcessor.NAMESPACE_SEPARATOR + formRefresherFieldName);
+            setAttribute("uid", formRefresherFieldName);
             if (Form.DISPLAY_MODE_TEMPLATE.equals(displayMode)) {
                 includePage("/formModeler/defaultFormFooter.jsp");
             } else {
@@ -665,7 +659,7 @@ public class FormRenderingFormatter extends Formatter {
     }
 
     protected void setRenderingAttributes(Field field, String namespace, Object value, FormStatusData formStatusData, boolean isWrongField) {
-        String fieldName = namespace + FormProcessor.NAMESPACE_SEPARATOR + field.getForm().getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName();
+        String fieldName = namespaceManager.generateFieldNamesPace(namespace, field);
         setAttribute(ATTR_FIELD, field);
         setAttribute(ATTR_VALUE, value);
         setAttribute(ATTR_INPUT_VALUE, formStatusData.getCurrentInputValue(fieldName));

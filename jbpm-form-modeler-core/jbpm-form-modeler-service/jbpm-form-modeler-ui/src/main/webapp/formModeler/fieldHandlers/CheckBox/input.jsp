@@ -16,46 +16,75 @@
 
 --%>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <mvc:formatter name="SimpleFieldHandlerFormatter">
     <mvc:fragment name="output">
         <mvc:fragmentValue name="title" id="title">
         <mvc:fragmentValue name="name" id="name">
-            <mvc:fragmentValue name="styleclass" id="styleclass">
-                <mvc:fragmentValue name="size" id="size">
-                    <mvc:fragmentValue name="maxlength" id="maxlength">
-                        <mvc:fragmentValue name="tabindex" id="tabindex">
-                            <mvc:fragmentValue name="value" id="value">
-                                <mvc:fragmentValue name="accesskey" id="accesskey">
-                                    <mvc:fragmentValue name="alt" id="alt">
-                                        <mvc:fragmentValue name="cssStyle" id="cssStyle">
-                                            <mvc:fragmentValue name="height" id="height">
-                                                <mvc:fragmentValue name="readonly" id="readonly">
-                                                        <input type="hidden" name="<%=name%>Value" value="<%=value%>">
-                                                        <input type="checkbox" name="<%=name%>" id="<mvc:fragmentValue name="uid"/>"
-                                                               onclick="<%=Boolean.TRUE.equals(readonly) ? "return false;" : "this.form['" + name + "Value'].value=this.checked ? 'true' : 'false'; processFormInputChange(this);"%>"
-                                                               onchange="<%=Boolean.TRUE.equals(readonly) ? "return false;" : "this.form['" + name + "Value'].value=this.checked ? 'true' : 'false'; processFormInputChange(this);"%>"
-                                                            <%=title!=null?("title=\""+title+"\""):""%>
-                                                            class="dynInputStyle <%=StringUtils.defaultString((String) styleclass)%>"
-                                                            <%=tabindex!=null ? " tabindex=\""+tabindex+"\"":""%>
-                                                            <%=accesskey!=null ? " accesskey=\""+accesskey+"\"":""%>
-                                                            <%=alt!=null ? " alt=\""+alt+"\"":""%>
-                                                            <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
-                                                            <%=height!=null ? " height=\""+height+"\"":""%>
-                                                            <%=Boolean.TRUE.equals(readonly) ? " disabled ":""%>
-                                                            value="true" <%=(new Boolean(String.valueOf(value))).booleanValue()?" checked ":""%>
-                                                                >
-                                                </mvc:fragmentValue>
-                                            </mvc:fragmentValue>
-                                        </mvc:fragmentValue>
-                                    </mvc:fragmentValue>
-                                </mvc:fragmentValue>
-                            </mvc:fragmentValue>
-                        </mvc:fragmentValue>
-                    </mvc:fragmentValue>
-                </mvc:fragmentValue>
-            </mvc:fragmentValue>
+        <mvc:fragmentValue name="styleclass" id="styleclass">
+        <mvc:fragmentValue name="size" id="size">
+        <mvc:fragmentValue name="maxlength" id="maxlength">
+        <mvc:fragmentValue name="tabindex" id="tabindex">
+        <mvc:fragmentValue name="value" id="value">
+        <mvc:fragmentValue name="accesskey" id="accesskey">
+        <mvc:fragmentValue name="alt" id="alt">
+        <mvc:fragmentValue name="cssStyle" id="cssStyle">
+        <mvc:fragmentValue name="height" id="height">
+        <mvc:fragmentValue name="readonly" id="readonly">
+        <mvc:fragmentValue name="onChangeScript" id="onChangeScript">
+<input type="checkbox" name="<%=name%>" id="<mvc:fragmentValue name="uid"/>"
+       onchange="
+<%
+    if(Boolean.TRUE.equals(readonly)) {
+%>
+                return false;
+<%
+    } else {
+%>
+                this.value = this.checked;
+                processFormInputChange(this);
+<%
+        if (onChangeScript != null) {
+%>
+                try {
+                    eval('<%=StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)onChangeScript))%>');
+                } catch (err) {}
+<%
+        }
+    }
+%>"
+    <%=title!=null?("title=\""+title+"\""):""%>
+    class="dynInputStyle <%=StringUtils.defaultString((String) styleclass)%>"
+    <%=tabindex!=null ? " tabindex=\""+tabindex+"\"":""%>
+    <%=accesskey!=null ? " accesskey=\""+accesskey+"\"":""%>
+    <%=alt!=null ? " alt=\""+alt+"\"":""%>
+    <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
+    <%=height!=null ? " height=\""+height+"\"":""%>
+    <%=Boolean.TRUE.equals(readonly) ? " disabled ":""%>
+<%
+    if (Boolean.TRUE.equals(value)) {
+%>
+     value="true" checked
+<%
+    } else {
+%>
+     value="false"
+<%
+    }
+%>>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
+        </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>

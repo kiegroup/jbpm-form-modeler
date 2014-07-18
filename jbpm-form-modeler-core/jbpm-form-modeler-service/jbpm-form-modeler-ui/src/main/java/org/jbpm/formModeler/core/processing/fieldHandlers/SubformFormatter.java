@@ -17,7 +17,6 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.FormCheckResult;
 import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.SubformChecker;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
@@ -64,19 +63,21 @@ public class SubformFormatter extends DefaultFieldHandlerFormatter {
 
         if (!fieldHandler.checkSubformDepthAllowed(form, namespace)) return;
 
+        String fieldUID = namespaceManager.squashInputName(fieldName);
+
         setDefaultAttributes(field, form, namespace);
         setAttribute("valueObject", value);
         setAttribute("position", position);
         setAttribute("name", fieldName);
-        setAttribute("uid", getFormManager().getUniqueIdentifier(form, namespace, field, fieldName));
+        setAttribute("uid", fieldUID);
         String height = (field.getHeight() != null && !"".equals(field.getHeight())) ? field.getHeight() : "100";
         setAttribute("heightDesired", height);
         renderFragment("outputStart");
 
         String renderMode = paramsReader.getCurrentRenderMode();
         setAttribute("form", enterDataForm);
-        setAttribute("namespace", namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName());
-        setAttribute("uid", getFormManager().getUniqueIdentifier(form, namespace, field, fieldName));
+        setAttribute("namespace", fieldName);
+        setAttribute("uid", fieldUID);
         setAttribute("name", fieldName);
         setAttribute("renderMode", renderMode);
         // Override the field's own disabled and readonly values with the ones coming from a parent formatter

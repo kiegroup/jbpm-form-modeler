@@ -15,21 +15,16 @@
  */
 package org.jbpm.formModeler.core.processing.formStatus;
 
-import org.slf4j.Logger;
-import org.jbpm.formModeler.core.FieldHandlersManager;
-import org.jbpm.formModeler.core.processing.FormNamespaceData;
-import org.jbpm.formModeler.core.processing.FormProcessingServices;
-import org.jbpm.formModeler.core.processing.formProcessing.NamespaceManager;
 import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.core.processing.FieldHandler;
+import org.jbpm.formModeler.core.processing.FormNamespaceData;
 import org.jbpm.formModeler.core.processing.FormProcessor;
+import org.jbpm.formModeler.core.processing.formProcessing.NamespaceManager;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -38,8 +33,7 @@ import java.util.Map;
 /**
  * Holds session information for forms.
  */
-//@SessionScoped
-@ApplicationScoped
+@SessionScoped
 public class FormStatusManager implements Serializable {
 
     public static FormStatusManager lookup() {

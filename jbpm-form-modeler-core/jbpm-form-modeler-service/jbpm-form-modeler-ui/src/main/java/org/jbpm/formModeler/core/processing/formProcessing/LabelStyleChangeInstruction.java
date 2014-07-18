@@ -18,7 +18,6 @@ package org.jbpm.formModeler.core.processing.formProcessing;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.jbpm.formModeler.core.config.FormManagerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +25,8 @@ public class LabelStyleChangeInstruction extends FormChangeInstruction {
     private static transient Logger log = LoggerFactory.getLogger(LabelStyleChangeInstruction.class);
     private String XMLrepresentation;
 
-    public LabelStyleChangeInstruction(FormManagerImpl formManagerImpl, Form form, String namespace, Field field, String styleValue) {
-        String uid = formManagerImpl.getUniqueIdentifier(form, namespace, field, field.getFieldName()) + "_label";
+    public LabelStyleChangeInstruction(NamespaceManager namespaceManager, Form form, String namespace, Field field, String styleValue) {
+        String uid = namespaceManager.generateSquashedInputName(namespace, field);
         StringBuffer sb = new StringBuffer();
         sb.append("<setLabelStyle name=\"");
         sb.append(StringEscapeUtils.escapeXml(uid));

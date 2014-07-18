@@ -198,7 +198,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     }
 
     private void addXMLNode(String propName, String value, XMLNode parent) {
-        if (value != null) {
+        if (!StringUtils.isEmpty(value)) {
             XMLNode propertyNode = new XMLNode(NODE_PROPERTY, parent);
             propertyNode.addAttribute(ATTR_NAME, propName);
             propertyNode.addAttribute(ATTR_VALUE, value);
@@ -344,6 +344,8 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                         field.setParam5(value);
                     } else if ("fieldClass".equals(propName)) {
                         field.getFieldType().setFieldClass(value);
+                    } else if ("onChangeScript".equals(propName)) {
+                        field.setOnChangeScript(value);
                     }
                 }
             }
@@ -438,6 +440,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         addXMLNode("param3", field.getParam3(), rootNode);
         addXMLNode("param4", field.getParam4(), rootNode);
         addXMLNode("param5", field.getParam5(), rootNode);
+        addXMLNode("onChangeScript", field.getOnChangeScript(), rootNode);
 
         parent.addChild(rootNode);
     }

@@ -16,6 +16,7 @@
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 import org.jbpm.formModeler.core.config.FieldTypeManager;
+import org.jbpm.formModeler.core.processing.formProcessing.NamespaceManager;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.config.FormManager;
@@ -48,6 +49,9 @@ public abstract class DefaultFieldHandlerFormatter extends Formatter {
 
     @Inject @Config("25")
     protected int defaultSize;
+
+    @Inject
+    protected NamespaceManager namespaceManager;
 
     public FormManager getFormManager() {
         return FormCoreServices.lookup().getFormManager();
@@ -99,10 +103,6 @@ public abstract class DefaultFieldHandlerFormatter extends Formatter {
                 return value;
             }
         });
-    }
-
-    protected String getUniqueIdentifier(Form form, String namespace, Field field, String fieldName) {
-        return getFormManager().getUniqueIdentifier(form, namespace, field, fieldName);
     }
 
     /**

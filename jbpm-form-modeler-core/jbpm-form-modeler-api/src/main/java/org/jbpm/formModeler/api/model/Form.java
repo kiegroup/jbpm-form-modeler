@@ -364,7 +364,7 @@ public class Form implements Serializable, Comparable{
     }
 
     public DataHolder getDataHolderByField(Field field) {
-        if (field == null || field.getInputBinding() == null || field.getOutputBinding() == null) return null;
+        if (field == null || (field.getInputBinding() == null && field.getOutputBinding() == null)) return null;
 
         for (DataHolder holder : holders) {
             if (holder.containsBinding(field.getInputBinding())){

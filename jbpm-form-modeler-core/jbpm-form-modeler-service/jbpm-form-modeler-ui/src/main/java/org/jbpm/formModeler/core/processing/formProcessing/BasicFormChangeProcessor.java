@@ -79,18 +79,7 @@ public abstract class BasicFormChangeProcessor extends FormChangeProcessor {
             value = "\"" + StringEscapeUtils.escapeJava((String) value) + "\"";
         if (value instanceof Date)
             value = "new java.util.Date(" + ((Date) value).getTime() + "l)";
-        if (value == null) {
 
-            /* commentado por WM al migrar. TODO ver que hace esto
-            try {
-                PropertyDefinition propertyType = getPotterManager().getPropertyTypeForJXPath(entityValue, form.getSubject());
-                if (propertyType != null && propertyType.getPropertyClass() == Boolean.class)
-                    value = "false";
-            } catch (Exception e) {
-                log.error("Error: ", e);
-            }
-            */
-        }
         return value;
     }
 
@@ -103,7 +92,7 @@ public abstract class BasicFormChangeProcessor extends FormChangeProcessor {
             if ((currentFieldValue != null && value == null) || (value != null && !value.equals(currentFieldValue))) {
                 FieldHandler fieldHandler = fieldHandlersManager.getHandler(field.getFieldType());
                 Map fieldValuesMap = fieldHandler.getParamValue(field, namespace + FormProcessor.NAMESPACE_SEPARATOR + form.getId() + FormProcessor.NAMESPACE_SEPARATOR + field.getFieldName(), value);
-                formProcessor.setValues(form, namespace, fieldValuesMap, fieldValuesMap, true);
+                formProcessor.setFieldValue(field, namespace, fieldValuesMap, fieldValuesMap, true);
                 response.addInstruction(new SetFieldValueInstruction(fieldValuesMap));
             }
         }

@@ -102,6 +102,8 @@ public class Field implements Serializable, Comparable<Field> {
     private String param4;
     private String param5;
 
+    private String onChangeScript;
+
 
     private Form form;
 
@@ -413,6 +415,14 @@ public class Field implements Serializable, Comparable<Field> {
         this.param5 = param5;
     }
 
+    public String getOnChangeScript() {
+        return onChangeScript;
+    }
+
+    public void setOnChangeScript(String onChangeScript) {
+        this.onChangeScript = onChangeScript;
+    }
+
     public String toString() {
         return getId().toString();
     }
@@ -587,6 +597,8 @@ public class Field implements Serializable, Comparable<Field> {
         names.add("param4");
         names.add("param5");
 
+        names.add("onChangeScript");
+
         return names;
     }
 
@@ -643,6 +655,8 @@ public class Field implements Serializable, Comparable<Field> {
         value.put("param3", getParam3());
         value.put("param4", getParam4());
         value.put("param5", getParam5());
+
+        value.put("onChangeScript", onChangeScript);
 
         return value;
     }

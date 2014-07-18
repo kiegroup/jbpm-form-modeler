@@ -77,10 +77,6 @@ public interface FormManager extends Serializable {
 
     void saveTemplateForForm(Long formId, String templateContent) throws Exception;
 
-    String getUniqueIdentifiersPreffix();
-
-    String getUniqueIdentifier(Form form, String namespace, Field field, String fieldName);
-
     public void addDataHolderToForm(Form form, String holderType,String id,String inputId, String outId, String color, String value, String path)throws Exception;
 
     public void addDataHolderToForm(Form form, DataHolder holder);

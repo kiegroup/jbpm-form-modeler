@@ -481,16 +481,6 @@ public class FormManagerImpl implements FormManager {
         form.setFormTemplate(templateContent);
     }
 
-    public String getUniqueIdentifiersPreffix() {
-        return "uid_";
-    }
-
-    public String getUniqueIdentifier(Form form, String namespace, Field field, String fieldName) {
-        if (field != null)
-            return field.getFieldType().getUniqueIdentifier(getUniqueIdentifiersPreffix(), namespace, form, field, fieldName);
-        return getUniqueIdentifiersPreffix() + "_" + fieldName;
-    }
-
     /**
      * Determine if a form is deleteable, which means it is not in use in other core structures.
      *
