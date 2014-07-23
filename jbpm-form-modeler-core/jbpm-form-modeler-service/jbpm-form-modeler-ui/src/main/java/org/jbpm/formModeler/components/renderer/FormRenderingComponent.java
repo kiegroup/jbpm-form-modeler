@@ -80,7 +80,6 @@ public class FormRenderingComponent extends BaseUIComponent {
     @Override
     public void afterRenderBean() {
         ctx.setInUse(false);
-        ctx = null;
         contextRenderedEventEvent.fire(new ContextRenderedEvent(ctx.getUID()));
     }
 
