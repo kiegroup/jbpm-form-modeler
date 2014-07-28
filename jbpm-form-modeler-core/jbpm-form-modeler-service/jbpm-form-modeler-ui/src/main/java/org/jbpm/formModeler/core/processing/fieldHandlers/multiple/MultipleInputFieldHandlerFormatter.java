@@ -1,6 +1,6 @@
 package org.jbpm.formModeler.core.processing.fieldHandlers.multiple;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.FieldType;
@@ -15,12 +15,18 @@ import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Named("MultipleInputFieldHandlerFormatter")
 public class MultipleInputFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
+    public static final String PARAM_MODE = "show_mode";
+    public static final String MODE_SHOW = "show";
+    public static final String MODE_INPUT = "input";
 
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
+        String mode = (String) getParameter(PARAM_MODE);
+
         FieldHandlerParametersReader paramsReader = new FieldHandlerParametersReader(request);
 
         Field field = paramsReader.getCurrentField();
@@ -29,9 +35,9 @@ public class MultipleInputFieldHandlerFormatter extends DefaultFieldHandlerForma
         Object fieldValue = paramsReader.getCurrentFieldValue();
         String fieldName = paramsReader.getCurrentFieldName();
 
-        boolean readOnly = field.getReadonly() || paramsReader.isFieldReadonly();
+        boolean readOnly = MODE_SHOW.equals(mode) || field.getReadonly() || paramsReader.isFieldReadonly();
 
-        Object[] values = (Object[]) fieldValue;
+        List values = (List) fieldValue;
 
         FieldType bagType = getFieldTypeManager().getTypeByClass(field.getBag());
 
@@ -46,13 +52,13 @@ public class MultipleInputFieldHandlerFormatter extends DefaultFieldHandlerForma
         setAttribute("fieldName", fieldName);
         renderFragment("outputStart");
 
-        if (!ArrayUtils.isEmpty(values)) {
+        if (!CollectionUtils.isEmpty(values)) {
             renderFragment("tableStart");
             renderFragment("startHeader");
             if (!readOnly) renderFragment("actionsColumn");
             renderFragment("itemsColumn");
             renderFragment("endHeader");
-            for (int i = 0; i < values.length; i++) {
+            for (int i = 0; i < values.size(); i++) {
                 renderFragment("startRow");
                 if (!readOnly) {
                     setAttribute("uid", uid);
@@ -64,7 +70,7 @@ public class MultipleInputFieldHandlerFormatter extends DefaultFieldHandlerForma
 
                 renderFragment("inputRow");
 
-                setRenderingAttributes(field, fieldName + FormProcessor.NAMESPACE_SEPARATOR + i, currentNamespace, values[i], readOnly, paramsReader.isWrongField());
+                setRenderingAttributes(field, fieldName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + i, currentNamespace, values.get(i), readOnly, paramsReader.isWrongField());
                 if (readOnly) includePage(handler.getPageToIncludeForDisplaying());
                 else includePage(handler.getPageToIncludeForRendering());
 

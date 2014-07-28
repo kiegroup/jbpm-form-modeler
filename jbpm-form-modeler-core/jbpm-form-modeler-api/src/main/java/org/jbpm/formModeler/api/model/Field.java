@@ -104,6 +104,8 @@ public class Field implements Serializable, Comparable<Field> {
 
     private String onChangeScript;
 
+    private Boolean verticalAlignment = Boolean.TRUE;
+
 
     private Form form;
 
@@ -514,6 +516,14 @@ public class Field implements Serializable, Comparable<Field> {
         this.position = position;
     }
 
+    public Boolean getVerticalAlignment() {
+        return verticalAlignment;
+    }
+
+    public void setVerticalAlignment(Boolean verticalAlignment) {
+        this.verticalAlignment = verticalAlignment;
+    }
+
     public String getInputBinding() {
         return inputBinding;
     }
@@ -599,6 +609,8 @@ public class Field implements Serializable, Comparable<Field> {
 
         names.add("onChangeScript");
 
+        names.add("verticalAlignment");
+
         return names;
     }
 
@@ -657,6 +669,7 @@ public class Field implements Serializable, Comparable<Field> {
         value.put("param5", getParam5());
 
         value.put("onChangeScript", onChangeScript);
+        value.put("verticalAlignment", verticalAlignment);
 
         return value;
     }

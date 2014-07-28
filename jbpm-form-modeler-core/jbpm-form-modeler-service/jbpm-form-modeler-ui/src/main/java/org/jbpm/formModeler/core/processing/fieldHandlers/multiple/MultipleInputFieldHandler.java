@@ -15,21 +15,23 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers.multiple;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.FieldType;
+import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.FormProcessor;
-import org.jbpm.formModeler.core.processing.FormStatusData;
-import org.jbpm.formModeler.core.processing.PersistentFieldHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Named;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Named("org.jbpm.formModeler.core.processing.fieldHandlers.multiple.MultipleInputFieldHandler")
-public class MultipleInputFieldHandler extends PersistentFieldHandler {
+public class MultipleInputFieldHandler extends DefaultFieldHandler {
     private Logger log = LoggerFactory.getLogger(MultipleInputFieldHandler.class);
 
     @Override
@@ -39,9 +41,9 @@ public class MultipleInputFieldHandler extends PersistentFieldHandler {
 
     @Override
     public Object getValue(Field field, String inputName, Map parametersMap, Map filesMap, String desiredClassName, Object previousValue) throws Exception {
-        Object[] value = (Object[]) previousValue;
+        List value = (List) previousValue;
 
-        if (value == null) value = new Object[]{};
+        if (value == null) value = new ArrayList();
 
         FieldHandler handler = getFieldHandler(field);
 
@@ -51,19 +53,19 @@ public class MultipleInputFieldHandler extends PersistentFieldHandler {
         if (newValue != null && newValue.length == 1 && newValue[0].equals("true")) {
             try {
                 Object valueToAdd = handler.getValue(field, inputName, parametersMap, filesMap, field.getBag(), null);
-                value = ArrayUtils.add(value, valueToAdd);
+                value.add(valueToAdd);
             } catch (Exception ex) {
                 log.debug("Unable to add value to list '{}': {}", field.getFieldName(), ex);
                 throw new Exception("Unable to add value");
             }
         } else if (deleteValue != null && deleteValue.length == 1 && !deleteValue[0].equals("-1")) {
             int index = Integer.decode(deleteValue[0]);
-            if (index <= value.length) value = ArrayUtils.remove(value, index);
+            if (index <= value.size()) value.remove(index);
         } else {
-            if (!ArrayUtils.isEmpty(value)) {
-                for (int i = 0; i < value.length; i++) {
+            if (!value.isEmpty()) {
+                for (int i = 0; i < value.size(); i++) {
                     try {
-                        value[i] = handler.getValue(field, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + i, parametersMap, filesMap, field.getBag(), value[i]);
+                        value.set(i, handler.getValue(field, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + i, parametersMap, filesMap, field.getBag(), value.get(i)));
                     } catch (Exception ex) {
                         log.debug("Unable to edit value '{}' on list '{}': {}", i, field.getFieldName(), ex);
                         throw new Exception("Unable to edit value");
@@ -78,13 +80,15 @@ public class MultipleInputFieldHandler extends PersistentFieldHandler {
     public Map getParamValue(Field field, String inputName, Object objectValue) {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        Object[] values = (Object[]) objectValue;
+        List values = (List) objectValue;
+
+        if (CollectionUtils.isEmpty(values)) return result;
 
         FieldHandler handler = getFieldHandler(field);
 
-        if (values != null && values.length > 0) {
-            for (int i = 0; i < values.length; i++) {
-                result.putAll(handler.getParamValue(field, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + i, values[i]));
+        if (values != null && values.size() > 0) {
+            for (int i = 0; i < values.size(); i++) {
+                result.putAll(handler.getParamValue(field, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + i, values.get(i)));
             }
         }
 
@@ -92,25 +96,8 @@ public class MultipleInputFieldHandler extends PersistentFieldHandler {
     }
 
     @Override
-    public Object persist(Field field, String inputName) throws Exception {
-        FormStatusData data = getFormProcessor().read(field.getForm(), getNamespaceManager().getParentNamespace(inputName));
-
-        Object objectValue = data.getCurrentValue(field.getFieldName());
-        if (objectValue == null) return null;
-
-        return Arrays.asList((Object[])objectValue);
-    }
-
-    @Override
-    public Object getStatusValue(Field field, String inputName, Object value) {
-        if (value == null) return null;
-
-        return ((List)value).toArray();
-    }
-
-    @Override
     public boolean isEmpty(Object value) {
-        return ArrayUtils.isEmpty((Object[]) value);
+        return CollectionUtils.isEmpty((List) value);
     }
 
     protected FieldHandler getFieldHandler(Field field) {

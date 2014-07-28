@@ -17,6 +17,7 @@
 --%>
 <%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
 <%@ page import="org.jbpm.formModeler.core.processing.FormProcessor" %>
+<%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.multiple.MultipleInputFieldHandlerFormatter" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
@@ -25,6 +26,7 @@
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.core.processing.fieldHandlers.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 
 <mvc:formatter name="MultipleInputFieldHandlerFormatter">
+    <mvc:formatterParam name="<%=MultipleInputFieldHandlerFormatter.PARAM_MODE%>" value="<%=MultipleInputFieldHandlerFormatter.MODE_INPUT%>"/>
     <mvc:fragment name="outputStart">
         <mvc:fragmentValue name="uid" id="uid">
         <mvc:fragmentValue name="namespace" id="namespace">

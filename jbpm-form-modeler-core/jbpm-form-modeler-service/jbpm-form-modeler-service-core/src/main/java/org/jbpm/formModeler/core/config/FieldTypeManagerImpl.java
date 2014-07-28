@@ -112,6 +112,8 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
         iconsMappings.put("MultipleSubform", "fieldTypes/master_details.png");
         iconsMappings.put("Document", "fieldTypes/file.png");
         iconsMappings.put("File", "fieldTypes/file.png");
+        iconsMappings.put("SelectBox", "fieldTypes/select.png");
+        iconsMappings.put("RadioGroup", "fieldTypes/radio.png");
 
         hiddenFieldTypesCodes.add("InputTextPrimitiveByte");
         hiddenFieldTypesCodes.add("InputTextPrimitiveShort");
@@ -198,7 +200,7 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
             }
 
             for (FieldType fieldType : decoratorTypes) {
-                if (fieldType.getFieldClass().equals(propertyType)) {
+                if (fieldType.getFieldClass().equals(propertyType) && StringUtils.isEmpty(field.getBag())) {
                     validFieldTypes.add(fieldType);
                     isDecorator = true;
                 }

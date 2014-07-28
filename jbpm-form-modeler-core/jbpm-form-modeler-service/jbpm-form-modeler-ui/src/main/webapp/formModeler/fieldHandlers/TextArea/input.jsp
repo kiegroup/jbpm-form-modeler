@@ -41,9 +41,11 @@
 <%
     if (onChangeScript != null) {
 %>
-                   try {
+                    try {
                         eval('<%=StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)onChangeScript))%>');
-                   } catch (err) {}
+                    } catch (err) {
+                        alert('Error executing inline js: ' + scriptCode);
+                    }
 <%
    }
 %>"

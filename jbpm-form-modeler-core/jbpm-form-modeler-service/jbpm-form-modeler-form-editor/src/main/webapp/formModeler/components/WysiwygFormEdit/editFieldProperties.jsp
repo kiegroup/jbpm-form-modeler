@@ -52,7 +52,7 @@
             <td colspan="3">
             <table class="FormFieldProperties">
             <tr>
-                <td><i18n:message key="fieldType">!!!Tipo de campo</i18n:message></td>
+                <td><i18n:message key="fieldType">!!!Tipo de campo</i18n:message>:</td>
             </tr>
             <tr>
                 <td colspan="3">
