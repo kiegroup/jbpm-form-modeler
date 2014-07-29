@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.core.processing;
 
 import org.jbpm.formModeler.api.model.RangeProvider;
-import org.jbpm.formModeler.api.model.SelectValuesProvider;
+import org.jbpm.formModeler.core.config.SelectValuesProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

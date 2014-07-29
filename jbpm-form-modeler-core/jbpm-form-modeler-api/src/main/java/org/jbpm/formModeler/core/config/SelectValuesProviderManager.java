@@ -15,8 +15,6 @@
  */
 package org.jbpm.formModeler.core.config;
 
-import org.jbpm.formModeler.api.model.SelectValuesProvider;
-
 import java.util.List;
 
 public interface SelectValuesProviderManager {

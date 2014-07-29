@@ -1,7 +1,5 @@
 package org.jbpm.formModeler.core.config;
 
-import org.jbpm.formModeler.api.model.SelectValuesProvider;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;

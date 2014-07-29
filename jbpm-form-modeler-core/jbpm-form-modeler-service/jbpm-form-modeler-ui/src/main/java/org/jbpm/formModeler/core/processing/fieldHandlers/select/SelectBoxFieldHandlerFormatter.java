@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.api.model.SelectValuesProvider;
+import org.jbpm.formModeler.core.config.SelectValuesProvider;
 import org.jbpm.formModeler.core.processing.fieldHandlers.DefaultFieldHandlerFormatter;
 import org.jbpm.formModeler.core.processing.fieldHandlers.FieldHandlerParametersReader;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
