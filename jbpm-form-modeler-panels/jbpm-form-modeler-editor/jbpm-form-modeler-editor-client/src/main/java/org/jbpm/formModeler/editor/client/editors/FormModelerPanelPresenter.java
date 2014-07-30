@@ -217,6 +217,12 @@ public class FormModelerPanelPresenter {
                 changeTitleNotification.fire( new ChangeTitleWidgetEvent( place, getTitle(), null ) );
             }
         } );
+        this.path.onDelete( new Command() {
+            @Override
+            public void execute() {
+                placeManager.forceClosePlace( place );
+            }
+        } );
 
         modelerService.call( new RemoteCallback<FormEditorContextTO>() {
             @Override
