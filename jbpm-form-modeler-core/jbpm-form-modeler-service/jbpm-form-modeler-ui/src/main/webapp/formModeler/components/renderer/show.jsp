@@ -25,7 +25,9 @@
         var width = ($(document).width() + 20) + "px";
         var height = ($("#formRendering<%=ctxUID%>").parent().height() + 20) + "px";
 
-        window.parent.resizeRendererWidget(width, height);
+        var frame = window.parent.document.getElementById("frame_<%=ctxUID%>");
+        frame.style.height = height;
+        frame.style.width = width;
     }
 
     $(document).ready(function() {

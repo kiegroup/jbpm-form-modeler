@@ -49,20 +49,6 @@ public class FormRendererWidget extends Composite {
         frame.setWidth("100%");
         frame.setHeight("600px");
         frame.getElement().getStyle().setBorderWidth(0, Style.Unit.PX);
-        publish(this);
-    }
-
-    // Set up the JS-callable signature as a global JS function.
-    private native void publish(FormRendererWidget widget) /*-{
-        $wnd.resizeRendererWidget = function (width, height) {
-            widget.@org.jbpm.formModeler.renderer.client.FormRendererWidget::resizeWidget(Ljava/lang/String;Ljava/lang/String;)(width,height)
-        }
-    }-*/;
-
-
-    protected void resizeWidget(String width, String height) {
-        frame.setWidth(width);
-        frame.setHeight(height);
     }
 
     public void submitForm() {
