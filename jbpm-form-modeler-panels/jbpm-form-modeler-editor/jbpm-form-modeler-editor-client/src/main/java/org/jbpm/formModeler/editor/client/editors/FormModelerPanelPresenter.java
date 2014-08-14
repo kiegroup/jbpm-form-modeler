@@ -114,7 +114,6 @@ public class FormModelerPanelPresenter {
     @New
     private FileMenuBuilder menuBuilder;
 
-    @Inject
     private MetadataWidget metadataWidget;
 
     private ObservablePath path;
@@ -122,6 +121,12 @@ public class FormModelerPanelPresenter {
     private ObservablePath.OnConcurrentUpdateEvent concurrentUpdateSessionInfo = null;
 
     private PlaceRequest place;
+
+    @Inject
+    public FormModelerPanelPresenter(BusyIndicatorView busyIndicatorView) {
+        this.metadataWidget = new MetadataWidget(busyIndicatorView);
+    }
+
 
     @OnStartup
     public void onStartup( final ObservablePath path,
