@@ -21,8 +21,6 @@ import org.uberfire.commons.services.cdi.Startup;
 import org.uberfire.commons.services.cdi.StartupType;
 import org.uberfire.io.IOClusteredService;
 import org.uberfire.io.IOService;
-import org.uberfire.security.impl.authz.RuntimeAuthorizationManager;
-import org.uberfire.security.server.cdi.SecurityFactory;
 
 @ApplicationScoped
 @Startup(StartupType.BOOTSTRAP)
@@ -54,8 +52,6 @@ public class AppSetup {
     @PostConstruct
     public void onStartup() {
         try {
-            SecurityFactory.setAuthzManager( new RuntimeAuthorizationManager() );
-
             Repository jbpmRepo = repositoryService.getRepository( JBPM_REPO_PLAYGROUND );
             if ( jbpmRepo == null ) {
                 jbpmRepo = repositoryService.createRepository( "git",
@@ -74,7 +70,7 @@ public class AppSetup {
                 repositories.add( jbpmRepo );
 
                 organizationalUnitService.createOrganizationalUnit( "demo",
-                                                                     "demo@jbpm.org",
+                                                                    "demo@jbpm.org",
                                                                     repositories );
             }
 
@@ -92,8 +88,8 @@ public class AppSetup {
             }
 
             // notify cluster service that bootstrap is completed to start synchronization
-            if (ioService instanceof IOClusteredService) {
-                ((IOClusteredService) ioService).start();
+            if ( ioService instanceof IOClusteredService ) {
+                ( (IOClusteredService) ioService ).start();
             }
         } catch ( Exception e ) {
             throw new RuntimeException( "Error when starting Form Modeler " + e.getMessage(), e );

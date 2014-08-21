@@ -275,7 +275,7 @@ public class FormModelerPanelPresenter {
     }
 
     @OnSave
-    private void onSave() {
+    public void onSave() {
         if ( isReadOnly ) {
             view.showCanNotSaveReadOnly();
         } else {

@@ -51,9 +51,8 @@
     </dependency>
 
     <dependency>
-        <groupId>org.uberfire</groupId>
-        <artifactId>uberfire-panel-manager-nswe</artifactId>
-        <scope>provided</scope>
+      <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-security-picketlink</artifactId>
     </dependency>
 
     <!-- Errai AS -->
@@ -77,11 +76,6 @@
     <dependency>
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-weld-integration</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jboss.errai</groupId>
-      <artifactId>errai-cdi-jetty</artifactId>
     </dependency>
 
     <dependency>
@@ -119,6 +113,11 @@
     <dependency>
       <groupId>com.github.gwtbootstrap</groupId>
       <artifactId>gwt-bootstrap</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.owasp.encoder</groupId>
+      <artifactId>encoder</artifactId>
     </dependency>
 
     <!-- Rouge imports to avoid OSGi errors -->
@@ -273,8 +272,8 @@
       <artifactId>kie-wb-config-resource-widget</artifactId>
     </dependency>
 
-      <!-- Search -->
-      <dependency>
+    <!-- Search -->
+    <dependency>
       <groupId>org.kie.uberfire</groupId>
       <artifactId>kie-uberfire-metadata-backend-lucene</artifactId>
     </dependency>
@@ -321,8 +320,8 @@
     </dependency>
 
     <dependency>
-        <groupId>org.jbpm</groupId>
-        <artifactId>jbpm-form-modeler-document</artifactId>
+      <groupId>org.jbpm</groupId>
+      <artifactId>jbpm-form-modeler-document</artifactId>
     </dependency>
 
     <dependency>
@@ -357,6 +356,25 @@
       <artifactId>kie-wb-common-data-modeller-client</artifactId>
     </dependency>
 
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- PicketLink has a hard dependency on JBoss Logging.
+ Since this app deploys to Jetty, we include this as a runtime-scoped dependency.
+ If deploying to JBoss AS or WildFly, you would set this to provided scope. -->
+    <dependency>
+      <groupId>org.jboss.logging</groupId>
+      <artifactId>jboss-logging</artifactId>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -430,10 +448,9 @@
             <compileSourcesArtifact>org.kie.uberfire:kie-uberfire-social-activities-api</compileSourcesArtifact>
 
           </compileSourcesArtifacts>
-          <runTarget>org.jbpm.formModeler.jBPMFormModeler/jBPM.html</runTarget>
-          <extraJvmArgs>-Xmx2048m -XX:MaxPermSize=256m</extraJvmArgs>
+          <runTarget>form-modeler.html</runTarget>
+          <extraJvmArgs>-Xmx1024m -XX:MaxPermSize=256m</extraJvmArgs>
           <soyc>false</soyc>
-          <server>org.jboss.errai.cdi.server.gwt.JettyLauncher</server>
           <!-- drools-compiler has dependency on org.eclipse.jdt.core.compiler:ecj:jar:3.5.1:compile, see http://code.google.com/p/google-web-toolkit/issues/detail?id=4479 -->
           <gwtSdkFirstInClasspath>true</gwtSdkFirstInClasspath>
         </configuration>
