@@ -43,6 +43,9 @@
   <inherits name="org.jbpm.formModeler.editor.FormModelerEditorClient"/>
   <inherits name="org.jbpm.formModeler.renderer.FormRendererClient"/>
 
+  <!-- Social -->
+  <inherits name="org.kie.uberfire.social.activities.SocialActivitiesAPI"/>
+
   <!-- Specify the application specific style sheet. -->
   <stylesheet src='css/uberfire-showcase.css'/>
 
