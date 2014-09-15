@@ -68,7 +68,7 @@ public class FragmentValueTag extends BodyTagSupport {
             FragmentTag parentFragment = (FragmentTag) parentTag;
             value = parentFragment.getParam(name);
 
-            String valueName = id == null ? VALUE_NAME : id;
+            String valueName = id == null ? name : id;
             if (value == null)
                 pageContext.removeAttribute(valueName);
             else

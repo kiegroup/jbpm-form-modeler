@@ -1,4 +1,5 @@
 <%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
+<%@ page import="org.jbpm.formModeler.api.model.Field" %>
 <%--
 
     Copyright (C) 2012 JBoss Inc
@@ -23,6 +24,10 @@
 
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages"
              locale="<%=LocaleManager.currentLocale()%>"/>
+<%
+    Field field = (Field) request.getAttribute("field");
+    Boolean hideMotionButtons = (Boolean) request.getAttribute("hideMotionButtons");
+%>
 <table cellspacing="0" cellpadding="1" align="left" border="0" width="1px">
     <tr>
         <mvc:formatter name="FieldButtonsFormatter">

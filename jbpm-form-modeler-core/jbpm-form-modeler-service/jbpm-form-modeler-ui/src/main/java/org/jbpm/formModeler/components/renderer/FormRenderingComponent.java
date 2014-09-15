@@ -79,8 +79,10 @@ public class FormRenderingComponent extends BaseUIComponent {
 
     @Override
     public void afterRenderBean() {
-        ctx.setInUse(false);
-        contextRenderedEventEvent.fire(new ContextRenderedEvent(ctx.getUID()));
+        if (ctx != null) {
+            ctx.setInUse(false);
+            contextRenderedEventEvent.fire(new ContextRenderedEvent(ctx.getUID()));
+        }
     }
 
     public void removeContextEvent(@Observes ContextRemovedEvent event) {
@@ -118,7 +120,7 @@ public class FormRenderingComponent extends BaseUIComponent {
     }
 
     public Form getForm() {
-        return ctx.getForm();
+        return ctx == null ? null : ctx.getForm();
     }
 
     public boolean isReadonly() {

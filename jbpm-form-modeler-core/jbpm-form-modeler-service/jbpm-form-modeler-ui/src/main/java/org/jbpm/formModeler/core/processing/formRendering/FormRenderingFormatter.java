@@ -243,11 +243,13 @@ public class FormRenderingFormatter extends Formatter {
                 if (field != null) {
                     //setAttribute("field", field.getForm().getFormFields().iterator().next());
                     setAttribute("field", field);
+                    setAttribute("hideMotionButtons", Boolean.TRUE);
                     FormRenderingFormatter.this.renderFragment("beforeFieldInTemplateMode");
                     FormRenderingFormatter.this.renderField(field, namespace, renderMode);
                     FormRenderingFormatter.this.renderFragment("afterFieldInTemplateMode");
                 } else {
                     setAttribute("fieldName", fieldName);
+                    setAttribute("hideMotionButtons", Boolean.TRUE);
                     FormRenderingFormatter.this.renderFragment("beforeFieldInTemplateMode");
                     FormRenderingFormatter.this.writeToOut(Form.TEMPLATE_FIELD + "{" + fieldName + "}");
                     FormRenderingFormatter.this.renderFragment("afterFieldInTemplateMode");

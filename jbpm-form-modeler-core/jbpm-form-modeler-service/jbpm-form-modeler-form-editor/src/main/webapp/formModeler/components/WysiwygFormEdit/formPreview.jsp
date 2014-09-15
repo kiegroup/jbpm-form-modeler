@@ -250,8 +250,15 @@
                                                 <div id='<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_child'
                                                      style="position:absolute; top:-14px; left:0px; z-index:5000; text-align:left; padding:5px; display:none" align="left">
                                                     <mvc:fragmentValue name="field" id="field">
-                                                        <% Boolean hideMotionButtons = Boolean.FALSE; %>
-                                                        <%@ include file="buttonActions.jsp" %>
+                                                        <%
+                                                            request.setAttribute("hideMotionButtons", Boolean.FALSE);
+                                                            request.setAttribute("field", field);
+                                                        %>
+                                                        <jsp:include page="buttonActions.jsp" flush="true"/>
+                                                        <%
+                                                            request.removeAttribute("hideMotionButtons");
+                                                            request.removeAttribute("field");
+                                                        %>
                                                     </mvc:fragmentValue>
                                                 </div>
                                                 <table border="0" cellspacing="0" cellpadding="0" width="100%">
@@ -269,8 +276,15 @@
                                             <div id='<factory:encode name="formMenuDiv"/><mvc:fragmentValue name="field/position"/>_child'
                                                  style="position:absolute; top:-14px; left:0px; z-index:5000; text-align:left; padding:5px; display:none" align="left">
                                                 <mvc:fragmentValue name="field" id="field">
-                                                    <% Boolean hideMotionButtons = Boolean.TRUE; %>
-                                                    <%@ include file="buttonActions.jsp" %>
+                                                    <%
+                                                        request.setAttribute("hideMotionButtons", Boolean.TRUE);
+                                                        request.setAttribute("field", field);
+                                                    %>
+                                                    <jsp:include page="buttonActions.jsp" flush="true"/>
+                                                    <%
+                                                        request.removeAttribute("hideMotionButtons");
+                                                        request.removeAttribute("field");
+                                                    %>
                                                 </mvc:fragmentValue>
                                             </div>
                                         </mvc:fragment>
