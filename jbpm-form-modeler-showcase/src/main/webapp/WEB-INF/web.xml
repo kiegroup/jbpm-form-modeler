@@ -39,19 +39,15 @@
 
   <filter-mapping>
     <filter-name>UI Security Filter</filter-name>
-    <url-pattern>/drools-wb.html</url-pattern>
+    <url-pattern>/form-modeler.html</url-pattern>
     <url-pattern>/uf_security_check</url-pattern>
     <url-pattern>*.erraiBus</url-pattern>
-    <!--<url-pattern>/org.jbpm.formModeler.jBPMFormModeler/*</url-pattern>-->
+    <url-pattern>/org.jbpm.formModeler.jBPMFormModeler/*</url-pattern>
   </filter-mapping>
 
   <servlet>
     <servlet-name>ErraiServlet</servlet-name>
     <servlet-class>org.jboss.errai.bus.server.servlet.DefaultBlockingServlet</servlet-class>
-    <init-param>
-      <param-name>service-locator</param-name>
-      <param-value>org.jboss.errai.cdi.server.CDIServiceLocator</param-value>
-    </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
@@ -76,13 +72,6 @@
     <welcome-file>login.jsp</welcome-file>
   </welcome-file-list>
   <!-- END UF -->
-
-
-  <!-- the number within the session-timout element must be expressed in
-minutes. it is now 24 hours. -->
-  <session-config>
-    <session-timeout>1440</session-timeout>
-  </session-config>
 
   <!-- start form-modeler component -->
   <servlet>
