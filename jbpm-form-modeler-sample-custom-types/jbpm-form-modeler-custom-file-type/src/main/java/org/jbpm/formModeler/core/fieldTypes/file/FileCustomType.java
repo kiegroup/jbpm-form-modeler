@@ -203,7 +203,7 @@ public class FileCustomType implements CustomFieldType {
             out.flush();
             str = out.getBuffer().toString();
         } catch (Exception e) {
-            log.warn("Failed to process template for field '{0}': {1}", fieldName, e);
+            log.warn("Failed to process template for field '{}'", fieldName, e);
         }
         return str;
     }

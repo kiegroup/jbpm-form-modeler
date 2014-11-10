@@ -42,7 +42,7 @@ public class PojoDataHolderBuilder implements DataHolderBuilder {
             Class.forName(config.getValue());
             return new PojoDataHolder(config.getHolderId(), config.getInputId(), config.getOutputId(), config.getValue(), config.getRenderColor());
         } catch (ClassNotFoundException e) {
-            log.warn("Unable to load class '{0}': {1}", config.getValue(), e);
+            log.warn("Unable to load class '{}'", config.getValue(), e);
         }
         return null;
     }
