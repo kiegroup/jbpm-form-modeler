@@ -30,10 +30,10 @@ import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
 import org.jbpm.formModeler.editor.model.FormEditorContextTO;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.jbpm.formModeler.editor.type.FormResourceTypeDefinition;
-import org.kie.uberfire.client.callbacks.HasBusyIndicatorDefaultErrorCallback;
-import org.kie.uberfire.client.common.BusyIndicatorView;
-import org.kie.uberfire.client.common.MultiPageEditor;
-import org.kie.uberfire.client.common.Page;
+import org.uberfire.ext.widgets.common.client.callbacks.HasBusyIndicatorDefaultErrorCallback;
+import org.uberfire.ext.widgets.common.client.common.BusyIndicatorView;
+import org.uberfire.ext.widgets.common.client.common.MultiPageEditor;
+import org.uberfire.ext.widgets.common.client.common.Page;
 import org.kie.workbench.common.widgets.client.menu.FileMenuBuilder;
 import org.kie.workbench.common.widgets.client.popups.file.CommandWithCommitMessage;
 import org.kie.workbench.common.widgets.client.popups.file.CommandWithFileNameAndCommitMessage;
@@ -64,7 +64,7 @@ import org.uberfire.workbench.events.NotificationEvent;
 import org.uberfire.workbench.model.menu.Menus;
 import org.uberfire.workbench.type.FileNameUtil;
 
-import static org.kie.uberfire.client.common.ConcurrentChangePopup.*;
+import static org.uberfire.ext.widgets.common.client.common.ConcurrentChangePopup.*;
 
 @Dependent
 @WorkbenchEditor(identifier = "FormModelerEditor", supportedTypes = { FormDefinitionResourceType.class })
