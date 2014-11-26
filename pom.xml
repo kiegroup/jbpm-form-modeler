@@ -114,9 +114,7 @@
                 <artifactId>replacer</artifactId>
                 <configuration>
                     <includes>
-                        <include>**/messages*.properties</include>
                         <include>**/Constants*.properties</include>
-                        <include>**/forms-resources*.properties</include>
                     </includes>
                     <excludes>
                         <exclude>**/ErraiApp.properties</exclude>
