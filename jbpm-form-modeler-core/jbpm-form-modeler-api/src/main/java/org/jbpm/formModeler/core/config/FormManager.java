@@ -37,11 +37,11 @@ public interface FormManager extends Serializable {
 
     List<Form> getFormsBySubject(String subject) throws Exception;
 
-    List<Form> getFormsBySubjectAndName(String subject, String name) throws Exception;
+    List<Form> getFormsBySubjectAndName(String subject, String name);
 
     Form[] getAllForms();
 
-    Form getFormForFieldEdition(FieldType fieldType) throws Exception;
+    Form getFormForFieldEdition(FieldType fieldType);
 
     Form getFormById(Long id);
 

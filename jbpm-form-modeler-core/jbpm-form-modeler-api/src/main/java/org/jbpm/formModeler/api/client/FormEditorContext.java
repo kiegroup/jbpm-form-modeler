@@ -37,6 +37,7 @@ public class FormEditorContext implements Serializable {
     private Boolean showTemplateEdition = Boolean.FALSE;
     private FieldType originalFieldType;
     private String lastDataHolderUsedId = "";
+    private String changedField = null;
 
 
     public FormEditorContext(FormRenderContext ctx, String path) {
@@ -164,5 +165,13 @@ public class FormEditorContext implements Serializable {
 
     public void setLastDataHolderUsedId(String lastDataHolderUsedId) {
         this.lastDataHolderUsedId = lastDataHolderUsedId;
+    }
+
+    public String getChangedField() {
+        return changedField;
+    }
+
+    public void setChangedField(String changedField) {
+        this.changedField = changedField;
     }
 }
