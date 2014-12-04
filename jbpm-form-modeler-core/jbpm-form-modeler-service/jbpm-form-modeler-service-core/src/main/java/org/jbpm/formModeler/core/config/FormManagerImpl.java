@@ -61,7 +61,7 @@ public class FormManagerImpl implements FormManager {
     /**
      * Get all forms by subject and name.
      */
-    public List<Form> getFormsBySubjectAndName(String subject, String name) throws Exception {
+    public List<Form> getFormsBySubjectAndName(String subject, String name) {
         if (subject == null) subject = "";
         if (name == null) name = "";
 
@@ -85,7 +85,7 @@ public class FormManagerImpl implements FormManager {
      * @return a form suitable for editing it, or null if none fits
      * @throws Exception in case of error
      */
-    public Form getFormForFieldEdition(FieldType fieldType) throws Exception {
+    public Form getFormForFieldEdition(FieldType fieldType) {
         String code = fieldType.getCode();
         if (code == null) {
             logError("Found field type without code.");

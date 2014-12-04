@@ -96,6 +96,11 @@ function doprocessFormInputChange(element) {
     var form = element.form;
     var elementName = element.name;
 
+    if (elementName.indexOf('.editingFormFieldId.') != -1) {
+        submitAjaxForm(form);
+        return;
+    }
+
     var _backup_bean = getFormInputValue(form, '<%=FactoryURL.PARAMETER_BEAN%>');
     var _backup_prop = getFormInputValue(form, '<%=FactoryURL.PARAMETER_PROPERTY%>');
     var _backup_pAction = getFormInputValue(form, 'pAction');

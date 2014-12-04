@@ -81,8 +81,9 @@ public class FieldEditionFormatter extends Formatter {
         }
         setAttribute("fieldType", type);
         renderFragment("fieldCustomForm");
-        setAttribute("fieldName", fieldName);
+        setAttribute("fieldName", wysiwygFormEditor.getChangedField());
         renderFragment("outputEnd");
+
     }
 
     protected String getFieldTypeToView() {
