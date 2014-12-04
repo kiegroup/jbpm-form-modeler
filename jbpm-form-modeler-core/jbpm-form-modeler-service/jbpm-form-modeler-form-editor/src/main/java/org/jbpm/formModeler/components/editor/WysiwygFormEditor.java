@@ -427,6 +427,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
                 getFormProcessor().clear(editForm, editNamespace);
                 getEditionContext().setOriginalFieldType(null);
                 setCurrentEditFieldPosition(-1);
+                editionContext.setChangedField(null);
             } else {
                 //Use custom edit form
                 Form editForm = getFormForFieldEdition(editField);
