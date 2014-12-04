@@ -217,7 +217,9 @@
 %>
                 $('#<factory:encode name="updateFormField"/> *').filter(':input').each(function(){
                     if ($(this).attr("name") == "<%=fieldName%>") {
+                        var x = window.scrollX, y = window.scrollY;
                         $(this).focus();
+                        window.scrollTo(x, y);
                         return false;
                     }
                 });
