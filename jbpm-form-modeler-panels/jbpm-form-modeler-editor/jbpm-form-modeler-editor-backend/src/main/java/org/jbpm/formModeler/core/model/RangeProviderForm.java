@@ -24,7 +24,6 @@ import java.util.TreeMap;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.commons.httpclient.util.URIUtil;
 import org.guvnor.common.services.project.model.Project;
 import org.jbpm.formModeler.api.client.FormEditorContext;
 import org.jbpm.formModeler.api.client.FormEditorContextManager;
@@ -37,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.io.IOService;
+import org.uberfire.util.URIUtil;
 
 public class RangeProviderForm implements RangeProvider {
 
@@ -107,7 +107,7 @@ public class RangeProviderForm implements RangeProvider {
     private String getFormDirUri( Path formPath ) {
         String fileName = formPath.getFileName();
         try {
-            fileName = URIUtil.encodeQuery( fileName );
+            fileName = URIUtil.encode(fileName);
         } catch ( Exception e ) {
 
         }
