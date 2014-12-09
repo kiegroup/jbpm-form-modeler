@@ -71,6 +71,12 @@
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-form-modeler-editor-api</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-commons-editor-client</artifactId>
+    </dependency>
+
   </dependencies>
   <build>
     <resources>
