@@ -22,7 +22,6 @@ import javax.inject.Inject;
 
 import com.google.gwt.user.client.ui.IsWidget;
 import org.guvnor.common.services.shared.metadata.MetadataService;
-import org.guvnor.structure.client.file.*;
 import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.RemoteCallback;
 import org.jboss.errai.ioc.client.container.SyncBeanManager;
@@ -31,10 +30,6 @@ import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
 import org.jbpm.formModeler.editor.model.FormEditorContextTO;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.jbpm.formModeler.editor.type.FormResourceTypeDefinition;
-import org.uberfire.ext.widgets.common.client.callbacks.HasBusyIndicatorDefaultErrorCallback;
-import org.uberfire.ext.widgets.common.client.common.BusyIndicatorView;
-import org.uberfire.ext.widgets.common.client.common.MultiPageEditor;
-import org.uberfire.ext.widgets.common.client.common.Page;
 import org.kie.workbench.common.widgets.client.menu.FileMenuBuilder;
 import org.kie.workbench.common.widgets.client.popups.validation.DefaultFileNameValidator;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
@@ -48,6 +43,16 @@ import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
+import org.uberfire.ext.editor.commons.client.file.CommandWithFileNameAndCommitMessage;
+import org.uberfire.ext.editor.commons.client.file.DeletePopup;
+import org.uberfire.ext.editor.commons.client.file.FileNameAndCommitMessage;
+import org.uberfire.ext.editor.commons.client.file.RenamePopup;
+import org.uberfire.ext.editor.commons.client.file.SaveOperationService;
+import org.uberfire.ext.editor.commons.client.menu.MenuItems;
+import org.uberfire.ext.widgets.common.client.callbacks.HasBusyIndicatorDefaultErrorCallback;
+import org.uberfire.ext.widgets.common.client.common.BusyIndicatorView;
+import org.uberfire.ext.widgets.common.client.common.MultiPageEditor;
+import org.uberfire.ext.widgets.common.client.common.Page;
 import org.uberfire.lifecycle.OnClose;
 import org.uberfire.lifecycle.OnOpen;
 import org.uberfire.lifecycle.OnSave;
@@ -118,10 +123,9 @@ public class FormModelerPanelPresenter {
     private PlaceRequest place;
 
     @Inject
-    public FormModelerPanelPresenter(BusyIndicatorView busyIndicatorView) {
-        this.metadataWidget = new MetadataWidget(busyIndicatorView);
+    public FormModelerPanelPresenter( BusyIndicatorView busyIndicatorView ) {
+        this.metadataWidget = new MetadataWidget( busyIndicatorView );
     }
-
 
     @OnStartup
     public void onStartup( final ObservablePath path,
@@ -148,11 +152,11 @@ public class FormModelerPanelPresenter {
                                      CommonConstants.INSTANCE.MetadataTabTitle() ) {
             @Override
             public void onFocus() {
-                    metadataWidget.showBusyIndicator( CommonConstants.INSTANCE.Loading() );
-                    metadataService.call( new MetadataSuccessCallback( metadataWidget,
-                                                                       isReadOnly ),
-                                          new HasBusyIndicatorDefaultErrorCallback( metadataWidget )
-                                        ).getMetadata( path );
+                metadataWidget.showBusyIndicator( CommonConstants.INSTANCE.Loading() );
+                metadataService.call( new MetadataSuccessCallback( metadataWidget,
+                                                                   isReadOnly ),
+                                      new HasBusyIndicatorDefaultErrorCallback( metadataWidget )
+                                    ).getMetadata( path );
             }
 
             @Override
@@ -304,7 +308,7 @@ public class FormModelerPanelPresenter {
 
     public void save() {
         new SaveOperationService().save( path,
-                                         new CommandWithCommitMessage() {
+                                         new ParameterizedCommand<String>() {
                                              @Override
                                              public void execute( final String commitMessage ) {
                                                  busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Saving() );
@@ -328,7 +332,7 @@ public class FormModelerPanelPresenter {
     }
 
     protected void onDelete() {
-        final DeletePopup popup = new DeletePopup( new CommandWithCommitMessage() {
+        final DeletePopup popup = new DeletePopup( new ParameterizedCommand<String>() {
             @Override
             public void execute( final String comment ) {
                 busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Deleting() );
@@ -386,7 +390,7 @@ public class FormModelerPanelPresenter {
     }
 
     private void disableMenus() {
-        menus.getItemsMap().get( FileMenuBuilder.MenuItems.DELETE ).setEnabled( false );
+        menus.getItemsMap().get( MenuItems.DELETE ).setEnabled( false );
     }
 
     @WorkbenchMenu
