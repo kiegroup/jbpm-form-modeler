@@ -104,7 +104,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public static final String ACTION_TO_DO = "actionToDo";
     public static final String ACTION_CHANGE_FIELD_TYPE = "changeFieldType";
     public static final String ACTION_SAVE_FIELD_PROPERTIES = "saveFieldProperties";
-    public static final String ACTION_CANCEL_FIELD_EDITION = "cancelFieldEdition";
+    public static final String ACTION_CLOSE_FIELD_EDITION = "closeFieldEdition";
     public static final String CHANGED_FIELD = "changedField";
 
     public static final String ACTION_REMOVE_DATA_HOLDER = "removeDataHolder";
@@ -421,56 +421,49 @@ public class WysiwygFormEditor extends BaseUIComponent {
             log.error("Cannot update unexistant field.");
         } else {
             String editNamespace = getFieldEditionNamespace(editField);
-            if (ACTION_CANCEL_FIELD_EDITION.equals(action)) {
-                Form editForm = getFormForFieldEdition(editField);
-                editField.setFieldType(getEditionContext().getOriginalFieldType());
-                getFormProcessor().clear(editForm, editNamespace);
-                getEditionContext().setOriginalFieldType(null);
-                setCurrentEditFieldPosition(-1);
-                editionContext.setChangedField(null);
+            Form editForm = getFormForFieldEdition(editField);
+            getFormProcessor().setValues(editForm, editNamespace, parameterMap, filesMap);
+            FormStatusData data = getFormProcessor().read(editForm, editNamespace);
+
+            if (ACTION_CHANGE_FIELD_TYPE.equals(action)) {
+                setFieldTypeToView(((String[]) parameterMap.get("fieldType"))[0]);
+                editField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView(), editionContext.getOriginalFieldType().getFieldClass()));
+                Form formToEdit = getFormForFieldEdition(editField);
+                if (formToEdit != null) {
+                    getFormProcessor().clear(formToEdit, editNamespace);
+                    getFormProcessor().read(formToEdit, editNamespace, data.getCurrentValues());
+                }
+
             } else {
-                //Use custom edit form
-                Form editForm = getFormForFieldEdition(editField);
-                getFormProcessor().setValues(editForm, editNamespace, parameterMap, filesMap);
-                FormStatusData data = getFormProcessor().read(editForm, editNamespace);
 
-                if (ACTION_CHANGE_FIELD_TYPE.equals(action)) {
-                    setFieldTypeToView(((String[]) parameterMap.get("fieldType"))[0]);
-                    editField.setFieldType(getFieldTypesManager().getTypeByCode(getFieldTypeToView(), editionContext.getOriginalFieldType().getFieldClass()));
-                    Form formToEdit = getFormForFieldEdition(editField);
-                    if (formToEdit != null) {
-                        getFormProcessor().clear(formToEdit, editNamespace);
-                        getFormProcessor().read(formToEdit, editNamespace, data.getCurrentValues());
-                    }
+                editionContext.setChangedField(request.getRequestObject().getParameter(CHANGED_FIELD));
 
-                } else {
+                if (data.isValid()) {
+                    Set names = editField.getPropertyNames();
 
-                    editionContext.setChangedField(request.getRequestObject().getParameter(CHANGED_FIELD));
-
-                    if (data.isValid()) {
-
-                        /*
-                        * TODO: fix that
-                        */
-                        Set names = editField.getPropertyNames();
-
-                        for (Iterator it = data.getCurrentValues().keySet().iterator(); it.hasNext(); ) {
-                            String propertyName = (String) it.next();
-                            if (names.contains(propertyName)) {
-                                Object value = data.getCurrentValue(propertyName);
-                                try {
-                                    if("fieldName".equals(propertyName)){
-                                        if(!editField.getFieldName().equals((String)value)){
-                                            if(getCurrentForm().getField((String)value) !=null) return;
-                                        }
+                    for (Iterator it = data.getCurrentValues().keySet().iterator(); it.hasNext(); ) {
+                        String propertyName = (String) it.next();
+                        if (names.contains(propertyName)) {
+                            Object value = data.getCurrentValue(propertyName);
+                            try {
+                                if("fieldName".equals(propertyName)){
+                                    if(!editField.getFieldName().equals((String)value)){
+                                        if(getCurrentForm().getField((String)value) !=null) return;
                                     }
-                                    getBindingManager().setPropertyValue(editField, propertyName, value);
-                                } catch (Exception e) {
-                                    log.error("Error setting property '" + propertyName + "' on field " + editField.getFieldName(), e);
                                 }
-
+                                getBindingManager().setPropertyValue(editField, propertyName, value);
+                            } catch (Exception e) {
+                                log.error("Error setting property '" + propertyName + "' on field " + editField.getFieldName(), e);
                             }
+
                         }
+                    }
+                    if (ACTION_CLOSE_FIELD_EDITION.equals(action)) {
+
+                        getFormProcessor().clear(editForm, editNamespace);
+                        getEditionContext().setOriginalFieldType(null);
+                        setCurrentEditFieldPosition(-1);
+                        editionContext.setChangedField(null);
                     }
                 }
             }
