@@ -58,7 +58,7 @@
     <%=accesskey!=null ? " accesskey=\""+accesskey+"\"":""%>
     <%=alt!=null ? " alt=\""+alt+"\"":""%>
     <%=height!=null ? " height=\""+height+"\"":""%>
-    <%=readonly!=null && ((Boolean)readonly).booleanValue()? " onfocus=\"this.blur();\" disabled":""%>
+    <%=readonly!=null && ((Boolean)readonly).booleanValue()? " onfocus=\"this.blur();\" disabled":""%>>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
