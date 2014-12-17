@@ -19,6 +19,7 @@ import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
 import org.jbpm.formModeler.api.events.FormSubmittedEvent;
+import org.jbpm.formModeler.api.events.ResizeFormcontainerEvent;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 
@@ -42,6 +43,9 @@ public class FormRenderContextManagerImpl implements FormRenderContextManager, S
 
     @Inject
     private Event<FormSubmittedEvent> formSubmittedEvent;
+
+    @Inject
+    private Event<ResizeFormcontainerEvent> resizeFormcontainerEvent;
 
     @Inject
     private Event<ContextRemovedEvent> contextRemovedEventEvent;
@@ -141,5 +145,10 @@ public class FormRenderContextManagerImpl implements FormRenderContextManager, S
     @Override
     public void fireContextSubmit(FormSubmittedEvent event) {
         if (event != null) formSubmittedEvent.fire(event);
+    }
+
+    @Override
+    public void fireContextFormResize(ResizeFormcontainerEvent event) {
+        if (event != null) resizeFormcontainerEvent.fire(event);
     }
 }

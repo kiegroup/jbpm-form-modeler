@@ -16,6 +16,7 @@
 package org.jbpm.formModeler.api.client;
 
 import org.jboss.errai.bus.server.annotations.Remote;
+import org.jbpm.formModeler.api.events.ResizeFormcontainerEvent;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
 import org.jbpm.formModeler.api.events.FormSubmittedEvent;
@@ -37,6 +38,7 @@ public interface FormRenderContextManager {
 
     void fireContextSubmitError(FormSubmitFailEvent event);
     void fireContextSubmit(FormSubmittedEvent event);
+    void fireContextFormResize(ResizeFormcontainerEvent event);
 
     void persistContext(FormRenderContext ctx) throws Exception;
     void persistContext(String ctxUID) throws Exception;

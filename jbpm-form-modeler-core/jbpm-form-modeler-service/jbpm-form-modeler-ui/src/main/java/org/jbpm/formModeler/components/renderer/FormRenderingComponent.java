@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.client.FormRenderContextTO;
 import org.jbpm.formModeler.api.events.FormSubmitFailEvent;
 import org.jbpm.formModeler.api.events.FormSubmittedEvent;
+import org.jbpm.formModeler.api.events.ResizeFormcontainerEvent;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.api.client.FormRenderContext;
@@ -27,6 +28,8 @@ import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BaseUIComponent;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
+import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
+import org.jbpm.formModeler.service.bb.mvc.controller.responses.DoNothingResponse;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,6 +116,26 @@ public class FormRenderingComponent extends BaseUIComponent {
             log.error("Error submitting form: ", e);
             formRenderContextManager.fireContextSubmitError(new FormSubmitFailEvent(new FormRenderContextTO(ctx), e.getMessage()));
         }
+    }
+
+    public CommandResponse actionDoResize(CommandRequest request) {
+        String ctxUID = request.getRequestObject().getParameter("ctxUID");
+
+        if (ctx == null || ctx.getUID().equals(ctxUID)) ctx = formRenderContextManager.getFormRenderContext(ctxUID);
+        if (ctx != null) {
+            String width = request.getRequestObject().getParameter("width");
+            String height = request.getRequestObject().getParameter("height");
+
+            if (!StringUtils.isEmpty(width) && !StringUtils.isEmpty(height)) {
+                ResizeFormcontainerEvent event = new ResizeFormcontainerEvent();
+                event.setContext(new FormRenderContextTO(ctx));
+                event.setWidth(Integer.decode(width));
+                event.setHeight(Integer.decode(height));
+                formRenderContextManager.fireContextFormResize(event);
+            }
+        }
+
+        return new DoNothingResponse();
     }
 
     public String getCtxUID() {

@@ -46,8 +46,6 @@ public class FormRendererWidget extends Composite {
         VerticalPanel widget = new VerticalPanel();
         initWidget(widget);
         widget.add(frame);
-        frame.setWidth("100%");
-        frame.setHeight("600px");
         frame.getElement().getStyle().setBorderWidth(0, Style.Unit.PX);
     }
 
@@ -81,11 +79,18 @@ public class FormRendererWidget extends Composite {
         if (GWT_DEFAULT_LOCALE.equals(localeName)) localeName = FORM_MODELER_DEFAULT_LOCALE;
         frame.setUrl(UriUtils.fromString(GWT.getModuleBaseURL() + "Controller?_fb=frc&_fp=Start&ctxUID=" + ctxUID + "&locale=" + localeName).asString());
         canSubmit = true;
+        frame.setWidth("100%");
+        frame.setHeight("300px");
     }
 
     public boolean isValidContextUID(String ctxUID) {
         if (ctxUID != null && ctxUID.startsWith(FormRenderContextManager.CTX_PREFFIX)) return true;
         return false;
+    }
+
+    public void resize(int width, int height) {
+        frame.setWidth(width + "px");
+        frame.setHeight(height + "px");
     }
 
     public void endContext() {
