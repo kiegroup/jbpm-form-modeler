@@ -50,7 +50,7 @@
                                                     %>
                                                     <table border="0" cellpadding="0" cellspacing="0" >
                                                         <tr valign="top">
-                                                            <td style="padding-bottom: 320px;">
+                                                            <td style="padding-bottom: 250px;">
                                                                 <div style=" width:<%=size!=null?size:"250"%>px; height:<%=height!=null?height:"170"%>px;<%=StringUtils.defaultString((String) cssStyle)%>"
                                                                      id="<%=uid%>_divcontainer" class="dynInputStyle">
                                                                     <textarea id="<%=uid%>_<%=LocaleManager.currentLang()%>" name="<%=name%>_<%=LocaleManager.currentLang()%>"
