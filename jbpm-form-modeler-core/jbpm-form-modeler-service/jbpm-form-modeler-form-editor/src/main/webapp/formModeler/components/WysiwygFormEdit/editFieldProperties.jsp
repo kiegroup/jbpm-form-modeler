@@ -197,6 +197,19 @@
         </tr>
     </mvc:fragment>
     <%------------------------------------------------------------------------------------------------------------%>
+    <mvc:fragment name="outputApplyButton">
+        <tr>
+          <td colspan="3">
+            <table>
+              <tr>
+                <td><input type="submit" value="<i18n:message key="apply"> !!!Apply </i18n:message>" class="skn-button_alt"
+                           onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_SAVE_FIELD_PROPERTIES%>');"></td>
+                <td><i18n:message key="apply_note"> !!!Apply to update</i18n:message></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+    </mvc:fragment>
     <mvc:fragment name="outputEnd">
         <mvc:fragmentValue name="fieldName" id="fieldName">
             </table>

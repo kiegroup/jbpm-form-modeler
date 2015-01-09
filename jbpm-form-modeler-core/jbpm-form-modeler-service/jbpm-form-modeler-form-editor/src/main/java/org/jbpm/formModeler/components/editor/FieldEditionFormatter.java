@@ -15,6 +15,9 @@
  */
 package org.jbpm.formModeler.components.editor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
@@ -26,6 +29,7 @@ import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +48,13 @@ public class FieldEditionFormatter extends Formatter {
 
     @Inject
     protected FieldI18nResourceObtainer fieldI18nResourceObtainer;
+
+    private List<String> htmlEditorFields = new ArrayList<String>(  );
+
+    @PostConstruct
+    protected void init() {
+        htmlEditorFields.add( "HTMLLabel" );
+    }
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
@@ -81,6 +92,9 @@ public class FieldEditionFormatter extends Formatter {
         }
         setAttribute("fieldType", type);
         renderFragment("fieldCustomForm");
+
+        if (htmlEditorFields.contains( wysiwygFormEditor.getCurrentEditField().getFieldType().getCode() )) renderFragment( "outputApplyButton" );
+
         setAttribute("fieldName", wysiwygFormEditor.getChangedField());
         renderFragment("outputEnd");
 
