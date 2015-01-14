@@ -71,6 +71,7 @@ public class AppSetup {
 
                 organizationalUnitService.createOrganizationalUnit( "demo",
                                                                     "demo@jbpm.org",
+                                                                    null,
                                                                     repositories );
             }
 
