@@ -364,17 +364,6 @@
       <artifactId>kie-wb-common-data-modeller-client</artifactId>
     </dependency>
 
-    <!-- Logging -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-
     <!-- PicketLink has a hard dependency on JBoss Logging.
  Since this app deploys to Jetty, we include this as a runtime-scoped dependency.
  If deploying to JBoss AS or WildFly, you would set this to provided scope. -->
