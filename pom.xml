@@ -144,6 +144,7 @@
                         <include>**/forms-resources*.properties</include>
                     </includes>
                     <workDir>.</workDir>
+                    <tempDir>.</tempDir>
                 </configuration>
 
             </plugin>
