@@ -53,9 +53,9 @@ public class CustomInputFieldHandlerFormatter extends Formatter {
         String htmlCode = null;
 
         if (MODE_INPUT.equals(mode)) {
-            htmlCode =  customFieldType.getInputHTML(value, field.getFieldName(), namespace, field.getFieldRequired(), field.getReadonly(), field.getParam1(), field.getParam2(), field.getParam3(), field.getParam4(), field.getParam5());
+            htmlCode =  customFieldType.getInputHTML(value, paramsReader.getCurrentFieldName(), namespace, field.getFieldRequired(), field.getReadonly(), field.getParam1(), field.getParam2(), field.getParam3(), field.getParam4(), field.getParam5());
         } else if (MODE_SHOW.equals(mode)) {
-            htmlCode =  customFieldType.getShowHTML(value, field.getFieldName(), namespace, field.getFieldRequired(), field.getReadonly(), field.getParam1(), field.getParam2(), field.getParam3(), field.getParam4(), field.getParam5());
+            htmlCode =  customFieldType.getShowHTML(value, paramsReader.getCurrentFieldName(), namespace, field.getFieldRequired(), field.getReadonly(), field.getParam1(), field.getParam2(), field.getParam3(), field.getParam4(), field.getParam5());
         }
 
         if (!StringUtils.isEmpty(htmlCode)) {

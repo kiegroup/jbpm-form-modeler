@@ -43,7 +43,7 @@ public class CustomInputFieldHandler extends DefaultFieldHandler {
 
         if (customFieldType == null) return previousValue;
 
-        return customFieldType.getValue(parametersMap, filesMap, field.getFieldName(), namespaceManager.getNamespace(inputName).getNamespace(), previousValue, field.getFieldRequired(), field.getReadonly(), field.getParam1(), field.getParam2(), field.getParam3(), field.getParam4(), field.getParam5());
+        return customFieldType.getValue(parametersMap, filesMap, inputName, namespaceManager.getNamespace(inputName).getNamespace(), previousValue, field.getFieldRequired(), field.getReadonly(), field.getParam1(), field.getParam2(), field.getParam3(), field.getParam4(), field.getParam5());
     }
 
     @Override
