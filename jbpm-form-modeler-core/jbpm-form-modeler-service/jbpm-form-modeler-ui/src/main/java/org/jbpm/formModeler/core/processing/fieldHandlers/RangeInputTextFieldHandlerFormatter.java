@@ -64,11 +64,14 @@ public class RangeInputTextFieldHandlerFormatter extends DefaultFieldHandlerForm
         String fieldId = namespaceManager.squashInputName(fieldName);
 
         if (fieldRange != null && !forceShow) {
+            String keyValueStr = StringEscapeUtils.escapeHtml(StringUtils.defaultString(value == null ? "" : String.valueOf(value)));
+            String showValue = "";
+            if (!StringUtils.isEmpty( keyValueStr )) showValue = ( String ) fieldRange.get( keyValueStr );
             setAttribute("size", 1);
             setAttribute("name", fieldName);
             setAttribute("lang", getLang());
             setAttribute("uid", fieldId);
-            String keyValueStr = StringEscapeUtils.escapeHtml(StringUtils.defaultString(value == null ? "" : String.valueOf(value)));
+            setAttribute("value", StringUtils.defaultString( showValue ));
 
             // Override the field's own disabled and readonly values with the ones coming from a parent formatter
             // that contains it if they're set to true.

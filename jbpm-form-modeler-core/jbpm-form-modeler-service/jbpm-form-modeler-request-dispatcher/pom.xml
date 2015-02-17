@@ -45,8 +45,4 @@
     </dependency>
 
   </dependencies>
-
-  <build>
-        <finalName>jbpm-form-modeler-request-dispatcher</finalName>
-    </build>
 </project>

@@ -38,9 +38,6 @@
     </dependency>
 
   </dependencies>
-    <build>
-        <finalName>jbpm-form-modeler-static-resources</finalName>
-    </build>
 </project>
 
 

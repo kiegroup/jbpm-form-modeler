@@ -80,12 +80,10 @@ public class FormStatusManager implements Serializable {
         namespace = StringUtils.defaultIfEmpty(namespace, FormProcessor.DEFAULT_NAMESPACE);
         // Delete this forms tatus and all nested form statuses
         String requestedPreffix = namespace + FormProcessor.NAMESPACE_SEPARATOR + formId;
-        synchronized (formStatuses) {
-            for (Iterator it = formStatuses.keySet().iterator(); it.hasNext();) {
-                String key = (String) it.next();
-                if (key.startsWith(requestedPreffix)) {
-                    it.remove();
-                }
+        for (Iterator it = formStatuses.keySet().iterator(); it.hasNext();) {
+            String key = (String) it.next();
+            if (key.startsWith(requestedPreffix)) {
+                it.remove();
             }
         }
     }

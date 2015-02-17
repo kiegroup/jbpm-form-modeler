@@ -16,6 +16,7 @@
 package org.jbpm.formModeler.core.processing.impl;
 
 import org.apache.commons.jxpath.JXPathContext;
+import org.jbpm.formModeler.core.processing.fieldHandlers.subform.utils.SubFormHelper;
 import org.jbpm.formModeler.core.processing.formProcessing.*;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.api.model.DataHolder;
@@ -58,6 +59,12 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
     @Inject
     private FormRenderContextManager formRenderContextManager;
+
+    @Inject
+    private NamespaceManager namespaceManager;
+
+    @Inject
+    private SubFormHelper helper;
 
     private BindingExpressionUtil bindingExpressionUtil = BindingExpressionUtil.getInstance();
 
@@ -233,12 +240,9 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
                     parentMapObjectRepresentation = (Map) valueInParent;
                 } else if (valueInParent instanceof Map[]) {
                     //Take the correct value
-                    Map editFieldPositions = (Map) parent.getAttributes().get(FormStatusData.EDIT_FIELD_POSITIONS);
-                    if (editFieldPositions != null) {
-                        Integer pos = (Integer) editFieldPositions.get(fieldNameInParent);
-                        if (pos != null) {
-                            parentMapObjectRepresentation = ((Map[]) valueInParent)[pos.intValue()];
-                        }
+                    Integer pos = helper.getEditFieldPosition( formStatus.getNamespace() );
+                    if (pos != null) {
+                        parentMapObjectRepresentation = ((Map[]) valueInParent)[pos.intValue()];
                     }
                 }
                 if (parentMapObjectRepresentation != null) {
@@ -352,7 +356,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
         FieldHandler handler = fieldHandlersManager.getHandler(field.getFieldType());
         if (handler instanceof PersistentFieldHandler) {
             String inputName = getPrefix(field.getForm(), namespace) + field.getFieldName();
-            value = ((PersistentFieldHandler) handler).getStatusValue(field, inputName, value);
+            value = ((PersistentFieldHandler) handler).getStatusValue(field, inputName, value, loadedObjects);
         }
 
         return value;
@@ -477,7 +481,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
                     String inputName = getPrefix(field.getForm(), namespace) + field.getFieldName();
 
-                    return ((PersistentFieldHandler) handler).persist(field, inputName);
+                    return ((PersistentFieldHandler) handler).persist(field, inputName, mapToPersist.get( field.getFieldName() ));
 
                 } else
                     return mapToPersist.get(field.getFieldName());

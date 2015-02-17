@@ -17,6 +17,7 @@ package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 
 import org.apache.commons.lang.ArrayUtils;
+import org.jbpm.formModeler.core.processing.fieldHandlers.subform.utils.SubFormHelper;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.api.model.Field;
@@ -47,6 +48,9 @@ public class SubFormSendHandler extends BeanHandler {
     @Inject
     private SubformFinderService subformFinderService;
 
+    @Inject
+    private SubFormHelper helper;
+
     public NamespaceManager getNamespaceManager() {
         return NamespaceManager.lookup();
     }
@@ -72,26 +76,29 @@ public class SubFormSendHandler extends BeanHandler {
                 String parameterValue = request.getParameter(parameterName);
                 if ("true".equals(parameterValue) || "false".equals(parameterValue)) {
                     boolean expand = Boolean.valueOf(parameterValue).booleanValue();
+
                     FormNamespaceData fsd = getNamespaceManager().getNamespace(parameterName);
-                    Set expandedFields = (Set) getFormProcessor().getAttribute(fsd.getForm(), fsd.getNamespace(), FormStatusData.EXPANDED_FIELDS);
-                    if (expandedFields == null)
-                        expandedFields = new HashSet();
-                    if (expand)
-                        expandedFields.add(fsd.getFieldNameInParent().substring(0, fsd.getFieldNameInParent().length() - (FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "expand").length()));
-                    else
-                        expandedFields.remove(fsd.getFieldNameInParent().substring(0, fsd.getFieldNameInParent().length() - (FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "expand").length()));
-                    getFormProcessor().setAttribute(fsd.getForm(), fsd.getNamespace(), FormStatusData.EXPANDED_FIELDS, expandedFields);
                     //  Clear the child create form
                     getFormProcessor().setValues(fsd.getForm(), fsd.getNamespace(), request.getRequestObject().getParameterMap(), request.getFilesByParamName());
                     String fieldName = fsd.getFieldNameInParent();
                     fieldName = fieldName.substring(0, fieldName.length() - (FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create").length());
+                    Field field = fsd.getForm().getField(fieldName);
+
+                    String inputName = getNamespaceManager().generateFieldNamesPace( fsd.getNamespace(), field );
+
+                    if (expand)
+                        helper.setExpandedField( inputName, inputName );
+                    else {
+                        helper.clearExpandedField( inputName );
+                    }
+
                     // PFP : cleared error when the subform to expand is a required field.
                     if (expand) {
                         FormStatus formStatus = getFormStatusManager().getFormStatus(fsd.getForm(), fsd.getNamespace());
                         if (formStatus != null)
                             formStatus.removeWrongField(fieldName);
                     }
-                    Field field = fsd.getForm().getField(fieldName);
+
                     FieldHandler handler = getFieldHandlersManager().getHandler(field.getFieldType());
                     if (handler instanceof CreateDynamicObjectFieldHandler) {
                         CreateDynamicObjectFieldHandler fHandler = (CreateDynamicObjectFieldHandler) handler;
@@ -159,8 +166,9 @@ public class SubFormSendHandler extends BeanHandler {
         String parentFormId = request.getParameter(uid + "_parentFormId");
         String parentNamespace = request.getParameter(uid + "_parentNamespace");
         String fieldName = request.getParameter(uid + "_field");
+        String inputName = request.getParameter(uid + "_inputName");
 
-        Form parentForm = subformFinderService.getFormById(Long.decode(parentFormId), parentNamespace);
+        Form parentForm = subformFinderService.getFormById( Long.decode( parentFormId ), parentNamespace );
 
         getFormProcessor().setValues(parentForm, parentNamespace, request.getRequestObject().getParameterMap(), request.getFilesByParamName());
         Field field = parentForm.getField(fieldName);
@@ -169,12 +177,13 @@ public class SubFormSendHandler extends BeanHandler {
             CreateDynamicObjectFieldHandler fHandler = (CreateDynamicObjectFieldHandler) handler;
             int index =  Integer.decode(sIndex).intValue();
             Object deletedResultValue = fHandler.deleteElementInPosition(parentForm, parentNamespace, fieldName, index);
-            List removedValues = (List) getFormProcessor().getAttribute(parentForm, parentNamespace, FormStatusData.REMOVED_ELEMENTS);
-            if (removedValues == null) {
-                removedValues = new ArrayList();
-                getFormProcessor().setAttribute(parentForm, parentNamespace, FormStatusData.REMOVED_ELEMENTS, removedValues);
-            }
+
+            List<Integer> removedValues = helper.getRemovedFieldPositions( inputName );
+
+            if (removedValues == null) helper.setRemovedFieldPositions( inputName, ( removedValues = new ArrayList<Integer>() ) );
+
             removedValues.add(index);
+
             getFormProcessor().modify(parentForm, parentNamespace, fieldName, deletedResultValue);
         } else {
             log.error("Cannot delete value in a field which is not a CreateDynamicObjectFieldHandler.");
@@ -219,17 +228,15 @@ public class SubFormSendHandler extends BeanHandler {
         String index = request.getParameter(uid + "_index");
         String parentFormId = request.getParameter(uid + "_parentFormId");
         String parentNamespace = request.getParameter(uid + "_parentNamespace");
-        String field = request.getParameter(uid + "_field");
+        String inputName = request.getParameter(uid + "_inputName");
+
         Form form = subformFinderService.getFormById(Long.decode(parentFormId), parentNamespace);
         getFormProcessor().setValues(form, parentNamespace, request.getRequestObject().getParameterMap(), request.getFilesByParamName());
-        Map previewFields = (Map) getFormProcessor().getAttribute(form, parentNamespace, FormStatusData.PREVIEW_FIELD_POSITIONS);
-        if (previewFields == null) {
-            getFormProcessor().setAttribute(form, parentNamespace, FormStatusData.PREVIEW_FIELD_POSITIONS, previewFields = new HashMap());
-        }
+
         if (doIt) {
-            previewFields.put(field, Integer.decode(index));
+            helper.setPreviewFieldPosition( inputName, Integer.decode(index) );
         } else {
-            previewFields.remove(field);
+            helper.clearPreviewFieldPositions( inputName );
         }
         getFormProcessor().clearFieldErrors(form, parentNamespace);
     }
@@ -245,39 +252,37 @@ public class SubFormSendHandler extends BeanHandler {
         String index = request.getParameter(uid + "_index");
         String parentFormId = request.getParameter(uid + "_parentFormId");
         String parentNamespace = request.getParameter(uid + "_parentNamespace");
-        String field = request.getParameter(uid + "_field");
-        Form form = subformFinderService.getFormById(Long.decode(parentFormId), parentNamespace);
+        String fieldName = request.getParameter(uid + "_field");
+        String inputName = request.getParameter(uid + "_inputName");
+
+        Form form = subformFinderService.getFormById( Long.decode( parentFormId ), parentNamespace );
+        Field field = form.getField(fieldName);
+
         getFormProcessor().setValues(form, parentNamespace, request.getRequestObject().getParameterMap(), request.getFilesByParamName());
-        Map editFields = (Map) getFormProcessor().getAttribute(form, parentNamespace, FormStatusData.EDIT_FIELD_POSITIONS);
-        if (editFields == null) {
-            getFormProcessor().setAttribute(form, parentNamespace, FormStatusData.EDIT_FIELD_POSITIONS, editFields = new HashMap());
-        }
-        Map editFieldPreviousValues = (Map) getFormProcessor().getAttribute(form, parentNamespace, FormStatusData.EDIT_FIELD_PREVIOUS_VALUES);
-        if (editFieldPreviousValues == null) {
-            getFormProcessor().setAttribute(form, parentNamespace, FormStatusData.EDIT_FIELD_PREVIOUS_VALUES, editFieldPreviousValues = new HashMap());
-        }
 
         if (doIt) {
-            // Delete form status !!!
-            Field fieldToErase = form.getField(field);
             FormStatusData fsd = getFormProcessor().read(form, parentNamespace);
-            Map[] previousValue = deepCloneOfMapArray((Map[]) fsd.getCurrentValue(field), new HashMap());
-            editFieldPreviousValues.put(field, previousValue);
-            CreateDynamicObjectFieldHandler fieldHandler = (CreateDynamicObjectFieldHandler) getFieldHandlersManager().getHandler(fieldToErase.getFieldType());
+            Map[] previousValue = deepCloneOfMapArray( ( Map[] ) fsd.getCurrentValue( fieldName ), new HashMap() );
+            helper.setEditFieldPreviousValues( inputName, previousValue );
+            CreateDynamicObjectFieldHandler fieldHandler = (CreateDynamicObjectFieldHandler) getFieldHandlersManager().getHandler( field.getFieldType() );
 
-            Form formToEdit = fieldHandler.getEditForm(fieldToErase, parentNamespace);
+            Form formToEdit = fieldHandler.getEditForm(field, parentNamespace);
 
-            //FormStatusData fsItem =getFormProcessor().read(formToEdit, parentNamespace + FormProcessor.NAMESPACE_SEPARATOR + parentFormId + FormProcessor.NAMESPACE_SEPARATOR + field+ FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + index);
-            getFormProcessor().clear(formToEdit, parentNamespace + FormProcessor.NAMESPACE_SEPARATOR + parentFormId + FormProcessor.NAMESPACE_SEPARATOR + field+ FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + index);
-            getFormProcessor().clear(formToEdit, parentNamespace + FormProcessor.NAMESPACE_SEPARATOR + parentFormId + FormProcessor.NAMESPACE_SEPARATOR + field);
-            editFields.put(field, Integer.decode(index));
+            getFormProcessor().clear( formToEdit, parentNamespace + FormProcessor.NAMESPACE_SEPARATOR + parentFormId + FormProcessor.NAMESPACE_SEPARATOR + fieldName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + index);
+            getFormProcessor().clear( formToEdit, parentNamespace + FormProcessor.NAMESPACE_SEPARATOR + parentFormId + FormProcessor.NAMESPACE_SEPARATOR + fieldName );
+            helper.setEditFieldPosition( inputName, Integer.decode( index ) );
         } else {
-            Object previousValue = editFieldPreviousValues.get(field);
-            getFormProcessor().modify(form, parentNamespace, field, previousValue);
-            editFields.remove(field);
+            Object previousValue = helper.getEditFieldPreviousValues( inputName );
+            getFormProcessor().modify( form, parentNamespace, fieldName, previousValue );
+            helper.clearExpandedField( inputName );
+            helper.clearEditFieldPositions( inputName );
+            helper.clearEditFieldPreviousValues( inputName );
+            helper.clearPreviewFieldPositions( inputName );
         }
         getFormProcessor().clearFieldErrors(form, parentNamespace);
     }
+
+
 
     protected Map[] deepCloneOfMapArray(Map[] maparray, Map cache) {
         if (maparray == null || maparray.length == 0) return maparray;

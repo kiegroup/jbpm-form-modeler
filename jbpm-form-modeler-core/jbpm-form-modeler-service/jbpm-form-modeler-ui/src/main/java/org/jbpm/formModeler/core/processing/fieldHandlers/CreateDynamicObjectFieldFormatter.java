@@ -19,10 +19,11 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.core.processing.FormNamespaceData;
 import org.jbpm.formModeler.core.processing.FormProcessor;
-import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.FormCheckResult;
 import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.SubformChecker;
+import org.jbpm.formModeler.core.processing.fieldHandlers.subform.utils.SubFormHelper;
 import org.jbpm.formModeler.core.processing.formRendering.FieldI18nResourceObtainer;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.slf4j.Logger;
@@ -49,6 +50,9 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
 
     @Inject
     protected FieldI18nResourceObtainer fieldI18nResourceObtainer;
+
+    @Inject
+    protected SubFormHelper helper;
 
     protected Boolean isReadonly;
 
@@ -97,17 +101,11 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
             return;
         }
 
-        Integer previewIndex = null;
-        Map previewIndexes = (Map) getFormProcessor().getAttribute(form, currentNamespace, FormStatusData.PREVIEW_FIELD_POSITIONS);
-        if (previewIndexes != null) {
-            previewIndex = ((Integer) previewIndexes.get(field.getFieldName()));
-        }
+        FormNamespaceData rootNamespaceData = namespaceManager.getRootNamespace( fieldNS );
 
-        Integer editIndex = null;
-        Map editIndexes = (Map) getFormProcessor().getAttribute(form, currentNamespace, FormStatusData.EDIT_FIELD_POSITIONS);
-        if (editIndexes != null) {
-            editIndex = ((Integer) editIndexes.get(field.getFieldName()));
-        }
+        Integer previewIndex = helper.getPreviewFieldPosition( fieldNS );
+
+        Integer editIndex = helper.getEditFieldPosition( fieldNS );
 
         setDefaultAttributes(field, form, currentNamespace);
         String height = (field.getHeight() != null && !"".equals(field.getHeight())) ? field.getHeight() : "100";
@@ -132,7 +130,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
             String rowNamespace = fieldNS + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + previewIndex;
             getFormProcessor().read(form, rowNamespace, ((Map[]) value)[previewIndex]);
 
-            previewItemInPosition(form, currentNamespace, previewIndex.intValue(), field, value);
+            previewItemInPosition(form, currentNamespace, previewIndex, field, value);
         } else if (editIndex != null) {
             // Edit item
             String rowNamespace = fieldNS + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + editIndex;
@@ -222,14 +220,12 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
             setAttribute("uid", fieldUID);
             setAttribute("name", fieldName);
             setAttribute("entityName", "");
-            FormStatusData status = getFormProcessor().read(form, currentNamespace);
             boolean expanded = false;
             if (Boolean.TRUE.equals(field.getHideContent())) {
                 expanded = true;
                 setAttribute("noCancelButton", true);
             } else {
-                Set expandedFields = (Set) status.getAttributes().get(FormStatusData.EXPANDED_FIELDS);
-                expanded = expandedFields != null && expandedFields.contains(field.getFieldName());
+                expanded = fieldNS.equals( helper.getExpandedField( fieldNS ) );
             }
             setAttribute("expanded", expanded);
 
@@ -310,6 +306,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
                     setAttribute("parentFormId", parentForm.getId());
                     setAttribute("parentNamespace", currentNamespace);
                     setAttribute("field", field.getFieldName());
+                    setAttribute( "namespace", fieldNS );
                     renderFragment("outputSubformActions");
 
                     Object o = values.get(i);

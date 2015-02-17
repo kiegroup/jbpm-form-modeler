@@ -46,7 +46,6 @@
 
     <build>
 
-        <finalName>jbpm-form-modeler-app</finalName>
         <plugins>
 
             <plugin>

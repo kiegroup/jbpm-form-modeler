@@ -64,8 +64,4 @@
 
     </dependencies>
 
-    <build>
-        <finalName>forms-ui</finalName>
-    </build>
-
 </project>
