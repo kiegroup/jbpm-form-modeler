@@ -50,8 +50,4 @@
       <classifier>classes</classifier>
     </dependency>
   </dependencies>
-
-    <build>
-        <finalName>forms-designer</finalName>
-    </build>
 </project>

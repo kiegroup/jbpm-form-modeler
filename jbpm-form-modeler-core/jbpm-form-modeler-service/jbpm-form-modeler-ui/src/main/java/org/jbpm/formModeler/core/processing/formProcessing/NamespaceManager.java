@@ -139,4 +139,15 @@ public class NamespaceManager {
         return null;
     }
 
+    public FormNamespaceData getRootNamespace( String inputName ) {
+
+        String parentNS;
+        while (!StringUtils.isEmpty((parentNS = getParentNamespace( inputName ))) && parentNS.indexOf( FormProcessor.NAMESPACE_SEPARATOR ) != -1) {
+            inputName = parentNS;
+        }
+
+        if (inputName.indexOf( FormProcessor.CUSTOM_NAMESPACE_SEPARATOR ) != -1) inputName = inputName.substring( 0, inputName.indexOf( FormProcessor.CUSTOM_NAMESPACE_SEPARATOR ) );
+
+        return getNamespace( inputName );
+    }
 }

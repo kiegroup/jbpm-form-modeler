@@ -21,8 +21,10 @@ import org.apache.commons.lang.StringUtils;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.core.processing.FormNamespaceData;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
+import org.jbpm.formModeler.core.processing.fieldHandlers.subform.utils.SubFormHelper;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +44,9 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
 
     @Inject
     private FormProcessor formProcessor;
+
+    @Inject
+    private SubFormHelper helper;
 
     /**
      * Read a parameter value (normally from a request), and translate it to
@@ -89,16 +94,8 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
                     final Map objectCreated = formProcessor.getMapRepresentationToPersist(createForm, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create");
                     if (previousValuesMap == null) previousValuesMap = new Map[0];
                     previousValuesMap = (Map[]) ArrayUtils.add(previousValuesMap, objectCreated);
-                    // Not the correct place to do it !!!  form.getProcessor().clear(form.getDbid(), inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "create");
-                    // Collapse form
-                    Form parentForm = field.getForm();
-                    String parentNamespace = getNamespaceManager().getParentNamespace(inputName);
-                    Set expandedFields = (Set) formProcessor.getAttribute(parentForm, parentNamespace, FormStatusData.EXPANDED_FIELDS);
-                    if (expandedFields != null) {
-                        expandedFields.remove(field.getFieldName());
-                        formProcessor.setAttribute(parentForm, parentNamespace, FormStatusData.EXPANDED_FIELDS, expandedFields);
-                    }
-                    formProcessor.clear(form, parentNamespace);
+
+                    helper.clearExpandedField( inputName );
                 }
             }
         }
@@ -106,23 +103,16 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
         String[] editParams = (String[]) parametersMap.get(inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "saveEdited");
         boolean doSaveEdited = editParams != null && editParams.length == 1 && editParams[0].equals("true");
         if (doSaveEdited) {
-            // Collapse form
-            Form parentForm = field.getForm();
-            String parentNamespace = getNamespaceManager().getParentNamespace(inputName);
-            Map expandedFields = (Map) formProcessor.getAttribute(parentForm, parentNamespace, FormStatusData.EDIT_FIELD_POSITIONS);
-            if (expandedFields != null && !expandedFields.isEmpty()) {
-                Integer positionStr = (Integer) expandedFields.get(field.getFieldName());
-                int position = positionStr.intValue();
+            Integer position = helper.getEditFieldPosition( inputName );
+            if (position != null) {
                 Form editForm = getEditForm(field, inputName);
                 formProcessor.setValues(editForm, inputName, parametersMap, filesMap);
                 FormStatusData status = formProcessor.read(editForm, inputName);
                 if (status.isValid()) {
                     final Map objectCreated = formProcessor.getMapRepresentationToPersist(editForm, inputName);
-                    previousValuesMap[position].putAll(objectCreated);
+                    previousValuesMap[position].putAll( objectCreated );
                     formProcessor.clear(editForm, inputName);
-                    //Collapse form
-                    expandedFields.remove(field.getFieldName());
-                    formProcessor.setAttribute(parentForm, parentNamespace, FormStatusData.EDIT_FIELD_POSITIONS, expandedFields);
+                    helper.clearEditFieldPositions( inputName );
                 }
             }
         }
@@ -135,8 +125,10 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
     }
 
     @Override
-    public Object getStatusValue(Field field, String inputName, Object value) {
+    public Object getStatusValue( Field field, String inputName, Object value, Map rootLoadedObjects ) {
         if (value == null) return new Map[0];
+        if (!rootLoadedObjects.containsKey( inputName )) rootLoadedObjects.put( inputName, value );
+
         Form form = getEnterDataForm(inputName, field);
         DataHolder holder = form.getHolders().iterator().next();
 
@@ -148,8 +140,8 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
                 Object val = values.get(i);
                 Map<String, Object> inputData = new HashMap();
                 if (!StringUtils.isEmpty(holder.getInputId())) inputData.put(holder.getInputId(), val);
-
-                result[i] = formProcessor.readValuesToLoad(form, inputData, new HashMap(), new HashMap(), inputName);
+                rootLoadedObjects.remove( holder.getUniqeId() );
+                result[i] = formProcessor.readValuesToLoad(form, inputData, new HashMap(), rootLoadedObjects, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + i);
             } catch (Exception e) {
                 log.error("Error getting status value for field: " + inputName, e);
             }
@@ -164,38 +156,33 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
     }
 
     @Override
-    public Object persist(Field field, String inputName) throws Exception {
-        FormStatusData data = formProcessor.read(field.getForm(), getNamespaceManager().getParentNamespace(inputName));
+    public Object persist( Field field, String inputName, Object fieldValue ) throws Exception {
 
-        Object objectValue = data.getCurrentValue(field.getFieldName());
-        if (objectValue == null) return null;
+        if (fieldValue == null) return null;
+
+        FormNamespaceData rootNamespaceData = getNamespaceManager().getRootNamespace( inputName );
+        FormStatusData rootData = formProcessor.read(rootNamespaceData.getForm(), rootNamespaceData.getNamespace());
 
         Form form = getEnterDataForm(inputName, field);
 
-        DataHolder parentHolder = field.getForm().getDataHolderByField(field);
-
         // getting parent object to obtain the parent child elements
-        Object parentObject = null;
+        Object originalValue = rootData.getLoadedObject( inputName );
         List loadedObjects = null;
 
-        if (parentHolder != null) {
-            parentObject = data.getLoadedObject(parentHolder.getUniqeId());
-            if (parentObject != null) loadedObjects = (List) parentHolder.readFromBindingExperssion(parentObject, field.getInputBinding());
-        }
+        if (originalValue != null) loadedObjects = (List) originalValue;
+        else loadedObjects = Collections.EMPTY_LIST;
 
-
-        if (loadedObjects == null) loadedObjects = Collections.EMPTY_LIST;
-
-        Map[] values = (Map[]) objectValue;
+        Map[] values = (Map[]) fieldValue;
         List result = new ArrayList();
 
-        List removedValues = (List) data.getAttributes().get(FormStatusData.REMOVED_ELEMENTS);
-        if (removedValues == null) removedValues = Collections.EMPTY_LIST;
+        List<Integer> removedValues = helper.getRemovedFieldPositions( inputName );
 
-        // Check if any value has been removed from the parent form
-        for (int i=0; i<removedValues.size(); i++) {
-            Integer removed = (Integer) removedValues.get(i);
-            if (removed < loadedObjects.size()) loadedObjects.remove(removed.intValue());
+        if (removedValues != null) {
+            // Check if any value has been removed from the parent form
+            for (int i = 0; i < removedValues.size(); i++) {
+                Integer removed = removedValues.get(i);
+                if (removed < loadedObjects.size()) loadedObjects.remove(removed);
+            }
         }
 
         DataHolder holder = form.getHolders().iterator().next();
@@ -206,9 +193,10 @@ public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
                 loadedObject = loadedObjects.get(i);
             }
 
-            result.add(formProcessor.persistFormHolder(form, inputName, values[i], holder, loadedObject));
+            result.add(formProcessor.persistFormHolder(form, inputName + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + i, values[i], holder, loadedObject));
         }
 
+        helper.clearRemovedFieldPositions( inputName );
         return result;
     }
 

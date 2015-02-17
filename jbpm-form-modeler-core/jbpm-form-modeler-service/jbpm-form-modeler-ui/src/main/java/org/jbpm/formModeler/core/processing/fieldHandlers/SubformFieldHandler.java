@@ -21,6 +21,7 @@ import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.*;
 import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.SubformChecker;
+import org.jbpm.formModeler.core.processing.fieldHandlers.subform.utils.SubFormHelper;
 import org.jbpm.formModeler.core.processing.formRendering.FormErrorMessageBuilder;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatus;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
@@ -49,6 +50,9 @@ public class SubformFieldHandler extends PersistentFieldHandler {
 
     @Inject
     private FormProcessor formProcessor;
+
+    @Inject
+    private SubFormHelper helper;
 
     private static int maxDepth = 2;
 
@@ -94,21 +98,25 @@ public class SubformFieldHandler extends PersistentFieldHandler {
     }
 
     @Override
-    public Object persist(Field field, String inputName) throws Exception {
+    public Object persist( Field field, String inputName, Object fieldValue ) throws Exception {
         Form form = getEnterDataForm(inputName, field);
-        Map representation = formProcessor.getMapRepresentationToPersist(form, inputName);
+        Map representation = ( Map ) fieldValue;
 
         DataHolder holder = form.getHolders().iterator().next();
 
-        FormStatus fs = getFormStatusManager().getFormStatus(form, inputName);
-        Object locadedObject = fs.getLoadedObject(holder.getUniqeId());
+        FormNamespaceData rootNamespaceData = getNamespaceManager().getRootNamespace( inputName );
+        FormStatusData rootData = formProcessor.read(rootNamespaceData.getForm(), rootNamespaceData.getNamespace());
+
+        Object locadedObject = rootData.getLoadedObject( inputName );
 
         return formProcessor.persistFormHolder(form, inputName, representation, holder, locadedObject);
     }
 
     @Override
-    public Object getStatusValue(Field field, String inputName, Object value) {
+    public Object getStatusValue( Field field, String inputName, Object value, Map rootLoadedObjects ) {
         if (value == null) return Collections.EMPTY_MAP;
+        if (!rootLoadedObjects.containsKey( inputName )) rootLoadedObjects.put( inputName, value );
+
         Form form = getEnterDataForm(inputName, field);
         DataHolder holder = form.getHolders().iterator().next();
 

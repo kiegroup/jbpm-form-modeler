@@ -45,6 +45,7 @@
         <input type="hidden" id='<%=uid + "_parentFormId"%>' name="<%=uid + "_parentFormId"%>" value="">
         <input type="hidden" id='<%=uid + "_parentNamespace"%>' name="<%=uid + "_parentNamespace"%>" value="">
         <input type="hidden" id='<%=uid + "_field"%>' name='<%=uid + "_field"%>' value="">
+        <input type="hidden" id='<%=uid + "_inputName"%>' name='<%=uid + "_inputName"%>' value="">
 
         <input type="hidden" id="<%=uid%>_tableEnterMode" name='<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "tableEnterMode"%>' value="<%=tableEnterMode%>">
         <input type="hidden" id="<%=uid%>_count" name='<%=name + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + "count"%>' value="<%=count%>">
@@ -77,7 +78,7 @@
                                                                     <mvc:formatterParam name="form" value="<%=form%>"/>
                                                                     <mvc:formatterParam name="renderMode" value="<%=Form.RENDER_MODE_DISPLAY%>"/>
                                                                     <mvc:formatterParam name="reuseStatus" value="false"/>
-                                                                    <mvc:formatterParam name="namespace" value="showItemPreview"/>
+                                                                    <mvc:formatterParam name="namespace" value="<%=namespace%>"/>
                                                                     <mvc:formatterParam name="formValues" value="<%=valueToPreview%>"/>
                                                                     <mvc:formatterParam name="isReadonly" value="<%=readonly%>"/>
                                                                     <%@ include file="/formModeler/components/WysiwygFormEdit/menu/defaultFormRenderingFormatterOptions.jsp" %>
@@ -94,6 +95,7 @@
                                                                                document.getElementById('<%=uid + "_parentFormId"%>').value='<%=parentFormId%>';
                                                                                document.getElementById('<%=uid + "_parentNamespace"%>').value='<%=parentNamespace%>';
                                                                                document.getElementById('<%=uid + "_field"%>').value='<%=field%>';
+                                                                               document.getElementById('<%=uid + "_inputName"%>').value='<%=namespace%>';
                                                                                clearChangeDDMTrigger();
                                                                                sendFormToHandler(this.form, 'org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler', 'cancelPreviewItem');">
                                                             </td>
@@ -159,6 +161,7 @@
                                                document.getElementById('<%=uid + "_parentFormId"%>').value='<%=parentFormId%>';
                                                document.getElementById('<%=uid + "_parentNamespace"%>').value='<%=parentNamespace%>';
                                                document.getElementById('<%=uid + "_field"%>').value='<%=field%>';
+                                               document.getElementById('<%=uid + "_inputName"%>').value='<%=namespace%>';
                                                clearChangeDDMTrigger();
                                                sendFormToHandler(this.form, 'org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler', 'cancelEditItem');">
                             </td>
@@ -225,6 +228,7 @@
                         <mvc:fragmentValue name="parentFormId" id="parentFormId">
                             <mvc:fragmentValue name="parentNamespace" id="parentNamespace">
                                 <mvc:fragmentValue name="field" id="field">
+                                    <mvc:fragmentValue name="namespace" id="namespace">
 
                         <tr valign="top" class='<%=((Integer) index).intValue() % 2 == 1 ? "skn-even_row" : "skn-odd_row"%>'>
 <%
@@ -240,6 +244,7 @@
                                            document.getElementById('<%=uid + "_parentFormId"%>').value='<%=parentFormId%>';
                                            document.getElementById('<%=uid + "_parentNamespace"%>').value='<%=parentNamespace%>';
                                            document.getElementById('<%=uid + "_field"%>').value='<%=field%>';
+                                           document.getElementById('<%=uid + "_inputName"%>').value='<%=namespace%>';
                                            clearChangeDDMTrigger();
                                            sendFormToHandler(document.getElementById('<%=uid + "_child_uid_value"%>').form, 'org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler', 'deleteItem');
                                        }
@@ -262,6 +267,7 @@
                                        document.getElementById('<%=uid + "_parentFormId"%>').value='<%=parentFormId%>';
                                        document.getElementById('<%=uid + "_parentNamespace"%>').value='<%=parentNamespace%>';
                                        document.getElementById('<%=uid + "_field"%>').value='<%=field%>';
+                                       document.getElementById('<%=uid + "_inputName"%>').value='<%=namespace%>';
                                        clearChangeDDMTrigger();
                                        sendFormToHandler(document.getElementById('<%=uid + "_child_uid_value"%>').form, 'org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler', 'previewItem');
                                        return false;"
@@ -282,6 +288,7 @@
                                        document.getElementById('<%=uid + "_parentFormId"%>').value='<%=parentFormId%>';
                                        document.getElementById('<%=uid + "_parentNamespace"%>').value='<%=parentNamespace%>';
                                        document.getElementById('<%=uid + "_field"%>').value='<%=field%>';
+                                       document.getElementById('<%=uid + "_inputName"%>').value='<%=namespace%>';
                                        clearChangeDDMTrigger();
                                        sendFormToHandler(document.getElementById('<%=uid + "_child_uid_value"%>').form, 'org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler', 'editItem');
                                        return false;"
@@ -291,7 +298,9 @@
                             </td>
 <%
     }
-%>        </mvc:fragmentValue>
+%>
+                                    </mvc:fragmentValue>
+                                </mvc:fragmentValue>
                             </mvc:fragmentValue>
                         </mvc:fragmentValue>
                     </mvc:fragmentValue>

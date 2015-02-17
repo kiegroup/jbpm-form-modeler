@@ -15,9 +15,11 @@
  */
 package org.jbpm.formModeler.core.processing;
 
+import java.util.Map;
+
 import org.jbpm.formModeler.api.model.Field;
 
 public abstract class PersistentFieldHandler extends DefaultFieldHandler {
-    public abstract Object persist(Field field, String inputName) throws Exception;
-    public abstract Object getStatusValue(Field field, String inputName, Object value);
+    public abstract Object persist( Field field, String inputName, Object fieldValue ) throws Exception;
+    public abstract Object getStatusValue( Field field, String inputName, Object value, Map loadedObjects );
 }
