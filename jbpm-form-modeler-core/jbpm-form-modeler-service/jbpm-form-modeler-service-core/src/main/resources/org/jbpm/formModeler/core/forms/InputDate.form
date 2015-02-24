@@ -117,7 +117,7 @@
     <property name="cssStyle" value=""/>
     <property name="accesskey" value=""/>
   </field>
-  <field position="8" name="size" type="InputText" id="296725925">
+  <field position="8" name="size" type="InputTextLong" id="296725925">
     <property name="fieldRequired" value="false"/>
     <property name="groupWithPrevious" value="false"/>
     <property name="height" value=""/>

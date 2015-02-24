@@ -277,7 +277,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                     } else if ("readonly".equals(propName)) {
                         field.setReadonly(Boolean.valueOf(value));
                     } else if ("size".equals(propName)) {
-                        field.setSize(value);
+                        if (!StringUtils.isEmpty( value ) && StringUtils.isNumeric( value )) field.setSize(Long.valueOf(value));
                     } else if ("formula".equals(propName)) {
                         field.setFormula(value);
                     } else if ("rangeFormula".equals(propName)) {
@@ -285,13 +285,13 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
                     } else if ("pattern".equals(propName)) {
                         field.setPattern(value);
                     } else if ("maxlength".equals(propName)) {
-                        field.setMaxlength(Long.valueOf(value));
+                        if (!StringUtils.isEmpty( value ) && StringUtils.isNumeric( value )) field.setMaxlength(Long.valueOf(value));
                     } else if ("styleclass".equals(propName)) {
                         field.setStyleclass(value);
                     } else if ("cssStyle".equals(propName)) {
                         field.setCssStyle(value);
                     } else if ("tabindex".equals(propName)) {
-                        field.setTabindex(Long.valueOf(value));
+                        if (!StringUtils.isEmpty( value ) && StringUtils.isNumeric( value )) field.setTabindex(Long.valueOf(value));
                     } else if ("accesskey".equals(propName)) {
                         field.setAccesskey(value);
                     } else if ("isHTML".equals(propName)) {
@@ -405,7 +405,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
         addXMLNode("errorMessage", (field.getErrorMessage() != null ? serializeI18nSet(field.getErrorMessage()) : null), rootNode);
         addXMLNode("title", (field.getTitle() != null ? serializeI18nSet(field.getTitle()) : null), rootNode);
         addXMLNode("readonly", (field.getReadonly() != null ? String.valueOf(field.getReadonly()) : null), rootNode);
-        addXMLNode("size", field.getSize(), rootNode);
+        addXMLNode("size", (field.getSize() != null ? String.valueOf(field.getSize()) : null), rootNode);
         addXMLNode("formula", field.getFormula(), rootNode);
         addXMLNode("rangeFormula", field.getRangeFormula(), rootNode);
         addXMLNode("pattern", field.getPattern(), rootNode);

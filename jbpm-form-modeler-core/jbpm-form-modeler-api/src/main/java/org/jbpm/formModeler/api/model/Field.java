@@ -38,7 +38,7 @@ public class Field implements Serializable, Comparable<Field> {
 
     private Boolean readonly;
 
-    private String size;
+    private Long size;
 
     private String formula;
 
@@ -144,11 +144,11 @@ public class Field implements Serializable, Comparable<Field> {
         this.readonly = readonly;
     }
 
-    public String getSize() {
+    public Long getSize() {
         return this.size;
     }
 
-    public void setSize(String size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 
