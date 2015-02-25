@@ -13,8 +13,7 @@
 
   <artifactId>jbpm-form-modeler-renderer-client</artifactId>
   <packaging>jar</packaging>
-
-  <name>jbpm-form-modeler-renderer-client</name>
+  <name>jBPM Form Modeler - UF Renderer Client</name>
 
   <dependencies>
 

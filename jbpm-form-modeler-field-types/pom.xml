@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
 
     <artifactId>jbpm-form-modeler-field-types</artifactId>
+    <name>jBPM Form Modeler - Extra Field Types</name>
     <modules>
         <module>jbpm-form-modeler-document</module>
     </modules>

@@ -13,8 +13,7 @@
 
   <artifactId>jbpm-form-modeler-editor-backend</artifactId>
   <packaging>jar</packaging>
-
-  <name>jbpm-form-modeler-editor-backend</name>
+  <name>jBPM Form Modeler - UF Editor Backend</name>
 
   <dependencies>
 

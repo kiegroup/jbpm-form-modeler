@@ -13,8 +13,8 @@
 
   <artifactId>jbpm-form-modeler-renderer-api</artifactId>
   <packaging>jar</packaging>
+  <name>jBPM Form Modeler - UF Renderer API</name>
 
-  <name>jbpm-form-modeler-renderer-api</name>
   <dependencies>
     <dependency>
       <groupId>javax.enterprise</groupId>

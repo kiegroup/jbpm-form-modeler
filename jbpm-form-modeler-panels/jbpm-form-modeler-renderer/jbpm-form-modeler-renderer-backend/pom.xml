@@ -4,8 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-
-
     <parent>
         <groupId>org.jbpm</groupId>
         <artifactId>jbpm-form-modeler-renderer</artifactId>
@@ -14,8 +12,8 @@
 
     <artifactId>jbpm-form-modeler-renderer-backend</artifactId>
     <packaging>jar</packaging>
+    <name>jBPM Form Modeler - UF Renderer Backend</name>
 
-    <name>jbpm-form-modeler-renderer-backend</name>
     <dependencies>
 
         <dependency>

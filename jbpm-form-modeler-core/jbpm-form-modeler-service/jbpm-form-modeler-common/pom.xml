@@ -11,7 +11,7 @@
 
     <artifactId>jbpm-form-modeler-common</artifactId>
     <packaging>jar</packaging>
-    <name>jbpm-form-modeler-common</name>
+    <name>jBPM Form Modeler - Common Module</name>
 
     <dependencies>
         <dependency>

@@ -61,7 +61,7 @@ public class HomePerspective {
     }
 
     @WorkbenchMenu
-    private Menus buildMenuBar() {
+    public Menus getMenus() {
         return MenuFactory
                 .newTopLevelMenu( "Projects" )
                 .respondsWith( new Command() {

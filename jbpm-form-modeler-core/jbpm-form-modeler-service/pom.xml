@@ -11,6 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jbpm-form-modeler-service</artifactId>
+    <name>jBPM Form Modeler - Service</name>
     <packaging>pom</packaging>
 
 

@@ -13,8 +13,7 @@
 
     <artifactId>jbpm-form-modeler-editor</artifactId>
     <packaging>pom</packaging>
-
-    <name>jbpm-form-modeler-editor</name>
+    <name>jBPM Form Modeler - UF Editor</name>
 
     <modules>
         <module>jbpm-form-modeler-editor-api</module>

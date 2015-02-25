@@ -11,8 +11,7 @@
 
     <artifactId>jbpm-form-modeler-request-dispatcher</artifactId>
     <packaging>war</packaging>
-    <name>jbpm-form-modeler-request-dispatcher</name>
-
+    <name>jBPM Form Modeler - Request Dispatcher</name>
 
     <!-- internal dependencies -->
   <dependencies>

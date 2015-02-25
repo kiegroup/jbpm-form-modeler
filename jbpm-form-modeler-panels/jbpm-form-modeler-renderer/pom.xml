@@ -14,8 +14,7 @@
 
     <artifactId>jbpm-form-modeler-renderer</artifactId>
     <packaging>pom</packaging>
-
-    <name>jbpm-form-modeler-renderer</name>
+    <name>jBPM Form Modeler - UF Renderer</name>
 
     <modules>
         <module>jbpm-form-modeler-renderer-api</module>

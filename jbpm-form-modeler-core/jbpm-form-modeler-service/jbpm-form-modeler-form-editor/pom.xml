@@ -11,7 +11,7 @@
 
     <artifactId>jbpm-form-modeler-form-editor</artifactId>
     <packaging>war</packaging>
-    <name>jbpm-form-modeler-form-editor</name>
+    <name>jBPM Form Modeler - Form Editor</name>
 
   <dependencies>
 

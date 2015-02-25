@@ -13,9 +13,8 @@
     </parent>
 
     <artifactId>jbpm-form-modeler-panels</artifactId>
+    <name>jBPM Form Modeler - UF Panels</name>
     <packaging>pom</packaging>
-
-    <name>jbpm-form-modeler-panels</name>
 
     <modules>
         <module>jbpm-form-modeler-editor</module>

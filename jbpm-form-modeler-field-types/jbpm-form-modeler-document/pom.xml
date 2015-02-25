@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jbpm-form-modeler-document</artifactId>
+    <name>jBPM Form Modeler - jBPM Document Field Type</name>
 
   <dependencies>
     <dependency>

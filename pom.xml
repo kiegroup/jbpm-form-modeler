@@ -11,6 +11,7 @@
 
     <groupId>org.jbpm</groupId>
     <artifactId>jbpm-form-modeler</artifactId>
+    <name>jBPM Form Modeler</name>
     <packaging>pom</packaging>
 
     <repositories>
@@ -36,6 +37,7 @@
         <module>jbpm-form-modeler-integrations</module>
         <module>jbpm-form-modeler-panels</module>
         <module>jbpm-form-modeler-field-types</module>
+        <module>jbpm-form-modeler-sample-custom-types</module>
         <module>jbpm-form-modeler-showcase</module>
     </modules>
 

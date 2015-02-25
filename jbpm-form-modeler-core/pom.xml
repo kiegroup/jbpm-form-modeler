@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jbpm-form-modeler-core</artifactId>
+    <name>jBPM Form Modeler - Core</name>
     <packaging>pom</packaging>
 
 

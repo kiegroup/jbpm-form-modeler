@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jbpm-form-modeler-service-core</artifactId>
+    <name>jBPM Form Modeler - Service Core</name>
 
   <dependencies>
 
