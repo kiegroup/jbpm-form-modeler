@@ -18,16 +18,18 @@ package org.jbpm.formModeler.editor.service;
 import org.guvnor.common.services.shared.file.SupportsUpdate;
 import org.jboss.errai.bus.server.annotations.Remote;
 import org.jbpm.formModeler.editor.model.FormEditorContextTO;
+import org.jbpm.formModeler.editor.model.FormModelerContent;
 import org.uberfire.backend.vfs.Path;
+import org.uberfire.ext.editor.commons.service.support.SupportsCopy;
 import org.uberfire.ext.editor.commons.service.support.SupportsDelete;
 import org.uberfire.ext.editor.commons.service.support.SupportsRename;
 
 @Remote
 public interface FormModelerService extends SupportsUpdate<FormEditorContextTO>, SupportsRename, SupportsDelete {
 
-    FormEditorContextTO loadForm(Path path);
+    FormModelerContent loadContent( Path path );
 
-    FormEditorContextTO reloadForm(Path path, String ctxUID);
+    FormEditorContextTO reloadContent( Path path, String ctxUID );
 
     void changeContextPath(String ctxUID, Path path);
 
