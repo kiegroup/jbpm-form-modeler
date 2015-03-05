@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.guvnor.common.services.backend.exceptions.ExceptionUtilities;
 import org.guvnor.common.services.shared.metadata.MetadataService;
 import org.guvnor.common.services.shared.metadata.model.Metadata;
+import org.guvnor.common.services.shared.metadata.model.Overview;
 import org.jboss.errai.bus.server.annotations.Service;
 import org.jboss.errai.security.shared.api.identity.User;
 import org.jbpm.formModeler.api.client.FormEditorContext;
@@ -34,7 +35,9 @@ import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.jbpm.formModeler.editor.model.FormEditorContextTO;
+import org.jbpm.formModeler.editor.model.FormModelerContent;
 import org.jbpm.formModeler.editor.service.FormModelerService;
+import org.kie.workbench.common.services.backend.service.KieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
@@ -50,7 +53,7 @@ import org.uberfire.workbench.events.ResourceOpenedEvent;
 
 @Service
 @ApplicationScoped
-public class FormModelerServiceImpl implements FormModelerService {
+public class FormModelerServiceImpl extends KieService<FormModelerContent> implements FormModelerService {
 
     private Logger log = LoggerFactory.getLogger(FormModelerServiceImpl.class);
 
@@ -103,36 +106,7 @@ public class FormModelerServiceImpl implements FormModelerService {
     }
 
     @Override
-    public FormEditorContextTO loadForm(Path path) {
-        try {
-            org.uberfire.java.nio.file.Path kiePath = Paths.convert(path);
-
-            String formPath = kiePath.toUri().toString();
-
-            Form form = subformFinderService.getFormByPath(formPath);
-
-            FormEditorContextTO result = new FormEditorContextTO();
-
-            if (form == null) {
-                result.setLoadError(true);
-                form = formManager.createForm(path.getFileName());
-            }
-
-            FormEditorContext context = formEditorContextManager.newContext(form, formPath);
-
-            result.setCtxUID(context.getUID());
-
-            resourceOpenedEvent.fire(new ResourceOpenedEvent( path, sessionInfo ));
-
-            return result;
-        } catch (Exception e) {
-            log.warn("Error loading form " + path.toURI(), e);
-            return null;
-        }
-    }
-
-    @Override
-    public FormEditorContextTO reloadForm(Path path, String ctxUID) {
+    public FormEditorContextTO reloadContent( Path path, String ctxUID ) {
         try {
             org.uberfire.java.nio.file.Path kiePath = Paths.convert(path);
 
@@ -184,15 +158,43 @@ public class FormModelerServiceImpl implements FormModelerService {
         }
     }
 
-    private CommentedOption makeCommentedOption( final String commitMessage ) {
-        final String name = identity.getIdentifier();
-        final Date when = new Date();
-        final CommentedOption co = new CommentedOption( sessionInfo.getId(),
-                name,
-                null,
-                commitMessage,
-                when );
-        return co;
+    @Override
+    public FormModelerContent loadContent( Path path ) {
+        return super.loadContent( path );
     }
 
+    @Override
+    protected FormModelerContent constructContent( Path path, Overview overview ) {
+
+        try {
+            org.uberfire.java.nio.file.Path kiePath = Paths.convert(path);
+
+            String formPath = kiePath.toUri().toString();
+
+            Form form = subformFinderService.getFormByPath(formPath);
+
+            FormEditorContextTO contextTO = new FormEditorContextTO();
+
+            if (form == null) {
+                contextTO.setLoadError( true );
+                form = formManager.createForm(path.getFileName());
+            }
+
+            FormEditorContext context = formEditorContextManager.newContext(form, formPath);
+
+            contextTO.setCtxUID( context.getUID() );
+
+            FormModelerContent result = new FormModelerContent();
+            result.setContextTO( contextTO );
+            result.setPath( path );
+            result.setOverview( overview );
+
+            resourceOpenedEvent.fire(new ResourceOpenedEvent( path, sessionInfo ));
+
+            return result;
+        } catch (Exception e) {
+            log.warn("Error loading form " + path.toURI(), e);
+        }
+        return null;
+    }
 }

@@ -1,10 +1,8 @@
 package org.jbpm.formModeler.editor.client.editors;
 
-import org.uberfire.client.mvp.UberView;
+import org.kie.workbench.common.widgets.metadata.client.KieEditorView;
 
-public interface FormModelerPanelView extends UberView<FormModelerPanelPresenter> {
-    void hideForm();
-
+public interface FormModelerPanelView extends KieEditorView {
     void loadContext(String ctxUID);
 
     void showCanNotSaveReadOnly();
