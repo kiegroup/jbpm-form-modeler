@@ -123,7 +123,7 @@ public class FormModelerPanelPresenter extends KieEditor {
                     public void callback( FormModelerContent content ) {
                         loadContext( content );
                     }
-                } ).loadContent( versionRecordManager.getCurrentPath() );
+                }, getNoSuchFileExceptionErrorCallback() ).loadContent( versionRecordManager.getCurrentPath() );
             } else {
                 modelerService.call( new RemoteCallback<FormEditorContextTO>() {
                     @Override
@@ -131,7 +131,7 @@ public class FormModelerPanelPresenter extends KieEditor {
                         content.setContextTO( ctx );
                         loadContext( content );
                     }
-                } ).reloadContent( versionRecordManager.getCurrentPath(), content.getContextTO().getCtxUID() );
+                }, getNoSuchFileExceptionErrorCallback() ).reloadContent( versionRecordManager.getCurrentPath(), content.getContextTO().getCtxUID() );
             }
         }
     }
