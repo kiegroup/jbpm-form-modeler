@@ -47,6 +47,18 @@
             <artifactId>freemarker</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-internal</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-services-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-document</artifactId>
         </dependency>

@@ -31,6 +31,7 @@ public class FormRenderContext implements Serializable {
     private int errors;
     private Map<String, Object> contextForms = new HashMap<String, Object>();
     private boolean inUse = false;
+    private String deploymentId;
 
     public FormRenderContext(){}
 
@@ -99,6 +100,14 @@ public class FormRenderContext implements Serializable {
 
     public void setInUse(boolean inUse) {
         this.inUse = inUse;
+    }
+
+    public String getDeploymentId() {
+        return deploymentId;
+    }
+
+    public void setDeploymentId( String deploymentId ) {
+        this.deploymentId = deploymentId;
     }
 
     public void clear() {

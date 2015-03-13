@@ -21,15 +21,25 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.document.Document;
+import org.jbpm.document.marshalling.AbstractDocumentMarshallingStrategy;
 import org.jbpm.document.service.impl.DocumentImpl;
+import org.jbpm.formModeler.api.client.FormRenderContext;
+import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.processing.fieldHandlers.plugable.PlugableFieldHandler;
 import org.jbpm.formModeler.service.bb.mvc.components.ControllerStatus;
 import org.jbpm.formModeler.service.bb.mvc.controller.RequestContext;
+import org.jbpm.services.api.DeploymentService;
+import org.jbpm.services.api.model.DeployedUnit;
+import org.kie.api.marshalling.ObjectMarshallingStrategy;
+import org.kie.api.runtime.EnvironmentName;
+import org.kie.internal.runtime.manager.InternalRuntimeManager;
+import org.kie.internal.task.api.ContentMarshallerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.File;
 import java.io.InputStream;
@@ -42,6 +52,13 @@ import java.util.*;
 public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
 
     private Logger log = LoggerFactory.getLogger(JBPMDocumentFieldTypeHandler.class);
+
+    @Inject
+    private DeploymentService deploymentService;
+
+    @Inject
+    private FormRenderContextManager formRenderContextManager;
+
 
     public final String SIZE_UNITS[] = new String[]{"bytes", "Kb", "Mb"};
 
@@ -106,11 +123,22 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
         // if there is an uploaded file for that field we will delete the previous one (if existed) and will return the uploaded file path.
         File file = (File) filesMap.get(inputName);
         if (file != null) {
-            Document doc = new DocumentImpl(file.getName(), file.length(), new Date(file.lastModified()));
-            doc.setContent(FileUtils.readFileToByteArray(file));
-            StringBuffer url = RequestContext.getCurrentContext().getRequest().getRequestObject().getRequestURL();
-            doc.addAttribute("app.url", url.substring(0, url.indexOf("/Controller")));
-            return doc;
+            // Getting the DocumentMarshallingStrategy for this project if exists any we build the document
+            AbstractDocumentMarshallingStrategy marshallingStrategy = getDocumentMarshallingStrategy( inputName );
+            if (marshallingStrategy != null) {
+                StringBuffer url = RequestContext.getCurrentContext().getRequest().getRequestObject().getRequestURL();
+
+                Map<String, String> params = new HashMap<String, String>(  );
+                params.put( "app.url", url.substring(0, url.indexOf("/Controller")) );
+
+                Document doc = marshallingStrategy.buildDocument( file.getName(), file.length(), new Date(file.lastModified()), params );
+                doc.setContent( FileUtils.readFileToByteArray( file ) );
+                return doc;
+            } else {
+                Document doc = new DocumentImpl( file.getName(), file.length(), new Date(file.lastModified()) );
+                doc.setContent( FileUtils.readFileToByteArray( file ) );
+                return doc;
+            }
         }
 
         // If we receive the delete parameter or we are uploading a new file the current file will be deleted
@@ -119,6 +147,19 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
         }
 
         return oldDoc;
+    }
+
+    protected AbstractDocumentMarshallingStrategy getDocumentMarshallingStrategy( String inputName ) {
+        FormRenderContext context = formRenderContextManager.getRootContext( inputName );
+        DeployedUnit deployedUnit = deploymentService.getDeployedUnit(context.getDeploymentId());
+        InternalRuntimeManager manager = (InternalRuntimeManager) deployedUnit.getRuntimeManager();
+        ObjectMarshallingStrategy[] strategies = (ObjectMarshallingStrategy[]) manager.getEnvironment().getEnvironment().get( EnvironmentName.OBJECT_MARSHALLING_STRATEGIES );
+        if (strategies != null) {
+            for (ObjectMarshallingStrategy strategy : strategies) {
+                if (strategy instanceof AbstractDocumentMarshallingStrategy) return (AbstractDocumentMarshallingStrategy) strategy;
+            }
+        }
+        return null;
     }
 
     @Override
