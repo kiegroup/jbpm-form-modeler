@@ -19,6 +19,7 @@ import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
+import org.jbpm.kie.services.impl.FormManagerService;
 import org.kie.workbench.common.services.datamodeller.util.FileUtils;
 import org.kie.workbench.common.services.shared.project.KieProjectService;
 import org.slf4j.Logger;
@@ -47,6 +48,9 @@ public class SubformFinderServiceImpl implements SubformFinderService {
 
     @Inject
     private FormRenderContextManager formRenderContextManager;
+
+    @Inject
+    private FormManagerService formManagerService;
 
     @Override
     public Form getForm( String ctxUID ) {
@@ -88,7 +92,10 @@ public class SubformFinderServiceImpl implements SubformFinderService {
                 ClassLoader classLoader = contextMarshaller.getClassloader();
                 return formSerializationManager.loadFormFromXML(classLoader.getResourceAsStream(formPath));
                  */
-                Map forms = renderContext.getContextForms();
+
+                Map forms = formManagerService.getAllFormsByDeployment( renderContext.getDeploymentId() );
+                if ( forms == null ) forms = renderContext.getContextForms();
+
                 String header = formSerializationManager.generateHeaderFormFormId( formId );
                 for ( Iterator it = forms.keySet().iterator(); it.hasNext(); ) {
                     String key = (String) it.next();
@@ -127,13 +134,9 @@ public class SubformFinderServiceImpl implements SubformFinderService {
             FormRenderContext renderContext = formRenderContextManager.getRootContext( ctxUID );
 
             if ( renderContext != null ) {
-                // at the moment forms aren't available on marshaller classloader
-                /*
-                ContentMarshallerContext contextMarshaller = (ContentMarshallerContext) renderContext.getMarshaller();
-                ClassLoader classLoader = contextMarshaller.getClassloader();
-                return formSerializationManager.loadFormFromXML(classLoader.getResourceAsStream(formPath));
-                 */
-                Object form = renderContext.getContextForms().get( formPath );
+                Object form = formManagerService.getFormByKey( renderContext.getDeploymentId(), formPath );
+                if (form == null) form = renderContext.getContextForms().get( formPath );
+
                 if ( form != null ) {
                     if ( form instanceof Form ) {
                         return (Form) form;

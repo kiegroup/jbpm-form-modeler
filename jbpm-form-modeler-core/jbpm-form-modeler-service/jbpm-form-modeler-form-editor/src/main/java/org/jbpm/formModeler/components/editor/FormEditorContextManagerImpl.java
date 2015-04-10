@@ -42,7 +42,7 @@ public class FormEditorContextManagerImpl implements FormEditorContextManager {
 
     @Override
     public FormEditorContext newContext(Form form, String path) {
-        FormRenderContext ctx = formRenderContextManager.newContext(form, new HashMap<String, Object>());
+        FormRenderContext ctx = formRenderContextManager.newContext(form, "", new HashMap<String, Object>());
         FormEditorContext formEditorContext = new FormEditorContext(ctx, path);
         formEditorContextMap.put(ctx.getUID(), formEditorContext);
         return formEditorContext;

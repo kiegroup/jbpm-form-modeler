@@ -55,7 +55,7 @@ public class FormRenderingServiceImpl implements FormRenderingService {
     @Override
     public FormRenderContextTO startRendering(Form form, Map<String, Object> bindingData) {
         if (form != null) {
-            FormRenderContext ctx = formRenderContextManager.newContext(form, bindingData);
+            FormRenderContext ctx = formRenderContextManager.newContext(form, "", bindingData);
             return new FormRenderContextTO(ctx.getUID());
         }
         return null;

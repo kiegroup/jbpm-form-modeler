@@ -96,33 +96,28 @@ public class FormRenderContextManagerImpl implements FormRenderContextManager, S
     }
 
     @Override
-    public FormRenderContext newContext(Form form, Map<String, Object> ctx) {
-        return newContext(form, ctx, new HashMap<String, Object>());
+    public FormRenderContext newContext(Form form, String deploymentId, Map<String, Object> ctx) {
+        return newContext(form, deploymentId, ctx, new HashMap<String, Object>());
     }
 
     @Override
-    public FormRenderContext newContext(Form form, Map<String, Object> inputData, Map<String, Object> outputData) {
+    public FormRenderContext newContext(Form form, String deploymentId, Map<String, Object> inputData, Map<String, Object> outputData) {
         String uid = CTX_PREFFIX + form.getId() + "_" + System.currentTimeMillis();
 
-        return buildContext(uid, form, inputData, outputData);
+        return buildContext(uid, form, deploymentId, inputData, outputData);
     }
 
-    @Override
-    public FormRenderContext newContext(Form form, Map<String, Object> inputData, Map<String, Object> outputData, Map<String, Object> forms) {
-        String uid = CTX_PREFFIX + form.getId() + "_" + System.currentTimeMillis();
-        return buildContext(uid, form, inputData, outputData, forms);
-    }
-
-    private FormRenderContext buildContext(String uid, Form form, Map<String,Object> inputData, Map<String,Object> outputData, Map<String,Object> forms) {
+    private FormRenderContext buildContext(String uid, Form form, String deploymentId, Map<String,Object> inputData, Map<String,Object> outputData, Map<String,Object> forms) {
         FormRenderContext ctx = new FormRenderContext(uid, form, inputData, outputData);
-        ctx.setContextForms(forms);
-        formRenderContextMap.put(uid, ctx);
-        formProcessor.read(ctx.getUID());
+        ctx.setDeploymentId( deploymentId );
+        ctx.setContextForms( forms );
+        formRenderContextMap.put( uid, ctx );
+        formProcessor.read( ctx.getUID() );
         return ctx;
     }
 
-    private FormRenderContext buildContext(String uid, Form form, Map<String, Object> inputData, Map<String, Object> outputData) {
-        return buildContext(uid, form, inputData, outputData, new HashMap<String, Object>());
+    private FormRenderContext buildContext(String uid, Form form, String deploymentId, Map<String, Object> inputData, Map<String, Object> outputData) {
+        return buildContext(uid, form, deploymentId, inputData, outputData, new HashMap<String, Object>());
     }
 
     @Override

@@ -1,6 +1,8 @@
 package org.jbpm.formModeler.kie.services.form.provider;
 
 import org.jbpm.formModeler.kie.services.FormRenderContentMarshallerManager;
+import org.jbpm.kie.services.impl.FormManagerService;
+import org.jbpm.kie.services.impl.form.provider.AbstractFormProvider;
 import org.jbpm.kie.services.impl.model.ProcessAssetDesc;
 import org.jbpm.services.api.RuntimeDataService;
 import org.jbpm.services.api.model.ProcessDefinition;
@@ -10,7 +12,6 @@ import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
-import org.jbpm.kie.services.impl.form.FormProvider;
 import org.kie.api.task.model.Task;
 
 import javax.inject.Inject;
@@ -22,7 +23,7 @@ import java.util.Map;
 import org.kie.internal.task.api.model.InternalTask;
 import org.slf4j.LoggerFactory;
 
-public class FormModelerFormProvider implements FormProvider {
+public class FormModelerFormProvider extends AbstractFormProvider {
 
     protected Logger log = LoggerFactory.getLogger(FormModelerFormProvider.class);
 
@@ -38,6 +39,12 @@ public class FormModelerFormProvider implements FormProvider {
     @Inject
     private FormRenderContentMarshallerManager formRenderContentMarshaller;
 
+    @Inject
+    @Override
+    public void setFormManagerService(FormManagerService formManagerService){
+        super.setFormManagerService(formManagerService);
+    }
+
     @Override
     public int getPriority() {
         return 2;
@@ -45,21 +52,17 @@ public class FormModelerFormProvider implements FormProvider {
 
     @Override
     public String render(String name, ProcessDefinition process, Map<String, Object> renderContext) {
-        InputStream template = null;
-        if (((ProcessAssetDesc)process).getForms().containsKey(process.getId())) {
-            template = new ByteArrayInputStream(((ProcessAssetDesc)process).getForms().get(process.getId()).getBytes());
-        } else if (((ProcessAssetDesc)process).getForms().containsKey(process.getId() + "-taskform.form")) {
-            template = new ByteArrayInputStream(((ProcessAssetDesc)process).getForms().get(process.getId() + "-taskform.form").getBytes());
-        }
+        String templateString = formManagerService.getFormByKey(process.getDeploymentId(), process.getId() + "-taskform.form");
 
-        if (template == null) return null;
+        if (templateString == null || templateString.isEmpty())
+            return null;
 
-        return renderProcessForm(process, template, renderContext);
+        return renderProcessForm(process, new ByteArrayInputStream(templateString.getBytes()), renderContext);
     }
 
     @Override
     public String render(String name, Task task, ProcessDefinition process, Map<String, Object> renderContext) {
-        InputStream template = null;
+
         if(task != null && process != null){
             String lookupName = "";
             String formName = ((InternalTask)task).getFormName();
@@ -68,16 +71,14 @@ public class FormModelerFormProvider implements FormProvider {
             }else{
                 lookupName = task.getNames().get(0).getText();
             }
-            if (((ProcessAssetDesc)process).getForms().containsKey(lookupName)) {
-                template = new ByteArrayInputStream(((ProcessAssetDesc)process).getForms().get(lookupName).getBytes());
-            } else if (((ProcessAssetDesc)process).getForms().containsKey(lookupName.replace(" ", "")+ "-taskform.form")) {
-                template = new ByteArrayInputStream(((ProcessAssetDesc)process).getForms().get(lookupName.replace(" ", "") + "-taskform.form").getBytes());
-            }
+
+            String templateString = formManagerService.getFormByKey(process.getDeploymentId(), lookupName.replace( " ", "" )+ "-taskform.form");
+
+            if (templateString != null && !templateString.isEmpty())
+                return renderTaskForm(task, new ByteArrayInputStream( templateString.getBytes() ), renderContext);
         }
 
-        if (template == null) return null;
-
-        return renderTaskForm(task, template, renderContext);
+        return null;
     }
 
     protected String renderTaskForm(Task task, InputStream template, Map<String, Object> renderContext) {
@@ -97,8 +98,7 @@ public class FormModelerFormProvider implements FormProvider {
             inputs.put("task", task);
 
             // Adding forms to context while forms are'nt available on marshaller classloader
-            FormRenderContext context = formRenderContextManager.newContext(form, inputs, outputs, buildContextForms(task));
-            context.setDeploymentId( task.getTaskData().getDeploymentId() );
+            FormRenderContext context = formRenderContextManager.newContext(form, task.getTaskData().getDeploymentId(), inputs, outputs);
             formRenderContentMarshaller.addContentMarshaller(context.getUID(), (ContentMarshallerContext) renderContext.get("marshallerContext"));
 
             String status = task.getTaskData().getStatus().name();
@@ -123,8 +123,7 @@ public class FormModelerFormProvider implements FormProvider {
             ctx.put("process", process);
 
             // Adding forms to context while forms are'nt available on marshaller classloader
-            FormRenderContext context = formRenderContextManager.newContext(form, ctx, new HashMap<String, Object>(), buildContextForms(process));
-            context.setDeploymentId( process.getDeploymentId() );
+            FormRenderContext context = formRenderContextManager.newContext(form, process.getDeploymentId(), ctx, new HashMap<String, Object>());
             formRenderContentMarshaller.addContentMarshaller(context.getUID(), (ContentMarshallerContext) renderContext.get("marshallerContext"));
 
             result = context.getUID();
@@ -133,25 +132,5 @@ public class FormModelerFormProvider implements FormProvider {
         }
 
         return result;
-    }
-
-    protected Map<String, Object> buildContextForms(Task task) {
-        ProcessDefinition processDesc = dataService.getProcessesByDeploymentIdProcessId(task.getTaskData().getDeploymentId(), task.getTaskData().getProcessId());
-        return buildContextForms(processDesc);
-    }
-
-    protected Map<String, Object> buildContextForms(ProcessDefinition process) {
-        Map<String, String> forms = ((ProcessAssetDesc)process).getForms();
-
-        Map<String, Object> ctxForms = new HashMap<String, Object>();
-
-
-        for (Iterator it = forms.keySet().iterator(); it.hasNext();) {
-            String key = (String) it.next();
-            if (!key.endsWith(".form")) continue;
-            String value = forms.get(key);
-            ctxForms.put(key, value);
-        }
-        return ctxForms;
     }
 }
