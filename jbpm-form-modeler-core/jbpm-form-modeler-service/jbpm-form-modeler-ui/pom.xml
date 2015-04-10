@@ -1,67 +1,73 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.jbpm</groupId>
-        <artifactId>jbpm-form-modeler-service</artifactId>
-        <version>6.3.0-SNAPSHOT</version>
-    </parent>
+  <parent>
+    <groupId>org.jbpm</groupId>
+    <artifactId>jbpm-form-modeler-service</artifactId>
+    <version>6.3.0-SNAPSHOT</version>
+  </parent>
 
-    <artifactId>jbpm-form-modeler-ui</artifactId>
-    <packaging>war</packaging>
-    <name>jBPM Form Modeler - UI</name>
+  <artifactId>jbpm-form-modeler-ui</artifactId>
+  <name>jBPM Form Modeler - UI</name>
 
-    <dependencies>
+  <dependencies>
 
-      <dependency>
-        <groupId>commons-collections</groupId>
-        <artifactId>commons-collections</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>commons-jxpath</groupId>
-        <artifactId>commons-jxpath</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>commons-lang</groupId>
-        <artifactId>commons-lang</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.beanshell</groupId>
-        <artifactId>bsh</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.jbpm</groupId>
-        <artifactId>jbpm-form-modeler-api</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.jbpm</groupId>
-        <artifactId>jbpm-form-modeler-common</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-      </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-jxpath</groupId>
+      <artifactId>commons-jxpath</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.beanshell</groupId>
+      <artifactId>bsh</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm</groupId>
+      <artifactId>jbpm-form-modeler-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm</groupId>
+      <artifactId>jbpm-form-modeler-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
 
-        <!-- internal dependencies -->
-        <dependency>
-            <groupId>org.jbpm</groupId>
-            <artifactId>jbpm-form-modeler-service-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jbpm</groupId>
-            <artifactId>jbpm-form-modeler-request-dispatcher</artifactId>
-            <type>jar</type>
-            <classifier>classes</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.jbpm</groupId>
-            <artifactId>jbpm-form-modeler-static-resources</artifactId>
-            <type>jar</type>
-            <classifier>classes</classifier>
-        </dependency>
+    <!-- internal dependencies -->
+    <dependency>
+      <groupId>org.jbpm</groupId>
+      <artifactId>jbpm-form-modeler-service-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm</groupId>
+      <artifactId>jbpm-form-modeler-request-dispatcher</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm</groupId>
+      <artifactId>jbpm-form-modeler-static-resources</artifactId>
+    </dependency>
 
-    </dependencies>
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/webapp</directory>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+  </build>
 
 </project>
