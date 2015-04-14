@@ -3,7 +3,6 @@ package org.jbpm.formModeler.kie.services.form.provider;
 import org.jbpm.formModeler.kie.services.FormRenderContentMarshallerManager;
 import org.jbpm.kie.services.impl.FormManagerService;
 import org.jbpm.kie.services.impl.form.provider.AbstractFormProvider;
-import org.jbpm.kie.services.impl.model.ProcessAssetDesc;
 import org.jbpm.services.api.RuntimeDataService;
 import org.jbpm.services.api.model.ProcessDefinition;
 import org.kie.internal.task.api.ContentMarshallerContext;
@@ -18,9 +17,7 @@ import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import org.kie.internal.task.api.model.InternalTask;
 import org.slf4j.LoggerFactory;
 
 public class FormModelerFormProvider extends AbstractFormProvider {
@@ -39,6 +36,10 @@ public class FormModelerFormProvider extends AbstractFormProvider {
     @Inject
     private FormRenderContentMarshallerManager formRenderContentMarshaller;
 
+    {
+        formExtension = ".form";
+    }
+
     @Inject
     @Override
     public void setFormManagerService(FormManagerService formManagerService){
@@ -52,7 +53,7 @@ public class FormModelerFormProvider extends AbstractFormProvider {
 
     @Override
     public String render(String name, ProcessDefinition process, Map<String, Object> renderContext) {
-        String templateString = formManagerService.getFormByKey(process.getDeploymentId(), process.getId() + "-taskform.form");
+        String templateString = formManagerService.getFormByKey(process.getDeploymentId(), process.getId() + getFormSuffix());
 
         if (templateString == null || templateString.isEmpty())
             return null;
@@ -62,21 +63,16 @@ public class FormModelerFormProvider extends AbstractFormProvider {
 
     @Override
     public String render(String name, Task task, ProcessDefinition process, Map<String, Object> renderContext) {
+        if (task == null) return null;
 
-        if(task != null && process != null){
-            String lookupName = "";
-            String formName = ((InternalTask)task).getFormName();
-            if(formName != null && !formName.equals("")){
-                lookupName = formName;
-            }else{
-                lookupName = task.getNames().get(0).getText();
-            }
+        String lookupName = getTaskFormName( task );
 
-            String templateString = formManagerService.getFormByKey(process.getDeploymentId(), lookupName.replace( " ", "" )+ "-taskform.form");
+        if ( lookupName == null || lookupName.isEmpty() || !lookupName.endsWith( formExtension )) return null;
 
-            if (templateString != null && !templateString.isEmpty())
-                return renderTaskForm(task, new ByteArrayInputStream( templateString.getBytes() ), renderContext);
-        }
+        String templateString = formManagerService.getFormByKey(task.getTaskData().getDeploymentId(), lookupName);
+
+        if (templateString != null && !templateString.isEmpty())
+            return renderTaskForm(task, new ByteArrayInputStream( templateString.getBytes() ), renderContext);
 
         return null;
     }
