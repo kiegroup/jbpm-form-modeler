@@ -1,0 +1,101 @@
+package org.jbpm.formModeler.kie.services.form.finder;
+
+import java.util.Iterator;
+import java.util.Map;
+import javax.inject.Inject;
+
+import org.jbpm.formModeler.api.client.FormRenderContext;
+import org.jbpm.formModeler.api.client.FormRenderContextManager;
+import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.core.config.FormSerializationManager;
+import org.jbpm.formModeler.core.rendering.FormFinder;
+import org.jbpm.kie.services.impl.FormManagerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Created by pefernan on 4/20/15.
+ */
+public class RuntimeFormFinder implements FormFinder {
+    private Logger log = LoggerFactory.getLogger( RuntimeFormFinder.class );
+
+    @Inject
+    private FormRenderContextManager formRenderContextManager;
+
+    @Inject
+    private FormSerializationManager formSerializationManager;
+
+    @Inject
+    private FormManagerService formManagerService;
+
+    @Override
+    public Form getForm( String ctxUID ) {
+        FormRenderContext renderContext = formRenderContextManager.getRootContext( ctxUID );
+        if ( renderContext != null ) return renderContext.getForm();
+        return null;
+    }
+
+    @Override
+    public Form getFormByPath( String ctxUID, String formPath ) {
+        FormRenderContext renderContext = formRenderContextManager.getRootContext( ctxUID );
+
+        if ( renderContext != null ) {
+            try {
+                Object form = formManagerService.getFormByKey( renderContext.getDeploymentId(), formPath );
+                if (form == null) form = renderContext.getContextForms().get( formPath );
+
+                if ( form != null ) {
+                    if ( form instanceof Form ) {
+                        return (Form) form;
+                    } else if ( form instanceof String ) {
+                        Form result = formSerializationManager.loadFormFromXML( (String) form );
+                        renderContext.getContextForms().put( formPath, result );
+                        return result;
+                    }
+                }
+            } catch ( Exception e ) {
+                log.warn( "Error getting form {} from context {}: {}", formPath, ctxUID, e );
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Form getFormById( String ctxUID, long formId ) {
+        FormRenderContext renderContext = formRenderContextManager.getRootContext( ctxUID );
+        if ( renderContext != null ) {
+            try {
+                if ( renderContext.getForm().getId().equals( new Long( formId ) ) ) {
+                    return renderContext.getForm();
+                }
+
+                Map forms = formManagerService.getAllFormsByDeployment( renderContext.getDeploymentId() );
+                if ( forms == null ) forms = renderContext.getContextForms();
+
+                String header = formSerializationManager.generateHeaderFormFormId( formId );
+                for ( Iterator it = forms.keySet().iterator(); it.hasNext(); ) {
+                    String key = ( String ) it.next();
+                    Object form = forms.get( key );
+                    if ( form instanceof Form ) {
+                        if ( ( ( Form ) form ).getId().equals( formId ) ) {
+                            return ( Form ) form;
+                        }
+                    } else if ( form instanceof String && form.toString().trim().startsWith( header ) ) {
+                        Form result = formSerializationManager.loadFormFromXML( ( String ) form );
+                        renderContext.getContextForms().put( key, result );
+                        return result;
+                    }
+
+                }
+            } catch ( Exception e ) {
+                log.warn( "Error getting form {} from context {}: {}", formId, ctxUID, e );
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public int getPriority() {
+        return 1;
+    }
+}

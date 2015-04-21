@@ -15,7 +15,6 @@
  */
 package org.jbpm.formModeler.panels.modeler.backend;
 
-import java.util.Date;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -45,7 +44,6 @@ import org.uberfire.backend.vfs.Path;
 import org.uberfire.ext.editor.commons.service.DeleteService;
 import org.uberfire.ext.editor.commons.service.RenameService;
 import org.uberfire.io.IOService;
-import org.uberfire.java.nio.base.options.CommentedOption;
 import org.uberfire.java.nio.file.FileAlreadyExistsException;
 import org.uberfire.rpc.SessionInfo;
 import org.uberfire.workbench.events.NotificationEvent;
@@ -108,9 +106,7 @@ public class FormModelerServiceImpl extends KieService<FormModelerContent> imple
     @Override
     public FormEditorContextTO reloadContent( Path path, String ctxUID ) {
         try {
-            org.uberfire.java.nio.file.Path kiePath = Paths.convert(path);
-
-            Form form = subformFinderService.getFormByPath(kiePath.toUri().toString());
+            Form form = findForm( Paths.convert(path) );
 
             FormEditorContext context = formEditorContextManager.getFormEditorContext(ctxUID);
 
@@ -169,9 +165,7 @@ public class FormModelerServiceImpl extends KieService<FormModelerContent> imple
         try {
             org.uberfire.java.nio.file.Path kiePath = Paths.convert(path);
 
-            String formPath = kiePath.toUri().toString();
-
-            Form form = subformFinderService.getFormByPath(formPath);
+            Form form = findForm( kiePath );
 
             FormEditorContextTO contextTO = new FormEditorContextTO();
 
@@ -179,6 +173,8 @@ public class FormModelerServiceImpl extends KieService<FormModelerContent> imple
                 contextTO.setLoadError( true );
                 form = formManager.createForm(path.getFileName());
             }
+
+            String formPath = kiePath.toUri().toString();
 
             FormEditorContext context = formEditorContextManager.newContext(form, formPath);
 
@@ -196,5 +192,11 @@ public class FormModelerServiceImpl extends KieService<FormModelerContent> imple
             log.warn("Error loading form " + path.toURI(), e);
         }
         return null;
+    }
+
+    protected Form findForm( org.uberfire.java.nio.file.Path path ) throws Exception {
+        String xml = ioService.readAllString( path ).trim();
+
+        return formSerializationManager.loadFormFromXML( xml, path.toUri().toString() );
     }
 }

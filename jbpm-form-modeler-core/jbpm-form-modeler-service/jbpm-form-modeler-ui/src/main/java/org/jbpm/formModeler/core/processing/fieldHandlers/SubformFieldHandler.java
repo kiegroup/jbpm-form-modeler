@@ -186,7 +186,7 @@ public class SubformFieldHandler extends PersistentFieldHandler {
     }
 
     private Form getForm(String formPath, String namespace) {
-        return subformFinderService.getSubFormFromPath(formPath, namespace);
+        return subformFinderService.getFormByPath(formPath, namespace);
     }
 
     public static boolean checkSubformDepthAllowed(Form form, String namesapce) {

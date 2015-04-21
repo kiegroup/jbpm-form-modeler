@@ -36,9 +36,7 @@ public class FormModelerFormProvider extends AbstractFormProvider {
     @Inject
     private FormRenderContentMarshallerManager formRenderContentMarshaller;
 
-    {
-        formExtension = ".form";
-    }
+    private String formExtension = ".form";
 
     @Inject
     @Override
@@ -128,5 +126,10 @@ public class FormModelerFormProvider extends AbstractFormProvider {
         }
 
         return result;
+    }
+
+    @Override
+    protected String getFormExtension() {
+        return formExtension;
     }
 }
