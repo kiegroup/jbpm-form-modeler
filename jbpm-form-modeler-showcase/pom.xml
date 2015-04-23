@@ -19,10 +19,6 @@
       <artifactId>lucene-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.guvnor</groupId>
-      <artifactId>guvnor-services-backend</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-bus</artifactId>
     </dependency>
@@ -98,18 +94,6 @@
           <artifactId>ant</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-
-    <!--Logs-->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-    <!-- This is a war file, so logback is not in scope test, but in scope compile -->
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <scope>runtime</scope>
     </dependency>
 
     <!-- UberFire -->
