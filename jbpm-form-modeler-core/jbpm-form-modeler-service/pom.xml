@@ -18,11 +18,11 @@
     <modules>
         <module>jbpm-form-modeler-common</module>
         <module>jbpm-form-modeler-request-dispatcher</module>
+        <module>jbpm-form-modeler-static-resources</module>
         <module>jbpm-form-modeler-service-core</module>
         <module>jbpm-form-modeler-ui</module>
         <module>jbpm-form-modeler-form-editor</module>
-        <module>jbpm-form-modeler-static-resources</module>
-        <module>jbpm-form-modeler-app</module>
+        <!--<module>jbpm-form-modeler-app</module>-->
     </modules>
 
     <build>

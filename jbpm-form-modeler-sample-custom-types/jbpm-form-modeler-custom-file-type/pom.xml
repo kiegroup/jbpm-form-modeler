@@ -20,8 +20,6 @@
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-form-modeler-request-dispatcher</artifactId>
-            <type>jar</type>
-            <classifier>classes</classifier>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
