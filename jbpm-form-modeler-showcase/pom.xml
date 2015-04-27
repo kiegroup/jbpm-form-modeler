@@ -132,6 +132,11 @@
 
     <dependency>
       <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-widgets-service-backend</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.uberfire</groupId>
       <artifactId>uberfire-commons-editor-api</artifactId>
     </dependency>
 
@@ -521,6 +526,13 @@
       <groupId>org.kie.uberfire</groupId>
       <artifactId>i18n-taglib</artifactId>
     </dependency>
+
+    <!-- hack to disable sisu annotation processing (that scans client side types) -->
+    <dependency>
+      <groupId>org.eclipse.sisu</groupId>
+      <artifactId>org.eclipse.sisu.inject</artifactId>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -752,13 +764,6 @@
           <name>full</name>
         </property>
       </activation>
-      <dependencies>
-        <dependency>
-          <groupId>org.apache.ant</groupId>
-          <artifactId>ant</artifactId>
-          <scope>runtime</scope>
-        </dependency>
-      </dependencies>
       <build>
         <plugins>
           <plugin><!-- Keep in sync with soa profile -->
