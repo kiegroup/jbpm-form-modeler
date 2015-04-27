@@ -516,6 +516,11 @@
       <groupId>org.drools</groupId>
       <artifactId>drools-workbench-models-datamodel-api</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>org.kie.uberfire</groupId>
+      <artifactId>i18n-taglib</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -653,9 +658,16 @@
             <fileset>
               <directory>${basedir}</directory>
               <includes>
-                <include>.errai/**</include>
+                <include>src/main/webapp/org.jbpm.formModeler.jBPMFormModeler/</include>
+                <include>src/main/webapp/formModeler/</include>
+                <include>src/main/webapp/WEB-INF/deploy/</include>
+                <include>src/main/webapp/WEB-INF/classes/</include>
+                <include>src/main/webapp/WEB-INF/lib/</include>
+                <include>src/main/webapp/WEB-INF/tlds/</include>
+                <include>**/gwt-unitCache/**</include>
+                <include>.errai/</include>
+                <include>.niogit/**</include>
                 <include>.index/**</include>
-                <include>.vfsgit/**</include>
               </includes>
             </fileset>
           </filesets>
