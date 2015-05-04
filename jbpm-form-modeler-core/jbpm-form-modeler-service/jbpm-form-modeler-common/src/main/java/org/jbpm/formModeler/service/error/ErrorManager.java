@@ -15,17 +15,16 @@
  */
 package org.jbpm.formModeler.service.error;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.LinkedList;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.servlet.ServletException;
+
 import org.jbpm.formModeler.service.annotation.config.Config;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.servlet.ServletException;
-import javax.servlet.jsp.JspException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.LinkedList;
 
 /**
  * Manages the error handling in the platform.
@@ -131,7 +130,6 @@ public class ErrorManager {
         Throwable root = t.getCause();
         if (root == null) {
             if (t instanceof ServletException) root = ((ServletException) t).getRootCause();
-            if (t instanceof JspException) root = ((JspException) t).getRootCause();
             if (t instanceof InvocationTargetException) root = ((InvocationTargetException) t).getTargetException();
         }
         if (root == null) return t;
