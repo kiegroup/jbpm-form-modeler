@@ -33,9 +33,9 @@ import org.jbpm.formModeler.core.config.builders.dataHolder.RangedDataHolderBuil
 import org.jbpm.formModeler.dataModeler.model.DataModelerDataHolder;
 import org.kie.api.builder.KieModule;
 import org.kie.scanner.KieModuleMetaData;
-import org.kie.workbench.common.screens.datamodeller.model.DataModelTO;
-import org.kie.workbench.common.screens.datamodeller.model.DataObjectTO;
 import org.kie.workbench.common.services.backend.builder.LRUBuilderCache;
+import org.kie.workbench.common.services.datamodeller.core.DataModel;
+import org.kie.workbench.common.services.datamodeller.core.DataObject;
 import org.kie.workbench.common.services.shared.project.KieProject;
 import org.kie.workbench.common.services.shared.project.KieProjectService;
 import org.slf4j.Logger;
@@ -71,11 +71,11 @@ public class DataModelerService implements RangedDataHolderBuilder {
     public Map<String, String> getHolderSources( String path ) {
         Map<String, String> result = new TreeMap<String, String>();
         try {
-            DataModelTO dataModelTO = dataModelerService.loadModel( projectService.resolveProject( getPath( path ) ) );
-            if ( dataModelTO != null && dataModelTO.getDataObjects() != null ) {
+            DataModel dataModel = dataModelerService.loadModel( projectService.resolveProject( getPath( path ) ) );
+            if ( dataModel != null && dataModel.getDataObjects() != null ) {
                 String className = "";
-                for ( DataObjectTO dataObjectTO : dataModelTO.getDataObjects() ) {
-                    className = dataObjectTO.getClassName();
+                for ( DataObject dataObject : dataModel.getDataObjects() ) {
+                    className = dataObject.getClassName();
                     result.put( className, className );
                 }
             }
@@ -100,8 +100,8 @@ public class DataModelerService implements RangedDataHolderBuilder {
             if ( holderClass == null ) {
                 return null;
             }
-            DataModelTO dataModelTO = dataModelerService.loadModel( projectService.resolveProject( getPath( path ) ) );
-            isExternal = dataModelTO.isExternal( config.getValue() );
+            DataModel dataModel = dataModelerService.loadModel( projectService.resolveProject( getPath( path ) ) );
+            isExternal = dataModel.isExternal( config.getValue() );
             dataHolder = new DataModelerDataHolder( config.getHolderId(), config.getInputId(), config.getOutputId(), holderClass, config.getRenderColor() );
         }
 
@@ -142,14 +142,14 @@ public class DataModelerService implements RangedDataHolderBuilder {
         return getDataObject( className, getPath( path ) ) != null;
     }
 
-    protected DataObjectTO getDataObject( String className,
+    protected DataObject getDataObject( String className,
                                           Path path ) {
-        DataModelTO dataModelTO = getDataModel( path );
+        DataModel dataModel = getDataModel( path );
 
-        DataObjectTO result = dataModelTO.getDataObjectByClassName( className );
+        DataObject result = dataModel.getDataObject( className );
 
         if ( result == null ) {
-            for ( DataObjectTO externalDataObject : dataModelTO.getExternalClasses() ) {
+            for ( DataObject externalDataObject : dataModel.getExternalClasses() ) {
                 if ( className.equals( externalDataObject.getClassName() ) ) {
                     return externalDataObject;
                 }
@@ -159,7 +159,7 @@ public class DataModelerService implements RangedDataHolderBuilder {
         return result;
     }
 
-    protected DataModelTO getDataModel( Path path ) {
+    protected DataModel getDataModel( Path path ) {
         KieProject project = projectService.resolveProject( path );
         return dataModelerService.loadModel( project );
     }
