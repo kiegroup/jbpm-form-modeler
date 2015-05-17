@@ -14,6 +14,10 @@
     <name>jBPM Form Modeler</name>
     <packaging>pom</packaging>
 
+    <properties>
+      <jdk.min.version>1.7.0</jdk.min.version>
+    </properties>
+
     <repositories>
       <!-- Bootstrap repository to locate the parent pom when the parent pom has not been build locally. -->
       <repository>
@@ -55,28 +59,6 @@
     </profiles>
 
     <build>
-      <pluginManagement>
-        <plugins>
-          <plugin>
-            <artifactId>maven-enforcer-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>enforce</goal>
-                </goals>
-                <inherited>true</inherited>
-                <configuration>
-                  <rules>
-                    <requireJavaVersion>
-                      <version>[1.7.0,)</version>
-                    </requireJavaVersion>
-                  </rules>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
