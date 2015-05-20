@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,7 +79,7 @@ public class MultipartProcessor implements RequestChainProcessor {
                     Map paramsMap = new HashMap();
                     paramsMap.put(RedirectionHandler.PARAM_PAGE_TO_REDIRECT, errorRedirectPage);
                     String uri = ContextTag.getContextPath(markupGenerator.getMarkup("org.jbpm.formModeler.service.mvc.components.RedirectionHandler", "redirectToSection", paramsMap), httpReq);
-                    uri = StringEscapeUtils.unescapeHtml(uri);
+                    uri = StringEscapeUtils.unescapeHtml4(uri);
                     ControllerStatus.lookup().setResponse(new RedirectToURLResponse(uri, !uri.startsWith(httpReq.getContextPath())));
                 }
                 return false;

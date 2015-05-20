@@ -15,18 +15,23 @@
  */
 package org.jbpm.formModeler.core.model;
 
-import org.apache.commons.lang.StringUtils;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Set;
+import java.util.TreeSet;
+
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.client.FormRenderContext;
-import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
+import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.core.config.builders.dataHolder.PojoDataHolderBuilder;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.*;
-import java.lang.reflect.Field;
-import java.util.*;
 
 public class PojoDataHolder extends DefaultDataHolder  {
     private transient Logger log = LoggerFactory.getLogger(PojoDataHolder.class);

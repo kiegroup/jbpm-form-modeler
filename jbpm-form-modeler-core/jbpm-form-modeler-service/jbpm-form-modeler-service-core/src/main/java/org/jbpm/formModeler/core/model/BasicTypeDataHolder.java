@@ -15,15 +15,16 @@
  */
 package org.jbpm.formModeler.core.model;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.Set;
+import java.util.TreeSet;
+
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.core.config.builders.dataHolder.BasicTypeHolderBuilder;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
-
-import java.util.*;
 
 public class BasicTypeDataHolder extends DefaultDataHolder  {
     private String inputId;

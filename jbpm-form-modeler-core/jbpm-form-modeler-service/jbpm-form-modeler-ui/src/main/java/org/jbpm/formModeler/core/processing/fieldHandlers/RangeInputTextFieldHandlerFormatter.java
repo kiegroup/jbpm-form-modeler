@@ -15,8 +15,8 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
@@ -64,7 +64,7 @@ public class RangeInputTextFieldHandlerFormatter extends DefaultFieldHandlerForm
         String fieldId = namespaceManager.squashInputName(fieldName);
 
         if (fieldRange != null && !forceShow) {
-            String keyValueStr = StringEscapeUtils.escapeHtml(StringUtils.defaultString(value == null ? "" : String.valueOf(value)));
+            String keyValueStr = StringEscapeUtils.escapeHtml4(StringUtils.defaultString(value == null ? "" : String.valueOf(value)));
             String showValue = "";
             if (!StringUtils.isEmpty( keyValueStr )) showValue = ( String ) fieldRange.get( keyValueStr );
             setAttribute("size", 1);

@@ -1,6 +1,6 @@
 package org.jbpm.formModeler.core.processing.fieldHandlers.plugable;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.processing.FieldHandler;

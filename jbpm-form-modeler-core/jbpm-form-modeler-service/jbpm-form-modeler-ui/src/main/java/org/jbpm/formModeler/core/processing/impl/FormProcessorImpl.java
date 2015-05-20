@@ -28,7 +28,7 @@ import org.jbpm.formModeler.core.processing.formStatus.FormStatus;
 import org.jbpm.formModeler.core.processing.formStatus.FormStatusManager;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.core.util.BindingExpressionUtil;

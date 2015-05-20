@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.taglib;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;

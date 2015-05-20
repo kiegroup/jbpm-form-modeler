@@ -18,7 +18,7 @@ package org.jbpm.formModeler.components.editor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.core.processing.formRendering.FieldI18nResourceObtainer;

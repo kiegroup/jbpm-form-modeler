@@ -15,14 +15,18 @@
  */
 package org.jbpm.formModeler.core.config.builders.dataHolder;
 
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.TreeMap;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.core.model.BasicTypeDataHolder;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.util.*;
 
 @ApplicationScoped
 public class BasicTypeHolderBuilder implements RangedDataHolderBuilder {

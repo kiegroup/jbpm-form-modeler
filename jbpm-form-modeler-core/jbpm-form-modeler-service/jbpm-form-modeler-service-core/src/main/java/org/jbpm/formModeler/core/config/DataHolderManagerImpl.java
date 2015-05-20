@@ -15,16 +15,20 @@
  */
 package org.jbpm.formModeler.core.config;
 
-
-import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuildConfig;
-import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuilder;
-import org.jbpm.formModeler.api.model.DataHolder;
-
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import java.util.*;
+
+import org.jbpm.formModeler.api.model.DataHolder;
+import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuildConfig;
+import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuilder;
 
 @ApplicationScoped
 public class DataHolderManagerImpl implements DataHolderManager {

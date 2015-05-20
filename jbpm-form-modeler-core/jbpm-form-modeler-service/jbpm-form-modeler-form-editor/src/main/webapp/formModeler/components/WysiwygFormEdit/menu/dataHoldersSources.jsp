@@ -18,7 +18,7 @@
 <%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
 <%@ page import="org.jbpm.formModeler.api.model.Form" %>
 <%@ page import="org.jbpm.formModeler.components.editor.WysiwygFormEditor" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
@@ -240,13 +240,13 @@
                                              title="<i18n:message key="delete">!!!Clear</i18n:message>"/>
                                     </a></td>
                                     <td>
-                                        <%=StringEscapeUtils.escapeHtml((String)id) %>
+                                        <%=StringEscapeUtils.escapeHtml4((String)id) %>
                                     </td>
                                     <td>
-                                        <%=StringEscapeUtils.escapeHtml((String)input_id) %>
+                                        <%=StringEscapeUtils.escapeHtml4((String)input_id) %>
                                     </td>
                                     <td>
-                                        <%=StringEscapeUtils.escapeHtml((String)outId) %>
+                                        <%=StringEscapeUtils.escapeHtml4((String)outId) %>
                                     </td>
                                     <td>
                                         <%=type%>

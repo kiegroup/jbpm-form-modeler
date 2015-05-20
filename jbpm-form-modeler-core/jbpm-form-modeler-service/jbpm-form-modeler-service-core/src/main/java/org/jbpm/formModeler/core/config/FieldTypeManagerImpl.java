@@ -15,22 +15,25 @@
  */
 package org.jbpm.formModeler.core.config;
 
-import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.api.model.Field;
-import org.jbpm.formModeler.core.config.builders.fieldType.FieldTypeBuilder;
-import org.jbpm.formModeler.core.config.builders.fieldType.DecoratorFieldTypeBuilder;
-import org.jbpm.formModeler.core.config.builders.fieldType.SimpleFieldTypeBuilder;
-import org.jbpm.formModeler.core.config.builders.fieldType.ComplexFieldTypeBuilder;
-import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import java.util.*;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jbpm.formModeler.api.model.Field;
+import org.jbpm.formModeler.api.model.FieldType;
+import org.jbpm.formModeler.core.config.builders.fieldType.ComplexFieldTypeBuilder;
+import org.jbpm.formModeler.core.config.builders.fieldType.DecoratorFieldTypeBuilder;
+import org.jbpm.formModeler.core.config.builders.fieldType.FieldTypeBuilder;
+import org.jbpm.formModeler.core.config.builders.fieldType.SimpleFieldTypeBuilder;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *

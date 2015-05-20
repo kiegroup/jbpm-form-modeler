@@ -15,14 +15,14 @@
  */
 package org.jbpm.formModeler.core;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import org.jbpm.formModeler.core.config.FieldTypeManager;
 import org.jbpm.formModeler.core.config.FormManager;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.core.processing.BindingManager;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 @ApplicationScoped
 public class FormCoreServices {

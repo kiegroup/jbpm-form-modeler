@@ -15,8 +15,8 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils"%>
 <%@ page import="org.jbpm.formModeler.core.wrappers.HTMLi18n"%>
 <%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.HTMLi18nFieldHandler"%>
 <%@ page import="java.util.Locale"%>
@@ -45,7 +45,7 @@
                                             <tr valign="top">
                                                 <td>
                                                     <%
-                                                        String value = StringEscapeUtils.escapeHtml(StringUtils.defaultString((val == null || "".equals(val)) ? "" : ((HTMLi18n) val).getValue(LocaleManager.currentLang())));
+                                                        String value = StringEscapeUtils.escapeHtml4(StringUtils.defaultString((val == null || "".equals(val)) ? "" : ((HTMLi18n) val).getValue(LocaleManager.currentLang())));
                                                         if (!Boolean.TRUE.equals(readonly)) {
                                                     %>
                                                     <table border="0" cellpadding="0" cellspacing="0" >

@@ -16,9 +16,9 @@
 
 --%>
 <%@ page import="org.jbpm.formModeler.service.LocaleManager"%>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils"%>
 <%@ page import="org.jbpm.formModeler.components.editor.WysiwygFormEditor" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
@@ -46,7 +46,7 @@
             <tr>
                 <td align="left" colspan="3">
                     <div class="headerEditFP">
-                        <input type="image" onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CLOSE_FIELD_EDITION%>');this.onclick=function(){return false;}" style="cursor:hand; float: left; margin-right: 10px; margin-left: 5px;" src="<static:image relativePath="actions/close.png"/>"><i18n:message key="properties">Properties</i18n:message> (<%=StringEscapeUtils.escapeHtml((String) fieldName)%>)
+                        <input type="image" onclick="$('#<factory:encode name="actionToDo"/>').val('<%=WysiwygFormEditor.ACTION_CLOSE_FIELD_EDITION%>');this.onclick=function(){return false;}" style="cursor:hand; float: left; margin-right: 10px; margin-left: 5px;" src="<static:image relativePath="actions/close.png"/>"><i18n:message key="properties">Properties</i18n:message> (<%=StringEscapeUtils.escapeHtml4((String) fieldName)%>)
                     </div>
                 </td>
             </tr>
@@ -131,7 +131,7 @@
                                                         <mvc:fragment name="output">
                                                             <mvc:fragmentValue name="help" id="help">
                                                                 <img src="<static:image relativePath="general/16x16/ico-info.png"/>"
-                                                                     id='<%="tooltip_" + fieldPosition%>' border="0" title="<%=StringEscapeUtils.unescapeHtml((String)help)%>"/>
+                                                                     id='<%="tooltip_" + fieldPosition%>' border="0" title="<%=StringEscapeUtils.unescapeHtml4((String)help)%>"/>
                                                                 <script type="text/javascript" defer="defer">
                                                                     $(function() {
                                                                         $('#<%="tooltip_" + fieldPosition%>').tooltip();

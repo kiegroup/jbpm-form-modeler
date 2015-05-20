@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

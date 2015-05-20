@@ -15,8 +15,8 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.HTMLTextAreaFieldHandler" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
@@ -52,7 +52,7 @@
                                                                                             <%=accesskey != null ? " accesskey=\"" + accesskey + "\"" : ""%>
                                                                                             <%=alt != null ? " alt=\"" + alt + "\"" : ""%>
                                                                                             <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
-                                                                                            <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly disabled " : ""%>><%=StringEscapeUtils.escapeHtml(value == null ? "" : ((String) value))%></textarea>
+                                                                                            <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly disabled " : ""%>><%=StringEscapeUtils.escapeHtml4(value == null ? "" : ((String) value))%></textarea>
                                                                                 </div>
                                                                             </td>
                                                                         </tr>

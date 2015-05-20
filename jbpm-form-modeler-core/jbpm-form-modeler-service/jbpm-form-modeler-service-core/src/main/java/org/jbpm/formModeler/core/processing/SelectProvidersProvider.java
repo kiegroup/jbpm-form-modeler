@@ -15,16 +15,16 @@
  */
 package org.jbpm.formModeler.core.processing;
 
+import java.util.Map;
+import java.util.TreeMap;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+
 import org.jbpm.formModeler.api.model.RangeProvider;
 import org.jbpm.formModeler.core.config.SelectValuesProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-import java.util.Map;
-import java.util.TreeMap;
 
 @ApplicationScoped
 public class SelectProvidersProvider implements RangeProvider {

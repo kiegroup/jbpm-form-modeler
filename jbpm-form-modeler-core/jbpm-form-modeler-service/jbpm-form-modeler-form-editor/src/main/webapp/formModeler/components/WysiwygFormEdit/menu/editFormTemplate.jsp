@@ -23,8 +23,7 @@
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils"%>
 
 <i18n:bundle id="bundle" baseName="org.jbpm.formModeler.components.editor.messages"
              locale="<%=LocaleManager.currentLocale()%>"/>

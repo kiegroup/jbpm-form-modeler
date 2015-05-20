@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.jbpm.formModeler.core.processing.fieldHandlers.subform.utils.SubFormHelper;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
 import org.slf4j.Logger;

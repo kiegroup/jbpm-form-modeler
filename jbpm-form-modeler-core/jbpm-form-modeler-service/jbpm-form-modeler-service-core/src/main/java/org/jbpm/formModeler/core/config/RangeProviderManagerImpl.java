@@ -15,16 +15,15 @@
  */
 package org.jbpm.formModeler.core.config;
 
-
-import au.com.bytecode.opencsv.CSVParser;
-import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.api.model.RangeProvider;
-
+import java.util.Map;
+import java.util.TreeMap;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import java.util.Map;
-import java.util.TreeMap;
+
+import au.com.bytecode.opencsv.CSVParser;
+import org.apache.commons.lang3.StringUtils;
+import org.jbpm.formModeler.api.model.RangeProvider;
 
 @ApplicationScoped
 public class RangeProviderManagerImpl implements RangeProviderManager {

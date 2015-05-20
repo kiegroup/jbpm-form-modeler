@@ -19,8 +19,8 @@
 <%@ page import="org.jbpm.formModeler.api.model.wrappers.I18nSet" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="java.util.Locale" %>
 
 <%try {%>
@@ -36,7 +36,7 @@
             <span <%=styleclass != null && ((String) styleclass).trim().length() > 0 ? " class=\"" + styleclass + "\"" : ""%> <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
                   <%=title != null ? ("title=\"" + title + "\"") : ""%>>
                   <%= (isHTML!=null && ((Boolean)isHTML).booleanValue()) ? StringUtils.defaultString((String)((LocaleManager) localeManager).localize(((I18nSet) val).asMap())) :
-                  StringEscapeUtils.escapeHtml((val != null && !"".equals(val)) ? StringUtils.defaultString(((LocaleManager) localeManager).localize(((I18nSet) val).asMap())==null ? "" : ((LocaleManager) localeManager).localize(((I18nSet) val).asMap()).toString()) : "")%>
+                  StringEscapeUtils.escapeHtml4((val != null && !"".equals(val)) ? StringUtils.defaultString(((LocaleManager) localeManager).localize(((I18nSet) val).asMap())==null ? "" : ((LocaleManager) localeManager).localize(((I18nSet) val).asMap()).toString()) : "")%>
             </span>
             <mvc:formatter name="org.jbpm.formModeler.service.mvc.formatters.ForFormatter">
                 <mvc:formatterParam name="bean" value="org.jbpm.formModeler.service.LocaleManager"/>
@@ -45,7 +45,7 @@
                         <mvc:fragmentValue name="index" id="index">
                         <mvc:fragmentValue name="element" id="locale">
                         <input type="hidden" name="<%=name%>_<%=((Locale) locale).toString()%>"
-                            value='<%=StringEscapeUtils.escapeHtml((val != null && !"".equals(val)) ? StringUtils.defaultString(((I18nSet) val).getValue(((Locale) locale).toString())) : "" )%>'/>
+                            value='<%=StringEscapeUtils.escapeHtml4((val != null && !"".equals(val)) ? StringUtils.defaultString(((I18nSet) val).getValue(((Locale) locale).toString())) : "" )%>'/>
                         </mvc:fragmentValue>
                         </mvc:fragmentValue>
                     </mvc:fragment>

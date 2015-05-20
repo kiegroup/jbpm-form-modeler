@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.panels.modeler.backend.indexing;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.model.DataFieldHolder;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;

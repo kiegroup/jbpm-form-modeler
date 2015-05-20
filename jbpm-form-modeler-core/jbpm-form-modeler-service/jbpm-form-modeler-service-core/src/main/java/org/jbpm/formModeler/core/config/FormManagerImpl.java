@@ -15,17 +15,27 @@
  */
 package org.jbpm.formModeler.core.config;
 
-import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.api.model.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jbpm.formModeler.api.model.DataFieldHolder;
+import org.jbpm.formModeler.api.model.DataHolder;
+import org.jbpm.formModeler.api.model.Field;
+import org.jbpm.formModeler.api.model.FieldType;
+import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuildConfig;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.util.*;
 
 @ApplicationScoped
 public class FormManagerImpl implements FormManager {

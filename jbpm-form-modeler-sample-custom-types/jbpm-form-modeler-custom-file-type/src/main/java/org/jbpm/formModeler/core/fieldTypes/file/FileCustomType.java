@@ -18,7 +18,7 @@ package org.jbpm.formModeler.core.fieldTypes.file;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.Template;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.core.fieldTypes.CustomFieldType;
 import org.jbpm.formModeler.service.bb.mvc.components.URLMarkupGenerator;
 import org.slf4j.Logger;

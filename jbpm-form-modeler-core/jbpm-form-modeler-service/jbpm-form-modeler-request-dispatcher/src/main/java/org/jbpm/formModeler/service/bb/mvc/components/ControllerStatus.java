@@ -21,7 +21,7 @@ import org.jbpm.formModeler.service.bb.mvc.controller.CommandRequest;
 import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.RedirectToURLResponse;
 import org.jbpm.formModeler.service.bb.mvc.controller.responses.ShowScreenResponse;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;

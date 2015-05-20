@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.designer.integration.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.bpmn2.*;
 import org.eclipse.bpmn2.Process;
 import org.jbpm.formModeler.api.model.DataHolder;
@@ -29,7 +29,6 @@ import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuilder;
 import org.jbpm.formModeler.designer.integration.BPMNFormBuilderService;
 import org.uberfire.io.IOService;
 import org.uberfire.backend.server.util.Paths;
-import org.uberfire.backend.vfs.FileSystem;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.backend.vfs.PathFactory;
 

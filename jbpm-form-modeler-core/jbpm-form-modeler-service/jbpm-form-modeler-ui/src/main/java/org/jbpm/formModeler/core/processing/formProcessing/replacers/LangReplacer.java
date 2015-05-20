@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.core.processing.formProcessing.replacers;
 
 import org.jbpm.formModeler.service.LocaleManager;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 

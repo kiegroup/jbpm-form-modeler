@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.components;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -44,8 +44,8 @@ public class FactoryURL {
         Object[] o = msgf.parse(value, pPos);
         if (o == null)
             throw new ParseException("Cannot parse " + value + ". Error at position " + pPos.getErrorIndex(), pPos.getErrorIndex());
-        String componentName = StringEscapeUtils.unescapeHtml((String) o[0]);
-        String propertyName = StringEscapeUtils.unescapeHtml((String) o[1]);
+        String componentName = StringEscapeUtils.unescapeHtml4((String) o[0]);
+        String propertyName = StringEscapeUtils.unescapeHtml4((String) o[1]);
         return new FactoryURL(componentName, propertyName);
     }
 
@@ -61,9 +61,9 @@ public class FactoryURL {
         StringBuffer sb = new StringBuffer();
         sb.append(SCHEMA);
         sb.append("://");
-        sb.append(StringEscapeUtils.escapeHtml(componentName));
+        sb.append(StringEscapeUtils.escapeHtml4(componentName));
         sb.append("/");
-        sb.append(StringEscapeUtils.escapeHtml(propertyName));
+        sb.append(StringEscapeUtils.escapeHtml4(propertyName));
         return sb.toString();
     }
 }

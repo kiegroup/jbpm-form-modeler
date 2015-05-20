@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.controller.requestChain;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.service.bb.mvc.components.ControllerStatus;
 import org.jbpm.formModeler.service.bb.mvc.components.FactoryURL;
 import org.jbpm.formModeler.service.bb.mvc.components.URLMarkupGenerator;

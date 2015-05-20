@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.components.editor;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;

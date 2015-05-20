@@ -15,13 +15,16 @@
  */
 package org.jbpm.formModeler.core.validators;
 
+import java.text.DecimalFormat;
+import java.text.FieldPosition;
+import java.text.MessageFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
+import java.util.StringTokenizer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.text.*;
-import java.util.Locale;
-import java.util.StringTokenizer;
 
 
 public class NumericRangeValidator {

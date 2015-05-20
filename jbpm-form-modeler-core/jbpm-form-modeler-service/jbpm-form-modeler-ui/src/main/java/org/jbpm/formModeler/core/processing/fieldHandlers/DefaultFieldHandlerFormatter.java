@@ -29,8 +29,8 @@ import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormaterTagDynamicAt
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.Formatter;
 
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormProcessor;
@@ -118,7 +118,7 @@ public abstract class DefaultFieldHandlerFormatter extends Formatter {
                 propValue = !"".equals(value) ? value : null;
             }
             if ("title".equals(propName)) {
-                propValue = StringEscapeUtils.escapeHtml(StringUtils.defaultString((String) propValue));
+                propValue = StringEscapeUtils.escapeHtml4(StringUtils.defaultString((String) propValue));
             }
         }
         Object overridenValue = getFormProcessor().getAttribute(form, namespace, field.getFieldName() + "." + propName);

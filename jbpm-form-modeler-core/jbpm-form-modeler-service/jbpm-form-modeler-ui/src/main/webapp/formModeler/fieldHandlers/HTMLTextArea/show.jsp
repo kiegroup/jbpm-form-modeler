@@ -15,8 +15,8 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
-<%@ page import="org.apache.commons.lang.StringUtils"%>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%try{%>
@@ -32,7 +32,7 @@
                             <%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
                             <%=title!=null?("title=\""+title+"\""):""%>
                             ><%=StringUtils.defaultString((String)value)%></span>
-                    <input type="hidden" name="<%=name%>" value='<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString((String)value))%>'/>
+                    <input type="hidden" name="<%=name%>" value='<%=StringEscapeUtils.escapeHtml4(StringUtils.defaultString((String)value))%>'/>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>
         </mvc:fragmentValue>

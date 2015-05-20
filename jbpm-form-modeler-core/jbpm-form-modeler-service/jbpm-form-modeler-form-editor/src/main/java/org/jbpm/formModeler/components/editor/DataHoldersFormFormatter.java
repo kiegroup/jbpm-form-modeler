@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.components.editor;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.core.config.builders.dataHolder.RangedDataHolderBuilder;
 import org.slf4j.Logger;
 

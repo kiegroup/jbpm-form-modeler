@@ -18,7 +18,7 @@ package org.jbpm.bui.taglib;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.jbpm.formModeler.service.bb.mvc.taglib.ContextTag;
 import org.jbpm.bui.resources.StaticResourceResolver;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

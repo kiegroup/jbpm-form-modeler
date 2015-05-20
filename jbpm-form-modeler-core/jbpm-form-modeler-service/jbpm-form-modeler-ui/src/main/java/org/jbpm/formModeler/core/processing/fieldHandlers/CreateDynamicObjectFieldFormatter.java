@@ -15,8 +15,8 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormNamespaceData;
@@ -288,7 +288,7 @@ public class CreateDynamicObjectFieldFormatter extends DefaultFieldHandlerFormat
             List<Field> sortedFields = new ArrayList(formFields);
             Collections.sort(sortedFields, new Field.Comparator());
             for (Field formField : sortedFields) {
-                String colLabel = StringEscapeUtils.escapeHtml(fieldI18nResourceObtainer.getFieldLabel(formField));
+                String colLabel = StringEscapeUtils.escapeHtml4(fieldI18nResourceObtainer.getFieldLabel(formField));
                 setAttribute("colLabel", StringUtils.defaultString(colLabel, formField.getFieldName()));
                 String colName = formField.getFieldName();
                 setAttribute("colName", colName);

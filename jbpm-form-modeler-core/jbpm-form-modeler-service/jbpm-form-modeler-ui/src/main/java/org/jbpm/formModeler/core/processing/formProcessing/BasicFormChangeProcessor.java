@@ -3,7 +3,7 @@ package org.jbpm.formModeler.core.processing.formProcessing;
 import bsh.EvalError;
 import bsh.Interpreter;
 import org.apache.commons.jxpath.JXPathContext;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FieldHandler;

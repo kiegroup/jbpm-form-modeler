@@ -16,7 +16,7 @@
  */
 package org.jbpm.formModeler.core.processing.fieldHandlers;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.core.processing.DefaultFieldHandler;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.api.model.Field;
