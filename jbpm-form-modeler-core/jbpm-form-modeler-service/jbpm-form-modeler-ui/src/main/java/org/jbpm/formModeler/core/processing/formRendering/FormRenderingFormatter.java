@@ -29,8 +29,8 @@ import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.FormDisplayInfo;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
@@ -383,7 +383,7 @@ public class FormRenderingFormatter extends Formatter {
             Boolean fieldIsRequired = field.getFieldRequired();
             boolean fieldRequired = fieldIsRequired != null && fieldIsRequired.booleanValue() && !Form.RENDER_MODE_DISPLAY.equals(fieldIsRequired);
 
-            String labelValue = StringEscapeUtils.escapeHtml(StringUtils.defaultString(label));
+            String labelValue = StringEscapeUtils.escapeHtml4(StringUtils.defaultString(label));
 
             writeToOut("<span id=\"" + inputId + "_label\"");
             writeToOut(" class='dynInputStyle " + StringUtils.defaultString(labelCssClass) + "' ");
@@ -392,7 +392,7 @@ public class FormRenderingFormatter extends Formatter {
 
             if (fieldHasErrors) writeToOut("<span class=\"skn-error\">");
             if (!StringUtils.isEmpty(inputId) && !StringUtils.isEmpty(labelValue) && !Form.RENDER_MODE_DISPLAY.equals(renderMode))
-                writeToOut("<label for=\"" + StringEscapeUtils.escapeHtml(inputId) + "\">");
+                writeToOut("<label for=\"" + StringEscapeUtils.escapeHtml4(inputId) + "\">");
             if (fieldRequired) writeToOut("*");
             writeToOut(labelValue);
             if (!StringUtils.isEmpty(inputId) && !StringUtils.isEmpty(labelValue) && !Form.RENDER_MODE_DISPLAY.equals(renderMode))

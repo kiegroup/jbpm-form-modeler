@@ -17,7 +17,7 @@ package org.jbpm.formModeler.service.bb.mvc.components;
 
 import org.slf4j.Logger;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.slf4j.LoggerFactory;
 
@@ -54,8 +54,8 @@ public class HandlerMarkupGenerator {
     }
 
     protected String getHiddenMarkup(String name, String value) {
-        name = StringEscapeUtils.escapeHtml(name);
-        value = StringEscapeUtils.escapeHtml(value);
+        name = StringEscapeUtils.escapeHtml4(name);
+        value = StringEscapeUtils.escapeHtml4(value);
         return "<input type=\"hidden\" name=\"" + name + "\" value=\"" + value + "\">";
     }
 }

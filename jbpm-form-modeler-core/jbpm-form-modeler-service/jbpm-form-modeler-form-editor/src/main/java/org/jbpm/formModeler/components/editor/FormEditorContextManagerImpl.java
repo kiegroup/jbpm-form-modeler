@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.components.editor;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.client.FormEditorContext;
 import org.jbpm.formModeler.api.client.FormEditorContextManager;
 import org.jbpm.formModeler.api.client.FormRenderContext;

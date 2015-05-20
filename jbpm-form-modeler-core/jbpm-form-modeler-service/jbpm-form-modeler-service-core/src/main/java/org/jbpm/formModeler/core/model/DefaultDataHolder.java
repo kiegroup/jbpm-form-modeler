@@ -15,15 +15,10 @@
  */
 package org.jbpm.formModeler.core.model;
 
-import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.api.model.DataFieldHolder;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.util.BindingExpressionUtil;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 public abstract class DefaultDataHolder implements DataHolder {
     protected String renderColor;

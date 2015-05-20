@@ -15,14 +15,14 @@
  */
 package org.jbpm.formModeler.core.config.builders.dataHolder;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.enterprise.context.ApplicationScoped;
+
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.core.model.PojoDataHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.enterprise.context.ApplicationScoped;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 @ApplicationScoped
 public class PojoDataHolderBuilder implements DataHolderBuilder {

@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.core.processing.FormNamespaceData;

@@ -1,7 +1,7 @@
 package org.jbpm.formModeler.core.processing.fieldHandlers.select;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.config.SelectValuesProvider;
@@ -88,7 +88,7 @@ public class SelectBoxFieldHandlerFormatter extends DefaultFieldHandlerFormatter
 
             if (fieldRange != null && !fieldRange.isEmpty()) {
 
-                String keyValueStr = StringEscapeUtils.escapeHtml(StringUtils.defaultString(value == null ? "" : String.valueOf(value)));
+                String keyValueStr = StringEscapeUtils.escapeHtml4(StringUtils.defaultString(value == null ? "" : String.valueOf(value)));
 
                 for (Iterator iter = fieldRange.keySet().iterator(); iter.hasNext();) {
                     Object key = iter.next();

@@ -15,7 +15,7 @@
  */
 package org.jbpm.bui.resources;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.service.annotation.config.Config;
 
 import javax.enterprise.context.ApplicationScoped;

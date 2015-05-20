@@ -38,7 +38,7 @@ import org.jbpm.formModeler.service.bb.mvc.controller.CommandResponse;
 import org.slf4j.Logger;
 import org.jbpm.formModeler.core.config.FormManagerImpl;
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.slf4j.LoggerFactory;
 

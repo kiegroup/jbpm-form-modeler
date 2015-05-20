@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%try{%>
 <mvc:formatter name="SimpleFieldHandlerFormatter">
@@ -28,7 +28,7 @@
 						<%=styleclass!=null && ((String)styleclass).trim().length()>0 ? " class=\""+styleclass+"\"":""%>
 						<%=cssStyle!=null ? " style=\""+cssStyle+"\"":""%>
 						<%=title!=null?("title=\""+title+"\""):""%>
-						><%=StringEscapeUtils.escapeHtml( value!=null?value.toString():"")%></span>
+						><%=StringEscapeUtils.escapeHtml4( value!=null?value.toString():"")%></span>
 					</mvc:fragmentValue>
 				</mvc:fragmentValue>
 			</mvc:fragmentValue>

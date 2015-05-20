@@ -1,14 +1,18 @@
 package org.jbpm.formModeler.core.config;
 
-import org.jbpm.formModeler.core.xml.util.XMLNode;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.OutputStreamWriter;
+import java.util.Set;
+import java.util.TreeSet;
+import javax.enterprise.context.ApplicationScoped;
+
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
-
-import javax.enterprise.context.ApplicationScoped;
-import java.io.*;
-import java.util.Set;
-import java.util.TreeSet;
+import org.jbpm.formModeler.core.xml.util.XMLNode;
 
 /**
  * Created with IntelliJ IDEA.

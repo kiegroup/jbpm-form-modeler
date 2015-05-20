@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 

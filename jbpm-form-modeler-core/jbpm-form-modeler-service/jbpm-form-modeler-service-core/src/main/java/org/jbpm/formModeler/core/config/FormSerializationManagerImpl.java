@@ -15,29 +15,37 @@
  */
 package org.jbpm.formModeler.core.config;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
-import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuildConfig;
-import org.jbpm.formModeler.core.wrappers.HTMLi18n;
-import org.jbpm.formModeler.service.LocaleManager;
-import org.slf4j.Logger;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.xerces.parsers.DOMParser;
-import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.core.xml.util.XMLNode;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.api.model.Field;
+import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.api.model.wrappers.I18nEntry;
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
+import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuildConfig;
+import org.jbpm.formModeler.core.wrappers.HTMLi18n;
+import org.jbpm.formModeler.core.xml.util.XMLNode;
+import org.jbpm.formModeler.service.LocaleManager;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.io.*;
-import java.util.*;
 
 @ApplicationScoped
 public class FormSerializationManagerImpl implements FormSerializationManager {

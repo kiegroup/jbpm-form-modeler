@@ -17,7 +17,7 @@
 --%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
-<%@ page import="org.apache.commons.lang.StringUtils"%>
+<%@ page import="org.apache.commons.lang3.StringUtils"%>
 <%@ page import="org.jbpm.formModeler.core.wrappers.HTMLi18n"%>
 <%@ page import="org.jbpm.formModeler.service.LocaleManager"%>
 

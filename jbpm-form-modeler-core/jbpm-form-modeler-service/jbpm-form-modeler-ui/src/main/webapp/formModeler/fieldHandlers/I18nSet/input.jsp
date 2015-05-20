@@ -16,8 +16,8 @@
 
 --%>
 <%@ page import="org.jbpm.formModeler.api.model.wrappers.I18nSet" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="org.jbpm.formModeler.service.LocaleManager"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
@@ -66,7 +66,7 @@
                                                                                                                     <%=altvalue != null ? " alt=\"" + altvalue + "\"" : ""%>
                                                                                                                     <%=height != null ? " height=\"" + height + "\"" : ""%>
                                                                                                                     <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly disabled " : ""%>
-                                                                                                                   value='<%=StringEscapeUtils.escapeHtml(StringUtils.defaultString((value == null || "".equals(value)) ? "" : ((I18nSet) value).getValue( ((Locale) locale).toString())))%>'></div>
+                                                                                                                   value='<%=StringEscapeUtils.escapeHtml4(StringUtils.defaultString((value == null || "".equals(value)) ? "" : ((I18nSet) value).getValue( ((Locale) locale).toString())))%>'></div>
                                                                                                     </mvc:fragmentValue>
                                                                                                 </mvc:fragmentValue>
                                                                                             </mvc:fragment>

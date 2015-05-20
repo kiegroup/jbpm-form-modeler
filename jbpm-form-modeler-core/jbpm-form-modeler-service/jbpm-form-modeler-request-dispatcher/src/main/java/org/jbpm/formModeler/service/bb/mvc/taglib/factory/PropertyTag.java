@@ -17,7 +17,7 @@ package org.jbpm.formModeler.service.bb.mvc.taglib.factory;
 
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathException;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +61,7 @@ public class PropertyTag extends GenericFactoryTag {
             if (super.bodyContent == null) {
                 Object value = getValue();
                 String textValue = value == null ? "" : value.toString();
-                pageContext.getOut().print(valueIsHTML ? textValue : StringEscapeUtils.escapeHtml(textValue));
+                pageContext.getOut().print(valueIsHTML ? textValue : StringEscapeUtils.escapeHtml4(textValue));
             } else {
                 pageContext.getOut().print(bodyContent.getString());
             }

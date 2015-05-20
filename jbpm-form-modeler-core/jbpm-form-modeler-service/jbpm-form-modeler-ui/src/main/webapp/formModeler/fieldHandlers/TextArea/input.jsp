@@ -15,8 +15,8 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.apache.commons.lang.StringUtils"%>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
+<%@ page import="org.apache.commons.lang3.StringUtils"%>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%try{%>
@@ -42,7 +42,7 @@
     if (onChangeScript != null) {
 %>
                     try {
-                        eval('<%=StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)onChangeScript))%>');
+                        eval('<%=StringEscapeUtils.escapeEcmaScript(StringEscapeUtils.escapeHtml4((String)onChangeScript))%>');
                     } catch (err) {
                         alert('Error executing inline js: ' + scriptCode);
                     }
@@ -59,7 +59,7 @@
         <%=accesskey!=null ? " accesskey=\""+accesskey+"\"":""%>
         <%=alt!=null ? " alt=\""+alt+"\"":""%>
         <%=height!=null ? " rows=\""+height+"\"":""%>
-        <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>><%=StringEscapeUtils.escapeHtml(StringUtils.defaultString((String)value))%></textarea>
+        <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>><%=StringEscapeUtils.escapeHtml4(StringUtils.defaultString((String)value))%></textarea>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>

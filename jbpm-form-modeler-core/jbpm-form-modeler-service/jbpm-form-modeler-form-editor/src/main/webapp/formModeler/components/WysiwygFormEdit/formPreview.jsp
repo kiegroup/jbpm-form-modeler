@@ -17,7 +17,7 @@
 --%>
 <%@ page import="org.jbpm.formModeler.service.LocaleManager"%>
 <%@ page import="org.jbpm.formModeler.components.editor.WysiwygFormEditor" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>

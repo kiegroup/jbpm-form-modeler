@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.core.processing.formRendering.impl;
 
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.jbpm.formModeler.core.processing.formRendering.FieldI18nResourceObtainer;

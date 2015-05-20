@@ -15,19 +15,13 @@
  */
 package org.jbpm.formModeler.core.processing;
 
-import org.apache.commons.lang.StringUtils;
-
-import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
-
-import javax.enterprise.context.ApplicationScoped;
-import java.lang.Class;
-import java.lang.Exception;
-import java.lang.Override;
-import java.lang.String;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import javax.enterprise.context.ApplicationScoped;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
 @ApplicationScoped
 public class BindingManagerImpl implements BindingManager {

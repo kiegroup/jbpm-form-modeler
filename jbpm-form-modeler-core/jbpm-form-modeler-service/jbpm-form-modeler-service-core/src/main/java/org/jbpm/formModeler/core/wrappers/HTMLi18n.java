@@ -15,12 +15,12 @@
  */
 package org.jbpm.formModeler.core.wrappers;
 
+import java.util.Map;
+import java.util.Set;
+
 import org.jbpm.formModeler.api.model.wrappers.I18nSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Wrapper class for Multilanguage HTML field type.

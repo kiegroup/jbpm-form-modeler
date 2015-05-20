@@ -16,7 +16,7 @@
 
 --%>
 <%@ page import="org.jbpm.formModeler.service.bb.mvc.components.ControllerStatus" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="org.jbpm.formModeler.service.bb.mvc.controller.HTTPSettings" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 

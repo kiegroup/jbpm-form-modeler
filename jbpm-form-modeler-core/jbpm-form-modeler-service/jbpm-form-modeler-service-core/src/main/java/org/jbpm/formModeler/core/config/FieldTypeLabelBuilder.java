@@ -1,15 +1,15 @@
 package org.jbpm.formModeler.core.config;
 
+import java.io.Serializable;
+import java.util.ResourceBundle;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
+
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.core.fieldTypes.PlugableFieldType;
 import org.jbpm.formModeler.service.LocaleChangedEvent;
 import org.jbpm.formModeler.service.LocaleManager;
-
-import javax.enterprise.context.SessionScoped;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
-import java.io.Serializable;
-import java.util.ResourceBundle;
 
 @SessionScoped
 public class FieldTypeLabelBuilder implements Serializable {

@@ -18,8 +18,8 @@ package org.jbpm.formModeler.fieldTypes.document.handling;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.Template;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.document.Document;
 import org.jbpm.document.marshalling.AbstractDocumentMarshallingStrategy;
 import org.jbpm.document.service.impl.DocumentImpl;
@@ -191,7 +191,7 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
                 }
 
                 context.put("showDownload", Boolean.TRUE);
-                context.put("fileName", StringEscapeUtils.escapeHtml(document.getName()));
+                context.put("fileName", StringEscapeUtils.escapeHtml4(document.getName()));
                 context.put("fileSize", getFileSize(document.getSize()));
                 context.put("fileIcon", contextPath + getFileIcon(document));
                 context.put("dropIcon", contextPath + dropIcon);

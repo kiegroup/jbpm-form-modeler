@@ -15,8 +15,8 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
-<%@ page import="org.apache.commons.lang.StringUtils"%>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils"%>
+<%@ page import="org.apache.commons.lang3.StringUtils"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%try{%>
@@ -43,7 +43,7 @@
     if (onChangeScript != null) {
 %>
                 try {
-                    eval('<%=StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)onChangeScript))%>');
+                    eval('<%=StringEscapeUtils.escapeEcmaScript(StringEscapeUtils.escapeHtml4((String)onChangeScript))%>');
                 } catch (err) {
                     alert('Error executing inline js: ' + scriptCode);
                 }
@@ -58,8 +58,8 @@
        <%=alt!=null ? " alt=\""+alt+"\"":""%>
        <%=height!=null ? " height=\""+height+"\"":""%>
        <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>
-       value='<%=Boolean.TRUE.equals(wrong) ? (StringEscapeUtils.escapeHtml(StringUtils.defaultString(inputValue==null?"":String.valueOf(inputValue))))
-       : (StringEscapeUtils.escapeHtml(StringUtils.defaultString(value==null?"":String.valueOf(value))))%>'>
+       value='<%=Boolean.TRUE.equals(wrong) ? (StringEscapeUtils.escapeHtml4(StringUtils.defaultString(inputValue==null?"":String.valueOf(inputValue))))
+       : (StringEscapeUtils.escapeHtml4(StringUtils.defaultString(value==null?"":String.valueOf(value))))%>'>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
@@ -96,7 +96,7 @@
     if (onChangeScript != null) {
 %>
                 try {
-                    eval('<%=StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)onChangeScript))%>');
+                    eval('<%=StringEscapeUtils.escapeEcmaScript(StringEscapeUtils.escapeHtml4((String)onChangeScript))%>');
                 } catch (err) {
                     alert('Error executing inline js: ' + scriptCode);
                 }

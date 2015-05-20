@@ -15,22 +15,21 @@
  */
 package org.jbpm.formModeler.core.config;
 
-import org.jbpm.formModeler.api.model.FieldType;
-import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.service.LocaleManager;
-import org.slf4j.Logger;
-import org.jbpm.formModeler.service.annotation.Priority;
-import org.jbpm.formModeler.service.annotation.Startable;
-import org.jbpm.formModeler.service.annotation.config.Config;
-import org.slf4j.LoggerFactory;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import org.jbpm.formModeler.api.model.FieldType;
+import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.service.LocaleManager;
+import org.jbpm.formModeler.service.annotation.Priority;
+import org.jbpm.formModeler.service.annotation.Startable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class that builds the forms modeler's core forms.

@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.service.bb.mvc.components;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.UIBeanHandler;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 
@@ -40,7 +40,7 @@ public class FactoryUniqueIdEncoder {
         if (uiBean != null) {
             sb.append("uibean").append(Math.abs(uiBean.getBeanName().hashCode())).append("_");
         }
-        sb.append(StringEscapeUtils.escapeHtml(name));
+        sb.append(StringEscapeUtils.escapeHtml4(name));
         return sb.toString();
     }
 }

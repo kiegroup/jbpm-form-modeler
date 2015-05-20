@@ -16,7 +16,7 @@
 package org.jbpm.formModeler.fieldTypes.document.handling;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.document.Document;
 import org.jbpm.document.service.DocumentStorageService;
 import org.jbpm.formModeler.service.bb.mvc.components.handling.BeanHandler;

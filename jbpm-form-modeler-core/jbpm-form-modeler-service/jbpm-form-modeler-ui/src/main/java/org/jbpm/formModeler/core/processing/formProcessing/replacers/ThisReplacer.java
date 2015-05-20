@@ -15,7 +15,7 @@
  */
 package org.jbpm.formModeler.core.processing.formProcessing.replacers;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 

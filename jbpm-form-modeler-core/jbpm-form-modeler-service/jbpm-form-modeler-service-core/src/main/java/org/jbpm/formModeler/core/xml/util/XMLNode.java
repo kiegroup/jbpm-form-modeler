@@ -15,13 +15,6 @@
  */
 package org.jbpm.formModeler.core.xml.util;
 
-
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.xerces.util.XMLChar;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.Writer;
@@ -29,6 +22,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.xerces.util.XMLChar;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  *

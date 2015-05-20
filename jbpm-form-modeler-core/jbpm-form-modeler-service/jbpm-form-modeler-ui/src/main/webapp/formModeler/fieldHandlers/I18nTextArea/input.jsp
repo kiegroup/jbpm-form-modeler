@@ -16,8 +16,8 @@
 
 --%>
 <%@ page import="org.jbpm.formModeler.api.model.wrappers.I18nSet" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="org.jbpm.formModeler.service.LocaleManager"%>
 <%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.HTMLTextAreaFieldHandler" %>
@@ -114,7 +114,7 @@
                                                                                                 <%=tabindex != null ? " tabindex=\"" + tabindex + "\"" : ""%>
                                                                                                 <%=accesskey != null ? " accesskey=\"" + accesskey + "\"" : ""%>
                                                                                                 <%=cssStyle != null ? " style=\"" + cssStyle + "\"" : ""%>
-                                                                                                <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly disabled " : ""%>><%=StringEscapeUtils.escapeHtml(StringUtils.defaultString((val == null || "".equals(val)) ? "" : ((I18nSet) val).getValue(LocaleManager.currentLang())))%></textarea>
+                                                                                                <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly disabled " : ""%>><%=StringEscapeUtils.escapeHtml4(StringUtils.defaultString((val == null || "".equals(val)) ? "" : ((I18nSet) val).getValue(LocaleManager.currentLang())))%></textarea>
                                                                                     </div>
                                                                                 </td>
                                                                             </tr>
