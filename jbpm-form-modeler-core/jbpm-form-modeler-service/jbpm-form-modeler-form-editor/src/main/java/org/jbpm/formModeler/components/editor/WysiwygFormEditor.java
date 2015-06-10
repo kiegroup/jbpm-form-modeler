@@ -257,7 +257,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
     }
 
     public Field getCurrentEditField() {
-        return getFieldInPosition(getCurrentEditFieldPosition());
+        return getFieldInPosition( getCurrentEditFieldPosition() );
     }
 
     protected Field getFieldInPosition(int position) {
@@ -317,7 +317,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
                     fieldNextToDeleted.setGroupWithPrevious(fieldToDelete.getGroupWithPrevious());
                 }
             }
-            getFormManager().deleteField(form, pos.intValue());
+            getFormManager().deleteField( form, pos.intValue() );
             if (getCurrentEditFieldPosition() == pos.intValue()) setCurrentEditFieldPosition(-1);
             else if (getCurrentEditFieldPosition() > pos.intValue())
                 setCurrentEditFieldPosition(getCurrentEditFieldPosition() - 1);
@@ -327,15 +327,15 @@ public class WysiwygFormEditor extends BaseUIComponent {
     public void actionStartEdit(CommandRequest request) throws Exception {
         checkEditionContext(request);
         Integer pos = Integer.decode(request.getParameter("position"));
-        setCurrentEditFieldPosition(pos.intValue());
+        setCurrentEditFieldPosition( pos.intValue() );
 
         Field editField = getCurrentEditField();
 
-        Form formToEdit = getFormForFieldEdition(editField);
+        Form formToEdit = getFormForFieldEdition( editField );
         if (formToEdit != null) {
-            String editNamespace = getFieldEditionNamespace(editField);
+            String editNamespace = getFieldEditionNamespace( editField );
             getFormProcessor().clear(formToEdit, editNamespace);
-            getFormProcessor().read(formToEdit, editNamespace, editField.asMap());
+            getFormProcessor().read( formToEdit, editNamespace, editField.asMap() );
         }
         getEditionContext().setOriginalFieldType(editField.getFieldType());
     }
@@ -350,6 +350,12 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
     public String getCurrentFieldEditionNamespace() {
         return getFieldEditionNamespace(getCurrentEditField());
+    }
+
+    public void actionAddField(CommandRequest request) throws Exception {
+        String action = request.getRequestObject().getParameter( "action" );
+        if (action.equals( "addDecoratorToForm" )) actionAddDecoratorToForm( request );
+        else actionAddFieldToForm( request );
     }
 
     protected void addFieldToForm(Form form, String typeId) throws Exception {
@@ -475,8 +481,8 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
         String selectedField = request.getRequestObject().getParameter("selectedField");
         String newPosition = request.getRequestObject().getParameter("newPosition");
-        String modifier = request.getRequestObject().getParameter("modifier");
-        String promote = request.getRequestObject().getParameter("promote");
+        String modifier = request.getRequestObject().getParameter( "modifier" );
+        String promote = request.getRequestObject().getParameter( "promote" );
 
         if (StringUtils.isEmpty(selectedField) || StringUtils.isEmpty(newPosition) || StringUtils.isEmpty(modifier) || StringUtils.isEmpty(promote))
             return;
@@ -486,22 +492,22 @@ public class WysiwygFormEditor extends BaseUIComponent {
             log.error("Cannot modify unexistant form.");
         } else {
 
-            int origPosition = Integer.parseInt(selectedField);
-            int destPosition = Integer.parseInt(newPosition);
+            int origPosition = Integer.parseInt( selectedField );
+            int destPosition = Integer.parseInt( newPosition );
 
             boolean groupWithPrevious = RIGHT_FIELD_MODIFIER.equals(modifier);
             boolean nextGrouped = LEFT_FIELD_MODIFIER.equals(modifier);
 
-            setLastMovedFieldPosition(destPosition);
+            setLastMovedFieldPosition( destPosition );
 
             if (getCurrentEditFieldPosition() == origPosition) setCurrentEditFieldPosition(getLastMovedFieldPosition());
 
-            if (Boolean.parseBoolean(promote)) {
-                getFormManager().promoteField(form, origPosition, destPosition, groupWithPrevious, nextGrouped);
+            if (Boolean.parseBoolean( promote )) {
+                getFormManager().promoteField( form, origPosition, destPosition, groupWithPrevious, nextGrouped );
                 if (getCurrentEditFieldPosition() < origPosition && destPosition <= getCurrentEditFieldPosition())
                     setCurrentEditFieldPosition(getCurrentEditFieldPosition() + 1);
             } else {
-                getFormManager().degradeField(form, origPosition, destPosition, groupWithPrevious, nextGrouped);
+                getFormManager().degradeField( form, origPosition, destPosition, groupWithPrevious, nextGrouped );
                 if (getCurrentEditFieldPosition() > origPosition && destPosition >= getCurrentEditFieldPosition())
                     setCurrentEditFieldPosition(getCurrentEditFieldPosition() - 1);
             }
@@ -510,7 +516,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
     public synchronized void actionMoveFirst(CommandRequest request) throws Exception {
         checkEditionContext(request);
-        int fieldPosition = Integer.decode(request.getParameter("position")).intValue();
+        int fieldPosition = Integer.decode( request.getParameter( "position" ) ).intValue();
         Form form = getCurrentForm();
         if (form == null) {
             log.error("Cannot modify unexistant form.");
@@ -531,7 +537,7 @@ public class WysiwygFormEditor extends BaseUIComponent {
         if (form == null) {
             log.error("Cannot modify unexistant form.");
         } else {
-            getFormManager().moveBottom(form, fieldPosition);
+            getFormManager().moveBottom( form, fieldPosition );
             setLastMovedFieldPosition(form.getFormFields().size() - 1);
             if (getCurrentEditFieldPosition() == fieldPosition)
                 setCurrentEditFieldPosition(getLastMovedFieldPosition());
@@ -574,6 +580,18 @@ public class WysiwygFormEditor extends BaseUIComponent {
 
         String option = request.getRequestObject().getParameter("newMainOption");
         setCurrentEditionOption(option);
+    }
+
+    public synchronized void actionButtonAction(CommandRequest request) throws Exception {
+        checkEditionContext(request);
+
+        String action = request.getRequestObject().getParameter( "action" );
+        if ("delete".equals( action )) actionDelete( request );
+        else if ("startEdit".equals( action ))  actionStartEdit( request );
+        else if ("moveFirst".equals( action ))  actionMoveFirst( request );
+        else if ("moveLast".equals( action )) actionMoveLast( request );
+        else if ("unGroupWithPrevious".equals( action )) actionUnGroupWithPrevious( request );
+        else if ("groupWithPrevious".equals( action )) actionGroupWithPrevious( request );
     }
 
     public void saveCurrentForm(Map parameterMap) throws Exception {

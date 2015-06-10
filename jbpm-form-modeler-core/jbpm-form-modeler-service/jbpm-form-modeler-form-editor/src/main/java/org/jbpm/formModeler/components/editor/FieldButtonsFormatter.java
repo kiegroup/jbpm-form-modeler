@@ -119,11 +119,8 @@ public class FieldButtonsFormatter extends Formatter {
     protected void renderMoveButton(Field formField, String icon, String action, String msgId, HttpServletRequest request) {
         setAttribute("position", formField.getPosition());
         setAttribute("msgId", msgId);
-        setAttribute("icon", icon);
-        Map paramsMap = new HashMap();
-        paramsMap.put("position", String.valueOf(formField.getPosition()));
-        String actionUrl = URLMarkupGenerator.lookup().getMarkup(WysiwygFormEditor.lookup().getBeanName(), action, paramsMap);
-        setAttribute("actionUrl", actionUrl);
+        setAttribute( "icon", icon );
+        setAttribute( "action", action);
         setAttribute("buttonId", action + "_BTN_" + formField.getPosition());
         renderFragment("outputMoveField");
     }

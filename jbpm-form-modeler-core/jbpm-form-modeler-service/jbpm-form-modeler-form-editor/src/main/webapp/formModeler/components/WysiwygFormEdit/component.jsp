@@ -31,6 +31,18 @@
 
 <mvc:formatter name="WysiwygMenuFormatter">
     <mvc:fragment name="outputStart">
+        <div>
+        <script defer>
+            addEventListener("click", function(event) {
+
+                if (parent.isLocked() && !parent.isLockedByCurrentUser()) {
+                    event.stopPropagation();
+                    parent.acquireLock();
+                }
+
+                if (!parent.isLocked()) parent.acquireLock();
+            },true)
+        </script>
         <table style="width: 100%; border-collapse: collapse;">
     </mvc:fragment>
     <mvc:fragment name="outputHeader">
@@ -44,8 +56,14 @@
     </mvc:fragment>
 
     <mvc:fragment name="optionsOutputStart">
+        <form style="margin:0px;" action="<factory:formUrl/>" id="<factory:encode name="buttonAction"/>">
+            <factory:handler action="buttonAction"/>
+        </form>
+        <form style="margin:0px;" action="<factory:formUrl/>" id="<factory:encode name="addField"/>">
+            <factory:handler action="addField"/>
+        </form>
 
-        <form style="margin:0px" action="<factory:formUrl/>" id="<factory:encode name="changeMainOption"/>">
+        <form style="margin:0px;" action="<factory:formUrl/>" id="<factory:encode name="changeMainOption"/>">
         <factory:handler action="changeMainOption"/>
         <input type="hidden" name="newMainOption">
         <table class="HorMenu"><tr>
@@ -58,7 +76,7 @@
                            onclick="setFormInputValue(this.form,'newMainOption','<%=optionName%>');"
                            title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
                            src="<static:image relativePath="<%=(String)optionImage%>"/>">&nbsp;
-                  <a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitAjaxForm(document.getElementById('<factory:encode name="changeMainOption"/>')); return false;"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
+                    <a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitAjaxForm(document.getElementById('<factory:encode name="changeMainOption"/>')); return false;"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
                 </td>
 
             </mvc:fragmentValue>
@@ -72,7 +90,7 @@
                            onclick="setFormInputValue(this.form,'newMainOption','<%=optionName%>');"
                            title="<i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message>"
                            src="<static:image relativePath="<%=(String)optionImage%>"/>">&nbsp;
-                  <a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitAjaxForm(document.getElementById('<factory:encode name="changeMainOption"/>'));return false;"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
+                    <a href="#" onclick="setFormInputValue(document.getElementById('<factory:encode name="changeMainOption"/>'),'newMainOption','<%=optionName%>');submitAjaxForm(document.getElementById('<factory:encode name="changeMainOption"/>'));return false;"><i18n:message key="<%=(String)optionName%>">!!!optionName</i18n:message></a>
                 </td>
             </mvc:fragmentValue>
         </mvc:fragmentValue>
@@ -178,14 +196,15 @@
 
     <mvc:fragment name="outputEnd">
         <mvc:fragmentValue name="editionNamespace" id="editionNamespace">
-        </table>
-        <%
-            request.setAttribute("editionNamespace", editionNamespace);
-        %>
-        <jsp:include page="editFieldProperties.jsp"/>
-        <%
-            request.removeAttribute("editionNamespace");
-        %>
+            </table>
+            </div>
+            <%
+                request.setAttribute("editionNamespace", editionNamespace);
+            %>
+            <jsp:include page="editFieldProperties.jsp"/>
+            <%
+                request.removeAttribute("editionNamespace");
+            %>
         </mvc:fragmentValue>
     </mvc:fragment>
 </mvc:formatter>

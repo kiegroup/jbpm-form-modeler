@@ -1,5 +1,3 @@
-<%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
-<%@ page import="org.jbpm.formModeler.api.model.Field" %>
 <%--
 
     Copyright (C) 2012 JBoss Inc
@@ -17,6 +15,8 @@
     limitations under the License.
 
 --%>
+<%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
+<%@ page import="org.jbpm.formModeler.api.model.Field" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
@@ -39,14 +39,16 @@
                     <mvc:fragmentValue name="icon" id="icon">
                         <td width="1px">
                             <a title="<i18n:message key="delete">!!!Borrar</i18n:message>"
-                               href="<factory:url  action="delete"><factory:param name="position" value="<%=position%>"/></factory:url>"
+                               href="#"
                                id="<factory:encode name='<%="deleteBtn"+position%>'/>"
-                               onclick="return confirm('<i18n:message key="delete.field.confirm">Sure?</i18n:message>');">
+                               onclick="if (confirm('<i18n:message key="delete.field.confirm">Sure?</i18n:message>')) {
+                                   setFormInputValue(document.getElementById('<factory:encode name="buttonAction"/>'),'action','delete');
+                                   setFormInputValue(document.getElementById('<factory:encode name="buttonAction"/>'),'position','<%=position%>');
+                                   submitAjaxForm(document.getElementById('<factory:encode name="buttonAction"/>'));
+                                   }
+                                   return false;">
                                 <img src='<static:image relativePath="<%=(String)icon%>" />' border="0" alt='<i18n:message key="delete">!!!Borrar</i18n:message>' align="absmiddle">
                             </a>
-                            <script defer="true">
-                                setAjax("<factory:encode name='<%="deleteBtn"+position%>'/>");
-                            </script>
                         </td>
                     </mvc:fragmentValue>
                 </mvc:fragmentValue>
@@ -59,12 +61,12 @@
                                     <%--Edit button--%>
                                 <a title="<i18n:message key="edit">!!!Editar</i18n:message>"
                                    id="<factory:encode name='<%=(String)buttonId%>'/>"
-                                   href="<factory:url action="startEdit"><factory:param name="position" value="<%=position%>"/></factory:url>">
+                                   onclick="setFormInputValue(document.getElementById('<factory:encode name="buttonAction"/>'),'action','startEdit');
+                                       setFormInputValue(document.getElementById('<factory:encode name="buttonAction"/>'),'position','<%=position%>');
+                                       submitAjaxForm(document.getElementById('<factory:encode name="buttonAction"/>')); return false;"
+                                   href="#">
                                     <img src='<static:image relativePath="<%=(String)icon%>"/>' border="0" alt='<i18n:message key="edit">!!!Editar</i18n:message>' align="absmiddle">
                                 </a>
-                                <script defer="true">
-                                    setAjax("<factory:encode name='<%=(String)buttonId%>'/>");
-                                </script>
                             </td>
                         </mvc:fragmentValue>
                     </mvc:fragmentValue>
@@ -73,18 +75,18 @@
             <mvc:fragment name="outputMoveField">
                 <mvc:fragmentValue name="position" id="position">
                     <mvc:fragmentValue name="icon" id="icon">
-                        <mvc:fragmentValue name="actionUrl" id="actionUrl">
+                        <mvc:fragmentValue name="action" id="action">
                             <mvc:fragmentValue name="buttonId" id="buttonId">
                                 <mvc:fragmentValue name="msgId" id="msgId">
                                     <td width="1px">
                                         <a title="<i18n:message key="<%=(String)msgId%>">!!!<%=(String)msgId%></i18n:message>"
-                                           href="<%=actionUrl%>"  onclick="this.onclick=function(){return false;};"
+                                           href="#"
+                                           onclick="setFormInputValue(document.getElementById('<factory:encode name="buttonAction"/>'),'action','<%=action%>');
+                                               setFormInputValue(document.getElementById('<factory:encode name="buttonAction"/>'),'position','<%=position%>');
+                                               submitAjaxForm(document.getElementById('<factory:encode name="buttonAction"/>')); return false;"
                                            id="<factory:encode name='<%=(String)buttonId%>'/>">
                                             <img src='<static:image relativePath="<%=(String)icon%>" />' border="0" alt='<i18n:message key="<%=(String)msgId%>">!!!<%=(String)msgId%></i18n:message>' align="absmiddle">
                                         </a>
-                                        <script defer="true">
-                                            setAjax("<factory:encode name='<%=(String)buttonId%>'/>");
-                                        </script>
                                     </td>
                                 </mvc:fragmentValue>
                             </mvc:fragmentValue>
