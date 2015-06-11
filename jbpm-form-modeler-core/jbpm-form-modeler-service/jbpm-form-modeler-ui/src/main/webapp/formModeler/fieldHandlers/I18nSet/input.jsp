@@ -66,7 +66,7 @@
                                                                                                                     <%=altvalue != null ? " alt=\"" + altvalue + "\"" : ""%>
                                                                                                                     <%=height != null ? " height=\"" + height + "\"" : ""%>
                                                                                                                     <%=readonly != null && ((Boolean) readonly).booleanValue() ? " readonly disabled " : ""%>
-                                                                                                                   value='<%=StringEscapeUtils.escapeHtml4(StringUtils.defaultString((value == null || "".equals(value)) ? "" : ((I18nSet) value).getValue( ((Locale) locale).toString())))%>'></div>
+                                                                                                                   value="<%=StringEscapeUtils.escapeHtml4(StringUtils.defaultString((value == null || "".equals(value)) ? "" : ((I18nSet) value).getValue( ((Locale) locale).toString())))%>"></div>
                                                                                                     </mvc:fragmentValue>
                                                                                                 </mvc:fragmentValue>
                                                                                             </mvc:fragment>

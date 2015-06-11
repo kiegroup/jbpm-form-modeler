@@ -88,8 +88,8 @@
         <%=alt!=null ? " alt=\""+alt+"\"":""%>
         <%=height!=null ? " height=\""+height+"\"":""%>
         <%=readonly!=null && ((Boolean)readonly).booleanValue()? " readonly ":""%>
-        value='<%=Boolean.TRUE.equals(wrong) ? (StringEscapeUtils.escapeHtml4(StringUtils.defaultString(inputValue==null?"":String.valueOf(inputValue))))
-                    : (StringEscapeUtils.escapeHtml4(StringUtils.defaultString(value==null?"":String.valueOf(value))))%>'>
+        value="<%=Boolean.TRUE.equals(wrong) ? (StringEscapeUtils.escapeHtml4(StringUtils.defaultString(inputValue==null?"":String.valueOf(inputValue))))
+                    : (StringEscapeUtils.escapeHtml4(StringUtils.defaultString(value==null?"":String.valueOf(value))))%>">
         </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
