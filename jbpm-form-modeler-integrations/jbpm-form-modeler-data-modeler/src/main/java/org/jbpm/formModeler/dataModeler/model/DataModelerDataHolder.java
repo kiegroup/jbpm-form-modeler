@@ -22,12 +22,8 @@ import org.jbpm.formModeler.dataModeler.integration.DataModelerService;
 import org.jbpm.formModeler.kie.services.FormRenderContentMarshallerManager;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;
 import org.kie.internal.task.api.ContentMarshallerContext;
-import org.kie.workbench.common.screens.datamodeller.model.ObjectPropertyTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
-import java.util.*;
 
 public class DataModelerDataHolder extends PojoDataHolder {
     private transient Logger log = LoggerFactory.getLogger(DataModelerDataHolder.class);
