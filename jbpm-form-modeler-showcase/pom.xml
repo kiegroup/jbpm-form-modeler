@@ -115,7 +115,7 @@
 
     <dependency>
       <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-workbench-client-views-bs2</artifactId>
+      <artifactId>uberfire-workbench-client-views-patternfly</artifactId>
       <scope>provided</scope>
     </dependency>
 
@@ -204,8 +204,8 @@
     </dependency>
 
     <dependency>
-      <groupId>com.github.gwtbootstrap</groupId>
-      <artifactId>gwt-bootstrap</artifactId>
+      <groupId>org.gwtbootstrap3</groupId>
+      <artifactId>gwtbootstrap3</artifactId>
       <scope>provided</scope>
     </dependency>
 
@@ -619,7 +619,7 @@
             <compileSourcesArtifact>org.uberfire:uberfire-workbench-client</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-workbench-client-backend</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-backend-api</compileSourcesArtifact>
-            <compileSourcesArtifact>org.uberfire:uberfire-workbench-client-views-bs2</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-workbench-client-views-patternfly</compileSourcesArtifact>
 
             <!-- Form Modeler -->
             <compileSourcesArtifact>org.jbpm:jbpm-form-modeler-api</compileSourcesArtifact>

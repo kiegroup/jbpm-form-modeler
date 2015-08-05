@@ -5,7 +5,7 @@
 
   <!-- Uberfire dependencies -->
   <inherits name="org.uberfire.UberfireClientAll"/>
-  <inherits name="org.uberfire.client.views.Bootstrap2"/>
+  <inherits name="org.uberfire.client.views.PatternFly"/>
 
   <!-- Uberfire Extensions - Core Widgets -->
   <inherits name="org.uberfire.ext.widgets.core.UberfireWidgetsCore"/>
