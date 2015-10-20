@@ -19,7 +19,8 @@ import org.apache.lucene.search.Query;
 import org.drools.workbench.models.datamodel.util.PortablePreconditions;
 import org.jbpm.formModeler.panels.modeler.backend.indexing.model.terms.FormIndexTerm;
 import org.kie.workbench.common.services.refactoring.backend.server.query.NamedQuery;
-import org.kie.workbench.common.services.refactoring.backend.server.query.QueryBuilder;
+import org.kie.workbench.common.services.refactoring.backend.server.query.builder.BasicQueryBuilder;
+import org.kie.workbench.common.services.refactoring.backend.server.query.builder.QueryBuilder;
 import org.kie.workbench.common.services.refactoring.backend.server.query.response.DefaultResponseBuilder;
 import org.kie.workbench.common.services.refactoring.backend.server.query.response.ResponseBuilder;
 import org.kie.workbench.common.services.refactoring.model.index.terms.IndexTerm;
@@ -62,7 +63,7 @@ public class FindFormsQuery implements NamedQuery {
             throw new IllegalArgumentException( "Required term has not been provided. Require '" + FormIndexTerm.TERM + "'." );
         }
 
-        final QueryBuilder builder = new QueryBuilder();
+        final QueryBuilder builder = new BasicQueryBuilder();
         if ( useWildcards ) {
             builder.useWildcards();
         }
