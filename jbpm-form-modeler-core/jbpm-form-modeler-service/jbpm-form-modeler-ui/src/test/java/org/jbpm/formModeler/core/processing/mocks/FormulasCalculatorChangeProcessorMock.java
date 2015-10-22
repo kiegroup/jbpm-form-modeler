@@ -12,16 +12,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.jbpm.formModeler.core.rendering;
+package org.jbpm.formModeler.core.processing.mocks;
 
 import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.core.processing.formProcessing.FormChangeResponse;
+import org.jbpm.formModeler.core.processing.formProcessing.FormulasCalculatorChangeProcessor;
 
-public interface FormFinder {
-    Form getForm(String ctxUID);
+import javax.enterprise.inject.Specializes;
 
-    Form getFormByPath( String ctxUID, String formPath );
-
-    Form getFormById(String ctxUID, long formId);
-
-    int getPriority();
+@Specializes
+public class FormulasCalculatorChangeProcessorMock extends FormulasCalculatorChangeProcessor {
+    @Override
+    public FormChangeResponse process(Form form, String namespace, FormChangeResponse response) {
+        return response;
+    }
 }
