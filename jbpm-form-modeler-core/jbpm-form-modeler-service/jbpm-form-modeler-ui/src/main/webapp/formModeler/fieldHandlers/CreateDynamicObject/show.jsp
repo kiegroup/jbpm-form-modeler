@@ -1,5 +1,5 @@
 <%@ page import="org.jbpm.formModeler.service.LocaleManager" %>
-<%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.CreateDynamicObjectFieldFormatter" %>
+<%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.multipleSubform.CreateDynamicObjectFieldFormatter" %>
 <%@ page import="org.jbpm.formModeler.api.model.Form" %>
 <%--
 

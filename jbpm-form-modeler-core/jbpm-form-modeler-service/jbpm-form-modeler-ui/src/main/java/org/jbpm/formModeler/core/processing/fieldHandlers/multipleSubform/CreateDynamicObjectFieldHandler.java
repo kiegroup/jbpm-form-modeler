@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbpm.formModeler.core.processing.fieldHandlers;
+package org.jbpm.formModeler.core.processing.fieldHandlers.multipleSubform;
 
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -24,6 +24,7 @@ import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.processing.FormNamespaceData;
 import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
+import org.jbpm.formModeler.core.processing.fieldHandlers.SubformFieldHandler;
 import org.jbpm.formModeler.core.processing.fieldHandlers.subform.utils.SubFormHelper;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 import org.slf4j.Logger;
@@ -33,7 +34,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.*;
 
-@Named("org.jbpm.formModeler.core.processing.fieldHandlers.CreateDynamicObjectFieldHandler")
+@Named("org.jbpm.formModeler.core.processing.fieldHandlers.multipleSubform.CreateDynamicObjectFieldHandler")
 public class CreateDynamicObjectFieldHandler extends SubformFieldHandler {
     private static transient Logger log = LoggerFactory.getLogger(CreateDynamicObjectFieldHandler.class);
 

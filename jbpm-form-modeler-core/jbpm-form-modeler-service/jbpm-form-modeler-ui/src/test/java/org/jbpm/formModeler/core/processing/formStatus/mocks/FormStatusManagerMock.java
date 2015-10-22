@@ -12,16 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.jbpm.formModeler.core.rendering;
+package org.jbpm.formModeler.core.processing.formStatus.mocks;
 
-import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.core.processing.formStatus.FormStatusManager;
 
-public interface FormFinder {
-    Form getForm(String ctxUID);
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Specializes;
 
-    Form getFormByPath( String ctxUID, String formPath );
-
-    Form getFormById(String ctxUID, long formId);
-
-    int getPriority();
+@Specializes
+@ApplicationScoped
+public class FormStatusManagerMock extends FormStatusManager {
 }

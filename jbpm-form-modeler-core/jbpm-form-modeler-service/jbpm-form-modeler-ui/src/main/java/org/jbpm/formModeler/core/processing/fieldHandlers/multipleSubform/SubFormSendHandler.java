@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbpm.formModeler.core.processing.fieldHandlers;
+package org.jbpm.formModeler.core.processing.fieldHandlers.multipleSubform;
 
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -40,7 +40,7 @@ import javax.inject.Named;
 import java.util.*;
 
 @ApplicationScoped
-@Named("org.jbpm.formModeler.core.processing.fieldHandlers.SubFormSendHandler")
+@Named("org.jbpm.formModeler.core.processing.fieldHandlers.multipleSubform.SubFormSendHandler")
 public class SubFormSendHandler extends BeanHandler {
 
     private Logger log = LoggerFactory.getLogger(SubFormSendHandler.class);
@@ -65,7 +65,6 @@ public class SubFormSendHandler extends BeanHandler {
     public FieldHandlersManager getFieldHandlersManager() {
         return FormProcessingServices.lookup().getFieldHandlersManager();
     }
-    // private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLog(SubFormSendHandler.class.getName());
 
     public void actionExpandSubform(CommandRequest request) {
         log.debug("Expanding subform");
