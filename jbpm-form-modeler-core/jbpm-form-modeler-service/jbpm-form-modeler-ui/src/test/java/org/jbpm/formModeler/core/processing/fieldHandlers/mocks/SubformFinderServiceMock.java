@@ -12,16 +12,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.jbpm.formModeler.core.rendering;
+package org.jbpm.formModeler.core.processing.fieldHandlers.mocks;
 
 import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.core.rendering.SubformFinderService;
 
-public interface FormFinder {
-    Form getForm(String ctxUID);
+import javax.enterprise.context.ApplicationScoped;
 
-    Form getFormByPath( String ctxUID, String formPath );
+@ApplicationScoped
+public class SubformFinderServiceMock implements SubformFinderService {
+    @Override
+    public Form getForm(String ctxUID) {
+        return new Form();
+    }
 
-    Form getFormById(String ctxUID, long formId);
+    @Override
+    public Form getFormByPath(String formPath, String ctxUID) {
+        return new Form();
+    }
 
-    int getPriority();
+    @Override
+    public Form getFormById(long idForm, String ctxUID) {
+        return new Form();
+    }
 }

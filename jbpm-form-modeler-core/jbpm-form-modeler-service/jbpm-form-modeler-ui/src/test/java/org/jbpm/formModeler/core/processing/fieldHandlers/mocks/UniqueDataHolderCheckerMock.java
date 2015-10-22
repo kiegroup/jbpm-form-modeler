@@ -12,16 +12,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.jbpm.formModeler.core.rendering;
+package org.jbpm.formModeler.core.processing.fieldHandlers.mocks;
 
 import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.FormCheckResult;
+import org.jbpm.formModeler.core.processing.fieldHandlers.subform.checkers.UniqueDataHolderChecker;
 
-public interface FormFinder {
-    Form getForm(String ctxUID);
-
-    Form getFormByPath( String ctxUID, String formPath );
-
-    Form getFormById(String ctxUID, long formId);
-
-    int getPriority();
+public class UniqueDataHolderCheckerMock extends UniqueDataHolderChecker {
+    @Override
+    public FormCheckResult checkForm(Form form) {
+        FormCheckResult result = new FormCheckResult();
+        result.setValid( true );
+        return result;
+    }
 }
