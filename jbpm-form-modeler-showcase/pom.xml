@@ -543,16 +543,14 @@
   <build>
     <finalName>${project.artifactId}</finalName>
     <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
-
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
         <configuration>
-          <localWorkers>4</localWorkers>
           <deploy>${project.build.directory}/gwt-symbols-deploy</deploy>
           <extraJvmArgs>-Xmx2048m -XX:MaxPermSize=256m -Xms1024m -XX:PermSize=128m -Xss1M -XX:CompileThreshold=7000 -Derrai.jboss.home=${errai.jboss.home} -Derrai.marshalling.server.classOutput=${project.build.outputDirectory}</extraJvmArgs>
-          <module>org.jbpm.formModeler.FastCompiledjBPMFormModeler</module>
+          <module>org.jbpm.formModeler.jBPMFormModeler</module>
           <logLevel>INFO</logLevel>
           <noServer>false</noServer>
           <server>org.jboss.errai.cdi.server.gwt.EmbeddedWildFlyLauncher</server>
@@ -628,7 +626,6 @@
             <compileSourcesArtifact>org.jbpm:jbpm-form-modeler-renderer-api</compileSourcesArtifact>
             <compileSourcesArtifact>org.jbpm:jbpm-form-modeler-renderer-client</compileSourcesArtifact>
 
-
             <!-- Social -->
             <compileSourcesArtifact>org.kie.uberfire:kie-uberfire-social-activities-api</compileSourcesArtifact>
 
@@ -645,7 +642,7 @@
           <execution>
             <id>gwt-compile</id>
             <goals>
-              <goal>resources</goal>
+              <!-- Do not use 'resources' goal as it does not play well with filtered resources. -->
               <goal>compile</goal>
             </goals>
           </execution>
