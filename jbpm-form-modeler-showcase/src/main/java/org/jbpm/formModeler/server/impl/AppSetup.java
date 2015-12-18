@@ -29,6 +29,7 @@ import org.guvnor.structure.organizationalunit.OrganizationalUnitService;
 import org.guvnor.structure.repositories.Repository;
 import org.guvnor.structure.repositories.RepositoryService;
 import org.guvnor.structure.server.config.ConfigGroup;
+import org.guvnor.structure.server.config.ConfigItem;
 import org.guvnor.structure.server.config.ConfigType;
 import org.guvnor.structure.server.config.ConfigurationFactory;
 import org.guvnor.structure.server.config.ConfigurationService;
@@ -92,9 +93,17 @@ public class AppSetup {
             //Define mandatory properties
             List<ConfigGroup> globalConfigGroups = configurationService.getConfiguration( ConfigType.GLOBAL );
             boolean globalSettingsDefined = false;
-            for ( ConfigGroup globalConfigGroup : globalConfigGroups ) {
-                if ( GLOBAL_SETTINGS.equals( globalConfigGroup.getName() ) ) {
+            for ( ConfigGroup configGroup : globalConfigGroups ) {
+                if ( GLOBAL_SETTINGS.equals( configGroup.getName() ) ) {
                     globalSettingsDefined = true;
+                    ConfigItem<String> runtimeDeployConfig = configGroup.getConfigItem( "support.runtime.deploy" );
+                    if ( runtimeDeployConfig == null ) {
+                        configGroup.addConfigItem( configurationFactory.newConfigItem( "support.runtime.deploy", "true" ) );
+                        configurationService.updateConfiguration( configGroup );
+                    } else if ( !runtimeDeployConfig.getValue().equalsIgnoreCase( "true" ) ) {
+                        runtimeDeployConfig.setValue( "true" );
+                        configurationService.updateConfiguration( configGroup );
+                    }
                     break;
                 }
             }
