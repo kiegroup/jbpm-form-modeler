@@ -11,11 +11,13 @@
 
   <!-- Uberfire Extensions - Core Widgets -->
   <inherits name="org.uberfire.ext.widgets.core.UberfireWidgetsCore"/>
+  <inherits name="org.uberfire.UberfireDocksClient"/>
 
   <!-- Drools dependencies -->
   <inherits name="org.drools.workbench.models.datamodel.DroolsWorkbenchDataModelAPI"/>
 
   <!-- Guvnor dependencies -->
+  <inherits name='org.guvnor.asset.management.GuvnorAssetMgmtClient'/>
   <inherits name="org.guvnor.structure.GuvnorStructureClient"/>
   <inherits name="org.guvnor.m2repo.GuvnorM2RepoEditorClient"/>
   <inherits name='org.guvnor.common.services.GuvnorServicesAPI'/>
@@ -30,6 +32,7 @@
   <inherits name="org.kie.workbench.common.screens.explorer.KieWorkbenchProjectExplorerClient"/>
   <inherits name="org.kie.workbench.common.screens.projecteditor.KieWorkbenchCommonProjectEditorClient"/>
   <inherits name="org.kie.workbench.common.screens.projectimportsscreen.KieWorkbenchCommonProjectImportsScreenClient"/>
+  <inherits name="org.kie.workbench.common.screens.home.KieWorkbenchHomeClient"/>
   <inherits name="org.kie.workbench.common.services.datamodeller.DataModellerCore" />
   <inherits name="org.kie.workbench.common.screens.datamodeller.KieWorkbenchDatamodellerClient"/>
   <inherits name="org.kie.workbench.common.screens.defaulteditor.DroolsWorkbenchDefaultEditorClient"/>

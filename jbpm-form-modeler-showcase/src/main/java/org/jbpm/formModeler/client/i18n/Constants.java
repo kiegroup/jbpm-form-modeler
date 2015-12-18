@@ -32,4 +32,14 @@ public interface Constants extends Messages {
     Constants INSTANCE = GWT.create(Constants.class);
 
     String newItem();
+
+    String role();
+
+    String logout();
+
+    String home();
+
+    String authoring();
+
+    String project_authoring();
 }
