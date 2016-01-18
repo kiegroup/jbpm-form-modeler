@@ -22,6 +22,7 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.guvnor.common.services.backend.exceptions.ExceptionUtilities;
+import org.guvnor.common.services.backend.util.CommentedOptionFactory;
 import org.guvnor.common.services.shared.metadata.MetadataService;
 import org.guvnor.common.services.shared.metadata.model.Metadata;
 import org.guvnor.common.services.shared.metadata.model.Overview;
@@ -53,10 +54,10 @@ import org.uberfire.workbench.events.ResourceOpenedEvent;
 @ApplicationScoped
 public class FormModelerServiceImpl extends KieService<FormModelerContent> implements FormModelerService {
 
-    private Logger log = LoggerFactory.getLogger(FormModelerServiceImpl.class);
+    private Logger log = LoggerFactory.getLogger( FormModelerServiceImpl.class );
 
     @Inject
-    @Named("ioStrategy")
+    @Named( "ioStrategy" )
     private IOService ioService;
 
     @Inject
@@ -92,65 +93,68 @@ public class FormModelerServiceImpl extends KieService<FormModelerContent> imple
     @Inject
     private Event<ResourceOpenedEvent> resourceOpenedEvent;
 
+    @Inject
+    private CommentedOptionFactory commentedOptionFactory;
+
     @Override
-    public void changeContextPath(String ctxUID, Path path) {
-        if (StringUtils.isEmpty(ctxUID)) return;
-        formEditorContextManager.getFormEditorContext(ctxUID).setPath(Paths.convert(path).toUri().toString());
+    public void changeContextPath( String ctxUID, Path path ) {
+        if ( StringUtils.isEmpty( ctxUID ) ) return;
+        formEditorContextManager.getFormEditorContext( ctxUID ).setPath( Paths.convert( path ).toUri().toString() );
     }
 
     @Override
-    public void removeEditingForm(String ctxUID) {
-        formEditorContextManager.removeEditingForm(ctxUID);
+    public void removeEditingForm( String ctxUID ) {
+        formEditorContextManager.removeEditingForm( ctxUID );
     }
 
     @Override
     public FormEditorContextTO reloadContent( Path path, String ctxUID ) {
         try {
-            Form form = findForm( Paths.convert(path) );
+            Form form = findForm( Paths.convert( path ) );
 
-            FormEditorContext context = formEditorContextManager.getFormEditorContext(ctxUID);
+            FormEditorContext context = formEditorContextManager.getFormEditorContext( ctxUID );
 
-            context.setForm(form);
+            context.setForm( form );
 
-            return new FormEditorContextTO(context.getUID());
-        } catch (Exception e) {
-            log.warn("Error loading form " + path.toURI(), e);
+            return new FormEditorContextTO( context.getUID() );
+        } catch ( Exception e ) {
+            log.warn( "Error loading form " + path.toURI(), e );
             return null;
         }
     }
 
 
     @Override
-    public Path save(Path path, FormEditorContextTO content, Metadata metadata, String comment) {
-        FormEditorContext ctx = formEditorContextManager.getFormEditorContext(content.getCtxUID());
-        ioService.write(Paths.convert(path), formSerializationManager.generateFormXML(ctx.getForm()), metadataService.setUpAttributes(path, metadata), makeCommentedOption(comment));
+    public Path save( Path path, FormEditorContextTO content, Metadata metadata, String comment ) {
+        FormEditorContext ctx = formEditorContextManager.getFormEditorContext( content.getCtxUID() );
+        ioService.write( Paths.convert( path ), formSerializationManager.generateFormXML( ctx.getForm() ), metadataService.setUpAttributes( path, metadata ), commentedOptionFactory.makeCommentedOption( comment ) );
         return path;
     }
 
     @Override
-    public Path rename(Path path, String newName, String comment) {
-        return renameService.rename(path, newName, comment);
+    public Path rename( Path path, String newName, String comment ) {
+        return renameService.rename( path, newName, comment );
     }
 
     @Override
-    public void delete(Path path, String comment) {
-        deleteService.delete(path, comment);
+    public void delete( Path path, String comment ) {
+        deleteService.delete( path, comment );
     }
 
     @Override
-    public Path createForm(Path path, String formName) {
-        org.uberfire.java.nio.file.Path kiePath = Paths.convert(path).resolve(formName);
+    public Path createForm( Path path, String formName ) {
+        org.uberfire.java.nio.file.Path kiePath = Paths.convert( path ).resolve( formName );
         try {
-            if (ioService.exists(kiePath)) {
-                throw new FileAlreadyExistsException(kiePath.toString());
+            if ( ioService.exists( kiePath ) ) {
+                throw new FileAlreadyExistsException( kiePath.toString() );
             }
-            Form form = formManager.createForm(formName);
+            Form form = formManager.createForm( formName );
 
-            ioService.write(kiePath, formSerializationManager.generateFormXML(form), makeCommentedOption(""));
+            ioService.write( kiePath, formSerializationManager.generateFormXML( form ), commentedOptionFactory.makeCommentedOption( "" ) );
 
-            return Paths.convert(kiePath);
+            return Paths.convert( kiePath );
         } catch ( Exception e ) {
-            throw ExceptionUtilities.handleException(e);
+            throw ExceptionUtilities.handleException( e );
         }
     }
 
@@ -163,7 +167,7 @@ public class FormModelerServiceImpl extends KieService<FormModelerContent> imple
     protected FormModelerContent constructContent( Path path, Overview overview ) {
 
         try {
-            org.uberfire.java.nio.file.Path kiePath = Paths.convert(path);
+            org.uberfire.java.nio.file.Path kiePath = Paths.convert( path );
 
             Form form = findForm( kiePath );
 
