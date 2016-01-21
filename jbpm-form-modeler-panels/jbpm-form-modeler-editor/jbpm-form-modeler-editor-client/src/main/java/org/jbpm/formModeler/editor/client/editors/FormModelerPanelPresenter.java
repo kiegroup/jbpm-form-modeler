@@ -17,7 +17,6 @@ package org.jbpm.formModeler.editor.client.editors;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
-import javax.enterprise.inject.New;
 import javax.inject.Inject;
 
 import com.google.gwt.user.client.ui.IsWidget;
@@ -98,7 +97,6 @@ public class FormModelerPanelPresenter extends KieEditor {
     private FormModelerContent content;
 
     @Inject
-    @New
     private FileMenuBuilder menuBuilder;
 
     @Inject
