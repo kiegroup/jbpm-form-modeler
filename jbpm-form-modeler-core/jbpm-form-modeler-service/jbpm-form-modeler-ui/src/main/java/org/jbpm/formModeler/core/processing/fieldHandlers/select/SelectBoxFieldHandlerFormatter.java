@@ -29,6 +29,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.Iterator;
 import java.util.Map;
 
@@ -61,11 +62,11 @@ public class SelectBoxFieldHandlerFormatter extends DefaultFieldHandlerFormatter
 
         SelectValuesProvider provider = (SelectValuesProvider) CDIBeanLocator.getBeanByNameOrType(field.getCustomFieldType());
 
-        Map<String, String> fieldRange = provider.getSelectOptions(field, (String)value, formRenderContextManager.getRootContext(fieldName), getLocale());
+        Map<String, Object> fieldRange = provider.getSelectOptions(field, (String)value, formRenderContextManager.getRootContext(fieldName), getLocale());
 
         if (fieldRange == null || fieldRange.isEmpty()) return;
 
-        String text = fieldRange.get(value);
+        String text = getKeyFromValue(fieldRange, value);
 
         if (StringUtils.isEmpty(text)) return;
 
@@ -99,7 +100,7 @@ public class SelectBoxFieldHandlerFormatter extends DefaultFieldHandlerFormatter
 
             SelectValuesProvider provider = (SelectValuesProvider) CDIBeanLocator.getBeanByNameOrType(field.getCustomFieldType());
 
-            Map<String, String> fieldRange = provider.getSelectOptions(field, (String)value, formRenderContextManager.getRootContext(fieldName), getLocale());
+            Map<String, Object> fieldRange = provider.getSelectOptions(field, (String)value, formRenderContextManager.getRootContext(fieldName), getLocale());
 
             if (fieldRange != null && !fieldRange.isEmpty()) {
 
@@ -108,8 +109,8 @@ public class SelectBoxFieldHandlerFormatter extends DefaultFieldHandlerFormatter
                 for (Iterator iter = fieldRange.keySet().iterator(); iter.hasNext();) {
                     Object key = iter.next();
                     setAttribute("key", key);
-                    String valueKey = fieldRange.get(key);
-                    setAttribute("value", valueKey);
+                    String text = getKeyFromValue(fieldRange, value);
+                    setAttribute("value", key);
                     if (keyValueStr != null && keyValueStr.equals(key.toString())) {
                         renderFragment("outputSelectedOption");
                     } else {
@@ -119,5 +120,13 @@ public class SelectBoxFieldHandlerFormatter extends DefaultFieldHandlerFormatter
             }
         }
         renderFragment("outputEnd");
+    }
+    
+    private String getKeyFromValue(Map<String, Object> map, Object value) {
+        for (String key : map.keySet()) {
+            if (map.get(key).equals(value))
+                return key;
+        }
+        return "";
     }
 }

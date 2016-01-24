@@ -63,11 +63,11 @@ public class RadioGroupFieldHandlerFormatter extends DefaultFieldHandlerFormatte
 
         SelectValuesProvider provider = (SelectValuesProvider) CDIBeanLocator.getBeanByNameOrType(field.getCustomFieldType());
 
-        Map<String, String> fieldRange = provider.getSelectOptions(field, (String)value, formRenderContextManager.getRootContext(fieldName), getLocale());
+        Map<String, Object> fieldRange = provider.getSelectOptions(field, (String)value, formRenderContextManager.getRootContext(fieldName), getLocale());
 
         if (fieldRange == null || fieldRange.isEmpty()) return;
 
-        String text = fieldRange.get(value);
+        String text = getKeyFromValue(fieldRange, value);
 
         if (StringUtils.isEmpty(text)) return;
 
@@ -87,7 +87,7 @@ public class RadioGroupFieldHandlerFormatter extends DefaultFieldHandlerFormatte
 
         SelectValuesProvider provider = (SelectValuesProvider) CDIBeanLocator.getBeanByNameOrType(field.getCustomFieldType());
 
-        Map<String, String> fieldRange = provider.getSelectOptions(field, (String)value, formRenderContextManager.getRootContext(fieldName), getLocale());
+        Map<String, Object> fieldRange = provider.getSelectOptions(field, value, formRenderContextManager.getRootContext(fieldName), getLocale());
 
         if (fieldRange == null || fieldRange.isEmpty()) return;
 
@@ -110,7 +110,7 @@ public class RadioGroupFieldHandlerFormatter extends DefaultFieldHandlerFormatte
 
     }
 
-    protected void renderHorizontal(Field field, String fieldName, Boolean isReadonly, String uid, Map<String, String> fieldRange, String value) {
+    protected void renderHorizontal(Field field, String fieldName, Boolean isReadonly, String uid, Map<String, Object> fieldRange, String value) {
         int index = 0;
 
         int maxElements = getMaxElements(fieldRange, field);
@@ -120,7 +120,7 @@ public class RadioGroupFieldHandlerFormatter extends DefaultFieldHandlerFormatte
         for (Iterator iter = fieldRange.keySet().iterator(); iter.hasNext();) {
             if (cellCount == 0) renderFragment("startRow");
             String key = (String) iter.next();
-            String keyValue = fieldRange.get(key);
+            String keyValue = key;
             renderFragment("startCell");
             renderRadio(key, keyValue, key.equals(value), fieldName, uid + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + index++, isReadonly, field);
             renderFragment("endCell");
@@ -132,7 +132,7 @@ public class RadioGroupFieldHandlerFormatter extends DefaultFieldHandlerFormatte
         }
     }
 
-    protected void renderVertical(Field field, String fieldName, Boolean isReadonly, String uid, Map<String, String> fieldRange, String value) {
+    protected void renderVertical(Field field, String fieldName, Boolean isReadonly, String uid, Map<String, Object> fieldRange, String value) {
 
         int maxElements = getMaxElements(fieldRange, field);
 
@@ -162,7 +162,7 @@ public class RadioGroupFieldHandlerFormatter extends DefaultFieldHandlerFormatte
 
                 if (column.size() > row) {
                     String key = column.get(row);
-                    renderRadio(key, fieldRange.get(key), key.equals(value), fieldName, uid + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + index++, isReadonly, field);
+                    renderRadio(key, key, key.equals(value), fieldName, uid + FormProcessor.CUSTOM_NAMESPACE_SEPARATOR + index++, isReadonly, field);
                 }
                 renderFragment("endCell");
             }
@@ -183,11 +183,19 @@ public class RadioGroupFieldHandlerFormatter extends DefaultFieldHandlerFormatte
         renderFragment("outputRadio");
     }
 
-    protected int getMaxElements(Map<String, String> fieldRange, Field field) {
+    protected int getMaxElements(Map<String, Object> fieldRange, Field field) {
         int maxElements = (field.getMaxlength() != null) ? field.getMaxlength().intValue() : fieldRange.keySet().size();
 
         if (maxElements < 1) maxElements = fieldRange.keySet().size();
 
         return maxElements;
+    }
+    
+    private String getKeyFromValue(Map<String, Object> map, Object value) {
+        for (String key : map.keySet()) {
+            if (map.get(key).equals(value))
+                return key;
+        }
+        return "";
     }
 }
