@@ -66,8 +66,8 @@ public class CreateDynamicObjectFormatterTest extends DefaultFieldHandlerFormatt
 
     @Override
     protected void initDependencies() {
-        helper = weld.instance().select( SubFormHelper.class ).get();
-        fieldI18nResourceObtainer = weld.instance().select( FieldI18nResourceObtainer.class ).get();
+        helper = weldContainer.instance().select( SubFormHelper.class ).get();
+        fieldI18nResourceObtainer = weldContainer.instance().select( FieldI18nResourceObtainer.class ).get();
     }
 
     @Test
