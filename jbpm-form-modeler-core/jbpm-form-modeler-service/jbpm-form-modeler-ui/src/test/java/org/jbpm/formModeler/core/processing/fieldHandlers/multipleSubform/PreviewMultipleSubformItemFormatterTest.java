@@ -68,7 +68,7 @@ public class PreviewMultipleSubformItemFormatterTest extends DefaultFieldHandler
 
     @Override
     protected void initDependencies() {
-        helper = weld.instance().select( SubFormHelper.class ).get();
+        helper = weldContainer.instance().select( SubFormHelper.class ).get();
     }
 
     @Override

@@ -26,6 +26,7 @@ import org.jbpm.formModeler.core.processing.formProcessing.NamespaceManager;
 import org.jbpm.formModeler.core.processing.formRendering.FormRenderingFormatter;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterTag;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.ProcessingInstruction;
+import org.junit.After;
 import org.junit.Before;
 import org.mockito.ArgumentMatcher;
 import org.mockito.invocation.InvocationOnMock;
@@ -51,14 +52,16 @@ public abstract class DefaultFieldHandlerFormatterTest<T extends DefaultFieldHan
     protected Form form;
     protected Field currentField;
 
-    protected WeldContainer weld;
+    protected Weld weld;
+    protected WeldContainer weldContainer;
 
     @Before
     public void setup() {
-        weld = new Weld().initialize();
+        weld = new Weld();
+        weldContainer = weld.initialize();
 
-        fieldTypeManager = weld.instance().select( FieldTypeManager.class ).get();
-        namespaceManager = weld.instance().select( NamespaceManager.class ).get();
+        fieldTypeManager = weldContainer.instance().select( FieldTypeManager.class ).get();
+        namespaceManager = weldContainer.instance().select( NamespaceManager.class ).get();
 
         initDependencies();
 
@@ -98,6 +101,13 @@ public abstract class DefaultFieldHandlerFormatterTest<T extends DefaultFieldHan
         });
 
         mockRequestAttributes();
+    }
+
+    @After
+    public void cleanup() {
+        if (weld != null) {
+            weld.shutdown();
+        }
     }
 
     protected void initNamespace() {
