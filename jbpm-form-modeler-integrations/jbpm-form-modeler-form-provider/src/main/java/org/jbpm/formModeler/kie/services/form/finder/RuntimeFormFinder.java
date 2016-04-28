@@ -25,7 +25,7 @@ import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.core.rendering.FormFinder;
-import org.jbpm.kie.services.impl.FormManagerService;
+import org.jbpm.formModeler.kie.services.form.FormManagerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

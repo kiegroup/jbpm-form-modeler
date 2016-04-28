@@ -15,6 +15,20 @@
  */
 package org.jbpm.formModeler.fieldTypes.document.handling;
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.Template;
 import org.apache.commons.io.FileUtils;
@@ -29,32 +43,16 @@ import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.processing.fieldHandlers.plugable.PlugableFieldHandler;
 import org.jbpm.formModeler.service.bb.mvc.components.ControllerStatus;
 import org.jbpm.formModeler.service.bb.mvc.controller.RequestContext;
-import org.jbpm.services.api.DeploymentService;
-import org.jbpm.services.api.model.DeployedUnit;
 import org.kie.api.marshalling.ObjectMarshallingStrategy;
 import org.kie.api.runtime.EnvironmentName;
 import org.kie.internal.runtime.manager.InternalRuntimeManager;
-import org.kie.internal.task.api.ContentMarshallerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
-import java.text.DecimalFormat;
-import java.util.*;
 
 @Named("org.jbpm.formModeler.fieldTypes.document.handling.JBPMDocumentFieldTypeHandler")
 public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
 
     private Logger log = LoggerFactory.getLogger(JBPMDocumentFieldTypeHandler.class);
-
-    @Inject
-    private DeploymentService deploymentService;
 
     @Inject
     private FormRenderContextManager formRenderContextManager;
@@ -135,7 +133,8 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
                 doc.setContent( FileUtils.readFileToByteArray( file ) );
                 return doc;
             } else {
-                Document doc = new DocumentImpl( file.getName(), file.length(), new Date(file.lastModified()) );
+                String id = UUID.randomUUID().toString();
+                Document doc = new DocumentImpl( id, file.getName(), file.length(), new Date(file.lastModified()), id );
                 doc.setContent( FileUtils.readFileToByteArray( file ) );
                 return doc;
             }
@@ -150,15 +149,7 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
     }
 
     protected AbstractDocumentMarshallingStrategy getDocumentMarshallingStrategy( String inputName ) {
-        FormRenderContext context = formRenderContextManager.getRootContext( inputName );
-        DeployedUnit deployedUnit = deploymentService.getDeployedUnit(context.getDeploymentId());
-        InternalRuntimeManager manager = (InternalRuntimeManager) deployedUnit.getRuntimeManager();
-        ObjectMarshallingStrategy[] strategies = (ObjectMarshallingStrategy[]) manager.getEnvironment().getEnvironment().get( EnvironmentName.OBJECT_MARSHALLING_STRATEGIES );
-        if (strategies != null) {
-            for (ObjectMarshallingStrategy strategy : strategies) {
-                if (strategy instanceof AbstractDocumentMarshallingStrategy) return (AbstractDocumentMarshallingStrategy) strategy;
-            }
-        }
+
         return null;
     }
 

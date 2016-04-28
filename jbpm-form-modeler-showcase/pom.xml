@@ -421,6 +421,30 @@
       <groupId>org.kie.uberfire</groupId>
       <artifactId>kie-uberfire-social-activities-api</artifactId>
     </dependency>
+
+    <!-- Kie Server-->
+    <dependency>
+      <groupId>org.kie.server</groupId>
+      <artifactId>kie-server-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.server</groupId>
+      <artifactId>kie-server-controller-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.workbench.screens</groupId>
+      <artifactId>kie-wb-common-server-ui-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.workbench.screens</groupId>
+      <artifactId>kie-wb-common-server-ui-backend</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.workbench.screens</groupId>
+      <artifactId>kie-wb-common-server-ui-client</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
     <!-- Search -->
     <dependency>
       <groupId>org.uberfire</groupId>
@@ -564,17 +588,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.guvnor</groupId>
-      <artifactId>guvnor-asset-mgmt-client</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.guvnor</groupId>
-      <artifactId>guvnor-asset-mgmt-backend</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-workbench-models-datamodel-api</artifactId>
     </dependency>
@@ -679,6 +692,13 @@
             <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-default-editor-api</compileSourcesArtifact>
             <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-default-editor-client</compileSourcesArtifact>
             <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-workbench-client</compileSourcesArtifact>
+            <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-server-ui-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.kie.workbench.screens:kie-wb-common-server-ui-client</compileSourcesArtifact>
+
+            <!-- Kie Server needed by Exec Server UI -->
+            <compileSourcesArtifact>org.kie:kie-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.kie.server:kie-server-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.kie.server:kie-server-controller-api</compileSourcesArtifact>
 
             <!-- UberFire Extensions -->
             <compileSourcesArtifact>org.uberfire:uberfire-commons-editor-api</compileSourcesArtifact>

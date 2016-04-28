@@ -53,10 +53,6 @@
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-services-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jbpm</groupId>
       <artifactId>jbpm-document</artifactId>
     </dependency>
     <dependency>
