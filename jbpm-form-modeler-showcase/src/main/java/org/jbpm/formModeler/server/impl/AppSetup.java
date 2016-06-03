@@ -17,7 +17,6 @@ package org.jbpm.formModeler.server.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -34,36 +33,33 @@ import org.guvnor.structure.server.config.ConfigItem;
 import org.guvnor.structure.server.config.ConfigType;
 import org.guvnor.structure.server.config.ConfigurationFactory;
 import org.guvnor.structure.server.config.ConfigurationService;
+import org.kie.workbench.common.services.shared.project.KieProjectService;
+import org.kie.workbench.screens.workbench.backend.BaseAppSetup;
 import org.uberfire.commons.services.cdi.Startup;
 import org.uberfire.commons.services.cdi.StartupType;
 import org.uberfire.io.IOService;
 
 @ApplicationScoped
 @Startup(StartupType.BOOTSTRAP)
-public class AppSetup {
+public class AppSetup extends BaseAppSetup {
 
     private static final String JBPM_REPO_PLAYGROUND = "jbpm-playground";
     private static final String JBPM_URL = "https://github.com/guvnorngtestuser1/jbpm-console-ng-playground-kjar.git";
     private final String userName = "guvnorngtestuser1";
     private final String password = "test1234";
 
-    private static final String GLOBAL_SETTINGS = "settings";
+    protected AppSetup() {
+    }
 
     @Inject
-    @Named("ioStrategy")
-    private IOService ioService;
-
-    @Inject
-    private RepositoryService repositoryService;
-
-    @Inject
-    private OrganizationalUnitService organizationalUnitService;
-
-    @Inject
-    private ConfigurationService configurationService;
-
-    @Inject
-    private ConfigurationFactory configurationFactory;
+    public AppSetup( @Named("ioStrategy") final IOService ioService,
+                     final RepositoryService repositoryService,
+                     final OrganizationalUnitService organizationalUnitService,
+                     final KieProjectService projectService,
+                     final ConfigurationService configurationService,
+                     final ConfigurationFactory configurationFactory ) {
+        super( ioService, repositoryService, organizationalUnitService, projectService, configurationService, configurationFactory );
+    }
 
     @PostConstruct
     public void onStartup() {
@@ -92,26 +88,10 @@ public class AppSetup {
                                                                     repositories );
             }
 
-            //Define mandatory properties
-            List<ConfigGroup> globalConfigGroups = configurationService.getConfiguration( ConfigType.GLOBAL );
-            boolean globalSettingsDefined = false;
-            for ( ConfigGroup configGroup : globalConfigGroups ) {
-                if ( GLOBAL_SETTINGS.equals( configGroup.getName() ) ) {
-                    globalSettingsDefined = true;
-                    ConfigItem<String> runtimeDeployConfig = configGroup.getConfigItem( "support.runtime.deploy" );
-                    if ( runtimeDeployConfig == null ) {
-                        configGroup.addConfigItem( configurationFactory.newConfigItem( "support.runtime.deploy", "true" ) );
-                        configurationService.updateConfiguration( configGroup );
-                    } else if ( !runtimeDeployConfig.getValue().equalsIgnoreCase( "true" ) ) {
-                        runtimeDeployConfig.setValue( "true" );
-                        configurationService.updateConfiguration( configGroup );
-                    }
-                    break;
-                }
-            }
-            if ( !globalSettingsDefined ) {
-                configurationService.addConfiguration( getGlobalConfiguration() );
-            }
+            final ConfigItem<String> supportRuntimeDeployConfigItem = new ConfigItem<>();
+            supportRuntimeDeployConfigItem.setName( "support.runtime.deploy" );
+            supportRuntimeDeployConfigItem.setValue( "true" );
+            setupConfigurationGroup( ConfigType.GLOBAL, GLOBAL_SETTINGS, getGlobalConfiguration(), supportRuntimeDeployConfigItem );
 
         } catch ( Exception e ) {
             throw new RuntimeException( "Error when starting Form Modeler " + e.getMessage(), e );
