@@ -53,7 +53,7 @@ public class NewFormDefinitionHandler extends DefaultNewResourceHandler {
     private ErrorPopupPresenter errorPopup;
 
     @Inject
-    public NewFormDefinitionlHandler(
+    public NewFormDefinitionHandler(
             Caller<FormModelerService> modelerService,
             PlaceManager placeManager,
             FormDefinitionResourceType resourceType,
