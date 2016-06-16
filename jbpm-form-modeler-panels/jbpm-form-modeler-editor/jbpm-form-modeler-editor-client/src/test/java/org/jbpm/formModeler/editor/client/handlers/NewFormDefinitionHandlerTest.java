@@ -39,7 +39,7 @@ import org.uberfire.workbench.type.ResourceTypeDefinition;
 @RunWith(GwtMockitoTestRunner.class)
 public class NewFormDefinitionHandlerTest {
 
-    NewFormDefinitionlHandler testedHandler;
+    NewFormDefinitionHandler testedHandler;
 
     @Mock
     FormModelerService fmServiceMock;
@@ -62,7 +62,7 @@ public class NewFormDefinitionHandlerTest {
     @Before
     public void setupMocks() {
         CallerMock<FormModelerService> fmServiceCaller = new CallerMock<>(fmServiceMock);
-        testedHandler = new NewFormDefinitionlHandler(fmServiceCaller, pManagerMock, null, eventMock, errorPopupMock) {
+        testedHandler = new NewFormDefinitionHandler(fmServiceCaller, pManagerMock, null, eventMock, errorPopupMock) {
 
             @Override
             protected String buildFileName(String baseFileName, ResourceTypeDefinition resourceType) {
