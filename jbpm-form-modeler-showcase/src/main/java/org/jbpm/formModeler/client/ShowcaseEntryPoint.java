@@ -21,13 +21,12 @@ import javax.inject.Inject;
 
 import com.google.gwt.user.client.Window;
 import org.guvnor.common.services.shared.config.AppConfigService;
-import org.guvnor.common.services.shared.security.KieWorkbenchACL;
 import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.ioc.client.api.EntryPoint;
 import org.jbpm.formModeler.client.i18n.Constants;
 import org.jbpm.formModeler.client.resources.StandaloneResources;
-import org.kie.workbench.common.services.shared.security.KieWorkbenchSecurityService;
 import org.kie.workbench.common.services.shared.service.PlaceManagerActivityService;
+import org.kie.workbench.common.workbench.client.PerspectiveIds;
 import org.kie.workbench.common.workbench.client.entrypoint.DefaultWorkbenchEntryPoint;
 import org.kie.workbench.common.workbench.client.menu.DefaultWorkbenchFeaturesMenusHelper;
 import org.uberfire.client.mvp.AbstractWorkbenchPerspectiveActivity;
@@ -52,19 +51,17 @@ public class ShowcaseEntryPoint extends DefaultWorkbenchEntryPoint {
 
     @Inject
     public ShowcaseEntryPoint( final Caller<AppConfigService> appConfigService,
-                               final Caller<KieWorkbenchSecurityService> kieSecurityService,
                                final Caller<PlaceManagerActivityService> pmas,
-                               final KieWorkbenchACL kieACL,
                                final ActivityBeansCache activityBeansCache,
                                final DefaultWorkbenchFeaturesMenusHelper menusHelper,
                                final WorkbenchMenuBarPresenter menuBar,
                                final PlaceManager placeManager ) {
-        super( appConfigService, kieSecurityService, pmas, kieACL, activityBeansCache );
+        super( appConfigService, pmas, activityBeansCache );
         this.menusHelper = menusHelper;
         this.menuBar = menuBar;
         this.placeManager = placeManager;
 
-        addCustomSecurityLoadedCallback( policy -> StandaloneResources.INSTANCE.CSS().ensureInjected() );
+        StandaloneResources.INSTANCE.CSS().ensureInjected();
     }
 
     @Override
@@ -93,7 +90,7 @@ public class ShowcaseEntryPoint extends DefaultWorkbenchEntryPoint {
     protected List<? extends MenuItem> getAuthoringViews() {
         final List<MenuItem> result = new ArrayList<MenuItem>( 1 );
 
-        result.add( MenuFactory.newSimpleItem( constants.project_authoring() ).withRoles( kieACL.getGrantedRoles( "wb_project_authoring" ) ).place( new DefaultPlaceRequest( "AuthoringPerspective" ) ).endMenu().build().getItems().get( 0 ) );
+        result.add( MenuFactory.newSimpleItem( constants.project_authoring() ).place( new DefaultPlaceRequest(PerspectiveIds.AUTHORING ) ).endMenu().build().getItems().get( 0 ) );
 
         return result;
     }

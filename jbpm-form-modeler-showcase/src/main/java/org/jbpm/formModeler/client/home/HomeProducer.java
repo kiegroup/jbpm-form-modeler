@@ -22,20 +22,18 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import com.google.gwt.core.client.GWT;
-import org.guvnor.common.services.shared.security.AppRoles;
 import org.kie.workbench.common.screens.home.model.HomeModel;
 import org.kie.workbench.common.screens.home.model.ModelUtils;
-import org.kie.workbench.common.screens.home.model.Section;
+import org.kie.workbench.common.screens.home.model.SectionEntry;
+import org.kie.workbench.common.workbench.client.PerspectiveIds;
 import org.uberfire.client.mvp.PlaceManager;
-import org.uberfire.mvp.Command;
+import org.uberfire.workbench.model.ActivityResourceType;
 
 /**
  * Producer method for the Home Page content
  */
 @ApplicationScoped
 public class HomeProducer {
-
-    private static String[] PERMISSIONS_ADMIN = new String[]{ AppRoles.ADMIN.getName() };
 
     private HomeModel model;
 
@@ -53,15 +51,11 @@ public class HomeProducer {
                                                               "Design your forms",
                                                               url + "/images/HandHome.jpg" ) );
 
-        final Section s1 = new Section( "Discover and Author:" );
-        s1.addEntry( ModelUtils.makeSectionEntry( "Author",
-                                                  new Command() {
+        final SectionEntry s1 = ModelUtils.makeSectionEntry( "Discover and Author:" );
+        s1.addChild( ModelUtils.makeSectionEntry( "Author",
+                () -> placeManager.goTo( PerspectiveIds.AUTHORING ),
+                PerspectiveIds.AUTHORING, ActivityResourceType.PERSPECTIVE) );
 
-                                                      @Override
-                                                      public void execute() {
-                                                          placeManager.goTo( "AuthoringPerspective" );
-                                                      }
-                                                  } ) );
         model.addSection( s1 );
     }
 
@@ -69,5 +63,4 @@ public class HomeProducer {
     public HomeModel getModel() {
         return model;
     }
-
 }
