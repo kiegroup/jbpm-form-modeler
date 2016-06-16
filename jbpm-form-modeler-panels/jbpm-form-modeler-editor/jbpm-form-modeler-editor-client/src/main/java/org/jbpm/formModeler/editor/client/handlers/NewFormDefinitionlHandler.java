@@ -40,7 +40,7 @@ import org.uberfire.workbench.events.NotificationEvent;
 import org.uberfire.workbench.type.ResourceTypeDefinition;
 
 @ApplicationScoped
-public class NewFormDefinitionlHandler extends DefaultNewResourceHandler {
+public class NewFormDefinitionHandler extends DefaultNewResourceHandler {
 
     private Caller<FormModelerService> modelerService;
 
