@@ -15,32 +15,27 @@
 
 package org.jbpm.formModeler.kie.services.form.provider;
 
-import org.jbpm.formModeler.kie.services.FormRenderContentMarshallerManager;
-import org.jbpm.kie.services.impl.FormManagerService;
-import org.jbpm.kie.services.impl.form.provider.AbstractFormProvider;
-import org.jbpm.services.api.RuntimeDataService;
-import org.jbpm.services.api.model.ProcessDefinition;
-import org.kie.internal.task.api.ContentMarshallerContext;
-import org.slf4j.Logger;
-import org.jbpm.formModeler.api.client.FormRenderContext;
-import org.jbpm.formModeler.api.client.FormRenderContextManager;
-import org.jbpm.formModeler.api.model.Form;
-import org.jbpm.formModeler.core.config.FormSerializationManager;
-import org.kie.api.task.model.Task;
-
-import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import javax.inject.Inject;
+
+import org.jbpm.formModeler.api.client.FormRenderContext;
+import org.jbpm.formModeler.api.client.FormRenderContextManager;
+import org.jbpm.formModeler.api.model.Form;
+import org.jbpm.formModeler.core.config.FormSerializationManager;
+import org.jbpm.formModeler.kie.services.FormRenderContentMarshallerManager;
+import org.jbpm.formModeler.kie.services.form.ProcessDefinition;
+import org.jbpm.formModeler.kie.services.form.FormManagerService;
+import org.jbpm.formModeler.kie.services.form.TaskDefinition;
+import org.kie.internal.task.api.ContentMarshallerContext;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class FormModelerFormProvider extends AbstractFormProvider {
 
     protected Logger log = LoggerFactory.getLogger(FormModelerFormProvider.class);
-
-    @Inject
-    private RuntimeDataService dataService;
 
     @Inject
     private FormSerializationManager formSerializationManager;
@@ -75,14 +70,14 @@ public class FormModelerFormProvider extends AbstractFormProvider {
     }
 
     @Override
-    public String render(String name, Task task, ProcessDefinition process, Map<String, Object> renderContext) {
+    public String render(String name, TaskDefinition task, ProcessDefinition process, Map<String, Object> renderContext) {
         if (task == null) return null;
 
         String lookupName = getTaskFormName( task );
 
         if ( lookupName == null || lookupName.isEmpty() || !lookupName.endsWith( formExtension )) return null;
 
-        String templateString = formManagerService.getFormByKey(task.getTaskData().getDeploymentId(), lookupName);
+        String templateString = formManagerService.getFormByKey(task.getDeploymentId(), lookupName);
 
         if (templateString != null && !templateString.isEmpty())
             return renderTaskForm(task, new ByteArrayInputStream( templateString.getBytes() ), renderContext);
@@ -90,7 +85,7 @@ public class FormModelerFormProvider extends AbstractFormProvider {
         return null;
     }
 
-    protected String renderTaskForm(Task task, InputStream template, Map<String, Object> renderContext) {
+    protected String renderTaskForm(TaskDefinition task, InputStream template, Map<String, Object> renderContext) {
         String result = null;
         try {
             Form form = formSerializationManager.loadFormFromXML(template);
@@ -98,8 +93,12 @@ public class FormModelerFormProvider extends AbstractFormProvider {
             Map inputs = new HashMap();
 
             Map outputs;
-            if (task.getTaskData().getOutputContentId() == -1) outputs = new HashMap();
-            else outputs = (Map) renderContext.get("outputs");
+            if (!task.isOutputIncluded()){
+                outputs = new HashMap();
+            }
+            else {
+                outputs = (Map) renderContext.get("outputs");
+            }
 
             Map m = (Map) renderContext.get("inputs");
             if (m != null) inputs.putAll(m);
@@ -107,10 +106,10 @@ public class FormModelerFormProvider extends AbstractFormProvider {
             inputs.put("task", task);
 
             // Adding forms to context while forms are'nt available on marshaller classloader
-            FormRenderContext context = formRenderContextManager.newContext(form, task.getTaskData().getDeploymentId(), inputs, outputs);
+            FormRenderContext context = formRenderContextManager.newContext(form, task.getDeploymentId(), inputs, outputs);
             formRenderContentMarshaller.addContentMarshaller(context.getUID(), (ContentMarshallerContext) renderContext.get("marshallerContext"));
 
-            String status = task.getTaskData().getStatus().name();
+            String status = task.getStatus();
             boolean readonly = !"InProgress".equals(status);
             context.setReadonly(readonly);
             result = context.getUID();
