@@ -41,10 +41,7 @@ import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
 import org.uberfire.ext.editor.commons.client.file.CommandWithFileNameAndCommitMessage;
-import org.uberfire.ext.editor.commons.client.file.DeletePopup;
 import org.uberfire.ext.editor.commons.client.file.FileNameAndCommitMessage;
-import org.uberfire.ext.editor.commons.client.file.RenamePopup;
-import org.uberfire.ext.editor.commons.client.file.SaveOperationService;
 import org.uberfire.ext.editor.commons.client.menu.MenuItems;
 import org.uberfire.ext.editor.commons.client.validation.DefaultFileNameValidator;
 import org.uberfire.ext.editor.commons.service.support.SupportsCopy;
@@ -135,27 +132,27 @@ public class FormModelerPanelPresenter extends KieEditor {
     }
 
     public void save() {
-        new SaveOperationService().save( versionRecordManager.getCurrentPath(),
-                                         new ParameterizedCommand<String>() {
-                                             @Override
-                                             public void execute( final String commitMessage ) {
-                                                 busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Saving() );
-                                                 try {
-                                                     modelerService.call( new RemoteCallback<Path>() {
-                                                         @Override
-                                                         public void callback( Path formPath ) {
-                                                             busyIndicatorView.hideBusyIndicator();
-                                                             notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_successfully_saved( versionRecordManager.getCurrentPath().getFileName() ), NotificationEvent.NotificationType.SUCCESS ) );
-                                                         }
-                                                     } ).save( versionRecordManager.getCurrentPath(), content.getContextTO(), metadata, commitMessage );
-                                                 } catch ( Exception e ) {
-                                                     notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_cannot_save( versionRecordManager.getCurrentPath().getFileName() ), NotificationEvent.NotificationType.ERROR ) );
-                                                 } finally {
+        savePopUpPresenter.show( versionRecordManager.getCurrentPath(),
+                                 new ParameterizedCommand<String>() {
+                                     @Override
+                                     public void execute( final String commitMessage ) {
+                                         busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Saving() );
+                                         try {
+                                             modelerService.call( new RemoteCallback<Path>() {
+                                                 @Override
+                                                 public void callback( Path formPath ) {
                                                      busyIndicatorView.hideBusyIndicator();
+                                                     notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_successfully_saved( versionRecordManager.getCurrentPath().getFileName() ), NotificationEvent.NotificationType.SUCCESS ) );
                                                  }
-                                             }
+                                             } ).save( versionRecordManager.getCurrentPath(), content.getContextTO(), metadata, commitMessage );
+                                         } catch ( Exception e ) {
+                                             notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_cannot_save( versionRecordManager.getCurrentPath().getFileName() ), NotificationEvent.NotificationType.ERROR ) );
+                                         } finally {
+                                             busyIndicatorView.hideBusyIndicator();
                                          }
-                                       );
+                                     }
+                                 }
+                               );
         concurrentUpdateSessionInfo = null;
     }
 
@@ -170,7 +167,7 @@ public class FormModelerPanelPresenter extends KieEditor {
     }
 
     protected void onDelete() {
-        final DeletePopup popup = new DeletePopup( new ParameterizedCommand<String>() {
+        deletePopUpPresenter.show( new ParameterizedCommand<String>() {
             @Override
             public void execute( final String comment ) {
                 busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Deleting() );
@@ -186,8 +183,6 @@ public class FormModelerPanelPresenter extends KieEditor {
                 }, new HasBusyIndicatorDefaultErrorCallback( busyIndicatorView ) ).delete( versionRecordManager.getCurrentPath(), comment );
             }
         } );
-
-        popup.show();
     }
 
     @OnClose
