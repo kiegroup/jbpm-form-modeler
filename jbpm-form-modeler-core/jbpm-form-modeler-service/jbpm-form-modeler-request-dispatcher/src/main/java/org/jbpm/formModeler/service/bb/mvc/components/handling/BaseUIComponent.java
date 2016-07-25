@@ -30,20 +30,18 @@ public abstract class BaseUIComponent extends UIBeanHandler {
     public abstract void doStart(CommandRequest request);
 
     @Inject
-    private LocaleManager localeManager;
+    protected LocaleManager localeManager;
 
     @Override
     public synchronized CommandResponse handle(CommandRequest request, String action) throws Exception {
-        CurrentComponentRenderer componentRenderer = CurrentComponentRenderer.lookup();
+        CurrentComponentRenderer componentRenderer = getCurrentComponentRenderer();
 
-        componentRenderer.setCurrentComponent(this);
-        setEnabledForActionHandling(true);
+        componentRenderer.setCurrentComponent( this );
+        setEnabledForActionHandling( true );
 
-        CommandResponse response = super.handle(request, action);
-        String ajaxParam = request.getRequestObject().getParameter("ajaxAction");
-        boolean isAjax = ajaxParam != null && Boolean.valueOf(ajaxParam).booleanValue();
+        CommandResponse response = super.handle( request, action );
 
-        if (firstTime || !isAjax) {
+        if ( firstTime ) {
             response = null;
             firstTime = false;
         }
@@ -51,9 +49,17 @@ public abstract class BaseUIComponent extends UIBeanHandler {
         return response;
     }
 
-    public void actionStart(CommandRequest request) {
+    protected CurrentComponentRenderer getCurrentComponentRenderer() {
+        return CurrentComponentRenderer.lookup();
+    }
+
+    public void actionStart( CommandRequest request ) {
         firstTime = true;
-        doStart(request);
-        localeManager.setCurrentLang(request.getRequestObject().getParameter("locale"));
+        doStart( request );
+        localeManager.setCurrentLang( request.getRequestObject().getParameter("locale") );
+    }
+
+    public boolean isFirstTime() {
+        return firstTime;
     }
 }
