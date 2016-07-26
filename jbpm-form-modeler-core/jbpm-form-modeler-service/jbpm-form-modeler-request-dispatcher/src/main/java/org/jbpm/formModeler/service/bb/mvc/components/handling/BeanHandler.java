@@ -149,11 +149,18 @@ public abstract class BeanHandler implements Serializable {
             afterInvokeAction(request, action);
 
             if (response == null) {
-                response = new ShowScreenResponse(CurrentComponentRenderer.lookup().getCurrentComponent().getBaseComponentJSP());
+                response = new ShowScreenResponse( getCurrentComponentRenderer().getCurrentComponent().getBaseComponentJSP() );
             }
 
             if (!(response instanceof SendStreamResponse)) {
                 setEnabledForActionHandling(false);
+
+                String ajaxParam = request.getRequestObject().getParameter("ajaxAction");
+                boolean isAjax = ajaxParam != null && Boolean.valueOf(ajaxParam).booleanValue();
+
+                if ( !isAjax ) {
+                    response = null;
+                }
             }
 
             if (log.isDebugEnabled()) log.debug("Leaving handle " + getBeanName() + " - " + action);
@@ -162,6 +169,10 @@ public abstract class BeanHandler implements Serializable {
             log.warn("Error handling action '" + action + "': ", ex);
         }
         return null;
+    }
+
+    protected CurrentComponentRenderer getCurrentComponentRenderer() {
+        return CurrentComponentRenderer.lookup();
     }
 
     protected void beforeInvokeAction(CommandRequest request, String action) throws Exception {
