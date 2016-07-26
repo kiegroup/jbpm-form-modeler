@@ -18,7 +18,7 @@ package org.jbpm.formModeler.service.bb.mvc.controller.responses;
 public class ShowCurrentScreenResponse extends ShowScreenResponse {
 
     public ShowCurrentScreenResponse() {
-        super("/controllerResponse.jsp");
+        super( "/formModeler/controllerResponse.jsp" );
     }
 
     public ShowCurrentScreenResponse(String jsp) {
