@@ -142,7 +142,7 @@
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
-
+   
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-form-modeler-service-core</artifactId>
@@ -162,6 +162,12 @@
     <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-api-mockito</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>simple-jndi</groupId>
+      <artifactId>simple-jndi</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
