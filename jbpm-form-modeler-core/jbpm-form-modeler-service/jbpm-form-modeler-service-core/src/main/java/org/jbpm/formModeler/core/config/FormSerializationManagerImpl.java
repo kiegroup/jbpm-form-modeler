@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -66,7 +67,7 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
     public static final String ATTR_VALUE = "value";
 
     @Inject
-    private DataHolderManager dataHolderManager;
+    protected DataHolderManager dataHolderManager;
 
     @Inject
     private LocaleManager localeManager;

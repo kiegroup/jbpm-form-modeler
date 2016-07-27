@@ -33,7 +33,7 @@ public class BasicTypeHolderBuilder implements RangedDataHolderBuilder {
     public static final String HOLDER_TYPE_BASIC_TYPE = "basicType";
 
     @Inject
-    private FieldTypeManager fieldTypeManager;
+    protected FieldTypeManager fieldTypeManager;
 
     @Override
     public String getId() {

@@ -83,6 +83,14 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
     }
 
     @Override
+    public String getClassName() {
+       if( this.basicFieldType != null ) {
+           return this.basicFieldType.getFieldClass();
+       }
+       return null;
+    }
+
+    @Override
     public void writeValue(Object destination, String propName, Object value) throws Exception {
     }
 
@@ -128,6 +136,7 @@ public class BasicTypeDataHolder extends DefaultDataHolder  {
 
     @Override
     public String getInfo() {
+        // according to the logic in getClassName(), this could potentially throw a NPE
         return basicFieldType.getFieldClass();
     }
 

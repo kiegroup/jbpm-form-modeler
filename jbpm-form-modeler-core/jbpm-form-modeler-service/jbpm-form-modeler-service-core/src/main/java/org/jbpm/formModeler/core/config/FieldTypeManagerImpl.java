@@ -67,7 +67,7 @@ public class FieldTypeManagerImpl implements FieldTypeManager {
     protected FieldType customType = new FieldType();
 
     @PostConstruct
-    protected void init() {
+    public void init() {
 
         fieldTypes = new ArrayList<FieldType>();
         decoratorTypes = new ArrayList<FieldType>();

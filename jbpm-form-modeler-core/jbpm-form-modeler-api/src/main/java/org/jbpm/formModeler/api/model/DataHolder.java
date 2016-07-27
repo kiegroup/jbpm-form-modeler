@@ -52,4 +52,6 @@ public interface DataHolder extends Comparable, Serializable {
     boolean containsBinding(String bindingString);
     boolean isAssignableValue(Object value);
     boolean isAssignableForField(Field field);
+    
+    String getClassName();
 }
