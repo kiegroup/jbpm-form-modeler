@@ -15,6 +15,7 @@
  */
 package org.jbpm.formModeler.core.model;
 
+import java.io.ObjectInputStream.GetField;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -63,8 +64,16 @@ public class PojoDataHolder extends DefaultDataHolder  {
         this.inputId = inputId;
         this.outputId = outputId;
         this.className = className;
-        fieldTypeManager = (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
+        fieldTypeManager = getFieldTypeManagerInstance();
         setRenderColor(renderColor);
+    }
+
+    /**
+     * Why? So that we can override this method with a static mock during (non-CDI) testing.
+     * @return The (CDI) {@link FieldTypeManager} implementation instance
+     */
+    public static FieldTypeManager getFieldTypeManagerInstance() {
+        return (FieldTypeManager) CDIBeanLocator.getBeanByType(FieldTypeManager.class);
     }
 
     @Override
@@ -85,6 +94,7 @@ public class PojoDataHolder extends DefaultDataHolder  {
         this.outputId = outputId;
     }
 
+    @Override
     public String getClassName() {
         return className;
     }

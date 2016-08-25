@@ -17,6 +17,7 @@ package org.jbpm.formModeler.server.impl;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
@@ -24,14 +25,10 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.kie.workbench.common.services.refactoring.model.index.terms.ProjectRootPathIndexTerm;
 import org.uberfire.ext.metadata.backend.lucene.LuceneConfig;
 import org.uberfire.ext.metadata.backend.lucene.LuceneConfigBuilder;
 import org.uberfire.ext.metadata.backend.lucene.analyzer.FilenameAnalyzer;
-import org.kie.workbench.common.services.refactoring.backend.server.indexing.RuleAttributeNameAnalyzer;
-import org.kie.workbench.common.services.refactoring.model.index.terms.ProjectRootPathIndexTerm;
-import org.kie.workbench.common.services.refactoring.model.index.terms.RuleIndexTerm;
-
-import static org.apache.lucene.util.Version.*;
 
 @ApplicationScoped
 @Alternative
@@ -57,8 +54,6 @@ public class LuceneConfigProducer {
 
     private Map<String, Analyzer> getAnalyzers() {
         return new HashMap<String, Analyzer>() {{
-            put( RuleIndexTerm.TERM,
-                 new RuleAttributeNameAnalyzer() );
             put( ProjectRootPathIndexTerm.TERM,
                  new FilenameAnalyzer() );
         }};

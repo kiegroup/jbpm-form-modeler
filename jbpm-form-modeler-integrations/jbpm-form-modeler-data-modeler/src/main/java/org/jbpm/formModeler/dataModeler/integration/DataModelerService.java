@@ -52,20 +52,17 @@ public class DataModelerService implements RangedDataHolderBuilder {
     private Logger log = LoggerFactory.getLogger( DataModelerService.class );
 
     @Inject
-    private org.kie.workbench.common.screens.datamodeller.service.DataModelerService dataModelerService;
+    protected org.kie.workbench.common.screens.datamodeller.service.DataModelerService dataModelerService;
 
     @Inject
     private LRUBuilderCache builderCache;
 
     @Inject
-    private KieProjectService projectService;
-
-    @Inject
-    private POMService pomService;
+    protected KieProjectService projectService;
 
     @Inject
     @Named("ioStrategy")
-    private IOService ioService;
+    protected IOService ioService;
 
     @Override
     public Map<String, String> getHolderSources( String path ) {
@@ -111,7 +108,7 @@ public class DataModelerService implements RangedDataHolderBuilder {
         return dataHolder;
     }
 
-    private Class findHolderClass( String className,
+    protected Class findHolderClass( String className,
                                    String path ) {
         ClassLoader classLoader = getProjectClassLoader( projectService.resolveProject( getPath( path ) ) );
         try {

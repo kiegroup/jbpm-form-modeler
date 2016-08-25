@@ -34,12 +34,13 @@ import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuilder;
 public class DataHolderManagerImpl implements DataHolderManager {
 
     @Inject
-    private Instance<DataHolderBuilder> holderBuilders;
+    protected Instance<DataHolderBuilder> holderBuilders;
+
     private Set<DataHolderBuilder> builders;
     private Map<String, String> colors;
 
     @PostConstruct
-    protected void initializeHolders() {
+    public void initializeHolders() {
         colors = new HashMap<String, String>();
 
         colors.put("#FF8881", "holder_color_red");

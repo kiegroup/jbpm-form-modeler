@@ -17,36 +17,22 @@ package org.jbpm.formModeler.panels.modeler.backend.indexing;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.guvnor.common.services.project.model.Package;
 import org.guvnor.common.services.project.model.Project;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.config.FormSerializationManager;
 import org.jbpm.formModeler.editor.type.FormResourceTypeDefinition;
-import org.uberfire.ext.metadata.engine.Indexer;
-import org.uberfire.ext.metadata.model.KObject;
-import org.uberfire.ext.metadata.model.KObjectKey;
+import org.kie.workbench.common.services.refactoring.backend.server.indexing.AbstractFileIndexer;
 import org.kie.workbench.common.services.refactoring.backend.server.indexing.DefaultIndexBuilder;
-import org.kie.workbench.common.services.refactoring.backend.server.util.KObjectUtil;
 import org.kie.workbench.common.services.shared.project.KieProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
-import org.uberfire.io.IOService;
 import org.uberfire.java.nio.file.Path;
 
 @ApplicationScoped
-public class FormIndexer implements Indexer {
-
-    private static final Logger logger = LoggerFactory.getLogger( FormIndexer.class );
-
-    @Inject
-    @Named("ioStrategy")
-    protected IOService ioService;
-
-    @Inject
-    protected KieProjectService projectService;
+public class FormIndexer extends AbstractFileIndexer {
 
     @Inject
     protected FormSerializationManager formSerializationManager;
@@ -60,38 +46,20 @@ public class FormIndexer implements Indexer {
     }
 
     @Override
-    public KObject toKObject( final Path path ) {
-        KObject index = null;
+    public DefaultIndexBuilder fillIndexBuilder( final Path path ) throws Exception {
+        Form form = formSerializationManager.loadFormFromXML( ioService.readAllString( path ).trim(),
+                                                              path.toUri().toString() );
 
-        try {
-            Form form = formSerializationManager.loadFormFromXML( ioService.readAllString( path ).trim(),
-                                                                  path.toUri().toString() );
-
-            final Project project = projectService.resolveProject( Paths.convert( path ) );
-            final Package pkg = projectService.resolvePackage( Paths.convert( path ) );
-
-            final DefaultIndexBuilder builder = new DefaultIndexBuilder( project,
-                                                                         pkg );
-
-            FormVisitor formVisitor = new FormVisitor( builder,
-                                                       form );
-
-            formVisitor.visit();
-
-            index = KObjectUtil.toKObject( path,
-                                           builder.build() );
-
-        } catch ( Exception e ) {
-            logger.error( "Unable to index '" + path.toUri().toString() + "'.",
-                          e.getMessage() );
+        final DefaultIndexBuilder builder = getIndexBuilder(path);
+        if( builder == null ) {
+            return null;
         }
 
-        return index;
-    }
+        FormIndexVisitor formIndexVisitor = new FormIndexVisitor(form);
+        formIndexVisitor.visit();
+        addReferencedResourcesToIndexBuilder(builder, formIndexVisitor);
 
-    @Override
-    public KObjectKey toKObjectKey( final Path path ) {
-        return KObjectUtil.toKObjectKey( path );
+        return builder;
     }
 
 }
