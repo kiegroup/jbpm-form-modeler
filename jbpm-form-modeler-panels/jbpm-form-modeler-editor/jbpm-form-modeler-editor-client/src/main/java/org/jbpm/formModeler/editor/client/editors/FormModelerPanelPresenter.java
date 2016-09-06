@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.IsWidget;
 import org.guvnor.common.services.shared.metadata.MetadataService;
 import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.RemoteCallback;
-import org.jboss.errai.ioc.client.container.SyncBeanManager;
 import org.jbpm.formModeler.editor.client.resources.i18n.Constants;
 import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
 import org.jbpm.formModeler.editor.model.FormEditorContextTO;
@@ -39,15 +38,9 @@ import org.uberfire.client.annotations.WorkbenchMenu;
 import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.mvp.PlaceManager;
-import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
-import org.uberfire.ext.editor.commons.client.file.CommandWithFileNameAndCommitMessage;
-import org.uberfire.ext.editor.commons.client.file.FileNameAndCommitMessage;
-import org.uberfire.ext.editor.commons.client.menu.MenuItems;
 import org.uberfire.ext.editor.commons.client.validation.DefaultFileNameValidator;
-import org.uberfire.ext.editor.commons.service.support.SupportsCopy;
 import org.uberfire.ext.editor.commons.service.support.SupportsDelete;
 import org.uberfire.ext.editor.commons.service.support.SupportsRename;
-import org.uberfire.ext.widgets.common.client.callbacks.HasBusyIndicatorDefaultErrorCallback;
 import org.uberfire.ext.widgets.common.client.common.BusyIndicatorView;
 import org.uberfire.lifecycle.OnClose;
 import org.uberfire.lifecycle.OnStartup;
@@ -63,38 +56,32 @@ import org.uberfire.workbench.type.FileNameUtil;
 public class FormModelerPanelPresenter extends KieEditor {
 
     @Inject
-    private SyncBeanManager iocBeanManager;
+    protected PlaceManager placeManager;
 
     @Inject
-    private PlaceManager placeManager;
-
-    private FormModelerPanelView view;
+    protected Caller<FormModelerService> modelerService;
 
     @Inject
-    private Caller<FormModelerService> modelerService;
+    protected BusyIndicatorView busyIndicatorView;
 
     @Inject
-    private BusyIndicatorView busyIndicatorView;
+    protected Event<NotificationEvent> notification;
 
     @Inject
-    private Event<NotificationEvent> notification;
+    protected Caller<MetadataService> metadataService;
 
     @Inject
-    private Event<ChangeTitleWidgetEvent> changeTitleNotification;
+    protected FormDefinitionResourceType resourceType;
 
     @Inject
-    private Caller<MetadataService> metadataService;
+    protected DefaultFileNameValidator fileNameValidator;
 
     @Inject
-    private FormDefinitionResourceType resourceType;
+    protected FileMenuBuilder menuBuilder;
 
-    @Inject
-    private DefaultFileNameValidator fileNameValidator;
+    protected FormModelerPanelView view;
 
-    private FormModelerContent content;
-
-    @Inject
-    private FileMenuBuilder menuBuilder;
+    protected FormModelerContent content;
 
     @Inject
     public FormModelerPanelPresenter( FormModelerPanelView baseView ) {
@@ -104,7 +91,7 @@ public class FormModelerPanelPresenter extends KieEditor {
 
     @OnStartup
     public void onStartup( final ObservablePath path,
-            final PlaceRequest place ) {
+                           final PlaceRequest place ) {
 
         init( path, place, resourceType );
     }
@@ -136,24 +123,31 @@ public class FormModelerPanelPresenter extends KieEditor {
                                  new ParameterizedCommand<String>() {
                                      @Override
                                      public void execute( final String commitMessage ) {
-                                         busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Saving() );
-                                         try {
-                                             modelerService.call( new RemoteCallback<Path>() {
-                                                 @Override
-                                                 public void callback( Path formPath ) {
-                                                     busyIndicatorView.hideBusyIndicator();
-                                                     notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_successfully_saved( versionRecordManager.getCurrentPath().getFileName() ), NotificationEvent.NotificationType.SUCCESS ) );
-                                                 }
-                                             } ).save( versionRecordManager.getCurrentPath(), content.getContextTO(), metadata, commitMessage );
-                                         } catch ( Exception e ) {
-                                             notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_cannot_save( versionRecordManager.getCurrentPath().getFileName() ), NotificationEvent.NotificationType.ERROR ) );
-                                         } finally {
-                                             busyIndicatorView.hideBusyIndicator();
-                                         }
+                                         runSaveCommand( commitMessage );
                                      }
                                  }
-                               );
+        );
         concurrentUpdateSessionInfo = null;
+    }
+
+    protected void runSaveCommand( final String commitMessage ) {
+        busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Saving() );
+        try {
+            modelerService.call( new RemoteCallback<Path>() {
+                @Override
+                public void callback( Path formPath ) {
+                    busyIndicatorView.hideBusyIndicator();
+                    notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_successfully_saved( versionRecordManager.getCurrentPath().getFileName() ), NotificationEvent.NotificationType.SUCCESS ) );
+
+                    versionRecordManager.reloadVersions( versionRecordManager.getCurrentPath() );
+
+                }
+            } ).save( versionRecordManager.getCurrentPath(), content.getContextTO(), metadata, commitMessage );
+        } catch ( Exception e ) {
+            notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_cannot_save( versionRecordManager.getCurrentPath().getFileName() ), NotificationEvent.NotificationType.ERROR ) );
+        } finally {
+            busyIndicatorView.hideBusyIndicator();
+        }
     }
 
     @Override
@@ -164,25 +158,6 @@ public class FormModelerPanelPresenter extends KieEditor {
     @Override
     protected Caller<? extends SupportsRename> getRenameServiceCaller() {
         return modelerService;
-    }
-
-    protected void onDelete() {
-        deletePopUpPresenter.show( new ParameterizedCommand<String>() {
-            @Override
-            public void execute( final String comment ) {
-                busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Deleting() );
-                modelerService.call( new RemoteCallback<Void>() {
-
-                    @Override
-                    public void callback( final Void response ) {
-                        notification.fire( new NotificationEvent( CommonConstants.INSTANCE.ItemDeletedSuccessfully(), NotificationEvent.NotificationType.SUCCESS ) );
-                        placeManager.closePlace( place );
-                        onClose();
-                        busyIndicatorView.hideBusyIndicator();
-                    }
-                }, new HasBusyIndicatorDefaultErrorCallback( busyIndicatorView ) ).delete( versionRecordManager.getCurrentPath(), comment );
-            }
-        } );
     }
 
     @OnClose
@@ -207,10 +182,6 @@ public class FormModelerPanelPresenter extends KieEditor {
     public String getTitleText() {
         String fileName = FileNameUtil.removeExtension( versionRecordManager.getCurrentPath(), resourceType );
         return Constants.INSTANCE.form_modeler_title( fileName );
-    }
-
-    private void disableMenus() {
-        menus.getItemsMap().get( MenuItems.DELETE ).setEnabled( false );
     }
 
     @WorkbenchMenu
