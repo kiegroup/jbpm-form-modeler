@@ -14,8 +14,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-designer-api</artifactId>
+      <groupId>org.kie.workbench.forms</groupId>
+      <artifactId>kie-wb-common-forms-bpmn-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
