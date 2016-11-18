@@ -22,6 +22,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import com.google.gwt.core.client.GWT;
+import org.jbpm.formModeler.client.i18n.Constants;
 import org.kie.workbench.common.screens.home.model.HomeModel;
 import org.kie.workbench.common.screens.home.model.ModelUtils;
 import org.kie.workbench.common.screens.home.model.SectionEntry;
@@ -29,11 +30,15 @@ import org.kie.workbench.common.workbench.client.PerspectiveIds;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.workbench.model.ActivityResourceType;
 
+import static org.kie.workbench.common.workbench.client.PerspectiveIds.LIBRARY;
+
 /**
  * Producer method for the Home Page content
  */
 @ApplicationScoped
 public class HomeProducer {
+
+    private Constants constants = Constants.INSTANCE;
 
     private HomeModel model;
 
@@ -43,18 +48,23 @@ public class HomeProducer {
     @PostConstruct
     public void init() {
         final String url = GWT.getModuleBaseURL();
-        model = new HomeModel( "Welcome to the jBPM Form Modeler" );
-        model.addCarouselEntry( ModelUtils.makeCarouselEntry( "Model",
-                                                              "Create your persistable models",
+        model = new HomeModel( constants.homeTitle() );
+        model.addCarouselEntry( ModelUtils.makeCarouselEntry( constants.model(),
+                                                              constants.modelText(),
                                                               url + "/images/HandHome.jpg" ) );
-        model.addCarouselEntry( ModelUtils.makeCarouselEntry( "Desing",
-                                                              "Design your forms",
+        model.addCarouselEntry( ModelUtils.makeCarouselEntry( constants.design(),
+                                                              constants.designTitle(),
                                                               url + "/images/HandHome.jpg" ) );
 
-        final SectionEntry s1 = ModelUtils.makeSectionEntry( "Discover and Author:" );
-        s1.addChild( ModelUtils.makeSectionEntry( "Author",
+        final SectionEntry s1 = ModelUtils.makeSectionEntry( constants.discoverAndAuthor() );
+        s1.addChild( ModelUtils.makeSectionEntry( constants.authoring(),
                 () -> placeManager.goTo( PerspectiveIds.AUTHORING ),
                 PerspectiveIds.AUTHORING, ActivityResourceType.PERSPECTIVE) );
+
+        s1.addChild( ModelUtils.makeSectionEntry( constants.library(),
+                                                  () -> placeManager.goTo( LIBRARY ),
+                                                  LIBRARY, ActivityResourceType.PERSPECTIVE) );
+
 
         model.addSection( s1 );
     }
