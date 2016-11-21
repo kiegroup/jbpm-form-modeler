@@ -42,4 +42,18 @@ public interface Constants extends Messages {
     String authoring();
 
     String project_authoring();
+
+    String homeTitle();
+
+    String model();
+
+    String modelText();
+
+    String design();
+
+    String designTitle();
+
+    String discoverAndAuthor();
+
+    String library();
 }
