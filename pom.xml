@@ -1,134 +1,187 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
+  <parent>
+    <groupId>org.kie</groupId>
+    <artifactId>kie-parent</artifactId>
+    <version>7.0.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.jbpm</groupId>
+  <artifactId>jbpm-form-modeler</artifactId>
+  <name>jBPM Form Modeler</name>
+  <packaging>pom</packaging>
+
+  <repositories>
+    <!-- Bootstrap repository to locate the parent pom when the parent pom has not been build locally. -->
+    <repository>
+      <id>jboss-public-repository-group</id>
+      <name>JBoss Public Repository Group</name>
+      <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>daily</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <modules>
+    <module>jbpm-form-modeler-core</module>
+    <module>jbpm-form-modeler-integrations</module>
+    <module>jbpm-form-modeler-panels</module>
+    <module>jbpm-form-modeler-field-types</module>
+    <module>jbpm-form-modeler-sample-custom-types</module>
+    <module>jbpm-form-modeler-showcase</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.jboss.errai.bom</groupId>
+        <artifactId>errai-internal-bom</artifactId>
+        <version>${version.org.jboss.errai}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.uberfire</groupId>
+        <artifactId>uberfire-bom</artifactId>
+        <version>${version.org.uberfire}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
         <groupId>org.kie</groupId>
-        <artifactId>kie-parent-with-dependencies</artifactId>
-        <version>7.0.0-SNAPSHOT</version>
-    </parent>
+        <artifactId>kie-bom</artifactId>
+        <version>${version.org.kie}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.drools</groupId>
+        <artifactId>drools-bom</artifactId>
+        <version>${version.org.kie}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jbpm</groupId>
+        <artifactId>jbpm-bom</artifactId>
+        <version>${version.org.kie}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.kie.uberfire</groupId>
+        <artifactId>kie-uberfire-extensions-bom</artifactId>
+        <version>${version.org.kie}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.guvnor</groupId>
+        <artifactId>guvnor-bom</artifactId>
+        <version>${version.org.kie}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
-    <groupId>org.jbpm</groupId>
-    <artifactId>jbpm-form-modeler</artifactId>
-    <name>jBPM Form Modeler</name>
-    <packaging>pom</packaging>
+  <profiles>
+    <profile>
+      <id>fullProfile</id>
+      <activation>
+        <property>
+          <name>full</name>
+        </property>
+      </activation>
+      <modules>
+      </modules>
+    </profile>
+  </profiles>
 
-    <repositories>
-      <!-- Bootstrap repository to locate the parent pom when the parent pom has not been build locally. -->
-      <repository>
-        <id>jboss-public-repository-group</id>
-        <name>JBoss Public Repository Group</name>
-        <url>https://repository.jboss.org/nexus/content/groups/public/</url>
-        <layout>default</layout>
-        <releases>
-          <enabled>true</enabled>
-          <updatePolicy>never</updatePolicy>
-        </releases>
-        <snapshots>
-          <enabled>true</enabled>
-          <updatePolicy>daily</updatePolicy>
-        </snapshots>
-      </repository>
-    </repositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <!-- global configuration to achieve that web module compiled classes and resources
+               will be archived in a .jar in the config.WEB-INF/lib directory insted of the config.WEB-INF/classes -->
+          <archiveClasses>true</archiveClasses>
+          <attachClasses>true</attachClasses>
+          <classesClassifier>classes</classesClassifier>
+          <packagingExcludes>WEB-INF/lib/*-classes.jar</packagingExcludes>
 
-    <modules>
-        <module>jbpm-form-modeler-core</module>
-        <module>jbpm-form-modeler-integrations</module>
-        <module>jbpm-form-modeler-panels</module>
-        <module>jbpm-form-modeler-field-types</module>
-        <module>jbpm-form-modeler-sample-custom-types</module>
-        <module>jbpm-form-modeler-showcase</module>
-    </modules>
+        </configuration>
+      </plugin>
 
-    <profiles>
-        <profile>
-            <id>fullProfile</id>
-            <activation>
-                <property>
-                    <name>full</name>
-                </property>
-            </activation>
-            <modules>
-            </modules>
-        </profile>
-    </profiles>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${basedir}</directory>
+              <includes>
+                <include>.errai/**</include>
+                <include>.niogit/**</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <!-- global configuration to achieve that web module compiled classes and resources
-             will be archived in a .jar in the config.WEB-INF/lib directory insted of the config.WEB-INF/classes
-             -->
-                    <archiveClasses>true</archiveClasses>
-                    <attachClasses>true</attachClasses>
-                    <classesClassifier>classes</classesClassifier>
-                    <packagingExcludes>WEB-INF/lib/*-classes.jar</packagingExcludes>
-
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${basedir}</directory>
-                            <includes>
-                                <include>.errai/**</include>
-                                <include>.niogit/**</include>
-                            </includes>
-                        </fileset>
-                    </filesets>
-                </configuration>
-            </plugin>
-
-            <!-- Zanata - translations -->
-            <plugin>
-                <groupId>com.google.code.maven-replacer-plugin</groupId>
-                <artifactId>replacer</artifactId>
-                <configuration>
-                    <includes>
-                        <include>**/Constants*.properties</include>
-                    </includes>
-                    <excludes>
-                        <exclude>**/ErraiApp.properties</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
-
-            <!-- Zanata - translations -->
-            <plugin>
-                <groupId>org.zanata</groupId>
-                <artifactId>zanata-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>**/ErraiApp.properties</excludes>
-                    <projectConfig>${session.executionRootDirectory}/src/main/config/zanata.xml</projectConfig>
-                    <includes>**/messages.properties,**/Constants.properties,**/forms-resources.properties</includes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>native2ascii-maven-plugin</artifactId>
-                <version>1.0-beta-1</version>
-                <configuration>
-                    <includes>
-                        <include>**/messages*.properties</include>
-                        <include>**/Constants*.properties</include>
-                        <include>**/forms-resources*.properties</include>
-                    </includes>
-                    <workDir>.</workDir>
-                    <tempDir>.</tempDir>
-                </configuration>
-
-            </plugin>
+      <!-- Zanata - translations -->
+      <plugin>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
+        <artifactId>replacer</artifactId>
+        <configuration>
+          <includes>
+            <include>**/Constants*.properties</include>
+          </includes>
+          <excludes>
+            <exclude>**/ErraiApp.properties</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
 
 
-        </plugins>
-    </build>
+      <!-- Zanata - translations -->
+      <plugin>
+        <groupId>org.zanata</groupId>
+        <artifactId>zanata-maven-plugin</artifactId>
+        <configuration>
+          <excludes>**/ErraiApp.properties</excludes>
+          <projectConfig>${session.executionRootDirectory}/src/main/config/zanata.xml</projectConfig>
+          <includes>**/messages.properties,**/Constants.properties,**/forms-resources.properties</includes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>native2ascii-maven-plugin</artifactId>
+        <version>1.0-beta-1</version>
+        <configuration>
+          <includes>
+            <include>**/messages*.properties</include>
+            <include>**/Constants*.properties</include>
+            <include>**/forms-resources*.properties</include>
+          </includes>
+          <workDir>.</workDir>
+          <tempDir>.</tempDir>
+        </configuration>
+
+      </plugin>
+
+
+    </plugins>
+  </build>
 </project>
 
