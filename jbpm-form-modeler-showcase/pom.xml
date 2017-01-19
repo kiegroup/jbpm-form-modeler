@@ -418,8 +418,8 @@
       <artifactId>kie-wb-common-datamodel-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.kie.uberfire</groupId>
-      <artifactId>kie-uberfire-social-activities-api</artifactId>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-social-activities-api</artifactId>
     </dependency>
 
     <dependency>
@@ -774,7 +774,7 @@
             <compileSourcesArtifact>org.jbpm:jbpm-form-modeler-renderer-client</compileSourcesArtifact>
 
             <!-- Social -->
-            <compileSourcesArtifact>org.kie.uberfire:kie-uberfire-social-activities-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-social-activities-api</compileSourcesArtifact>
 
           </compileSourcesArtifacts>
         </configuration>
