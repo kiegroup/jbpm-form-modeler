@@ -15,22 +15,31 @@
  */
 package org.jbpm.formModeler.editor.client.handlers;
 
+import javax.enterprise.event.Event;
+
 import com.google.gwtmockito.GwtMockitoTestRunner;
+import org.guvnor.common.services.project.model.Package;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.junit.Test;
+import org.kie.workbench.common.widgets.client.handlers.NewResourceSuccessEvent;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.uberfire.backend.vfs.ObservablePath;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.mocks.CallerMock;
+import org.uberfire.mvp.impl.PathPlaceRequest;
 import org.uberfire.workbench.events.NotificationEvent;
 import org.guvnor.common.services.shared.exceptions.GenericPortableException;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.kie.workbench.common.widgets.client.handlers.NewResourcePresenter;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
+
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.workbench.widgets.common.ErrorPopupPresenter;
 import org.uberfire.mocks.EventSourceMock;
@@ -40,6 +49,9 @@ import org.uberfire.workbench.type.ResourceTypeDefinition;
 public class NewFormDefinitionHandlerTest {
 
     NewFormDefinitionHandler testedHandler;
+
+    @Mock
+    EventSourceMock<NewResourceSuccessEvent> newResourceSuccessEventMock;
 
     @Mock
     FormModelerService fmServiceMock;
@@ -62,14 +74,20 @@ public class NewFormDefinitionHandlerTest {
     @Before
     public void setupMocks() {
         CallerMock<FormModelerService> fmServiceCaller = new CallerMock<>(fmServiceMock);
-        testedHandler = new NewFormDefinitionHandler(fmServiceCaller, pManagerMock, null, eventMock, errorPopupMock) {
+        testedHandler = spy(new NewFormDefinitionHandler(fmServiceCaller, pManagerMock, null, eventMock, errorPopupMock) {
+            {
+                newResourceSuccessEvent = newResourceSuccessEventMock;
+            }
 
             @Override
             protected String buildFileName(String baseFileName, ResourceTypeDefinition resourceType) {
                 return "not relevant for this test";
             }
 
-        };
+            @Override
+            protected void notifySuccess() {
+            }
+        });
     }
 
     @Test
@@ -80,5 +98,24 @@ public class NewFormDefinitionHandlerTest {
         testedHandler.create(packageMock, "existingForm", nrpresenterMock);
 
         verify(errorPopupMock).showMessage(CommonConstants.INSTANCE.SorryAnItemOfThatNameAlreadyExistsInTheRepositoryPleaseChooseAnother());
+    }
+
+    @Test
+    public void createTest() {
+        final NewResourcePresenter presenter = mock(NewResourcePresenter.class);
+        final ObservablePath path = mock(ObservablePath.class);
+        final PathPlaceRequest pathPlaceRequest = mock(PathPlaceRequest.class);
+
+        doReturn(path).when(fmServiceMock).createForm(any(Path.class), anyString());
+        doReturn(path).when(pathPlaceRequest).getPath();
+        doReturn(pathPlaceRequest).when(testedHandler).createPathPlaceRequest(path);
+
+        testedHandler.create(mock(Package.class),
+                             "",
+                             presenter);
+
+        verify(presenter).complete();
+        verify(newResourceSuccessEventMock, times(1)).fire(any(NewResourceSuccessEvent.class));
+        verify(pManagerMock, times(1)).goTo(pathPlaceRequest);
     }
 }
