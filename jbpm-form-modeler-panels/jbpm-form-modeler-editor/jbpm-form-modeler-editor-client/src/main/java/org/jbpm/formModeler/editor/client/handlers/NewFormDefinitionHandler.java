@@ -29,6 +29,7 @@ import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
 import org.jbpm.formModeler.editor.service.FormModelerService;
 import org.kie.workbench.common.widgets.client.handlers.DefaultNewResourceHandler;
 import org.kie.workbench.common.widgets.client.handlers.NewResourcePresenter;
+import org.kie.workbench.common.widgets.client.handlers.NewResourceSuccessEvent;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.ext.widgets.common.client.common.BusyPopup;
@@ -93,7 +94,8 @@ public class NewFormDefinitionHandler extends DefaultNewResourceHandler {
                 BusyPopup.close();
                 presenter.complete();
                 notifySuccess();
-                PlaceRequest place = new PathPlaceRequest(path, "FormModelerEditor");
+                newResourceSuccessEvent.fire(new NewResourceSuccessEvent(path));
+                PlaceRequest place = createPathPlaceRequest(path);
                 placeManager.goTo(place);
             }
         }, new ErrorCallback<Message>() {
@@ -108,5 +110,9 @@ public class NewFormDefinitionHandler extends DefaultNewResourceHandler {
         }
         ).createForm(pkg.getPackageMainResourcesPath(), 
                 buildFileName(baseFileName, resourceType));
+    }
+
+    PathPlaceRequest createPathPlaceRequest(final Path path) {
+        return new PathPlaceRequest(path, "FormModelerEditor");
     }
 }
