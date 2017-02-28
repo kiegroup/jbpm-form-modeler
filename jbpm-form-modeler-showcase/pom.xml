@@ -422,9 +422,16 @@
       <groupId>org.kie.workbench.screens</groupId>
       <artifactId>kie-wb-common-examples-screen-api</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>org.kie.workbench.screens</groupId>
+      <artifactId>kie-wb-common-examples-screen-backend</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.kie.workbench.screens</groupId>
       <artifactId>kie-wb-common-examples-screen-client</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -434,6 +441,7 @@
     <dependency>
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-social-activities-client</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
