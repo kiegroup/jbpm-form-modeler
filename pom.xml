@@ -14,10 +14,6 @@
   <name>jBPM Form Modeler</name>
   <packaging>pom</packaging>
 
-  <properties>
-    <enforcer.failOnDuplicatedClasses>true</enforcer.failOnDuplicatedClasses>
-  </properties>
-
   <repositories>
     <!-- Bootstrap repository to locate the parent pom when the parent pom has not been build locally. -->
     <repository>
