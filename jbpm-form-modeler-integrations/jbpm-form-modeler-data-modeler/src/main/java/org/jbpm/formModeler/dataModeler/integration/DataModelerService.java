@@ -25,7 +25,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.drools.core.util.StringUtils;
-import org.guvnor.common.services.project.service.POMService;
 import org.jbpm.formModeler.api.model.DataHolder;
 import org.jbpm.formModeler.core.config.builders.dataHolder.DataHolderBuildConfig;
 import org.jbpm.formModeler.core.config.builders.dataHolder.PojoDataHolderBuilder;
@@ -33,7 +32,7 @@ import org.jbpm.formModeler.core.config.builders.dataHolder.RangedDataHolderBuil
 import org.jbpm.formModeler.dataModeler.model.DataModelerDataHolder;
 import org.kie.api.builder.KieModule;
 import org.kie.scanner.KieModuleMetaData;
-import org.kie.workbench.common.services.backend.builder.LRUBuilderCache;
+import org.kie.workbench.common.services.backend.builder.service.BuildInfoService;
 import org.kie.workbench.common.services.datamodeller.core.DataModel;
 import org.kie.workbench.common.services.datamodeller.core.DataObject;
 import org.kie.workbench.common.services.shared.project.KieProject;
@@ -55,7 +54,7 @@ public class DataModelerService implements RangedDataHolderBuilder {
     protected org.kie.workbench.common.screens.datamodeller.service.DataModelerService dataModelerService;
 
     @Inject
-    private LRUBuilderCache builderCache;
+    private BuildInfoService buildInfoService;
 
     @Inject
     protected KieProjectService projectService;
@@ -172,7 +171,7 @@ public class DataModelerService implements RangedDataHolderBuilder {
     }
 
     protected ClassLoader getProjectClassLoader( KieProject project ) {
-        final KieModule module = builderCache.assertBuilder( project ).getKieModuleIgnoringErrors();
+        final KieModule module = buildInfoService.getBuildInfo( project ).getKieModuleIgnoringErrors();
         final ClassLoader classLoader = KieModuleMetaData.Factory.newKieModuleMetaData( module ).getClassLoader();
         return classLoader;
     }
