@@ -259,7 +259,7 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
 
         ft = new FieldType();
         ft.setCode("SelectBox");
-        ft.setFieldClass("java.lang.String");
+        ft.setFieldClass("java.lang.Object");
         ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.select.SelectBoxFieldHandler");
         result.add(ft);
 
