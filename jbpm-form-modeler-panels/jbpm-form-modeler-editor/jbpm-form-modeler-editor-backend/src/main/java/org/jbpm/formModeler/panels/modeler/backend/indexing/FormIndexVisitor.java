@@ -33,7 +33,8 @@ public class FormIndexVisitor extends ResourceReferenceCollector {
     private final Form form;
 
     public FormIndexVisitor(Form form) {
-        this.form = PortablePreconditions.checkNotNull("form", form);
+        this.form = PortablePreconditions.checkNotNull("form",
+                                                       form);
     }
 
     public void visit() {
@@ -41,77 +42,87 @@ public class FormIndexVisitor extends ResourceReferenceCollector {
     }
 
     protected void visit(Form form) {
-        Resource res = addResource(form.getName(), ResourceType.FORM);
+        Resource res = addResource(form.getName(),
+                                   ResourceType.FORM);
 
         for (Field field : form.getFormFields()) {
-            visit(field, res);
+            visit(field,
+                  res);
         }
 
         for (DataHolder dataHolder : form.getHolders()) {
-            visit(dataHolder, res);
+            visit(dataHolder);
         }
     }
 
-    protected void visit(DataHolder dataHolder, Resource res) {
+    protected void visit(DataHolder dataHolder) {
         String className = dataHolder.getClassName();
         ResourceReference resRef = null;
         // it's apparently possible for the class name to be null!
         // See org.jbpm.formModeler.core.model.BasicTypeDataHolder.getClassName()
-        res.addPart(dataHolder.getUniqeId(), PartType.DATAHOLDER);
-        if( className != null ) {
-            resRef = addResourceReference(dataHolder.getClassName(), ResourceType.JAVA);
+        if (className != null) {
+            resRef = addResourceReference(dataHolder.getClassName(),
+                                          ResourceType.JAVA);
 
             if (dataHolder.canHaveChildren()) {
                 for (DataFieldHolder field : dataHolder.getFieldHolders()) {
-                    if (form.isFieldBinded(dataHolder, field.getId()) ) {
-                        System.out.println( "BOUND FIELD: " + dataHolder.getUniqeId() + ":" + field.getId() + " [" + field.getClassName() + "]" );
-                        resRef.addPartReference(field.getId(), PartType.FIELD);
-                        addResourceReference(field.getClassName(), ResourceType.JAVA);
+                    if (form.isFieldBinded(dataHolder,
+                                           field.getId())) {
+                        resRef.addPartReference(field.getId(),
+                                                PartType.FIELD);
+                        addResourceReference(field.getClassName(),
+                                             ResourceType.JAVA);
                     }
                 }
             }
         }
     }
 
-    protected void visit(Field field, Resource res) {
+    protected void visit(Field field,
+                         Resource res) {
         DataHolder holder = field.getForm().getDataHolderByField(field);
 
-        res.addPart(field.getFieldName(), PartType.FORM_FIELD);
+        res.addPart(field.getFieldName(),
+                    PartType.FORM_FIELD);
         if (holder != null) {
             if (holder.canHaveChildren()) {
-                String bindingExpression = StringUtils.defaultIfEmpty(field.getInputBinding(), field.getOutputBinding());
+                String bindingExpression = StringUtils.defaultIfEmpty(field.getInputBinding(),
+                                                                      field.getOutputBinding());
 
                 int slash = bindingExpression.indexOf("/");
                 String holderFieldId = bindingExpression.substring(slash + 1);
                 DataFieldHolder holderField = holder.getDataFieldHolderById(holderFieldId);
                 if (holderField != null) {
-                    addResourceReference(holderField.getClassName(), ResourceType.JAVA);
+                    addResourceReference(holderField.getClassName(),
+                                         ResourceType.JAVA);
                 } else {
                     // any references to parts or other resources here?
                 }
             }
         } else {
             FieldType type = field.getFieldType();
-            if( type != null ) {
-               String fieldClass = type.getFieldClass();
-               if( fieldClass != null && ! fieldClass.isEmpty() ) {
-                   addResourceReference(fieldClass, ResourceType.JAVA);
-               }
+            if (type != null) {
+                String fieldClass = type.getFieldClass();
+                if (fieldClass != null && !fieldClass.isEmpty()) {
+                    addResourceReference(fieldClass,
+                                         ResourceType.JAVA);
+                }
             } else {
                 // empty type.. do we do anything here?
             }
         }
 
         if (!StringUtils.isEmpty(field.getDefaultSubform())) {
-            addResourceReference(field.getDefaultSubform(), ResourceType.FORM);
+            addResourceReference(field.getDefaultSubform(),
+                                 ResourceType.FORM);
         }
         if (!StringUtils.isEmpty(field.getPreviewSubform())) {
-            addResourceReference(field.getDefaultSubform(), ResourceType.FORM);
+            addResourceReference(field.getDefaultSubform(),
+                                 ResourceType.FORM);
         }
         if (!StringUtils.isEmpty(field.getTableSubform())) {
-            addResourceReference(field.getDefaultSubform(), ResourceType.FORM);
+            addResourceReference(field.getDefaultSubform(),
+                                 ResourceType.FORM);
         }
     }
-
-
 }
