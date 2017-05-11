@@ -61,6 +61,8 @@ public class Form implements Serializable, Comparable{
 
     private Set<DataHolder> holders;
 
+    private HashMap subForms = new HashMap();
+
     private HashMap dataHolderRenderInfo = new HashMap();
 
     public Form() {
@@ -381,5 +383,17 @@ public class Form implements Serializable, Comparable{
             if (holder.equals(aholder)) return true;
         }
         return false;
+    }
+
+    public HashMap getSubForms() {
+        return subForms;
+    }
+
+    public void setSubForms(HashMap subForms) {
+        this.subForms = subForms;
+    }
+
+    public void addSubForm(String path, Form subForm) {
+        this.subForms.put(path, subForm);
     }
 }
