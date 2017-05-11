@@ -195,6 +195,12 @@ public class FormSerializationManagerImpl implements FormSerializationManager {
 
                     if (!StringUtils.isEmpty(holderId)) form.setDataHolder(holder);
                 }
+            } else if (node.getNodeName().equals(NODE_FORM)) {
+
+                Form subform = deserializeForm(node, path, resources);
+
+                form.addSubForm(subform.getName(), subform);
+
             }
         }
         if (fields != null) form.setFormFields(fields);
