@@ -104,7 +104,7 @@ public class FormRenderContextManagerImpl implements FormRenderContextManager, S
     public FormRenderContext newContext(Form form, String deploymentId, Map<String, Object> inputData, Map<String, Object> outputData) {
         String uid = CTX_PREFFIX + form.getId() + "_" + System.currentTimeMillis();
 
-        return buildContext(uid, form, deploymentId, inputData, outputData);
+        return buildContext(uid, form, deploymentId, inputData, outputData, form.getSubForms());
     }
 
     private FormRenderContext buildContext(String uid, Form form, String deploymentId, Map<String,Object> inputData, Map<String,Object> outputData, Map<String,Object> forms) {
