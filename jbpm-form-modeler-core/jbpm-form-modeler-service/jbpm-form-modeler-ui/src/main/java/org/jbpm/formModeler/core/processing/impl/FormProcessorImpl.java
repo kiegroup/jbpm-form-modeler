@@ -45,31 +45,45 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     private Logger log = LoggerFactory.getLogger(FormProcessor.class);
 
     // TODO: fix formulas
-    @Inject
     private FormulasCalculatorChangeProcessor formChangeProcessor;
 
-    @Inject
     private RangeProviderManager rangeProviderManager;
 
-    @Inject
     private DefaultFormulaProcessor defaultFormulaProcessor;
 
-    @Inject
     private FieldHandlersManager fieldHandlersManager;
 
-    @Inject
     private FormRenderContextManager formRenderContextManager;
 
-    @Inject
     private NamespaceManager namespaceManager;
 
-    @Inject
     private SubFormHelper helper;
+
+    private FormStatusManager formStatusManager;
 
     private BindingExpressionUtil bindingExpressionUtil = BindingExpressionUtil.getInstance();
 
+    @Inject
+    public FormProcessorImpl(FormulasCalculatorChangeProcessor formChangeProcessor,
+                             RangeProviderManager rangeProviderManager,
+                             DefaultFormulaProcessor defaultFormulaProcessor,
+                             FieldHandlersManager fieldHandlersManager,
+                             FormRenderContextManager formRenderContextManager,
+                             NamespaceManager namespaceManager,
+                             SubFormHelper helper,
+                             FormStatusManager formStatusManager) {
+        this.formChangeProcessor = formChangeProcessor;
+        this.rangeProviderManager = rangeProviderManager;
+        this.defaultFormulaProcessor = defaultFormulaProcessor;
+        this.fieldHandlersManager = fieldHandlersManager;
+        this.formRenderContextManager = formRenderContextManager;
+        this.namespaceManager = namespaceManager;
+        this.helper = helper;
+        this.formStatusManager = formStatusManager;
+    }
+
     protected FormStatus getContextFormStatus(FormRenderContext context) {
-        return FormStatusManager.lookup().getFormStatus(context.getForm(), context.getUID());
+        return formStatusManager.getFormStatus(context.getForm(), context.getUID());
     }
 
     protected FormStatus getFormStatus(Form form, String namespace) {
@@ -77,17 +91,17 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     }
 
     protected FormStatus getFormStatus(Form form, String namespace, Map<String, Object> currentValues, Map<String, Object> loadedObjects) {
-        FormStatus formStatus = FormStatusManager.lookup().getFormStatus(form, namespace);
+        FormStatus formStatus = formStatusManager.getFormStatus(form, namespace);
         return formStatus != null ? formStatus : createFormStatus(form, namespace, currentValues, loadedObjects);
     }
 
     protected boolean existsFormStatus(Form form, String namespace) {
-        FormStatus formStatus = FormStatusManager.lookup().getFormStatus(form, namespace);
+        FormStatus formStatus = formStatusManager.getFormStatus(form, namespace);
         return formStatus != null;
     }
 
     protected FormStatus createFormStatus(Form form, String namespace, Map currentValues, Map<String, Object> loadedObjects) {
-        FormStatus fStatus = FormStatusManager.lookup().createFormStatus(form, namespace, currentValues);
+        FormStatus fStatus = formStatusManager.createFormStatus(form, namespace, currentValues);
         fStatus.setLoadedObjects(loadedObjects);
         setDefaultValues(form, namespace, currentValues);
         formChangeProcessor.process(form, namespace, new FormChangeResponse());
@@ -127,7 +141,7 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     }
 
     protected void destroyFormStatus(Form form, String namespace) {
-        FormStatusManager.lookup().destroyFormStatus(form.getId(), namespace);
+        formStatusManager.destroyFormStatus(form.getId(), namespace);
     }
 
     public void setValues(Form form, String namespace, Map parameterMap, Map filesMap) {
@@ -230,9 +244,9 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     }
 
     protected void propagateChangesToParentFormStatuses(FormStatus formStatus, String fieldName, Object value) {
-        FormStatus parent = FormStatusManager.lookup().getParent(formStatus);
+        FormStatus parent = formStatusManager.getParent(formStatus);
         if (parent != null) {
-            String fieldNameInParent = NamespaceManager.lookup().getNamespace(formStatus.getNamespace()).getFieldNameInParent();
+            String fieldNameInParent = namespaceManager.getNamespace(formStatus.getNamespace()).getFieldNameInParent();
             Object valueInParent = parent.getInputValues().get(fieldNameInParent);
             if (valueInParent != null) {
                 Map parentMapObjectRepresentation = null;
@@ -466,27 +480,16 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
 
         if (holder == null && !StringUtils.isEmpty(bindingString)) return mapToPersist.get(field.getFieldName());
 
-        bindingString = bindingExpressionUtil.extractBindingExpression(bindingString);
+        FieldHandler handler = fieldHandlersManager.getHandler(field.getFieldType());
 
-        boolean complexBinding = bindingString.indexOf("/") > 0;
+        if (handler instanceof PersistentFieldHandler) {
 
-        if (complexBinding) {
-            String holderId = bindingString.substring(0, bindingString.indexOf("/"));
-            String holderFieldId = bindingString.substring(holderId.length() + 1);
-            if (holder != null && !StringUtils.isEmpty(holderFieldId)) {
+            String inputName = getPrefix(field.getForm(), namespace) + field.getFieldName();
 
-                FieldHandler handler = fieldHandlersManager.getHandler(field.getFieldType());
+            return ((PersistentFieldHandler) handler).persist(field, inputName, mapToPersist.get( field.getFieldName() ));
 
-                if (handler instanceof PersistentFieldHandler) {
-
-                    String inputName = getPrefix(field.getForm(), namespace) + field.getFieldName();
-
-                    return ((PersistentFieldHandler) handler).persist(field, inputName, mapToPersist.get( field.getFieldName() ));
-
-                } else
-                    return mapToPersist.get(field.getFieldName());
-            }
         }
+
         return mapToPersist.get(field.getFieldName());
     }
 
@@ -563,11 +566,11 @@ public class FormProcessorImpl implements FormProcessor, Serializable {
     }
 
     public void clearFieldErrors(Form form, String namespace) {
-        FormStatusManager.lookup().cascadeClearWrongFields(form.getId(), namespace);
+        formStatusManager.cascadeClearWrongFields(form.getId(), namespace);
     }
 
     public void forceWrongField(Form form, String namespace, String fieldName) {
-        FormStatusManager.lookup().getFormStatus(form, namespace).getWrongFields().add(fieldName);
+        formStatusManager.getFormStatus(form, namespace).getWrongFields().add(fieldName);
     }
 
     protected String getPrefix(Form form, String namespace) {
