@@ -36,7 +36,7 @@ import org.jbpm.formModeler.dataModeler.model.DataModelerDataHolder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kie.workbench.common.services.refactoring.model.index.Resource;
+import org.kie.workbench.common.services.refactoring.Resource;
 import org.kie.workbench.common.services.refactoring.service.PartType;
 import org.kie.workbench.common.services.refactoring.service.ResourceType;
 import org.mockito.Mock;
