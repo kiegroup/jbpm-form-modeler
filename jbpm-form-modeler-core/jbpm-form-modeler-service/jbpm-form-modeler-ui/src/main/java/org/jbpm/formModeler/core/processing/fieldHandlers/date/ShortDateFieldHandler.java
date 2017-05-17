@@ -1,5 +1,5 @@
-/**
- * Copyright (C) 2012 Red Hat, Inc. and/or its affiliates.
+/*
+ * Copyright 2017 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbpm.formModeler.core.processing.fieldHandlers;
+package org.jbpm.formModeler.core.processing.fieldHandlers.date;
 
-import org.jbpm.formModeler.service.annotation.config.Config;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
  * Handler for short dates
  */
-@Named("org.jbpm.formModeler.core.processing.fieldHandlers.ShortDateFieldHandler")
+@Named("org.jbpm.formModeler.core.processing.fieldHandlers.date.ShortDateFieldHandler")
 public class ShortDateFieldHandler extends DateFieldHandler {
 
     public ShortDateFieldHandler() {
-        defaultPattern = "MM-dd-yy";
+        defaultPattern = "MM-dd-yyyy";
         defaultPatterTimeSuffix = "";
     }
 }

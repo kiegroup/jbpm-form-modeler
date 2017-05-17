@@ -34,7 +34,9 @@ import org.mockito.stubbing.Answer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -139,18 +141,32 @@ public abstract class DefaultFieldHandlerFormatterTest<T extends DefaultFieldHan
 
     public class FormatterFragmentMatcher extends ArgumentMatcher<ProcessingInstruction> {
         protected List<String> fragments;
+        protected Map<String, Object> params = new HashMap<>();
 
         public FormatterFragmentMatcher(List<String> fragments) {
             super();
             this.fragments = fragments;
         }
 
+        public void addParam(String name, Object value) {
+            params.put(name, value);
+        }
+
         @Override
         public boolean matches(Object argument) {
             if (argument instanceof ProcessingInstruction) {
                 ProcessingInstruction pi = (ProcessingInstruction) argument;
-                if ( pi.getType() != ProcessingInstruction.RENDER_FRAGMENT ) return true;
-                return fragments.contains( pi.getName() );
+
+                switch (pi.getType()) {
+                    case ProcessingInstruction.RENDER_FRAGMENT:
+                        return fragments.contains( pi.getName() );
+                    case ProcessingInstruction.SET_ATTRIBUTE:
+                        Object paramValue = params.get(pi.getName());
+                        if (paramValue != null) {
+                            return paramValue.equals(pi.getValue());
+                        }
+                        break;
+                }
             }
             return true;
         }
