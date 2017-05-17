@@ -14,25 +14,58 @@
 */
 package org.jbpm.formModeler.core.processing.fieldHandlers.mocks;
 
+import java.util.HashMap;
+import java.util.Map;
+import javax.enterprise.context.ApplicationScoped;
+
+import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.model.Form;
 import org.jbpm.formModeler.core.rendering.SubformFinderService;
 
-import javax.enterprise.context.ApplicationScoped;
-
 @ApplicationScoped
 public class SubformFinderServiceMock implements SubformFinderService {
+
+    private Long contextFormId = null;
+
+    private Map<Long, Form> testForms = new HashMap<>();
+
+    public void addFormContext(Form form) {
+        contextFormId = form.getId();
+        addForm(form);
+    }
+
+    public void addForm(Form form) {
+        testForms.put(form.getId(),
+                      form);
+    }
+
     @Override
     public Form getForm(String ctxUID) {
+        if (contextFormId != null){
+            return testForms.get(contextFormId);
+        }
         return new Form();
     }
 
     @Override
-    public Form getFormByPath(String formPath, String ctxUID) {
+    public Form getFormByPath(String formPath,
+                              String ctxUID) {
+        if (!StringUtils.isEmpty(formPath) && StringUtils.isNumeric(formPath)) {
+            Form result = testForms.get(Long.valueOf(formPath));
+            if (result != null) {
+                return result;
+            }
+        }
         return new Form();
     }
 
     @Override
-    public Form getFormById(long idForm, String ctxUID) {
+    public Form getFormById(long idForm,
+                            String ctxUID) {
+        Form result = testForms.get(idForm);
+        if (result != null) {
+            return result;
+        }
         return new Form();
     }
 }
