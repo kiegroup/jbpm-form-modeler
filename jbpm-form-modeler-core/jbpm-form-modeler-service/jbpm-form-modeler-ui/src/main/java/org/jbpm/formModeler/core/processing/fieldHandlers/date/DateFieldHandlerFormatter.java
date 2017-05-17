@@ -1,5 +1,5 @@
-/**
- * Copyright (C) 2012 Red Hat, Inc. and/or its affiliates.
+/*
+ * Copyright 2017 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbpm.formModeler.core.processing.fieldHandlers;
+package org.jbpm.formModeler.core.processing.fieldHandlers.date;
 
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
+import org.jbpm.formModeler.core.processing.fieldHandlers.DefaultFieldHandlerFormatter;
+import org.jbpm.formModeler.core.processing.fieldHandlers.FieldHandlerParametersReader;
 import org.jbpm.formModeler.service.LocaleManager;
 import org.jbpm.formModeler.service.bb.mvc.taglib.formatter.FormatterException;
 import org.jbpm.formModeler.api.model.Field;
@@ -64,7 +66,7 @@ public class DateFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
             inputPattern += " " + dateFieldHandler.getDefaultPatterTimeSuffix();
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat(inputPattern,  LocaleManager.currentLocale());
+        SimpleDateFormat sdf = new SimpleDateFormat(inputPattern, LocaleManager.currentLocale());
         String dateValue = "";
         if (value != null) dateValue = sdf.format(value);
 

@@ -17,7 +17,7 @@
 --%>
 <%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
-<%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.DateFieldHandler" %>
+<%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.date.DateFieldHandler" %>
 <%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>

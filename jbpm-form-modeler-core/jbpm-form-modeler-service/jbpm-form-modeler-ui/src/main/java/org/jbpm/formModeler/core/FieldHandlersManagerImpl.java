@@ -19,6 +19,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.core.processing.FieldHandler;
 import org.jbpm.formModeler.core.processing.fieldHandlers.*;
+import org.jbpm.formModeler.core.processing.fieldHandlers.date.DateFieldHandler;
+import org.jbpm.formModeler.core.processing.fieldHandlers.date.ShortDateFieldHandler;
 import org.jbpm.formModeler.core.processing.fieldHandlers.multipleSubform.CreateDynamicObjectFieldHandler;
 import org.jbpm.formModeler.core.processing.formDecorators.*;
 import org.jbpm.formModeler.service.cdi.CDIBeanLocator;

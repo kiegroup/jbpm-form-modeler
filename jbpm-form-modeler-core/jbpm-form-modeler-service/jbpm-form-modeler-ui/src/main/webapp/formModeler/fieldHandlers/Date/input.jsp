@@ -16,7 +16,7 @@
 
 --%>
 <%@ page import="org.apache.commons.lang3.StringUtils" %>
-<%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.DateFieldHandler" %>
+<%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.date.DateFieldHandler" %>
 <%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
