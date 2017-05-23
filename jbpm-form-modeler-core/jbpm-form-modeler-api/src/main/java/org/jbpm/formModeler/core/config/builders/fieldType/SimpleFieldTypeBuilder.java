@@ -242,7 +242,7 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft = new FieldType();
         ft.setCode("InputDate");
         ft.setFieldClass("java.util.Date");
-        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.DateFieldHandler");
+        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.date.DateFieldHandler");
         ft.setMaxlength(new Long(25));
         ft.setSize("25");
         ft.setPattern("MM-dd-yyyy HH:mm:ss");
@@ -251,7 +251,7 @@ public class SimpleFieldTypeBuilder implements FieldTypeBuilder<FieldType> {
         ft = new FieldType();
         ft.setCode("InputShortDate");
         ft.setFieldClass("java.util.Date");
-        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.ShortDateFieldHandler");
+        ft.setManagerClass("org.jbpm.formModeler.core.processing.fieldHandlers.date.ShortDateFieldHandler");
         ft.setMaxlength(new Long(25));
         ft.setSize("25");
         ft.setPattern("MM-dd-yyyy");

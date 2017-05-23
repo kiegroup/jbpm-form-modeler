@@ -1,5 +1,5 @@
-/**
- * Copyright (C) 2012 Red Hat, Inc. and/or its affiliates.
+/*
+ * Copyright 2017 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jbpm.formModeler.core.processing.fieldHandlers;
+package org.jbpm.formModeler.core.processing.fieldHandlers.date;
 
 import org.jbpm.formModeler.api.model.Field;
 import org.apache.commons.lang3.ArrayUtils;
@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * Handler for dates
  */
-@Named("org.jbpm.formModeler.core.processing.fieldHandlers.DateFieldHandler")
+@Named("org.jbpm.formModeler.core.processing.fieldHandlers.date.DateFieldHandler")
 public class DateFieldHandler extends DefaultFieldHandler {
     private static transient Logger log = LoggerFactory.getLogger(DateFieldHandler.class);
 
@@ -59,10 +59,10 @@ public class DateFieldHandler extends DefaultFieldHandler {
      */
     public Object getValue(Field field, String inputName, Map parametersMap, Map filesMap, String desiredClassName, Object previousValue) throws Exception {
         String[] hasChangedParam = (String[]) parametersMap.get(inputName + HAS_CHANGED_PARAM);
-        
+
         try {
             boolean hasChanged = (!ArrayUtils.isEmpty(hasChangedParam) && Boolean.TRUE.equals(Boolean.parseBoolean(hasChangedParam[0])));
-            
+
             SimpleDateFormat sdf = getSimpleDateFormat(field, hasChanged, getFieldPattern(field));
             String[] dateValue = (String[]) parametersMap.get(inputName);
             if (!ArrayUtils.isEmpty(dateValue)) return getTheDate(dateValue, sdf);
@@ -71,7 +71,7 @@ public class DateFieldHandler extends DefaultFieldHandler {
         }
         return previousValue;
     }
-    
+
     /**
      * Determine the list of class types this field can generate. That is, normally,
      * a field can generate multiple outputs (an input text can generate Strings,
@@ -95,7 +95,7 @@ public class DateFieldHandler extends DefaultFieldHandler {
         }
         return false;
     }
- 
+
     public String getDefaultPattern() {
         return defaultPattern;
     }
@@ -114,14 +114,14 @@ public class DateFieldHandler extends DefaultFieldHandler {
 
     protected String getPattern(Field field, boolean useDefault, String pattern) {
         if (!useDefault && field != null && !StringUtils.isEmpty(field.getPattern())) pattern = field.getPattern();
-        
+
         return StringUtils.defaultString(pattern);
     }
-    
+
     protected SimpleDateFormat getSimpleDateFormat(Field field, boolean useDefault, String pattern) {
         return new SimpleDateFormat(getPattern(field, useDefault, pattern));
     }
-    
+
     public Object getTheDate(String[] values, SimpleDateFormat sdf) throws Exception {
         String date = !ArrayUtils.isEmpty(values) ? values[0] : null;
         return (!StringUtils.isEmpty(date)) ? sdf.parse(date) : null;
