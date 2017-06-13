@@ -114,6 +114,10 @@
       <artifactId>uberfire-workbench-client</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-maven-support</artifactId>
+    </dependency>
 
     <!-- Hack: ANT bundled with kie-ci needs to be excluded when running on Jetty -->
     <!-- It is added back for other Application Servers in their respective assemblies -->
@@ -811,6 +815,7 @@
             <compileSourcesArtifact>org.uberfire:uberfire-runtime-plugins-client</compileSourcesArtifact>
 
             <!-- UberFire -->
+            <compileSourcesArtifact>org.uberfire:uberfire-maven-support</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-commons</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-nio2-model</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-api</compileSourcesArtifact>
