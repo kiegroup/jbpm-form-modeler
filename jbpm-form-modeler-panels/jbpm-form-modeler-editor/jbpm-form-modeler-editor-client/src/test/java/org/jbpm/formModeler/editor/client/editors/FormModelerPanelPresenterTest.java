@@ -96,7 +96,7 @@ public class FormModelerPanelPresenterTest {
                 this.metadataService = new CallerMock<>( metadataServiceMock );
                 this.resourceType = formDefinitionResourceTypeMock;
                 this.fileNameValidator = mock( DefaultFileNameValidator.class );
-                this.menuBuilder = mock( FileMenuBuilder.class );
+                this.fileMenuBuilder = mock( FileMenuBuilder.class );
                 this.versionRecordManager = versionRecordManagerMock;
                 this.kieView = mock( KieEditorWrapperView.class );
                 this.overviewWidget = mock( OverviewWidgetPresenter.class );
