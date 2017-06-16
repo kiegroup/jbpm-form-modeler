@@ -28,7 +28,6 @@ import org.jbpm.formModeler.editor.client.type.FormDefinitionResourceType;
 import org.jbpm.formModeler.editor.model.FormEditorContextTO;
 import org.jbpm.formModeler.editor.model.FormModelerContent;
 import org.jbpm.formModeler.editor.service.FormModelerService;
-import org.kie.workbench.common.widgets.client.menu.FileMenuBuilder;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 import org.kie.workbench.common.widgets.metadata.client.KieEditor;
 import org.uberfire.backend.vfs.ObservablePath;
@@ -44,7 +43,6 @@ import org.uberfire.ext.editor.commons.service.support.SupportsRename;
 import org.uberfire.ext.widgets.common.client.common.BusyIndicatorView;
 import org.uberfire.lifecycle.OnClose;
 import org.uberfire.lifecycle.OnStartup;
-import org.uberfire.mvp.Command;
 import org.uberfire.mvp.ParameterizedCommand;
 import org.uberfire.mvp.PlaceRequest;
 import org.uberfire.workbench.events.NotificationEvent;
@@ -52,7 +50,7 @@ import org.uberfire.workbench.model.menu.Menus;
 import org.uberfire.workbench.type.FileNameUtil;
 
 @Dependent
-@WorkbenchEditor(identifier = "FormModelerEditor", supportedTypes = { FormDefinitionResourceType.class })
+@WorkbenchEditor(identifier = "FormModelerEditor", supportedTypes = {FormDefinitionResourceType.class})
 public class FormModelerPanelPresenter extends KieEditor {
 
     @Inject
@@ -76,75 +74,81 @@ public class FormModelerPanelPresenter extends KieEditor {
     @Inject
     protected DefaultFileNameValidator fileNameValidator;
 
-    @Inject
-    protected FileMenuBuilder menuBuilder;
-
     protected FormModelerPanelView view;
 
     protected FormModelerContent content;
 
     @Inject
-    public FormModelerPanelPresenter( FormModelerPanelView baseView ) {
-        super( baseView );
+    public FormModelerPanelPresenter(FormModelerPanelView baseView) {
+        super(baseView);
         view = baseView;
     }
 
     @OnStartup
-    public void onStartup( final ObservablePath path,
-                           final PlaceRequest place ) {
+    public void onStartup(final ObservablePath path,
+                          final PlaceRequest place) {
 
-        init( path, place, resourceType );
+        init(path,
+             place,
+             resourceType);
     }
 
     @Override
     protected void loadContent() {
-        if ( versionRecordManager.getCurrentPath() != null ) {
+        if (versionRecordManager.getCurrentPath() != null) {
             if (content == null) {
-                modelerService.call( new RemoteCallback<FormModelerContent>() {
-                    @Override
-                    public void callback( FormModelerContent content ) {
-                        loadContext( content );
-                    }
-                }, getNoSuchFileExceptionErrorCallback() ).loadContent( versionRecordManager.getCurrentPath() );
+                modelerService.call(new RemoteCallback<FormModelerContent>() {
+                                        @Override
+                                        public void callback(FormModelerContent content) {
+                                            loadContext(content);
+                                        }
+                                    },
+                                    getNoSuchFileExceptionErrorCallback()).loadContent(versionRecordManager.getCurrentPath());
             } else {
-                modelerService.call( new RemoteCallback<FormEditorContextTO>() {
-                    @Override
-                    public void callback( FormEditorContextTO ctx ) {
-                        content.setContextTO( ctx );
-                        loadContext( content );
-                    }
-                }, getNoSuchFileExceptionErrorCallback() ).reloadContent( versionRecordManager.getCurrentPath(), content.getContextTO().getCtxUID() );
+                modelerService.call(new RemoteCallback<FormEditorContextTO>() {
+                                        @Override
+                                        public void callback(FormEditorContextTO ctx) {
+                                            content.setContextTO(ctx);
+                                            loadContext(content);
+                                        }
+                                    },
+                                    getNoSuchFileExceptionErrorCallback()).reloadContent(versionRecordManager.getCurrentPath(),
+                                                                                         content.getContextTO().getCtxUID());
             }
         }
     }
 
     public void save() {
-        savePopUpPresenter.show( versionRecordManager.getCurrentPath(),
-                                 new ParameterizedCommand<String>() {
-                                     @Override
-                                     public void execute( final String commitMessage ) {
-                                         runSaveCommand( commitMessage );
-                                     }
-                                 }
+        savePopUpPresenter.show(versionRecordManager.getCurrentPath(),
+                                new ParameterizedCommand<String>() {
+                                    @Override
+                                    public void execute(final String commitMessage) {
+                                        runSaveCommand(commitMessage);
+                                    }
+                                }
         );
         concurrentUpdateSessionInfo = null;
     }
 
-    protected void runSaveCommand( final String commitMessage ) {
-        busyIndicatorView.showBusyIndicator( CommonConstants.INSTANCE.Saving() );
+    protected void runSaveCommand(final String commitMessage) {
+        busyIndicatorView.showBusyIndicator(CommonConstants.INSTANCE.Saving());
         try {
-            modelerService.call( new RemoteCallback<Path>() {
+            modelerService.call(new RemoteCallback<Path>() {
                 @Override
-                public void callback( Path formPath ) {
+                public void callback(Path formPath) {
                     busyIndicatorView.hideBusyIndicator();
-                    notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_successfully_saved( versionRecordManager.getCurrentPath().getFileName() ), NotificationEvent.NotificationType.SUCCESS ) );
+                    notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_successfully_saved(versionRecordManager.getCurrentPath().getFileName()),
+                                                            NotificationEvent.NotificationType.SUCCESS));
 
-                    versionRecordManager.reloadVersions( versionRecordManager.getCurrentPath() );
-
+                    versionRecordManager.reloadVersions(versionRecordManager.getCurrentPath());
                 }
-            } ).save( versionRecordManager.getCurrentPath(), content.getContextTO(), metadata, commitMessage );
-        } catch ( Exception e ) {
-            notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_cannot_save( versionRecordManager.getCurrentPath().getFileName() ), NotificationEvent.NotificationType.ERROR ) );
+            }).save(versionRecordManager.getCurrentPath(),
+                    content.getContextTO(),
+                    metadata,
+                    commitMessage);
+        } catch (Exception e) {
+            notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_save(versionRecordManager.getCurrentPath().getFileName()),
+                                                    NotificationEvent.NotificationType.ERROR));
         } finally {
             busyIndicatorView.hideBusyIndicator();
         }
@@ -162,31 +166,33 @@ public class FormModelerPanelPresenter extends KieEditor {
 
     @OnClose
     public void onClose() {
-        if ( content != null ) {
-            modelerService.call().removeEditingForm( content.getContextTO().getCtxUID() );
+        if (content != null) {
+            modelerService.call().removeEditingForm(content.getContextTO().getCtxUID());
         }
     }
 
-    public void loadContext( FormModelerContent content ) {
+    public void loadContext(FormModelerContent content) {
         busyIndicatorView.hideBusyIndicator();
 
         this.content = content;
-        resetEditorPages( content.getOverview() );
-        if ( content.getContextTO().isLoadError() ) {
-            notification.fire( new NotificationEvent( Constants.INSTANCE.form_modeler_cannot_load_form( content.getPath().getFileName() ), NotificationEvent.NotificationType.ERROR ) );
+        resetEditorPages(content.getOverview());
+        if (content.getContextTO().isLoadError()) {
+            notification.fire(new NotificationEvent(Constants.INSTANCE.form_modeler_cannot_load_form(content.getPath().getFileName()),
+                                                    NotificationEvent.NotificationType.ERROR));
         }
-        view.loadContext( content.getContextTO().getCtxUID() );
+        view.loadContext(content.getContextTO().getCtxUID());
     }
 
     @WorkbenchPartTitle
     public String getTitleText() {
-        String fileName = FileNameUtil.removeExtension( versionRecordManager.getCurrentPath(), resourceType );
-        return Constants.INSTANCE.form_modeler_title( fileName );
+        String fileName = FileNameUtil.removeExtension(versionRecordManager.getCurrentPath(),
+                                                       resourceType);
+        return Constants.INSTANCE.form_modeler_title(fileName);
     }
 
     @WorkbenchMenu
     public Menus getMenus() {
-        if ( menus == null ) {
+        if (menus == null) {
             makeMenuBar();
         }
         return menus;
@@ -198,19 +204,13 @@ public class FormModelerPanelPresenter extends KieEditor {
     }
 
     protected void makeMenuBar() {
-        menus = menuBuilder
-                .addSave(versionRecordManager.newSaveMenuItem(new Command() {
-                    @Override
-                    public void execute() {
-                        onSave();
-                    }
-                }))
+        fileMenuBuilder
+                .addSave(versionRecordManager.newSaveMenuItem(() -> onSave()))
                 .addCopy(versionRecordManager.getCurrentPath(),
-                        fileNameValidator)
+                         fileNameValidator)
                 .addRename(versionRecordManager.getPathToLatest(),
-                        fileNameValidator)
+                           fileNameValidator)
                 .addDelete(versionRecordManager.getPathToLatest())
-                .addNewTopLevelMenu(versionRecordManager.buildMenu())
-                .build();
+                .addNewTopLevelMenu(versionRecordManager.buildMenu());
     }
 }
