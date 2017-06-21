@@ -60,6 +60,9 @@
   <!-- Social -->
   <inherits name="org.ext.uberfire.social.activities.SocialActivitiesAPI"/>
 
+  <!-- Dashbuilder -->
+  <inherits name="org.dashbuilder.DashbuilderClientAll"/>
+
   <!-- Specify the application specific style sheet. -->
   <stylesheet src='css/uberfire-showcase.css'/>
 
