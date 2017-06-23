@@ -25,7 +25,6 @@ import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.ioc.client.api.EntryPoint;
 import org.jbpm.formModeler.client.i18n.Constants;
 import org.jbpm.formModeler.client.resources.StandaloneResources;
-import org.kie.workbench.common.services.shared.service.PlaceManagerActivityService;
 import org.kie.workbench.common.workbench.client.PerspectiveIds;
 import org.kie.workbench.common.workbench.client.entrypoint.DefaultWorkbenchEntryPoint;
 import org.kie.workbench.common.workbench.client.menu.DefaultWorkbenchFeaturesMenusHelper;
@@ -51,12 +50,11 @@ public class ShowcaseEntryPoint extends DefaultWorkbenchEntryPoint {
 
     @Inject
     public ShowcaseEntryPoint( final Caller<AppConfigService> appConfigService,
-                               final Caller<PlaceManagerActivityService> pmas,
                                final ActivityBeansCache activityBeansCache,
                                final DefaultWorkbenchFeaturesMenusHelper menusHelper,
                                final WorkbenchMenuBarPresenter menuBar,
                                final PlaceManager placeManager ) {
-        super( appConfigService, pmas, activityBeansCache );
+        super( appConfigService, activityBeansCache );
         this.menusHelper = menusHelper;
         this.menuBar = menuBar;
         this.placeManager = placeManager;
