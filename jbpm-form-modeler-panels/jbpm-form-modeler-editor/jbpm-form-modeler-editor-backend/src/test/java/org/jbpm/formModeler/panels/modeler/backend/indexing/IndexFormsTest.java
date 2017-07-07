@@ -15,16 +15,11 @@
  */
 
 package org.jbpm.formModeler.panels.modeler.backend.indexing;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-
 import javax.enterprise.inject.Instance;
 
 import org.apache.lucene.search.Query;
@@ -66,8 +61,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.uberfire.ext.metadata.engine.Index;
 import org.uberfire.java.nio.file.Path;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
+
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(value=PojoDataHolder.class)
+@PrepareForTest(value = PojoDataHolder.class)
 public class IndexFormsTest extends BaseIndexingTest<FormResourceTypeDefinition> {
 
     @SuppressWarnings("serial")
@@ -78,26 +76,26 @@ public class IndexFormsTest extends BaseIndexingTest<FormResourceTypeDefinition>
             this.complexBuilders = new MockEmptyInstance<ComplexFieldTypeBuilder>(new ComplexFieldTypeBuilder());
         }
     };
+
     static {
         ((FieldTypeManagerImpl) testFieldTypeManager).init();
     }
 
     @Before
     public void setupStaticMockAndDataModelService() {
-        PowerMockito.mockStatic(PojoDataHolder.class, new Answer<FieldTypeManager>() {
-            @Override
-            public FieldTypeManager answer(InvocationOnMock invocation) throws Throwable {
-                return testFieldTypeManager;
-            }
-        });
-
-
+        PowerMockito.mockStatic(PojoDataHolder.class,
+                                new Answer<FieldTypeManager>() {
+                                    @Override
+                                    public FieldTypeManager answer(InvocationOnMock invocation) throws Throwable {
+                                        return testFieldTypeManager;
+                                    }
+                                });
     }
 
     @Test
-    public void testIndexTestScenario() throws Exception {
+    public void testIndexForm() throws Exception {
 
-        String [] formFiles = {
+        String[] formFiles = {
                 "CreateOrder-taskform.form",
                 "FixOrder-taskform.form",
                 "PurchaseHeader.form",
@@ -109,70 +107,100 @@ public class IndexFormsTest extends BaseIndexingTest<FormResourceTypeDefinition>
                 "ReviewManager-taskform.form"
         };
 
-        Path [] path = new Path[formFiles.length];
-        for( int i = 0; i < formFiles.length; ++i ) {
-            path[i] = basePath.resolve( formFiles[i] );
-            final String formStr = loadText( formFiles[i] );
+        Path[] path = new Path[formFiles.length];
+        for (int i = 0; i < formFiles.length; ++i) {
+            path[i] = basePath.resolve(formFiles[i]);
+            final String formStr = loadText(formFiles[i]);
 
-            ioService().write( path[i], formStr );
+            ioService().write(path[i],
+                              formStr);
         }
 
-        Thread.sleep( 5000 ); //wait for events to be consumed from jgit -> (notify changes -> watcher -> index) -> lucene index
+        Thread.sleep(5000); //wait for events to be consumed from jgit -> (notify changes -> watcher -> index) -> lucene index
 
-        final Index index = getConfig().getIndexManager().get( org.uberfire.ext.metadata.io.KObjectUtil.toKCluster( basePath.getFileSystem() ) );
-
+        final Index index = getConfig().getIndexManager().get(org.uberfire.ext.metadata.io.KObjectUtil.toKCluster(basePath.getFileSystem()));
 
         // find the "PurchaseHeader.form" resource
         {
             final Query query = new SingleTermQueryBuilder(
-                    new ValueResourceIndexTerm( "PurchaseHeader.form", ResourceType.FORM ) )
+                    new ValueResourceIndexTerm("PurchaseHeader.form",
+                                               ResourceType.FORM))
                     .build();
-            searchFor(index, query, 1, path[2]);
+            searchFor(index,
+                      query,
+                      1,
+                      path[2]);
         }
 
         // find resources that refer to PurchaseOrderHeader (Java class)
         {
             final Query query = new SingleTermQueryBuilder(
-                    new ValueReferenceIndexTerm( PurchaseOrderHeader.class.getCanonicalName(), ResourceType.JAVA ) )
+                    new ValueReferenceIndexTerm(PurchaseOrderHeader.class.getCanonicalName(),
+                                                ResourceType.JAVA))
                     .build();
-            searchFor(index, query, 7,
-                    path[0], // "CreateOrder-taskform.form",
-                    path[1], // "FixOrder-taskform.form"
-                    path[2], // "PurchaseHeader.form"
-                    path[5], // "ReviewAdministration-taskform.form"
-                    path[6], // "ReviewCFO-taskform.form"
-                    path[7], // "ReviewController-taskform.form"
-                    path[8]); // "ReviewManager-taskform.form"
+            searchFor(index,
+                      query,
+                      7,
+                      path[0],
+                      // "CreateOrder-taskform.form",
+                      path[1],
+                      // "FixOrder-taskform.form"
+                      path[2],
+                      // "PurchaseHeader.form"
+                      path[5],
+                      // "ReviewAdministration-taskform.form"
+                      path[6],
+                      // "ReviewCFO-taskform.form"
+                      path[7],
+                      // "ReviewController-taskform.form"
+                      path[8]); // "ReviewManager-taskform.form"
         }
 
         // find resources that refer to PurchaseOrderHeader.customer (Java class field)
         {
             final Query query = new SingleTermQueryBuilder(
-                    new ValuePartReferenceIndexTerm( PurchaseOrderHeader.class.getCanonicalName(), "customer", PartType.FIELD ) )
+                    new ValuePartReferenceIndexTerm(PurchaseOrderHeader.class.getCanonicalName(),
+                                                    "customer",
+                                                    PartType.FIELD))
                     .build();
-            searchFor(index, query, 1, path[2]);
+            searchFor(index,
+                      query,
+                      1,
+                      path[2]);
         }
 
         // find resources that refer to PurchaseOrderHeader.id (Java class field)
         {
             final Query query = new SingleTermQueryBuilder(
-                    new ValuePartReferenceIndexTerm( PurchaseOrderHeader.class.getCanonicalName(), "id", PartType.FIELD ) )
+                    new ValuePartReferenceIndexTerm(PurchaseOrderHeader.class.getCanonicalName(),
+                                                    "id",
+                                                    PartType.FIELD))
                     .build();
-            searchFor(index, query, 0);
+            searchFor(index,
+                      query,
+                      0);
         }
 
         // find resources that refer to the "PurchaseHeader.form (form)
         {
             final Query query = new SingleTermQueryBuilder(
-                    new ValueReferenceIndexTerm( "PurchaseHeader.form", ResourceType.FORM) )
+                    new ValueReferenceIndexTerm("PurchaseHeader.form",
+                                                ResourceType.FORM))
                     .build();
-            searchFor(index, query, 6,
-                    path[0], // "CreateOrder-taskform.form",
-                    path[1], // "FixOrder-taskform.form"
-                    path[5], // "ReviewAdministration-taskform.form"
-                    path[6], // "ReviewCFO-taskform.form"
-                    path[7], // "ReviewController-taskform.form"
-                    path[8]); // "ReviewManager-taskform.form"
+            searchFor(index,
+                      query,
+                      6,
+                      path[0],
+                      // "CreateOrder-taskform.form",
+                      path[1],
+                      // "FixOrder-taskform.form"
+                      path[5],
+                      // "ReviewAdministration-taskform.form"
+                      path[6],
+                      // "ReviewCFO-taskform.form"
+                      path[7],
+                      // "ReviewController-taskform.form"
+                      path[8]); // "ReviewManager-taskform.form"
         }
     }
 
@@ -195,49 +223,50 @@ public class IndexFormsTest extends BaseIndexingTest<FormResourceTypeDefinition>
     public class TestFormSerializationManagerImpl extends FormSerializationManagerImpl {
 
         public TestFormSerializationManagerImpl() {
-           this.formManager = new FormManagerImpl();
+            this.formManager = new FormManagerImpl();
 
-           this.fieldTypeManager = testFieldTypeManager;
+            this.fieldTypeManager = testFieldTypeManager;
 
-           final DataModelerService  dataModelerService = spy(new DataModelerService() {
-               {
-                   this.ioService = ioService();
-                   this.projectService = getProjectService();
-                   this.dataModelerService = mock(org.kie.workbench.common.screens.datamodeller.service.DataModelerService.class);
-                   when( dataModelerService.loadModel(any())).thenAnswer(new Answer<DataModel>() {
+            final DataModelerService dataModelerService = spy(new DataModelerService() {
+                {
+                    this.ioService = ioService();
+                    this.projectService = getProjectService();
+                    this.dataModelerService = mock(org.kie.workbench.common.screens.datamodeller.service.DataModelerService.class);
+                    when(dataModelerService.loadModel(any())).thenAnswer(new Answer<DataModel>() {
 
-                    @Override
-                    public DataModel answer(InvocationOnMock invocation) throws Throwable {
-                        return new DataModelTestUtil(new DataModelerServiceImpl().getAnnotationDefinitions())
-                                .createModel(
-                                        PurchaseOrder.class,
-                                        PurchaseOrderHeader.class,
-                                        PurchaseOrderLine.class);
+                        @Override
+                        public DataModel answer(InvocationOnMock invocation) throws Throwable {
+                            return new DataModelTestUtil(new DataModelerServiceImpl().getAnnotationDefinitions())
+                                    .createModel(
+                                            PurchaseOrder.class,
+                                            PurchaseOrderHeader.class,
+                                            PurchaseOrderLine.class);
+                        }
+                    });
+                }
+
+                @Override
+                protected Class findHolderClass(String className,
+                                                String path) {
+                    try {
+                        return Class.forName(className);
+                    } catch (ClassNotFoundException e) {
+                        log.warn("Unable to load class '{}': {}",
+                                 className,
+                                 e);
                     }
-                });
-               }
+                    return null;
+                }
+            });
 
-               @Override
-               protected Class findHolderClass( String className, String path ) {
-                   try {
-                       return IndexFormsTest.class.getClassLoader().loadClass( className );
-                   } catch ( ClassNotFoundException e ) {
-                       log.warn( "Unable to load class '{}': {}", className, e );
-                   }
-                   return null;
-               }
-
-           });
-
-           this.dataHolderManager = new DataHolderManagerImpl() {
-               {
-                   this.holderBuilders = new MockEmptyInstance<DataHolderBuilder>(
-                           new PojoDataHolderBuilder(),
-                           dataModelerService);
-               }
-           };
-           ((DataHolderManagerImpl) this.dataHolderManager).initializeHolders();
-
+            this.dataHolderManager = new DataHolderManagerImpl() {
+                {
+                    this.holderBuilders = new MockEmptyInstance<DataHolderBuilder>(
+                            new PojoDataHolderBuilder(),
+                            dataModelerService);
+                }
+            };
+            ((DataHolderManagerImpl) this.dataHolderManager).initializeHolders();
         }
     }
 
@@ -246,7 +275,7 @@ public class IndexFormsTest extends BaseIndexingTest<FormResourceTypeDefinition>
         private ArrayList<T> instances = new ArrayList<>(1);
 
         @SafeVarargs
-        public MockEmptyInstance(T... addInstances ) {
+        public MockEmptyInstance(T... addInstances) {
             instances.addAll(Arrays.asList(addInstances));
         }
 
@@ -266,7 +295,8 @@ public class IndexFormsTest extends BaseIndexingTest<FormResourceTypeDefinition>
         }
 
         @Override
-        public <U extends T> Instance<U> select(Class<U> subtype, Annotation... qualifiers) {
+        public <U extends T> Instance<U> select(Class<U> subtype,
+                                                Annotation... qualifiers) {
             return null;
         }
 
@@ -283,6 +313,5 @@ public class IndexFormsTest extends BaseIndexingTest<FormResourceTypeDefinition>
         @Override
         public void destroy(T instance) {
         }
-
     }
 }
