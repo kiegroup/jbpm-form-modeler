@@ -18,6 +18,9 @@ package org.jbpm.formModeler.editor.client.editors;
 
 import com.google.gwtmockito.GwtMock;
 import com.google.gwtmockito.GwtMockitoTestRunner;
+import org.guvnor.common.services.project.client.security.ProjectController;
+import org.guvnor.common.services.project.context.ProjectContext;
+import org.guvnor.common.services.project.model.Project;
 import org.guvnor.common.services.shared.metadata.MetadataService;
 import org.guvnor.common.services.shared.metadata.model.Metadata;
 import org.guvnor.common.services.shared.metadata.model.Overview;
@@ -30,20 +33,26 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kie.workbench.common.widgets.client.menu.FileMenuBuilder;
+import org.kie.workbench.common.widgets.client.menu.FileMenuBuilderImpl;
 import org.kie.workbench.common.widgets.metadata.client.KieEditorWrapperView;
 import org.kie.workbench.common.widgets.metadata.client.widget.OverviewWidgetPresenter;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.uberfire.backend.vfs.ObservablePath;
+import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
 import org.uberfire.ext.editor.commons.client.file.popups.SavePopUpPresenter;
 import org.uberfire.ext.editor.commons.client.history.VersionRecordManager;
+import org.uberfire.ext.editor.commons.client.menu.BasicFileMenuBuilder;
 import org.uberfire.ext.editor.commons.client.validation.DefaultFileNameValidator;
 import org.uberfire.ext.widgets.common.client.common.BusyIndicatorView;
 import org.uberfire.mocks.CallerMock;
 import org.uberfire.mocks.EventSourceMock;
 import org.uberfire.mvp.PlaceRequest;
 import org.uberfire.workbench.events.NotificationEvent;
+import org.uberfire.workbench.model.menu.MenuItem;
 
 import static org.mockito.Mockito.*;
 
@@ -80,40 +89,56 @@ public class FormModelerPanelPresenterTest {
     @Mock
     protected ObservablePath path;
 
-    protected FormEditorContextTO editionContextTO = new FormEditorContextTO( "contextId" );;
+    @Mock
+    protected BasicFileMenuBuilder menuBuilder;
+
+    @Spy
+    @InjectMocks
+    protected FileMenuBuilderImpl fileMenuBuilder;
+
+    @Mock
+    protected ProjectController projectController;
+
+    @Mock
+    protected ProjectContext workbenchContext;
+
+    protected FormEditorContextTO editionContextTO = new FormEditorContextTO("contextId");
+    ;
 
     protected FormModelerPanelPresenter presenter;
 
     @Before
     public void setup() {
-        presenter = new FormModelerPanelPresenter( view ) {
+        presenter = new FormModelerPanelPresenter(view) {
             {
-                this.placeManager = mock( PlaceManager.class );
-                this.modelerService = new CallerMock<>( modelerServiceMock );
-                this.busyIndicatorView = mock( BusyIndicatorView.class );
+                this.placeManager = mock(PlaceManager.class);
+                this.modelerService = new CallerMock<>(modelerServiceMock);
+                this.busyIndicatorView = mock(BusyIndicatorView.class);
                 this.notification = notificationMock;
                 this.changeTitleNotification = changeTitleNotificationMock;
-                this.metadataService = new CallerMock<>( metadataServiceMock );
+                this.metadataService = new CallerMock<>(metadataServiceMock);
                 this.resourceType = formDefinitionResourceTypeMock;
-                this.fileNameValidator = mock( DefaultFileNameValidator.class );
-                this.fileMenuBuilder = mock( FileMenuBuilder.class );
+                this.fileNameValidator = mock(DefaultFileNameValidator.class);
+                this.fileMenuBuilder = mock(FileMenuBuilder.class);
                 this.versionRecordManager = versionRecordManagerMock;
-                this.kieView = mock( KieEditorWrapperView.class );
-                this.overviewWidget = mock( OverviewWidgetPresenter.class );
-                this.savePopUpPresenter = mock( SavePopUpPresenter.class );
-            }
-
-            protected void makeMenuBar() {
+                this.kieView = mock(KieEditorWrapperView.class);
+                this.overviewWidget = mock(OverviewWidgetPresenter.class);
+                this.savePopUpPresenter = mock(SavePopUpPresenter.class);
+                this.fileMenuBuilder = FormModelerPanelPresenterTest.this.fileMenuBuilder;
+                this.projectController = FormModelerPanelPresenterTest.this.projectController;
+                this.workbenchContext = FormModelerPanelPresenterTest.this.workbenchContext;
             }
         };
 
-        when ( versionRecordManagerMock.getCurrentPath() ).thenReturn( path );
+        when(versionRecordManagerMock.getCurrentPath()).thenReturn(path);
 
         FormModelerContent content = createContent();
-        when( modelerServiceMock.loadContent( path ) ).thenReturn( content );
-        when( modelerServiceMock.reloadContent( path, content.getContextTO().getCtxUID() ) ).thenReturn( editionContextTO );
+        when(modelerServiceMock.loadContent(path)).thenReturn(content);
+        when(modelerServiceMock.reloadContent(path,
+                                              content.getContextTO().getCtxUID())).thenReturn(editionContextTO);
 
-        presenter.onStartup( path, placeRequestMock );
+        presenter.onStartup(path,
+                            placeRequestMock);
     }
 
     @After
@@ -125,25 +150,67 @@ public class FormModelerPanelPresenterTest {
     public void testSaveForm() {
         String commitMessage = "commit message";
         presenter.save();
-        presenter.runSaveCommand( commitMessage );
-        verify( modelerServiceMock, times( 1 ) ).save( eq( path ), eq( editionContextTO ), any( Metadata.class ), eq( commitMessage ) );
-        verify( versionRecordManagerMock, atLeast( 1 ) ).reloadVersions( path );
+        presenter.runSaveCommand(commitMessage);
+        verify(modelerServiceMock,
+               times(1)).save(eq(path),
+                              eq(editionContextTO),
+                              any(Metadata.class),
+                              eq(commitMessage));
+        verify(versionRecordManagerMock,
+               atLeast(1)).reloadVersions(path);
     }
 
     @Test
     public void testReloadForm() {
         presenter.reload();
-        verify( modelerServiceMock, times( 1 ) ).reloadContent( path, editionContextTO.getCtxUID() );
+        verify(modelerServiceMock,
+               times(1)).reloadContent(path,
+                                       editionContextTO.getCtxUID());
+    }
+
+    @Test
+    public void testMakeMenuBar() {
+        reset(fileMenuBuilder);
+        doReturn(mock(Project.class)).when(workbenchContext).getActiveProject();
+        doReturn(true).when(projectController).canUpdateProject(any());
+
+        presenter.makeMenuBar();
+
+        verify(fileMenuBuilder).addSave(any(MenuItem.class));
+        verify(fileMenuBuilder).addCopy(any(Path.class),
+                                        any(DefaultFileNameValidator.class));
+        verify(fileMenuBuilder).addRename(any(Path.class),
+                                          any(DefaultFileNameValidator.class));
+        verify(fileMenuBuilder).addDelete(any(Path.class));
+    }
+
+    @Test
+    public void testMakeMenuBarWithoutUpdateProjectPermission() {
+        reset(fileMenuBuilder);
+        doReturn(mock(Project.class)).when(workbenchContext).getActiveProject();
+        doReturn(false).when(projectController).canUpdateProject(any());
+
+        presenter.makeMenuBar();
+
+        verify(fileMenuBuilder,
+               never()).addSave(any(MenuItem.class));
+        verify(fileMenuBuilder,
+               never()).addCopy(any(Path.class),
+                                any(DefaultFileNameValidator.class));
+        verify(fileMenuBuilder,
+               never()).addRename(any(Path.class),
+                                  any(DefaultFileNameValidator.class));
+        verify(fileMenuBuilder,
+               never()).addDelete(any(Path.class));
     }
 
     protected FormModelerContent createContent() {
         FormModelerContent content = new FormModelerContent();
 
-        content.setPath( path );
-        content.setOverview( overview );
-        content.setContextTO( editionContextTO );
+        content.setPath(path);
+        content.setOverview(overview);
+        content.setContextTO(editionContextTO);
 
         return content;
     }
-
 }
