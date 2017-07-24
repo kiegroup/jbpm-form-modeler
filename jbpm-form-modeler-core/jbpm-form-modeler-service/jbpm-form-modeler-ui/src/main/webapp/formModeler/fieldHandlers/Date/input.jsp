@@ -17,7 +17,6 @@
 --%>
 <%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="org.jbpm.formModeler.core.processing.fieldHandlers.date.DateFieldHandler" %>
-<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
@@ -63,20 +62,29 @@
                 if (!Boolean.TRUE.equals(readonly)) {
             %>
             <script >
+<%
+        if (onChangeScript != null) {
+%>
+              var JSOnChangeCallback_for_<%=uid%> = function() {
+                  try {
+                      <%=onChangeScript%>
+                  } catch (err) {
+                      console.log('Error executing inlineJS code for field:' + err);
+                  }
+              };
+<%
+        }
+%>
                 $(function() {
                     $("input[id='<%=uid%>']").datetimepicker({
                         dateFormat:"<%=inputPattern%>",
                         timeFormat:"<%=timePattern%>",
                         onClose:function(ct){
-                            processFormInputChange($('#<%=uid%>').get(0))
+                            processFormInputChange($('#<%=uid%>').get(0));
 <%
         if (onChangeScript != null) {
 %>
-                            try {
-                                eval('<%=StringEscapeUtils.escapeEcmaScript(StringEscapeUtils.escapeHtml4((String)onChangeScript))%>');
-                            } catch (err) {
-                                alert('Error executing inline js: ' + scriptCode);
-                            }
+                            JSOnChangeCallback_for_<%=uid%>();
 <%
     }
 %>
@@ -127,11 +135,7 @@
 <%
     if (onChangeScript != null) {
 %>
-                             try {
-                                 eval('<%=StringEscapeUtils.escapeEcmaScript(StringEscapeUtils.escapeHtml4((String)onChangeScript))%>');
-                             } catch (err) {
-                                 alert('Error executing inline js: ' + scriptCode);
-                             }
+                             JSOnChangeCallback_for_<%=uid%>();
 <%
     }
 %>
