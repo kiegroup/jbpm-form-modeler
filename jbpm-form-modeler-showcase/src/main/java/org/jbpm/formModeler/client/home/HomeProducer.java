@@ -16,61 +16,37 @@
 
 package org.jbpm.formModeler.client.home;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-import com.google.gwt.core.client.GWT;
 import org.jbpm.formModeler.client.i18n.Constants;
 import org.kie.workbench.common.screens.home.model.HomeModel;
+import org.kie.workbench.common.screens.home.model.HomeModelProvider;
 import org.kie.workbench.common.screens.home.model.ModelUtils;
-import org.kie.workbench.common.screens.home.model.SectionEntry;
-import org.kie.workbench.common.workbench.client.PerspectiveIds;
 import org.uberfire.client.mvp.PlaceManager;
-import org.uberfire.workbench.model.ActivityResourceType;
 
 import static org.kie.workbench.common.workbench.client.PerspectiveIds.LIBRARY;
+import static org.uberfire.workbench.model.ActivityResourceType.PERSPECTIVE;
 
-/**
- * Producer method for the Home Page content
- */
 @ApplicationScoped
-public class HomeProducer {
+public class HomeProducer implements HomeModelProvider {
 
     private Constants constants = Constants.INSTANCE;
-
-    private HomeModel model;
 
     @Inject
     private PlaceManager placeManager;
 
-    @PostConstruct
-    public void init() {
-        final String url = GWT.getModuleBaseURL();
-        model = new HomeModel( constants.homeTitle() );
-        model.addCarouselEntry( ModelUtils.makeCarouselEntry( constants.model(),
-                                                              constants.modelText(),
-                                                              url + "/images/HandHome.jpg" ) );
-        model.addCarouselEntry( ModelUtils.makeCarouselEntry( constants.design(),
-                                                              constants.designTitle(),
-                                                              url + "/images/HandHome.jpg" ) );
+    public HomeModel get() {
+        final HomeModel model = new HomeModel("jBPM Form Modeler",
+                                              constants.homeTitle(),
+                                              "images/home_bg.jpg");
+        model.addShortcut(ModelUtils.makeShortcut("pficon-blueprint",
+                                                  constants.design(),
+                                                  constants.designTitle(),
+                                                  () -> placeManager.goTo(LIBRARY),
+                                                  LIBRARY,
+                                                  PERSPECTIVE));
 
-        final SectionEntry s1 = ModelUtils.makeSectionEntry( constants.discoverAndAuthor() );
-        s1.addChild( ModelUtils.makeSectionEntry( constants.authoring(),
-                () -> placeManager.goTo( PerspectiveIds.AUTHORING ),
-                PerspectiveIds.AUTHORING, ActivityResourceType.PERSPECTIVE) );
-
-        s1.addChild( ModelUtils.makeSectionEntry( constants.library(),
-                                                  () -> placeManager.goTo( LIBRARY ),
-                                                  LIBRARY, ActivityResourceType.PERSPECTIVE) );
-
-
-        model.addSection( s1 );
-    }
-
-    @Produces
-    public HomeModel getModel() {
         return model;
     }
 }
