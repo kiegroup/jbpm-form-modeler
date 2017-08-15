@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 
-import com.google.gwt.user.client.Window;
 import org.guvnor.common.services.shared.config.AppConfigService;
 import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.ioc.client.api.EntryPoint;
@@ -28,10 +27,9 @@ import org.jbpm.formModeler.client.resources.StandaloneResources;
 import org.kie.workbench.common.workbench.client.PerspectiveIds;
 import org.kie.workbench.common.workbench.client.entrypoint.DefaultWorkbenchEntryPoint;
 import org.kie.workbench.common.workbench.client.menu.DefaultWorkbenchFeaturesMenusHelper;
-import org.uberfire.client.mvp.AbstractWorkbenchPerspectiveActivity;
 import org.uberfire.client.mvp.ActivityBeansCache;
 import org.uberfire.client.mvp.PlaceManager;
-import org.uberfire.client.workbench.widgets.menu.WorkbenchMenuBarPresenter;
+import org.uberfire.client.workbench.widgets.menu.megamenu.WorkbenchMegaMenuPresenter;
 import org.uberfire.mvp.impl.DefaultPlaceRequest;
 import org.uberfire.workbench.model.menu.MenuFactory;
 import org.uberfire.workbench.model.menu.MenuItem;
@@ -44,17 +42,18 @@ public class ShowcaseEntryPoint extends DefaultWorkbenchEntryPoint {
 
     protected DefaultWorkbenchFeaturesMenusHelper menusHelper;
 
-    protected WorkbenchMenuBarPresenter menuBar;
+    protected WorkbenchMegaMenuPresenter menuBar;
 
     protected PlaceManager placeManager;
 
     @Inject
-    public ShowcaseEntryPoint( final Caller<AppConfigService> appConfigService,
-                               final ActivityBeansCache activityBeansCache,
-                               final DefaultWorkbenchFeaturesMenusHelper menusHelper,
-                               final WorkbenchMenuBarPresenter menuBar,
-                               final PlaceManager placeManager ) {
-        super( appConfigService, activityBeansCache );
+    public ShowcaseEntryPoint(final Caller<AppConfigService> appConfigService,
+                              final ActivityBeansCache activityBeansCache,
+                              final DefaultWorkbenchFeaturesMenusHelper menusHelper,
+                              final WorkbenchMegaMenuPresenter menuBar,
+                              final PlaceManager placeManager) {
+        super(appConfigService,
+              activityBeansCache);
         this.menusHelper = menusHelper;
         this.menuBar = menuBar;
         this.placeManager = placeManager;
@@ -64,31 +63,19 @@ public class ShowcaseEntryPoint extends DefaultWorkbenchEntryPoint {
 
     @Override
     protected void setupMenu() {
-        final AbstractWorkbenchPerspectiveActivity defaultPerspective = menusHelper.getDefaultPerspectiveActivity();
+        final Menus menus = MenuFactory.newTopLevelMenu(constants.authoring()).withItems(getAuthoringViews()).endMenu().build();
 
-        final Menus menus =
-                MenuFactory.newTopLevelMenu( constants.home() ).respondsWith( () -> {
-                    if ( defaultPerspective != null ) {
-                        placeManager.goTo( new DefaultPlaceRequest( defaultPerspective.getIdentifier() ) );
-                    } else {
-                        Window.alert( "Default perspective not found." );
-                    }
-                } )
-                .endMenu()
-                .newTopLevelMenu( constants.authoring() ).withItems( getAuthoringViews() ).endMenu().build();
-
-        menuBar.addMenus( menus );
+        menuBar.addMenus(menus);
 
         menusHelper.addRolesMenuItems();
         menusHelper.addWorkbenchConfigurationMenuItem();
         menusHelper.addUtilitiesMenuItems();
-
     }
 
     protected List<? extends MenuItem> getAuthoringViews() {
-        final List<MenuItem> result = new ArrayList<MenuItem>( 1 );
+        final List<MenuItem> result = new ArrayList<MenuItem>(1);
 
-        result.add( MenuFactory.newSimpleItem( constants.project_authoring() ).place( new DefaultPlaceRequest(PerspectiveIds.AUTHORING ) ).endMenu().build().getItems().get( 0 ) );
+        result.add(MenuFactory.newSimpleItem(constants.project_authoring()).place(new DefaultPlaceRequest(PerspectiveIds.AUTHORING)).endMenu().build().getItems().get(0));
 
         return result;
     }
