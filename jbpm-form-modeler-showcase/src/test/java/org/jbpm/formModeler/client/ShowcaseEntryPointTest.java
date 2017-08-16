@@ -28,10 +28,9 @@ import org.junit.runner.RunWith;
 import org.kie.workbench.common.workbench.client.menu.DefaultWorkbenchFeaturesMenusHelper;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.uberfire.client.mvp.AbstractWorkbenchPerspectiveActivity;
 import org.uberfire.client.mvp.ActivityBeansCache;
 import org.uberfire.client.mvp.PlaceManager;
-import org.uberfire.client.workbench.widgets.menu.WorkbenchMenuBarPresenter;
+import org.uberfire.client.workbench.widgets.menu.megamenu.WorkbenchMegaMenuPresenter;
 import org.uberfire.mocks.CallerMock;
 import org.uberfire.mocks.ConstantsAnswerMock;
 import org.uberfire.workbench.model.menu.MenuItem;
@@ -54,7 +53,7 @@ public class ShowcaseEntryPointTest {
     private DefaultWorkbenchFeaturesMenusHelper menusHelper;
 
     @Mock
-    private WorkbenchMenuBarPresenter menuBar;
+    private WorkbenchMegaMenuPresenter menuBar;
 
     @Mock
     private PlaceManager placeManager;
@@ -63,13 +62,13 @@ public class ShowcaseEntryPointTest {
 
     @Before
     public void setup() {
-        appConfigServiceCallerMock = new CallerMock<>( appConfigService );
+        appConfigServiceCallerMock = new CallerMock<>(appConfigService);
 
-        showcaseEntryPoint = spy( new ShowcaseEntryPoint( appConfigServiceCallerMock,
-                                                          activityBeansCache,
-                                                          menusHelper,
-                                                          menuBar,
-                                                          placeManager ) );
+        showcaseEntryPoint = spy(new ShowcaseEntryPoint(appConfigServiceCallerMock,
+                                                        activityBeansCache,
+                                                        menusHelper,
+                                                        menuBar,
+                                                        placeManager));
         mockMenuHelper();
         mockConstants();
     }
@@ -78,39 +77,40 @@ public class ShowcaseEntryPointTest {
     public void setupMenuTest() {
         showcaseEntryPoint.setupMenu();
 
-        ArgumentCaptor<Menus> menusCaptor = ArgumentCaptor.forClass( Menus.class );
-        verify( menuBar ).addMenus( menusCaptor.capture() );
+        ArgumentCaptor<Menus> menusCaptor = ArgumentCaptor.forClass(Menus.class);
+        verify(menuBar).addMenus(menusCaptor.capture());
 
         Menus menus = menusCaptor.getValue();
 
-        assertEquals( 2, menus.getItems().size() );
+        assertEquals(1,
+                     menus.getItems().size());
 
-        assertEquals( showcaseEntryPoint.constants.home(), menus.getItems().get( 0 ).getCaption() );
-        assertEquals( showcaseEntryPoint.constants.authoring(), menus.getItems().get( 1 ).getCaption() );
+        assertEquals(showcaseEntryPoint.constants.authoring(),
+                     menus.getItems().get(0).getCaption());
 
-        verify( menusHelper ).addRolesMenuItems();
-        verify( menusHelper ).addWorkbenchConfigurationMenuItem();
-        verify( menusHelper ).addUtilitiesMenuItems();
+        verify(menusHelper).addRolesMenuItems();
+        verify(menusHelper).addWorkbenchConfigurationMenuItem();
+        verify(menusHelper).addUtilitiesMenuItems();
     }
 
     @Test
     public void getAuthoringViewsTest() {
         List<? extends MenuItem> authoringMenuItems = showcaseEntryPoint.getAuthoringViews();
 
-        assertEquals( 1, authoringMenuItems.size() );
-        assertEquals( showcaseEntryPoint.constants.project_authoring(), authoringMenuItems.get( 0 ).getCaption() );
+        assertEquals(1,
+                     authoringMenuItems.size());
+        assertEquals(showcaseEntryPoint.constants.project_authoring(),
+                     authoringMenuItems.get(0).getCaption());
     }
 
     private void mockMenuHelper() {
         final ArrayList<MenuItem> menuItems = new ArrayList<>();
-        menuItems.add( mock( MenuItem.class ) );
-        doReturn( menuItems ).when( menusHelper ).getPerspectivesMenuItems();
-
-        doReturn( mock( AbstractWorkbenchPerspectiveActivity.class ) ).when( menusHelper ).getDefaultPerspectiveActivity();
+        menuItems.add(mock(MenuItem.class));
+        doReturn(menuItems).when(menusHelper).getPerspectivesMenuItems();
     }
 
     private void mockConstants() {
-        showcaseEntryPoint.constants = mock( Constants.class, new ConstantsAnswerMock() );
+        showcaseEntryPoint.constants = mock(Constants.class,
+                                            new ConstantsAnswerMock());
     }
-
 }
