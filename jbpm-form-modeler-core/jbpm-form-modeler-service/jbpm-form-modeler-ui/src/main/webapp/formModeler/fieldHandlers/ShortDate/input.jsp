@@ -79,7 +79,16 @@
                 $(function() {
                     $("input[id='<%=uid%>']").datepicker({
                         dateFormat: "<%=inputPattern%>",
-                        onClose: function() {
+                        onSelect: function() {
+<%
+        if (onChangeScript != null) {
+%>
+                            JSOnChangeCallback_for_<%=uid%>();
+<%
+    }
+%>
+                        },
+                        onClose: function()   {
                             processFormInputChange($('#<%=uid%>').get(0));
 <%
         if (onChangeScript != null) {
