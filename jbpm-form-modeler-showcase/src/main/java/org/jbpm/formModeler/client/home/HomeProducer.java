@@ -40,7 +40,7 @@ public class HomeProducer implements HomeModelProvider {
         final HomeModel model = new HomeModel("jBPM Form Modeler",
                                               constants.homeTitle(),
                                               "images/home_bg.jpg");
-        model.addShortcut(ModelUtils.makeShortcut("pficon-blueprint",
+        model.addShortcut(ModelUtils.makeShortcut("pficon pficon-blueprint",
                                                   constants.design(),
                                                   constants.designTitle(),
                                                   () -> placeManager.goTo(LIBRARY),
