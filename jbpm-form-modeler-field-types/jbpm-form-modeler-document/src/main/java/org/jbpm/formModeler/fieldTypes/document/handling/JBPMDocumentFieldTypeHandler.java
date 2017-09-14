@@ -37,15 +37,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.jbpm.document.Document;
 import org.jbpm.document.marshalling.AbstractDocumentMarshallingStrategy;
 import org.jbpm.document.service.impl.DocumentImpl;
+import org.jbpm.document.service.impl.util.DocumentDownloadLinkGenerator;
 import org.jbpm.formModeler.api.client.FormRenderContext;
 import org.jbpm.formModeler.api.client.FormRenderContextManager;
 import org.jbpm.formModeler.api.model.Field;
 import org.jbpm.formModeler.core.processing.fieldHandlers.plugable.PlugableFieldHandler;
 import org.jbpm.formModeler.service.bb.mvc.components.ControllerStatus;
 import org.jbpm.formModeler.service.bb.mvc.controller.RequestContext;
-import org.kie.api.marshalling.ObjectMarshallingStrategy;
-import org.kie.api.runtime.EnvironmentName;
-import org.kie.internal.runtime.manager.InternalRuntimeManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,16 +52,19 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
 
     private Logger log = LoggerFactory.getLogger(JBPMDocumentFieldTypeHandler.class);
 
-    @Inject
     private FormRenderContextManager formRenderContextManager;
 
-
-    public final String SIZE_UNITS[] = new String[]{"bytes", "Kb", "Mb"};
+    public final static String SIZE_UNITS[] = new String[]{"bytes", "Kb", "Mb"};
 
     protected String dropIcon;
     protected String iconFolder;
     protected String defaultFileIcon;
     protected Map<String, String> icons;
+
+    @Inject
+    public JBPMDocumentFieldTypeHandler(FormRenderContextManager formRenderContextManager) {
+        this.formRenderContextManager = formRenderContextManager;
+    }
 
     @PostConstruct
     public void init() {
@@ -178,7 +179,9 @@ public class JBPMDocumentFieldTypeHandler extends PlugableFieldHandler {
                     context.put("showLink", Boolean.FALSE);
                 } else {
                     context.put("showLink", Boolean.TRUE);
-                    context.put("downloadLink", document.getLink());
+                    FormRenderContext renderContext = formRenderContextManager.getRootContext(inputName);
+                    String link = contextPath + "/" + DocumentDownloadLinkGenerator.generateDownloadLink(renderContext.getServerTemplateId(), document.getIdentifier());
+                    context.put("downloadLink", link);
                 }
 
                 context.put("showDownload", Boolean.TRUE);
