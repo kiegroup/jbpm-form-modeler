@@ -60,36 +60,29 @@
                     value="<%=value%>">
 <%
     if (!Boolean.TRUE.equals(readonly)) {
-
 %>
             <script>
+              var JSOnChangeCallback_for_<%=uid%> = function() {
+                try {
 <%
-        if (onChangeScript != null) {
+      if (onChangeScript != null) {
 %>
-                var JSOnChangeCallback_for_<%=uid%> = function() {
-                    try {
-                       <%=onChangeScript%>
-                    } catch (err) {
-                        console.log('Error executing inlineJS code for field:' + err);
-                    }
-                };
+                  <%=onChangeScript%>
 <%
-        }
+      }
 %>
-                $(function() {
-                    $("input[id='<%=uid%>']").datepicker({
-                        dateFormat: "<%=inputPattern%>",
-                        onClose: function() {
-                            processFormInputChange($('#<%=uid%>').get(0));
-<%
-        if (onChangeScript != null) {
-%>
-                            JSOnChangeCallback_for_<%=uid%>();
-<%
-    }
-%>
-                        }
-                    });
+                } catch (err) {
+                  console.log('Error executing inlineJS code for field:' + err);
+                }
+              };
+              $(function() {
+                  $("input[id='<%=uid%>']").datepicker({
+                      dateFormat: "<%=inputPattern%>",
+                      onClose: function()   {
+                        processFormInputChange($('#<%=uid%>').get(0));
+                        JSOnChangeCallback_for_<%=uid%>();
+                      }
+                  });
                 });
             </script>
 <%
