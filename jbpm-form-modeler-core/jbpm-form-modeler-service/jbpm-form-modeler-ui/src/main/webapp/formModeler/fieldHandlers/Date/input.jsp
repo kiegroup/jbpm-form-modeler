@@ -62,33 +62,35 @@
                 if (!Boolean.TRUE.equals(readonly)) {
             %>
             <script >
+              var hasChanged_<%=uid%> = false;
+
+              var JSOnChangeCallback_for_<%=uid%> = function() {
+                try {
 <%
         if (onChangeScript != null) {
 %>
-              var JSOnChangeCallback_for_<%=uid%> = function() {
-                  try {
-                      <%=onChangeScript%>
-                  } catch (err) {
-                      console.log('Error executing inlineJS code for field:' + err);
-                  }
-              };
+
+                  <%=onChangeScript%>
 <%
         }
 %>
-                $(function() {
-                    $("input[id='<%=uid%>']").datetimepicker({
-                        dateFormat:"<%=inputPattern%>",
-                        timeFormat:"<%=timePattern%>",
-                        onClose:function(ct){
-                            processFormInputChange($('#<%=uid%>').get(0));
-<%
-        if (onChangeScript != null) {
-%>
-                            JSOnChangeCallback_for_<%=uid%>();
-<%
-    }
-%>
+                } catch (err) {
+                  console.log('Error executing inlineJS code for field:' + err);
+                }
+              };
+              $(function() {
+                  $("input[id='<%=uid%>']").datetimepicker({
+                      dateFormat:"<%=inputPattern%>",
+                      timeFormat:"<%=timePattern%>",
+                      onSelect: function() {
+                        hasChanged_<%=uid%> = true;
+                      },
+                      onClose:function(ct){
+                        processFormInputChange($('#<%=uid%>').get(0));
+                        if(hasChanged_<%=uid%>) {
+                          JSOnChangeCallback_for_<%=uid%>();
                         }
+                      }
                     })
                 });
             </script>
@@ -132,13 +134,7 @@
                              $('input[id=\'<%=uid%>\']').datetimepicker('hide');
                              document.getElementById('<%=uid + DateFieldHandler.HAS_CHANGED_PARAM%>').value = true;
                              processFormInputChange(dt);
-<%
-    if (onChangeScript != null) {
-%>
                              JSOnChangeCallback_for_<%=uid%>();
-<%
-    }
-%>
                              return false;">
             </a>
         </div>
