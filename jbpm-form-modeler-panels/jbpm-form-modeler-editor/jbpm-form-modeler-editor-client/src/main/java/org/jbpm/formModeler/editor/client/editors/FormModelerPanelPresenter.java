@@ -206,12 +206,13 @@ public class FormModelerPanelPresenter extends KieEditor {
     protected void makeMenuBar() {
         if (canUpdateProject()) {
             fileMenuBuilder
-                    .addSave(versionRecordManager.newSaveMenuItem(() -> onSave()))
+                    .addSave(versionRecordManager.newSaveMenuItem(() -> saveAction()))
                     .addCopy(versionRecordManager.getCurrentPath(),
-                             fileNameValidator)
+                             assetUpdateValidator)
                     .addRename(versionRecordManager.getPathToLatest(),
-                               fileNameValidator)
-                    .addDelete(versionRecordManager.getPathToLatest());
+                               assetUpdateValidator)
+                    .addDelete(versionRecordManager.getPathToLatest(),
+                               assetUpdateValidator);
         }
 
         fileMenuBuilder
