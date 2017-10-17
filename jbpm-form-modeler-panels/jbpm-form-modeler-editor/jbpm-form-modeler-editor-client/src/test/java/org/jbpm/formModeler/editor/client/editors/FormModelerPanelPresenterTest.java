@@ -35,6 +35,7 @@ import org.junit.runner.RunWith;
 import org.kie.workbench.common.widgets.client.menu.FileMenuBuilder;
 import org.kie.workbench.common.widgets.client.menu.FileMenuBuilderImpl;
 import org.kie.workbench.common.widgets.metadata.client.KieEditorWrapperView;
+import org.kie.workbench.common.widgets.metadata.client.validation.AssetUpdateValidator;
 import org.kie.workbench.common.widgets.metadata.client.widget.OverviewWidgetPresenter;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -178,10 +179,11 @@ public class FormModelerPanelPresenterTest {
 
         verify(fileMenuBuilder).addSave(any(MenuItem.class));
         verify(fileMenuBuilder).addCopy(any(Path.class),
-                                        any(DefaultFileNameValidator.class));
+                                        any(AssetUpdateValidator.class));
         verify(fileMenuBuilder).addRename(any(Path.class),
-                                          any(DefaultFileNameValidator.class));
-        verify(fileMenuBuilder).addDelete(any(Path.class));
+                                          any(AssetUpdateValidator.class));
+        verify(fileMenuBuilder).addDelete(any(Path.class),
+                                          any(AssetUpdateValidator.class));
     }
 
     @Test
@@ -196,12 +198,13 @@ public class FormModelerPanelPresenterTest {
                never()).addSave(any(MenuItem.class));
         verify(fileMenuBuilder,
                never()).addCopy(any(Path.class),
-                                any(DefaultFileNameValidator.class));
+                                any(AssetUpdateValidator.class));
         verify(fileMenuBuilder,
                never()).addRename(any(Path.class),
-                                  any(DefaultFileNameValidator.class));
+                                  any(AssetUpdateValidator.class));
         verify(fileMenuBuilder,
-               never()).addDelete(any(Path.class));
+               never()).addDelete(any(Path.class),
+                                  any(AssetUpdateValidator.class));
     }
 
     protected FormModelerContent createContent() {
