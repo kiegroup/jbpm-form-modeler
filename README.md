@@ -1,9 +1,6 @@
+Starting from version 7.4.x this module has been discontinued
+=============================================================
 
-How to compile:
+This module has been discontinued in favor of the new Form Modeler module on kie-wb-common (https://github.com/kiegroup/kie-wb-common/tree/master/kie-wb-common-forms)
 
-cd <path_to_development_folder>/jbpm-form-modeler
-mvn clean install -Dmaven.test.skip=true
-
-How to execute:
-cd <path_to_development_folder>/jbpm-form-modeler/jbpm-form-modeler-showcase
-mvn gwt:run
+Older branches (i.e. 6.x) are still using this module.
