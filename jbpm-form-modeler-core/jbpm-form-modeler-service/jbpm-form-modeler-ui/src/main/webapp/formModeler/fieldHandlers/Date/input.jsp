@@ -62,34 +62,32 @@
                 if (!Boolean.TRUE.equals(readonly)) {
             %>
             <script >
-              var hasChanged_<%=uid%> = false;
+              var value_<%=uid%> = "<%=value%>";
 
-              var JSOnChangeCallback_for_<%=uid%> = function() {
-                try {
+              var JSOnChangeCallback_for_<%=uid%> = function(value) {
+                if(value_<%=uid%> != value) {
+                    value_<%=uid%> = value;
+                    try {
 <%
         if (onChangeScript != null) {
 %>
 
-                  <%=onChangeScript%>
+                        <%=onChangeScript%>
 <%
         }
 %>
-                } catch (err) {
-                  console.log('Error executing inlineJS code for field:' + err);
+                    } catch (err) {
+                    console.log('Error executing inlineJS code for field:' + err);
+                    }
                 }
               };
               $(function() {
                   $("input[id='<%=uid%>']").datetimepicker({
                       dateFormat:"<%=inputPattern%>",
                       timeFormat:"<%=timePattern%>",
-                      onSelect: function() {
-                        hasChanged_<%=uid%> = true;
-                      },
                       onClose:function(ct){
                         processFormInputChange($('#<%=uid%>').get(0));
-                        if(hasChanged_<%=uid%>) {
-                          JSOnChangeCallback_for_<%=uid%>();
-                        }
+                        JSOnChangeCallback_for_<%=uid%>(this.value);
                       }
                     })
                 });
@@ -134,7 +132,7 @@
                              $('input[id=\'<%=uid%>\']').datetimepicker('hide');
                              document.getElementById('<%=uid + DateFieldHandler.HAS_CHANGED_PARAM%>').value = true;
                              processFormInputChange(dt);
-                             JSOnChangeCallback_for_<%=uid%>();
+                             JSOnChangeCallback_for_<%=uid%>('');
                              return false;">
             </a>
         </div>

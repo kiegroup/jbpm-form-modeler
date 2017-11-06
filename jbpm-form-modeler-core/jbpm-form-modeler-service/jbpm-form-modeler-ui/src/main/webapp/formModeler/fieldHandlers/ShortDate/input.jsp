@@ -62,17 +62,22 @@
     if (!Boolean.TRUE.equals(readonly)) {
 %>
             <script>
-              var JSOnChangeCallback_for_<%=uid%> = function() {
-                try {
+              var value_<%=uid%> = "<%=value%>";
+
+              var JSOnChangeCallback_for_<%=uid%> = function(value) {
+                if(value_<%=uid%> != value) {
+                    value_<%=uid%> = value;
+                    try {
 <%
       if (onChangeScript != null) {
 %>
-                  <%=onChangeScript%>
+                        <%=onChangeScript%>
 <%
       }
 %>
-                } catch (err) {
-                  console.log('Error executing inlineJS code for field:' + err);
+                    } catch (err) {
+                        console.log('Error executing inlineJS code for field:' + err);
+                    }
                 }
               };
               $(function() {
@@ -80,7 +85,7 @@
                       dateFormat: "<%=inputPattern%>",
                       onClose: function()   {
                         processFormInputChange($('#<%=uid%>').get(0));
-                        JSOnChangeCallback_for_<%=uid%>();
+                        JSOnChangeCallback_for_<%=uid%>(this.value);
                       }
                   });
                 });
@@ -120,13 +125,7 @@
                              $('input[id=\'<%=uid%>\']').datepicker('hide');
                              document.getElementById('<%=uid + DateFieldHandler.HAS_CHANGED_PARAM%>').value = true;
                              processFormInputChange(dt);
-<%
-    if (onChangeScript != null) {
-%>
-                             JSOnChangeCallback_for_<%=uid%>();
-<%
-    }
-%>
+                             JSOnChangeCallback_for_<%=uid%>('');
                              return false;">
             </a>
         </td>
