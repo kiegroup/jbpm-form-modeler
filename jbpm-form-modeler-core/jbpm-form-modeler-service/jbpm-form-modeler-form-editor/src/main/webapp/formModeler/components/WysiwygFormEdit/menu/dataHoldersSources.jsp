@@ -179,7 +179,7 @@
                             <tr>
                                 <td>
                                     <select class="skn-input" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_COMBO_VALUE%>" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_COMBO_VALUE%>" style="display: none"></select>
-                                    <input type="text" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_VALUE%>" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_VALUE%>"  class="skn-input" value="" size="20" maxlength="64" style="display: none">
+                                    <input type="text" id="<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_VALUE%>" name="<%=WysiwygFormEditor.PARAMETER_HOLDER_INPUT_VALUE%>"  class="skn-input" value="" size="20" maxlength="512" style="display: none">
                                 </td>
                             </tr>
                         </table>
