@@ -39,6 +39,8 @@ public abstract class AbstractDateFieldHandlerFormatterTest<HANDLER extends Date
         tagMatcher = new FormatterFragmentMatcher(renderingFragments);
         tagMatcher.addParam("uid",
                             currentField.getFieldName());
+        tagMatcher.addParam("flatUid",
+                            formatter.getFlatUid(currentField.getFieldName()));
     }
 
     @Override
