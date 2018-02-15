@@ -36,6 +36,7 @@
         <mvc:fragmentValue name="height" id="height">
         <mvc:fragmentValue name="readonly" id="readonly">
         <mvc:fragmentValue name="uid" id="uid">
+        <mvc:fragmentValue name="flatUid" id="flatUid">
         <mvc:fragmentValue name="inputPattern" id="inputPattern">
         <mvc:fragmentValue name="onChangeScript" id="onChangeScript">
 <table border="0" cellpadding="0" cellspacing="0"
@@ -62,11 +63,11 @@
     if (!Boolean.TRUE.equals(readonly)) {
 %>
             <script>
-              var value_<%=uid%> = "<%=value%>";
+              var value_<%=flatUid%> = "<%=value%>";
 
-              var JSOnChangeCallback_for_<%=uid%> = function(value) {
-                if(value_<%=uid%> != value) {
-                    value_<%=uid%> = value;
+              var JSOnChangeCallback_for_<%=flatUid%> = function(value) {
+                if(value_<%=flatUid%> != value) {
+                    value_<%=flatUid%> = value;
                     try {
 <%
       if (onChangeScript != null) {
@@ -85,7 +86,7 @@
                       dateFormat: "<%=inputPattern%>",
                       onClose: function()   {
                         processFormInputChange($('#<%=uid%>').get(0));
-                        JSOnChangeCallback_for_<%=uid%>(this.value);
+                        JSOnChangeCallback_for_<%=flatUid%>(this.value);
                       }
                   });
                 });
@@ -125,7 +126,7 @@
                              $('input[id=\'<%=uid%>\']').datepicker('hide');
                              document.getElementById('<%=uid + DateFieldHandler.HAS_CHANGED_PARAM%>').value = true;
                              processFormInputChange(dt);
-                             JSOnChangeCallback_for_<%=uid%>('');
+                             JSOnChangeCallback_for_<%=flatUid%>('');
                              return false;">
             </a>
         </td>
@@ -134,6 +135,7 @@
 %>
     </tr>
 </table>
+        </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>

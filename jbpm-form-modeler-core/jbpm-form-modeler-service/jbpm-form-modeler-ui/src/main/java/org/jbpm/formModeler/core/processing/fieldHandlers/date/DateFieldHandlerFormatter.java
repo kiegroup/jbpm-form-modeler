@@ -18,6 +18,7 @@ package org.jbpm.formModeler.core.processing.fieldHandlers.date;
 import org.jbpm.formModeler.api.model.FieldType;
 import org.jbpm.formModeler.core.FieldHandlersManager;
 import org.jbpm.formModeler.core.processing.FormProcessingServices;
+import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.fieldHandlers.DefaultFieldHandlerFormatter;
 import org.jbpm.formModeler.core.processing.fieldHandlers.FieldHandlerParametersReader;
 import org.jbpm.formModeler.service.LocaleManager;
@@ -35,6 +36,8 @@ import java.text.SimpleDateFormat;
 @ApplicationScoped
 @Named("DateFieldHandlerFormatter")
 public class DateFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
+
+    public static final String FLAT_SEPARATOR = "_";
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         FieldHandlerParametersReader paramsReader = new FieldHandlerParametersReader(request);
@@ -70,12 +73,20 @@ public class DateFieldHandlerFormatter extends DefaultFieldHandlerFormatter {
         String dateValue = "";
         if (value != null) dateValue = sdf.format(value);
 
-        setAttribute("uid", namespaceManager.squashInputName(fieldName));
+        String uid = namespaceManager.squashInputName(fieldName);
+
+        setAttribute("uid", uid);
+        setAttribute("flatUid", getFlatUid(uid));
         setAttribute("name", fieldName);
         setAttribute("value", dateValue);
         setAttribute("inputPattern", dateFieldHandler.getDefaultJQueryPattern());
         setAttribute("timePattern", dateFieldHandler.getDefaultPatterTimeSuffix());
         setAttribute("onChangeScript", field.getOnChangeScript());
         renderFragment("output");
+    }
+
+    public String getFlatUid(String uid) {
+        uid = StringUtils.replace(uid, FormProcessor.NAMESPACE_SEPARATOR, FLAT_SEPARATOR);
+        return StringUtils.replace(uid, FormProcessor.CUSTOM_NAMESPACE_SEPARATOR, FLAT_SEPARATOR);
     }
 }
